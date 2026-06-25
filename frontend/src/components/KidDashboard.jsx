@@ -1,0 +1,191 @@
+import { useState, useEffect, useCallback } from 'react'
+import { useAuth } from '../context/AuthContext.jsx'
+import { api } from '../api.js'
+import { KidChoreCard } from './ChoreCard.jsx'
+import { KidShopItem } from './ShopItem.jsx'
+import { KidWalletView } from './WalletView.jsx'
+
+// ─── Chores Tab ─────────────────────────────────────────────────────────────
+
+function KidChoresTab({ userId }) {
+  const [chores, setChores] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  const loadChores = useCallback(async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const data = await api.getChores()
+      setChores(Array.isArray(data) ? data : [])
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => { loadChores() }, [loadChores])
+
+  // Available: open chores assigned to me or to nobody
+  const available = chores.filter(c =>
+    c.status === 'open' &&
+    (!c.assignedKidId || c.assignedKidId === userId)
+  )
+
+  // My pending: chores I marked complete, awaiting parent approval
+  const myPending = chores.filter(c =>
+    c.status === 'pending' &&
+    (c.completedByKidId === userId || c.assignedKidId === userId)
+  )
+
+  // My completed: chores I completed and parent approved
+  const myCompleted = chores.filter(c =>
+    c.status === 'complete' &&
+    (c.completedByKidId === userId || c.assignedKidId === userId)
+  )
+
+  // Expired: chores assigned to me (or any kid) that expired
+  const myExpired = chores.filter(c =>
+    c.status === 'expired' &&
+    (!c.assignedKidId || c.assignedKidId === userId)
+  )
+
+  if (loading) return <div className="loading-text">Loading chores...</div>
+  if (error) return <div className="error-msg">{error}</div>
+
+  return (
+    <div>
+      <div className="section-header open">Available Chores ({available.length})</div>
+      {available.length === 0 ? (
+        <div className="empty-text">No available chores right now.</div>
+      ) : (
+        available.map(chore => (
+          <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
+        ))
+      )}
+
+      <div className="section-header pending" style={{ marginTop: 8 }}>My Pending ({myPending.length})</div>
+      {myPending.length === 0 ? (
+        <div className="empty-text">No chores awaiting approval.</div>
+      ) : (
+        myPending.map(chore => (
+          <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
+        ))
+      )}
+
+      <div className="section-header complete" style={{ marginTop: 8 }}>My Completed ({myCompleted.length})</div>
+      {myCompleted.length === 0 ? (
+        <div className="empty-text">No approved chores yet. Keep it up!</div>
+      ) : (
+        myCompleted.map(chore => (
+          <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
+        ))
+      )}
+
+      {myExpired.length > 0 && (
+        <>
+          <div className="section-header expired" style={{ marginTop: 8 }}>Expired ({myExpired.length})</div>
+          {myExpired.map(chore => (
+            <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
+          ))}
+        </>
+      )}
+    </div>
+  )
+}
+
+// ─── Shop Tab ────────────────────────────────────────────────────────────────
+
+function KidShopTab({ userId }) {
+  const [items, setItems] = useState([])
+  const [balance, setBalance] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  const loadData = useCallback(async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const [shopData, walletData] = await Promise.all([
+        api.getShopItems(),
+        api.getWallet(userId)
+      ])
+      setItems(Array.isArray(shopData) ? shopData : [])
+      setBalance(walletData?.balance ?? 0)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [userId])
+
+  useEffect(() => { loadData() }, [loadData])
+
+  if (loading) return <div className="loading-text">Loading shop...</div>
+  if (error) return <div className="error-msg">{error}</div>
+
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        <h3 style={{ color: '#334155' }}>Available Items</h3>
+        <span className="balance-chip">Balance: {balance} pts</span>
+      </div>
+
+      {items.length === 0 ? (
+        <div className="empty-text">The shop is empty. Check back later!</div>
+      ) : (
+        <div className="shop-grid">
+          {items.map(item => (
+            <KidShopItem
+              key={item.id}
+              item={item}
+              balance={balance}
+              onRefresh={loadData}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ─── Kid Dashboard Shell ─────────────────────────────────────────────────────
+
+export default function KidDashboard() {
+  const { user, logout } = useAuth()
+  const [tab, setTab] = useState('chores')
+
+  return (
+    <div className="app-container">
+      <nav className="navbar kid">
+        <div className="navbar-brand">🛒 ParentShopee</div>
+        <div className="navbar-user">
+          {user.avatar && (
+            <span className="kid-avatar lg">{user.avatar}</span>
+          )}
+          <span>Hi, {user.name}!</span>
+          <button className="logout-btn" onClick={logout}>Sign Out</button>
+        </div>
+      </nav>
+
+      <div className="main-content">
+        <div className="tabs">
+          {['chores', 'shop', 'wallet'].map(t => (
+            <button
+              key={t}
+              className={`tab-btn${tab === t ? ' active kid' : ''}`}
+              onClick={() => setTab(t)}
+            >
+              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'chores' && <KidChoresTab userId={user.id} />}
+        {tab === 'shop' && <KidShopTab userId={user.id} />}
+        {tab === 'wallet' && <KidWalletView kidId={user.id} />}
+      </div>
+    </div>
+  )
+}
