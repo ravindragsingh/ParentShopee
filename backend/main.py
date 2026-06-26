@@ -10,15 +10,9 @@ from datetime import datetime, timezone, date, timedelta
 
 app = FastAPI(title="ParentShopee API")
 
-_FRONTEND_URL = os.environ.get("FRONTEND_URL", "")
-_CORS_ORIGINS = [
-    "http://localhost:3000", "http://localhost:3002", "http://localhost:5173",
-    *([_FRONTEND_URL] if _FRONTEND_URL else []),
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_CORS_ORIGINS,
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
