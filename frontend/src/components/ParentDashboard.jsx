@@ -115,6 +115,23 @@ function ChoresTab({ kids }) {
         <div className="form-title">Add New Chore</div>
         {addError && <div className="error-msg">{addError}</div>}
         <form onSubmit={handleAddChore}>
+          <div className="form-group" style={{ marginBottom: 14 }}>
+            <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
+            <select
+              value=""
+              onChange={e => {
+                const s = SAMPLE_CHORES.find(c => c.title === e.target.value)
+                if (s) fillFromSample(s)
+              }}
+            >
+              <option value="">— Pick a sample chore to pre-fill the form —</option>
+              {SAMPLE_CHORES.map(s => (
+                <option key={s.title} value={s.title}>
+                  {s.imageEmoji} {s.title} ({s.points} pts)
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="form-row">
             <div className="form-group" style={{ flex: 2 }}>
               <label>Title *</label>
@@ -184,36 +201,6 @@ function ChoresTab({ kids }) {
             </div>
           )}
         </form>
-      </div>
-
-      {/* Sample chores */}
-      <div className="form-card" style={{ marginBottom: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12 }}>
-          <div className="form-title" style={{ marginBottom: 0 }}>Sample Chores</div>
-          <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Click any to pre-fill the form above</span>
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {SAMPLE_CHORES.map(s => (
-            <button
-              key={s.title}
-              type="button"
-              onClick={() => fillFromSample(s)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                padding: '6px 12px', borderRadius: 20,
-                border: '1px solid #e2e8f0', background: '#f8fafc',
-                cursor: 'pointer', fontSize: '0.85rem', color: '#334155',
-                transition: 'all 0.15s',
-              }}
-              onMouseOver={e => { e.currentTarget.style.background = '#ede9fe'; e.currentTarget.style.borderColor = '#a78bfa' }}
-              onMouseOut={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.borderColor = '#e2e8f0' }}
-            >
-              <span>{s.imageEmoji}</span>
-              <span>{s.title}</span>
-              <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>{s.points}pts</span>
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Chore Lists */}
