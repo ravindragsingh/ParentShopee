@@ -1,4 +1,5 @@
 import re
+import os
 from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -9,9 +10,15 @@ from datetime import datetime, timezone, date, timedelta
 
 app = FastAPI(title="ParentShopee API")
 
+_FRONTEND_URL = os.environ.get("FRONTEND_URL", "")
+_CORS_ORIGINS = [
+    "http://localhost:3000", "http://localhost:3002", "http://localhost:5173",
+    *([_FRONTEND_URL] if _FRONTEND_URL else []),
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3002", "http://localhost:5173"],
+    allow_origins=_CORS_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -543,4 +550,5 @@ def get_wallet(kid_id: str, user=Depends(require_auth)):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=3001, reload=True)
+    port = int(os.environ.get("PORT", 3001))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)

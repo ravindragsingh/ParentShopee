@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: parentshopee-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: FRONTEND_URL
+        value: https://parentshopee.vercel.app  # replace with your actual Vercel URL
