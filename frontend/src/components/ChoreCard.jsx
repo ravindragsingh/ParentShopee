@@ -137,6 +137,25 @@ export function ParentChoreCard({ chore, kids, onRefresh }) {
     finally { setActionLoading(false) }
   }
 
+  async function handleRepeat() {
+    setActionLoading(true); setError('')
+    try {
+      await api.createChore({
+        title: chore.title,
+        description: chore.description || '',
+        points: chore.points,
+        imageEmoji: chore.imageEmoji || '📋',
+        assignedKidId: chore.assignedKidId || null,
+        dueDate: null,
+      })
+      onRefresh()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
   return (
     <div className={`chore-card ${chore.status}`}>
       {/* Chore emoji icon */}
@@ -267,7 +286,14 @@ export function ParentChoreCard({ chore, kids, onRefresh }) {
             <button className="btn btn-red btn-sm" onClick={handleReject} disabled={actionLoading}>Reject</button>
           </>
         )}
-        {chore.status === 'complete' && <span className="badge complete">Done ✓</span>}
+        {chore.status === 'complete' && (
+          <>
+            <span className="badge complete">Done ✓</span>
+            <button className="btn btn-outline btn-sm" onClick={handleRepeat} disabled={actionLoading}>
+              {actionLoading ? '…' : '🔁 Repeat'}
+            </button>
+          </>
+        )}
         {chore.status === 'expired' && (
           <>
             <span className="badge expired">Expired</span>
