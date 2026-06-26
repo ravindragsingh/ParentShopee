@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && npm install && npx vite build",
+  "buildCommand": "cd frontend && npm install && node node_modules/vite/bin/vite.js build",
   "outputDirectory": "frontend/dist",
   "installCommand": "echo skip",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
