@@ -14,9 +14,11 @@ from sqlalchemy.orm import sessionmaker, Session, declarative_base
 # ── Database setup ─────────────────────────────────────────────────────────────
 
 _DB_URL = os.environ.get("DATABASE_URL", "sqlite:///./parentshopee.db")
-# Render provides postgres://, but SQLAlchemy 2.x requires postgresql://
+# Normalise URL: Render gives postgres://, psycopg3 dialect needs postgresql+psycopg://
 if _DB_URL.startswith("postgres://"):
-    _DB_URL = _DB_URL.replace("postgres://", "postgresql://", 1)
+    _DB_URL = _DB_URL.replace("postgres://", "postgresql+psycopg://", 1)
+elif _DB_URL.startswith("postgresql://"):
+    _DB_URL = _DB_URL.replace("postgresql://", "postgresql+psycopg://", 1)
 
 _connect_args = {"check_same_thread": False} if _DB_URL.startswith("sqlite") else {}
 _engine = create_engine(_DB_URL, connect_args=_connect_args)
