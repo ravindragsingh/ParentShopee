@@ -268,6 +268,39 @@ function ChoresTab({ kids }) {
   )
 }
 
+// ─── Sample shop item templates ───────────────────────────────────────────────
+
+const SAMPLE_SHOP_ITEMS = [
+  // ── Screen & tech ──────────────────────────────────────────────────────────
+  { name: 'Extra Screen Time (30 min)',  cost: 10, imageEmoji: '📱', description: 'Get 30 extra minutes of screen time today.' },
+  { name: 'Extra Screen Time (1 hour)', cost: 18, imageEmoji: '💻', description: 'Get 1 hour of extra screen time today.' },
+  { name: 'Video Game Session',          cost: 15, imageEmoji: '🎮', description: 'Play video games for an extra session.' },
+  { name: 'Download a New App or Game', cost: 25, imageEmoji: '📲', description: 'Choose one new app or game to download.' },
+  { name: 'YouTube / Streaming Hour',   cost: 12, imageEmoji: '▶️', description: 'Watch one hour of YouTube or streaming.' },
+  // ── Food & treats ──────────────────────────────────────────────────────────
+  { name: 'Choose Dinner Tonight',       cost: 25, imageEmoji: '🍕', description: 'Pick what the whole family eats for dinner.' },
+  { name: 'Dessert of Your Choice',      cost: 10, imageEmoji: '🍦', description: 'Pick any dessert after dinner.' },
+  { name: 'Ice Cream Trip',              cost: 20, imageEmoji: '🍧', description: 'A trip to the ice cream shop to pick your flavour.' },
+  { name: 'Skip Vegetables at Dinner',  cost: 15, imageEmoji: '🥦', description: 'One free pass to skip vegetables at a meal.' },
+  { name: 'Breakfast in Bed',            cost: 20, imageEmoji: '🥞', description: 'Wake up to breakfast brought to your room.' },
+  // ── Bedtime & routine ──────────────────────────────────────────────────────
+  { name: 'Stay Up 30 Minutes Later',   cost: 12, imageEmoji: '🌙', description: 'Extend bedtime by 30 minutes on any night.' },
+  { name: 'Stay Up 1 Hour Later',        cost: 20, imageEmoji: '⭐', description: 'Extend bedtime by one hour on a weekend.' },
+  { name: 'Skip One Chore (one-time)',   cost: 20, imageEmoji: '🙈', description: 'Get out of one chore free — one time only!' },
+  // ── Fun & activities ───────────────────────────────────────────────────────
+  { name: 'Movie Night Pick',            cost: 15, imageEmoji: '🎬', description: 'Choose the movie for family movie night.' },
+  { name: 'Friend Can Come Over',        cost: 25, imageEmoji: '👫', description: 'Invite a friend over for a playdate.' },
+  { name: 'Sleepover with a Friend',     cost: 40, imageEmoji: '🛌', description: 'Have a friend sleep over on a weekend.' },
+  { name: 'Trip to the Park',            cost: 15, imageEmoji: '🌳', description: 'A special trip to your favourite park or playground.' },
+  { name: 'Bowling / Mini Golf Trip',    cost: 50, imageEmoji: '🎳', description: 'A fun outing to bowling or mini golf.' },
+  { name: 'Choose Weekend Activity',     cost: 30, imageEmoji: '🏄', description: 'Pick the family activity for one weekend.' },
+  // ── Rewards & extras ───────────────────────────────────────────────────────
+  { name: 'New Book of Your Choice',     cost: 20, imageEmoji: '📖', description: 'Pick any one book to add to your collection.' },
+  { name: 'New Toy or Small Gift',       cost: 60, imageEmoji: '🎁', description: 'Choose a small toy or gift up to an agreed amount.' },
+  { name: 'Extra Pocket Money',          cost: 30, imageEmoji: '💰', description: 'Earn a small bonus in real pocket money.' },
+  { name: 'No Chores Day',               cost: 50, imageEmoji: '🏖️', description: 'A full day off from all chores.' },
+]
+
 // ─── Shop Tab ────────────────────────────────────────────────────────────────
 
 function ShopTab() {
@@ -281,6 +314,14 @@ function ShopTab() {
   const [emoji, setEmoji] = useState('🎁')
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState('')
+
+  function fillShopFromSample(sample) {
+    setName(sample.name)
+    setDescription(sample.description)
+    setCost(String(sample.cost))
+    setEmoji(sample.imageEmoji)
+    setAddError('')
+  }
 
   const loadItems = useCallback(async () => {
     setLoading(true)
@@ -331,6 +372,23 @@ function ShopTab() {
         <div className="form-title">Add Shop Item</div>
         {addError && <div className="error-msg">{addError}</div>}
         <form onSubmit={handleAddItem}>
+          <div className="form-group" style={{ marginBottom: 14 }}>
+            <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
+            <select
+              value=""
+              onChange={e => {
+                const s = SAMPLE_SHOP_ITEMS.find(i => i.name === e.target.value)
+                if (s) fillShopFromSample(s)
+              }}
+            >
+              <option value="">— Pick a sample reward to pre-fill the form —</option>
+              {SAMPLE_SHOP_ITEMS.map(s => (
+                <option key={s.name} value={s.name}>
+                  {s.imageEmoji} {s.name} ({s.cost} pts)
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="form-row">
             <div className="form-group" style={{ maxWidth: '80px' }}>
               <label>Emoji</label>
