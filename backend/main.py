@@ -52,6 +52,7 @@ class DBChore(Base):
     due_date            = Column(String, nullable=True)
     expired_at          = Column(String, nullable=True)
     created_at          = Column(String, nullable=False)
+    family_id           = Column(String, nullable=True, index=True)
 
 class DBShopItem(Base):
     __tablename__ = "shop_items"
@@ -61,6 +62,7 @@ class DBShopItem(Base):
     cost        = Column(Float,  nullable=False)
     image_emoji = Column(String, default="🎁")
     created_at  = Column(String, nullable=False)
+    family_id   = Column(String, nullable=True, index=True)
 
 class DBWallet(Base):
     __tablename__ = "wallets"
@@ -144,13 +146,16 @@ def check_and_expire_chores(db: Session):
     ).update({"status": "expired", "expired_at": now()}, synchronize_session=False)
     db.commit()
 
-def get_visible_chores(db: Session):
+def get_visible_chores(db: Session, family_id: str = None):
     cutoff = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
-    return db.query(DBChore).filter(
+    q = db.query(DBChore).filter(
         ~and_(DBChore.status == "expired",
               DBChore.expired_at.isnot(None),
               DBChore.expired_at < cutoff)
-    ).all()
+    )
+    if family_id:
+        q = q.filter(DBChore.family_id == family_id)
+    return q.all()
 
 # ── Auth dependencies ──────────────────────────────────────────────────────────
 
@@ -251,30 +256,36 @@ def seed_db(db: Session):
         db.add(u)
 
     for c in [
-        DBChore(id=str(uuid4()), title="Wash the dishes",           description="Wash and dry all dishes after dinner.",                   points=10, image_emoji="🍽️", status="open",     assigned_kid_id="kid1", due_date=(today+timedelta(days=3)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Take out the trash",        description="Take all trash bags to the bin outside.",                  points= 5, image_emoji="🗑️", status="open",     due_date=(today+timedelta(days=1)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Make your bed",             description="Straighten sheets, fluff pillows, and tidy your bedroom.", points= 5, image_emoji="🛏️", status="open",     assigned_kid_id="kid1", created_at=now()),
-        DBChore(id=str(uuid4()), title="Water the plants",          description="Water all indoor and balcony plants.",                     points= 8, image_emoji="🌿", status="open",     assigned_kid_id="kid2", due_date=(today+timedelta(days=2)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Set the dinner table",      description="Lay out plates, cutlery, and glasses for the family.",     points= 5, image_emoji="🥄", status="open",     created_at=now()),
-        DBChore(id=str(uuid4()), title="Fold the laundry",          description="Fold clean clothes from the dryer and put them away.",     points=12, image_emoji="🧺", status="open",     assigned_kid_id="kid3", due_date=(today+timedelta(days=5)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Feed the pet",              description="Fill the food and water bowl for the family pet.",         points= 6, image_emoji="🐕", status="open",     created_at=now()),
-        DBChore(id=str(uuid4()), title="Sweep the porch",           description="Sweep leaves and dirt off the front porch.",               points= 8, image_emoji="🧹", status="open",     assigned_kid_id="kid2", due_date=(today+timedelta(days=4)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Clean the garage",          description="Tidy up and sweep the garage floor.",                      points=25, image_emoji="🏡", status="open",     due_date=(today-timedelta(days=2)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Wash the car",              description="Rinse, soap, and dry the family car.",                     points=20, image_emoji="🚗", status="open",     assigned_kid_id="kid2", due_date=(today-timedelta(days=1)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Vacuum the living room",    description="Vacuum carpets and clean under the sofa.",                 points=15, image_emoji="🏠", status="pending",  assigned_kid_id="kid2", completed_by_kid_id="kid2", due_date=(today+timedelta(days=1)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Wipe down kitchen counter", description="Clean all kitchen surfaces with a damp cloth.",            points= 7, image_emoji="🧼", status="pending",  completed_by_kid_id="kid1", created_at=now()),
-        DBChore(id=str(uuid4()), title="Organise the bookshelf",    description="Sort books by size and put them back neatly.",             points=10, image_emoji="📚", status="pending",  assigned_kid_id="kid3", completed_by_kid_id="kid3", due_date=(today-timedelta(days=1)).isoformat(), created_at=now()),
-        DBChore(id=str(uuid4()), title="Clean the bathroom",        description="Scrub the sink, toilet, and wipe down surfaces.",          points=20, image_emoji="🚽", status="complete", assigned_kid_id="kid3", completed_by_kid_id="kid3", created_at=now()),
-        DBChore(id=str(uuid4()), title="Take out recycling",        description="Sort and take the recycling bins to the kerb.",            points= 8, image_emoji="♻️", status="complete", completed_by_kid_id="kid1", created_at=now()),
-        DBChore(id=str(uuid4()), title="Mop the kitchen floor",     description="Mop the kitchen floor after sweeping.",                    points=15, image_emoji="🪣", status="complete", assigned_kid_id="kid2", completed_by_kid_id="kid2", created_at=now()),
+        # parent1 family chores (kid1 = Alice, kid2 = Bob)
+        DBChore(id=str(uuid4()), title="Wash the dishes",           description="Wash and dry all dishes after dinner.",                   points=10, image_emoji="🍽️", status="open",     assigned_kid_id="kid1", due_date=(today+timedelta(days=3)).isoformat(), created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Take out the trash",        description="Take all trash bags to the bin outside.",                  points= 5, image_emoji="🗑️", status="open",     due_date=(today+timedelta(days=1)).isoformat(), created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Make your bed",             description="Straighten sheets, fluff pillows, and tidy your bedroom.", points= 5, image_emoji="🛏️", status="open",     assigned_kid_id="kid1", created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Water the plants",          description="Water all indoor and balcony plants.",                     points= 8, image_emoji="🌿", status="open",     assigned_kid_id="kid2", due_date=(today+timedelta(days=2)).isoformat(), created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Set the dinner table",      description="Lay out plates, cutlery, and glasses for the family.",     points= 5, image_emoji="🥄", status="open",     created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Feed the pet",              description="Fill the food and water bowl for the family pet.",         points= 6, image_emoji="🐕", status="open",     created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Sweep the porch",           description="Sweep leaves and dirt off the front porch.",               points= 8, image_emoji="🧹", status="open",     assigned_kid_id="kid2", due_date=(today+timedelta(days=4)).isoformat(), created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Wash the car",              description="Rinse, soap, and dry the family car.",                     points=20, image_emoji="🚗", status="open",     assigned_kid_id="kid2", due_date=(today-timedelta(days=1)).isoformat(), created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Vacuum the living room",    description="Vacuum carpets and clean under the sofa.",                 points=15, image_emoji="🏠", status="pending",  assigned_kid_id="kid2", completed_by_kid_id="kid2", due_date=(today+timedelta(days=1)).isoformat(), created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Wipe down kitchen counter", description="Clean all kitchen surfaces with a damp cloth.",            points= 7, image_emoji="🧼", status="pending",  completed_by_kid_id="kid1", created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Take out recycling",        description="Sort and take the recycling bins to the kerb.",            points= 8, image_emoji="♻️", status="complete", completed_by_kid_id="kid1", created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Mop the kitchen floor",     description="Mop the kitchen floor after sweeping.",                    points=15, image_emoji="🪣", status="complete", assigned_kid_id="kid2", completed_by_kid_id="kid2", created_at=now(), family_id="parent1"),
+        # parent2 family chores (kid3 = Charlie)
+        DBChore(id=str(uuid4()), title="Fold the laundry",          description="Fold clean clothes from the dryer and put them away.",     points=12, image_emoji="🧺", status="open",     assigned_kid_id="kid3", due_date=(today+timedelta(days=5)).isoformat(), created_at=now(), family_id="parent2"),
+        DBChore(id=str(uuid4()), title="Clean the garage",          description="Tidy up and sweep the garage floor.",                      points=25, image_emoji="🏡", status="open",     due_date=(today-timedelta(days=2)).isoformat(), created_at=now(), family_id="parent2"),
+        DBChore(id=str(uuid4()), title="Organise the bookshelf",    description="Sort books by size and put them back neatly.",             points=10, image_emoji="📚", status="pending",  assigned_kid_id="kid3", completed_by_kid_id="kid3", due_date=(today-timedelta(days=1)).isoformat(), created_at=now(), family_id="parent2"),
+        DBChore(id=str(uuid4()), title="Clean the bathroom",        description="Scrub the sink, toilet, and wipe down surfaces.",          points=20, image_emoji="🚽", status="complete", assigned_kid_id="kid3", completed_by_kid_id="kid3", created_at=now(), family_id="parent2"),
     ]:
         db.add(c)
 
     for s in [
-        DBShopItem(id=str(uuid4()), name="Extra Screen Time (30 min)", description="Get 30 extra minutes of screen time today.", cost=10, image_emoji="📱", created_at=now()),
-        DBShopItem(id=str(uuid4()), name="Choose Dinner",              description="Pick what the family eats for dinner.",       cost=25, image_emoji="🍕", created_at=now()),
-        DBShopItem(id=str(uuid4()), name="Stay Up 1 Hour Later",       description="Extend bedtime by one hour on a weekend.",   cost=20, image_emoji="🌙", created_at=now()),
-        DBShopItem(id=str(uuid4()), name="Movie Night Pick",           description="Choose the movie for family movie night.",   cost=15, image_emoji="🎬", created_at=now()),
+        DBShopItem(id=str(uuid4()), name="Extra Screen Time (30 min)", description="Get 30 extra minutes of screen time today.", cost=10, image_emoji="📱", created_at=now(), family_id="parent1"),
+        DBShopItem(id=str(uuid4()), name="Choose Dinner",              description="Pick what the family eats for dinner.",       cost=25, image_emoji="🍕", created_at=now(), family_id="parent1"),
+        DBShopItem(id=str(uuid4()), name="Stay Up 1 Hour Later",       description="Extend bedtime by one hour on a weekend.",   cost=20, image_emoji="🌙", created_at=now(), family_id="parent1"),
+        DBShopItem(id=str(uuid4()), name="Movie Night Pick",           description="Choose the movie for family movie night.",   cost=15, image_emoji="🎬", created_at=now(), family_id="parent1"),
+        DBShopItem(id=str(uuid4()), name="Extra Screen Time (30 min)", description="Get 30 extra minutes of screen time today.", cost=10, image_emoji="📱", created_at=now(), family_id="parent2"),
+        DBShopItem(id=str(uuid4()), name="Choose Dinner",              description="Pick what the family eats for dinner.",       cost=25, image_emoji="🍕", created_at=now(), family_id="parent2"),
+        DBShopItem(id=str(uuid4()), name="Stay Up 1 Hour Later",       description="Extend bedtime by one hour on a weekend.",   cost=20, image_emoji="🌙", created_at=now(), family_id="parent2"),
+        DBShopItem(id=str(uuid4()), name="Movie Night Pick",           description="Choose the movie for family movie night.",   cost=15, image_emoji="🎬", created_at=now(), family_id="parent2"),
     ]:
         db.add(s)
 
@@ -290,7 +301,24 @@ def seed_db(db: Session):
 
 @app.on_event("startup")
 def startup():
+    from sqlalchemy import text
     Base.metadata.create_all(bind=_engine)
+    # Add family_id column to existing databases that pre-date this column
+    with _engine.connect() as conn:
+        for table in ("chores", "shop_items"):
+            try:
+                if "sqlite" in str(_engine.url):
+                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN family_id VARCHAR"))
+                else:
+                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS family_id VARCHAR"))
+                conn.commit()
+            except Exception:
+                pass  # column already exists
+        # Back-fill family_id for existing seed rows that have NULL
+        conn.execute(text("UPDATE chores SET family_id='parent1' WHERE family_id IS NULL AND (assigned_kid_id IN ('kid1','kid2') OR assigned_kid_id IS NULL)"))
+        conn.execute(text("UPDATE chores SET family_id='parent2' WHERE family_id IS NULL AND assigned_kid_id='kid3'"))
+        conn.execute(text("UPDATE shop_items SET family_id='parent1' WHERE family_id IS NULL"))
+        conn.commit()
     db = SessionLocal()
     try:
         seed_db(db)
@@ -468,7 +496,9 @@ def remove_co_parent(db: Session = Depends(get_db), user: DBUser = Depends(requi
 def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
                db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     check_and_expire_chores(db)
-    chores = get_visible_chores(db)
+    # parents see their own family's chores; kids see chores from their parent's family
+    fid = get_family_id(user) if user.role == "parent" else user.parent_id
+    chores = get_visible_chores(db, family_id=fid)
     if status:
         chores = [c for c in chores if c.status == status]
     if kidId:
@@ -491,6 +521,7 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
         assigned_kid_id=body.assignedKidId,
         due_date=body.dueDate or None,
         created_at=now(),
+        family_id=get_family_id(user),
     )
     db.add(chore)
     db.commit()
@@ -583,13 +614,16 @@ def reject_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = De
 
 @app.get("/api/shop")
 def get_shop(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    return ok([shop_dict(s) for s in db.query(DBShopItem).all()])
+    fid = get_family_id(user) if user.role == "parent" else user.parent_id
+    items = db.query(DBShopItem).filter(DBShopItem.family_id == fid).all()
+    return ok([shop_dict(s) for s in items])
 
 @app.post("/api/shop")
 def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     if body.cost < 0: fail("cost must be a non-negative number")
     item = DBShopItem(id=str(uuid4()), name=body.name.strip(), description=body.description or "",
-                      cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now())
+                      cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now(),
+                      family_id=get_family_id(user))
     db.add(item)
     db.commit()
     db.refresh(item)

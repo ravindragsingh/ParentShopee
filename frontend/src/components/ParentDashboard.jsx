@@ -1,9 +1,30 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { ParentChoreCard, EmojiPicker, CHORE_EMOJIS, KID_AVATARS } from './ChoreCard.jsx'
 import { ParentShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
+
+// ─── Sample chore templates ──────────────────────────────────────────────────
+
+const SAMPLE_CHORES = [
+  { title: 'Wash the dishes',       points: 10, imageEmoji: '🍽️', description: 'Wash and dry all dishes after dinner.' },
+  { title: 'Take out the trash',    points:  5, imageEmoji: '🗑️', description: 'Take all trash bags to the bin outside.' },
+  { title: 'Make your bed',         points:  5, imageEmoji: '🛏️', description: 'Straighten sheets and tidy your bedroom.' },
+  { title: 'Water the plants',      points:  8, imageEmoji: '🌿', description: 'Water all indoor and balcony plants.' },
+  { title: 'Set the dinner table',  points:  5, imageEmoji: '🥄', description: 'Lay out plates, cutlery, and glasses.' },
+  { title: 'Fold the laundry',      points: 12, imageEmoji: '🧺', description: 'Fold clean clothes and put them away.' },
+  { title: 'Feed the pet',          points:  6, imageEmoji: '🐕', description: 'Fill the food and water bowl for the pet.' },
+  { title: 'Sweep the floor',       points:  8, imageEmoji: '🧹', description: 'Sweep the floors in all rooms.' },
+  { title: 'Vacuum the living room',points: 15, imageEmoji: '🏠', description: 'Vacuum carpets and clean under furniture.' },
+  { title: 'Clean the bathroom',    points: 20, imageEmoji: '🚽', description: 'Scrub the sink, toilet, and surfaces.' },
+  { title: 'Wash the car',          points: 20, imageEmoji: '🚗', description: 'Rinse, soap, and dry the family car.' },
+  { title: 'Mop the floor',         points: 15, imageEmoji: '🪣', description: 'Mop the floors after sweeping.' },
+  { title: 'Tidy the living room',  points: 10, imageEmoji: '🛋️', description: 'Put things away and straighten up the room.' },
+  { title: 'Empty the dishwasher',  points:  6, imageEmoji: '🫙', description: 'Unpack and put away all clean dishes.' },
+  { title: 'Sort the recycling',    points:  8, imageEmoji: '♻️', description: 'Sort recyclables into the correct bins.' },
+  { title: 'Wipe kitchen surfaces', points:  7, imageEmoji: '🧼', description: 'Clean all kitchen surfaces with a damp cloth.' },
+]
 
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
@@ -22,6 +43,18 @@ function ChoresTab({ kids }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState('')
+  const formRef = useRef(null)
+
+  function fillFromSample(sample) {
+    setTitle(sample.title)
+    setDescription(sample.description)
+    setPoints(String(sample.points))
+    setChoreEmoji(sample.imageEmoji)
+    setAssignedKidId('')
+    setShowEmojiPicker(false)
+    setAddError('')
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   const loadChores = useCallback(async () => {
     setLoading(true)
@@ -78,7 +111,7 @@ function ChoresTab({ kids }) {
   return (
     <div>
       {/* Add Chore Form */}
-      <div className="form-card">
+      <div className="form-card" ref={formRef}>
         <div className="form-title">Add New Chore</div>
         {addError && <div className="error-msg">{addError}</div>}
         <form onSubmit={handleAddChore}>
@@ -102,11 +135,11 @@ function ChoresTab({ kids }) {
               />
             </div>
             <div className="form-group" style={{ flex: 1 }}>
-              <label>Assign To</label>
+              <label>Assign To <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
               <select value={assignedKidId} onChange={e => setAssignedKidId(e.target.value)}>
-                <option value="">Any kid</option>
+                <option value="">— Any child can do it —</option>
                 {kids.map(k => (
-                  <option key={k.id} value={k.id}>{k.name}</option>
+                  <option key={k.id} value={k.id}>{k.avatar || '🐶'} {k.name}</option>
                 ))}
               </select>
             </div>
@@ -151,6 +184,36 @@ function ChoresTab({ kids }) {
             </div>
           )}
         </form>
+      </div>
+
+      {/* Sample chores */}
+      <div className="form-card" style={{ marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 12 }}>
+          <div className="form-title" style={{ marginBottom: 0 }}>Sample Chores</div>
+          <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Click any to pre-fill the form above</span>
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {SAMPLE_CHORES.map(s => (
+            <button
+              key={s.title}
+              type="button"
+              onClick={() => fillFromSample(s)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 12px', borderRadius: 20,
+                border: '1px solid #e2e8f0', background: '#f8fafc',
+                cursor: 'pointer', fontSize: '0.85rem', color: '#334155',
+                transition: 'all 0.15s',
+              }}
+              onMouseOver={e => { e.currentTarget.style.background = '#ede9fe'; e.currentTarget.style.borderColor = '#a78bfa' }}
+              onMouseOut={e => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.borderColor = '#e2e8f0' }}
+            >
+              <span>{s.imageEmoji}</span>
+              <span>{s.title}</span>
+              <span style={{ color: '#94a3b8', fontSize: '0.75rem' }}>{s.points}pts</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Chore Lists */}
