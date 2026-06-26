@@ -8,6 +8,76 @@ from typing import Optional
 from uuid import uuid4
 from datetime import datetime, timezone, date, timedelta
 
+from sqlalchemy import create_engine, Column, String, Float, and_
+from sqlalchemy.orm import sessionmaker, Session, declarative_base
+
+# ── Database setup ─────────────────────────────────────────────────────────────
+
+_DB_URL = os.environ.get("DATABASE_URL", "sqlite:///./parentshopee.db")
+# Render provides postgres://, but SQLAlchemy 2.x requires postgresql://
+if _DB_URL.startswith("postgres://"):
+    _DB_URL = _DB_URL.replace("postgres://", "postgresql://", 1)
+
+_connect_args = {"check_same_thread": False} if _DB_URL.startswith("sqlite") else {}
+_engine = create_engine(_DB_URL, connect_args=_connect_args)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=_engine)
+Base = declarative_base()
+
+# ── ORM models ─────────────────────────────────────────────────────────────────
+
+class DBUser(Base):
+    __tablename__ = "users"
+    id            = Column(String, primary_key=True)
+    name          = Column(String, nullable=False)
+    username      = Column(String, unique=True, nullable=False, index=True)
+    password      = Column(String, nullable=False)
+    role          = Column(String, nullable=False)   # parent | kid
+    email         = Column(String, nullable=True)
+    date_of_birth = Column(String, nullable=True)
+    gender        = Column(String, nullable=True)
+    parent_id     = Column(String, nullable=True)    # for kids: their parent's id
+    co_parent_of  = Column(String, nullable=True)    # for co-parents: primary parent's id
+    avatar        = Column(String, nullable=True)
+
+class DBChore(Base):
+    __tablename__ = "chores"
+    id                  = Column(String, primary_key=True)
+    title               = Column(String, nullable=False)
+    description         = Column(String, default="")
+    points              = Column(Float,  default=0)
+    image_emoji         = Column(String, default="📋")
+    status              = Column(String, default="open", index=True)
+    assigned_kid_id     = Column(String, nullable=True)
+    completed_by_kid_id = Column(String, nullable=True)
+    due_date            = Column(String, nullable=True)
+    expired_at          = Column(String, nullable=True)
+    created_at          = Column(String, nullable=False)
+
+class DBShopItem(Base):
+    __tablename__ = "shop_items"
+    id          = Column(String, primary_key=True)
+    name        = Column(String, nullable=False)
+    description = Column(String, default="")
+    cost        = Column(Float,  nullable=False)
+    image_emoji = Column(String, default="🎁")
+    created_at  = Column(String, nullable=False)
+
+class DBWallet(Base):
+    __tablename__ = "wallets"
+    kid_id  = Column(String, primary_key=True)
+    balance = Column(Float,  default=0)
+
+class DBTransaction(Base):
+    __tablename__ = "transactions"
+    id          = Column(String, primary_key=True)
+    kid_id      = Column(String, nullable=False, index=True)
+    type        = Column(String, nullable=False)   # earned | spent
+    amount      = Column(Float,  nullable=False)
+    description = Column(String, nullable=False)
+    timestamp   = Column(String, nullable=False)
+
+# ── App ────────────────────────────────────────────────────────────────────────
+
 app = FastAPI(title="ParentShopee API")
 
 app.add_middleware(
@@ -18,83 +88,35 @@ app.add_middleware(
 )
 
 EMAIL_RE = re.compile(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
+SESSIONS: dict = {}   # token -> user_id  (in-memory; users re-login after restart)
 
-# ── In-memory store ───────────────────────────────────────────────────────────
+# ── Helpers ────────────────────────────────────────────────────────────────────
 
 def now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
-def today_str() -> str:
-    return date.today().isoformat()
-
 def calculate_age(dob_str: str) -> int:
     dob = date.fromisoformat(dob_str)
-    today = date.today()
-    return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    t   = date.today()
+    return t.year - dob.year - ((t.month, t.day) < (dob.month, dob.day))
 
-# parentId = None for parents; parentId = <parent user id> for kids
-USERS = [
-    {"id": "parent1", "name": "Mom",     "username": "parent1", "password": "pass1", "role": "parent", "email": "mom@family.com",   "dateOfBirth": "1980-03-10", "parentId": None, "gender": "female", "coParentOf": None},
-    {"id": "parent2", "name": "Dad",     "username": "parent2", "password": "pass2", "role": "parent", "email": "dad@family.com",   "dateOfBirth": "1978-07-22", "parentId": None, "gender": "male",   "coParentOf": None},
-    {"id": "kid1",    "name": "Alice",   "username": "kid1",    "password": "pass1", "role": "kid",    "email": None, "dateOfBirth": None, "parentId": "parent1", "avatar": "🐱"},
-    {"id": "kid2",    "name": "Bob",     "username": "kid2",    "password": "pass1", "role": "kid",    "email": None, "dateOfBirth": None, "parentId": "parent1", "avatar": "🐶"},
-    {"id": "kid3",    "name": "Charlie", "username": "kid3",    "password": "pass1", "role": "kid",    "email": None, "dateOfBirth": None, "parentId": "parent2", "avatar": "🦁"},
-]
+def get_family_id(user: DBUser) -> str:
+    return user.co_parent_of or user.id
 
-CHORES = [
-    {"id": str(uuid4()), "title": "Wash the dishes",          "description": "Wash and dry all dishes after dinner.",                   "points": 10, "imageEmoji": "🍽️", "status": "open",    "assignedKidId": "kid1", "completedByKidId": None, "dueDate": (date.today() + timedelta(days=3)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Take out the trash",       "description": "Take all trash bags to the bin outside.",                  "points":  5, "imageEmoji": "🗑️", "status": "open",    "assignedKidId": None,   "completedByKidId": None, "dueDate": (date.today() + timedelta(days=1)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Make your bed",            "description": "Straighten sheets, fluff pillows, and tidy your bedroom.", "points":  5, "imageEmoji": "🛏️", "status": "open",    "assignedKidId": "kid1", "completedByKidId": None, "dueDate": None,                                            "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Water the plants",         "description": "Water all indoor and balcony plants.",                     "points":  8, "imageEmoji": "🌿", "status": "open",    "assignedKidId": "kid2", "completedByKidId": None, "dueDate": (date.today() + timedelta(days=2)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Set the dinner table",     "description": "Lay out plates, cutlery, and glasses for the family.",     "points":  5, "imageEmoji": "🥄", "status": "open",    "assignedKidId": None,   "completedByKidId": None, "dueDate": None,                                            "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Fold the laundry",         "description": "Fold clean clothes from the dryer and put them away.",     "points": 12, "imageEmoji": "🧺", "status": "open",    "assignedKidId": "kid3", "completedByKidId": None, "dueDate": (date.today() + timedelta(days=5)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Feed the pet",             "description": "Fill the food and water bowl for the family pet.",         "points":  6, "imageEmoji": "🐕", "status": "open",    "assignedKidId": None,   "completedByKidId": None, "dueDate": None,                                            "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Sweep the porch",          "description": "Sweep leaves and dirt off the front porch.",               "points":  8, "imageEmoji": "🧹", "status": "open",    "assignedKidId": "kid2", "completedByKidId": None, "dueDate": (date.today() + timedelta(days=4)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Clean the garage",         "description": "Tidy up and sweep the garage floor.",                      "points": 25, "imageEmoji": "🏡", "status": "open",    "assignedKidId": None,   "completedByKidId": None, "dueDate": (date.today() - timedelta(days=2)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Wash the car",             "description": "Rinse, soap, and dry the family car.",                     "points": 20, "imageEmoji": "🚗", "status": "open",    "assignedKidId": "kid2", "completedByKidId": None, "dueDate": (date.today() - timedelta(days=1)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Vacuum the living room",        "description": "Vacuum carpets and clean under the sofa.",           "points": 15, "imageEmoji": "🏠", "status": "pending",  "assignedKidId": "kid2", "completedByKidId": "kid2", "dueDate": (date.today() + timedelta(days=1)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Wipe down the kitchen counter", "description": "Clean all kitchen surfaces with a damp cloth.",      "points":  7, "imageEmoji": "🧼", "status": "pending",  "assignedKidId": None,   "completedByKidId": "kid1", "dueDate": None,                                            "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Organise the bookshelf",        "description": "Sort books by size and put them back neatly.",       "points": 10, "imageEmoji": "📚", "status": "pending",  "assignedKidId": "kid3", "completedByKidId": "kid3", "dueDate": (date.today() - timedelta(days=1)).isoformat(), "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Clean the bathroom",   "description": "Scrub the sink, toilet, and wipe down surfaces.", "points": 20, "imageEmoji": "🚽", "status": "complete", "assignedKidId": "kid3", "completedByKidId": "kid3", "dueDate": None, "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Take out recycling",   "description": "Sort and take the recycling bins to the kerb.",   "points":  8, "imageEmoji": "♻️", "status": "complete", "assignedKidId": None,   "completedByKidId": "kid1", "dueDate": None, "expiredAt": None, "createdAt": now()},
-    {"id": str(uuid4()), "title": "Mop the kitchen floor","description": "Mop the kitchen floor after sweeping.",           "points": 15, "imageEmoji": "🪣", "status": "complete", "assignedKidId": "kid2", "completedByKidId": "kid2", "dueDate": None, "expiredAt": None, "createdAt": now()},
-]
+def safe_user(u: DBUser) -> dict:
+    return {"id": u.id, "name": u.name, "username": u.username, "role": u.role,
+            "email": u.email, "parentId": u.parent_id, "avatar": u.avatar,
+            "gender": u.gender, "coParentOf": u.co_parent_of}
 
-SHOP_ITEMS = [
-    {"id": str(uuid4()), "name": "Extra Screen Time (30 min)", "description": "Get 30 extra minutes of screen time today.", "cost": 10, "imageEmoji": "📱", "createdAt": now()},
-    {"id": str(uuid4()), "name": "Choose Dinner",              "description": "Pick what the family eats for dinner.",       "cost": 25, "imageEmoji": "🍕", "createdAt": now()},
-    {"id": str(uuid4()), "name": "Stay Up 1 Hour Later",       "description": "Extend bedtime by one hour on a weekend.",   "cost": 20, "imageEmoji": "🌙", "createdAt": now()},
-    {"id": str(uuid4()), "name": "Movie Night Pick",           "description": "Choose the movie for family movie night.",   "cost": 15, "imageEmoji": "🎬", "createdAt": now()},
-]
+def chore_dict(c: DBChore) -> dict:
+    return {"id": c.id, "title": c.title, "description": c.description,
+            "points": c.points, "imageEmoji": c.image_emoji, "status": c.status,
+            "assignedKidId": c.assigned_kid_id, "completedByKidId": c.completed_by_kid_id,
+            "dueDate": c.due_date, "expiredAt": c.expired_at, "createdAt": c.created_at}
 
-WALLETS: dict = {
-    "kid1": {"balance": 30, "transactions": [{"id": str(uuid4()), "type": "earned", "amount": 30, "description": "Bonus points (seed)", "timestamp": now()}]},
-    "kid2": {"balance": 0,  "transactions": []},
-    "kid3": {"balance": 20, "transactions": [{"id": str(uuid4()), "type": "earned", "amount": 20, "description": "Earned: Clean the bathroom", "timestamp": now()}]},
-}
-
-SESSIONS: dict = {}
-
-# ── Expiry helpers ────────────────────────────────────────────────────────────
-
-def check_and_expire_chores():
-    today = date.today().isoformat()
-    for chore in CHORES:
-        if chore["status"] in ("open", "pending") and chore["dueDate"] and chore["dueDate"] < today:
-            chore["status"] = "expired"
-            chore["expiredAt"] = now()
-
-def visible_chores(chores: list) -> list:
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
-    result = []
-    for c in chores:
-        if c["status"] == "expired" and c["expiredAt"]:
-            if datetime.fromisoformat(c["expiredAt"]) < cutoff:
-                continue
-        result.append(c)
-    return result
-
-# ── Response helpers ──────────────────────────────────────────────────────────
+def shop_dict(s: DBShopItem) -> dict:
+    return {"id": s.id, "name": s.name, "description": s.description,
+            "cost": s.cost, "imageEmoji": s.image_emoji, "createdAt": s.created_at}
 
 def ok(data, status: int = 200):
     return JSONResponse({"success": True, "data": data}, status_code=status)
@@ -102,45 +124,59 @@ def ok(data, status: int = 200):
 def fail(msg: str, status: int = 400):
     raise HTTPException(status_code=status, detail={"success": False, "error": msg})
 
-# ── Auth helpers ──────────────────────────────────────────────────────────────
+# ── DB dependency ──────────────────────────────────────────────────────────────
 
-def get_user_by_token(authorization: Optional[str] = Header(default=None)):
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# ── Chore expiry ───────────────────────────────────────────────────────────────
+
+def check_and_expire_chores(db: Session):
+    today = date.today().isoformat()
+    db.query(DBChore).filter(
+        DBChore.status.in_(["open", "pending"]),
+        DBChore.due_date.isnot(None),
+        DBChore.due_date < today,
+    ).update({"status": "expired", "expired_at": now()}, synchronize_session=False)
+    db.commit()
+
+def get_visible_chores(db: Session):
+    cutoff = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
+    return db.query(DBChore).filter(
+        ~and_(DBChore.status == "expired",
+              DBChore.expired_at.isnot(None),
+              DBChore.expired_at < cutoff)
+    ).all()
+
+# ── Auth dependencies ──────────────────────────────────────────────────────────
+
+def require_auth(db: Session = Depends(get_db), authorization: Optional[str] = Header(default=None)) -> DBUser:
     if not authorization or not authorization.startswith("Bearer "):
-        return None
+        fail("Unauthorized — valid Bearer token required", 401)
     token = authorization[7:]
     user_id = SESSIONS.get(token)
     if not user_id:
-        return None
-    return next((u for u in USERS if u["id"] == user_id), None)
-
-def require_auth(authorization: Optional[str] = Header(default=None)):
-    user = get_user_by_token(authorization)
+        fail("Unauthorized — valid Bearer token required", 401)
+    user = db.query(DBUser).filter(DBUser.id == user_id).first()
     if not user:
         fail("Unauthorized — valid Bearer token required", 401)
     return user
 
-def require_parent(authorization: Optional[str] = Header(default=None)):
-    user = require_auth(authorization)
-    if user["role"] != "parent":
+def require_parent(user: DBUser = Depends(require_auth)) -> DBUser:
+    if user.role != "parent":
         fail("Forbidden — parents only", 403)
     return user
 
-def require_kid(authorization: Optional[str] = Header(default=None)):
-    user = require_auth(authorization)
-    if user["role"] != "kid":
+def require_kid(user: DBUser = Depends(require_auth)) -> DBUser:
+    if user.role != "kid":
         fail("Forbidden — kids only", 403)
     return user
 
-def get_family_id(user: dict) -> str:
-    """Returns the primary parent ID whose kids this user manages."""
-    return user.get("coParentOf") or user["id"]
-
-def safe_user(u: dict) -> dict:
-    return {"id": u["id"], "name": u["name"], "username": u["username"], "role": u["role"],
-            "email": u.get("email"), "parentId": u.get("parentId"), "avatar": u.get("avatar"),
-            "gender": u.get("gender"), "coParentOf": u.get("coParentOf")}
-
-# ── Pydantic models ───────────────────────────────────────────────────────────
+# ── Pydantic models ────────────────────────────────────────────────────────────
 
 class LoginBody(BaseModel):
     username: str
@@ -151,8 +187,8 @@ class RegisterBody(BaseModel):
     email: str
     username: str
     password: str
-    dateOfBirth: str   # "YYYY-MM-DD"
-    gender: str        # "male" | "female" | "other"
+    dateOfBirth: str
+    gender: str
 
 class AddKidBody(BaseModel):
     name: str
@@ -161,6 +197,11 @@ class AddKidBody(BaseModel):
     avatar: Optional[str] = "🐶"
 
 class UpdateKidPasswordBody(BaseModel):
+    password: str
+
+class CoParentBody(BaseModel):
+    name: str
+    username: str
     password: str
 
 class ChoreCreate(BaseModel):
@@ -192,33 +233,94 @@ class ShopItemUpdate(BaseModel):
     cost: Optional[float] = None
     imageEmoji: Optional[str] = None
 
-# ── Auth routes ───────────────────────────────────────────────────────────────
+# ── Seed data ──────────────────────────────────────────────────────────────────
+
+def seed_db(db: Session):
+    if db.query(DBUser).count() > 0:
+        return   # already seeded
+
+    today = date.today()
+
+    for u in [
+        DBUser(id="parent1", name="Mom",     username="parent1", password="pass1", role="parent", email="mom@family.com", date_of_birth="1980-03-10", gender="female"),
+        DBUser(id="parent2", name="Dad",     username="parent2", password="pass2", role="parent", email="dad@family.com", date_of_birth="1978-07-22", gender="male"),
+        DBUser(id="kid1",    name="Alice",   username="kid1",    password="pass1", role="kid",    parent_id="parent1", avatar="🐱"),
+        DBUser(id="kid2",    name="Bob",     username="kid2",    password="pass1", role="kid",    parent_id="parent1", avatar="🐶"),
+        DBUser(id="kid3",    name="Charlie", username="kid3",    password="pass1", role="kid",    parent_id="parent2", avatar="🦁"),
+    ]:
+        db.add(u)
+
+    for c in [
+        DBChore(id=str(uuid4()), title="Wash the dishes",           description="Wash and dry all dishes after dinner.",                   points=10, image_emoji="🍽️", status="open",     assigned_kid_id="kid1", due_date=(today+timedelta(days=3)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Take out the trash",        description="Take all trash bags to the bin outside.",                  points= 5, image_emoji="🗑️", status="open",     due_date=(today+timedelta(days=1)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Make your bed",             description="Straighten sheets, fluff pillows, and tidy your bedroom.", points= 5, image_emoji="🛏️", status="open",     assigned_kid_id="kid1", created_at=now()),
+        DBChore(id=str(uuid4()), title="Water the plants",          description="Water all indoor and balcony plants.",                     points= 8, image_emoji="🌿", status="open",     assigned_kid_id="kid2", due_date=(today+timedelta(days=2)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Set the dinner table",      description="Lay out plates, cutlery, and glasses for the family.",     points= 5, image_emoji="🥄", status="open",     created_at=now()),
+        DBChore(id=str(uuid4()), title="Fold the laundry",          description="Fold clean clothes from the dryer and put them away.",     points=12, image_emoji="🧺", status="open",     assigned_kid_id="kid3", due_date=(today+timedelta(days=5)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Feed the pet",              description="Fill the food and water bowl for the family pet.",         points= 6, image_emoji="🐕", status="open",     created_at=now()),
+        DBChore(id=str(uuid4()), title="Sweep the porch",           description="Sweep leaves and dirt off the front porch.",               points= 8, image_emoji="🧹", status="open",     assigned_kid_id="kid2", due_date=(today+timedelta(days=4)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Clean the garage",          description="Tidy up and sweep the garage floor.",                      points=25, image_emoji="🏡", status="open",     due_date=(today-timedelta(days=2)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Wash the car",              description="Rinse, soap, and dry the family car.",                     points=20, image_emoji="🚗", status="open",     assigned_kid_id="kid2", due_date=(today-timedelta(days=1)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Vacuum the living room",    description="Vacuum carpets and clean under the sofa.",                 points=15, image_emoji="🏠", status="pending",  assigned_kid_id="kid2", completed_by_kid_id="kid2", due_date=(today+timedelta(days=1)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Wipe down kitchen counter", description="Clean all kitchen surfaces with a damp cloth.",            points= 7, image_emoji="🧼", status="pending",  completed_by_kid_id="kid1", created_at=now()),
+        DBChore(id=str(uuid4()), title="Organise the bookshelf",    description="Sort books by size and put them back neatly.",             points=10, image_emoji="📚", status="pending",  assigned_kid_id="kid3", completed_by_kid_id="kid3", due_date=(today-timedelta(days=1)).isoformat(), created_at=now()),
+        DBChore(id=str(uuid4()), title="Clean the bathroom",        description="Scrub the sink, toilet, and wipe down surfaces.",          points=20, image_emoji="🚽", status="complete", assigned_kid_id="kid3", completed_by_kid_id="kid3", created_at=now()),
+        DBChore(id=str(uuid4()), title="Take out recycling",        description="Sort and take the recycling bins to the kerb.",            points= 8, image_emoji="♻️", status="complete", completed_by_kid_id="kid1", created_at=now()),
+        DBChore(id=str(uuid4()), title="Mop the kitchen floor",     description="Mop the kitchen floor after sweeping.",                    points=15, image_emoji="🪣", status="complete", assigned_kid_id="kid2", completed_by_kid_id="kid2", created_at=now()),
+    ]:
+        db.add(c)
+
+    for s in [
+        DBShopItem(id=str(uuid4()), name="Extra Screen Time (30 min)", description="Get 30 extra minutes of screen time today.", cost=10, image_emoji="📱", created_at=now()),
+        DBShopItem(id=str(uuid4()), name="Choose Dinner",              description="Pick what the family eats for dinner.",       cost=25, image_emoji="🍕", created_at=now()),
+        DBShopItem(id=str(uuid4()), name="Stay Up 1 Hour Later",       description="Extend bedtime by one hour on a weekend.",   cost=20, image_emoji="🌙", created_at=now()),
+        DBShopItem(id=str(uuid4()), name="Movie Night Pick",           description="Choose the movie for family movie night.",   cost=15, image_emoji="🎬", created_at=now()),
+    ]:
+        db.add(s)
+
+    for kid_id, balance in [("kid1", 30), ("kid2", 0), ("kid3", 20)]:
+        db.add(DBWallet(kid_id=kid_id, balance=balance))
+
+    db.add(DBTransaction(id=str(uuid4()), kid_id="kid1", type="earned", amount=30, description="Bonus points (seed)",        timestamp=now()))
+    db.add(DBTransaction(id=str(uuid4()), kid_id="kid3", type="earned", amount=20, description="Earned: Clean the bathroom", timestamp=now()))
+
+    db.commit()
+
+# ── Startup ────────────────────────────────────────────────────────────────────
+
+@app.on_event("startup")
+def startup():
+    Base.metadata.create_all(bind=_engine)
+    db = SessionLocal()
+    try:
+        seed_db(db)
+    finally:
+        db.close()
+
+# ── Auth routes ────────────────────────────────────────────────────────────────
 
 @app.post("/api/auth/login")
-def login(body: LoginBody):
-    user = next((u for u in USERS if u["username"] == body.username and u["password"] == body.password), None)
+def login(body: LoginBody, db: Session = Depends(get_db)):
+    user = db.query(DBUser).filter(DBUser.username == body.username, DBUser.password == body.password).first()
     if not user:
         fail("Invalid credentials", 401)
     token = str(uuid4())
-    SESSIONS[token] = user["id"]
+    SESSIONS[token] = user.id
     return ok({"token": token, "user": safe_user(user)})
 
 @app.post("/api/auth/register")
-def register(body: RegisterBody):
-    # Validate email
+def register(body: RegisterBody, db: Session = Depends(get_db)):
     if not EMAIL_RE.match(body.email):
         fail("Please enter a valid email address")
-    # Validate age >= 25
     try:
         age = calculate_age(body.dateOfBirth)
     except Exception:
         fail("Invalid date of birth — use YYYY-MM-DD format")
     if age < 25:
         fail("To register as Parent, you should be 25 years or more.")
-    # Check uniqueness
-    if any(u["username"] == body.username for u in USERS):
+    if db.query(DBUser).filter(DBUser.username == body.username.strip()).first():
         fail("Username already taken")
-    if any(u.get("email") == body.email for u in USERS):
+    if db.query(DBUser).filter(DBUser.email == body.email.lower().strip()).first():
         fail("Email address already registered")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
@@ -227,320 +329,352 @@ def register(body: RegisterBody):
     if body.gender not in ("male", "female", "other"):
         fail("Gender must be 'male', 'female', or 'other'")
 
-    user = {
-        "id": str(uuid4()),
-        "name": body.name.strip(),
-        "username": body.username.strip(),
-        "password": body.password,
-        "role": "parent",
-        "email": body.email.lower().strip(),
-        "dateOfBirth": body.dateOfBirth,
-        "gender": body.gender,
-        "parentId": None,
-        "coParentOf": None,
-    }
-    USERS.append(user)
+    user = DBUser(
+        id=str(uuid4()),
+        name=body.name.strip(),
+        username=body.username.strip(),
+        password=body.password,
+        role="parent",
+        email=body.email.lower().strip(),
+        date_of_birth=body.dateOfBirth,
+        gender=body.gender,
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
     token = str(uuid4())
-    SESSIONS[token] = user["id"]
+    SESSIONS[token] = user.id
     return ok({"token": token, "user": safe_user(user)}, 201)
 
-# ── User routes ───────────────────────────────────────────────────────────────
+# ── User routes ────────────────────────────────────────────────────────────────
 
 @app.get("/api/users/kids")
-def list_kids(user=Depends(require_parent)):
+def list_kids(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     family_id = get_family_id(user)
-    kids = [safe_user(u) for u in USERS if u["role"] == "kid" and u.get("parentId") == family_id]
-    return ok(kids)
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+    return ok([safe_user(k) for k in kids])
 
 @app.get("/api/users/parents")
-def list_parents(user=Depends(require_auth)):
-    parents = [safe_user(u) for u in USERS if u["role"] == "parent"]
-    return ok(parents)
+def list_parents(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    parents = db.query(DBUser).filter(DBUser.role == "parent").all()
+    return ok([safe_user(p) for p in parents])
 
-# ── Kids management (parent adds/manages their own kids) ──────────────────────
+# ── Kids management ────────────────────────────────────────────────────────────
 
 @app.post("/api/kids")
-def add_kid(body: AddKidBody, user=Depends(require_parent)):
+def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     family_id = get_family_id(user)
-    my_kids = [u for u in USERS if u["role"] == "kid" and u.get("parentId") == family_id]
-    if len(my_kids) >= 10:
+    count = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).count()
+    if count >= 10:
         fail("You can add a maximum of 10 children")
-    if any(u["username"] == body.username for u in USERS):
+    if db.query(DBUser).filter(DBUser.username == body.username.strip()).first():
         fail("Username already taken")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
     if len(body.password) < 4:
         fail("Password must be at least 4 characters")
 
-    kid = {
-        "id": str(uuid4()),
-        "name": body.name.strip(),
-        "username": body.username.strip(),
-        "password": body.password,
-        "role": "kid",
-        "email": None,
-        "dateOfBirth": None,
-        "parentId": family_id,
-        "avatar": body.avatar or "🐶",
-        "coParentOf": None,
-    }
-    USERS.append(kid)
-    wallet_id = kid["id"]
-    WALLETS[wallet_id] = {"balance": 0, "transactions": []}
+    kid = DBUser(
+        id=str(uuid4()),
+        name=body.name.strip(),
+        username=body.username.strip(),
+        password=body.password,
+        role="kid",
+        parent_id=family_id,
+        avatar=body.avatar or "🐶",
+    )
+    db.add(kid)
+    db.flush()   # get kid.id before commit
+    db.add(DBWallet(kid_id=kid.id, balance=0))
+    db.commit()
+    db.refresh(kid)
     return ok(safe_user(kid), 201)
 
 @app.put("/api/kids/{kid_id}/password")
-def update_kid_password(kid_id: str, body: UpdateKidPasswordBody, user=Depends(require_parent)):
+def update_kid_password(kid_id: str, body: UpdateKidPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     family_id = get_family_id(user)
-    kid = next((u for u in USERS if u["id"] == kid_id and u["role"] == "kid"), None)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
     if not kid:
-        fail("Child not found", 404)
-    if kid.get("parentId") != family_id:
-        fail("You can only update passwords for your own children", 403)
+        fail("Child not found or not in your family", 404)
     if len(body.password) < 4:
         fail("Password must be at least 4 characters")
-    kid["password"] = body.password
-    return ok({"message": f"Password updated for {kid['name']}"})
+    kid.password = body.password
+    db.commit()
+    return ok({"message": f"Password updated for {kid.name}"})
 
-# ── Co-parent routes ──────────────────────────────────────────────────────────
-
-class CoParentBody(BaseModel):
-    name: str
-    username: str
-    password: str
+# ── Co-parent routes ───────────────────────────────────────────────────────────
 
 @app.get("/api/family/co-parent")
-def get_co_parent(user=Depends(require_parent)):
-    if user.get("coParentOf"):
-        primary = next((u for u in USERS if u["id"] == user["coParentOf"]), None)
+def get_co_parent(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    if user.co_parent_of:
+        primary = db.query(DBUser).filter(DBUser.id == user.co_parent_of).first()
         return ok({"isCoParent": True, "coParent": None, "primaryParent": safe_user(primary) if primary else None})
-    co_parent = next((u for u in USERS if u.get("coParentOf") == user["id"] and u["role"] == "parent"), None)
+    co_parent = db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first()
     return ok({"isCoParent": False, "coParent": safe_user(co_parent) if co_parent else None, "primaryParent": None})
 
 @app.post("/api/family/co-parent")
-def add_co_parent(body: CoParentBody, user=Depends(require_parent)):
-    if user.get("coParentOf"):
+def add_co_parent(body: CoParentBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    if user.co_parent_of:
         fail("Co-parents cannot create other co-parents")
-    existing = next((u for u in USERS if u.get("coParentOf") == user["id"] and u["role"] == "parent"), None)
-    if existing:
+    if db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first():
         fail("You already have a co-parent. Remove them first.")
-    if any(u["username"] == body.username for u in USERS):
+    if db.query(DBUser).filter(DBUser.username == body.username.strip()).first():
         fail("Username already taken")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
     if len(body.password) < 4:
         fail("Password must be at least 4 characters")
-    co_parent = {
-        "id": str(uuid4()),
-        "name": body.name.strip(),
-        "username": body.username.strip(),
-        "password": body.password,
-        "role": "parent",
-        "email": None,
-        "dateOfBirth": None,
-        "gender": None,
-        "parentId": None,
-        "coParentOf": user["id"],
-        "avatar": None,
-    }
-    USERS.append(co_parent)
+
+    co_parent = DBUser(
+        id=str(uuid4()),
+        name=body.name.strip(),
+        username=body.username.strip(),
+        password=body.password,
+        role="parent",
+        co_parent_of=user.id,
+    )
+    db.add(co_parent)
+    db.commit()
+    db.refresh(co_parent)
     return ok(safe_user(co_parent), 201)
 
 @app.put("/api/family/co-parent/password")
-def update_co_parent_password(body: UpdateKidPasswordBody, user=Depends(require_parent)):
-    if user.get("coParentOf"):
+def update_co_parent_password(body: UpdateKidPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    if user.co_parent_of:
         fail("Co-parents cannot change passwords via this endpoint")
-    co_parent = next((u for u in USERS if u.get("coParentOf") == user["id"] and u["role"] == "parent"), None)
+    co_parent = db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first()
     if not co_parent:
         fail("No co-parent found")
     if len(body.password) < 4:
         fail("Password must be at least 4 characters")
-    co_parent["password"] = body.password
-    return ok({"message": f"Password updated for {co_parent['name']}"})
+    co_parent.password = body.password
+    db.commit()
+    return ok({"message": f"Password updated for {co_parent.name}"})
 
 @app.delete("/api/family/co-parent")
-def remove_co_parent(user=Depends(require_parent)):
-    if user.get("coParentOf"):
+def remove_co_parent(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    if user.co_parent_of:
         fail("Co-parents cannot revoke access themselves")
-    co_parent = next((u for u in USERS if u.get("coParentOf") == user["id"] and u["role"] == "parent"), None)
+    co_parent = db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first()
     if not co_parent:
         fail("No co-parent found")
-    USERS.remove(co_parent)
+    db.delete(co_parent)
+    db.commit()
     return ok({"message": "Co-parent account removed"})
 
-# ── Chore routes ──────────────────────────────────────────────────────────────
+# ── Chore routes ───────────────────────────────────────────────────────────────
 
 @app.get("/api/chores")
-def get_chores(status: Optional[str] = None, kidId: Optional[str] = None, user=Depends(require_auth)):
-    check_and_expire_chores()
-    result = visible_chores(CHORES)
+def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
+               db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    check_and_expire_chores(db)
+    chores = get_visible_chores(db)
     if status:
-        result = [c for c in result if c["status"] == status]
+        chores = [c for c in chores if c.status == status]
     if kidId:
-        result = [c for c in result if c["assignedKidId"] == kidId or c["completedByKidId"] == kidId]
-    return ok(result)
+        chores = [c for c in chores if c.assigned_kid_id == kidId or c.completed_by_kid_id == kidId]
+    return ok([chore_dict(c) for c in chores])
 
 @app.post("/api/chores")
-def create_chore(body: ChoreCreate, user=Depends(require_parent)):
+def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     if body.points < 0:
         fail("points must be a non-negative number")
     if body.assignedKidId:
-        kid = next((u for u in USERS if u["id"] == body.assignedKidId and u["role"] == "kid"), None)
-        if not kid:
+        if not db.query(DBUser).filter(DBUser.id == body.assignedKidId, DBUser.role == "kid").first():
             fail("assignedKidId does not match any kid", 404)
-    chore = {
-        "id": str(uuid4()), "title": body.title,
-        "description": body.description or "", "points": body.points,
-        "imageEmoji": body.imageEmoji or "📋",
-        "status": "open", "assignedKidId": body.assignedKidId,
-        "completedByKidId": None, "dueDate": body.dueDate or None,
-        "expiredAt": None, "createdAt": now(),
-    }
-    CHORES.append(chore)
-    return ok(chore, 201)
+    chore = DBChore(
+        id=str(uuid4()),
+        title=body.title,
+        description=body.description or "",
+        points=body.points,
+        image_emoji=body.imageEmoji or "📋",
+        assigned_kid_id=body.assignedKidId,
+        due_date=body.dueDate or None,
+        created_at=now(),
+    )
+    db.add(chore)
+    db.commit()
+    db.refresh(chore)
+    return ok(chore_dict(chore), 201)
 
 @app.put("/api/chores/{chore_id}")
-def update_chore(chore_id: str, body: ChoreUpdate, user=Depends(require_parent)):
-    chore = next((c for c in CHORES if c["id"] == chore_id), None)
+def update_chore(chore_id: str, body: ChoreUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore:
         fail("Chore not found", 404)
-    if body.title is not None:       chore["title"] = body.title
-    if body.description is not None: chore["description"] = body.description
+    if body.title       is not None: chore.title       = body.title
+    if body.description is not None: chore.description = body.description
     if body.points is not None:
         if body.points < 0: fail("points must be a non-negative number")
-        chore["points"] = body.points
+        chore.points = body.points
     if body.assignedKidId is not None:
-        if body.assignedKidId and not any(u["id"] == body.assignedKidId and u["role"] == "kid" for u in USERS):
+        if body.assignedKidId and not db.query(DBUser).filter(DBUser.id == body.assignedKidId, DBUser.role == "kid").first():
             fail("assignedKidId does not match any kid", 404)
-        chore["assignedKidId"] = body.assignedKidId or None
+        chore.assigned_kid_id = body.assignedKidId or None
     if body.status is not None:
         if body.status not in ("open", "pending", "complete", "expired"):
             fail("Invalid status")
-        chore["status"] = body.status
+        chore.status = body.status
     if body.dueDate is not None:
-        chore["dueDate"] = body.dueDate or None
-        if chore["dueDate"]: chore["expiredAt"] = None
-    if body.imageEmoji is not None: chore["imageEmoji"] = body.imageEmoji
-    return ok(chore)
+        chore.due_date = body.dueDate or None
+        if chore.due_date: chore.expired_at = None
+    if body.imageEmoji is not None: chore.image_emoji = body.imageEmoji
+    db.commit()
+    db.refresh(chore)
+    return ok(chore_dict(chore))
 
 @app.delete("/api/chores/{chore_id}")
-def delete_chore(chore_id: str, user=Depends(require_parent)):
-    chore = next((c for c in CHORES if c["id"] == chore_id), None)
+def delete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
-    if chore["status"] not in ("open", "expired"): fail("Only open or expired chores can be deleted")
-    CHORES.remove(chore)
-    return ok(chore)
+    if chore.status not in ("open", "expired"): fail("Only open or expired chores can be deleted")
+    db.delete(chore)
+    db.commit()
+    return ok(chore_dict(chore))
 
 @app.post("/api/chores/{chore_id}/complete")
-def complete_chore(chore_id: str, user=Depends(require_kid)):
-    chore = next((c for c in CHORES if c["id"] == chore_id), None)
+def complete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
+    chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
-    if chore["status"] != "open": fail("Only open chores can be marked complete")
-    if chore["assignedKidId"] and chore["assignedKidId"] != user["id"]:
+    if chore.status != "open": fail("Only open chores can be marked complete")
+    if chore.assigned_kid_id and chore.assigned_kid_id != user.id:
         fail("This chore is assigned to a different kid", 403)
-    chore["status"] = "pending"
-    chore["completedByKidId"] = user["id"]
-    return ok(chore)
+    chore.status = "pending"
+    chore.completed_by_kid_id = user.id
+    db.commit()
+    db.refresh(chore)
+    return ok(chore_dict(chore))
 
 @app.post("/api/chores/{chore_id}/approve")
-def approve_chore(chore_id: str, user=Depends(require_parent)):
-    chore = next((c for c in CHORES if c["id"] == chore_id), None)
+def approve_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
-    if chore["status"] != "pending": fail("Only pending chores can be approved")
-    kid_id = chore["completedByKidId"]
+    if chore.status != "pending": fail("Only pending chores can be approved")
+    kid_id = chore.completed_by_kid_id
     if not kid_id: fail("No kid associated with this chore")
-    if kid_id not in WALLETS: WALLETS[kid_id] = {"balance": 0, "transactions": []}
-    WALLETS[kid_id]["balance"] += chore["points"]
-    WALLETS[kid_id]["transactions"].append({
-        "id": str(uuid4()), "type": "earned",
-        "amount": chore["points"], "description": f"Earned: {chore['title']}", "timestamp": now(),
-    })
-    chore["status"] = "complete"
-    return ok({"chore": chore, "newBalance": WALLETS[kid_id]["balance"]})
+
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=kid_id, balance=0)
+        db.add(wallet)
+        db.flush()
+
+    wallet.balance += chore.points
+    db.add(DBTransaction(id=str(uuid4()), kid_id=kid_id, type="earned",
+                         amount=chore.points, description=f"Earned: {chore.title}", timestamp=now()))
+    chore.status = "complete"
+    db.commit()
+    db.refresh(chore)
+    db.refresh(wallet)
+    return ok({"chore": chore_dict(chore), "newBalance": wallet.balance})
 
 @app.post("/api/chores/{chore_id}/reject")
-def reject_chore(chore_id: str, user=Depends(require_parent)):
-    chore = next((c for c in CHORES if c["id"] == chore_id), None)
+def reject_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
-    if chore["status"] != "pending": fail("Only pending chores can be rejected")
-    chore["status"] = "open"
-    chore["completedByKidId"] = None
-    return ok(chore)
+    if chore.status != "pending": fail("Only pending chores can be rejected")
+    chore.status = "open"
+    chore.completed_by_kid_id = None
+    db.commit()
+    db.refresh(chore)
+    return ok(chore_dict(chore))
 
-# ── Shop routes ───────────────────────────────────────────────────────────────
+# ── Shop routes ────────────────────────────────────────────────────────────────
 
 @app.get("/api/shop")
-def get_shop(user=Depends(require_auth)):
-    return ok(SHOP_ITEMS)
+def get_shop(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    return ok([shop_dict(s) for s in db.query(DBShopItem).all()])
 
 @app.post("/api/shop")
-def create_shop_item(body: ShopItemCreate, user=Depends(require_parent)):
+def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     if body.cost < 0: fail("cost must be a non-negative number")
-    item = {"id": str(uuid4()), "name": body.name, "description": body.description or "",
-            "cost": body.cost, "imageEmoji": body.imageEmoji or "🎁", "createdAt": now()}
-    SHOP_ITEMS.append(item)
-    return ok(item, 201)
+    item = DBShopItem(id=str(uuid4()), name=body.name.strip(), description=body.description or "",
+                      cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now())
+    db.add(item)
+    db.commit()
+    db.refresh(item)
+    return ok(shop_dict(item), 201)
 
 @app.put("/api/shop/{item_id}")
-def update_shop_item(item_id: str, body: ShopItemUpdate, user=Depends(require_parent)):
-    item = next((i for i in SHOP_ITEMS if i["id"] == item_id), None)
+def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
-    if body.name is not None:        item["name"] = body.name
-    if body.description is not None: item["description"] = body.description
-    if body.cost is not None:
+    if body.name        is not None: item.name        = body.name.strip()
+    if body.description is not None: item.description = body.description
+    if body.cost        is not None:
         if body.cost < 0: fail("cost must be a non-negative number")
-        item["cost"] = body.cost
-    if body.imageEmoji is not None:  item["imageEmoji"] = body.imageEmoji
-    return ok(item)
+        item.cost = body.cost
+    if body.imageEmoji  is not None: item.image_emoji = body.imageEmoji
+    db.commit()
+    db.refresh(item)
+    return ok(shop_dict(item))
 
 @app.delete("/api/shop/{item_id}")
-def delete_shop_item(item_id: str, user=Depends(require_parent)):
-    item = next((i for i in SHOP_ITEMS if i["id"] == item_id), None)
+def delete_shop_item(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
-    SHOP_ITEMS.remove(item)
-    return ok(item)
+    db.delete(item)
+    db.commit()
+    return ok(shop_dict(item))
 
 @app.post("/api/shop/{item_id}/buy")
-def buy_shop_item(item_id: str, user=Depends(require_kid)):
-    item = next((i for i in SHOP_ITEMS if i["id"] == item_id), None)
+def buy_shop_item(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
+    item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
-    kid_id = user["id"]
-    if kid_id not in WALLETS: WALLETS[kid_id] = {"balance": 0, "transactions": []}
-    if WALLETS[kid_id]["balance"] < item["cost"]:
-        fail(f"Insufficient points. Need {item['cost']}, have {WALLETS[kid_id]['balance']}")
-    WALLETS[kid_id]["balance"] -= item["cost"]
-    WALLETS[kid_id]["transactions"].append({
-        "id": str(uuid4()), "type": "spent",
-        "amount": item["cost"], "description": f"Bought: {item['name']}", "timestamp": now(),
-    })
-    return ok({"item": item, "newBalance": WALLETS[kid_id]["balance"]})
 
-# ── Wallet routes ─────────────────────────────────────────────────────────────
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == user.id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=user.id, balance=0)
+        db.add(wallet)
+        db.flush()
+
+    if wallet.balance < item.cost:
+        fail(f"Insufficient points. Need {item.cost}, have {wallet.balance}")
+
+    wallet.balance -= item.cost
+    db.add(DBTransaction(id=str(uuid4()), kid_id=user.id, type="spent",
+                         amount=item.cost, description=f"Bought: {item.name}", timestamp=now()))
+    db.commit()
+    db.refresh(wallet)
+    return ok({"item": shop_dict(item), "newBalance": wallet.balance})
+
+# ── Wallet routes ──────────────────────────────────────────────────────────────
 
 @app.get("/api/wallet")
-def get_all_wallets(user=Depends(require_auth)):
-    if user["role"] == "parent":
-        kids = [u for u in USERS if u["role"] == "kid" and u.get("parentId") == user["id"]]
+def get_all_wallets(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    if user.role == "parent":
+        family_id = get_family_id(user)
+        kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
     else:
-        kids = [u for u in USERS if u["id"] == user["id"]]
-    summary = [
-        {"kidId": k["id"], "name": k["name"],
-         "balance": WALLETS.get(k["id"], {}).get("balance", 0),
-         "transactionCount": len(WALLETS.get(k["id"], {}).get("transactions", []))}
-        for k in kids
-    ]
-    return ok(summary)
+        kids = [user]
+
+    result = []
+    for k in kids:
+        wallet = db.query(DBWallet).filter(DBWallet.kid_id == k.id).first()
+        tx_count = db.query(DBTransaction).filter(DBTransaction.kid_id == k.id).count()
+        result.append({"kidId": k.id, "name": k.name,
+                        "balance": wallet.balance if wallet else 0,
+                        "transactionCount": tx_count})
+    return ok(result)
 
 @app.get("/api/wallet/{kid_id}")
-def get_wallet(kid_id: str, user=Depends(require_auth)):
-    if user["role"] == "kid" and user["id"] != kid_id:
+def get_wallet(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    if user.role == "kid" and user.id != kid_id:
         fail("Forbidden — you can only view your own wallet", 403)
-    kid = next((u for u in USERS if u["id"] == kid_id and u["role"] == "kid"), None)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid").first()
     if not kid: fail("Kid not found", 404)
-    wallet = WALLETS.get(kid_id, {"balance": 0, "transactions": []})
-    return ok({"kidId": kid_id, "name": kid["name"], "balance": wallet["balance"], "transactions": wallet["transactions"]})
 
-# ── Entry point ───────────────────────────────────────────────────────────────
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
+    txs    = db.query(DBTransaction).filter(DBTransaction.kid_id == kid_id)\
+               .order_by(DBTransaction.timestamp.desc()).all()
+
+    return ok({"kidId": kid_id, "name": kid.name,
+               "balance": wallet.balance if wallet else 0,
+               "transactions": [{"id": t.id, "type": t.type, "amount": t.amount,
+                                  "description": t.description, "timestamp": t.timestamp}
+                                 for t in txs]})
+
+# ── Entry point ────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
     import uvicorn
