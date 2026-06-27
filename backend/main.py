@@ -53,6 +53,7 @@ class DBChore(Base):
     completed_by_kid_id = Column(String, nullable=True)
     due_date            = Column(String, nullable=True)
     expired_at          = Column(String, nullable=True)
+    completed_at        = Column(String, nullable=True)
     created_at          = Column(String, nullable=False)
     family_id           = Column(String, nullable=True, index=True)
 
@@ -116,7 +117,8 @@ def chore_dict(c: DBChore) -> dict:
     return {"id": c.id, "title": c.title, "description": c.description,
             "points": c.points, "imageEmoji": c.image_emoji, "status": c.status,
             "assignedKidId": c.assigned_kid_id, "completedByKidId": c.completed_by_kid_id,
-            "dueDate": c.due_date, "expiredAt": c.expired_at, "createdAt": c.created_at}
+            "dueDate": c.due_date, "expiredAt": c.expired_at,
+            "completedAt": c.completed_at, "createdAt": c.created_at}
 
 def shop_dict(s: DBShopItem) -> dict:
     return {"id": s.id, "name": s.name, "description": s.description,
@@ -148,12 +150,17 @@ def check_and_expire_chores(db: Session):
     ).update({"status": "expired", "expired_at": now()}, synchronize_session=False)
     db.commit()
 
-def get_visible_chores(db: Session, family_id: str = None):
-    cutoff = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
+def get_visible_chores(db: Session, family_id: str = None, cutoff_hours: int = 72):
+    ts = (datetime.now(timezone.utc) - timedelta(hours=cutoff_hours)).isoformat()
     q = db.query(DBChore).filter(
+        # Hide expired chores older than cutoff
         ~and_(DBChore.status == "expired",
               DBChore.expired_at.isnot(None),
-              DBChore.expired_at < cutoff)
+              DBChore.expired_at < ts),
+        # Hide completed chores older than cutoff
+        ~and_(DBChore.status == "complete",
+              DBChore.completed_at.isnot(None),
+              DBChore.completed_at < ts),
     )
     if family_id:
         q = q.filter(DBChore.family_id == family_id)
@@ -269,13 +276,13 @@ def seed_db(db: Session):
         DBChore(id=str(uuid4()), title="Wash the car",              description="Rinse, soap, and dry the family car.",                     points=20, image_emoji="🚗", status="open",     assigned_kid_id="kid2", due_date=(today-timedelta(days=1)).isoformat(), created_at=now(), family_id="parent1"),
         DBChore(id=str(uuid4()), title="Vacuum the living room",    description="Vacuum carpets and clean under the sofa.",                 points=15, image_emoji="🏠", status="pending",  assigned_kid_id="kid2", completed_by_kid_id="kid2", due_date=(today+timedelta(days=1)).isoformat(), created_at=now(), family_id="parent1"),
         DBChore(id=str(uuid4()), title="Wipe down kitchen counter", description="Clean all kitchen surfaces with a damp cloth.",            points= 7, image_emoji="🧼", status="pending",  completed_by_kid_id="kid1", created_at=now(), family_id="parent1"),
-        DBChore(id=str(uuid4()), title="Take out recycling",        description="Sort and take the recycling bins to the kerb.",            points= 8, image_emoji="♻️", status="complete", completed_by_kid_id="kid1", created_at=now(), family_id="parent1"),
-        DBChore(id=str(uuid4()), title="Mop the kitchen floor",     description="Mop the kitchen floor after sweeping.",                    points=15, image_emoji="🪣", status="complete", assigned_kid_id="kid2", completed_by_kid_id="kid2", created_at=now(), family_id="parent1"),
+        DBChore(id=str(uuid4()), title="Take out recycling",        description="Sort and take the recycling bins to the kerb.",            points= 8, image_emoji="♻️", status="complete", completed_by_kid_id="kid1", created_at=now(), family_id="parent1", completed_at=now()),
+        DBChore(id=str(uuid4()), title="Mop the kitchen floor",     description="Mop the kitchen floor after sweeping.",                    points=15, image_emoji="🪣", status="complete", assigned_kid_id="kid2", completed_by_kid_id="kid2", created_at=now(), family_id="parent1", completed_at=now()),
         # parent2 family chores (kid3 = Charlie)
         DBChore(id=str(uuid4()), title="Fold the laundry",          description="Fold clean clothes from the dryer and put them away.",     points=12, image_emoji="🧺", status="open",     assigned_kid_id="kid3", due_date=(today+timedelta(days=5)).isoformat(), created_at=now(), family_id="parent2"),
         DBChore(id=str(uuid4()), title="Clean the garage",          description="Tidy up and sweep the garage floor.",                      points=25, image_emoji="🏡", status="open",     due_date=(today-timedelta(days=2)).isoformat(), created_at=now(), family_id="parent2"),
         DBChore(id=str(uuid4()), title="Organise the bookshelf",    description="Sort books by size and put them back neatly.",             points=10, image_emoji="📚", status="pending",  assigned_kid_id="kid3", completed_by_kid_id="kid3", due_date=(today-timedelta(days=1)).isoformat(), created_at=now(), family_id="parent2"),
-        DBChore(id=str(uuid4()), title="Clean the bathroom",        description="Scrub the sink, toilet, and wipe down surfaces.",          points=20, image_emoji="🚽", status="complete", assigned_kid_id="kid3", completed_by_kid_id="kid3", created_at=now(), family_id="parent2"),
+        DBChore(id=str(uuid4()), title="Clean the bathroom",        description="Scrub the sink, toilet, and wipe down surfaces.",          points=20, image_emoji="🚽", status="complete", assigned_kid_id="kid3", completed_by_kid_id="kid3", created_at=now(), family_id="parent2", completed_at=now()),
     ]:
         db.add(c)
 
@@ -305,21 +312,28 @@ def seed_db(db: Session):
 def startup():
     from sqlalchemy import text
     Base.metadata.create_all(bind=_engine)
-    # Add family_id column to existing databases that pre-date this column
+    # Add columns that may be missing from older databases
+    _ts_now = now()
     with _engine.connect() as conn:
-        for table in ("chores", "shop_items"):
+        for table, col, col_type in [
+            ("chores",     "family_id",    "VARCHAR"),
+            ("shop_items", "family_id",    "VARCHAR"),
+            ("chores",     "completed_at", "VARCHAR"),
+        ]:
             try:
                 if "sqlite" in str(_engine.url):
-                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN family_id VARCHAR"))
+                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {col} {col_type}"))
                 else:
-                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS family_id VARCHAR"))
+                    conn.execute(text(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS {col} {col_type}"))
                 conn.commit()
             except Exception:
                 pass  # column already exists
-        # Back-fill family_id for existing seed rows that have NULL
+        # Back-fill family_id for existing seed rows
         conn.execute(text("UPDATE chores SET family_id='parent1' WHERE family_id IS NULL AND (assigned_kid_id IN ('kid1','kid2') OR assigned_kid_id IS NULL)"))
         conn.execute(text("UPDATE chores SET family_id='parent2' WHERE family_id IS NULL AND assigned_kid_id='kid3'"))
         conn.execute(text("UPDATE shop_items SET family_id='parent1' WHERE family_id IS NULL"))
+        # Back-fill completed_at for existing complete chores (visible for 3 days from now)
+        conn.execute(text(f"UPDATE chores SET completed_at='{_ts_now}' WHERE status='complete' AND completed_at IS NULL"))
         conn.commit()
     db = SessionLocal()
     try:
@@ -500,7 +514,8 @@ def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
     check_and_expire_chores(db)
     # parents see their own family's chores; kids see chores from their parent's family
     fid = get_family_id(user) if user.role == "parent" else user.parent_id
-    chores = get_visible_chores(db, family_id=fid)
+    cutoff = 72 if user.role == "parent" else 48   # 3 days for parents, 2 days for kids
+    chores = get_visible_chores(db, family_id=fid, cutoff_hours=cutoff)
     if status:
         chores = [c for c in chores if c.status == status]
     if kidId:
@@ -596,6 +611,7 @@ def approve_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = D
     db.add(DBTransaction(id=str(uuid4()), kid_id=kid_id, type="earned",
                          amount=chore.points, description=f"Earned: {chore.title}", timestamp=now()))
     chore.status = "complete"
+    chore.completed_at = now()
     db.commit()
     db.refresh(chore)
     db.refresh(wallet)

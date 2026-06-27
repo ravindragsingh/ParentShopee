@@ -297,6 +297,9 @@ export function ParentChoreCard({ chore, kids, onRefresh }) {
         {chore.status === 'expired' && (
           <>
             <span className="badge expired">Expired</span>
+            <button className="btn btn-outline btn-sm" onClick={handleRepeat} disabled={actionLoading}>
+              {actionLoading ? '…' : '🔁 Add Again'}
+            </button>
             <button className="btn btn-red btn-sm" onClick={handleDelete} disabled={actionLoading}>Delete</button>
           </>
         )}
