@@ -314,6 +314,7 @@ function ShopTab() {
   const [emoji, setEmoji] = useState('🎁')
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState('')
+  const [sortOrder, setSortOrder] = useState('')  // '' | 'asc' | 'desc'
 
   function fillShopFromSample(sample) {
     setName(sample.name)
@@ -444,11 +445,26 @@ function ShopTab() {
       )}
 
       {!loading && items.length > 0 && (
-        <div className="shop-grid">
-          {items.map(item => (
-            <ParentShopItem key={item.id} item={item} onRefresh={loadItems} />
-          ))}
-        </div>
+        <>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Sort by points:</span>
+            <button
+              className={`btn btn-sm ${sortOrder === 'asc' ? 'btn-primary' : 'btn-outline'}`}
+              onClick={() => setSortOrder(v => v === 'asc' ? '' : 'asc')}
+            >↑ Low → High</button>
+            <button
+              className={`btn btn-sm ${sortOrder === 'desc' ? 'btn-primary' : 'btn-outline'}`}
+              onClick={() => setSortOrder(v => v === 'desc' ? '' : 'desc')}
+            >↓ High → Low</button>
+          </div>
+          <div className="shop-grid">
+            {[...items]
+              .sort((a, b) => sortOrder === 'asc' ? a.cost - b.cost : sortOrder === 'desc' ? b.cost - a.cost : 0)
+              .map(item => (
+                <ParentShopItem key={item.id} item={item} onRefresh={loadItems} />
+              ))}
+          </div>
+        </>
       )}
     </div>
   )

@@ -102,6 +102,7 @@ function KidShopTab({ userId }) {
   const [balance, setBalance] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [sortOrder, setSortOrder] = useState('')  // '' | 'asc' | 'desc'
 
   const loadData = useCallback(async () => {
     setLoading(true)
@@ -127,8 +128,19 @@ function KidShopTab({ userId }) {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        <h3 style={{ color: '#334155' }}>Available Items</h3>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
+        <h3 style={{ color: '#334155', margin: 0 }}>Available Items</h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Sort by points:</span>
+          <button
+            className={`btn btn-sm ${sortOrder === 'asc' ? 'btn-primary' : 'btn-outline'}`}
+            onClick={() => setSortOrder(v => v === 'asc' ? '' : 'asc')}
+          >↑ Low → High</button>
+          <button
+            className={`btn btn-sm ${sortOrder === 'desc' ? 'btn-primary' : 'btn-outline'}`}
+            onClick={() => setSortOrder(v => v === 'desc' ? '' : 'desc')}
+          >↓ High → Low</button>
+        </div>
         <span className="balance-chip">Balance: {balance} pts</span>
       </div>
 
@@ -136,14 +148,16 @@ function KidShopTab({ userId }) {
         <div className="empty-text">The shop is empty. Check back later!</div>
       ) : (
         <div className="shop-grid">
-          {items.map(item => (
-            <KidShopItem
-              key={item.id}
-              item={item}
-              balance={balance}
-              onRefresh={loadData}
-            />
-          ))}
+          {[...items]
+            .sort((a, b) => sortOrder === 'asc' ? a.cost - b.cost : sortOrder === 'desc' ? b.cost - a.cost : 0)
+            .map(item => (
+              <KidShopItem
+                key={item.id}
+                item={item}
+                balance={balance}
+                onRefresh={loadData}
+              />
+            ))}
         </div>
       )}
     </div>

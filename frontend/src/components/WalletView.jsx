@@ -45,22 +45,32 @@ export function KidWalletView({ kidId }) {
       {(!wallet.transactions || wallet.transactions.length === 0) ? (
         <div className="empty-text">No transactions yet.</div>
       ) : (
-        <div className="transaction-list">
-          {wallet.transactions.map((tx, i) => {
-            const isEarned = tx.amount > 0
-            return (
-              <div key={tx.id || i} className="transaction-item">
-                <div>
-                  <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
-                  <div className="tx-time">{formatDate(tx.createdAt || tx.timestamp)}</div>
-                </div>
-                <div className={`tx-amount ${isEarned ? 'earned' : 'spent'}`}>
-                  {isEarned ? '+' : ''}{tx.amount} pts
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <>
+          <div className="transaction-list">
+            {[...wallet.transactions]
+              .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
+              .slice(0, 15)
+              .map((tx, i) => {
+                const isEarned = tx.type === 'earned' || tx.amount > 0
+                return (
+                  <div key={tx.id || i} className="transaction-item">
+                    <div>
+                      <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
+                      <div className="tx-time">{formatDate(tx.timestamp || tx.createdAt)}</div>
+                    </div>
+                    <div className={`tx-amount ${isEarned ? 'earned' : 'spent'}`}>
+                      {isEarned ? '+' : ''}{tx.amount} pts
+                    </div>
+                  </div>
+                )
+              })}
+          </div>
+          {wallet.transactions.length > 15 && (
+            <div style={{ textAlign: 'center', fontSize: '0.8rem', color: '#94a3b8', marginTop: 8 }}>
+              Showing 15 most recent of {wallet.transactions.length} transactions
+            </div>
+          )}
+        </>
       )}
     </div>
   )
@@ -116,22 +126,32 @@ export function KidWalletModal({ kid, onClose }) {
             {(!wallet.transactions || wallet.transactions.length === 0) ? (
               <div className="empty-text">No transactions yet.</div>
             ) : (
-              <div className="transaction-list">
-                {wallet.transactions.map((tx, i) => {
-                  const isEarned = tx.amount > 0
-                  return (
-                    <div key={tx.id || i} className="transaction-item">
-                      <div>
-                        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
-                        <div className="tx-time">{formatDate(tx.createdAt || tx.timestamp)}</div>
-                      </div>
-                      <div className={`tx-amount ${isEarned ? 'earned' : 'spent'}`}>
-                        {isEarned ? '+' : ''}{tx.amount} pts
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
+              <>
+                <div className="transaction-list">
+                  {[...wallet.transactions]
+                    .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
+                    .slice(0, 15)
+                    .map((tx, i) => {
+                      const isEarned = tx.type === 'earned' || tx.amount > 0
+                      return (
+                        <div key={tx.id || i} className="transaction-item">
+                          <div>
+                            <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
+                            <div className="tx-time">{formatDate(tx.timestamp || tx.createdAt)}</div>
+                          </div>
+                          <div className={`tx-amount ${isEarned ? 'earned' : 'spent'}`}>
+                            {isEarned ? '+' : ''}{tx.amount} pts
+                          </div>
+                        </div>
+                      )
+                    })}
+                </div>
+                {wallet.transactions.length > 15 && (
+                  <div style={{ textAlign: 'center', fontSize: '0.8rem', color: '#94a3b8', marginTop: 8 }}>
+                    Showing 15 most recent of {wallet.transactions.length} transactions
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
