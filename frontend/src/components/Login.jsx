@@ -95,7 +95,7 @@ function RegisterForm({ onBack }) {
 
       <p style={{ marginTop: 16, textAlign: 'center', fontSize: '0.85rem' }}>
         Already have an account?{' '}
-        <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#4f46e5', cursor: 'pointer', fontWeight: 600 }}>
+        <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#7c3aed', cursor: 'pointer', fontWeight: 600 }}>
           Sign In
         </button>
       </p>
@@ -165,7 +165,7 @@ function LoginForm({ onRegister }) {
       <div style={{ marginTop: 20, textAlign: 'center' }}>
         <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 8 }}>
           New parent?{' '}
-          <button onClick={onRegister} style={{ background: 'none', border: 'none', color: '#4f46e5', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}>
+          <button onClick={onRegister} style={{ background: 'none', border: 'none', color: '#7c3aed', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}>
             Create an account
           </button>
         </p>
