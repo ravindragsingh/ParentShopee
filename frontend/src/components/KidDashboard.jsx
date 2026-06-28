@@ -56,7 +56,7 @@ function KidChoresTab({ userId }) {
 
   return (
     <div>
-      <div className="section-header open">Available Chores ({available.length})</div>
+      <div className="section-header open">✨ Available Chores ({available.length})</div>
       {available.length === 0 ? (
         <div className="empty-text">No available chores right now.</div>
       ) : (
@@ -65,7 +65,7 @@ function KidChoresTab({ userId }) {
         ))
       )}
 
-      <div className="section-header pending" style={{ marginTop: 8 }}>My Pending ({myPending.length})</div>
+      <div className="section-header pending" style={{ marginTop: 8 }}>⏳ My Pending ({myPending.length})</div>
       {myPending.length === 0 ? (
         <div className="empty-text">No chores awaiting approval.</div>
       ) : (
@@ -74,7 +74,7 @@ function KidChoresTab({ userId }) {
         ))
       )}
 
-      <div className="section-header complete" style={{ marginTop: 8 }}>My Completed ({myCompleted.length})</div>
+      <div className="section-header complete" style={{ marginTop: 8 }}>🏆 My Completed ({myCompleted.length})</div>
       {myCompleted.length === 0 ? (
         <div className="empty-text">No approved chores yet. Keep it up!</div>
       ) : (
@@ -85,7 +85,7 @@ function KidChoresTab({ userId }) {
 
       {myExpired.length > 0 && (
         <>
-          <div className="section-header expired" style={{ marginTop: 8 }}>Expired ({myExpired.length})</div>
+          <div className="section-header expired" style={{ marginTop: 8 }}>⌛ Expired ({myExpired.length})</div>
           {myExpired.map(chore => (
             <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
           ))}

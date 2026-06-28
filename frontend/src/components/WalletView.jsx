@@ -37,11 +37,11 @@ export function KidWalletView({ kidId }) {
   return (
     <div>
       <div className="balance-display">
-        <div className="balance-label">Your Balance</div>
+        <div className="balance-label">⭐ Your Balance ⭐</div>
         <div className="balance-amount">{wallet.balance} pts</div>
       </div>
 
-      <h3 style={{ marginBottom: 14, color: '#334155' }}>Transaction History</h3>
+      <h3 style={{ marginBottom: 14, color: '#334155' }}>📋 Transaction History</h3>
       {(!wallet.transactions || wallet.transactions.length === 0) ? (
         <div className="empty-text">No transactions yet.</div>
       ) : (
