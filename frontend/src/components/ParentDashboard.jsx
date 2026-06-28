@@ -685,6 +685,24 @@ function KidsTab() {
   const [awarding, setAwarding] = useState(false)
   const [bonusSuccess, setBonusSuccess] = useState('')
 
+  // View transactions inline
+  const [viewingTxFor, setViewingTxFor] = useState(null)
+  const [txData, setTxData] = useState(null)
+  const [txLoading, setTxLoading] = useState(false)
+  const [txError, setTxError] = useState('')
+
+  async function loadKidTx(kidId) {
+    setTxLoading(true); setTxError(''); setTxData(null)
+    try {
+      const data = await api.getWallet(kidId)
+      setTxData(data)
+    } catch (err) {
+      setTxError(err.message)
+    } finally {
+      setTxLoading(false)
+    }
+  }
+
   async function handleAwardBonus(kid) {
     setBonusError('')
     setBonusSuccess('')
@@ -837,7 +855,7 @@ function KidsTab() {
                       className="btn btn-outline btn-sm"
                       onClick={() => {
                         setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
-                        setAwardingFor(null); setNewPwd(''); setPwdError('')
+                        setAwardingFor(null); setViewingTxFor(null); setNewPwd(''); setPwdError('')
                       }}
                     >
                       {changingPwdFor === kid.id ? 'Cancel' : '🔑 Password'}
@@ -846,10 +864,24 @@ function KidsTab() {
                       className={`btn btn-sm ${awardingFor === kid.id ? 'btn-outline' : 'btn-green'}`}
                       onClick={() => {
                         setAwardingFor(awardingFor === kid.id ? null : kid.id)
-                        setChangingPwdFor(null); setBonusPts(''); setBonusReason(''); setBonusError(''); setBonusSuccess('')
+                        setChangingPwdFor(null); setViewingTxFor(null); setBonusPts(''); setBonusReason(''); setBonusError(''); setBonusSuccess('')
                       }}
                     >
                       {awardingFor === kid.id ? 'Cancel' : '⭐ Award'}
+                    </button>
+                    <button
+                      className={`btn btn-sm ${viewingTxFor === kid.id ? 'btn-primary' : 'btn-outline'}`}
+                      onClick={() => {
+                        if (viewingTxFor === kid.id) {
+                          setViewingTxFor(null)
+                        } else {
+                          setViewingTxFor(kid.id)
+                          setChangingPwdFor(null); setAwardingFor(null)
+                          loadKidTx(kid.id)
+                        }
+                      }}
+                    >
+                      {viewingTxFor === kid.id ? '📋 Hide' : '📋 Transactions'}
                     </button>
                   </td>
                 </tr>
@@ -896,6 +928,50 @@ function KidsTab() {
                           {awarding ? 'Awarding...' : '⭐ Award Points'}
                         </button>
                       </div>
+                    </td>
+                  </tr>
+                )}
+                {viewingTxFor === kid.id && (
+                  <tr key={`${kid.id}-tx`}>
+                    <td colSpan={5} style={{ background: '#f0f9ff', padding: '14px 16px', borderTop: '2px solid #bae6fd' }}>
+                      <div style={{ fontWeight: 600, color: '#0369a1', marginBottom: 10, fontSize: '0.9rem' }}>
+                        📋 Last 15 Transactions — {kid.name}
+                      </div>
+                      {txLoading && <div className="loading-text" style={{ fontSize: '0.85rem' }}>Loading...</div>}
+                      {txError && <div className="error-msg">{txError}</div>}
+                      {txData && (
+                        !txData.transactions || txData.transactions.length === 0 ? (
+                          <div className="empty-text" style={{ fontSize: '0.85rem' }}>No transactions yet.</div>
+                        ) : (
+                          <>
+                            <div className="transaction-list" style={{ maxHeight: 300, overflowY: 'auto' }}>
+                              {[...txData.transactions]
+                                .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
+                                .slice(0, 15)
+                                .map((tx, i) => {
+                                  const isBonus = tx.type === 'bonus'
+                                  const isEarned = tx.type === 'earned' || (!isBonus && tx.amount > 0)
+                                  return (
+                                    <div key={tx.id || i} className={`transaction-item${isBonus ? ' bonus-tx' : ''}`} style={{ fontSize: '0.85rem' }}>
+                                      <div>
+                                        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
+                                        <div className="tx-time">{new Date(tx.timestamp || tx.createdAt).toLocaleString()}</div>
+                                      </div>
+                                      <div className={`tx-amount ${isBonus ? 'bonus' : isEarned ? 'earned' : 'spent'}`} style={{ fontSize: '0.9rem' }}>
+                                        {isBonus ? '⭐ +' : isEarned ? '+' : ''}{tx.amount} pts
+                                      </div>
+                                    </div>
+                                  )
+                                })}
+                            </div>
+                            {txData.transactions.length > 15 && (
+                              <div style={{ textAlign: 'center', fontSize: '0.75rem', color: '#94a3b8', marginTop: 6 }}>
+                                Showing 15 most recent of {txData.transactions.length} transactions
+              </div>
+                            )}
+                          </>
+                        )
+                      )}
                     </td>
                   </tr>
                 )}
