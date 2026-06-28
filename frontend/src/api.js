@@ -62,6 +62,12 @@ export const api = {
   updateKidPassword: (kidId, pwd)         => request('PUT',  `/api/kids/${kidId}/password`, { password: pwd }),
   awardBonus:        (kidId, points, reason) => request('POST', `/api/kids/${kidId}/bonus`, { points, reason }),
 
+  // Messaging
+  getContacts:  ()                       => request('GET',  '/api/messages/contacts'),
+  getMessages:  (contactId)              => request('GET',  `/api/messages/${contactId}`),
+  sendMessage:  (receiverId, content)    => request('POST', '/api/messages', { receiver_id: receiverId, content }),
+  markRead:     (contactId)              => request('PUT',  `/api/messages/${contactId}/read`),
+
   // Co-parent management
   getCoParent:            ()           => request('GET',    '/api/family/co-parent'),
   addCoParent:            (body)       => request('POST',   '/api/family/co-parent', body),

@@ -4,6 +4,7 @@ import { api } from '../api.js'
 import { ParentChoreCard, EmojiPicker, CHORE_EMOJIS, KID_AVATARS } from './ChoreCard.jsx'
 import { ParentShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
+import MessagesTab from './Messages.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1013,13 +1014,13 @@ export default function ParentDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'shop', 'kids', 'co-parent'].map(t => (
+          {['chores', 'shop', 'kids', 'co-parent', 'messages'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active parent' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'kids' ? 'Kids' : 'Co-Parent'}
+              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'kids' ? 'Kids' : t === 'co-parent' ? 'Co-Parent' : '💬 Messages'}
             </button>
           ))}
         </div>
@@ -1065,6 +1066,7 @@ export default function ParentDashboard() {
         {tab === 'shop' && <ShopTab />}
         {tab === 'kids' && <KidsTab />}
         {tab === 'co-parent' && <CoParentTab />}
+        {tab === 'messages' && <MessagesTab />}
       </div>
     </div>
   )

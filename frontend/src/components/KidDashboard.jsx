@@ -4,6 +4,7 @@ import { api } from '../api.js'
 import { KidChoreCard } from './ChoreCard.jsx'
 import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
+import MessagesTab from './Messages.jsx'
 
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
@@ -185,13 +186,13 @@ export default function KidDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'shop', 'wallet'].map(t => (
+          {['chores', 'shop', 'wallet', 'messages'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active kid' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
+              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'wallet' ? 'Wallet' : '💬 Messages'}
             </button>
           ))}
         </div>
@@ -199,6 +200,7 @@ export default function KidDashboard() {
         {tab === 'chores' && <KidChoresTab userId={user.id} />}
         {tab === 'shop' && <KidShopTab userId={user.id} />}
         {tab === 'wallet' && <KidWalletView kidId={user.id} />}
+        {tab === 'messages' && <MessagesTab />}
       </div>
     </div>
   )
