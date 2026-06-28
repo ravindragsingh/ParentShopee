@@ -677,6 +677,33 @@ function KidsTab() {
   const [pwdError, setPwdError] = useState('')
   const [savingPwd, setSavingPwd] = useState(false)
 
+  // Award bonus
+  const [awardingFor, setAwardingFor] = useState(null)
+  const [bonusPts, setBonusPts] = useState('')
+  const [bonusReason, setBonusReason] = useState('')
+  const [bonusError, setBonusError] = useState('')
+  const [awarding, setAwarding] = useState(false)
+  const [bonusSuccess, setBonusSuccess] = useState('')
+
+  async function handleAwardBonus(kid) {
+    setBonusError('')
+    setBonusSuccess('')
+    const pts = Number(bonusPts)
+    if (!pts || pts <= 0) { setBonusError('Enter a valid number of points.'); return }
+    setAwarding(true)
+    try {
+      const res = await api.awardBonus(kid.id, pts, bonusReason.trim() || 'Bonus points')
+      setBonusSuccess(`⭐ ${res.pointsAwarded} pts awarded to ${res.kidName}! New balance: ${res.newBalance} pts`)
+      setBonusPts('')
+      setBonusReason('')
+      loadData()
+    } catch (err) {
+      setBonusError(err.message)
+    } finally {
+      setAwarding(false)
+    }
+  }
+
   useEffect(() => { loadData() }, [])
 
   async function loadData() {
@@ -805,12 +832,24 @@ function KidsTab() {
                       {getBalance(kid.id)} pts 👁
                     </span>
                   </td>
-                  <td>
+                  <td style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                     <button
                       className="btn btn-outline btn-sm"
-                      onClick={() => { setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id); setNewPwd(''); setPwdError('') }}
+                      onClick={() => {
+                        setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
+                        setAwardingFor(null); setNewPwd(''); setPwdError('')
+                      }}
                     >
-                      {changingPwdFor === kid.id ? 'Cancel' : '🔑 Change Password'}
+                      {changingPwdFor === kid.id ? 'Cancel' : '🔑 Password'}
+                    </button>
+                    <button
+                      className={`btn btn-sm ${awardingFor === kid.id ? 'btn-outline' : 'btn-green'}`}
+                      onClick={() => {
+                        setAwardingFor(awardingFor === kid.id ? null : kid.id)
+                        setChangingPwdFor(null); setBonusPts(''); setBonusReason(''); setBonusError(''); setBonusSuccess('')
+                      }}
+                    >
+                      {awardingFor === kid.id ? 'Cancel' : '⭐ Award'}
                     </button>
                   </td>
                 </tr>
@@ -828,6 +867,33 @@ function KidsTab() {
                         />
                         <button className="btn btn-green btn-sm" onClick={() => handleChangePassword(kid)} disabled={savingPwd}>
                           {savingPwd ? 'Saving...' : 'Save Password'}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+                {awardingFor === kid.id && (
+                  <tr key={`${kid.id}-bonus`}>
+                    <td colSpan={5} style={{ background: '#fffbeb', padding: '12px 16px', borderTop: '2px solid #fde68a' }}>
+                      {bonusError && <div className="error-msg" style={{ marginBottom: 8 }}>{bonusError}</div>}
+                      {bonusSuccess && <div style={{ color: '#059669', fontSize: '0.85rem', marginBottom: 8 }}>{bonusSuccess}</div>}
+                      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                        <input
+                          type="number"
+                          min="1"
+                          value={bonusPts}
+                          onChange={e => setBonusPts(e.target.value)}
+                          placeholder="Points"
+                          style={{ padding: '7px 12px', border: '1px solid #fbbf24', borderRadius: 7, fontSize: '0.9rem', width: 100 }}
+                        />
+                        <input
+                          value={bonusReason}
+                          onChange={e => setBonusReason(e.target.value)}
+                          placeholder="Reason (optional)"
+                          style={{ padding: '7px 12px', border: '1px solid #fbbf24', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
+                        />
+                        <button className="btn btn-green btn-sm" onClick={() => handleAwardBonus(kid)} disabled={awarding}>
+                          {awarding ? 'Awarding...' : '⭐ Award Points'}
                         </button>
                       </div>
                     </td>

@@ -51,15 +51,16 @@ export function KidWalletView({ kidId }) {
               .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
               .slice(0, 15)
               .map((tx, i) => {
-                const isEarned = tx.type === 'earned' || tx.amount > 0
+                const isBonus = tx.type === 'bonus'
+                const isEarned = tx.type === 'earned' || (!isBonus && tx.amount > 0)
                 return (
-                  <div key={tx.id || i} className="transaction-item">
+                  <div key={tx.id || i} className={`transaction-item${isBonus ? ' bonus-tx' : ''}`}>
                     <div>
                       <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
                       <div className="tx-time">{formatDate(tx.timestamp || tx.createdAt)}</div>
                     </div>
-                    <div className={`tx-amount ${isEarned ? 'earned' : 'spent'}`}>
-                      {isEarned ? '+' : ''}{tx.amount} pts
+                    <div className={`tx-amount ${isBonus ? 'bonus' : isEarned ? 'earned' : 'spent'}`}>
+                      {isBonus ? '⭐ +' : isEarned ? '+' : ''}{tx.amount} pts
                     </div>
                   </div>
                 )
@@ -132,15 +133,16 @@ export function KidWalletModal({ kid, onClose }) {
                     .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
                     .slice(0, 15)
                     .map((tx, i) => {
-                      const isEarned = tx.type === 'earned' || tx.amount > 0
+                      const isBonus = tx.type === 'bonus'
+                      const isEarned = tx.type === 'earned' || (!isBonus && tx.amount > 0)
                       return (
-                        <div key={tx.id || i} className="transaction-item">
+                        <div key={tx.id || i} className={`transaction-item${isBonus ? ' bonus-tx' : ''}`}>
                           <div>
                             <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
                             <div className="tx-time">{formatDate(tx.timestamp || tx.createdAt)}</div>
                           </div>
-                          <div className={`tx-amount ${isEarned ? 'earned' : 'spent'}`}>
-                            {isEarned ? '+' : ''}{tx.amount} pts
+                          <div className={`tx-amount ${isBonus ? 'bonus' : isEarned ? 'earned' : 'spent'}`}>
+                            {isBonus ? '⭐ +' : isEarned ? '+' : ''}{tx.amount} pts
                           </div>
                         </div>
                       )

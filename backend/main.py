@@ -218,6 +218,10 @@ class CoParentBody(BaseModel):
     username: str
     password: str
 
+class BonusPointsBody(BaseModel):
+    points: float
+    reason: Optional[str] = "Bonus points"
+
 class ChoreCreate(BaseModel):
     title: str
     points: float
@@ -433,6 +437,32 @@ def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depe
     db.commit()
     db.refresh(kid)
     return ok(safe_user(kid), 201)
+
+@app.post("/api/kids/{kid_id}/bonus")
+def award_bonus(kid_id: str, body: BonusPointsBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    family_id = get_family_id(user)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    if not kid:
+        fail("Child not found or not in your family", 404)
+    if body.points <= 0:
+        fail("Points must be greater than 0")
+
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=kid_id, balance=0)
+        db.add(wallet)
+        db.flush()
+
+    wallet.balance += body.points
+    db.add(DBTransaction(
+        id=str(uuid4()), kid_id=kid_id, type="bonus",
+        amount=body.points,
+        description=body.reason.strip() if body.reason and body.reason.strip() else "Bonus points",
+        timestamp=now(),
+    ))
+    db.commit()
+    db.refresh(wallet)
+    return ok({"kidName": kid.name, "pointsAwarded": body.points, "newBalance": wallet.balance})
 
 @app.put("/api/kids/{kid_id}/password")
 def update_kid_password(kid_id: str, body: UpdateKidPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):

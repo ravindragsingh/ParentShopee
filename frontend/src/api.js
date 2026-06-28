@@ -57,9 +57,10 @@ export const api = {
   getAllWallets: () => request('GET', '/api/wallet'),
 
   // Users & kids management
-  getKids:           ()           => request('GET',  '/api/users/kids'),
-  addKid:            (body)       => request('POST', '/api/kids', body),
-  updateKidPassword: (kidId, pwd) => request('PUT',  `/api/kids/${kidId}/password`, { password: pwd }),
+  getKids:           ()                    => request('GET',  '/api/users/kids'),
+  addKid:            (body)               => request('POST', '/api/kids', body),
+  updateKidPassword: (kidId, pwd)         => request('PUT',  `/api/kids/${kidId}/password`, { password: pwd }),
+  awardBonus:        (kidId, points, reason) => request('POST', `/api/kids/${kidId}/bonus`, { points, reason }),
 
   // Co-parent management
   getCoParent:            ()           => request('GET',    '/api/family/co-parent'),
