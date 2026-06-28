@@ -1024,6 +1024,43 @@ export default function ParentDashboard() {
           ))}
         </div>
 
+        {kids.length === 0 && (
+          <div style={{
+            background: 'linear-gradient(135deg, #eff6ff, #f0fdf4)',
+            border: '1px solid #bfdbfe',
+            borderRadius: 12,
+            padding: '16px 20px',
+            marginBottom: 16,
+            display: 'flex',
+            gap: 14,
+            alignItems: 'flex-start',
+          }}>
+            <span style={{ fontSize: '1.6rem', flexShrink: 0 }}>👑</span>
+            <div>
+              <div style={{ fontWeight: 700, color: '#1e40af', fontSize: '0.95rem', marginBottom: 4 }}>
+                You are the Family Admin
+              </div>
+              <div style={{ color: '#334155', fontSize: '0.875rem', lineHeight: 1.5 }}>
+                Welcome to ParentShopee! To get started, head to the{' '}
+                <button
+                  onClick={() => setTab('kids')}
+                  style={{ background: 'none', border: 'none', color: '#2563eb', fontWeight: 600, cursor: 'pointer', padding: 0, fontSize: 'inherit' }}
+                >
+                  Kids
+                </button>{' '}
+                tab to add your children, and the{' '}
+                <button
+                  onClick={() => setTab('co-parent')}
+                  style={{ background: 'none', border: 'none', color: '#2563eb', fontWeight: 600, cursor: 'pointer', padding: 0, fontSize: 'inherit' }}
+                >
+                  Co-Parent
+                </button>{' '}
+                tab to invite a co-parent. Only you (the family admin) can manage family members.
+              </div>
+            </div>
+          </div>
+        )}
+
         {tab === 'chores' && <ChoresTab kids={kids} />}
         {tab === 'shop' && <ShopTab />}
         {tab === 'kids' && <KidsTab />}
