@@ -5,6 +5,7 @@ import { ParentChoreCard, EmojiPicker, CHORE_EMOJIS, KID_AVATARS } from './Chore
 import { ParentShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
+import { HelpTab } from './Help.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1014,13 +1015,13 @@ export default function ParentDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'shop', 'kids', 'co-parent', 'messages'].map(t => (
+          {['chores', 'shop', 'kids', 'co-parent', 'messages', 'help'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active parent' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'kids' ? 'Kids' : t === 'co-parent' ? 'Co-Parent' : '💬 Messages'}
+              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'kids' ? 'Kids' : t === 'co-parent' ? 'Co-Parent' : t === 'messages' ? '💬 Messages' : '❓ Help'}
             </button>
           ))}
         </div>
@@ -1067,6 +1068,7 @@ export default function ParentDashboard() {
         {tab === 'kids' && <KidsTab />}
         {tab === 'co-parent' && <CoParentTab />}
         {tab === 'messages' && <MessagesTab />}
+        {tab === 'help' && <HelpTab role="parent" />}
       </div>
     </div>
   )

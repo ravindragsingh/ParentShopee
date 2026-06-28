@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
+import { LoginHelp } from './Help.jsx'
 
 // ── Register form ─────────────────────────────────────────────────────────────
 
@@ -183,7 +184,7 @@ export default function Login() {
   const [mode, setMode] = useState('login')
 
   return (
-    <div className="login-wrapper">
+    <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
       <div className="login-card">
         <div className="login-logo">🛒</div>
         {mode === 'login'
@@ -191,6 +192,7 @@ export default function Login() {
           : <RegisterForm onBack={() => setMode('login')} />
         }
       </div>
+      <LoginHelp />
     </div>
   )
 }
