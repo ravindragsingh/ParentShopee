@@ -1,13 +1,124 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LoginHelp } from './Help.jsx'
+
+// ── User Agreement Modal ──────────────────────────────────────────────────────
+
+function UserAgreementModal({ onClose }) {
+  return createPortal(
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: 'rgba(15,23,42,0.55)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '16px',
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: '#fff', borderRadius: 14, maxWidth: 560, width: '100%',
+          maxHeight: '85vh', display: 'flex', flexDirection: 'column',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
+        }}
+      >
+        {/* Header */}
+        <div style={{ padding: '18px 22px 14px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b' }}>📋 User Agreement</div>
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>ParentShopee · Effective June 2026</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.3rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+
+        {/* Scrollable body */}
+        <div style={{ overflowY: 'auto', padding: '18px 22px', fontSize: '0.82rem', color: '#334155', lineHeight: 1.65 }}>
+
+          <Section title="1. About ParentShopee">
+            ParentShopee is a family management app that allows parents to assign chores to children, award points, and let children redeem those points in a family shop. By creating an account you agree to use the app only for lawful family management purposes.
+          </Section>
+
+          <Section title="2. Eligibility">
+            Account holders (parents) must be at least 25 years of age. By registering you confirm that the date of birth you provide is accurate. Children added to the family account do not create their own accounts; their profiles are managed entirely by the parent.
+          </Section>
+
+          <Section title="3. Children's Privacy">
+            We take children's privacy seriously. Children's names, avatars, and point balances are stored solely to operate the app for your family. We do not share, sell, or disclose children's data to third parties. Parents are responsible for keeping their login credentials secure.
+          </Section>
+
+          <Section title="4. Account Responsibilities">
+            You are responsible for all activity that occurs under your account. Keep your password confidential and notify us immediately if you suspect unauthorised access. You may not share your account with individuals outside your immediate family.
+          </Section>
+
+          <Section title="5. Acceptable Use">
+            You agree not to use ParentShopee to:
+            <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+              <li>Post content that is offensive, hateful, or inappropriate for children</li>
+              <li>Circumvent the age-appropriate content filters built into the app</li>
+              <li>Attempt to gain unauthorised access to other accounts or backend systems</li>
+              <li>Use the app for any commercial or non-personal purpose</li>
+            </ul>
+          </Section>
+
+          <Section title="6. Content Standards">
+            Chore names, shop item names, and messages must use age-appropriate language. The app automatically filters restricted words. Content that bypasses or attempts to bypass these filters may result in account suspension.
+          </Section>
+
+          <Section title="7. Points & Rewards">
+            Points awarded within the app have no monetary value and cannot be exchanged for real money. Parents retain full discretion over awarding and adjusting points. ParentShopee is not responsible for disputes arising from point adjustments made by parents.
+          </Section>
+
+          <Section title="8. Data Storage">
+            Your account data (name, email, username, hashed password, and family records) is stored securely on our servers. We do not sell or share your personal data with advertisers. You may request deletion of your account and all associated data by contacting us via the Contact Us form in the app.
+          </Section>
+
+          <Section title="9. Service Availability">
+            We strive for high availability but do not guarantee uninterrupted access. We reserve the right to perform maintenance, updates, or to discontinue the service with reasonable notice.
+          </Section>
+
+          <Section title="10. Changes to This Agreement">
+            We may update this agreement from time to time. Continued use of ParentShopee after changes are posted constitutes acceptance of the revised agreement. We will notify you of significant changes via the email address on your account.
+          </Section>
+
+          <Section title="11. Contact">
+            If you have questions about this agreement, please use the Contact Us feature within the app after logging in, or email us directly at ravindragsingh@gmail.com.
+          </Section>
+        </div>
+
+        {/* Footer */}
+        <div style={{ padding: '14px 22px', borderTop: '1px solid #e2e8f0', textAlign: 'right' }}>
+          <button
+            onClick={onClose}
+            style={{ background: 'linear-gradient(135deg,#7c3aed,#a855f7)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontWeight: 600, cursor: 'pointer', fontSize: '0.9rem' }}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
+}
+
+function Section({ title, children }) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <div style={{ fontWeight: 700, color: '#1e293b', marginBottom: 4 }}>{title}</div>
+      <div>{children}</div>
+    </div>
+  )
+}
 
 // ── Register form ─────────────────────────────────────────────────────────────
 
 function RegisterForm({ onBack }) {
   const { login } = useAuth()
   const [form, setForm] = useState({ name: '', email: '', username: '', password: '', confirmPassword: '', dateOfBirth: '', gender: '' })
+  const [agreed, setAgreed] = useState(false)
+  const [showAgreement, setShowAgreement] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -30,6 +141,10 @@ function RegisterForm({ onBack }) {
       setError('Passwords do not match.')
       return
     }
+    if (!agreed) {
+      setError('You must read and agree to the User Agreement to create an account.')
+      return
+    }
     setLoading(true)
     try {
       const data = await api.register({
@@ -50,6 +165,8 @@ function RegisterForm({ onBack }) {
 
   return (
     <>
+      {showAgreement && <UserAgreementModal onClose={() => setShowAgreement(false)} />}
+
       <h1 className="login-title">Create Account</h1>
       <p className="login-subtitle">Parents only · Must be 25 or older</p>
 
@@ -85,11 +202,50 @@ function RegisterForm({ onBack }) {
           <label>Password *</label>
           <input type="password" value={form.password} onChange={set('password')} placeholder="At least 4 characters" />
         </div>
-        <div className="form-group" style={{ marginBottom: 20 }}>
+        <div className="form-group" style={{ marginBottom: 16 }}>
           <label>Confirm Password *</label>
           <input type="password" value={form.confirmPassword} onChange={set('confirmPassword')} placeholder="Repeat password" />
         </div>
-        <button type="submit" className="login-btn" disabled={loading}>
+
+        {/* User Agreement checkbox */}
+        <div
+          style={{
+            display: 'flex', alignItems: 'flex-start', gap: 10,
+            background: agreed ? '#f5f3ff' : '#fafafa',
+            border: `1.5px solid ${agreed ? '#a855f7' : '#e2e8f0'}`,
+            borderRadius: 10, padding: '12px 14px', marginBottom: 20,
+            transition: 'all 0.2s', cursor: 'pointer',
+          }}
+          onClick={() => setAgreed(v => !v)}
+        >
+          <div
+            role="checkbox"
+            aria-checked={agreed}
+            tabIndex={0}
+            onKeyDown={e => (e.key === ' ' || e.key === 'Enter') && setAgreed(v => !v)}
+            style={{
+              flexShrink: 0, width: 20, height: 20, borderRadius: 5, marginTop: 1,
+              border: `2px solid ${agreed ? '#7c3aed' : '#cbd5e1'}`,
+              background: agreed ? '#7c3aed' : '#fff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'all 0.15s',
+            }}
+          >
+            {agreed && <span style={{ color: '#fff', fontSize: '0.7rem', fontWeight: 900, lineHeight: 1 }}>✓</span>}
+          </div>
+          <div style={{ fontSize: '0.83rem', color: '#334155', lineHeight: 1.5, userSelect: 'none' }}>
+            I have read and agree to the{' '}
+            <span
+              onClick={e => { e.stopPropagation(); setShowAgreement(true) }}
+              style={{ color: '#7c3aed', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }}
+            >
+              User Agreement
+            </span>
+            . I confirm I am 25 years of age or older and accept responsibility for managing my family's account.
+          </div>
+        </div>
+
+        <button type="submit" className="login-btn" disabled={loading || !agreed} style={{ opacity: !agreed ? 0.55 : 1 }}>
           {loading ? 'Creating account...' : 'Create Account'}
         </button>
       </form>
