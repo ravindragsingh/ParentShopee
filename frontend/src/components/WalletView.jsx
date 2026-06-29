@@ -8,17 +8,28 @@ function formatDate(ts) {
 }
 
 function TxItem({ tx, i }) {
-  const isBonus  = tx.type === 'bonus'
-  const isDeduct = tx.type === 'deduct'
-  const isEarned = tx.type === 'earned' || (!isBonus && !isDeduct && tx.amount > 0)
+  const isBonus           = tx.type === 'bonus'
+  const isDeduct          = tx.type === 'deduct'
+  const isBehaviour       = tx.type === 'behaviour'
+  const isBehaviourDeduct = tx.type === 'behaviour_deduct'
+  const isAnyAdd          = isBonus || isBehaviour
+  const isAnyDeduct       = isDeduct || isBehaviourDeduct
+  const isEarned          = tx.type === 'earned' || (!isAnyAdd && !isAnyDeduct && tx.amount > 0)
+
+  let icon = ''
+  if (isBonus)           icon = '⭐ +'
+  else if (isBehaviour)  icon = '🌟 +'
+  else if (isAnyDeduct)  icon = '− '
+  else if (isEarned)     icon = '+'
+
   return (
-    <div className={`transaction-item${isBonus ? ' bonus-tx' : isDeduct ? ' deduct-tx' : ''}`}>
+    <div className={`transaction-item${isAnyAdd ? ' bonus-tx' : isAnyDeduct ? ' deduct-tx' : ''}`}>
       <div>
-        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : isDeduct ? 'Points adjusted' : 'Purchase')}</div>
+        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : isAnyDeduct ? 'Points adjusted' : 'Purchase')}</div>
         <div className="tx-time">{formatDate(tx.timestamp || tx.createdAt)}</div>
       </div>
-      <div className={`tx-amount ${isBonus ? 'bonus' : isDeduct ? 'deduct' : isEarned ? 'earned' : 'spent'}`}>
-        {isBonus ? '⭐ +' : isDeduct ? '− ' : isEarned ? '+' : ''}{tx.amount} pts
+      <div className={`tx-amount ${isAnyAdd ? 'bonus' : isAnyDeduct ? 'deduct' : isEarned ? 'earned' : 'spent'}`}>
+        {icon}{tx.amount} pts
       </div>
     </div>
   )

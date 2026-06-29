@@ -755,6 +755,13 @@ function KidsTab() {
   const [txLoading, setTxLoading] = useState(false)
   const [txError, setTxError] = useState('')
 
+  // Good behaviour
+  const [behaviourFor, setBehaviourFor] = useState(null)
+  const [behaviourPts, setBehaviourPts] = useState('')
+  const [behaviourLoading, setBehaviourLoading] = useState(false)
+  const [behaviourError, setBehaviourError] = useState('')
+  const [behaviourSuccess, setBehaviourSuccess] = useState('')
+
   async function loadKidTx(kidId) {
     setTxLoading(true); setTxError(''); setTxData(null)
     try {
@@ -789,6 +796,30 @@ function KidsTab() {
       setBonusError(err.message)
     } finally {
       setAwarding(false)
+    }
+  }
+
+  async function handleBehaviour(kid, sign) {
+    setBehaviourError('')
+    setBehaviourSuccess('')
+    const pts = Number(behaviourPts)
+    if (!pts || isNaN(pts) || pts <= 0) { setBehaviourError('Enter a positive number of points.'); return }
+    const signedPts = sign * pts
+    if (sign < 0 && getBalance(kid.id) + signedPts < 0) {
+      setBehaviourError(`Cannot remove more than current balance (${getBalance(kid.id)} pts).`)
+      return
+    }
+    setBehaviourLoading(true)
+    try {
+      const res = await api.awardBehaviour(kid.id, signedPts)
+      const label = sign > 0 ? 'awarded to' : 'removed from'
+      setBehaviourSuccess(`${pts} pts ${label} ${res.kidName}. New balance: ${res.newBalance} pts`)
+      setBehaviourPts('')
+      loadData()
+    } catch (err) {
+      setBehaviourError(err.message)
+    } finally {
+      setBehaviourLoading(false)
     }
   }
 
@@ -925,7 +956,7 @@ function KidsTab() {
                       className="btn btn-outline btn-sm"
                       onClick={() => {
                         setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
-                        setAwardingFor(null); setViewingTxFor(null); setNewPwd(''); setPwdError('')
+                        setAwardingFor(null); setViewingTxFor(null); setBehaviourFor(null); setNewPwd(''); setPwdError('')
                       }}
                     >
                       {changingPwdFor === kid.id ? 'Cancel' : '🔑 Password'}
@@ -934,10 +965,21 @@ function KidsTab() {
                       className={`btn btn-sm ${awardingFor === kid.id ? 'btn-outline' : 'btn-green'}`}
                       onClick={() => {
                         setAwardingFor(awardingFor === kid.id ? null : kid.id)
-                        setChangingPwdFor(null); setViewingTxFor(null); setBonusPts(''); setBonusReason(''); setBonusError(''); setBonusSuccess('')
+                        setChangingPwdFor(null); setViewingTxFor(null); setBehaviourFor(null); setBonusPts(''); setBonusReason(''); setBonusError(''); setBonusSuccess('')
                       }}
                     >
                       {awardingFor === kid.id ? 'Cancel' : '✏️ Points'}
+                    </button>
+                    <button
+                      className={`btn btn-sm ${behaviourFor === kid.id ? 'btn-outline' : ''}`}
+                      style={behaviourFor === kid.id ? {} : { background: 'linear-gradient(135deg,#f59e0b,#f97316)', border: 'none', color: '#fff' }}
+                      onClick={() => {
+                        setBehaviourFor(behaviourFor === kid.id ? null : kid.id)
+                        setChangingPwdFor(null); setAwardingFor(null); setViewingTxFor(null)
+                        setBehaviourPts(''); setBehaviourError(''); setBehaviourSuccess('')
+                      }}
+                    >
+                      {behaviourFor === kid.id ? 'Cancel' : '🌟 Behaviour'}
                     </button>
                     <button
                       className={`btn btn-sm ${viewingTxFor === kid.id ? 'btn-primary' : 'btn-outline'}`}
@@ -946,7 +988,7 @@ function KidsTab() {
                           setViewingTxFor(null)
                         } else {
                           setViewingTxFor(kid.id)
-                          setChangingPwdFor(null); setAwardingFor(null)
+                          setChangingPwdFor(null); setAwardingFor(null); setBehaviourFor(null)
                           loadKidTx(kid.id)
                         }
                       }}
@@ -1023,6 +1065,72 @@ function KidsTab() {
                     </tr>
                   )
                 })()}
+                {behaviourFor === kid.id && (() => {
+                  const currentBal = getBalance(kid.id)
+                  const pts = Number(behaviourPts)
+                  const validPts = !isNaN(pts) && pts > 0
+                  return (
+                    <tr key={`${kid.id}-behaviour`}>
+                      <td colSpan={5} style={{ background: '#fffbf0', padding: '14px 16px', borderTop: '2px solid #fde68a' }}>
+                        <div style={{ fontWeight: 600, color: '#92400e', marginBottom: 10, fontSize: '0.9rem' }}>
+                          🌟 Good Behaviour — {kid.name}
+                        </div>
+                        {behaviourError && <div className="error-msg" style={{ marginBottom: 8 }}>{behaviourError}</div>}
+                        {behaviourSuccess && <div style={{ color: '#059669', fontSize: '0.85rem', marginBottom: 8 }}>{behaviourSuccess}</div>}
+                        <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 10 }}>
+                          Current balance: <strong>{currentBal} pts</strong>
+                        </div>
+                        <div style={{ marginBottom: 10 }}>
+                          <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: 5 }}>Quick select:</div>
+                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                            {[5, 10, 15, 20, 50].map(n => (
+                              <button
+                                key={n}
+                                className="btn btn-sm"
+                                style={{
+                                  background: behaviourPts === String(n) ? '#f59e0b' : '#fef3c7',
+                                  color: behaviourPts === String(n) ? '#fff' : '#92400e',
+                                  border: '1px solid #fde68a', fontWeight: 600,
+                                }}
+                                onClick={() => setBehaviourPts(String(n))}
+                              >
+                                {n} pts
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                          <input
+                            type="number"
+                            min="1"
+                            value={behaviourPts}
+                            onChange={e => setBehaviourPts(e.target.value)}
+                            placeholder="Custom pts"
+                            style={{ padding: '7px 12px', border: '1px solid #fbbf24', borderRadius: 7, fontSize: '0.9rem', width: 120 }}
+                          />
+                          <button
+                            className="btn btn-sm btn-green"
+                            onClick={() => handleBehaviour(kid, 1)}
+                            disabled={behaviourLoading || !validPts}
+                          >
+                            {behaviourLoading ? 'Saving...' : '🌟 Award Good Behaviour'}
+                          </button>
+                          <button
+                            className="btn btn-sm"
+                            style={{ background: '#fee2e2', color: '#dc2626', border: '1px solid #fca5a5' }}
+                            onClick={() => handleBehaviour(kid, -1)}
+                            disabled={behaviourLoading || !validPts || currentBal < pts}
+                          >
+                            {behaviourLoading ? 'Saving...' : '❌ Remove Points'}
+                          </button>
+                        </div>
+                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 8 }}>
+                          Recorded as "Bonus received for good behaviour" in {kid.name}'s wallet.
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })()}
                 {viewingTxFor === kid.id && (
                   <tr key={`${kid.id}-tx`}>
                     <td colSpan={5} style={{ background: '#f0f9ff', padding: '14px 16px', borderTop: '2px solid #bae6fd' }}>
@@ -1041,17 +1149,22 @@ function KidsTab() {
                                 .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
                                 .slice(0, 15)
                                 .map((tx, i) => {
-                                  const isBonus  = tx.type === 'bonus'
-                                  const isDeduct = tx.type === 'deduct'
-                                  const isEarned = tx.type === 'earned' || (!isBonus && !isDeduct && tx.amount > 0)
+                                  const isBonus           = tx.type === 'bonus'
+                                  const isDeduct          = tx.type === 'deduct'
+                                  const isBehaviour       = tx.type === 'behaviour'
+                                  const isBehaviourDeduct = tx.type === 'behaviour_deduct'
+                                  const isAnyAdd          = isBonus || isBehaviour
+                                  const isAnyDeduct       = isDeduct || isBehaviourDeduct
+                                  const isEarned          = tx.type === 'earned' || (!isAnyAdd && !isAnyDeduct && tx.amount > 0)
+                                  const icon = isBonus ? '⭐ +' : isBehaviour ? '🌟 +' : isAnyDeduct ? '− ' : isEarned ? '+' : ''
                                   return (
-                                    <div key={tx.id || i} className={`transaction-item${isBonus ? ' bonus-tx' : isDeduct ? ' deduct-tx' : ''}`} style={{ fontSize: '0.85rem' }}>
+                                    <div key={tx.id || i} className={`transaction-item${isAnyAdd ? ' bonus-tx' : isAnyDeduct ? ' deduct-tx' : ''}`} style={{ fontSize: '0.85rem' }}>
                                       <div>
-                                        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : isDeduct ? 'Points adjusted' : 'Purchase')}</div>
+                                        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : isAnyDeduct ? 'Points adjusted' : 'Purchase')}</div>
                                         <div className="tx-time">{new Date(tx.timestamp || tx.createdAt).toLocaleString()}</div>
                                       </div>
-                                      <div className={`tx-amount ${isBonus ? 'bonus' : isDeduct ? 'deduct' : isEarned ? 'earned' : 'spent'}`} style={{ fontSize: '0.9rem' }}>
-                                        {isBonus ? '⭐ +' : isDeduct ? '− ' : isEarned ? '+' : ''}{tx.amount} pts
+                                      <div className={`tx-amount ${isAnyAdd ? 'bonus' : isAnyDeduct ? 'deduct' : isEarned ? 'earned' : 'spent'}`} style={{ fontSize: '0.9rem' }}>
+                                        {icon}{tx.amount} pts
                                       </div>
                                     </div>
                                   )

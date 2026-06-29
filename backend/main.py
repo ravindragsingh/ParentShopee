@@ -304,6 +304,9 @@ class WalletAdjustBody(BaseModel):
     amount: float          # positive = add, negative = deduct
     reason: Optional[str] = ""
 
+class BehaviourBody(BaseModel):
+    points: int  # positive = award, negative = remove
+
 class ContactTicketBody(BaseModel):
     category: Optional[str] = "General Inquiry"
     subject: str
@@ -586,6 +589,32 @@ def adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get
     db.commit()
     db.refresh(wallet)
     return ok({"kidName": kid.name, "adjustment": body.amount, "newBalance": wallet.balance})
+
+@app.post("/api/kids/{kid_id}/behaviour")
+def award_behaviour(kid_id: str, body: BehaviourBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    if body.points == 0:
+        fail("Points cannot be zero")
+    family_id = get_family_id(user)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    if not kid:
+        fail("Child not found or not in your family", 404)
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=kid_id, balance=0)
+        db.add(wallet)
+        db.flush()
+    if body.points < 0 and wallet.balance + body.points < 0:
+        fail(f"Cannot remove more than current balance ({int(wallet.balance)} pts)")
+    wallet.balance += body.points
+    tx_type = "behaviour" if body.points > 0 else "behaviour_deduct"
+    desc = "Bonus received for good behaviour" if body.points > 0 else "Good behaviour points removed"
+    db.add(DBTransaction(
+        id=str(uuid4()), kid_id=kid_id, type=tx_type,
+        amount=abs(body.points), description=desc, timestamp=now(),
+    ))
+    db.commit()
+    db.refresh(wallet)
+    return ok({"kidName": kid.name, "points": body.points, "newBalance": wallet.balance})
 
 @app.put("/api/kids/{kid_id}/password")
 def update_kid_password(kid_id: str, body: UpdateKidPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
