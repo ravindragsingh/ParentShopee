@@ -6,6 +6,8 @@ import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
+import HamburgerMenu from './HamburgerMenu.jsx'
+import SettingsPanel from './Settings.jsx'
 
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
@@ -187,22 +189,24 @@ export default function KidDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'shop', 'wallet', 'messages', 'help'].map(t => (
+          {['chores', 'shop', 'wallet'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active kid' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'wallet' ? 'Wallet' : t === 'messages' ? '💬 Messages' : '❓ Help'}
+              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
             </button>
           ))}
+          <HamburgerMenu tab={tab} setTab={setTab} role="kid" />
         </div>
 
-        {tab === 'chores' && <KidChoresTab userId={user.id} />}
-        {tab === 'shop' && <KidShopTab userId={user.id} />}
-        {tab === 'wallet' && <KidWalletView kidId={user.id} />}
+        {tab === 'chores'   && <KidChoresTab userId={user.id} />}
+        {tab === 'shop'     && <KidShopTab userId={user.id} />}
+        {tab === 'wallet'   && <KidWalletView kidId={user.id} />}
         {tab === 'messages' && <MessagesTab />}
-        {tab === 'help' && <HelpTab role="kid" />}
+        {tab === 'help'     && <HelpTab role="kid" />}
+        {tab === 'settings' && <SettingsPanel />}
       </div>
     </div>
   )

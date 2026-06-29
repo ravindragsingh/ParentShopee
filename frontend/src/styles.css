@@ -4,6 +4,11 @@
   padding: 0;
 }
 
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: linear-gradient(160deg, #fdf4ff 0%, #fff7ed 40%, #f0fdf4 100%);
@@ -712,4 +717,67 @@ body {
   align-items: center;
   gap: 4px;
   border: 1px solid #6ee7b7;
+}
+
+/* ── Mobile responsive ────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .navbar {
+    padding: 10px 14px;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .main-content {
+    padding: 14px 10px;
+  }
+
+  .tabs {
+    gap: 2px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    padding: 9px 12px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .chore-card {
+    flex-direction: column;
+  }
+
+  .chore-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .kids-table th:nth-child(3),
+  .kids-table td:nth-child(3) {
+    display: none;
+  }
+
+  .shop-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .balance-amount {
+    font-size: 2rem;
+  }
+
+  .login-card {
+    padding: 28px 20px;
+  }
 }

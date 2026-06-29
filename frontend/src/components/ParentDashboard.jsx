@@ -6,6 +6,8 @@ import { ParentShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
+import HamburgerMenu from './HamburgerMenu.jsx'
+import SettingsPanel from './Settings.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1015,15 +1017,16 @@ export default function ParentDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'shop', 'kids', 'co-parent', 'messages', 'help'].map(t => (
+          {['chores', 'shop', 'kids', 'co-parent'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active parent' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'kids' ? 'Kids' : t === 'co-parent' ? 'Co-Parent' : t === 'messages' ? '💬 Messages' : '❓ Help'}
+              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'kids' ? 'Kids' : 'Co-Parent'}
             </button>
           ))}
+          <HamburgerMenu tab={tab} setTab={setTab} role="parent" />
         </div>
 
         {kids.length === 0 && (
@@ -1063,12 +1066,13 @@ export default function ParentDashboard() {
           </div>
         )}
 
-        {tab === 'chores' && <ChoresTab kids={kids} />}
-        {tab === 'shop' && <ShopTab />}
-        {tab === 'kids' && <KidsTab />}
+        {tab === 'chores'    && <ChoresTab kids={kids} />}
+        {tab === 'shop'      && <ShopTab />}
+        {tab === 'kids'      && <KidsTab />}
         {tab === 'co-parent' && <CoParentTab />}
-        {tab === 'messages' && <MessagesTab />}
-        {tab === 'help' && <HelpTab role="parent" />}
+        {tab === 'messages'  && <MessagesTab />}
+        {tab === 'help'      && <HelpTab role="parent" />}
+        {tab === 'settings'  && <SettingsPanel />}
       </div>
     </div>
   )

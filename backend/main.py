@@ -235,6 +235,9 @@ class MessageBody(BaseModel):
     receiver_id: str
     content: str
 
+class ChangeOwnPasswordBody(BaseModel):
+    password: str
+
 class ChoreCreate(BaseModel):
     title: str
     points: float
@@ -768,6 +771,16 @@ def get_wallet(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depend
                "transactions": [{"id": t.id, "type": t.type, "amount": t.amount,
                                   "description": t.description, "timestamp": t.timestamp}
                                  for t in txs]})
+
+# ── Account routes ─────────────────────────────────────────────────────────────
+
+@app.put("/api/auth/password")
+def change_own_password(body: ChangeOwnPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    if not body.password or len(body.password) < 4:
+        fail("Password must be at least 4 characters")
+    user.password = body.password
+    db.add(user); db.commit()
+    return ok({"message": "Password updated"})
 
 # ── Messaging routes ───────────────────────────────────────────────────────────
 
