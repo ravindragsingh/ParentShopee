@@ -2,12 +2,16 @@ import re
 import os
 import smtplib
 import base64
+import binascii
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request as StarletteRequest
+from starlette.responses import Response as StarletteResponse
 from pydantic import BaseModel
 from typing import Optional, List
 from uuid import uuid4
@@ -106,6 +110,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class MaxBodySizeMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: StarletteRequest, call_next):
+        if request.headers.get("content-length"):
+            if int(request.headers["content-length"]) > 5 * 1024 * 1024:
+                return StarletteResponse("Request body too large (max 5 MB)", status_code=413)
+        return await call_next(request)
+
+app.add_middleware(MaxBodySizeMiddleware)
 
 EMAIL_RE = re.compile(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
 SESSIONS: dict = {}   # token -> user_id  (in-memory; users re-login after restart)
@@ -882,9 +895,16 @@ def get_wallet(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depend
 
 CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "ravindragsingh@gmail.com")
 SMTP_HOST     = os.getenv("SMTP_HOST", "smtp.gmail.com")
-SMTP_PORT     = int(os.getenv("SMTP_PORT", "587"))
+try:
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+except ValueError:
+    SMTP_PORT = 587
+    print("[contact] SMTP_PORT env var is not a valid integer, defaulting to 587")
 SMTP_USER     = os.getenv("SMTP_USER")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+
+if not SMTP_USER or not SMTP_PASSWORD:
+    print("[contact] WARNING: SMTP_USER and/or SMTP_PASSWORD are not set — contact form emails will not be sent")
 
 @app.post("/api/contact")
 def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)):
@@ -918,7 +938,10 @@ def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)
                 raw = body.screenshot_b64
                 if "," in raw:
                     raw = raw.split(",", 1)[1]
-                img_bytes = base64.b64decode(raw)
+                try:
+                    img_bytes = base64.b64decode(raw)
+                except binascii.Error:
+                    fail("Invalid screenshot data — please re-attach the image.", 400)
                 img_part  = MIMEImage(img_bytes)
                 img_part.add_header("Content-Disposition", "attachment", filename="screenshot.png")
                 msg.attach(img_part)
@@ -932,7 +955,10 @@ def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)
             print(f"[contact] email send failed: {exc}")
 
     if not email_sent:
-        # Fallback: print to server logs so no ticket is silently lost
+        if SMTP_USER and SMTP_PASSWORD:
+            # Credentials were present but sending still failed — surface the error
+            fail("Failed to send email. Please try again later.", 500)
+        # No credentials configured: log the ticket so it isn't silently lost
         print(f"[contact ticket — email not configured]\n{body_text}")
 
     return ok({"message": "Your ticket has been submitted. We'll get back to you soon!"})

@@ -19,6 +19,7 @@ export default function ContactUs() {
   const [message, setMessage]       = useState('')
   const [screenshot, setScreenshot] = useState(null) // { dataUrl, name, sizeKb }
   const [submitting, setSubmitting] = useState(false)
+  const [readingFile, setReadingFile] = useState(false)
   const [success, setSuccess]       = useState(false)
   const [error, setError]           = useState('')
   const fileRef = useRef(null)
@@ -44,11 +45,15 @@ export default function ContactUs() {
       return
     }
     const reader = new FileReader()
-    reader.onload = () => setScreenshot({
-      dataUrl: reader.result,
-      name: file.name,
-      sizeKb: Math.round(file.size / 1024),
-    })
+    setReadingFile(true)
+    reader.onload = () => {
+      setScreenshot({
+        dataUrl: reader.result,
+        name: file.name,
+        sizeKb: Math.round(file.size / 1024),
+      })
+      setReadingFile(false)
+    }
     reader.readAsDataURL(file)
   }
 
@@ -62,6 +67,7 @@ export default function ContactUs() {
     setError('')
     if (!subject.trim()) { setError('Please enter a subject.'); return }
     if (message.trim().length < 20) { setError('Please describe your issue in at least 20 characters.'); return }
+    if (fileRef.current?.value && !screenshot) { setError('Screenshot is still loading, please wait a moment.'); return }
 
     setSubmitting(true)
     try {

@@ -13,19 +13,31 @@ function authHeaders() {
 }
 
 async function request(method, path, body) {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), 25000)
   const options = {
     method,
-    headers: authHeaders()
+    headers: authHeaders(),
+    signal: controller.signal,
   }
   if (body !== undefined) {
     options.body = JSON.stringify(body)
   }
-  const res = await fetch(`${BASE_URL}${path}`, options)
-  const data = await res.json()
-  if (!data.success) {
-    throw new Error(data.error || 'Request failed')
+  try {
+    const res = await fetch(`${BASE_URL}${path}`, options)
+    clearTimeout(timeoutId)
+    const data = await res.json()
+    if (!data.success) {
+      throw new Error(data.error || 'Request failed')
+    }
+    return data.data
+  } catch (err) {
+    clearTimeout(timeoutId)
+    if (err.name === 'AbortError') {
+      throw new Error('Request timed out. Please check your connection and try again.')
+    }
+    throw err
   }
-  return data.data
 }
 
 export const api = {
