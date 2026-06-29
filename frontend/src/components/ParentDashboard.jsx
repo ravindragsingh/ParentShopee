@@ -1094,13 +1094,13 @@ export default function ParentDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'shop', 'kids', 'co-parent'].map(t => (
+          {['chores', 'shop', 'kids'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active parent' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'kids' ? 'Kids' : 'Co-Parent'}
+              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Kids'}
             </button>
           ))}
           <HamburgerMenu tab={tab} setTab={setTab} role="parent" />

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 export default function HamburgerMenu({ tab, setTab, role }) {
   const [open, setOpen] = useState(false)
@@ -6,20 +6,49 @@ export default function HamburgerMenu({ tab, setTab, role }) {
   const btnRef  = useRef(null)
   const dropRef = useRef(null)
 
-  const isMenuTab   = ['messages', 'help', 'settings'].includes(tab)
+  const menuTabIds = role === 'parent'
+    ? ['co-parent', 'messages', 'help', 'settings']
+    : ['messages', 'help', 'settings']
+
+  const isMenuTab   = menuTabIds.includes(tab)
   const accent      = role === 'parent' ? '#7c3aed' : '#059669'
   const accentBg    = role === 'parent' ? '#f5f3ff' : '#f0fdf4'
   const activeClass = role === 'parent' ? ' active parent' : ' active kid'
 
+  // Compute dropdown position using visualViewport when available (fixes mobile rotation bug)
+  const computePos = useCallback(() => {
+    if (!btnRef.current) return
+    const r  = btnRef.current.getBoundingClientRect()
+    // visualViewport gives the actual visible area on mobile (accounts for browser chrome, zoom)
+    const vw = window.visualViewport?.width ?? window.innerWidth
+    const vt = window.visualViewport?.offsetTop ?? 0
+    setPos({ top: r.bottom + vt + 6, right: vw - r.right })
+  }, [])
+
   function handleToggle() {
-    if (!open && btnRef.current) {
-      const r = btnRef.current.getBoundingClientRect()
-      setPos({ top: r.bottom + 6, right: window.innerWidth - r.right })
-    }
+    if (!open) computePos()
     setOpen(v => !v)
   }
 
-  // Close on any click outside button + dropdown
+  // Re-sync position whenever the visual viewport changes (rotation, zoom, keyboard)
+  useEffect(() => {
+    if (!open) return
+    const vv = window.visualViewport
+    if (vv) {
+      vv.addEventListener('resize', computePos)
+      vv.addEventListener('scroll', computePos)
+    }
+    window.addEventListener('resize', computePos)
+    return () => {
+      if (vv) {
+        vv.removeEventListener('resize', computePos)
+        vv.removeEventListener('scroll', computePos)
+      }
+      window.removeEventListener('resize', computePos)
+    }
+  }, [open, computePos])
+
+  // Close on click outside
   useEffect(() => {
     if (!open) return
     function onDown(e) {
@@ -28,10 +57,14 @@ export default function HamburgerMenu({ tab, setTab, role }) {
       if (!inBtn && !inDrop) setOpen(false)
     }
     document.addEventListener('mousedown', onDown)
-    return () => document.removeEventListener('mousedown', onDown)
+    document.addEventListener('touchstart', onDown)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('touchstart', onDown)
+    }
   }, [open])
 
-  // Close on scroll (keeps position accurate)
+  // Close on page scroll
   useEffect(() => {
     if (!open) return
     const close = () => setOpen(false)
@@ -40,6 +73,7 @@ export default function HamburgerMenu({ tab, setTab, role }) {
   }, [open])
 
   const items = [
+    ...(role === 'parent' ? [{ id: 'co-parent', icon: '👥', label: 'Co-Parent' }] : []),
     { id: 'messages', icon: '💬', label: 'Messages' },
     { id: 'help',     icon: '❓', label: 'Help'     },
     { id: 'settings', icon: '⚙️', label: 'Settings' },
