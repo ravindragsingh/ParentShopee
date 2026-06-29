@@ -174,6 +174,19 @@ function KidShopTab({ userId }) {
 export default function KidDashboard() {
   const { user, logout } = useAuth()
   const [tab, setTab] = useState('chores')
+  const [balance, setBalance] = useState(null)
+
+  useEffect(() => {
+    api.getWallet(user.id)
+      .then(data => setBalance(data?.balance ?? 0))
+      .catch(() => {})
+  }, [user.id, tab])
+
+  function refreshBalance() {
+    api.getWallet(user.id)
+      .then(data => setBalance(data?.balance ?? 0))
+      .catch(() => {})
+  }
 
   return (
     <div className="app-container">
@@ -184,6 +197,11 @@ export default function KidDashboard() {
             <span className="kid-avatar lg">{user.avatar}</span>
           )}
           <span>Hi, {user.name}!</span>
+          {balance !== null && (
+            <span style={{ background: '#ecfdf5', border: '1.5px solid #6ee7b7', borderRadius: 20, padding: '4px 12px', fontSize: '0.82rem', fontWeight: 700, color: '#059669' }}>
+              ⭐ {balance} pts
+            </span>
+          )}
           <button className="logout-btn" onClick={logout}>Sign Out</button>
         </div>
       </nav>

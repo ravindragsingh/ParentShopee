@@ -741,14 +741,6 @@ function KidsTab() {
   const [pwdError, setPwdError] = useState('')
   const [savingPwd, setSavingPwd] = useState(false)
 
-  // Award bonus
-  const [awardingFor, setAwardingFor] = useState(null)
-  const [bonusPts, setBonusPts] = useState('')
-  const [bonusReason, setBonusReason] = useState('')
-  const [bonusError, setBonusError] = useState('')
-  const [awarding, setAwarding] = useState(false)
-  const [bonusSuccess, setBonusSuccess] = useState('')
-
   // View transactions inline
   const [viewingTxFor, setViewingTxFor] = useState(null)
   const [txData, setTxData] = useState(null)
@@ -771,31 +763,6 @@ function KidsTab() {
       setTxError(err.message)
     } finally {
       setTxLoading(false)
-    }
-  }
-
-  async function handleAwardBonus(kid) {
-    setBonusError('')
-    setBonusSuccess('')
-    const pts = Number(bonusPts)
-    if (!pts || isNaN(pts) || pts === 0) { setBonusError('Enter a non-zero number of points.'); return }
-    const currentBalance = getBalance(kid.id)
-    if (pts < 0 && currentBalance + pts < 0) {
-      setBonusError(`Cannot deduct more than current balance (${currentBalance} pts).`)
-      return
-    }
-    setAwarding(true)
-    try {
-      const res = await api.adjustWallet(kid.id, pts, bonusReason.trim())
-      const sign = res.adjustment > 0 ? '+' : ''
-      setBonusSuccess(`${sign}${res.adjustment} pts applied to ${res.kidName}. New balance: ${res.newBalance} pts`)
-      setBonusPts('')
-      setBonusReason('')
-      loadData()
-    } catch (err) {
-      setBonusError(err.message)
-    } finally {
-      setAwarding(false)
     }
   }
 
@@ -956,26 +923,17 @@ function KidsTab() {
                       className="btn btn-outline btn-sm"
                       onClick={() => {
                         setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
-                        setAwardingFor(null); setViewingTxFor(null); setBehaviourFor(null); setNewPwd(''); setPwdError('')
+                        setViewingTxFor(null); setBehaviourFor(null); setNewPwd(''); setPwdError('')
                       }}
                     >
                       {changingPwdFor === kid.id ? 'Cancel' : '🔑 Password'}
-                    </button>
-                    <button
-                      className={`btn btn-sm ${awardingFor === kid.id ? 'btn-outline' : 'btn-green'}`}
-                      onClick={() => {
-                        setAwardingFor(awardingFor === kid.id ? null : kid.id)
-                        setChangingPwdFor(null); setViewingTxFor(null); setBehaviourFor(null); setBonusPts(''); setBonusReason(''); setBonusError(''); setBonusSuccess('')
-                      }}
-                    >
-                      {awardingFor === kid.id ? 'Cancel' : '✏️ Points'}
                     </button>
                     <button
                       className={`btn btn-sm ${behaviourFor === kid.id ? 'btn-outline' : ''}`}
                       style={behaviourFor === kid.id ? {} : { background: 'linear-gradient(135deg,#f59e0b,#f97316)', border: 'none', color: '#fff' }}
                       onClick={() => {
                         setBehaviourFor(behaviourFor === kid.id ? null : kid.id)
-                        setChangingPwdFor(null); setAwardingFor(null); setViewingTxFor(null)
+                        setChangingPwdFor(null); setViewingTxFor(null)
                         setBehaviourPts(''); setBehaviourError(''); setBehaviourSuccess('')
                       }}
                     >
@@ -988,7 +946,7 @@ function KidsTab() {
                           setViewingTxFor(null)
                         } else {
                           setViewingTxFor(kid.id)
-                          setChangingPwdFor(null); setAwardingFor(null); setBehaviourFor(null)
+                          setChangingPwdFor(null); setBehaviourFor(null)
                           loadKidTx(kid.id)
                         }
                       }}
@@ -1016,55 +974,6 @@ function KidsTab() {
                     </td>
                   </tr>
                 )}
-                {awardingFor === kid.id && (() => {
-                  const currentBal = getBalance(kid.id)
-                  const delta = Number(bonusPts)
-                  const projected = isNaN(delta) ? currentBal : currentBal + delta
-                  const isDeduct = delta < 0
-                  const overDeduct = projected < 0
-                  return (
-                    <tr key={`${kid.id}-bonus`}>
-                      <td colSpan={5} style={{ background: '#fffbeb', padding: '12px 16px', borderTop: '2px solid #fde68a' }}>
-                        {bonusError && <div className="error-msg" style={{ marginBottom: 8 }}>{bonusError}</div>}
-                        {bonusSuccess && <div style={{ color: '#059669', fontSize: '0.85rem', marginBottom: 8 }}>{bonusSuccess}</div>}
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 8 }}>
-                          Current balance: <strong>{currentBal} pts</strong>
-                          {bonusPts !== '' && !isNaN(delta) && delta !== 0 && (
-                            <span style={{ marginLeft: 10, color: overDeduct ? '#ef4444' : isDeduct ? '#f59e0b' : '#059669', fontWeight: 600 }}>
-                              → {projected} pts {overDeduct ? '(not enough)' : ''}
-                            </span>
-                          )}
-                        </div>
-                        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-                          <input
-                            type="number"
-                            value={bonusPts}
-                            onChange={e => setBonusPts(e.target.value)}
-                            placeholder="e.g. 10 or -5"
-                            style={{ padding: '7px 12px', border: `1px solid ${overDeduct ? '#ef4444' : '#fbbf24'}`, borderRadius: 7, fontSize: '0.9rem', width: 120 }}
-                          />
-                          <input
-                            value={bonusReason}
-                            onChange={e => setBonusReason(e.target.value)}
-                            placeholder="Reason (optional)"
-                            style={{ padding: '7px 12px', border: '1px solid #fbbf24', borderRadius: 7, fontSize: '0.9rem', width: 220 }}
-                          />
-                          <button
-                            className={`btn btn-sm ${isDeduct ? 'btn-outline' : 'btn-green'}`}
-                            style={isDeduct ? { borderColor: '#f59e0b', color: '#b45309' } : {}}
-                            onClick={() => handleAwardBonus(kid)}
-                            disabled={awarding || overDeduct || bonusPts === '' || delta === 0}
-                          >
-                            {awarding ? 'Saving...' : isDeduct ? '− Deduct Points' : '⭐ Add Points'}
-                          </button>
-                        </div>
-                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 6 }}>
-                          Enter a positive number to add points, negative to deduct (e.g. −5)
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })()}
                 {behaviourFor === kid.id && (() => {
                   const currentBal = getBalance(kid.id)
                   const pts = Number(behaviourPts)
@@ -1200,11 +1109,24 @@ export default function ParentDashboard() {
   const { user, logout } = useAuth()
   const [tab, setTab] = useState('chores')
   const [kids, setKids] = useState([])
+  const [wallets, setWallets] = useState([])
+
+  function getKidBalance(kidId) {
+    const w = wallets.find(w => w.kidId === kidId)
+    return w ? w.balance : 0
+  }
+
+  function refreshWallets() {
+    api.getAllWallets()
+      .then(data => setWallets(Array.isArray(data) ? data : []))
+      .catch(() => {})
+  }
 
   useEffect(() => {
     api.getKids()
       .then(data => setKids(Array.isArray(data) ? data : []))
       .catch(() => {})
+    refreshWallets()
   }, [])
 
   return (
@@ -1230,6 +1152,26 @@ export default function ParentDashboard() {
           ))}
           <HamburgerMenu tab={tab} setTab={setTab} role="parent" />
         </div>
+
+        {kids.length > 0 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: '10px 14px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
+            <span style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginRight: 2 }}>⭐ Points:</span>
+            {kids.map(kid => (
+              <span key={kid.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: '4px 12px', fontSize: '0.82rem' }}>
+                <span>{kid.avatar || '🐶'}</span>
+                <span style={{ color: '#334155' }}>{kid.name}</span>
+                <strong style={{ color: '#7c3aed' }}>{getKidBalance(kid.id)} pts</strong>
+              </span>
+            ))}
+            <button
+              onClick={refreshWallets}
+              title="Refresh balances"
+              style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', fontSize: '0.8rem', padding: '2px 6px' }}
+            >
+              ↻
+            </button>
+          </div>
+        )}
 
         {kids.length === 0 && (
           <div style={{
