@@ -8,8 +8,8 @@ export default function HamburgerMenu({ tab, setTab, role }) {
   const dropRef = useRef(null)
 
   const menuTabIds = role === 'parent'
-    ? ['co-parent', 'messages', 'help', 'settings']
-    : ['messages', 'help', 'settings']
+    ? ['co-parent', 'messages', 'help', 'contact', 'settings']
+    : ['messages', 'help', 'contact', 'settings']
 
   const isMenuTab   = menuTabIds.includes(tab)
   const accent      = role === 'parent' ? '#7c3aed' : '#059669'
@@ -80,9 +80,10 @@ export default function HamburgerMenu({ tab, setTab, role }) {
 
   const items = [
     ...(role === 'parent' ? [{ id: 'co-parent', icon: '👥', label: 'Co-Parent' }] : []),
-    { id: 'messages', icon: '💬', label: 'Messages' },
-    { id: 'help',     icon: '❓', label: 'Help'     },
-    { id: 'settings', icon: '⚙️', label: 'Settings' },
+    { id: 'messages', icon: '💬', label: 'Messages'   },
+    { id: 'help',     icon: '❓', label: 'Help'        },
+    { id: 'contact',  icon: '📩', label: 'Contact Us'  },
+    { id: 'settings', icon: '⚙️', label: 'Settings'   },
   ]
 
   const dropdown = open ? (

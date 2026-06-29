@@ -9,6 +9,7 @@ import { HelpTab } from './Help.jsx'
 import HamburgerMenu from './HamburgerMenu.jsx'
 import SettingsPanel from './Settings.jsx'
 import { checkFields } from '../utils/wordFilter.js'
+import ContactUs from './ContactUs.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1160,6 +1161,7 @@ export default function ParentDashboard() {
         {tab === 'co-parent' && <CoParentTab />}
         {tab === 'messages'  && <MessagesTab />}
         {tab === 'help'      && <HelpTab role="parent" />}
+        {tab === 'contact'   && <ContactUs />}
         {tab === 'settings'  && <SettingsPanel />}
       </div>
     </div>

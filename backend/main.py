@@ -1,5 +1,10 @@
 import re
 import os
+import smtplib
+import base64
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -285,6 +290,12 @@ class BonusPointsBody(BaseModel):
 class WalletAdjustBody(BaseModel):
     amount: float          # positive = add, negative = deduct
     reason: Optional[str] = ""
+
+class ContactTicketBody(BaseModel):
+    category: Optional[str] = "General Inquiry"
+    subject: str
+    message: str
+    screenshot_b64: Optional[str] = None  # base64 data-URL of attached image
 
 class MessageBody(BaseModel):
     receiver_id: str
@@ -866,6 +877,65 @@ def get_wallet(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depend
                "transactions": [{"id": t.id, "type": t.type, "amount": t.amount,
                                   "description": t.description, "timestamp": t.timestamp}
                                  for t in txs]})
+
+# ── Contact / support ticket route ────────────────────────────────────────────
+
+CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "ravindragsingh@gmail.com")
+SMTP_HOST     = os.getenv("SMTP_HOST", "smtp.gmail.com")
+SMTP_PORT     = int(os.getenv("SMTP_PORT", "587"))
+SMTP_USER     = os.getenv("SMTP_USER")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+
+@app.post("/api/contact")
+def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)):
+    if not body.subject.strip():
+        fail("Subject is required")
+    if len(body.message.strip()) < 20:
+        fail("Message must be at least 20 characters")
+
+    # Build email body
+    body_text = (
+        f"New Support Ticket — ParentShopee\n"
+        f"{'='*50}\n\n"
+        f"From   : {user.name} ({user.username})\n"
+        f"Role   : {user.role}\n"
+        f"Email  : {user.email or 'not provided'}\n"
+        f"Category: {body.category}\n\n"
+        f"Subject:\n{body.subject}\n\n"
+        f"Message:\n{body.message}\n"
+    )
+
+    email_sent = False
+    if SMTP_USER and SMTP_PASSWORD:
+        try:
+            msg = MIMEMultipart()
+            msg["From"]    = SMTP_USER
+            msg["To"]      = CONTACT_EMAIL
+            msg["Subject"] = f"[ParentShopee] {body.category}: {body.subject}"
+            msg.attach(MIMEText(body_text, "plain"))
+
+            if body.screenshot_b64:
+                raw = body.screenshot_b64
+                if "," in raw:
+                    raw = raw.split(",", 1)[1]
+                img_bytes = base64.b64decode(raw)
+                img_part  = MIMEImage(img_bytes)
+                img_part.add_header("Content-Disposition", "attachment", filename="screenshot.png")
+                msg.attach(img_part)
+
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as srv:
+                srv.starttls()
+                srv.login(SMTP_USER, SMTP_PASSWORD)
+                srv.send_message(msg)
+            email_sent = True
+        except Exception as exc:
+            print(f"[contact] email send failed: {exc}")
+
+    if not email_sent:
+        # Fallback: print to server logs so no ticket is silently lost
+        print(f"[contact ticket — email not configured]\n{body_text}")
+
+    return ok({"message": "Your ticket has been submitted. We'll get back to you soon!"})
 
 # ── Account routes ─────────────────────────────────────────────────────────────
 

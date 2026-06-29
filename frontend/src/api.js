@@ -72,6 +72,9 @@ export const api = {
   sendMessage:  (receiverId, content, quoteContent) => request('POST', '/api/messages', { receiver_id: receiverId, content, quote_content: quoteContent || null }),
   markRead:     (contactId)              => request('PUT',  `/api/messages/${contactId}/read`),
 
+  // Support tickets
+  submitContact: (body) => request('POST', '/api/contact', body),
+
   // Co-parent management
   getCoParent:            ()           => request('GET',    '/api/family/co-parent'),
   addCoParent:            (body)       => request('POST',   '/api/family/co-parent', body),

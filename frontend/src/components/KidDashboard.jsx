@@ -8,6 +8,7 @@ import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
 import HamburgerMenu from './HamburgerMenu.jsx'
 import SettingsPanel from './Settings.jsx'
+import ContactUs from './ContactUs.jsx'
 
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
@@ -206,6 +207,7 @@ export default function KidDashboard() {
         {tab === 'wallet'   && <KidWalletView kidId={user.id} />}
         {tab === 'messages' && <MessagesTab />}
         {tab === 'help'     && <HelpTab role="kid" />}
+        {tab === 'contact'  && <ContactUs />}
         {tab === 'settings' && <SettingsPanel />}
       </div>
     </div>
