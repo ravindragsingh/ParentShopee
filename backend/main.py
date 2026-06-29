@@ -4,7 +4,7 @@ from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from uuid import uuid4
 from datetime import datetime, timezone, date, timedelta
 
@@ -242,7 +242,8 @@ class ChoreCreate(BaseModel):
     title: str
     points: float
     description: Optional[str] = ""
-    assignedKidId: Optional[str] = None
+    assignedKidId: Optional[str] = None        # single kid (legacy / repeat button)
+    assignedKidIds: Optional[List[str]] = []   # multiple kids (new multi-assign)
     dueDate: Optional[str] = None
     imageEmoji: Optional[str] = "📋"
 
@@ -572,24 +573,34 @@ def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
 def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     if body.points < 0:
         fail("points must be a non-negative number")
-    if body.assignedKidId:
-        if not db.query(DBUser).filter(DBUser.id == body.assignedKidId, DBUser.role == "kid").first():
-            fail("assignedKidId does not match any kid", 404)
-    chore = DBChore(
-        id=str(uuid4()),
-        title=body.title,
-        description=body.description or "",
-        points=body.points,
-        image_emoji=body.imageEmoji or "📋",
-        assigned_kid_id=body.assignedKidId,
-        due_date=body.dueDate or None,
-        created_at=now(),
-        family_id=get_family_id(user),
+    # Resolve which kid IDs to assign — multi takes priority over single
+    kid_ids: List[Optional[str]] = body.assignedKidIds if body.assignedKidIds else (
+        [body.assignedKidId] if body.assignedKidId else [None]
     )
-    db.add(chore)
+    # Validate every supplied kid ID
+    for kid_id in kid_ids:
+        if kid_id and not db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid").first():
+            fail(f"Kid not found: {kid_id}", 404)
+    family_id = get_family_id(user)
+    created = []
+    for kid_id in kid_ids:
+        chore = DBChore(
+            id=str(uuid4()),
+            title=body.title,
+            description=body.description or "",
+            points=body.points,
+            image_emoji=body.imageEmoji or "📋",
+            assigned_kid_id=kid_id,
+            due_date=body.dueDate or None,
+            created_at=now(),
+            family_id=family_id,
+        )
+        db.add(chore)
+        created.append(chore)
     db.commit()
-    db.refresh(chore)
-    return ok(chore_dict(chore), 201)
+    for c in created:
+        db.refresh(c)
+    return ok([chore_dict(c) for c in created], 201)
 
 @app.put("/api/chores/{chore_id}")
 def update_chore(chore_id: str, body: ChoreUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):

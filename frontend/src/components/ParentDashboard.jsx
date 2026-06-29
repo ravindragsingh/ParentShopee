@@ -55,7 +55,7 @@ function ChoresTab({ kids }) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [points, setPoints] = useState('')
-  const [assignedKidId, setAssignedKidId] = useState('')
+  const [assignedKidIds, setAssignedKidIds] = useState(new Set())
   const [dueDate, setDueDate] = useState('')
   const [choreEmoji, setChoreEmoji] = useState('📋')
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
@@ -68,7 +68,7 @@ function ChoresTab({ kids }) {
     setDescription(sample.description)
     setPoints(String(sample.points))
     setChoreEmoji(sample.imageEmoji)
-    setAssignedKidId('')
+    setAssignedKidIds(new Set())
     setShowEmojiPicker(false)
     setAddError('')
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -102,14 +102,14 @@ function ChoresTab({ kids }) {
         title: title.trim(),
         description: description.trim(),
         points: Number(points),
-        assignedKidId: assignedKidId || null,
+        assignedKidIds: [...assignedKidIds],
         dueDate: dueDate || null,
         imageEmoji: choreEmoji,
       })
       setTitle('')
       setDescription('')
       setPoints('')
-      setAssignedKidId('')
+      setAssignedKidIds(new Set())
       setDueDate('')
       setChoreEmoji('📋')
       setShowEmojiPicker(false)
@@ -169,14 +169,54 @@ function ChoresTab({ kids }) {
                 placeholder="10"
               />
             </div>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label>Assign To <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
-              <select value={assignedKidId} onChange={e => setAssignedKidId(e.target.value)}>
-                <option value="">— Any child can do it —</option>
-                {kids.map(k => (
-                  <option key={k.id} value={k.id}>{k.avatar || '🐶'} {k.name}</option>
-                ))}
-              </select>
+            <div className="form-group" style={{ flex: '100%' }}>
+              <label>Assign To <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional — select one or more)</span></label>
+              {kids.length === 0 ? (
+                <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: 4 }}>No children added yet</div>
+              ) : (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
+                  {kids.map(k => {
+                    const checked = assignedKidIds.has(k.id)
+                    return (
+                      <label
+                        key={k.id}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 6,
+                          cursor: 'pointer', userSelect: 'none',
+                          padding: '7px 14px', borderRadius: 999,
+                          background: checked ? '#f5f3ff' : '#f8fafc',
+                          border: `2px solid ${checked ? '#8b5cf6' : '#e2e8f0'}`,
+                          fontSize: '0.875rem',
+                          fontWeight: checked ? 700 : 400,
+                          color: checked ? '#6d28d9' : '#475569',
+                          transition: 'all 0.15s',
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => setAssignedKidIds(prev => {
+                            const next = new Set(prev)
+                            next.has(k.id) ? next.delete(k.id) : next.add(k.id)
+                            return next
+                          })}
+                          style={{ display: 'none' }}
+                        />
+                        <span>{k.avatar || '🐶'}</span>
+                        {k.name}
+                        {checked && <span style={{ fontSize: '0.75rem' }}>✓</span>}
+                      </label>
+                    )
+                  })}
+                </div>
+              )}
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 6 }}>
+                {assignedKidIds.size === 0
+                  ? 'No one selected — any child can claim it'
+                  : assignedKidIds.size === 1
+                  ? '1 child selected'
+                  : `${assignedKidIds.size} children selected — one copy per child will be created`}
+              </div>
             </div>
           </div>
           <div className="form-row">
