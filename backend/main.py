@@ -69,12 +69,13 @@ class DBShopItem(Base):
 
 class DBMessage(Base):
     __tablename__ = "messages"
-    id          = Column(String, primary_key=True)
-    sender_id   = Column(String, nullable=False, index=True)
-    receiver_id = Column(String, nullable=False, index=True)
-    content     = Column(String, nullable=False)
-    timestamp   = Column(String, nullable=False)
-    is_read     = Column(String, default="false")
+    id            = Column(String, primary_key=True)
+    sender_id     = Column(String, nullable=False, index=True)
+    receiver_id   = Column(String, nullable=False, index=True)
+    content       = Column(String, nullable=False)
+    timestamp     = Column(String, nullable=False)
+    is_read       = Column(String, default="false")
+    quote_content = Column(String, nullable=True)   # quoted message for replies
 
 class DBWallet(Base):
     __tablename__ = "wallets"
@@ -234,6 +235,7 @@ class BonusPointsBody(BaseModel):
 class MessageBody(BaseModel):
     receiver_id: str
     content: str
+    quote_content: Optional[str] = None
 
 class ChangeOwnPasswordBody(BaseModel):
     password: str
@@ -340,6 +342,7 @@ def startup():
             ("chores",     "family_id",    "VARCHAR"),
             ("shop_items", "family_id",    "VARCHAR"),
             ("chores",     "completed_at", "VARCHAR"),
+            ("messages",   "quote_content","VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(_engine.url):
@@ -797,7 +800,8 @@ def change_own_password(body: ChangeOwnPasswordBody, db: Session = Depends(get_d
 
 def _msg_dict(m: DBMessage) -> dict:
     return {"id": m.id, "senderId": m.sender_id, "receiverId": m.receiver_id,
-            "content": m.content, "timestamp": m.timestamp, "isRead": m.is_read}
+            "content": m.content, "timestamp": m.timestamp, "isRead": m.is_read,
+            "quoteContent": m.quote_content}
 
 def _family_contacts(db: Session, user: DBUser) -> list:
     """Return all users this user is allowed to message."""
@@ -847,24 +851,38 @@ def get_conversation(contact_id: str, db: Session = Depends(get_db), user: DBUse
     allowed = [c.id for c in _family_contacts(db, user)]
     if contact_id not in allowed:
         fail("Not allowed to message this user", 403)
-    msgs = db.query(DBMessage).filter(
-        or_(
-            and_(DBMessage.sender_id == user.id, DBMessage.receiver_id == contact_id),
-            and_(DBMessage.sender_id == contact_id, DBMessage.receiver_id == user.id),
-        )
-    ).order_by(DBMessage.timestamp.asc()).all()
-    return ok([_msg_dict(m) for m in msgs])
+    conv_filter = or_(
+        and_(DBMessage.sender_id == user.id, DBMessage.receiver_id == contact_id),
+        and_(DBMessage.sender_id == contact_id, DBMessage.receiver_id == user.id),
+    )
+    msgs = db.query(DBMessage).filter(conv_filter).order_by(DBMessage.timestamp.asc()).all()
+    return ok([_msg_dict(m) for m in msgs[-20:]])  # return last 20 only
 
 @app.post("/api/messages")
 def send_message(body: MessageBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    if not body.content.strip():
+    text = body.content.strip()
+    if not text:
         fail("Message cannot be empty")
+    if len(text) > 60:
+        fail("Message cannot exceed 60 characters")
     allowed = [c.id for c in _family_contacts(db, user)]
     if body.receiver_id not in allowed:
         fail("Not allowed to message this user", 403)
     msg = DBMessage(id=str(uuid4()), sender_id=user.id, receiver_id=body.receiver_id,
-                    content=body.content.strip(), timestamp=now(), is_read="false")
+                    content=text, timestamp=now(), is_read="false",
+                    quote_content=body.quote_content)
     db.add(msg); db.commit()
+    # Prune conversation to 20 messages (rolling window)
+    conv_filter = or_(
+        and_(DBMessage.sender_id == user.id, DBMessage.receiver_id == body.receiver_id),
+        and_(DBMessage.sender_id == body.receiver_id, DBMessage.receiver_id == user.id),
+    )
+    all_msgs = db.query(DBMessage).filter(conv_filter).order_by(DBMessage.timestamp.asc()).all()
+    if len(all_msgs) > 20:
+        for old in all_msgs[:len(all_msgs) - 20]:
+            db.delete(old)
+        db.commit()
+    db.refresh(msg)
     return ok(_msg_dict(msg))
 
 @app.put("/api/messages/{contact_id}/read")

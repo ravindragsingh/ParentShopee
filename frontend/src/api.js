@@ -68,7 +68,7 @@ export const api = {
   // Messaging
   getContacts:  ()                       => request('GET',  '/api/messages/contacts'),
   getMessages:  (contactId)              => request('GET',  `/api/messages/${contactId}`),
-  sendMessage:  (receiverId, content)    => request('POST', '/api/messages', { receiver_id: receiverId, content }),
+  sendMessage:  (receiverId, content, quoteContent) => request('POST', '/api/messages', { receiver_id: receiverId, content, quote_content: quoteContent || null }),
   markRead:     (contactId)              => request('PUT',  `/api/messages/${contactId}/read`),
 
   // Co-parent management

@@ -178,8 +178,26 @@ function ChoresTab({ kids }) {
                   {kids.map(k => {
                     const checked = assignedKidIds.has(k.id)
                     return (
-                      <label
+                      <div
                         key={k.id}
+                        role="checkbox"
+                        aria-checked={checked}
+                        tabIndex={0}
+                        onClick={() => setAssignedKidIds(prev => {
+                          const next = new Set(prev)
+                          next.has(k.id) ? next.delete(k.id) : next.add(k.id)
+                          return next
+                        })}
+                        onKeyDown={e => {
+                          if (e.key === ' ' || e.key === 'Enter') {
+                            e.preventDefault()
+                            setAssignedKidIds(prev => {
+                              const next = new Set(prev)
+                              next.has(k.id) ? next.delete(k.id) : next.add(k.id)
+                              return next
+                            })
+                          }
+                        }}
                         style={{
                           display: 'flex', alignItems: 'center', gap: 6,
                           cursor: 'pointer', userSelect: 'none',
@@ -192,20 +210,10 @@ function ChoresTab({ kids }) {
                           transition: 'all 0.15s',
                         }}
                       >
-                        <input
-                          type="checkbox"
-                          checked={checked}
-                          onChange={() => setAssignedKidIds(prev => {
-                            const next = new Set(prev)
-                            next.has(k.id) ? next.delete(k.id) : next.add(k.id)
-                            return next
-                          })}
-                          style={{ display: 'none' }}
-                        />
                         <span>{k.avatar || '🐶'}</span>
                         {k.name}
                         {checked && <span style={{ fontSize: '0.75rem' }}>✓</span>}
-                      </label>
+                      </div>
                     )
                   })}
                 </div>
