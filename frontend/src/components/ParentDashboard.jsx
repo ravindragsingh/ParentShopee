@@ -8,6 +8,7 @@ import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
 import HamburgerMenu from './HamburgerMenu.jsx'
 import SettingsPanel from './Settings.jsx'
+import { checkFields } from '../utils/wordFilter.js'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -93,6 +94,11 @@ function ChoresTab({ kids }) {
     e.preventDefault()
     if (!title.trim() || !points) {
       setAddError('Title and points are required.')
+      return
+    }
+    const wordCheck = checkFields(title, description)
+    if (!wordCheck.ok) {
+      setAddError(wordCheck.message)
       return
     }
     setAdding(true)
@@ -395,6 +401,11 @@ function ShopTab() {
     e.preventDefault()
     if (!name.trim() || !cost) {
       setAddError('Name and cost are required.')
+      return
+    }
+    const wordCheck = checkFields(name, description)
+    if (!wordCheck.ok) {
+      setAddError(wordCheck.message)
       return
     }
     setAdding(true)

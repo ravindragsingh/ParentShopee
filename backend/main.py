@@ -105,6 +105,56 @@ app.add_middleware(
 EMAIL_RE = re.compile(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
 SESSIONS: dict = {}   # token -> user_id  (in-memory; users re-login after restart)
 
+# ── Age-appropriate content filter ─────────────────────────────────────────────
+_RESTRICTED = [
+    # Profanity
+    "ass","arse","asshole","arsehole","bastard","bitch","bitches","bollocks",
+    "bugger","bullshit","cock","cocks","crap","cum","cunt","cunts","damn",
+    "dammit","dick","dicks","dickhead","douche","douchebag","dyke","faggot",
+    "fag","fags","fart","fuck","fucked","fucker","fucking","fucks","fuckin",
+    "goddamn","horseshit","jackass","motherfucker","mofo","nigga","nigger",
+    "piss","pissed","prick","pricks","pussy","pussies","retard","retarded",
+    "shit","shite","shitty","slut","sluts","turd","twat","twats","wank",
+    "wanker","whore","whores",
+    # Sexual
+    "anal","blowjob","boner","clitoris","clit","dildo","erection","gangbang",
+    "handjob","horny","masturbate","masturbation","milf","naked","nude","nudes",
+    "orgasm","penis","porn","porno","pornography","prostitute","rape","raped",
+    "sex","sexy","sperm","stripper","testicle","vagina","vibrator","xxx",
+    # Drugs / alcohol
+    "alcohol","beer","booze","cannabis","cocaine","crack","ecstasy","mdma",
+    "heroin","marijuana","weed","methamphetamine","meth","opioid","opium",
+    "overdose","stoned","vodka","whiskey","whisky","tequila","gin","rum",
+    # Violence / hate
+    "bomb","genocide","gore","hate","kill","killed","killer","killing",
+    "murder","murdered","murderer","nazi","racist","racism","shoot","shooting",
+    "stab","stabbing","suicide","terrorist","terrorism","torture","weapon","weapons",
+]
+_WORD_RE = re.compile(
+    r'\b(' + '|'.join(re.escape(w) for w in _RESTRICTED if ' ' not in w) + r')\b',
+    re.IGNORECASE,
+)
+_PHRASES = [w for w in _RESTRICTED if ' ' in w]
+
+def _contains_restricted(text: str) -> Optional[str]:
+    if not text:
+        return None
+    m = _WORD_RE.search(text)
+    if m:
+        return m.group(0)
+    low = text.lower()
+    for phrase in _PHRASES:
+        if phrase in low:
+            return phrase
+    return None
+
+def check_content(*fields: str) -> None:
+    """Raises 400 if any field contains a restricted word."""
+    for field in fields:
+        word = _contains_restricted(field or "")
+        if word:
+            fail(f'Please use age-appropriate language. The word "{word}" is not allowed.')
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def now() -> str:
@@ -603,6 +653,7 @@ def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
 
 @app.post("/api/chores")
 def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    check_content(body.title, body.description or "")
     if body.points < 0:
         fail("points must be a non-negative number")
     # Resolve which kid IDs to assign — multi takes priority over single
@@ -727,6 +778,7 @@ def get_shop(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)
 
 @app.post("/api/shop")
 def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    check_content(body.name, body.description or "")
     if body.cost < 0: fail("cost must be a non-negative number")
     item = DBShopItem(id=str(uuid4()), name=body.name.strip(), description=body.description or "",
                       cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now(),
