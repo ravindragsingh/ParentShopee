@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 
 export default function HamburgerMenu({ tab, setTab, role }) {
   const [open, setOpen] = useState(false)
@@ -15,22 +16,27 @@ export default function HamburgerMenu({ tab, setTab, role }) {
   const accentBg    = role === 'parent' ? '#f5f3ff' : '#f0fdf4'
   const activeClass = role === 'parent' ? ' active parent' : ' active kid'
 
-  // Compute dropdown position using visualViewport when available (fixes mobile rotation bug)
+  // getBoundingClientRect() is already relative to the visual viewport.
+  // We must NOT add visualViewport.offsetTop — that would double-count scroll.
+  // Use visualViewport.width (not window.innerWidth) for accurate mobile width.
   const computePos = useCallback(() => {
     if (!btnRef.current) return
     const r  = btnRef.current.getBoundingClientRect()
-    // visualViewport gives the actual visible area on mobile (accounts for browser chrome, zoom)
     const vw = window.visualViewport?.width ?? window.innerWidth
-    const vt = window.visualViewport?.offsetTop ?? 0
-    setPos({ top: r.bottom + vt + 6, right: vw - r.right })
+    setPos({ top: r.bottom + 6, right: vw - r.right })
   }, [])
 
   function handleToggle() {
-    if (!open) computePos()
+    if (!open) {
+      // Compute immediately, then recompute after paint in case the first
+      // measurement is stale (common on iOS Safari after orientation change)
+      computePos()
+      requestAnimationFrame(computePos)
+    }
     setOpen(v => !v)
   }
 
-  // Re-sync position whenever the visual viewport changes (rotation, zoom, keyboard)
+  // Re-sync position on visual-viewport resize/scroll (rotation, zoom, soft-keyboard)
   useEffect(() => {
     if (!open) return
     const vv = window.visualViewport
@@ -48,7 +54,7 @@ export default function HamburgerMenu({ tab, setTab, role }) {
     }
   }, [open, computePos])
 
-  // Close on click outside
+  // Close on click/tap outside both button and dropdown
   useEffect(() => {
     if (!open) return
     function onDown(e) {
@@ -57,7 +63,7 @@ export default function HamburgerMenu({ tab, setTab, role }) {
       if (!inBtn && !inDrop) setOpen(false)
     }
     document.addEventListener('mousedown', onDown)
-    document.addEventListener('touchstart', onDown)
+    document.addEventListener('touchstart', onDown, { passive: true })
     return () => {
       document.removeEventListener('mousedown', onDown)
       document.removeEventListener('touchstart', onDown)
@@ -79,6 +85,53 @@ export default function HamburgerMenu({ tab, setTab, role }) {
     { id: 'settings', icon: '⚙️', label: 'Settings' },
   ]
 
+  const dropdown = open ? (
+    <div
+      ref={dropRef}
+      style={{
+        position: 'fixed',
+        top: pos.top,
+        right: pos.right,
+        zIndex: 99999,
+        background: 'white',
+        borderRadius: 14,
+        boxShadow: '0 12px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12)',
+        minWidth: 200,
+        overflow: 'hidden',
+        border: '1px solid #e2e8f0',
+        animation: 'fadeSlideDown 0.15s ease',
+      }}
+    >
+      {items.map((item, i) => (
+        <button
+          key={item.id}
+          onClick={() => { setTab(item.id); setOpen(false) }}
+          style={{
+            width: '100%',
+            textAlign: 'left',
+            padding: '14px 18px',
+            background: tab === item.id ? accentBg : 'white',
+            border: 'none',
+            borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
+            cursor: 'pointer',
+            color: tab === item.id ? accent : '#334155',
+            fontWeight: tab === item.id ? 700 : 500,
+            fontSize: '0.93rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+          }}
+        >
+          <span style={{ fontSize: '1.05rem' }}>{item.icon}</span>
+          {item.label}
+          {tab === item.id && (
+            <span style={{ marginLeft: 'auto', width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+          )}
+        </button>
+      ))}
+    </div>
+  ) : null
+
   return (
     <>
       <button
@@ -91,55 +144,9 @@ export default function HamburgerMenu({ tab, setTab, role }) {
         {open ? '✕' : '☰'}
       </button>
 
-      {open && (
-        <div
-          ref={dropRef}
-          style={{
-            position: 'fixed',
-            top: pos.top,
-            right: pos.right,
-            zIndex: 9999,
-            background: 'white',
-            borderRadius: 14,
-            boxShadow: '0 12px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10)',
-            minWidth: 195,
-            overflow: 'hidden',
-            border: '1px solid #e2e8f0',
-            animation: 'fadeSlideDown 0.15s ease',
-          }}
-        >
-          {items.map((item, i) => (
-            <button
-              key={item.id}
-              onClick={() => { setTab(item.id); setOpen(false) }}
-              style={{
-                width: '100%',
-                textAlign: 'left',
-                padding: '14px 18px',
-                background: tab === item.id ? accentBg : 'white',
-                border: 'none',
-                borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
-                cursor: 'pointer',
-                color: tab === item.id ? accent : '#334155',
-                fontWeight: tab === item.id ? 700 : 500,
-                fontSize: '0.93rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-              }}
-            >
-              <span style={{ fontSize: '1.05rem' }}>{item.icon}</span>
-              {item.label}
-              {tab === item.id && (
-                <span style={{
-                  marginLeft: 'auto', width: 7, height: 7,
-                  borderRadius: '50%', background: accent, flexShrink: 0,
-                }} />
-              )}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Portal renders dropdown directly into document.body —
+          completely escapes any parent overflow, transform, or stacking context */}
+      {createPortal(dropdown, document.body)}
     </>
   )
 }
