@@ -404,8 +404,10 @@ body {
 .tx-amount.earned { color: #059669; }
 .tx-amount.spent { color: #dc2626; }
 .tx-amount.bonus { color: #d97706; }
+.tx-amount.deduct { color: #dc2626; }
 
 .bonus-tx { background: #fffbeb; border-left: 3px solid #fbbf24; }
+.deduct-tx { background: #fff1f2; border-left: 3px solid #fca5a5; }
 
 /* Kids table */
 .kids-table {

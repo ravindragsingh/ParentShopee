@@ -7,6 +7,23 @@ function formatDate(ts) {
   return d.toLocaleString()
 }
 
+function TxItem({ tx, i }) {
+  const isBonus  = tx.type === 'bonus'
+  const isDeduct = tx.type === 'deduct'
+  const isEarned = tx.type === 'earned' || (!isBonus && !isDeduct && tx.amount > 0)
+  return (
+    <div className={`transaction-item${isBonus ? ' bonus-tx' : isDeduct ? ' deduct-tx' : ''}`}>
+      <div>
+        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : isDeduct ? 'Points adjusted' : 'Purchase')}</div>
+        <div className="tx-time">{formatDate(tx.timestamp || tx.createdAt)}</div>
+      </div>
+      <div className={`tx-amount ${isBonus ? 'bonus' : isDeduct ? 'deduct' : isEarned ? 'earned' : 'spent'}`}>
+        {isBonus ? '⭐ +' : isDeduct ? '− ' : isEarned ? '+' : ''}{tx.amount} pts
+      </div>
+    </div>
+  )
+}
+
 // Kid's own wallet view
 export function KidWalletView({ kidId }) {
   const [wallet, setWallet] = useState(null)
@@ -34,6 +51,10 @@ export function KidWalletView({ kidId }) {
   if (error) return <div className="error-msg">{error}</div>
   if (!wallet) return null
 
+  const sorted = [...(wallet.transactions || [])]
+    .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
+    .slice(0, 15)
+
   return (
     <div>
       <div className="balance-display">
@@ -42,29 +63,12 @@ export function KidWalletView({ kidId }) {
       </div>
 
       <h3 style={{ marginBottom: 14, color: '#334155' }}>📋 Transaction History</h3>
-      {(!wallet.transactions || wallet.transactions.length === 0) ? (
+      {sorted.length === 0 ? (
         <div className="empty-text">No transactions yet.</div>
       ) : (
         <>
           <div className="transaction-list">
-            {[...wallet.transactions]
-              .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
-              .slice(0, 15)
-              .map((tx, i) => {
-                const isBonus = tx.type === 'bonus'
-                const isEarned = tx.type === 'earned' || (!isBonus && tx.amount > 0)
-                return (
-                  <div key={tx.id || i} className={`transaction-item${isBonus ? ' bonus-tx' : ''}`}>
-                    <div>
-                      <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
-                      <div className="tx-time">{formatDate(tx.timestamp || tx.createdAt)}</div>
-                    </div>
-                    <div className={`tx-amount ${isBonus ? 'bonus' : isEarned ? 'earned' : 'spent'}`}>
-                      {isBonus ? '⭐ +' : isEarned ? '+' : ''}{tx.amount} pts
-                    </div>
-                  </div>
-                )
-              })}
+            {sorted.map((tx, i) => <TxItem key={tx.id || i} tx={tx} i={i} />)}
           </div>
           {wallet.transactions.length > 15 && (
             <div style={{ textAlign: 'center', fontSize: '0.8rem', color: '#94a3b8', marginTop: 8 }}>
@@ -100,11 +104,9 @@ export function KidWalletModal({ kid, onClose }) {
     }
   }
 
-  function formatDate(ts) {
-    if (!ts) return ''
-    const d = new Date(ts)
-    return d.toLocaleString()
-  }
+  const sorted = [...(wallet?.transactions || [])]
+    .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
+    .slice(0, 15)
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -124,29 +126,12 @@ export function KidWalletModal({ kid, onClose }) {
               <div style={{ fontSize: '2rem', fontWeight: 700, color: '#059669' }}>{wallet.balance} pts</div>
             </div>
 
-            {(!wallet.transactions || wallet.transactions.length === 0) ? (
+            {sorted.length === 0 ? (
               <div className="empty-text">No transactions yet.</div>
             ) : (
               <>
                 <div className="transaction-list">
-                  {[...wallet.transactions]
-                    .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
-                    .slice(0, 15)
-                    .map((tx, i) => {
-                      const isBonus = tx.type === 'bonus'
-                      const isEarned = tx.type === 'earned' || (!isBonus && tx.amount > 0)
-                      return (
-                        <div key={tx.id || i} className={`transaction-item${isBonus ? ' bonus-tx' : ''}`}>
-                          <div>
-                            <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
-                            <div className="tx-time">{formatDate(tx.timestamp || tx.createdAt)}</div>
-                          </div>
-                          <div className={`tx-amount ${isBonus ? 'bonus' : isEarned ? 'earned' : 'spent'}`}>
-                            {isBonus ? '⭐ +' : isEarned ? '+' : ''}{tx.amount} pts
-                          </div>
-                        </div>
-                      )
-                    })}
+                  {sorted.map((tx, i) => <TxItem key={tx.id || i} tx={tx} i={i} />)}
                 </div>
                 {wallet.transactions.length > 15 && (
                   <div style={{ textAlign: 'center', fontSize: '0.8rem', color: '#94a3b8', marginTop: 8 }}>

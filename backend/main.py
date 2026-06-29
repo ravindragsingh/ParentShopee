@@ -232,6 +232,10 @@ class BonusPointsBody(BaseModel):
     points: float
     reason: Optional[str] = "Bonus points"
 
+class WalletAdjustBody(BaseModel):
+    amount: float          # positive = add, negative = deduct
+    reason: Optional[str] = ""
+
 class MessageBody(BaseModel):
     receiver_id: str
     content: str
@@ -483,6 +487,31 @@ def award_bonus(kid_id: str, body: BonusPointsBody, db: Session = Depends(get_db
     db.commit()
     db.refresh(wallet)
     return ok({"kidName": kid.name, "pointsAwarded": body.points, "newBalance": wallet.balance})
+
+@app.post("/api/kids/{kid_id}/wallet/adjust")
+def adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    if body.amount == 0:
+        fail("Amount cannot be zero")
+    family_id = get_family_id(user)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    if not kid:
+        fail("Child not found or not in your family", 404)
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=kid_id, balance=0)
+        db.add(wallet)
+        db.flush()
+    new_balance = wallet.balance + body.amount
+    if new_balance < 0:
+        fail(f"Cannot deduct more than current balance ({int(wallet.balance)} pts)")
+    wallet.balance = new_balance
+    tx_type = "bonus" if body.amount > 0 else "deduct"
+    desc = body.reason.strip() if body.reason and body.reason.strip() else ("Bonus points" if body.amount > 0 else "Points adjusted")
+    db.add(DBTransaction(id=str(uuid4()), kid_id=kid_id, type=tx_type, amount=abs(body.amount),
+                         description=desc, timestamp=now()))
+    db.commit()
+    db.refresh(wallet)
+    return ok({"kidName": kid.name, "adjustment": body.amount, "newBalance": wallet.balance})
 
 @app.put("/api/kids/{kid_id}/password")
 def update_kid_password(kid_id: str, body: UpdateKidPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):

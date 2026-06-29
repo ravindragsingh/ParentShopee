@@ -759,11 +759,17 @@ function KidsTab() {
     setBonusError('')
     setBonusSuccess('')
     const pts = Number(bonusPts)
-    if (!pts || pts <= 0) { setBonusError('Enter a valid number of points.'); return }
+    if (!pts || isNaN(pts) || pts === 0) { setBonusError('Enter a non-zero number of points.'); return }
+    const currentBalance = getBalance(kid.id)
+    if (pts < 0 && currentBalance + pts < 0) {
+      setBonusError(`Cannot deduct more than current balance (${currentBalance} pts).`)
+      return
+    }
     setAwarding(true)
     try {
-      const res = await api.awardBonus(kid.id, pts, bonusReason.trim() || 'Bonus points')
-      setBonusSuccess(`⭐ ${res.pointsAwarded} pts awarded to ${res.kidName}! New balance: ${res.newBalance} pts`)
+      const res = await api.adjustWallet(kid.id, pts, bonusReason.trim())
+      const sign = res.adjustment > 0 ? '+' : ''
+      setBonusSuccess(`${sign}${res.adjustment} pts applied to ${res.kidName}. New balance: ${res.newBalance} pts`)
       setBonusPts('')
       setBonusReason('')
       loadData()
@@ -919,7 +925,7 @@ function KidsTab() {
                         setChangingPwdFor(null); setViewingTxFor(null); setBonusPts(''); setBonusReason(''); setBonusError(''); setBonusSuccess('')
                       }}
                     >
-                      {awardingFor === kid.id ? 'Cancel' : '⭐ Award'}
+                      {awardingFor === kid.id ? 'Cancel' : '✏️ Points'}
                     </button>
                     <button
                       className={`btn btn-sm ${viewingTxFor === kid.id ? 'btn-primary' : 'btn-outline'}`}
@@ -956,33 +962,55 @@ function KidsTab() {
                     </td>
                   </tr>
                 )}
-                {awardingFor === kid.id && (
-                  <tr key={`${kid.id}-bonus`}>
-                    <td colSpan={5} style={{ background: '#fffbeb', padding: '12px 16px', borderTop: '2px solid #fde68a' }}>
-                      {bonusError && <div className="error-msg" style={{ marginBottom: 8 }}>{bonusError}</div>}
-                      {bonusSuccess && <div style={{ color: '#059669', fontSize: '0.85rem', marginBottom: 8 }}>{bonusSuccess}</div>}
-                      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-                        <input
-                          type="number"
-                          min="1"
-                          value={bonusPts}
-                          onChange={e => setBonusPts(e.target.value)}
-                          placeholder="Points"
-                          style={{ padding: '7px 12px', border: '1px solid #fbbf24', borderRadius: 7, fontSize: '0.9rem', width: 100 }}
-                        />
-                        <input
-                          value={bonusReason}
-                          onChange={e => setBonusReason(e.target.value)}
-                          placeholder="Reason (optional)"
-                          style={{ padding: '7px 12px', border: '1px solid #fbbf24', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
-                        />
-                        <button className="btn btn-green btn-sm" onClick={() => handleAwardBonus(kid)} disabled={awarding}>
-                          {awarding ? 'Awarding...' : '⭐ Award Points'}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )}
+                {awardingFor === kid.id && (() => {
+                  const currentBal = getBalance(kid.id)
+                  const delta = Number(bonusPts)
+                  const projected = isNaN(delta) ? currentBal : currentBal + delta
+                  const isDeduct = delta < 0
+                  const overDeduct = projected < 0
+                  return (
+                    <tr key={`${kid.id}-bonus`}>
+                      <td colSpan={5} style={{ background: '#fffbeb', padding: '12px 16px', borderTop: '2px solid #fde68a' }}>
+                        {bonusError && <div className="error-msg" style={{ marginBottom: 8 }}>{bonusError}</div>}
+                        {bonusSuccess && <div style={{ color: '#059669', fontSize: '0.85rem', marginBottom: 8 }}>{bonusSuccess}</div>}
+                        <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 8 }}>
+                          Current balance: <strong>{currentBal} pts</strong>
+                          {bonusPts !== '' && !isNaN(delta) && delta !== 0 && (
+                            <span style={{ marginLeft: 10, color: overDeduct ? '#ef4444' : isDeduct ? '#f59e0b' : '#059669', fontWeight: 600 }}>
+                              → {projected} pts {overDeduct ? '(not enough)' : ''}
+                            </span>
+                          )}
+                        </div>
+                        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                          <input
+                            type="number"
+                            value={bonusPts}
+                            onChange={e => setBonusPts(e.target.value)}
+                            placeholder="e.g. 10 or -5"
+                            style={{ padding: '7px 12px', border: `1px solid ${overDeduct ? '#ef4444' : '#fbbf24'}`, borderRadius: 7, fontSize: '0.9rem', width: 120 }}
+                          />
+                          <input
+                            value={bonusReason}
+                            onChange={e => setBonusReason(e.target.value)}
+                            placeholder="Reason (optional)"
+                            style={{ padding: '7px 12px', border: '1px solid #fbbf24', borderRadius: 7, fontSize: '0.9rem', width: 220 }}
+                          />
+                          <button
+                            className={`btn btn-sm ${isDeduct ? 'btn-outline' : 'btn-green'}`}
+                            style={isDeduct ? { borderColor: '#f59e0b', color: '#b45309' } : {}}
+                            onClick={() => handleAwardBonus(kid)}
+                            disabled={awarding || overDeduct || bonusPts === '' || delta === 0}
+                          >
+                            {awarding ? 'Saving...' : isDeduct ? '− Deduct Points' : '⭐ Add Points'}
+                          </button>
+                        </div>
+                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 6 }}>
+                          Enter a positive number to add points, negative to deduct (e.g. −5)
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })()}
                 {viewingTxFor === kid.id && (
                   <tr key={`${kid.id}-tx`}>
                     <td colSpan={5} style={{ background: '#f0f9ff', padding: '14px 16px', borderTop: '2px solid #bae6fd' }}>
@@ -1001,16 +1029,17 @@ function KidsTab() {
                                 .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
                                 .slice(0, 15)
                                 .map((tx, i) => {
-                                  const isBonus = tx.type === 'bonus'
-                                  const isEarned = tx.type === 'earned' || (!isBonus && tx.amount > 0)
+                                  const isBonus  = tx.type === 'bonus'
+                                  const isDeduct = tx.type === 'deduct'
+                                  const isEarned = tx.type === 'earned' || (!isBonus && !isDeduct && tx.amount > 0)
                                   return (
-                                    <div key={tx.id || i} className={`transaction-item${isBonus ? ' bonus-tx' : ''}`} style={{ fontSize: '0.85rem' }}>
+                                    <div key={tx.id || i} className={`transaction-item${isBonus ? ' bonus-tx' : isDeduct ? ' deduct-tx' : ''}`} style={{ fontSize: '0.85rem' }}>
                                       <div>
-                                        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : 'Purchase')}</div>
+                                        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : isDeduct ? 'Points adjusted' : 'Purchase')}</div>
                                         <div className="tx-time">{new Date(tx.timestamp || tx.createdAt).toLocaleString()}</div>
                                       </div>
-                                      <div className={`tx-amount ${isBonus ? 'bonus' : isEarned ? 'earned' : 'spent'}`} style={{ fontSize: '0.9rem' }}>
-                                        {isBonus ? '⭐ +' : isEarned ? '+' : ''}{tx.amount} pts
+                                      <div className={`tx-amount ${isBonus ? 'bonus' : isDeduct ? 'deduct' : isEarned ? 'earned' : 'spent'}`} style={{ fontSize: '0.9rem' }}>
+                                        {isBonus ? '⭐ +' : isDeduct ? '− ' : isEarned ? '+' : ''}{tx.amount} pts
                                       </div>
                                     </div>
                                   )

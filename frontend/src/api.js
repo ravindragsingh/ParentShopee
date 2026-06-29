@@ -61,6 +61,7 @@ export const api = {
   addKid:            (body)               => request('POST', '/api/kids', body),
   updateKidPassword: (kidId, pwd)         => request('PUT',  `/api/kids/${kidId}/password`, { password: pwd }),
   awardBonus:        (kidId, points, reason) => request('POST', `/api/kids/${kidId}/bonus`, { points, reason }),
+  adjustWallet:      (kidId, amount, reason) => request('POST', `/api/kids/${kidId}/wallet/adjust`, { amount, reason }),
 
   // Account
   changeOwnPassword: (password) => request('PUT', '/api/auth/password', { password }),
