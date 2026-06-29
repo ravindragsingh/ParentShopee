@@ -268,6 +268,11 @@ function LoginForm({ onRegister }) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [sessionExpired] = useState(() => {
+    const expired = localStorage.getItem('session_expired') === '1'
+    if (expired) localStorage.removeItem('session_expired')
+    return expired
+  })
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -291,6 +296,13 @@ function LoginForm({ onRegister }) {
     <>
       <h1 className="login-title">ParentShopee</h1>
       <p className="login-subtitle">Chores &amp; Rewards for Families</p>
+
+      {sessionExpired && (
+        <div style={{ background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: 8, padding: '10px 14px', marginBottom: 14, fontSize: '0.85rem', color: '#92400e', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+          <span>⚠️</span>
+          <span>Your session expired — the server restarted. Please sign in again.</span>
+        </div>
+      )}
 
       {error && <div className="error-msg">{error}</div>}
 

@@ -26,6 +26,13 @@ async function request(method, path, body) {
   try {
     const res = await fetch(`${BASE_URL}${path}`, options)
     clearTimeout(timeoutId)
+
+    // 401 while a token exists = backend restarted and lost the in-memory session
+    if (res.status === 401 && localStorage.getItem('token')) {
+      window.dispatchEvent(new CustomEvent('auth:expired'))
+      throw new Error('Your session has expired. Please log in again.')
+    }
+
     const data = await res.json()
     if (!data.success) {
       throw new Error(data.error || 'Request failed')

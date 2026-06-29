@@ -15,6 +15,17 @@ export function AuthProvider({ children }) {
       setUser(JSON.parse(savedUser))
     }
     setLoading(false)
+
+    function handleExpired() {
+      setUser(null)
+      setToken(null)
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      localStorage.setItem('session_expired', '1')
+    }
+
+    window.addEventListener('auth:expired', handleExpired)
+    return () => window.removeEventListener('auth:expired', handleExpired)
   }, [])
 
   function login(userData, authToken) {
