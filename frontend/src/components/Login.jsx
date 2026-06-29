@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
@@ -122,8 +122,48 @@ function RegisterForm({ onBack }) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  // OTP state
+  const [otp, setOtp] = useState('')
+  const [otpSent, setOtpSent] = useState(false)
+  const [otpLoading, setOtpLoading] = useState(false)
+  const [otpError, setOtpError] = useState('')
+  const [cooldown, setCooldown] = useState(0)
+  const cooldownRef = useRef(null)
+
+  function startCooldown() {
+    setCooldown(60)
+    cooldownRef.current = setInterval(() => {
+      setCooldown(c => {
+        if (c <= 1) { clearInterval(cooldownRef.current); return 0 }
+        return c - 1
+      })
+    }, 1000)
+  }
+
+  useEffect(() => () => clearInterval(cooldownRef.current), [])
+
+  async function handleSendOtp() {
+    setOtpError('')
+    if (!form.email.trim()) { setOtpError('Please enter your email address first.'); return }
+    setOtpLoading(true)
+    try {
+      await api.sendOtp(form.email.trim())
+      setOtpSent(true)
+      setOtp('')
+      startCooldown()
+    } catch (err) {
+      setOtpError(err.message)
+    } finally {
+      setOtpLoading(false)
+    }
+  }
+
   function set(field) {
-    return e => setForm(f => ({ ...f, [field]: e.target.value }))
+    return e => {
+      setForm(f => ({ ...f, [field]: e.target.value }))
+      // reset OTP if email changes after a code was sent
+      if (field === 'email' && otpSent) { setOtpSent(false); setOtp(''); setOtpError('') }
+    }
   }
 
   async function handleSubmit(e) {
@@ -141,6 +181,10 @@ function RegisterForm({ onBack }) {
       setError('Passwords do not match.')
       return
     }
+    if (!otp.trim()) {
+      setError('Please verify your email — click "Send Code" and enter the 6-digit code.')
+      return
+    }
     if (!agreed) {
       setError('You must read and agree to the User Agreement to create an account.')
       return
@@ -154,6 +198,7 @@ function RegisterForm({ onBack }) {
         password: form.password,
         dateOfBirth: form.dateOfBirth,
         gender: form.gender,
+        otp: otp.trim(),
       })
       login(data.user, data.token)
     } catch (err) {
@@ -177,10 +222,53 @@ function RegisterForm({ onBack }) {
           <label>Full Name *</label>
           <input value={form.name} onChange={set('name')} placeholder="e.g. Jane Smith" />
         </div>
-        <div className="form-group" style={{ marginBottom: 12 }}>
+        <div className="form-group" style={{ marginBottom: otpSent ? 8 : 12 }}>
           <label>Email Address *</label>
-          <input type="email" value={form.email} onChange={set('email')} placeholder="jane@example.com" />
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input
+              type="email"
+              value={form.email}
+              onChange={set('email')}
+              placeholder="jane@example.com"
+              style={{ flex: 1 }}
+            />
+            <button
+              type="button"
+              onClick={handleSendOtp}
+              disabled={otpLoading || cooldown > 0 || !form.email.trim()}
+              style={{
+                flexShrink: 0,
+                padding: '0 14px',
+                background: cooldown > 0 ? '#e2e8f0' : 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                color: cooldown > 0 ? '#64748b' : '#fff',
+                border: 'none', borderRadius: 8, fontSize: '0.82rem', fontWeight: 600,
+                cursor: (otpLoading || cooldown > 0 || !form.email.trim()) ? 'not-allowed' : 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {otpLoading ? 'Sending…' : cooldown > 0 ? `Resend (${cooldown}s)` : otpSent ? '↺ Resend' : '✉ Send Code'}
+            </button>
+          </div>
+          {otpError && <div className="error-msg" style={{ marginTop: 6 }}>{otpError}</div>}
         </div>
+
+        {otpSent && (
+          <div className="form-group" style={{ marginBottom: 12 }}>
+            <label>Verification Code *</label>
+            <input
+              value={otp}
+              onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              placeholder="Enter the 6-digit code from your email"
+              maxLength={6}
+              style={{ letterSpacing: '0.2em', fontWeight: 700, fontSize: '1.05rem',
+                border: `1.5px solid ${otp.length === 6 ? '#059669' : '#cbd5e1'}` }}
+              autoFocus
+            />
+            {otp.length === 6 && (
+              <div style={{ fontSize: '0.78rem', color: '#059669', marginTop: 4 }}>✓ Code entered — ready to submit</div>
+            )}
+          </div>
+        )}
         <div className="form-group" style={{ marginBottom: 12 }}>
           <label>Date of Birth * <span style={{ fontWeight: 400, color: '#94a3b8' }}>(must be 25+)</span></label>
           <input type="date" value={form.dateOfBirth} onChange={set('dateOfBirth')} />

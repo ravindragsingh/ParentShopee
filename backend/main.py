@@ -1,5 +1,6 @@
 import re
 import os
+import random
 import smtplib
 import base64
 import binascii
@@ -122,6 +123,7 @@ app.add_middleware(MaxBodySizeMiddleware)
 
 EMAIL_RE = re.compile(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
 SESSIONS: dict = {}   # token -> user_id  (in-memory; users re-login after restart)
+OTP_STORE: dict = {}  # email -> {otp, expires_at, sent_at}  (in-memory; 10-min TTL)
 
 # ── Age-appropriate content filter ─────────────────────────────────────────────
 _RESTRICTED = [
@@ -274,6 +276,9 @@ class LoginBody(BaseModel):
     username: str
     password: str
 
+class SendOTPBody(BaseModel):
+    email: str
+
 class RegisterBody(BaseModel):
     name: str
     email: str
@@ -281,6 +286,7 @@ class RegisterBody(BaseModel):
     password: str
     dateOfBirth: str
     gender: str
+    otp: str  # email verification code
 
 class AddKidBody(BaseModel):
     name: str
@@ -457,9 +463,65 @@ def login(body: LoginBody, db: Session = Depends(get_db)):
     SESSIONS[token] = user.id
     return ok({"token": token, "user": safe_user(user)})
 
+@app.post("/api/auth/send-otp")
+def send_otp(body: SendOTPBody, db: Session = Depends(get_db)):
+    email = body.email.strip().lower()
+    if not EMAIL_RE.match(email):
+        fail("Please enter a valid email address.")
+    if db.query(DBUser).filter(DBUser.email == email).first():
+        fail("An account with this email already exists.")
+
+    # 60-second cooldown between sends
+    existing = OTP_STORE.get(email)
+    if existing and datetime.now(timezone.utc).timestamp() - existing.get("sent_at", 0) < 60:
+        fail("Please wait 60 seconds before requesting another code.")
+
+    if not SMTP_USER or not SMTP_PASSWORD:
+        fail("Email verification is currently unavailable. Please contact support.")
+
+    otp = f"{random.randint(100000, 999999)}"
+    now_ts = datetime.now(timezone.utc).timestamp()
+    OTP_STORE[email] = {"otp": otp, "expires_at": now_ts + 600, "sent_at": now_ts}
+    print(f"[send-otp] code for {email}: {otp}")
+
+    try:
+        msg = MIMEMultipart()
+        msg["Subject"] = "Your ParentShopee Verification Code"
+        msg["From"]    = SMTP_USER
+        msg["To"]      = email
+        msg.attach(MIMEText(
+            f"Your ParentShopee verification code is:\n\n"
+            f"    {otp}\n\n"
+            f"This code expires in 10 minutes. Do not share it with anyone.\n\n"
+            f"If you did not request this, please ignore this email.\n\n"
+            f"— The ParentShopee Team",
+            "plain"
+        ))
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as srv:
+            srv.starttls()
+            srv.login(SMTP_USER, SMTP_PASSWORD)
+            srv.sendmail(SMTP_USER, email, msg.as_string())
+        return ok({"message": "Verification code sent to your email."})
+    except Exception as e:
+        print(f"[send-otp] SMTP error: {e}")
+        fail("Failed to send verification email. Please try again.", 500)
+
 @app.post("/api/auth/register")
 def register(body: RegisterBody, db: Session = Depends(get_db)):
-    if not EMAIL_RE.match(body.email):
+    email = body.email.strip().lower()
+
+    # Verify OTP before doing anything else
+    stored = OTP_STORE.get(email)
+    if not stored:
+        fail("Please verify your email first — click 'Send Code' next to the email field.")
+    if datetime.now(timezone.utc).timestamp() > stored["expires_at"]:
+        OTP_STORE.pop(email, None)
+        fail("Verification code has expired. Please click 'Send Code' to get a new one.")
+    if stored["otp"] != body.otp.strip():
+        fail("Incorrect verification code. Please check your email and try again.")
+    OTP_STORE.pop(email, None)  # consume immediately — single use
+
+    if not EMAIL_RE.match(email):
         fail("Please enter a valid email address")
     try:
         age = calculate_age(body.dateOfBirth)
@@ -469,7 +531,7 @@ def register(body: RegisterBody, db: Session = Depends(get_db)):
         fail("To register as Parent, you should be 25 years or more.")
     if db.query(DBUser).filter(DBUser.username == body.username.strip()).first():
         fail("Username already taken")
-    if db.query(DBUser).filter(DBUser.email == body.email.lower().strip()).first():
+    if db.query(DBUser).filter(DBUser.email == email).first():
         fail("Email address already registered")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
@@ -484,7 +546,7 @@ def register(body: RegisterBody, db: Session = Depends(get_db)):
         username=body.username.strip(),
         password=body.password,
         role="parent",
-        email=body.email.lower().strip(),
+        email=email,
         date_of_birth=body.dateOfBirth,
         gender=body.gender,
     )

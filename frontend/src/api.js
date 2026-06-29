@@ -51,6 +51,8 @@ export const api = {
   // Auth
   login: (username, password) =>
     request('POST', '/api/auth/login', { username, password }),
+  sendOtp: (email) =>
+    request('POST', '/api/auth/send-otp', { email }),
   register: (body) =>
     request('POST', '/api/auth/register', body),
 
