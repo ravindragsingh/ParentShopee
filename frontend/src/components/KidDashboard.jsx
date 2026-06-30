@@ -180,6 +180,79 @@ function KidShopTab({ userId }) {
   )
 }
 
+// ─── Motivational banner ─────────────────────────────────────────────────────
+
+const MOTIVATIONAL_MESSAGES = [
+  "Every chore you finish gets you one step closer to your reward! 🎯",
+  "You're on fire — keep knocking out those chores! 🔥",
+  "Champions do their chores without being asked! 💪",
+  "Points are waiting for you — go grab them! ⭐",
+  "Small tasks today, big rewards tomorrow! 🌟",
+  "You've got this! Chores don't stand a chance! 🦸",
+  "The more you do, the more you earn — let's go! 🚀",
+  "Every point counts. Make today your best day! 💰",
+  "Heroes help at home. Be today's hero! 🦸‍♀️",
+  "A tidy home makes a happy family — and more points for you! 🏠",
+  "Superstar alert — your chores are calling! ⭐",
+  "Finish your chores and watch your points soar! 📈",
+  "You're stronger than any chore list! 💪",
+  "Every chore you finish is a victory. Go win! 🏆",
+  "The fastest way to your reward? Start right now! ⚡",
+  "Your future self will thank you for doing chores today! 🙌",
+  "Dream big, earn big — start with your chores! 🌈",
+  "You have the power to make today amazing! ✨",
+  "Nothing feels better than a finished chore list! 🎉",
+  "Level up your points — tackle your chores like a pro! 🎮",
+  "Be the helper your family didn't know they needed! 💚",
+  "One chore at a time — you'll get there! 🐢",
+  "Your points are patiently waiting for you to collect them! 🏦",
+  "Show your chores who's boss today! 👊",
+  "Great things happen when you put in the work! 🌟",
+  "Turn chores into points and points into prizes! 🎁",
+  "You're building great habits — one chore at a time! 🧱",
+  "Today is a perfect day to earn more points! ☀️",
+  "Every sweep and tidy-up brings you closer to your goal! 🎯",
+  "Your family is cheering for you — go get those points! 📣",
+]
+
+function getGreeting() {
+  const h = new Date().getHours()
+  if (h >= 5  && h < 12) return { text: 'Good Morning',   icon: '🌅' }
+  if (h >= 12 && h < 17) return { text: 'Good Afternoon', icon: '☀️'  }
+  if (h >= 17 && h < 21) return { text: 'Good Evening',   icon: '🌇' }
+  return                         { text: 'Good Night',     icon: '🌙' }
+}
+
+function MotivationalBanner({ name }) {
+  const [message] = useState(
+    () => MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)]
+  )
+  const greeting = getGreeting()
+
+  return (
+    <div style={{
+      background: 'linear-gradient(135deg, #f0fdf4, #ecfdf5)',
+      border: '1.5px solid #bbf7d0',
+      borderRadius: 14,
+      padding: '14px 18px',
+      marginBottom: 16,
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: 14,
+    }}>
+      <span style={{ fontSize: '2rem', lineHeight: 1, flexShrink: 0 }}>{greeting.icon}</span>
+      <div>
+        <div style={{ fontWeight: 700, fontSize: '1rem', color: '#065f46', marginBottom: 3 }}>
+          {greeting.text}, {name}!
+        </div>
+        <div style={{ fontSize: '0.875rem', color: '#047857', lineHeight: 1.5 }}>
+          {message}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Kid Dashboard Shell ─────────────────────────────────────────────────────
 
 export default function KidDashboard() {
@@ -230,6 +303,8 @@ export default function KidDashboard() {
           ))}
           <HamburgerMenu tab={tab} setTab={setTab} role="kid" />
         </div>
+
+        <MotivationalBanner name={user.name} />
 
         {tab === 'chores'   && <KidChoresTab userId={user.id} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
