@@ -259,6 +259,7 @@ def check_and_expire_chores(db: Session):
     db.commit()
 
 def get_visible_chores(db: Session, family_id: str = None, cutoff_hours: int = 72):
+    today_str = date.today().isoformat()
     ts = (datetime.now(timezone.utc) - timedelta(hours=cutoff_hours)).isoformat()
     q = db.query(DBChore).filter(
         # Hide expired chores older than cutoff
@@ -269,6 +270,9 @@ def get_visible_chores(db: Session, family_id: str = None, cutoff_hours: int = 7
         ~and_(DBChore.status == "complete",
               DBChore.completed_at.isnot(None),
               DBChore.completed_at < ts),
+        # Hide recurring instances scheduled for a future date
+        ~and_(DBChore.template_id.isnot(None),
+              DBChore.scheduled_date > today_str),
     )
     if family_id:
         q = q.filter(DBChore.family_id == family_id)
@@ -734,6 +738,14 @@ def remove_co_parent(db: Session = Depends(get_db), user: DBUser = Depends(requi
 
 def _generate_instances(db: Session, template: DBRecurringTemplate):
     today = date.today()
+    today_str = today.isoformat()
+    # Remove any stale open instances scheduled beyond today
+    db.query(DBChore).filter(
+        DBChore.template_id == template.id,
+        DBChore.status == "open",
+        DBChore.scheduled_date > today_str,
+    ).delete(synchronize_session=False)
+    db.commit()
     weekly_days: List[int] = []
     if template.recurrence_days:
         try:
