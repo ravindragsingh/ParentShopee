@@ -35,7 +35,7 @@ function CollapsibleSection({ icon, title, count, colorClass, defaultOpen = fals
       {isOpen && (
         count === 0
           ? <div className="empty-text">{emptyText}</div>
-          : children
+          : <div className="chore-grid">{children}</div>
       )}
     </div>
   )

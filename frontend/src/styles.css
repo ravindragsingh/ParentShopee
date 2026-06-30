@@ -170,17 +170,22 @@ body {
 .badge.expired { background: #f1f5f9; color: #64748b; }
 
 /* Chore cards */
+.chore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+  padding: 8px 0 4px;
+}
+
 .chore-card {
   background: white;
   border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 10px;
+  padding: 16px 14px 14px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  border-left: 4px solid #e2e8f0;
+  border-top: 4px solid #e2e8f0;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   transition: box-shadow 0.15s;
 }
 
@@ -188,10 +193,10 @@ body {
   box-shadow: 0 4px 14px rgba(0,0,0,0.10);
 }
 
-.chore-card.open { border-left-color: #3b82f6; }
-.chore-card.pending { border-left-color: #f97316; }
-.chore-card.complete { border-left-color: #10b981; }
-.chore-card.expired { border-left-color: #94a3b8; opacity: 0.75; }
+.chore-card.open    { border-top-color: #3b82f6; }
+.chore-card.pending { border-top-color: #f97316; }
+.chore-card.complete { border-top-color: #10b981; }
+.chore-card.expired  { border-top-color: #94a3b8; opacity: 0.75; }
 
 .due-date {
   font-size: 0.78rem;
@@ -204,10 +209,10 @@ body {
 .due-date.urgent { background: #fff7ed; color: #ea580c; }
 .due-date.overdue { background: #fee2e2; color: #dc2626; }
 
-.chore-info { flex: 1; }
-.chore-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: #1e293b; }
-.chore-desc { color: #64748b; font-size: 0.875rem; margin-bottom: 6px; }
-.chore-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.chore-info { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.chore-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; color: #1e293b; text-align: center; }
+.chore-desc { color: #64748b; font-size: 0.82rem; margin-bottom: 6px; text-align: center; }
+.chore-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center; }
 .points-badge {
   background: linear-gradient(135deg, #fef3c7, #fde68a);
   color: #b45309;
@@ -218,7 +223,7 @@ body {
   border: 1px solid #fcd34d;
 }
 
-.chore-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
+.chore-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: auto; padding-top: 4px; }
 
 /* Buttons */
 .btn {
@@ -695,16 +700,17 @@ body {
 
 /* Chore emoji on chore card */
 .chore-emoji {
-  font-size: 2rem;
+  font-size: 2.2rem;
   line-height: 1;
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
   background: linear-gradient(135deg, #fdf4ff, #fff7ed);
-  border-radius: 10px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto 2px;
+  flex-shrink: 0;
 }
 
 /* Balance chip in kid dashboard */
@@ -756,13 +762,9 @@ body {
     flex-direction: column;
   }
 
-  .chore-card {
-    flex-direction: column;
-  }
-
-  .chore-actions {
-    width: 100%;
-    justify-content: flex-start;
+  .chore-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 
   .kids-table th:nth-child(3),

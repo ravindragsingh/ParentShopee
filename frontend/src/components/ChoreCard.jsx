@@ -184,44 +184,43 @@ export function ParentChoreCard({ chore, kids, onRefresh }) {
                 <EmojiPicker emojis={CHORE_EMOJIS} value={editEmoji} onChange={e => { setEditEmoji(e); setShowEmojiPicker(false) }} />
               </div>
             )}
-            <div className="inline-edit" style={{ marginBottom: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%' }}>
               <input
                 value={editTitle}
                 onChange={e => setEditTitle(e.target.value)}
                 placeholder="Title"
-                style={{ width: '200px' }}
+                style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', boxSizing: 'border-box' }}
               />
-              <input
-                type="number"
-                value={editPoints}
-                onChange={e => setEditPoints(e.target.value)}
-                placeholder="Points"
-                style={{ width: '80px' }}
-              />
-              <select
-                value={editKid}
-                onChange={e => setEditKid(e.target.value)}
-                style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: '6px', fontSize: '0.85rem' }}
-              >
-                <option value="">Any kid</option>
-                {kids.map(k => (
-                  <option key={k.id} value={k.id}>{k.avatar} {k.name}</option>
-                ))}
-              </select>
-            </div>
-            <div className="inline-edit" style={{ marginBottom: 4 }}>
+              <div style={{ display: 'flex', gap: 6 }}>
+                <input
+                  type="number"
+                  value={editPoints}
+                  onChange={e => setEditPoints(e.target.value)}
+                  placeholder="Points"
+                  style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '80px' }}
+                />
+                <select
+                  value={editKid}
+                  onChange={e => setEditKid(e.target.value)}
+                  style={{ flex: 1, padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.82rem' }}
+                >
+                  <option value="">Any kid</option>
+                  {kids.map(k => (
+                    <option key={k.id} value={k.id}>{k.avatar} {k.name}</option>
+                  ))}
+                </select>
+              </div>
               <input
                 value={editDesc}
                 onChange={e => setEditDesc(e.target.value)}
                 placeholder="Description"
-                style={{ width: '260px' }}
+                style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', boxSizing: 'border-box' }}
               />
-              <label style={{ fontSize: '0.78rem', color: '#64748b', whiteSpace: 'nowrap' }}>Due date:</label>
               <input
                 type="date"
                 value={editDueDate}
                 onChange={e => setEditDueDate(e.target.value)}
-                style={{ width: '150px' }}
+                style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', boxSizing: 'border-box' }}
               />
             </div>
             {error && <div style={{ color: '#dc2626', fontSize: '0.8rem', marginTop: 4 }}>{error}</div>}
