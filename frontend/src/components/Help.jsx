@@ -94,15 +94,35 @@ function ParentHelp() {
         <Tip emoji="↕️" text="Kids can sort shop items by points (low → high or high → low) to find what they can afford." />
       </Section>
 
-      <Section icon="⭐" title="Awarding Bonus Points">
-        <Tip emoji="⭐" text="Go to Kids tab and click '⭐ Award' next to a child's name to give them bonus points for anything — good behaviour, helping around the house, a special achievement." />
-        <Tip emoji="📝" text="You can add an optional reason — it shows up in the child's wallet as a gold ⭐ transaction." />
+      <Section icon="🌟" title="Good Behaviour Points">
+        <Tip emoji="🌟" text="Go to the Kids tab and click '🌟 Behaviour' next to a child's name to award or remove points based on their behaviour." />
+        <Tip emoji="✅" text="Use the quick-select buttons (5, 10, 15, 20, 50 pts) or type a custom amount, then click 'Award Good Behaviour' to add points." />
+        <Tip emoji="➖" text="Click 'Remove Points' to deduct points if behaviour has been poor. A child's balance cannot go below zero." />
+        <Tip emoji="📒" text="Good behaviour awards show as a gold 🌟 entry in the child's wallet. Deductions show as a red entry." />
       </Section>
 
       <Section icon="📋" title="Viewing Kids' Wallets">
-        <Tip emoji="👁" text="Click the green balance chip next to a kid's name to see their full wallet in a popup." />
-        <Tip emoji="📋" text="Click '📋 Transactions' to expand their last 15 transactions inline in the table." />
-        <Tip emoji="🏦" text="Earned points show in green, purchases in red, bonus points in gold." />
+        <Tip emoji="👁" text="Click the green balance chip next to a kid's name to open their full wallet in a popup." />
+        <Tip emoji="📋" text="Click '📋 Transactions' to expand their last 15 transactions inline in the Kids table." />
+        <Tip emoji="🟢" text="Green = chore points earned · Gold ⭐ = bonus · Gold 🌟 = good behaviour · Red = points removed or spent in Shop." />
+      </Section>
+
+      <Section icon="👨‍👩‍👧" title="Co-Parent Management">
+        <Tip emoji="👨‍👩‍👧" text="Use the Co-Parent tab to add a second parent (partner, spouse, etc.) who shares full access to your family — children, chores, shop and wallets." />
+        <Tip emoji="➕" text="Enter their name, username and a password, then click 'Create Co-Parent'. Share those credentials with them to log in." />
+        <Tip emoji="🔑" text="Use '🔑 Change Password' on their card any time you need to update their login credentials." />
+        <Tip emoji="🗑️" text="'Remove Co-Parent' immediately revokes their access. Only one co-parent per family is allowed." />
+      </Section>
+
+      <Section icon="⚙️" title="Settings & Account">
+        <Tip emoji="🔑" text="Open the Settings tab (via the ☰ menu) to change your own password. Enter a new password and confirm it, then click 'Update Password'." />
+        <Tip emoji="🔑" text="To change a child's password, go to the Kids tab and click '🔑 Password' next to their name." />
+        <Tip emoji="🚪" text="Use the 'Sign Out' button in Settings — or the one in the top navbar — to log out." />
+      </Section>
+
+      <Section icon="📩" title="Contact & Support">
+        <Tip emoji="📩" text="Found a bug or need help? Use the 'Contact Us' option in the ☰ menu to send a message to the ParentShopee team." />
+        <Tip emoji="📎" text="You can attach a screenshot to your message to help us understand the issue faster." />
       </Section>
 
       <Section icon="🔁" title="Recurring Chores">
@@ -170,15 +190,26 @@ function KidHelp() {
 
       <Section icon="💰" title="Your Wallet">
         <Tip emoji="💰" text="The Wallet tab shows your current point balance and the last 15 transactions." />
-        <Tip emoji="🟢" text="Green entries are points you earned from chores." />
-        <Tip emoji="⭐" text="Gold ⭐ entries are bonus points your parent gave you for good work." />
-        <Tip emoji="🔴" text="Red entries are points you spent in the Shop." />
+        <Tip emoji="🟢" text="Green entries are points you earned from completing chores." />
+        <Tip emoji="⭐" text="Gold ⭐ entries are bonus points your parent gave you." />
+        <Tip emoji="🌟" text="Gold 🌟 entries are good behaviour points your parent awarded you — keep it up!" />
+        <Tip emoji="🔴" text="Red entries are points you spent in the Shop or had removed." />
       </Section>
 
       <Section icon="💬" title="Messaging">
         <Tip emoji="💬" text="Use the Messages tab to send a message to your parent or co-parent." />
         <Tip emoji="🔴" text="A red badge shows when you have new unread messages." />
         <Tip emoji="↵" text="Press Enter to send. Use Shift + Enter for a new line." />
+      </Section>
+
+      <Section icon="⚙️" title="Settings & Account">
+        <Tip emoji="🔑" text="Open the Settings tab (via the ☰ menu) to change your own password. Enter a new password, confirm it, and click 'Update Password'." />
+        <Tip emoji="🚪" text="Use 'Sign Out' in Settings — or the button in the top navbar — to log out." />
+      </Section>
+
+      <Section icon="📩" title="Need Help?">
+        <Tip emoji="📩" text="If something isn't working, use 'Contact Us' in the ☰ menu to send a message to the ParentShopee team." />
+        <Tip emoji="📎" text="You can attach a screenshot to help explain the problem." />
       </Section>
     </div>
   )
@@ -208,8 +239,9 @@ export function LoginHelp() {
     { icon: '✅', title: 'Create Chores', text: 'Parents create chores with a points value. Kids see them and complete them in real life.' },
     { icon: '🔁', title: 'Recurring Chores', text: 'Mark a chore as Daily, Weekly, or Monthly. One instance appears on the day it is due — no duplicates. Stop the series any time from the Active Recurring Chores panel.' },
     { icon: '⭐', title: 'Earn Points',   text: "Once a parent approves a chore, the child's wallet is credited automatically." },
+    { icon: '🌟', title: 'Good Behaviour', text: "Parents can award or deduct points for behaviour at any time — not just for completing chores. It shows as a special entry in the child's wallet." },
     { icon: '🛍️', title: 'Spend in Shop', text: 'Kids redeem their points for rewards the parent has set up — screen time, picking dinner, and more.' },
-    { icon: '💬', title: 'Stay Connected', text: 'Parents and kids can message each other inside the app, and parents can award bonus points anytime.' },
+    { icon: '💬', title: 'Stay Connected', text: 'Parents and kids can message each other inside the app. Add a co-parent so both parents share full family access.' },
   ]
 
   return (
