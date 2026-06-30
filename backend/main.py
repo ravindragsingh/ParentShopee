@@ -65,6 +65,23 @@ class DBChore(Base):
     completed_at        = Column(String, nullable=True)
     created_at          = Column(String, nullable=False)
     family_id           = Column(String, nullable=True, index=True)
+    template_id         = Column(String, nullable=True, index=True)
+    scheduled_date      = Column(String, nullable=True)
+
+class DBRecurringTemplate(Base):
+    __tablename__ = "recurring_templates"
+    id              = Column(String, primary_key=True)
+    title           = Column(String, nullable=False)
+    description     = Column(String, default="")
+    points          = Column(Float,  default=0)
+    image_emoji     = Column(String, default="📋")
+    assigned_kid_id = Column(String, nullable=True)
+    recurrence_type = Column(String, nullable=False)   # daily | weekly | monthly
+    recurrence_days = Column(String, nullable=True)    # CSV of weekday ints e.g. "0,2,4"
+    recurrence_dom  = Column(String, nullable=True)    # day-of-month for monthly
+    family_id       = Column(String, nullable=True, index=True)
+    is_active       = Column(String, default="1")      # "1" or "0"
+    created_at      = Column(String, nullable=False)
 
 class DBShopItem(Base):
     __tablename__ = "shop_items"
@@ -196,7 +213,20 @@ def chore_dict(c: DBChore) -> dict:
             "points": c.points, "imageEmoji": c.image_emoji, "status": c.status,
             "assignedKidId": c.assigned_kid_id, "completedByKidId": c.completed_by_kid_id,
             "dueDate": c.due_date, "expiredAt": c.expired_at,
-            "completedAt": c.completed_at, "createdAt": c.created_at}
+            "completedAt": c.completed_at, "createdAt": c.created_at,
+            "templateId": c.template_id, "scheduledDate": c.scheduled_date}
+
+def recurring_dict(t: DBRecurringTemplate) -> dict:
+    days = [int(x) for x in t.recurrence_days.split(',') if x.strip()] if t.recurrence_days else []
+    return {
+        "id": t.id, "title": t.title, "description": t.description,
+        "points": t.points, "imageEmoji": t.image_emoji,
+        "assignedKidId": t.assigned_kid_id,
+        "recurrenceType": t.recurrence_type,
+        "recurrenceDays": days,
+        "recurrenceDom": int(t.recurrence_dom) if t.recurrence_dom else None,
+        "createdAt": t.created_at,
+    }
 
 def shop_dict(s: DBShopItem) -> dict:
     return {"id": s.id, "name": s.name, "description": s.description,
@@ -330,6 +360,16 @@ class ChoreCreate(BaseModel):
     dueDate: Optional[str] = None
     imageEmoji: Optional[str] = "📋"
 
+class RecurringCreate(BaseModel):
+    title: str
+    points: float
+    description: Optional[str] = ""
+    imageEmoji: Optional[str] = "📋"
+    assignedKidId: Optional[str] = None
+    recurrenceType: str                      # daily | weekly | monthly
+    recurrenceDays: Optional[List[int]] = [] # weekday ints (0=Mon) for weekly
+    recurrenceDom: Optional[int] = None      # day of month for monthly
+
 class ChoreUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
@@ -420,10 +460,12 @@ def startup():
     _ts_now = now()
     with _engine.connect() as conn:
         for table, col, col_type in [
-            ("chores",     "family_id",    "VARCHAR"),
-            ("shop_items", "family_id",    "VARCHAR"),
-            ("chores",     "completed_at", "VARCHAR"),
-            ("messages",   "quote_content","VARCHAR"),
+            ("chores",     "family_id",      "VARCHAR"),
+            ("shop_items", "family_id",      "VARCHAR"),
+            ("chores",     "completed_at",   "VARCHAR"),
+            ("messages",   "quote_content",  "VARCHAR"),
+            ("chores",     "template_id",    "VARCHAR"),
+            ("chores",     "scheduled_date", "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(_engine.url):
@@ -688,6 +730,58 @@ def remove_co_parent(db: Session = Depends(get_db), user: DBUser = Depends(requi
     db.commit()
     return ok({"message": "Co-parent account removed"})
 
+# ── Recurring chore helper ─────────────────────────────────────────────────────
+
+def _generate_instances(db: Session, template: DBRecurringTemplate):
+    today = date.today()
+    weekly_days: List[int] = []
+    if template.recurrence_days:
+        try:
+            weekly_days = [int(x) for x in template.recurrence_days.split(',') if x.strip()]
+        except Exception:
+            weekly_days = []
+
+    for delta in range(8):  # today through +7 days
+        target = today + timedelta(days=delta)
+        date_str = target.isoformat()
+
+        if template.recurrence_type == 'daily':
+            matches = True
+        elif template.recurrence_type == 'weekly':
+            matches = target.weekday() in weekly_days
+        elif template.recurrence_type == 'monthly':
+            dom = int(template.recurrence_dom) if template.recurrence_dom else 1
+            matches = target.day == dom
+        else:
+            matches = False
+
+        if not matches:
+            continue
+
+        existing = db.query(DBChore).filter(
+            DBChore.template_id == template.id,
+            DBChore.scheduled_date == date_str,
+        ).first()
+        if existing:
+            continue
+
+        chore = DBChore(
+            id=str(uuid4()),
+            title=template.title,
+            description=template.description or "",
+            points=template.points,
+            image_emoji=template.image_emoji or "📋",
+            status="open",
+            assigned_kid_id=template.assigned_kid_id,
+            due_date=date_str,
+            created_at=now(),
+            family_id=template.family_id,
+            template_id=template.id,
+            scheduled_date=date_str,
+        )
+        db.add(chore)
+    db.commit()
+
 # ── Chore routes ───────────────────────────────────────────────────────────────
 
 @app.get("/api/chores")
@@ -696,6 +790,12 @@ def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
     check_and_expire_chores(db)
     # parents see their own family's chores; kids see chores from their parent's family
     fid = get_family_id(user) if user.role == "parent" else user.parent_id
+    # Generate any missing instances for active recurring templates in this family
+    for t in db.query(DBRecurringTemplate).filter(
+        DBRecurringTemplate.family_id == fid,
+        DBRecurringTemplate.is_active == "1",
+    ).all():
+        _generate_instances(db, t)
     cutoff = 72 if user.role == "parent" else 48   # 3 days for parents, 2 days for kids
     chores = get_visible_chores(db, family_id=fid, cutoff_hours=cutoff)
     if status:
@@ -820,6 +920,73 @@ def reject_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = De
     db.commit()
     db.refresh(chore)
     return ok(chore_dict(chore))
+
+# ── Recurring template routes ──────────────────────────────────────────────────
+
+@app.post("/api/recurring")
+def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    check_content(body.title, body.description or "")
+    if body.points < 0:
+        fail("points must be a non-negative number")
+    if body.recurrenceType not in ('daily', 'weekly', 'monthly'):
+        fail("recurrenceType must be daily, weekly, or monthly")
+    if body.recurrenceType == 'weekly' and not body.recurrenceDays:
+        fail("Select at least one day for weekly recurrence")
+    if body.recurrenceType == 'monthly' and not body.recurrenceDom:
+        fail("Specify a day of month for monthly recurrence")
+
+    family_id = get_family_id(user)
+    rec_days = ','.join(str(d) for d in body.recurrenceDays) if body.recurrenceDays else None
+    rec_dom = str(body.recurrenceDom) if body.recurrenceDom else None
+
+    template = DBRecurringTemplate(
+        id=str(uuid4()),
+        title=body.title,
+        description=body.description or "",
+        points=body.points,
+        image_emoji=body.imageEmoji or "📋",
+        assigned_kid_id=body.assignedKidId or None,
+        recurrence_type=body.recurrenceType,
+        recurrence_days=rec_days,
+        recurrence_dom=rec_dom,
+        family_id=family_id,
+        is_active="1",
+        created_at=now(),
+    )
+    db.add(template)
+    db.commit()
+    db.refresh(template)
+    _generate_instances(db, template)
+    return ok(recurring_dict(template), 201)
+
+@app.get("/api/recurring")
+def list_recurring(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    family_id = get_family_id(user)
+    templates = db.query(DBRecurringTemplate).filter(
+        DBRecurringTemplate.family_id == family_id,
+        DBRecurringTemplate.is_active == "1",
+    ).all()
+    return ok([recurring_dict(t) for t in templates])
+
+@app.delete("/api/recurring/{template_id}")
+def delete_recurring(template_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    family_id = get_family_id(user)
+    template = db.query(DBRecurringTemplate).filter(
+        DBRecurringTemplate.id == template_id,
+        DBRecurringTemplate.family_id == family_id,
+    ).first()
+    if not template:
+        fail("Template not found", 404)
+    today_str = date.today().isoformat()
+    db.query(DBChore).filter(
+        DBChore.template_id == template_id,
+        DBChore.status == "open",
+        DBChore.scheduled_date >= today_str,
+    ).delete(synchronize_session=False)
+    db.commit()
+    template.is_active = "0"
+    db.commit()
+    return ok(recurring_dict(template))
 
 # ── Shop routes ────────────────────────────────────────────────────────────────
 

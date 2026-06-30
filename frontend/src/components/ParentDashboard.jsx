@@ -96,6 +96,24 @@ function ChoresTab({ kids }) {
   const [addError, setAddError] = useState('')
   const formRef = useRef(null)
 
+  // Recurring chore state
+  const [recurring, setRecurring] = useState(false)
+  const [recurrenceType, setRecurrenceType] = useState('daily')
+  const [recurrenceDays, setRecurrenceDays] = useState(new Set())
+  const [recurrenceDom, setRecurrenceDom] = useState(1)
+
+  // Recurring templates list
+  const [recurringTemplates, setRecurringTemplates] = useState([])
+
+  const loadRecurring = useCallback(async () => {
+    try {
+      const data = await api.getRecurring()
+      setRecurringTemplates(Array.isArray(data) ? data : [])
+    } catch (e) {}
+  }, [])
+
+  useEffect(() => { loadRecurring() }, [loadRecurring])
+
   function fillFromSample(sample) {
     setTitle(sample.title)
     setDescription(sample.description)
@@ -104,6 +122,10 @@ function ChoresTab({ kids }) {
     setAssignedKidIds(new Set())
     setShowEmojiPicker(false)
     setAddError('')
+    setRecurring(false)
+    setRecurrenceType('daily')
+    setRecurrenceDays(new Set())
+    setRecurrenceDom(1)
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
@@ -122,6 +144,12 @@ function ChoresTab({ kids }) {
 
   useEffect(() => { loadChores() }, [loadChores])
 
+  function resetForm() {
+    setTitle(''); setDescription(''); setPoints(''); setAssignedKidIds(new Set())
+    setDueDate(''); setChoreEmoji('📋'); setShowEmojiPicker(false)
+    setRecurring(false); setRecurrenceType('daily'); setRecurrenceDays(new Set()); setRecurrenceDom(1)
+  }
+
   async function handleAddChore(e) {
     e.preventDefault()
     if (!title.trim() || !points) {
@@ -133,24 +161,37 @@ function ChoresTab({ kids }) {
       setAddError(wordCheck.message)
       return
     }
+    if (recurring && recurrenceType === 'weekly' && recurrenceDays.size === 0) {
+      setAddError('Select at least one day for weekly recurring chores.')
+      return
+    }
     setAdding(true)
     setAddError('')
     try {
-      await api.createChore({
-        title: title.trim(),
-        description: description.trim(),
-        points: Number(points),
-        assignedKidIds: [...assignedKidIds],
-        dueDate: dueDate || null,
-        imageEmoji: choreEmoji,
-      })
-      setTitle('')
-      setDescription('')
-      setPoints('')
-      setAssignedKidIds(new Set())
-      setDueDate('')
-      setChoreEmoji('📋')
-      setShowEmojiPicker(false)
+      if (recurring) {
+        const kidId = assignedKidIds.size >= 1 ? [...assignedKidIds][0] : null
+        await api.createRecurring({
+          title: title.trim(),
+          description: description.trim(),
+          points: Number(points),
+          imageEmoji: choreEmoji,
+          assignedKidId: kidId,
+          recurrenceType,
+          recurrenceDays: recurrenceType === 'weekly' ? [...recurrenceDays] : [],
+          recurrenceDom: recurrenceType === 'monthly' ? recurrenceDom : null,
+        })
+        loadRecurring()
+      } else {
+        await api.createChore({
+          title: title.trim(),
+          description: description.trim(),
+          points: Number(points),
+          assignedKidIds: [...assignedKidIds],
+          dueDate: dueDate || null,
+          imageEmoji: choreEmoji,
+        })
+      }
+      resetForm()
       loadChores()
     } catch (err) {
       setAddError(err.message)
@@ -274,15 +315,100 @@ function ChoresTab({ kids }) {
                 placeholder="Optional details..."
               />
             </div>
-            <div className="form-group" style={{ flex: 1, minWidth: '160px', maxWidth: '200px' }}>
-              <label>Due Date (optional)</label>
-              <input
-                type="date"
-                value={dueDate}
-                onChange={e => setDueDate(e.target.value)}
-              />
-            </div>
+            {!recurring && (
+              <div className="form-group" style={{ flex: 1, minWidth: '160px', maxWidth: '200px' }}>
+                <label>Due Date (optional)</label>
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={e => setDueDate(e.target.value)}
+                />
+              </div>
+            )}
           </div>
+
+          {/* Recurring toggle */}
+          <div style={{ marginBottom: 14 }}>
+            <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none' }}>
+              <input
+                type="checkbox"
+                checked={recurring}
+                onChange={e => setRecurring(e.target.checked)}
+                style={{ width: 16, height: 16, cursor: 'pointer' }}
+              />
+              <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#475569' }}>🔁 Make this a recurring chore</span>
+            </label>
+          </div>
+
+          {recurring && (
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 14px', marginBottom: 14 }}>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#64748b', marginBottom: 8 }}>Repeat frequency</div>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+                {['daily', 'weekly', 'monthly'].map(rt => (
+                  <button
+                    key={rt}
+                    type="button"
+                    className={`btn btn-sm ${recurrenceType === rt ? 'btn-primary' : 'btn-outline'}`}
+                    onClick={() => setRecurrenceType(rt)}
+                  >
+                    {rt === 'daily' ? 'Daily' : rt === 'weekly' ? 'Weekly' : 'Monthly'}
+                  </button>
+                ))}
+              </div>
+
+              {recurrenceType === 'weekly' && (
+                <div style={{ marginBottom: 8 }}>
+                  <div style={{ fontSize: '0.78rem', color: '#64748b', marginBottom: 6 }}>Select days:</div>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                    {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((day, i) => {
+                      const checked = recurrenceDays.has(i)
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setRecurrenceDays(prev => {
+                            const next = new Set(prev)
+                            next.has(i) ? next.delete(i) : next.add(i)
+                            return next
+                          })}
+                          style={{
+                            padding: '4px 10px', borderRadius: 6, fontSize: '0.8rem', cursor: 'pointer',
+                            background: checked ? '#6366f1' : '#fff',
+                            color: checked ? '#fff' : '#475569',
+                            border: `1px solid ${checked ? '#6366f1' : '#e2e8f0'}`,
+                            fontWeight: checked ? 700 : 400,
+                          }}
+                        >
+                          {day}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {recurrenceType === 'monthly' && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <label style={{ fontSize: '0.8rem', color: '#64748b' }}>Day of month:</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="28"
+                    value={recurrenceDom}
+                    onChange={e => setRecurrenceDom(Number(e.target.value))}
+                    style={{ width: 64, padding: '4px 8px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem' }}
+                  />
+                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Use 1–28 so it works every month</span>
+                </div>
+              )}
+
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 8 }}>
+                Chore instances will be auto-created for upcoming dates. Due dates are managed automatically.
+                {assignedKidIds.size > 1 && ' With recurring chores, only the first selected kid will be assigned.'}
+              </div>
+            </div>
+          )}
+
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
             <button
               type="button"
@@ -329,6 +455,50 @@ function ChoresTab({ kids }) {
             {expired.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
           </CollapsibleSection>
         </>
+      )}
+
+      {/* Recurring templates */}
+      {recurringTemplates.length > 0 && (
+        <div style={{ marginTop: 24, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '14px 16px' }}>
+          <div style={{ fontWeight: 700, color: '#334155', marginBottom: 10, fontSize: '0.9rem' }}>
+            🔁 Active Recurring Chores
+            <span style={{ marginLeft: 6, fontSize: '0.8rem', color: '#94a3b8', fontWeight: 400 }}>({recurringTemplates.length})</span>
+          </div>
+          {recurringTemplates.map(t => {
+            const DAY_LABELS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+            const scheduleText = t.recurrenceType === 'daily'
+              ? 'Every day'
+              : t.recurrenceType === 'weekly'
+              ? `Every ${t.recurrenceDays.map(d => DAY_LABELS[d]).join(', ')}`
+              : `Monthly on day ${t.recurrenceDom}`
+            const assignedKid = kids.find(k => k.id === t.assignedKidId)
+            return (
+              <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: '1px solid #f1f5f9' }}>
+                <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{t.imageEmoji}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.875rem', color: '#1e293b' }}>{t.title}</div>
+                  <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
+                    {scheduleText} · {t.points} pts
+                    {assignedKid && <> · {assignedKid.avatar} {assignedKid.name}</>}
+                  </div>
+                </div>
+                <button
+                  className="btn btn-red btn-sm"
+                  onClick={async () => {
+                    if (!window.confirm(`Stop "${t.title}" recurring? Future open instances will be removed.`)) return
+                    try {
+                      await api.deleteRecurring(t.id)
+                      loadRecurring()
+                      loadChores()
+                    } catch (err) { alert(err.message) }
+                  }}
+                >
+                  Stop
+                </button>
+              </div>
+            )
+          })}
+        </div>
       )}
     </div>
   )

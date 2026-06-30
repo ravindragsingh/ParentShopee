@@ -100,4 +100,9 @@ export const api = {
   addCoParent:            (body)       => request('POST',   '/api/family/co-parent', body),
   updateCoParentPassword: (pwd)        => request('PUT',    '/api/family/co-parent/password', { password: pwd }),
   removeCoParent:         ()           => request('DELETE', '/api/family/co-parent'),
+
+  // Recurring chore templates
+  createRecurring: (body) => request('POST',   '/api/recurring', body),
+  getRecurring:    ()     => request('GET',    '/api/recurring'),
+  deleteRecurring: (id)   => request('DELETE', `/api/recurring/${id}`),
 }
