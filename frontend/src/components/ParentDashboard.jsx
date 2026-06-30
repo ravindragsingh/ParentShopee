@@ -46,6 +46,37 @@ const SAMPLE_CHORES = [
   { title: 'Sweep the porch',            points:  8, imageEmoji: '🏡', description: 'Sweep leaves and dirt off the front porch.' },
 ]
 
+// ─── Collapsible section header ──────────────────────────────────────────────
+
+function CollapsibleSection({ icon, title, count, colorClass, defaultOpen = false, emptyText, children }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
+  return (
+    <div style={{ marginTop: 8 }}>
+      <div
+        role="button"
+        tabIndex={0}
+        className={`section-header ${colorClass}`}
+        onClick={() => setIsOpen(v => !v)}
+        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setIsOpen(v => !v)}
+        style={{ display: 'flex', width: '100%', cursor: 'pointer', userSelect: 'none', justifyContent: 'space-between', alignItems: 'center', boxSizing: 'border-box' }}
+      >
+        <span>{icon} {title}</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ background: 'rgba(0,0,0,0.12)', borderRadius: 10, padding: '1px 8px', fontSize: '0.8rem', fontWeight: 700 }}>
+            {count}
+          </span>
+          <span style={{ fontSize: '0.75rem', opacity: 0.65 }}>{isOpen ? '▲' : '▼'}</span>
+        </span>
+      </div>
+      {isOpen && (
+        count === 0
+          ? <div className="empty-text">{emptyText}</div>
+          : children
+      )}
+    </div>
+  )
+}
+
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
 function ChoresTab({ kids }) {
@@ -282,45 +313,21 @@ function ChoresTab({ kids }) {
 
       {!loading && (
         <>
-          {/* Open */}
-          <div className="section-header open">✨ Open ({open.length})</div>
-          {open.length === 0 ? (
-            <div className="empty-text">No open chores.</div>
-          ) : (
-            open.map(chore => (
-              <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />
-            ))
-          )}
+          <CollapsibleSection icon="✨" title="Open" count={open.length} colorClass="open" defaultOpen emptyText="No open chores.">
+            {open.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+          </CollapsibleSection>
 
-          {/* Pending */}
-          <div className="section-header pending" style={{ marginTop: 8 }}>⏳ Pending ({pending.length})</div>
-          {pending.length === 0 ? (
-            <div className="empty-text">No chores awaiting approval.</div>
-          ) : (
-            pending.map(chore => (
-              <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />
-            ))
-          )}
+          <CollapsibleSection icon="⏳" title="Pending Approval" count={pending.length} colorClass="pending" defaultOpen emptyText="No chores awaiting approval.">
+            {pending.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+          </CollapsibleSection>
 
-          {/* Complete */}
-          <div className="section-header complete" style={{ marginTop: 8 }}>🏆 Complete ({complete.length})</div>
-          {complete.length === 0 ? (
-            <div className="empty-text">No completed chores yet.</div>
-          ) : (
-            complete.map(chore => (
-              <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />
-            ))
-          )}
+          <CollapsibleSection icon="🏆" title="Complete" count={complete.length} colorClass="complete" emptyText="No completed chores yet.">
+            {complete.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+          </CollapsibleSection>
 
-          {/* Expired */}
-          {expired.length > 0 && (
-            <>
-              <div className="section-header expired" style={{ marginTop: 8 }}>⌛ Expired ({expired.length})</div>
-              {expired.map(chore => (
-                <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />
-              ))}
-            </>
-          )}
+          <CollapsibleSection icon="⌛" title="Expired" count={expired.length} colorClass="expired" emptyText="No expired chores.">
+            {expired.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+          </CollapsibleSection>
         </>
       )}
     </div>

@@ -128,7 +128,7 @@ body {
   margin: 20px 0 10px;
   padding: 7px 14px;
   border-radius: 20px;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
 }

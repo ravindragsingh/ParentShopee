@@ -10,6 +10,37 @@ import HamburgerMenu from './HamburgerMenu.jsx'
 import SettingsPanel from './Settings.jsx'
 import ContactUs from './ContactUs.jsx'
 
+// ─── Collapsible section header ──────────────────────────────────────────────
+
+function CollapsibleSection({ icon, title, count, colorClass, defaultOpen = false, emptyText, children }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
+  return (
+    <div style={{ marginTop: 8 }}>
+      <div
+        role="button"
+        tabIndex={0}
+        className={`section-header ${colorClass}`}
+        onClick={() => setIsOpen(v => !v)}
+        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setIsOpen(v => !v)}
+        style={{ display: 'flex', width: '100%', cursor: 'pointer', userSelect: 'none', justifyContent: 'space-between', alignItems: 'center', boxSizing: 'border-box' }}
+      >
+        <span>{icon} {title}</span>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ background: 'rgba(0,0,0,0.12)', borderRadius: 10, padding: '1px 8px', fontSize: '0.8rem', fontWeight: 700 }}>
+            {count}
+          </span>
+          <span style={{ fontSize: '0.75rem', opacity: 0.65 }}>{isOpen ? '▲' : '▼'}</span>
+        </span>
+      </div>
+      {isOpen && (
+        count === 0
+          ? <div className="empty-text">{emptyText}</div>
+          : children
+      )}
+    </div>
+  )
+}
+
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
 function KidChoresTab({ userId }) {
@@ -61,41 +92,21 @@ function KidChoresTab({ userId }) {
 
   return (
     <div>
-      <div className="section-header open">✨ Available Chores ({available.length})</div>
-      {available.length === 0 ? (
-        <div className="empty-text">No available chores right now.</div>
-      ) : (
-        available.map(chore => (
-          <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
-        ))
-      )}
+      <CollapsibleSection icon="✨" title="Available" count={available.length} colorClass="open" defaultOpen emptyText="No available chores right now.">
+        {available.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
+      </CollapsibleSection>
 
-      <div className="section-header pending" style={{ marginTop: 8 }}>⏳ My Pending ({myPending.length})</div>
-      {myPending.length === 0 ? (
-        <div className="empty-text">No chores awaiting approval.</div>
-      ) : (
-        myPending.map(chore => (
-          <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
-        ))
-      )}
+      <CollapsibleSection icon="⏳" title="My Pending" count={myPending.length} colorClass="pending" defaultOpen emptyText="No chores awaiting approval.">
+        {myPending.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
+      </CollapsibleSection>
 
-      <div className="section-header complete" style={{ marginTop: 8 }}>🏆 My Completed ({myCompleted.length})</div>
-      {myCompleted.length === 0 ? (
-        <div className="empty-text">No approved chores yet. Keep it up!</div>
-      ) : (
-        myCompleted.map(chore => (
-          <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
-        ))
-      )}
+      <CollapsibleSection icon="🏆" title="My Completed" count={myCompleted.length} colorClass="complete" emptyText="No approved chores yet. Keep it up!">
+        {myCompleted.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
+      </CollapsibleSection>
 
-      {myExpired.length > 0 && (
-        <>
-          <div className="section-header expired" style={{ marginTop: 8 }}>⌛ Expired ({myExpired.length})</div>
-          {myExpired.map(chore => (
-            <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />
-          ))}
-        </>
-      )}
+      <CollapsibleSection icon="⌛" title="Expired" count={myExpired.length} colorClass="expired" emptyText="No expired chores.">
+        {myExpired.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
+      </CollapsibleSection>
     </div>
   )
 }
