@@ -105,6 +105,19 @@ function ParentHelp() {
         <Tip emoji="🏦" text="Earned points show in green, purchases in red, bonus points in gold." />
       </Section>
 
+      <Section icon="🔁" title="Recurring Chores">
+        <Tip emoji="🔁" text="Recurring chores repeat automatically — Daily, Weekly (choose specific days), or Monthly (choose a day of the month). Only one instance appears at a time, on the day it is due." />
+        <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#6d28d9', margin: '10px 0 6px' }}>Adding a recurring chore</div>
+        <Step number="1" text="In the Chores tab, fill in the chore title, points, emoji and optionally assign a child." />
+        <Step number="2" text="Tick the '🔁 Make this a recurring chore' checkbox that appears below the Description field." />
+        <Step number="3" text="Choose Daily, Weekly, or Monthly. For Weekly, tap the day buttons (Mon – Sun). For Monthly, enter the day number (use 1–28 to ensure it works every month)." />
+        <Step number="4" text="Click 'Add Chore'. The first instance for today (if it matches) appears immediately, and future instances are created automatically each day." />
+        <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#6d28d9', margin: '10px 0 6px' }}>Stopping a recurring chore</div>
+        <Step number="1" text="Scroll down past the chore lists to find the '🔁 Active Recurring Chores' panel." />
+        <Step number="2" text="Click 'Stop' next to the template you want to end. This deletes today's and all future open instances and disables the repeat." />
+        <Tip emoji="💡" text="Stopping a recurring chore does not remove instances that are already Pending or Complete — those stay in the history." />
+      </Section>
+
       <Section icon="💬" title="Messaging">
         <Tip emoji="💬" text="Use the Messages tab to chat with your kids or co-parent directly inside the app." />
         <Tip emoji="🔴" text="A red badge on the Messages tab (or contact) shows how many unread messages you have." />
@@ -145,6 +158,7 @@ function KidHelp() {
         <Tip emoji="⏳" text="After you complete a chore, it goes to 'My Pending' until your parent approves or rejects it." />
         <Tip emoji="🏆" text="Approved chores appear in 'My Completed' — nice work! The points are yours." />
         <Tip emoji="📅" text="Chores with a due date will expire if not done in time — try to finish them early!" />
+        <Tip emoji="🔁" text="Some chores are recurring — they show a purple '🔁 Recurring' badge and come back automatically each day, week, or month. Complete them on time to keep earning!" />
       </Section>
 
       <Section icon="🛍️" title="Spending in the Shop">
@@ -192,6 +206,7 @@ export function LoginHelp() {
   const [open, setOpen] = useState(false)
   const cards = [
     { icon: '✅', title: 'Create Chores', text: 'Parents create chores with a points value. Kids see them and complete them in real life.' },
+    { icon: '🔁', title: 'Recurring Chores', text: 'Mark a chore as Daily, Weekly, or Monthly. One instance appears on the day it is due — no duplicates. Stop the series any time from the Active Recurring Chores panel.' },
     { icon: '⭐', title: 'Earn Points',   text: "Once a parent approves a chore, the child's wallet is credited automatically." },
     { icon: '🛍️', title: 'Spend in Shop', text: 'Kids redeem their points for rewards the parent has set up — screen time, picking dinner, and more.' },
     { icon: '💬', title: 'Stay Connected', text: 'Parents and kids can message each other inside the app, and parents can award bonus points anytime.' },
