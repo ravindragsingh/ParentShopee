@@ -741,7 +741,7 @@ def _generate_instances(db: Session, template: DBRecurringTemplate):
         except Exception:
             weekly_days = []
 
-    for delta in range(8):  # today through +7 days
+    for delta in range(1):  # only today — tomorrow's instance is created when tomorrow arrives
         target = today + timedelta(days=delta)
         date_str = target.isoformat()
 
