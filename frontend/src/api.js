@@ -53,6 +53,8 @@ export const api = {
     request('POST', '/api/auth/login', { username, password }),
   register: (body) =>
     request('POST', '/api/auth/register', body),
+  loginWithGoogle:   (token) => request('POST', '/api/auth/google',   { token }),
+  loginWithFacebook: (token) => request('POST', '/api/auth/facebook', { token }),
 
   // Chores
   getChores: (status) =>

@@ -1,7 +1,10 @@
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
 import Login from './components/Login.jsx'
 import ParentDashboard from './components/ParentDashboard.jsx'
 import KidDashboard from './components/KidDashboard.jsx'
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || ''
 
 function AppInner() {
   const { user, loading } = useAuth()
@@ -18,8 +21,10 @@ function AppInner() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppInner />
-    </AuthProvider>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <AuthProvider>
+        <AppInner />
+      </AuthProvider>
+    </GoogleOAuthProvider>
   )
 }

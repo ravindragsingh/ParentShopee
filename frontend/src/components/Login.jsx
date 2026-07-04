@@ -1,8 +1,132 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { GoogleLogin } from '@react-oauth/google'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LoginHelp } from './Help.jsx'
+
+// ── Facebook SDK loader ───────────────────────────────────────────────────────
+
+function useFacebookSDK() {
+  const [ready, setReady] = useState(!!window.FB)
+  useEffect(() => {
+    if (window.FB) { setReady(true); return }
+    window.fbAsyncInit = () => {
+      window.FB.init({
+        appId: import.meta.env.VITE_FACEBOOK_APP_ID || '',
+        cookie: true, xfbml: false, version: 'v19.0',
+      })
+      setReady(true)
+    }
+    if (!document.getElementById('facebook-jssdk')) {
+      const s = document.createElement('script')
+      s.id = 'facebook-jssdk'
+      s.src = 'https://connect.facebook.net/en_US/sdk.js'
+      s.async = true; s.defer = true
+      document.body.appendChild(s)
+    }
+  }, [])
+  return ready
+}
+
+// ── Social login buttons (shared between Login and Register) ──────────────────
+
+function SocialButtons({ onSuccess, onError, loading }) {
+  const fbReady = useFacebookSDK()
+
+  function handleFacebook() {
+    if (!import.meta.env.VITE_FACEBOOK_APP_ID) {
+      onError('Facebook login is not configured yet.')
+      return
+    }
+    if (!fbReady || !window.FB) {
+      onError('Facebook SDK is still loading — please try again in a moment.')
+      return
+    }
+    window.FB.login(resp => {
+      if (resp.authResponse) {
+        onSuccess('facebook', resp.authResponse.accessToken)
+      } else {
+        onError('Facebook sign-in was cancelled.')
+      }
+    }, { scope: 'public_profile,email' })
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '20px 0 14px' }}>
+        <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+        <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.75)', fontWeight: 500, whiteSpace: 'nowrap' }}>or continue with</span>
+        <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {/* Google */}
+        {import.meta.env.VITE_GOOGLE_CLIENT_ID ? (
+          <GoogleLogin
+            onSuccess={c => onSuccess('google', c.credential)}
+            onError={() => onError('Google sign-in failed. Please try again.')}
+            width="100%"
+            size="large"
+            text="continue_with"
+            theme="filled_black"
+            shape="rectangular"
+          />
+        ) : (
+          <button type="button" disabled style={socialBtnStyle('#4285F4', true)}>
+            <GoogleIcon /> Google (not configured)
+          </button>
+        )}
+
+        {/* Facebook */}
+        <button
+          type="button"
+          onClick={handleFacebook}
+          disabled={loading}
+          style={socialBtnStyle('#1877f2')}
+        >
+          <FacebookIcon />
+          Continue with Facebook
+        </button>
+      </div>
+
+      <p style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.55)', textAlign: 'center', marginTop: 10, lineHeight: 1.5 }}>
+        Social sign-in creates or accesses a parent account. By continuing you agree to our User Agreement.
+      </p>
+    </div>
+  )
+}
+
+function socialBtnStyle(bg, disabled = false) {
+  return {
+    width: '100%', padding: '10px 16px',
+    background: disabled ? '#94a3b8' : bg,
+    color: '#fff', border: 'none', borderRadius: 6,
+    fontSize: '0.875rem', fontWeight: 600,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+    opacity: disabled ? 0.6 : 1,
+  }
+}
+
+function GoogleIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 48 48">
+      <path fill="#FFC107" d="M43.6 20H24v8h11.3C33.6 33.3 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.9 6.6 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 20-9 20-20 0-1.3-.1-2.7-.4-4z"/>
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 15.4 18.9 12 24 12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C33.9 6.6 29.2 4 24 4 16.3 4 9.6 8.3 6.3 14.7z"/>
+      <path fill="#4CAF50" d="M24 44c5.2 0 9.8-1.9 13.4-5l-6.2-5.2C29.3 35.3 26.8 36 24 36c-5.3 0-9.6-3.5-11.2-8.2l-6.6 5.1C9.7 39.6 16.4 44 24 44z"/>
+      <path fill="#1976D2" d="M43.6 20H24v8h11.3c-.8 2.3-2.3 4.3-4.3 5.8l6.2 5.2C40.8 35.5 44 30.1 44 24c0-1.3-.1-2.7-.4-4z"/>
+    </svg>
+  )
+}
+
+function FacebookIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  )
+}
 
 // ── User Agreement Modal ──────────────────────────────────────────────────────
 
@@ -121,9 +245,24 @@ function RegisterForm({ onBack }) {
   const [showAgreement, setShowAgreement] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [socialLoading, setSocialLoading] = useState(false)
 
   function set(field) {
     return e => setForm(f => ({ ...f, [field]: e.target.value }))
+  }
+
+  async function handleSocialLogin(provider, token) {
+    setSocialLoading(true); setError('')
+    try {
+      const data = provider === 'google'
+        ? await api.loginWithGoogle(token)
+        : await api.loginWithFacebook(token)
+      login(data.user, data.token)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSocialLoading(false)
+    }
   }
 
   async function handleSubmit(e) {
@@ -168,9 +307,21 @@ function RegisterForm({ onBack }) {
       {showAgreement && <UserAgreementModal onClose={() => setShowAgreement(false)} />}
 
       <h1 className="login-title">Create Account</h1>
-      <p className="login-subtitle">Parents only · Must be 25 or older</p>
+      <p className="login-subtitle">Parents only · Quick sign-up with Google or Facebook</p>
 
       {error && <div className="error-msg">{error}</div>}
+
+      <SocialButtons
+        onSuccess={handleSocialLogin}
+        onError={msg => setError(msg)}
+        loading={socialLoading}
+      />
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '16px 0 14px' }}>
+        <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+        <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.75)', fontWeight: 500, whiteSpace: 'nowrap' }}>or sign up with email</span>
+        <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.25)' }} />
+      </div>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group" style={{ marginBottom: 12 }}>
@@ -268,11 +419,26 @@ function LoginForm({ onRegister }) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [socialLoading, setSocialLoading] = useState(false)
   const [sessionExpired] = useState(() => {
     const expired = localStorage.getItem('session_expired') === '1'
     if (expired) localStorage.removeItem('session_expired')
     return expired
   })
+
+  async function handleSocialLogin(provider, token) {
+    setSocialLoading(true); setError('')
+    try {
+      const data = provider === 'google'
+        ? await api.loginWithGoogle(token)
+        : await api.loginWithFacebook(token)
+      login(data.user, data.token)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSocialLoading(false)
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -326,19 +492,25 @@ function LoginForm({ onRegister }) {
             placeholder="Password"
           />
         </div>
-        <button type="submit" className="login-btn" disabled={loading}>
+        <button type="submit" className="login-btn" disabled={loading || socialLoading}>
           {loading ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
 
-      <div style={{ marginTop: 20, textAlign: 'center' }}>
-        <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 8 }}>
+      <SocialButtons
+        onSuccess={handleSocialLogin}
+        onError={msg => setError(msg)}
+        loading={socialLoading}
+      />
+
+      <div style={{ marginTop: 16, textAlign: 'center' }}>
+        <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', marginBottom: 6 }}>
           New parent?{' '}
-          <button onClick={onRegister} style={{ background: 'none', border: 'none', color: '#7c3aed', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}>
+          <button onClick={onRegister} style={{ background: 'none', border: 'none', color: '#c4b5fd', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem' }}>
             Create an account
           </button>
         </p>
-        <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+        <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.45)' }}>
           Demo: parent1/pass1 &middot; kid1/pass1
         </p>
       </div>

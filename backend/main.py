@@ -1,5 +1,7 @@
 import re
 import os
+import json
+import urllib.request
 import smtplib
 import base64
 import binascii
@@ -228,6 +230,13 @@ def recurring_dict(t: DBRecurringTemplate) -> dict:
         "createdAt": t.created_at,
     }
 
+def _generate_username(email: str, db: Session) -> str:
+    base = re.sub(r'[^a-z0-9_]', '', email.split('@')[0].lower()) or 'user'
+    username, n = base, 1
+    while db.query(DBUser).filter(DBUser.username == username).first():
+        username = f"{base}{n}"; n += 1
+    return username
+
 def shop_dict(s: DBShopItem) -> dict:
     return {"id": s.id, "name": s.name, "description": s.description,
             "cost": s.cost, "imageEmoji": s.image_emoji, "createdAt": s.created_at}
@@ -307,6 +316,9 @@ def require_kid(user: DBUser = Depends(require_auth)) -> DBUser:
 class LoginBody(BaseModel):
     username: str
     password: str
+
+class SocialAuthBody(BaseModel):
+    token: str   # Google ID token or Facebook access token
 
 class RegisterBody(BaseModel):
     name: str
@@ -540,6 +552,80 @@ def register(body: RegisterBody, db: Session = Depends(get_db)):
     token = str(uuid4())
     SESSIONS[token] = user.id
     return ok({"token": token, "user": safe_user(user)}, 201)
+
+@app.post("/api/auth/google")
+def google_login(body: SocialAuthBody, db: Session = Depends(get_db)):
+    # Verify the ID token with Google's tokeninfo endpoint
+    url = f"https://oauth2.googleapis.com/tokeninfo?id_token={body.token}"
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            payload = json.loads(resp.read())
+    except Exception:
+        fail("Google token verification failed", 401)
+
+    # Optionally enforce audience if GOOGLE_CLIENT_ID is set
+    client_id = os.getenv("GOOGLE_CLIENT_ID", "")
+    if client_id and payload.get("aud") != client_id:
+        fail("Google token was not issued for this app", 401)
+
+    email = (payload.get("email") or "").lower().strip()
+    if not email:
+        fail("Could not retrieve email from Google account", 400)
+    if not payload.get("email_verified"):
+        fail("Google account email is not verified", 400)
+
+    name = payload.get("name") or email.split("@")[0]
+    user = db.query(DBUser).filter(DBUser.email == email).first()
+    if user and user.role != "parent":
+        fail("Social login is only available for parent accounts", 403)
+    if not user:
+        user = DBUser(
+            id=str(uuid4()), name=name,
+            username=_generate_username(email, db),
+            password="", role="parent", email=email,
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+    token = str(uuid4())
+    SESSIONS[token] = user.id
+    return ok({"token": token, "user": safe_user(user)})
+
+@app.post("/api/auth/facebook")
+def facebook_login(body: SocialAuthBody, db: Session = Depends(get_db)):
+    # Fetch user profile from Facebook Graph API
+    url = f"https://graph.facebook.com/me?fields=id,name,email&access_token={body.token}"
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            payload = json.loads(resp.read())
+    except Exception:
+        fail("Facebook token verification failed", 401)
+
+    if "error" in payload:
+        fail(f"Facebook: {payload['error'].get('message', 'Authentication failed')}", 401)
+
+    email = (payload.get("email") or "").lower().strip()
+    if not email:
+        fail("Could not retrieve email from Facebook. Make sure your Facebook account has a verified email address.", 400)
+
+    name = payload.get("name") or email.split("@")[0]
+    user = db.query(DBUser).filter(DBUser.email == email).first()
+    if user and user.role != "parent":
+        fail("Social login is only available for parent accounts", 403)
+    if not user:
+        user = DBUser(
+            id=str(uuid4()), name=name,
+            username=_generate_username(email, db),
+            password="", role="parent", email=email,
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+    token = str(uuid4())
+    SESSIONS[token] = user.id
+    return ok({"token": token, "user": safe_user(user)})
 
 # ── User routes ────────────────────────────────────────────────────────────────
 
