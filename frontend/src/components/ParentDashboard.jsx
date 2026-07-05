@@ -200,10 +200,24 @@ function ChoresTab({ kids }) {
     }
   }
 
-  const open = chores.filter(c => c.status === 'open')
-  const pending = chores.filter(c => c.status === 'pending')
-  const complete = chores.filter(c => c.status === 'complete')
-  const expired = chores.filter(c => c.status === 'expired')
+  // Kid filter
+  const [filterKidId, setFilterKidId] = useState('')
+
+  // Recurring section expand state
+  const [recurringExpanded, setRecurringExpanded] = useState(false)
+
+  function filterByKid(list) {
+    if (!filterKidId) return list
+    return list.filter(c =>
+      c.assignedKidId === filterKidId ||
+      c.completedByKidId === filterKidId
+    )
+  }
+
+  const open     = filterByKid(chores.filter(c => c.status === 'open'))
+  const pending  = filterByKid(chores.filter(c => c.status === 'pending'))
+  const complete = filterByKid(chores.filter(c => c.status === 'complete'))
+  const expired  = filterByKid(chores.filter(c => c.status === 'expired'))
 
   return (
     <div>
@@ -433,6 +447,39 @@ function ChoresTab({ kids }) {
         </form>
       </div>
 
+      {/* Kid filter strip — only shown when there are 2+ kids */}
+      {kids.length > 1 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 16, marginBottom: 4 }}>
+          <button
+            onClick={() => setFilterKidId('')}
+            style={{
+              padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+              border: `1.5px solid ${!filterKidId ? '#7c3aed' : '#e2e8f0'}`,
+              background: !filterKidId ? '#ede9fe' : '#fff',
+              color: !filterKidId ? '#7c3aed' : '#64748b',
+              transition: 'all 0.15s',
+            }}
+          >
+            All kids
+          </button>
+          {kids.map(kid => (
+            <button
+              key={kid.id}
+              onClick={() => setFilterKidId(kid.id === filterKidId ? '' : kid.id)}
+              style={{
+                padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+                border: `1.5px solid ${filterKidId === kid.id ? '#7c3aed' : '#e2e8f0'}`,
+                background: filterKidId === kid.id ? '#ede9fe' : '#fff',
+                color: filterKidId === kid.id ? '#7c3aed' : '#64748b',
+                transition: 'all 0.15s',
+              }}
+            >
+              {kid.avatar} {kid.name}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Chore Lists */}
       {loading && <div className="loading-text">Loading chores...</div>}
       {error && <div className="error-msg">{error}</div>}
@@ -460,11 +507,18 @@ function ChoresTab({ kids }) {
       {/* Recurring templates */}
       {recurringTemplates.length > 0 && (
         <div style={{ marginTop: 24, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 12, padding: '14px 16px' }}>
-          <div style={{ fontWeight: 700, color: '#334155', marginBottom: 10, fontSize: '0.9rem' }}>
-            🔁 Active Recurring Chores
-            <span style={{ marginLeft: 6, fontSize: '0.8rem', color: '#94a3b8', fontWeight: 400 }}>({recurringTemplates.length})</span>
+          <div
+            role="button"
+            onClick={() => setRecurringExpanded(v => !v)}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', userSelect: 'none', marginBottom: recurringExpanded ? 10 : 0 }}
+          >
+            <span style={{ fontWeight: 700, color: '#334155', fontSize: '0.9rem' }}>
+              🔁 Active Recurring Chores
+              <span style={{ marginLeft: 6, fontSize: '0.8rem', color: '#94a3b8', fontWeight: 400 }}>({recurringTemplates.length})</span>
+            </span>
+            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{recurringExpanded ? '▲' : '▼'}</span>
           </div>
-          {recurringTemplates.map(t => {
+          {recurringExpanded && recurringTemplates.map(t => {
             const DAY_LABELS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
             const scheduleText = t.recurrenceType === 'daily'
               ? 'Every day'
