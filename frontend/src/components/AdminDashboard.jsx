@@ -26,8 +26,8 @@ const inputStyle = {
 }
 const labelStyle = { display: 'block', fontWeight: 600, fontSize: '0.8rem', color: '#374151', marginBottom: 4 }
 const editBtnStyle = {
-  background: 'none', border: '1px solid #e2e8f0', borderRadius: 6,
-  padding: '2px 8px', fontSize: '0.72rem', cursor: 'pointer', color: '#64748b', flexShrink: 0,
+  background: '#ede9fe', border: '1px solid #c4b5fd', borderRadius: 6,
+  padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#7c3aed', flexShrink: 0,
 }
 
 // ── Edit modal ────────────────────────────────────────────────────────────────
@@ -292,7 +292,7 @@ export default function AdminDashboard() {
   async function selectFamily(family) {
     if (selected?.familyId === family.familyId) { setSelected(null); return }
     setSelected(family)
-    setDetailTab('chores')
+    setDetailTab('members')
     setDetailLoading(true)
     setDetail({ chores: [], transactions: [] })
     try {
@@ -479,8 +479,9 @@ export default function AdminDashboard() {
                   {/* Tabs */}
                   <div style={{ display: 'flex', padding: '0 20px', borderBottom: '1px solid #e2e8f0' }}>
                     {[
-                      { id: 'chores',       label: '📋 Chores',      count: detail.chores.length },
-                      { id: 'transactions', label: '💳 Transactions', count: detail.transactions.length },
+                      { id: 'members',      label: '👥 Members',      count: family.kids.length + 1 + (family.coParent ? 1 : 0) },
+                      { id: 'chores',       label: '📋 Chores',       count: detail.chores.length },
+                      { id: 'transactions', label: '💳 Transactions',  count: detail.transactions.length },
                     ].map(tab => (
                       <button
                         key={tab.id}
@@ -503,6 +504,40 @@ export default function AdminDashboard() {
 
                   <div style={{ padding: '0 4px 4px' }}>
                     {detailLoading && <div style={{ textAlign: 'center', color: '#94a3b8', padding: 32, fontSize: '0.88rem' }}>Loading…</div>}
+
+                    {/* Members tab */}
+                    {detailTab === 'members' && (
+                      <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                        {[
+                          { ...family.parent,   _label: 'Primary Parent' },
+                          ...(family.coParent ? [{ ...family.coParent, _label: 'Co-Parent' }] : []),
+                          ...family.kids.map(k => ({ ...k, _label: 'Child' })),
+                        ].map(member => (
+                          <div key={member.id} style={{ display: 'flex', alignItems: 'center', gap: 14, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 16px' }}>
+                            <div style={{ fontSize: '1.6rem', flexShrink: 0 }}>
+                              {member.avatar || (member.gender === 'female' ? '👩' : '👨')}
+                            </div>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                                <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{member.name}</span>
+                                <span style={{ fontSize: '0.72rem', background: '#f1f5f9', color: '#64748b', borderRadius: 6, padding: '2px 8px', fontWeight: 600 }}>{member._label}</span>
+                              </div>
+                              <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>@{member.username}</div>
+                              {member.email && <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>{member.email}</div>}
+                              {member.balance !== undefined && (
+                                <div style={{ fontSize: '0.78rem', color: '#7c3aed', fontWeight: 700, marginTop: 2 }}>{member.balance} pts</div>
+                              )}
+                            </div>
+                            <button
+                              style={{ ...editBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
+                              onClick={e => openEditUser(e, member, family.familyId)}
+                            >
+                              ✏️ Edit
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Chores table */}
                     {!detailLoading && detailTab === 'chores' && (
