@@ -1,5 +1,5 @@
 /**
- * Age-appropriate content filter for ParentShopee.
+ * Age-appropriate content filter for Reward Ur Kids.
  * Checks whole words only (word boundary match) — case-insensitive.
  * "classic" won't flag, "ass" alone will.
  */

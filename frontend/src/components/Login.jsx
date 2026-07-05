@@ -29,7 +29,7 @@ function UserAgreementModal({ onClose }) {
         <div style={{ padding: '18px 22px 14px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b' }}>📋 User Agreement</div>
-            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>ParentShopee · Effective June 2026</div>
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>Reward Ur Kids · Effective June 2026</div>
           </div>
           <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.3rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
         </div>
@@ -37,8 +37,8 @@ function UserAgreementModal({ onClose }) {
         {/* Scrollable body */}
         <div style={{ overflowY: 'auto', padding: '18px 22px', fontSize: '0.82rem', color: '#334155', lineHeight: 1.65 }}>
 
-          <Section title="1. About ParentShopee">
-            ParentShopee is a family management app that allows parents to assign chores to children, award points, and let children redeem those points in a family shop. By creating an account you agree to use the app only for lawful family management purposes.
+          <Section title="1. About Reward Ur Kids">
+            Reward Ur Kids is a family management app that allows parents to assign chores to children, award points, and let children redeem those points in a family shop. By creating an account you agree to use the app only for lawful family management purposes.
           </Section>
 
           <Section title="2. Eligibility">
@@ -54,7 +54,7 @@ function UserAgreementModal({ onClose }) {
           </Section>
 
           <Section title="5. Acceptable Use">
-            You agree not to use ParentShopee to:
+            You agree not to use Reward Ur Kids to:
             <ul style={{ marginTop: 6, paddingLeft: 18 }}>
               <li>Post content that is offensive, hateful, or inappropriate for children</li>
               <li>Circumvent the age-appropriate content filters built into the app</li>
@@ -68,7 +68,7 @@ function UserAgreementModal({ onClose }) {
           </Section>
 
           <Section title="7. Points & Rewards">
-            Points awarded within the app have no monetary value and cannot be exchanged for real money. Parents retain full discretion over awarding and adjusting points. ParentShopee is not responsible for disputes arising from point adjustments made by parents.
+            Points awarded within the app have no monetary value and cannot be exchanged for real money. Parents retain full discretion over awarding and adjusting points. Reward Ur Kids is not responsible for disputes arising from point adjustments made by parents.
           </Section>
 
           <Section title="8. Data Storage">
@@ -80,7 +80,7 @@ function UserAgreementModal({ onClose }) {
           </Section>
 
           <Section title="10. Changes to This Agreement">
-            We may update this agreement from time to time. Continued use of ParentShopee after changes are posted constitutes acceptance of the revised agreement. We will notify you of significant changes via the email address on your account.
+            We may update this agreement from time to time. Continued use of Reward Ur Kids after changes are posted constitutes acceptance of the revised agreement. We will notify you of significant changes via the email address on your account.
           </Section>
 
           <Section title="11. Contact">
@@ -294,7 +294,7 @@ function LoginForm({ onRegister }) {
 
   return (
     <>
-      <h1 className="login-title">ParentShopee</h1>
+      <h1 className="login-title">Reward Ur Kids</h1>
       <p className="login-subtitle">Chores &amp; Rewards for Families</p>
 
       {sessionExpired && (

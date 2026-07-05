@@ -119,7 +119,7 @@ class DBTransaction(Base):
 
 # ── App ────────────────────────────────────────────────────────────────────────
 
-app = FastAPI(title="ParentShopee API")
+app = FastAPI(title="Reward Ur Kids API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -1167,7 +1167,7 @@ def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)
 
     # Build email body
     body_text = (
-        f"New Support Ticket — ParentShopee\n"
+        f"New Support Ticket — Reward Ur Kids\n"
         f"{'='*50}\n\n"
         f"From   : {user.name} ({user.username})\n"
         f"Role   : {user.role}\n"
@@ -1183,7 +1183,7 @@ def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)
             msg = MIMEMultipart()
             msg["From"]    = SMTP_USER
             msg["To"]      = CONTACT_EMAIL
-            msg["Subject"] = f"[ParentShopee] {body.category}: {body.subject}"
+            msg["Subject"] = f"[Reward Ur Kids] {body.category}: {body.subject}"
             msg.attach(MIMEText(body_text, "plain"))
 
             if body.screenshot_b64:

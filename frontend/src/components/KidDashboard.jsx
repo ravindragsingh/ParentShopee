@@ -275,7 +275,7 @@ export default function KidDashboard() {
   return (
     <div className="app-container">
       <nav className="navbar kid">
-        <div className="navbar-brand">🛒 ParentShopee</div>
+        <div className="navbar-brand">🏆 Reward Ur Kids</div>
         <div className="navbar-user">
           {user.avatar && (
             <span className="kid-avatar lg">{user.avatar}</span>

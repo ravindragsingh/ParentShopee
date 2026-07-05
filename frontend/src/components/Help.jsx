@@ -121,7 +121,7 @@ function ParentHelp() {
       </Section>
 
       <Section icon="📩" title="Contact & Support">
-        <Tip emoji="📩" text="Found a bug or need help? Use the 'Contact Us' option in the ☰ menu to send a message to the ParentShopee team." />
+        <Tip emoji="📩" text="Found a bug or need help? Use the 'Contact Us' option in the ☰ menu to send a message to the Reward Ur Kids team." />
         <Tip emoji="📎" text="You can attach a screenshot to your message to help us understand the issue faster." />
       </Section>
 
@@ -208,7 +208,7 @@ function KidHelp() {
       </Section>
 
       <Section icon="📩" title="Need Help?">
-        <Tip emoji="📩" text="If something isn't working, use 'Contact Us' in the ☰ menu to send a message to the ParentShopee team." />
+        <Tip emoji="📩" text="If something isn't working, use 'Contact Us' in the ☰ menu to send a message to the Reward Ur Kids team." />
         <Tip emoji="📎" text="You can attach a screenshot to help explain the problem." />
       </Section>
     </div>
@@ -223,7 +223,7 @@ export function HelpTab({ role }) {
       <div style={{ marginBottom: 20 }}>
         <h2 style={{ fontWeight: 800, color: '#1e293b', marginBottom: 4 }}>❓ Help & Guide</h2>
         <p style={{ fontSize: '0.875rem', color: '#64748b' }}>
-          Everything you need to know about using ParentShopee.
+          Everything you need to know about using Reward Ur Kids.
         </p>
       </div>
       {role === 'parent' ? <ParentHelp /> : <KidHelp />}
@@ -257,7 +257,7 @@ export function LoginHelp() {
           transition: 'background 0.2s',
         }}
       >
-        {open ? '▲ Hide Guide' : '❓ How does ParentShopee work?'}
+        {open ? '▲ Hide Guide' : '❓ How does Reward Ur Kids work?'}
       </button>
 
       {open && (
@@ -265,7 +265,7 @@ export function LoginHelp() {
           marginTop: 10, background: 'rgba(255,255,255,0.97)', borderRadius: 16,
           padding: 20, boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
         }}>
-          <h3 style={{ fontWeight: 800, color: '#3730a3', marginBottom: 4, fontSize: '1rem' }}>🛒 ParentShopee</h3>
+          <h3 style={{ fontWeight: 800, color: '#3730a3', marginBottom: 4, fontSize: '1rem' }}>🛒 Reward Ur Kids</h3>
           <p style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: 16 }}>
             A chore &amp; reward app for the whole family.
           </p>

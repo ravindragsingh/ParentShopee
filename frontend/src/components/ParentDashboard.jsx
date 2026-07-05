@@ -1363,7 +1363,7 @@ export default function ParentDashboard() {
   return (
     <div className="app-container">
       <nav className="navbar parent">
-        <div className="navbar-brand">🛒 ParentShopee</div>
+        <div className="navbar-brand">🏆 Reward Ur Kids</div>
         <div className="navbar-user">
           <span>Hi, {user.name}!</span>
           <button className="logout-btn" onClick={logout}>Sign Out</button>
@@ -1421,7 +1421,7 @@ export default function ParentDashboard() {
                 You are the Family Admin
               </div>
               <div style={{ color: '#334155', fontSize: '0.875rem', lineHeight: 1.5 }}>
-                Welcome to ParentShopee! To get started, head to the{' '}
+                Welcome to Reward Ur Kids! To get started, head to the{' '}
                 <button
                   onClick={() => setTab('kids')}
                   style={{ background: 'none', border: 'none', color: '#2563eb', fontWeight: 600, cursor: 'pointer', padding: 0, fontSize: 'inherit' }}
