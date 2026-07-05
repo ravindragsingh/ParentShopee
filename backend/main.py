@@ -400,6 +400,21 @@ class ShopItemUpdate(BaseModel):
     cost: Optional[float] = None
     imageEmoji: Optional[str] = None
 
+class AdminUserUpdate(BaseModel):
+    name:     Optional[str] = None
+    email:    Optional[str] = None
+    password: Optional[str] = None
+    avatar:   Optional[str] = None
+
+class AdminChoreUpdate(BaseModel):
+    title:         Optional[str]   = None
+    description:   Optional[str]   = None
+    points:        Optional[float] = None
+    status:        Optional[str]   = None
+    assignedKidId: Optional[str]   = None
+    dueDate:       Optional[str]   = None
+    imageEmoji:    Optional[str]   = None
+
 # ── Seed data ──────────────────────────────────────────────────────────────────
 
 def seed_db(db: Session):
@@ -1358,6 +1373,65 @@ def admin_family_chores(family_id: str, db: Session = Depends(get_db), user: DBU
         DBChore.family_id == family_id,
     ).order_by(DBChore.created_at.desc()).limit(100).all()
     return ok([chore_dict(c) for c in chores])
+
+
+@app.put("/api/admin/user/{user_id}")
+def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id).first()
+    if not target:
+        fail("User not found", 404)
+    if target.role == "admin":
+        fail("Cannot edit admin accounts", 403)
+    if body.name is not None:
+        if len(body.name.strip()) < 2:
+            fail("Name must be at least 2 characters")
+        target.name = body.name.strip()
+    if body.email is not None and body.email.strip():
+        if not EMAIL_RE.match(body.email.strip()):
+            fail("Invalid email address")
+        clash = db.query(DBUser).filter(DBUser.email == body.email.lower().strip(), DBUser.id != user_id).first()
+        if clash:
+            fail("Email address already in use")
+        target.email = body.email.lower().strip()
+    if body.password is not None and body.password:
+        if len(body.password) < 4:
+            fail("Password must be at least 4 characters")
+        target.password = body.password
+    if body.avatar is not None:
+        target.avatar = body.avatar
+    db.commit()
+    db.refresh(target)
+    return ok(safe_user(target))
+
+
+@app.put("/api/admin/chore/{chore_id}")
+def admin_update_chore(chore_id: str, body: AdminChoreUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
+    if not chore:
+        fail("Chore not found", 404)
+    if body.title is not None:
+        if not body.title.strip():
+            fail("Title cannot be empty")
+        chore.title = body.title.strip()
+    if body.description is not None:
+        chore.description = body.description
+    if body.points is not None:
+        if body.points < 0:
+            fail("Points must be non-negative")
+        chore.points = body.points
+    if body.status is not None:
+        if body.status not in ("open", "pending", "complete", "expired"):
+            fail("Invalid status")
+        chore.status = body.status
+    if body.assignedKidId is not None:
+        chore.assigned_kid_id = body.assignedKidId or None
+    if body.dueDate is not None:
+        chore.due_date = body.dueDate or None
+    if body.imageEmoji is not None:
+        chore.image_emoji = body.imageEmoji
+    db.commit()
+    db.refresh(chore)
+    return ok(chore_dict(chore))
 
 
 @app.get("/api/admin/family/{family_id}/transactions")

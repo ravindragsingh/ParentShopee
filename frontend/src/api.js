@@ -107,7 +107,9 @@ export const api = {
   deleteRecurring: (id)   => request('DELETE', `/api/recurring/${id}`),
 
   // Admin
-  adminFamilies:           ()         => request('GET', '/api/admin/families'),
-  adminFamilyChores:       (familyId) => request('GET', `/api/admin/family/${familyId}/chores`),
-  adminFamilyTransactions: (familyId) => request('GET', `/api/admin/family/${familyId}/transactions`),
+  adminFamilies:           ()              => request('GET', '/api/admin/families'),
+  adminFamilyChores:       (familyId)      => request('GET', `/api/admin/family/${familyId}/chores`),
+  adminFamilyTransactions: (familyId)      => request('GET', `/api/admin/family/${familyId}/transactions`),
+  adminUpdateUser:         (userId, body)  => request('PUT', `/api/admin/user/${userId}`, body),
+  adminUpdateChore:        (choreId, body) => request('PUT', `/api/admin/chore/${choreId}`, body),
 }
