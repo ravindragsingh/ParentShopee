@@ -302,6 +302,11 @@ def require_kid(user: DBUser = Depends(require_auth)) -> DBUser:
         fail("Forbidden — kids only", 403)
     return user
 
+def require_admin(user: DBUser = Depends(require_auth)) -> DBUser:
+    if user.role != "admin":
+        fail("Forbidden — admin only", 403)
+    return user
+
 # ── Pydantic models ────────────────────────────────────────────────────────────
 
 class LoginBody(BaseModel):
@@ -491,6 +496,30 @@ def startup():
         seed_db(db)
     finally:
         db.close()
+
+    # Create/ensure admin user exists
+    admin_username = os.environ.get("ADMIN_USERNAME", "admin")
+    admin_password = os.environ.get("ADMIN_PASSWORD", "admin123")
+    db2 = SessionLocal()
+    try:
+        existing = db2.query(DBUser).filter(DBUser.username == admin_username).first()
+        if existing:
+            if existing.role != "admin":
+                existing.role = "admin"
+                existing.password = admin_password
+                db2.commit()
+        else:
+            db2.add(DBUser(
+                id="admin-" + str(uuid4())[:8],
+                name="Admin",
+                username=admin_username,
+                password=admin_password,
+                role="admin",
+                email="admin@parentshopee.com",
+            ))
+            db2.commit()
+    finally:
+        db2.close()
 
 # ── Auth routes ────────────────────────────────────────────────────────────────
 
@@ -1279,6 +1308,84 @@ def mark_read(contact_id: str, db: Session = Depends(get_db), user: DBUser = Dep
     ).update({"is_read": "true"}, synchronize_session=False)
     db.commit()
     return ok({"marked": True})
+
+# ── Admin routes ──────────────────────────────────────────────────────────────
+
+@app.get("/api/admin/families")
+def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    primary_parents = db.query(DBUser).filter(
+        DBUser.role == "parent",
+        DBUser.co_parent_of == None,
+    ).all()
+
+    result = []
+    for parent in primary_parents:
+        family_id = parent.id
+        co_parent = db.query(DBUser).filter(DBUser.co_parent_of == family_id).first()
+        kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+
+        chore_counts = {}
+        for status in ("open", "pending", "complete", "expired"):
+            chore_counts[status] = db.query(DBChore).filter(
+                DBChore.family_id == family_id, DBChore.status == status
+            ).count()
+
+        recurring_count = db.query(DBRecurringTemplate).filter(
+            DBRecurringTemplate.family_id == family_id,
+            DBRecurringTemplate.is_active == "1",
+        ).count()
+
+        kid_data = []
+        for kid in kids:
+            wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
+            kid_data.append({**safe_user(kid), "balance": wallet.balance if wallet else 0})
+
+        result.append({
+            "familyId": family_id,
+            "parent": safe_user(parent),
+            "coParent": safe_user(co_parent) if co_parent else None,
+            "kids": kid_data,
+            "choreCounts": chore_counts,
+            "recurringCount": recurring_count,
+        })
+
+    return ok(result)
+
+
+@app.get("/api/admin/family/{family_id}/chores")
+def admin_family_chores(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    chores = db.query(DBChore).filter(
+        DBChore.family_id == family_id,
+    ).order_by(DBChore.created_at.desc()).limit(100).all()
+    return ok([chore_dict(c) for c in chores])
+
+
+@app.get("/api/admin/family/{family_id}/transactions")
+def admin_family_transactions(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+    kid_ids = [k.id for k in kids]
+    if not kid_ids:
+        return ok([])
+
+    kid_map = {k.id: k for k in kids}
+    txns = db.query(DBTransaction).filter(
+        DBTransaction.kid_id.in_(kid_ids)
+    ).order_by(DBTransaction.timestamp.desc()).limit(100).all()
+
+    result = []
+    for t in txns:
+        kid = kid_map.get(t.kid_id)
+        result.append({
+            "id": t.id,
+            "kidId": t.kid_id,
+            "kidName": kid.name if kid else "Unknown",
+            "kidAvatar": kid.avatar if kid else "👤",
+            "type": t.type,
+            "amount": t.amount,
+            "description": t.description,
+            "timestamp": t.timestamp,
+        })
+    return ok(result)
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 
