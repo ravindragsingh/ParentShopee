@@ -92,7 +92,7 @@ function UserAgreementModal({ onClose }) {
         <div style={{ padding: '14px 22px', borderTop: '1px solid #e2e8f0', textAlign: 'right' }}>
           <button
             onClick={onClose}
-            style={{ background: 'linear-gradient(135deg,#7c3aed,#a855f7)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontWeight: 600, cursor: 'pointer', fontSize: '0.9rem' }}
+            style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontWeight: 600, cursor: 'pointer', fontSize: '0.9rem' }}
           >
             Close
           </button>
@@ -211,8 +211,8 @@ function RegisterForm({ onBack }) {
         <div
           style={{
             display: 'flex', alignItems: 'flex-start', gap: 10,
-            background: agreed ? '#f5f3ff' : '#fafafa',
-            border: `1.5px solid ${agreed ? '#a855f7' : '#e2e8f0'}`,
+            background: agreed ? '#f0fdfa' : '#fafafa',
+            border: `1.5px solid ${agreed ? '#2dd4bf' : '#e2e8f0'}`,
             borderRadius: 10, padding: '12px 14px', marginBottom: 20,
             transition: 'all 0.2s', cursor: 'pointer',
           }}
@@ -225,8 +225,8 @@ function RegisterForm({ onBack }) {
             onKeyDown={e => (e.key === ' ' || e.key === 'Enter') && setAgreed(v => !v)}
             style={{
               flexShrink: 0, width: 20, height: 20, borderRadius: 5, marginTop: 1,
-              border: `2px solid ${agreed ? '#7c3aed' : '#cbd5e1'}`,
-              background: agreed ? '#7c3aed' : '#fff',
+              border: `2px solid ${agreed ? '#0d9488' : '#cbd5e1'}`,
+              background: agreed ? '#0d9488' : '#fff',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.15s',
             }}
@@ -237,7 +237,7 @@ function RegisterForm({ onBack }) {
             I have read and agree to the{' '}
             <span
               onClick={e => { e.stopPropagation(); setShowAgreement(true) }}
-              style={{ color: '#7c3aed', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }}
+              style={{ color: '#0d9488', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }}
             >
               User Agreement
             </span>
@@ -252,7 +252,7 @@ function RegisterForm({ onBack }) {
 
       <p style={{ marginTop: 16, textAlign: 'center', fontSize: '0.85rem' }}>
         Already have an account?{' '}
-        <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#7c3aed', cursor: 'pointer', fontWeight: 600 }}>
+        <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#0d9488', cursor: 'pointer', fontWeight: 600 }}>
           Sign In
         </button>
       </p>
@@ -334,7 +334,7 @@ function LoginForm({ onRegister }) {
       <div style={{ marginTop: 20, textAlign: 'center' }}>
         <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 8 }}>
           New parent?{' '}
-          <button onClick={onRegister} style={{ background: 'none', border: 'none', color: '#7c3aed', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}>
+          <button onClick={onRegister} style={{ background: 'none', border: 'none', color: '#0d9488', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}>
             Create an account
           </button>
         </p>

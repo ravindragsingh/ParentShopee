@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 
 const STATUS_STYLE = {
-  open:     { bg: '#eff6ff', color: '#1d4ed8' },
+  open:     { bg: '#f0fdfa', color: '#0d9488' },
   pending:  { bg: '#fefce8', color: '#a16207' },
   complete: { bg: '#f0fdf4', color: '#166534' },
   expired:  { bg: '#fef2f2', color: '#991b1b' },
@@ -11,7 +11,7 @@ const STATUS_STYLE = {
 
 const TXN_STYLE = {
   earned:           { color: '#166534', symbol: '+' },
-  bonus:            { color: '#7c3aed', symbol: '+' },
+  bonus:            { color: '#0d9488', symbol: '+' },
   behaviour:        { color: '#0369a1', symbol: '+' },
   spent:            { color: '#b91c1c', symbol: '-' },
   deduct:           { color: '#b91c1c', symbol: '-' },
@@ -26,8 +26,8 @@ const inputStyle = {
 }
 const labelStyle = { display: 'block', fontWeight: 600, fontSize: '0.8rem', color: '#374151', marginBottom: 4 }
 const editBtnStyle = {
-  background: '#ede9fe', border: '1px solid #c4b5fd', borderRadius: 6,
-  padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#7c3aed', flexShrink: 0,
+  background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 6,
+  padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#0d9488', flexShrink: 0,
 }
 
 // ── Edit modal ────────────────────────────────────────────────────────────────
@@ -146,7 +146,7 @@ function EditModal({ target, familyKids, onSave, onClose }) {
                       <button
                         key={a} type="button"
                         onClick={() => setForm(f => ({ ...f, avatar: a }))}
-                        style={{ fontSize: '1.3rem', width: 42, height: 42, borderRadius: 10, border: `2px solid ${form.avatar === a ? '#7c3aed' : '#e2e8f0'}`, background: form.avatar === a ? '#ede9fe' : '#fff', cursor: 'pointer' }}
+                        style={{ fontSize: '1.3rem', width: 42, height: 42, borderRadius: 10, border: `2px solid ${form.avatar === a ? '#0d9488' : '#e2e8f0'}`, background: form.avatar === a ? '#f0fdfa' : '#fff', cursor: 'pointer' }}
                       >{a}</button>
                     ))}
                   </div>
@@ -210,7 +210,7 @@ function EditModal({ target, familyKids, onSave, onClose }) {
               Cancel
             </button>
             <button type="submit" disabled={saving}
-              style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#7c3aed', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
+              style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
               {saving ? 'Saving…' : 'Save Changes'}
             </button>
           </div>
@@ -374,7 +374,7 @@ export default function AdminDashboard() {
 
         {/* Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 22 }}>
-          <StatCard icon="🏠" label="Families" value={totalFamilies} color="#7c3aed" />
+          <StatCard icon="🏠" label="Families" value={totalFamilies} color="#0d9488" />
           <StatCard icon="👤" label="Parents"  value={totalParents}  color="#0369a1" />
           <StatCard icon="🧒" label="Children" value={totalKids}     color="#059669" />
           <StatCard icon="📋" label="Chores"   value={totalChores}   color="#d97706" />
@@ -407,7 +407,7 @@ export default function AdminDashboard() {
               {/* Summary card */}
               <div
                 onClick={() => selectFamily(family)}
-                style={{ background: '#fff', borderRadius: isSelected ? '12px 12px 0 0' : 12, border: `1.5px solid ${isSelected ? '#7c3aed' : '#e2e8f0'}`, cursor: 'pointer', padding: '16px 20px', display: 'flex', alignItems: 'flex-start', gap: 20, flexWrap: 'wrap' }}
+                style={{ background: '#fff', borderRadius: isSelected ? '12px 12px 0 0' : 12, border: `1.5px solid ${isSelected ? '#0d9488' : '#e2e8f0'}`, cursor: 'pointer', padding: '16px 20px', display: 'flex', alignItems: 'flex-start', gap: 20, flexWrap: 'wrap' }}
               >
                 {/* Primary parent */}
                 <div style={{ flex: '1 1 200px', minWidth: 0 }}>
@@ -444,7 +444,7 @@ export default function AdminDashboard() {
                       : family.kids.map(kid => (
                           <span key={kid.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 20, padding: '4px 10px', fontSize: '0.8rem' }}>
                             {kid.avatar} <strong>{kid.name}</strong>
-                            <span style={{ color: '#7c3aed', fontWeight: 700, marginLeft: 2 }}>{kid.balance} pts</span>
+                            <span style={{ color: '#0d9488', fontWeight: 700, marginLeft: 2 }}>{kid.balance} pts</span>
                             <button style={{ ...editBtnStyle, padding: '1px 6px', marginLeft: 2 }} onClick={e => openEditUser(e, kid, family.familyId)}>✏️</button>
                           </span>
                         ))
@@ -464,7 +464,7 @@ export default function AdminDashboard() {
                     ))}
                   </div>
                   {family.recurringCount > 0 && (
-                    <span style={{ background: '#ede9fe', color: '#7c3aed', borderRadius: 8, padding: '3px 9px', fontSize: '0.74rem', fontWeight: 700 }}>
+                    <span style={{ background: '#f0fdfa', color: '#0d9488', borderRadius: 8, padding: '3px 9px', fontSize: '0.74rem', fontWeight: 700 }}>
                       🔁 {family.recurringCount} recurring
                     </span>
                   )}
@@ -474,7 +474,7 @@ export default function AdminDashboard() {
 
               {/* Detail panel */}
               {isSelected && (
-                <div style={{ background: '#fff', border: '1.5px solid #7c3aed', borderTop: '1px solid #e2e8f0', borderRadius: '0 0 12px 12px' }}>
+                <div style={{ background: '#fff', border: '1.5px solid #0d9488', borderTop: '1px solid #e2e8f0', borderRadius: '0 0 12px 12px' }}>
 
                   {/* Tabs */}
                   <div style={{ display: 'flex', padding: '0 20px', borderBottom: '1px solid #e2e8f0' }}>
@@ -488,13 +488,13 @@ export default function AdminDashboard() {
                         onClick={e => { e.stopPropagation(); setDetailTab(tab.id) }}
                         style={{
                           padding: '12px 18px', border: 'none', background: 'none', cursor: 'pointer', fontWeight: 600,
-                          fontSize: '0.85rem', color: detailTab === tab.id ? '#7c3aed' : '#64748b',
-                          borderBottom: `2px solid ${detailTab === tab.id ? '#7c3aed' : 'transparent'}`, marginBottom: -1,
+                          fontSize: '0.85rem', color: detailTab === tab.id ? '#0d9488' : '#64748b',
+                          borderBottom: `2px solid ${detailTab === tab.id ? '#0d9488' : 'transparent'}`, marginBottom: -1,
                         }}
                       >
                         {tab.label}
                         {!detailLoading && tab.count > 0 && (
-                          <span style={{ marginLeft: 6, background: detailTab === tab.id ? '#ede9fe' : '#f1f5f9', color: detailTab === tab.id ? '#7c3aed' : '#64748b', borderRadius: 10, padding: '1px 7px', fontSize: '0.75rem' }}>
+                          <span style={{ marginLeft: 6, background: detailTab === tab.id ? '#f0fdfa' : '#f1f5f9', color: detailTab === tab.id ? '#0d9488' : '#64748b', borderRadius: 10, padding: '1px 7px', fontSize: '0.75rem' }}>
                             {tab.count}
                           </span>
                         )}
@@ -525,7 +525,7 @@ export default function AdminDashboard() {
                               <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>@{member.username}</div>
                               {member.email && <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>{member.email}</div>}
                               {member.balance !== undefined && (
-                                <div style={{ fontSize: '0.78rem', color: '#7c3aed', fontWeight: 700, marginTop: 2 }}>{member.balance} pts</div>
+                                <div style={{ fontSize: '0.78rem', color: '#0d9488', fontWeight: 700, marginTop: 2 }}>{member.balance} pts</div>
                               )}
                             </div>
                             <button
@@ -561,14 +561,14 @@ export default function AdminDashboard() {
                                       <Td>
                                         <span style={{ marginRight: 5 }}>{chore.imageEmoji}</span>
                                         <span style={{ fontWeight: 600, color: '#1e293b' }}>{chore.title}</span>
-                                        {chore.templateId && <span style={{ marginLeft: 6, fontSize: '0.7rem', background: '#ede9fe', color: '#7c3aed', borderRadius: 4, padding: '1px 5px', fontWeight: 700 }}>🔁</span>}
+                                        {chore.templateId && <span style={{ marginLeft: 6, fontSize: '0.7rem', background: '#f0fdfa', color: '#0d9488', borderRadius: 4, padding: '1px 5px', fontWeight: 700 }}>🔁</span>}
                                       </Td>
                                       <Td>
                                         <span style={{ background: s.bg, color: s.color, borderRadius: 6, padding: '2px 8px', fontWeight: 700, fontSize: '0.74rem', textTransform: 'capitalize' }}>
                                           {chore.status}
                                         </span>
                                       </Td>
-                                      <Td style={{ fontWeight: 700, color: '#7c3aed' }}>{chore.points}</Td>
+                                      <Td style={{ fontWeight: 700, color: '#0d9488' }}>{chore.points}</Td>
                                       <Td>{assignedKid  ? `${assignedKid.avatar} ${assignedKid.name}`   : '—'}</Td>
                                       <Td>{completedKid ? `${completedKid.avatar} ${completedKid.name}` : '—'}</Td>
                                       <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{chore.dueDate || '—'}</Td>

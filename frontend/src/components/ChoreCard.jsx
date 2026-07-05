@@ -233,7 +233,7 @@ export function ParentChoreCard({ chore, kids, onRefresh }) {
               <span className="points-badge">+{chore.points} pts</span>
               <DueDateBadge dueDate={chore.dueDate} status={chore.status} />
               {chore.templateId && (
-                <span style={{ fontSize: '0.72rem', background: '#ede9fe', color: '#7c3aed', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>🔁 Recurring</span>
+                <span style={{ fontSize: '0.72rem', background: '#ccfbf1', color: '#0d9488', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>🔁 Recurring</span>
               )}
               <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 4 }}>
                 {chore.status === 'open' && (

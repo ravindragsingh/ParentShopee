@@ -295,11 +295,11 @@ function ChoresTab({ kids }) {
                           display: 'flex', alignItems: 'center', gap: 6,
                           cursor: 'pointer', userSelect: 'none',
                           padding: '7px 14px', borderRadius: 999,
-                          background: checked ? '#f5f3ff' : '#f8fafc',
-                          border: `2px solid ${checked ? '#8b5cf6' : '#e2e8f0'}`,
+                          background: checked ? '#f0fdfa' : '#f8fafc',
+                          border: `2px solid ${checked ? '#2dd4bf' : '#e2e8f0'}`,
                           fontSize: '0.875rem',
                           fontWeight: checked ? 700 : 400,
-                          color: checked ? '#6d28d9' : '#475569',
+                          color: checked ? '#0f766e' : '#475569',
                           transition: 'all 0.15s',
                         }}
                       >
@@ -387,9 +387,9 @@ function ChoresTab({ kids }) {
                           })}
                           style={{
                             padding: '4px 10px', borderRadius: 6, fontSize: '0.8rem', cursor: 'pointer',
-                            background: checked ? '#6366f1' : '#fff',
+                            background: checked ? '#0d9488' : '#fff',
                             color: checked ? '#fff' : '#475569',
-                            border: `1px solid ${checked ? '#6366f1' : '#e2e8f0'}`,
+                            border: `1px solid ${checked ? '#0d9488' : '#e2e8f0'}`,
                             fontWeight: checked ? 700 : 400,
                           }}
                         >
@@ -454,9 +454,9 @@ function ChoresTab({ kids }) {
             onClick={() => setFilterKidId('')}
             style={{
               padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
-              border: `1.5px solid ${!filterKidId ? '#7c3aed' : '#e2e8f0'}`,
-              background: !filterKidId ? '#ede9fe' : '#fff',
-              color: !filterKidId ? '#7c3aed' : '#64748b',
+              border: `1.5px solid ${!filterKidId ? '#0d9488' : '#e2e8f0'}`,
+              background: !filterKidId ? '#f0fdfa' : '#fff',
+              color: !filterKidId ? '#0d9488' : '#64748b',
               transition: 'all 0.15s',
             }}
           >
@@ -468,9 +468,9 @@ function ChoresTab({ kids }) {
               onClick={() => setFilterKidId(kid.id === filterKidId ? '' : kid.id)}
               style={{
                 padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
-                border: `1.5px solid ${filterKidId === kid.id ? '#7c3aed' : '#e2e8f0'}`,
-                background: filterKidId === kid.id ? '#ede9fe' : '#fff',
-                color: filterKidId === kid.id ? '#7c3aed' : '#64748b',
+                border: `1.5px solid ${filterKidId === kid.id ? '#0d9488' : '#e2e8f0'}`,
+                background: filterKidId === kid.id ? '#f0fdfa' : '#fff',
+                color: filterKidId === kid.id ? '#0d9488' : '#64748b',
                 transition: 'all 0.15s',
               }}
             >
@@ -841,7 +841,7 @@ function CoParentTab() {
   // Co-parents see a notice — they cannot manage this tab
   if (info?.isCoParent) {
     return (
-      <div className="form-card" style={{ borderLeft: '4px solid #4f46e5' }}>
+      <div className="form-card" style={{ borderLeft: '4px solid #0d9488' }}>
         <div className="form-title" style={{ marginBottom: 6 }}>Co-Parent Access</div>
         <p style={{ fontSize: '0.9rem', color: '#475569' }}>
           You have co-parent access to <strong>{info.primaryParent?.name || 'this family'}</strong>'s account.
@@ -900,7 +900,7 @@ function CoParentTab() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
             <div style={{
               width: 56, height: 56, borderRadius: '50%',
-              background: 'linear-gradient(135deg,#4f46e5,#7c3aed)',
+              background: 'linear-gradient(135deg,#0f766e,#0d9488)',
               color: 'white', display: 'flex', alignItems: 'center',
               justifyContent: 'center', fontSize: '1.4rem', fontWeight: 700, flexShrink: 0
             }}>
@@ -1391,7 +1391,7 @@ export default function ParentDashboard() {
               <span key={kid.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 20, padding: '4px 12px', fontSize: '0.82rem' }}>
                 <span>{kid.avatar || '🐶'}</span>
                 <span style={{ color: '#334155' }}>{kid.name}</span>
-                <strong style={{ color: '#7c3aed' }}>{getKidBalance(kid.id)} pts</strong>
+                <strong style={{ color: '#0d9488' }}>{getKidBalance(kid.id)} pts</strong>
               </span>
             ))}
             <button
@@ -1406,8 +1406,8 @@ export default function ParentDashboard() {
 
         {kids.length === 0 && (
           <div style={{
-            background: 'linear-gradient(135deg, #eff6ff, #f0fdf4)',
-            border: '1px solid #bfdbfe',
+            background: 'linear-gradient(135deg, #f0fdfa, #f0fdf4)',
+            border: '1px solid #99f6e4',
             borderRadius: 12,
             padding: '16px 20px',
             marginBottom: 16,

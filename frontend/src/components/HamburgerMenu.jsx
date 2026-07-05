@@ -12,8 +12,8 @@ export default function HamburgerMenu({ tab, setTab, role }) {
     : ['messages', 'help', 'contact', 'settings']
 
   const isMenuTab   = menuTabIds.includes(tab)
-  const accent      = role === 'parent' ? '#7c3aed' : '#059669'
-  const accentBg    = role === 'parent' ? '#f5f3ff' : '#f0fdf4'
+  const accent      = role === 'parent' ? '#0d9488' : '#059669'
+  const accentBg    = role === 'parent' ? '#f0fdfa' : '#f0fdf4'
   const activeClass = role === 'parent' ? ' active parent' : ' active kid'
 
   // getBoundingClientRect() is already relative to the visual viewport.

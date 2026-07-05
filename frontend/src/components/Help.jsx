@@ -9,13 +9,13 @@ function Section({ icon, title, children, defaultOpen = false }) {
         onClick={() => setOpen(v => !v)}
         style={{
           width: '100%', textAlign: 'left', padding: '13px 16px',
-          background: open ? '#f5f3ff' : '#fafafa',
+          background: open ? '#f0fdfa' : '#fafafa',
           border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
           transition: 'background 0.15s',
         }}
       >
-        <span style={{ fontWeight: 700, fontSize: '0.92rem', color: '#3730a3', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span style={{ fontWeight: 700, fontSize: '0.92rem', color: '#0f766e', display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontSize: '1.1rem' }}>{icon}</span>
           {title}
         </span>
@@ -35,7 +35,7 @@ function Step({ number, text }) {
     <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 10 }}>
       <div style={{
         width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
-        background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+        background: 'linear-gradient(135deg,#0f766e,#0d9488)',
         color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: '0.75rem', fontWeight: 700,
       }}>{number}</div>
@@ -59,14 +59,14 @@ function ParentHelp() {
   return (
     <div>
       <div style={{
-        background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+        background: 'linear-gradient(135deg,#f0fdfa,#ccfbf1)',
         borderRadius: 12, padding: '16px 20px', marginBottom: 20,
         border: '1px solid #ddd6fe',
       }}>
-        <div style={{ fontWeight: 700, color: '#4c1d95', fontSize: '1.05rem', marginBottom: 6 }}>
+        <div style={{ fontWeight: 700, color: '#134e4a', fontSize: '1.05rem', marginBottom: 6 }}>
           👑 Welcome, Parent!
         </div>
-        <p style={{ fontSize: '0.875rem', color: '#5b21b6', lineHeight: 1.6, margin: 0 }}>
+        <p style={{ fontSize: '0.875rem', color: '#115e59', lineHeight: 1.6, margin: 0 }}>
           You are the family admin. You create chores, approve completions, manage the reward shop,
           and can send messages to your children and co-parent.
         </p>
@@ -127,12 +127,12 @@ function ParentHelp() {
 
       <Section icon="🔁" title="Recurring Chores">
         <Tip emoji="🔁" text="Recurring chores repeat automatically — Daily, Weekly (choose specific days), or Monthly (choose a day of the month). Only one instance appears at a time, on the day it is due." />
-        <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#6d28d9', margin: '10px 0 6px' }}>Adding a recurring chore</div>
+        <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#0f766e', margin: '10px 0 6px' }}>Adding a recurring chore</div>
         <Step number="1" text="In the Chores tab, fill in the chore title, points, emoji and optionally assign a child." />
         <Step number="2" text="Tick the '🔁 Make this a recurring chore' checkbox that appears below the Description field." />
         <Step number="3" text="Choose Daily, Weekly, or Monthly. For Weekly, tap the day buttons (Mon – Sun). For Monthly, enter the day number (use 1–28 to ensure it works every month)." />
         <Step number="4" text="Click 'Add Chore'. The first instance for today (if it matches) appears immediately, and future instances are created automatically each day." />
-        <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#6d28d9', margin: '10px 0 6px' }}>Stopping a recurring chore</div>
+        <div style={{ fontWeight: 700, fontSize: '0.8rem', color: '#0f766e', margin: '10px 0 6px' }}>Stopping a recurring chore</div>
         <Step number="1" text="Scroll down past the chore lists to find the '🔁 Active Recurring Chores' panel." />
         <Step number="2" text="Click 'Stop' next to the template you want to end. This deletes today's and all future open instances and disables the repeat." />
         <Tip emoji="💡" text="Stopping a recurring chore does not remove instances that are already Pending or Complete — those stay in the history." />
@@ -178,7 +178,7 @@ function KidHelp() {
         <Tip emoji="⏳" text="After you complete a chore, it goes to 'My Pending' until your parent approves or rejects it." />
         <Tip emoji="🏆" text="Approved chores appear in 'My Completed' — nice work! The points are yours." />
         <Tip emoji="📅" text="Chores with a due date will expire if not done in time — try to finish them early!" />
-        <Tip emoji="🔁" text="Some chores are recurring — they show a purple '🔁 Recurring' badge and come back automatically each day, week, or month. Complete them on time to keep earning!" />
+        <Tip emoji="🔁" text="Some chores are recurring — they show a teal '🔁 Recurring' badge and come back automatically each day, week, or month. Complete them on time to keep earning!" />
       </Section>
 
       <Section icon="🛍️" title="Spending in the Shop">
@@ -265,7 +265,7 @@ export function LoginHelp() {
           marginTop: 10, background: 'rgba(255,255,255,0.97)', borderRadius: 16,
           padding: 20, boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
         }}>
-          <h3 style={{ fontWeight: 800, color: '#3730a3', marginBottom: 4, fontSize: '1rem' }}>🛒 Reward Ur Kids</h3>
+          <h3 style={{ fontWeight: 800, color: '#0f766e', marginBottom: 4, fontSize: '1rem' }}>🛒 Reward Ur Kids</h3>
           <p style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: 16 }}>
             A chore &amp; reward app for the whole family.
           </p>
@@ -274,7 +274,7 @@ export function LoginHelp() {
               <div key={c.title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                  background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+                  background: 'linear-gradient(135deg,#f0fdfa,#ccfbf1)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem',
                 }}>
                   {c.icon}
@@ -286,7 +286,7 @@ export function LoginHelp() {
               </div>
             ))}
           </div>
-          <div style={{ marginTop: 16, padding: '10px 14px', background: '#f5f3ff', borderRadius: 10, fontSize: '0.78rem', color: '#5b21b6' }}>
+          <div style={{ marginTop: 16, padding: '10px 14px', background: '#f0fdfa', borderRadius: 10, fontSize: '0.78rem', color: '#115e59' }}>
             👑 <strong>Parents</strong> register an account · 🧒 <strong>Kids</strong> log in with credentials the parent creates for them
           </div>
         </div>

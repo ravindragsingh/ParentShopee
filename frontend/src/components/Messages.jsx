@@ -104,10 +104,10 @@ export default function MessagesTab() {
   }, [messages])
 
   const isParent = user.role === 'parent'
-  const accentColor = isParent ? '#7c3aed' : '#059669'
-  const accentLight = isParent ? '#f5f3ff' : '#f0fdf4'
+  const accentColor = isParent ? '#0d9488' : '#059669'
+  const accentLight = isParent ? '#f0fdfa' : '#f0fdf4'
   const accentGrad  = isParent
-    ? 'linear-gradient(135deg, #7c3aed, #a855f7)'
+    ? 'linear-gradient(135deg, #0f766e, #0d9488)'
     : 'linear-gradient(135deg, #059669, #0d9488)'
 
   const overLimit = input.length > MAX_CHARS
@@ -122,9 +122,9 @@ export default function MessagesTab() {
       <div style={{
         width: size, height: size, borderRadius: '50%', flexShrink: 0,
         background: contact.role === 'kid'
-          ? 'linear-gradient(135deg,#fdf4ff,#fff7ed)'
-          : 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
-        border: `2px solid ${contact.role === 'kid' ? '#f9a8d4' : '#c4b5fd'}`,
+          ? 'linear-gradient(135deg,#f0fdfa,#fff7ed)'
+          : 'linear-gradient(135deg,#f0fdfa,#ccfbf1)',
+        border: `2px solid ${contact.role === 'kid' ? '#f9a8d4' : '#99f6e4'}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: size * 0.55, position: 'relative',
       }}>

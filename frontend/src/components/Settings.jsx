@@ -41,9 +41,9 @@ export default function SettingsPanel() {
           <div style={{
             width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
             background: isParent
-              ? 'linear-gradient(135deg,#f5f3ff,#ede9fe)'
-              : 'linear-gradient(135deg,#fdf4ff,#fff7ed)',
-            border: `2px solid ${isParent ? '#c4b5fd' : '#f9a8d4'}`,
+              ? 'linear-gradient(135deg,#f0fdfa,#ccfbf1)'
+              : 'linear-gradient(135deg,#f0fdfa,#fff7ed)',
+            border: `2px solid ${isParent ? '#99f6e4' : '#f9a8d4'}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '1.8rem',
           }}>
