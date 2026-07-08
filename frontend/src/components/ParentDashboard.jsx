@@ -997,6 +997,16 @@ function KidsTab() {
     }
   }
 
+  function toggleTransactions(kid) {
+    if (viewingTxFor === kid.id) {
+      setViewingTxFor(null)
+    } else {
+      setViewingTxFor(kid.id)
+      setChangingPwdFor(null); setBehaviourFor(null)
+      loadKidTx(kid.id)
+    }
+  }
+
   async function handleBehaviour(kid, sign) {
     setBehaviourError('')
     setBehaviourSuccess('')
@@ -1138,18 +1148,18 @@ function KidsTab() {
           <tbody>
             {kids.map(kid => (
               <>
-                <tr key={kid.id}>
+                <tr key={kid.id} style={{ cursor: 'pointer' }} onClick={() => toggleTransactions(kid)}>
                   <td style={{ textAlign: 'center' }}>
                     <span className="kid-avatar">{kid.avatar || '🐶'}</span>
                   </td>
                   <td style={{ fontWeight: 500 }}>{kid.name}</td>
                   <td style={{ color: '#64748b' }}>{kid.username}</td>
                   <td>
-                    <span className="balance-chip" style={{ cursor: 'pointer' }} onClick={() => setSelectedKid(kid)}>
+                    <span className="balance-chip" style={{ cursor: 'pointer' }} onClick={e => { e.stopPropagation(); setSelectedKid(kid) }}>
                       {getBalance(kid.id)} pts 👁
                     </span>
                   </td>
-                  <td style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  <td style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} onClick={e => e.stopPropagation()}>
                     <button
                       className="btn btn-outline btn-sm"
                       onClick={() => {
@@ -1172,15 +1182,7 @@ function KidsTab() {
                     </button>
                     <button
                       className={`btn btn-sm ${viewingTxFor === kid.id ? 'btn-primary' : 'btn-outline'}`}
-                      onClick={() => {
-                        if (viewingTxFor === kid.id) {
-                          setViewingTxFor(null)
-                        } else {
-                          setViewingTxFor(kid.id)
-                          setChangingPwdFor(null); setBehaviourFor(null)
-                          loadKidTx(kid.id)
-                        }
-                      }}
+                      onClick={() => toggleTransactions(kid)}
                     >
                       {viewingTxFor === kid.id ? '📋 Hide' : '📋 Transactions'}
                     </button>
