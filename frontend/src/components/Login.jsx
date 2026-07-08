@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
-import { LoginHelp } from './Help.jsx'
+import { LOGIN_HELP_CARDS } from './Help.jsx'
 
 // ── User Agreement Modal ──────────────────────────────────────────────────────
 
@@ -346,20 +346,73 @@ function LoginForm({ onRegister }) {
   )
 }
 
+// ── How It Works modal ───────────────────────────────────────────────────────
+
+function HowItWorksModal({ onClose }) {
+  return createPortal(
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 20, maxWidth: 480, width: '100%', maxHeight: '85vh', display: 'flex', flexDirection: 'column', boxShadow: '0 24px 64px rgba(0,0,0,0.3)' }}
+      >
+        {/* Header */}
+        <div style={{ padding: '18px 22px 14px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#0f766e' }}>🏆 How It Works</div>
+            <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: 2 }}>A chore &amp; reward app for the whole family</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.3rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+
+        {/* Cards */}
+        <div style={{ overflowY: 'auto', padding: '18px 22px 22px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {LOGIN_HELP_CARDS.map(c => (
+            <div key={c.title} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, flexShrink: 0, background: 'linear-gradient(135deg,#f0fdfa,#ccfbf1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
+                {c.icon}
+              </div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#1e293b', marginBottom: 3 }}>{c.title}</div>
+                <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.55 }}>{c.text}</div>
+              </div>
+            </div>
+          ))}
+          <div style={{ marginTop: 6, padding: '10px 14px', background: '#f0fdfa', borderRadius: 10, fontSize: '0.8rem', color: '#115e59' }}>
+            👑 <strong>Parents</strong> register an account · 🧒 <strong>Kids</strong> log in with credentials the parent creates for them
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
+}
+
 // ── Shell ─────────────────────────────────────────────────────────────────────
 
 export default function Login({ onBlog }) {
   const [mode, setMode] = useState('login')
+  const [showHelp, setShowHelp] = useState(false)
+
+  const fixedBtnStyle = {
+    background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)',
+    border: '1px solid rgba(255,255,255,0.45)', color: '#fff',
+    borderRadius: 8, padding: '7px 16px', cursor: 'pointer',
+    fontWeight: 600, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 6,
+    boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+  }
 
   return (
     <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
-      {/* Blog link — fixed top-right so it's always visible */}
-      <button
-        onClick={onBlog}
-        style={{ position: 'fixed', top: 16, right: 16, zIndex: 999, background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.45)', color: '#fff', borderRadius: 8, padding: '7px 18px', cursor: 'pointer', fontWeight: 600, fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 2px 10px rgba(0,0,0,0.15)' }}
-      >
-        📖 Blog
-      </button>
+      {/* Fixed top-right nav buttons */}
+      <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 999, display: 'flex', gap: 8 }}>
+        <button onClick={() => setShowHelp(true)} style={fixedBtnStyle}>❓ How It Works</button>
+        <button onClick={onBlog} style={fixedBtnStyle}>📖 Blog</button>
+      </div>
+
+      {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}
 
       <div className="login-card">
         <div className="login-logo">🛒</div>
@@ -368,7 +421,6 @@ export default function Login({ onBlog }) {
           : <RegisterForm onBack={() => setMode('login')} />
         }
       </div>
-      <LoginHelp />
     </div>
   )
 }

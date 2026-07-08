@@ -233,64 +233,14 @@ export function HelpTab({ role }) {
 
 // ── Login-page mini overview (no accordion, just cards) ───────────────────────
 
-export function LoginHelp() {
-  const [open, setOpen] = useState(false)
-  const cards = [
-    { icon: '✅', title: 'Create Chores', text: 'Parents create chores with a points value. Kids see them and complete them in real life.' },
-    { icon: '🔁', title: 'Recurring Chores', text: 'Mark a chore as Daily, Weekly, or Monthly. One instance appears on the day it is due — no duplicates. Stop the series any time from the Active Recurring Chores panel.' },
-    { icon: '⭐', title: 'Earn Points',   text: "Once a parent approves a chore, the child's wallet is credited automatically." },
-    { icon: '🌟', title: 'Good Behaviour', text: "Parents can award or deduct points for behaviour at any time — not just for completing chores. It shows as a special entry in the child's wallet." },
-    { icon: '🛍️', title: 'Spend in Shop', text: 'Kids redeem their points for rewards the parent has set up — screen time, picking dinner, and more.' },
-    { icon: '💬', title: 'Stay Connected', text: 'Parents and kids can message each other inside the app. Add a co-parent so both parents share full family access.' },
-  ]
+export const LOGIN_HELP_CARDS = [
+  { icon: '✅', title: 'Create Chores', text: 'Parents create chores with a points value. Kids see them and complete them in real life.' },
+  { icon: '🔁', title: 'Recurring Chores', text: 'Mark a chore as Daily, Weekly, or Monthly. One instance appears on the day it is due — no duplicates. Stop the series any time from the Active Recurring Chores panel.' },
+  { icon: '⭐', title: 'Earn Points', text: "Once a parent approves a chore, the child's wallet is credited automatically." },
+  { icon: '🌟', title: 'Good Behaviour', text: "Parents can award or deduct points for behaviour at any time — not just for completing chores. It shows as a special entry in the child's wallet." },
+  { icon: '🛍️', title: 'Spend in Shop', text: 'Kids redeem their points for rewards the parent has set up — screen time, picking dinner, and more.' },
+  { icon: '💬', title: 'Stay Connected', text: 'Parents and kids can message each other inside the app. Add a co-parent so both parents share full family access.' },
+]
 
-  return (
-    <div style={{ width: '100%', maxWidth: 390, marginTop: 20 }}>
-      <button
-        onClick={() => setOpen(v => !v)}
-        style={{
-          width: '100%', padding: '11px 16px',
-          background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255,255,255,0.35)', borderRadius: 12,
-          color: 'white', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          transition: 'background 0.2s',
-        }}
-      >
-        {open ? '▲ Hide Guide' : '❓ How does Reward Ur Kids work?'}
-      </button>
-
-      {open && (
-        <div style={{
-          marginTop: 10, background: 'rgba(255,255,255,0.97)', borderRadius: 16,
-          padding: 20, boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
-        }}>
-          <h3 style={{ fontWeight: 800, color: '#0f766e', marginBottom: 4, fontSize: '1rem' }}>🛒 Reward Ur Kids</h3>
-          <p style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: 16 }}>
-            A chore &amp; reward app for the whole family.
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {cards.map(c => (
-              <div key={c.title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                  background: 'linear-gradient(135deg,#f0fdfa,#ccfbf1)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem',
-                }}>
-                  {c.icon}
-                </div>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 2 }}>{c.title}</div>
-                  <div style={{ fontSize: '0.8rem', color: '#64748b', lineHeight: 1.5 }}>{c.text}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 16, padding: '10px 14px', background: '#f0fdfa', borderRadius: 10, fontSize: '0.78rem', color: '#115e59' }}>
-            👑 <strong>Parents</strong> register an account · 🧒 <strong>Kids</strong> log in with credentials the parent creates for them
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
+// kept for any legacy import — no longer rendered on the login page
+export function LoginHelp() { return null }
