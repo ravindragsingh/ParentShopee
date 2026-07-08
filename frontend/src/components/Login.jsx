@@ -348,11 +348,21 @@ function LoginForm({ onRegister }) {
 
 // ── Shell ─────────────────────────────────────────────────────────────────────
 
-export default function Login() {
+export default function Login({ onBlog }) {
   const [mode, setMode] = useState('login')
 
   return (
     <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
+      {/* Blog link */}
+      <div style={{ width: '100%', maxWidth: 390, display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+        <button
+          onClick={onBlog}
+          style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.35)', color: '#fff', borderRadius: 8, padding: '6px 16px', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 6 }}
+        >
+          📖 Blog
+        </button>
+      </div>
+
       <div className="login-card">
         <div className="login-logo">🛒</div>
         {mode === 'login'
