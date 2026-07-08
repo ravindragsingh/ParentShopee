@@ -155,6 +155,119 @@ const POSTS = [
       },
     ],
   },
+  {
+    id: 2,
+    slug: 'teaching-kids-money-skills-with-reward-ur-kids',
+    title: 'Earn, Save, Spend: How Reward Ur Kids Teaches Children Real Financial Skills',
+    subtitle: 'Chores earn points. The shop costs points. Along the way, kids learn the exact money lessons that used to take adults years to figure out.',
+    date: 'July 2026',
+    readTime: '6 min read',
+    emoji: '💰',
+    tags: ['Financial Literacy', 'Parenting', 'Money Skills', 'Kids'],
+    content: [
+      {
+        type: 'intro',
+        text: "Most of us learned about money the hard way — through overspending, forgotten savings goals, and a few regretted purchases. Financial literacy is rarely taught in schools, and it's hard to teach at the dinner table with abstract lectures about budgeting. Kids don't learn money by being told about it. They learn it by using it.",
+      },
+      {
+        type: 'intro',
+        text: "That's the quiet power behind Reward Ur Kids. It isn't a finance app — it's a chores app. But underneath the points and the shop and the gold star moments, it is running a real economy: kids earn, they choose what to save for, and they decide when spending is worth it. It is financial literacy, disguised as fun.",
+      },
+      {
+        type: 'h2',
+        text: 'A Real Economy, Sized for Kids',
+      },
+      {
+        type: 'p',
+        text: "Every functioning economy runs on the same loop: effort creates income, income can be saved or spent, and spending decisions have trade-offs. Reward Ur Kids builds that exact loop for children, just scaled down to chores and a family shop instead of jobs and a bank account.",
+      },
+      {
+        type: 'p',
+        text: "A child who unloads the dishwasher earns points, the same way an adult earns a paycheck for doing their job. Those points sit in a wallet, visible at any time, the same way a bank balance does. And when the child wants something from the shop, they have to decide: spend now, or wait and save for something bigger. There is no lecture involved — the mechanics teach the lesson on their own.",
+      },
+      {
+        type: 'h2',
+        text: 'The Money Lessons Hiding Inside the App',
+      },
+      {
+        type: 'scenario',
+        items: [
+          { time: 'Earning', text: 'Ten-year-old Sam wants new headphones from the shop — 200 points. He checks his balance: 40 points. He realises that wanting something doesn\'t make it appear; it has to be earned first.' },
+          { time: 'Choosing', text: 'Sam sees two chores available: "Feed the dog" (10 points, five minutes) and "Wash the car" (60 points, an hour). He weighs effort against reward and picks the one that gets him to his goal fastest — his first real cost-benefit decision.' },
+          { time: 'Saving', text: 'Each week Sam could spend his points on small treats from the shop, but he holds off. His balance climbs — 90, then 140, then 180 — and he can watch, in real time, what delayed gratification actually looks like.' },
+          { time: 'Spending', text: 'At 200 points, Sam finally buys the headphones. Because he earned every point himself, the purchase means more than if it had simply been bought for him. He also has zero points left — and feels that trade-off immediately.' },
+        ],
+      },
+      {
+        type: 'p',
+        text: "That single loop — earn, choose, save, spend — is the entire foundation of personal finance. Reward Ur Kids just lets kids live it dozens of times a month, at an age when the lessons stick fastest.",
+      },
+      {
+        type: 'h2',
+        text: 'Five Financial Skills the App Builds Naturally',
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: 'Earning Before Spending',
+        text: "Because every point in a child's wallet came from a completed, approved chore, there is no such thing as free money in the app. Kids internalise the connection between effort and income early — the opposite of simply being handed pocket money on a schedule regardless of what they did.",
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: 'Budgeting Against a Real Balance',
+        text: "The wallet only shows what's actually there. If a child wants a 150-point reward and only has 80, the app doesn't pretend otherwise. Kids learn to check their balance before deciding what they can afford — the exact habit that keeps adults out of debt.",
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: 'Delayed Gratification and Saving Goals',
+        text: "The shop is full of items at different price points, from small treats to big-ticket rewards. Choosing to skip a cheap reward today in order to afford a better one next week is a child's first experience of saving toward a goal — a skill that, once learned young, tends to last a lifetime.",
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: 'Understanding Value and Trade-Offs',
+        text: 'Every purchase in the shop costs something — quite literally, points earned through effort. That makes children think twice before "buying" something on impulse, because they can feel exactly how many chores it took to afford it. It is the app version of asking, "how many hours of work is this worth?"',
+      },
+      {
+        type: 'benefit',
+        number: 5,
+        title: 'Consequences Without Real-World Risk',
+        text: "If a child spends everything on small rewards and has nothing left for something bigger, the consequence is real but low-stakes — a lesson learned with points, not with an overdrawn bank account twenty years later. Mistakes made early, in a safe environment, are the cheapest financial education there is.",
+      },
+      {
+        type: 'h2',
+        text: 'Why This Beats Traditional Pocket Money',
+      },
+      {
+        type: 'p',
+        text: "Handing a child a fixed allowance each week teaches them very little beyond how to receive money. It doesn't connect effort to reward, and it rarely involves any real choice about saving versus spending, because the amount is small and arrives on autopilot regardless of behaviour.",
+      },
+      {
+        type: 'p',
+        text: "Reward Ur Kids flips that model. Income is earned, not given. The amount a child has depends entirely on what they choose to do. And because the shop is visible at all times, every child is constantly making small, low-pressure financial decisions — which is exactly how real financial instinct gets built, one choice at a time.",
+      },
+      {
+        type: 'h2',
+        text: 'What Parents Notice Over Time',
+      },
+      {
+        type: 'steps',
+        items: [
+          'Kids start asking "how many points is that worth?" before requesting something — a first sign of value-based thinking',
+          'They begin comparing chores by effort versus reward, not just doing whatever is easiest',
+          'Saving up for a bigger reward instead of spending immediately becomes normal, not a struggle',
+          'Conversations about money at home get easier, because the family already has a shared, hands-on example to point to',
+          'Children carry the habit of checking their balance before deciding to spend — a habit many adults still don\'t have',
+        ],
+      },
+      {
+        type: 'quote',
+        text: "Financial literacy isn't taught with a single conversation — it's built through hundreds of small decisions made over time. Reward Ur Kids simply gives children a safe, low-stakes place to make those decisions early, so that by the time real money enters the picture, the instincts are already there.",
+      },
+    ],
+  },
 ]
 
 // ── Renderers ─────────────────────────────────────────────────────────────────
