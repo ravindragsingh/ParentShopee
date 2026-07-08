@@ -353,15 +353,13 @@ export default function Login({ onBlog }) {
 
   return (
     <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
-      {/* Blog link */}
-      <div style={{ width: '100%', maxWidth: 390, display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-        <button
-          onClick={onBlog}
-          style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.35)', color: '#fff', borderRadius: 8, padding: '6px 16px', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 6 }}
-        >
-          📖 Blog
-        </button>
-      </div>
+      {/* Blog link — fixed top-right so it's always visible */}
+      <button
+        onClick={onBlog}
+        style={{ position: 'fixed', top: 16, right: 16, zIndex: 999, background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.45)', color: '#fff', borderRadius: 8, padding: '7px 18px', cursor: 'pointer', fontWeight: 600, fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 2px 10px rgba(0,0,0,0.15)' }}
+      >
+        📖 Blog
+      </button>
 
       <div className="login-card">
         <div className="login-logo">🛒</div>
