@@ -513,28 +513,32 @@ def startup():
         db.close()
 
     # Create/ensure admin user exists
-    admin_username = os.environ.get("ADMIN_USERNAME", "admin")
-    admin_password = os.environ.get("ADMIN_PASSWORD", "admin123")
-    db2 = SessionLocal()
-    try:
-        existing = db2.query(DBUser).filter(DBUser.username == admin_username).first()
-        if existing:
-            if existing.role != "admin":
-                existing.role = "admin"
-                existing.password = admin_password
+    # Credentials MUST be set via environment variables — no hardcoded fallback for security
+    admin_username = os.environ.get("ADMIN_USERNAME")
+    admin_password = os.environ.get("ADMIN_PASSWORD")
+    if not admin_username or not admin_password:
+        print("WARNING: ADMIN_USERNAME or ADMIN_PASSWORD env var not set — skipping admin creation.")
+    else:
+        db2 = SessionLocal()
+        try:
+            existing = db2.query(DBUser).filter(DBUser.username == admin_username).first()
+            if existing:
+                if existing.role != "admin":
+                    existing.role = "admin"
+                    existing.password = admin_password
+                    db2.commit()
+            else:
+                db2.add(DBUser(
+                    id="admin-" + str(uuid4())[:8],
+                    name="Admin",
+                    username=admin_username,
+                    password=admin_password,
+                    role="admin",
+                    email="admin@rewardyourkids.com",
+                ))
                 db2.commit()
-        else:
-            db2.add(DBUser(
-                id="admin-" + str(uuid4())[:8],
-                name="Admin",
-                username=admin_username,
-                password=admin_password,
-                role="admin",
-                email="admin@parentshopee.com",
-            ))
-            db2.commit()
-    finally:
-        db2.close()
+        finally:
+            db2.close()
 
 # ── Auth routes ────────────────────────────────────────────────────────────────
 
