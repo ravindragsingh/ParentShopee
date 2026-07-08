@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -267,6 +267,9 @@ function LoginForm({ onRegister }) {
   const { login } = useAuth()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [remember, setRemember] = useState(false)
+  const [showForgot, setShowForgot] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [sessionExpired] = useState(() => {
@@ -274,6 +277,14 @@ function LoginForm({ onRegister }) {
     if (expired) localStorage.removeItem('session_expired')
     return expired
   })
+
+  useEffect(() => {
+    const saved = localStorage.getItem('remembered_username')
+    if (saved) {
+      setUsername(saved)
+      setRemember(true)
+    }
+  }, [])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -285,6 +296,8 @@ function LoginForm({ onRegister }) {
     setLoading(true)
     try {
       const data = await api.login(username.trim(), password.trim())
+      if (remember) localStorage.setItem('remembered_username', username.trim())
+      else localStorage.removeItem('remembered_username')
       login(data.user, data.token)
     } catch (err) {
       setError(err.message || 'Login failed. Please try again.')
@@ -295,9 +308,6 @@ function LoginForm({ onRegister }) {
 
   return (
     <>
-      <h1 className="login-title">Reward Ur Kids</h1>
-      <p className="login-subtitle">Chores &amp; Rewards for Families</p>
-
       {sessionExpired && (
         <div style={{ background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: 8, padding: '10px 14px', marginBottom: 14, fontSize: '0.85rem', color: '#92400e', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
           <span>⚠️</span>
@@ -308,42 +318,120 @@ function LoginForm({ onRegister }) {
       {error && <div className="error-msg">{error}</div>}
 
       <form onSubmit={handleSubmit}>
-        <div className="form-group" style={{ marginBottom: 14 }}>
+        <div className="input-icon-group">
           <label>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            placeholder="e.g. parent1 or kid1"
-            autoFocus
-          />
+          <div className="input-icon-wrap">
+            <span className="field-icon">👤</span>
+            <input
+              type="text"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+              placeholder="e.g. parent1 or kid1"
+              autoFocus
+            />
+          </div>
         </div>
-        <div className="form-group" style={{ marginBottom: 20 }}>
+
+        <div className="input-icon-group">
           <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Password"
-          />
+          <div className="input-icon-wrap">
+            <span className="field-icon">🔒</span>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="Password"
+            />
+            <button
+              type="button"
+              className="toggle-visibility"
+              onClick={() => setShowPassword(v => !v)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? '🙈' : '👁'}
+            </button>
+          </div>
         </div>
+
+        <div className="login-options-row">
+          <label className="remember-me">
+            <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} style={{ display: 'none' }} />
+            <span className={`checkbox-box${remember ? ' checked' : ''}`}>{remember && '✓'}</span>
+            Remember me
+          </label>
+          <button type="button" className="forgot-link" onClick={() => setShowForgot(v => !v)}>
+            Forgot password?
+          </button>
+        </div>
+
+        {showForgot && (
+          <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: '0.8rem', color: '#166534' }}>
+            Ask your family's parent account holder to reset it from the Kids tab, or email ravindragsingh@gmail.com for help.
+          </div>
+        )}
+
         <button type="submit" className="login-btn" disabled={loading}>
-          {loading ? 'Signing in...' : 'Sign In'}
+          {loading ? 'Signing in...' : <>Sign In <span aria-hidden="true">→</span></>}
         </button>
       </form>
 
-      <div style={{ marginTop: 20, textAlign: 'center' }}>
-        <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 8 }}>
-          New parent?{' '}
-          <button onClick={onRegister} style={{ background: 'none', border: 'none', color: '#0d9488', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}>
-            Create an account
-          </button>
-        </p>
-        <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
-          Demo: parent1/pass1 &middot; kid1/pass1
-        </p>
-      </div>
+      <div className="login-divider">New here?</div>
+
+      <button type="button" className="login-btn-outline" onClick={onRegister}>
+        Create your free account <span aria-hidden="true">→</span>
+      </button>
     </>
+  )
+}
+
+// ── Demo box ──────────────────────────────────────────────────────────────────
+
+const DEMO_ACCOUNTS = {
+  parent: { label: 'Parent', avatar: '🧑', username: 'parent1', password: 'pass1' },
+  kid:    { label: 'Kid',    avatar: '🧒', username: 'kid1',    password: 'pass1' },
+}
+
+function DemoBox() {
+  const { login } = useAuth()
+  const [selected, setSelected] = useState('parent')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleLaunch() {
+    setError('')
+    setLoading(true)
+    try {
+      const acc = DEMO_ACCOUNTS[selected]
+      const data = await api.login(acc.username, acc.password)
+      login(data.user, data.token)
+    } catch (err) {
+      setError(err.message || 'Could not start the demo.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="demo-box">
+      <div className="demo-box-title">🎮 Try Demo</div>
+      {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+      <div className="demo-options">
+        {Object.entries(DEMO_ACCOUNTS).map(([key, acc]) => (
+          <div
+            key={key}
+            className={`demo-option${selected === key ? ' selected' : ''}`}
+            onClick={() => setSelected(key)}
+          >
+            <div className="demo-avatar">{acc.avatar}</div>
+            <div className="demo-option-name">{acc.label}</div>
+            <div className="demo-option-cred">{acc.username} / {acc.password}</div>
+          </div>
+        ))}
+      </div>
+      <button className="launch-demo-btn" onClick={handleLaunch} disabled={loading}>
+        {loading ? 'Launching...' : <>🚀 Launch Demo</>}
+      </button>
+    </div>
   )
 }
 
@@ -397,13 +485,14 @@ export default function Login() {
   const navigate = useNavigate()
   const [mode, setMode] = useState('login')
   const [showHelp, setShowHelp] = useState(false)
+  const [showLegal, setShowLegal] = useState(false)
 
   const fixedBtnStyle = {
-    background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)',
-    border: '1px solid rgba(255,255,255,0.45)', color: '#fff',
+    background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(8px)',
+    border: '1px solid rgba(15,23,42,0.08)', color: '#166534',
     borderRadius: 8, padding: '7px 16px', cursor: 'pointer',
     fontWeight: 600, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 6,
-    boxShadow: '0 2px 10px rgba(0,0,0,0.15)',
+    boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
   }
 
   return (
@@ -415,13 +504,58 @@ export default function Login() {
       </div>
 
       {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}
+      {showLegal && <UserAgreementModal onClose={() => setShowLegal(false)} />}
 
-      <div className="login-card">
-        <div className="login-logo">🏆</div>
-        {mode === 'login'
-          ? <LoginForm onRegister={() => setMode('register')} />
-          : <RegisterForm onBack={() => setMode('login')} />
-        }
+      <div className="login-shell">
+        {mode === 'login' ? (
+          <>
+            <div className="login-hero">
+              <span className="hero-decor star">⭐</span>
+              <span className="hero-decor check">✅</span>
+              <span className="hero-decor heart">❤️</span>
+              <span className="hero-decor gift">🎁</span>
+              <span className="hero-decor coin">🪙</span>
+              <div className="hero-family">
+                <span className="hero-parent left">👨</span>
+                <span className="hero-parent right">👩</span>
+                <span className="hero-kid left">👦</span>
+                <span className="hero-kid right">👧</span>
+                <span className="hero-trophy">🏆</span>
+              </div>
+            </div>
+            <h1 className="brand-wordmark">
+              <span className="brand-reward">Reward</span><span className="brand-ur">Ur</span><span className="brand-kids">Kids</span>
+            </h1>
+            <p className="brand-tagline">Turn chores into rewards kids love.</p>
+          </>
+        ) : (
+          <div style={{ textAlign: 'center', fontSize: '1.4rem', fontWeight: 800, marginBottom: 18 }}>
+            🏆 <span className="brand-reward">Reward</span><span className="brand-ur">Ur</span><span className="brand-kids">Kids</span>
+          </div>
+        )}
+
+        <div className="login-card">
+          {mode === 'login'
+            ? <LoginForm onRegister={() => setMode('register')} />
+            : <RegisterForm onBack={() => setMode('login')} />
+          }
+        </div>
+
+        {mode === 'login' && (
+          <>
+            <DemoBox />
+            <div className="login-stars">⭐⭐⭐⭐⭐</div>
+            <div className="login-footer-links">
+              <button onClick={() => setShowLegal(true)}>Privacy Policy</button>
+              {' · '}
+              <button onClick={() => setShowLegal(true)}>Terms of Use</button>
+              {' · '}
+              <button onClick={() => { window.location.href = 'mailto:ravindragsingh@gmail.com' }}>Contact Us</button>
+              {' · '}
+              <button onClick={() => setShowHelp(true)}>Help</button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
