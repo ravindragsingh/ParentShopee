@@ -423,8 +423,10 @@ function DemoBox() {
             onClick={() => setSelected(key)}
           >
             <div className="demo-avatar">{acc.avatar}</div>
-            <div className="demo-option-name">{acc.label}</div>
-            <div className="demo-option-cred">{acc.username} / {acc.password}</div>
+            <div className="demo-option-text">
+              <div className="demo-option-name">{acc.label}</div>
+              <div className="demo-option-cred">{acc.username} / {acc.password}</div>
+            </div>
           </div>
         ))}
       </div>
