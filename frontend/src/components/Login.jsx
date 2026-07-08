@@ -417,7 +417,7 @@ export default function Login() {
       {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}
 
       <div className="login-card">
-        <div className="login-logo">🛒</div>
+        <div className="login-logo">🏆</div>
         {mode === 'login'
           ? <LoginForm onRegister={() => setMode('register')} />
           : <RegisterForm onBack={() => setMode('login')} />
