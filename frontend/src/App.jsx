@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
 import Login from './components/Login.jsx'
 import ParentDashboard from './components/ParentDashboard.jsx'
@@ -6,19 +6,17 @@ import KidDashboard from './components/KidDashboard.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import Blogs from './components/Blogs.jsx'
 
-function AppInner() {
+function LoginRoute() {
   const { user, loading } = useAuth()
-  const [preLoginPage, setPreLoginPage] = useState('login')
+  if (loading) return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
+  if (user) return <Navigate to="/dashboard" replace />
+  return <Login />
+}
 
-  if (loading) {
-    return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
-  }
-
-  if (!user) {
-    if (preLoginPage === 'blog') return <Blogs onBackToLogin={() => setPreLoginPage('login')} />
-    return <Login onBlog={() => setPreLoginPage('blog')} />
-  }
-
+function DashboardRoute() {
+  const { user, loading } = useAuth()
+  if (loading) return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
+  if (!user) return <Navigate to="/" replace />
   if (user.role === 'admin')  return <AdminDashboard />
   if (user.role === 'parent') return <ParentDashboard />
   if (user.role === 'kid')    return <KidDashboard />
@@ -27,8 +25,16 @@ function AppInner() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppInner />
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/"           element={<LoginRoute />} />
+          <Route path="/blog"       element={<Blogs />} />
+          <Route path="/blog/:slug" element={<Blogs />} />
+          <Route path="/dashboard"  element={<DashboardRoute />} />
+          <Route path="*"           element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }

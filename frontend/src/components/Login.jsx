@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
@@ -392,7 +393,8 @@ function HowItWorksModal({ onClose }) {
 
 // ── Shell ─────────────────────────────────────────────────────────────────────
 
-export default function Login({ onBlog }) {
+export default function Login() {
+  const navigate = useNavigate()
   const [mode, setMode] = useState('login')
   const [showHelp, setShowHelp] = useState(false)
 
@@ -409,7 +411,7 @@ export default function Login({ onBlog }) {
       {/* Fixed top-right nav buttons */}
       <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 999, display: 'flex', gap: 8 }}>
         <button onClick={() => setShowHelp(true)} style={fixedBtnStyle}>❓ How It Works</button>
-        <button onClick={onBlog} style={fixedBtnStyle}>📖 Blog</button>
+        <button onClick={() => navigate('/blog')} style={fixedBtnStyle}>📖 Blog</button>
       </div>
 
       {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}

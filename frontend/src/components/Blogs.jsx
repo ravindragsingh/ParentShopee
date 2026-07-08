@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // ── Blog data ─────────────────────────────────────────────────────────────────
 
@@ -240,13 +240,14 @@ function renderContent(block, i) {
 
 // ── Single post view ──────────────────────────────────────────────────────────
 
-function PostView({ post, onBack }) {
+function PostView({ post }) {
+  const navigate = useNavigate()
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       {/* Top nav */}
       <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', display: 'flex', alignItems: 'center', gap: 16, boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
         <button
-          onClick={onBack}
+          onClick={() => navigate('/blog')}
           style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', color: '#fff', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 6 }}
         >
           ← Back
@@ -286,7 +287,7 @@ function PostView({ post, onBack }) {
             Join thousands of families using Reward Ur Kids to make chores fun and raise responsible children.
           </p>
           <button
-            onClick={onBack}
+            onClick={() => navigate('/')}
             style={{ background: '#fff', color: '#0d9488', border: 'none', borderRadius: 10, padding: '13px 32px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}
           >
             Create Free Account →
@@ -299,14 +300,15 @@ function PostView({ post, onBack }) {
 
 // ── Blog listing ──────────────────────────────────────────────────────────────
 
-function BlogList({ onSelectPost, onBackToLogin }) {
+function BlogList() {
+  const navigate = useNavigate()
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       {/* Nav */}
       <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
         <span style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem' }}>🏆 Reward Ur Kids</span>
         <button
-          onClick={onBackToLogin}
+          onClick={() => navigate('/')}
           style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', color: '#fff', borderRadius: 8, padding: '6px 16px', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem' }}
         >
           Sign In
@@ -329,7 +331,7 @@ function BlogList({ onSelectPost, onBackToLogin }) {
           {POSTS.map(post => (
             <article
               key={post.id}
-              onClick={() => onSelectPost(post)}
+              onClick={() => navigate(`/blog/${post.slug}`)}
               style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.07)', border: '1px solid #e2e8f0', cursor: 'pointer', transition: 'box-shadow 0.2s, transform 0.15s' }}
               onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,0,0,0.12)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
               onMouseLeave={e => { e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.07)'; e.currentTarget.style.transform = 'none' }}
@@ -367,12 +369,15 @@ function BlogList({ onSelectPost, onBackToLogin }) {
 
 // ── Main export ───────────────────────────────────────────────────────────────
 
-export default function Blogs({ onBackToLogin }) {
-  const [selectedPost, setSelectedPost] = useState(null)
+export default function Blogs() {
+  const { slug } = useParams()
+  const post = slug ? POSTS.find(p => p.slug === slug) : null
 
-  if (selectedPost) {
-    return <PostView post={selectedPost} onBack={() => setSelectedPost(null)} />
+  if (slug && !post) {
+    // Unknown slug — fall back to listing
+    return <BlogList />
   }
 
-  return <BlogList onSelectPost={setSelectedPost} onBackToLogin={onBackToLogin} />
+  if (post) return <PostView post={post} />
+  return <BlogList />
 }
