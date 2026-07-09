@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
+import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 
 const STATUS_STYLE = {
   open:     { bg: '#f0fdfa', color: '#0d9488' },
@@ -63,6 +64,10 @@ function EditModal({ target, familyKids, onSave, onClose }) {
     setError('')
     try {
       if (isUser) {
+        if (form.password) {
+          const pwCheck = checkPasswordComplexity(form.password)
+          if (!pwCheck.ok) { setError(pwCheck.message); setSaving(false); return }
+        }
         const body = { name: form.name }
         if (!isKid && form.email)  body.email    = form.email
         if (form.password)         body.password = form.password
@@ -136,7 +141,10 @@ function EditModal({ target, familyKids, onSave, onClose }) {
                   New Password{' '}
                   <span style={{ fontWeight: 400, color: '#94a3b8' }}>(leave blank to keep current)</span>
                 </label>
-                <input type="password" value={form.password} onChange={set('password')} placeholder="••••" style={inputStyle} />
+                <input type="password" value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" style={inputStyle} />
+                {form.password && (
+                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+                )}
               </div>
               {isKid && (
                 <div style={{ marginBottom: 6 }}>

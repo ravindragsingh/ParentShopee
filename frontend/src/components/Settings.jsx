@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
+import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 
 export default function SettingsPanel() {
   const { user, logout } = useAuth()
@@ -15,7 +16,8 @@ export default function SettingsPanel() {
   async function handleChangePwd(e) {
     e.preventDefault()
     setPwdError(''); setPwdSuccess('')
-    if (newPwd.length < 4) { setPwdError('Password must be at least 4 characters.'); return }
+    const pwCheck = checkPasswordComplexity(newPwd)
+    if (!pwCheck.ok) { setPwdError(pwCheck.message); return }
     if (newPwd !== confirmPwd) { setPwdError('Passwords do not match.'); return }
     setSaving(true)
     try {
@@ -76,8 +78,9 @@ export default function SettingsPanel() {
               type="password"
               value={newPwd}
               onChange={e => setNewPwd(e.target.value)}
-              placeholder="At least 4 characters"
+              placeholder="e.g. Sunshine24!"
             />
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
           </div>
           <div className="form-group" style={{ marginBottom: 16 }}>
             <label>Confirm Password</label>
