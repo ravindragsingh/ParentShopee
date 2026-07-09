@@ -260,6 +260,18 @@ def check_content(*fields: str) -> None:
         if word:
             fail(f'Please use age-appropriate language. The word "{word}" is not allowed.')
 
+def check_password_complexity(password: str) -> None:
+    """Raises 400 unless the password meets complexity rules. Applies to new
+    accounts and password resets — NOT to login, so existing passwords still work."""
+    if not password or len(password) < 8:
+        fail("Password must be at least 8 characters long")
+    if not re.search(r'[A-Z]', password):
+        fail("Password must contain at least one uppercase letter")
+    if not re.search(r'[0-9]', password):
+        fail("Password must contain at least one number")
+    if not re.search(r'[^A-Za-z0-9]', password):
+        fail("Password must contain at least one special character")
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 def now() -> str:
@@ -658,8 +670,7 @@ def register(body: RegisterBody, db: Session = Depends(get_db)):
         fail("Email address already registered")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
-    if len(body.password) < 4:
-        fail("Password must be at least 4 characters")
+    check_password_complexity(body.password)
     if body.gender not in ("male", "female", "other"):
         fail("Gender must be 'male', 'female', or 'other'")
 
@@ -705,8 +716,7 @@ def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depe
         fail("Username already taken")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
-    if len(body.password) < 4:
-        fail("Password must be at least 4 characters")
+    check_password_complexity(body.password)
 
     kid = DBUser(
         id=str(uuid4()),
@@ -810,8 +820,7 @@ def update_kid_password(kid_id: str, body: UpdateKidPasswordBody, db: Session = 
     kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
     if not kid:
         fail("Child not found or not in your family", 404)
-    if len(body.password) < 4:
-        fail("Password must be at least 4 characters")
+    check_password_complexity(body.password)
     kid.password = body.password
     db.commit()
     return ok({"message": f"Password updated for {kid.name}"})
@@ -836,8 +845,7 @@ def add_co_parent(body: CoParentBody, db: Session = Depends(get_db), user: DBUse
         fail("Username already taken")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
-    if len(body.password) < 4:
-        fail("Password must be at least 4 characters")
+    check_password_complexity(body.password)
 
     co_parent = DBUser(
         id=str(uuid4()),
@@ -859,8 +867,7 @@ def update_co_parent_password(body: UpdateKidPasswordBody, db: Session = Depends
     co_parent = db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first()
     if not co_parent:
         fail("No co-parent found")
-    if len(body.password) < 4:
-        fail("Password must be at least 4 characters")
+    check_password_complexity(body.password)
     co_parent.password = body.password
     db.commit()
     return ok({"message": f"Password updated for {co_parent.name}"})
@@ -1347,8 +1354,7 @@ def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)
 
 @app.put("/api/auth/password")
 def change_own_password(body: ChangeOwnPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    if not body.password or len(body.password) < 4:
-        fail("Password must be at least 4 characters")
+    check_password_complexity(body.password)
     user.password = body.password
     db.add(user); db.commit()
     return ok({"message": "Password updated"})
@@ -1523,8 +1529,7 @@ def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends
             fail("Email address already in use")
         target.email = body.email.lower().strip()
     if body.password is not None and body.password:
-        if len(body.password) < 4:
-            fail("Password must be at least 4 characters")
+        check_password_complexity(body.password)
         target.password = body.password
     if body.avatar is not None:
         target.avatar = body.avatar

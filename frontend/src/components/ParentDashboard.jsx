@@ -9,6 +9,7 @@ import { HelpTab } from './Help.jsx'
 import HamburgerMenu from './HamburgerMenu.jsx'
 import SettingsPanel from './Settings.jsx'
 import { checkFields } from '../utils/wordFilter.js'
+import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
@@ -885,6 +886,11 @@ function CoParentTab() {
       setAddError('All fields are required.')
       return
     }
+    const pwCheck = checkPasswordComplexity(password)
+    if (!pwCheck.ok) {
+      setAddError(pwCheck.message)
+      return
+    }
     setAdding(true)
     try {
       await api.addCoParent({ name: name.trim(), username: username.trim(), password })
@@ -899,7 +905,8 @@ function CoParentTab() {
 
   async function handleChangePassword() {
     setPwdError('')
-    if (!newPwd || newPwd.length < 4) { setPwdError('Password must be at least 4 characters.'); return }
+    const pwCheck = checkPasswordComplexity(newPwd)
+    if (!pwCheck.ok) { setPwdError(pwCheck.message); return }
     setSavingPwd(true)
     try {
       await api.updateCoParentPassword(newPwd)
@@ -958,7 +965,8 @@ function CoParentTab() {
               </div>
               <div className="form-group">
                 <label>Password *</label>
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Min 4 characters" />
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="e.g. Sunshine24!" />
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                 <button type="submit" className="btn btn-primary" disabled={adding}>
@@ -1009,12 +1017,13 @@ function CoParentTab() {
           {showPwdForm && (
             <div style={{ marginTop: 14, padding: '12px 16px', background: '#f8fafc', borderRadius: 8 }}>
               {pwdError && <div className="error-msg" style={{ marginBottom: 8 }}>{pwdError}</div>}
+              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 6 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                 <input
                   type="password"
                   value={newPwd}
                   onChange={e => setNewPwd(e.target.value)}
-                  placeholder="New password (min 4 chars)"
+                  placeholder="e.g. Sunshine24!"
                   style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
                 />
                 <button className="btn btn-green btn-sm" onClick={handleChangePassword} disabled={savingPwd}>
@@ -1149,6 +1158,11 @@ function KidsTab() {
       setAddError('Name, username and password are required.')
       return
     }
+    const pwCheck = checkPasswordComplexity(newPassword)
+    if (!pwCheck.ok) {
+      setAddError(pwCheck.message)
+      return
+    }
     setAdding(true)
     try {
       await api.addKid({ name: newName.trim(), username: newUsername.trim(), password: newPassword, avatar: newAvatar })
@@ -1164,7 +1178,8 @@ function KidsTab() {
 
   async function handleChangePassword(kid) {
     setPwdError('')
-    if (!newPwd || newPwd.length < 4) { setPwdError('Password must be at least 4 characters.'); return }
+    const pwCheck = checkPasswordComplexity(newPwd)
+    if (!pwCheck.ok) { setPwdError(pwCheck.message); return }
     setSavingPwd(true)
     try {
       await api.updateKidPassword(kid.id, newPwd)
@@ -1208,7 +1223,8 @@ function KidsTab() {
               </div>
               <div className="form-group">
                 <label>Password *</label>
-                <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Min 4 characters" />
+                <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="e.g. Sunshine24!" />
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
               </div>
             </div>
             <div className="form-group" style={{ marginBottom: 14 }}>
@@ -1303,12 +1319,13 @@ function KidsTab() {
               {changingPwdFor === kid.id && (
                 <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: '#f8fafc', borderRadius: 12, padding: '12px 16px' }}>
                   {pwdError && <div className="error-msg" style={{ marginBottom: 8 }}>{pwdError}</div>}
+                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 6 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
                   <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                     <input
                       type="password"
                       value={newPwd}
                       onChange={e => setNewPwd(e.target.value)}
-                      placeholder="New password (min 4 chars)"
+                      placeholder="e.g. Sunshine24!"
                       style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
                     />
                     <button className="btn btn-green btn-sm" onClick={() => handleChangePassword(kid)} disabled={savingPwd}>

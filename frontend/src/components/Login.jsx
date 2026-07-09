@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
+import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 
 // ── User Agreement Modal ──────────────────────────────────────────────────────
 
@@ -142,6 +143,11 @@ function RegisterForm({ onBack }) {
       setError('Passwords do not match.')
       return
     }
+    const pwCheck = checkPasswordComplexity(form.password)
+    if (!pwCheck.ok) {
+      setError(pwCheck.message)
+      return
+    }
     if (!agreed) {
       setError('You must read and agree to the User Agreement to create an account.')
       return
@@ -201,7 +207,8 @@ function RegisterForm({ onBack }) {
         </div>
         <div className="form-group" style={{ marginBottom: 12 }}>
           <label>Password *</label>
-          <input type="password" value={form.password} onChange={set('password')} placeholder="At least 4 characters" />
+          <input type="password" value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" />
+          <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
         </div>
         <div className="form-group" style={{ marginBottom: 16 }}>
           <label>Confirm Password *</label>
