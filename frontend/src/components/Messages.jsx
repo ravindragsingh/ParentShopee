@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
+import { checkFields } from '../utils/wordFilter.js'
 
 const MAX_CHARS = 60
 
@@ -70,6 +71,11 @@ export default function MessagesTab() {
   async function handleSend() {
     const text = input.trim()
     if (!text || !selected || sending || text.length > MAX_CHARS) return
+    const wordCheck = checkFields(text)
+    if (!wordCheck.ok) {
+      setError(wordCheck.message)
+      return
+    }
     setSending(true)
     setError('')
     try {

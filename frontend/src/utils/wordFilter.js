@@ -113,14 +113,15 @@ const RESTRICTED_WORDS = [
 
   // ── Violence / hate ──────────────────────────────────────────────────────────
   'bomb', 'bombing',
-  'choke', 'choking',
-  'execute', 'execution',
+  'choke', 'choked', 'choking',
+  'execute', 'executed', 'execution',
   'genocide',
   'gore',
   'gun', 'guns',
-  'hang', 'hanging',
-  'hate',
+  'hang', 'hanged', 'hanging',
+  'hate', 'hated', 'hates', 'hating',
   'kill', 'killed', 'killer', 'killing',
+  'kys',
   'murder', 'murdered', 'murderer',
   'nazi',
   'racist', 'racism',
@@ -137,12 +138,28 @@ const RESTRICTED_WORDS = [
   'set fire to',
   'blow up', 'blow it up',
 
-  // ── Self-harm phrases ───────────────────────────────────────────────────────
+  // ── Self-harm / suicide phrases ─────────────────────────────────────────────
   'hurt myself', 'hurting myself',
   'cut myself', 'cutting myself',
   'harm myself',
+  'self-harm', 'selfharm', 'self harm',
   'end my life', 'end it all',
   'want to die', 'wanna die', 'should die', 'go die',
+  'kill yourself', 'kill urself', 'hang yourself', 'shoot yourself',
+  'jump off a bridge', 'jump off a building', 'better off dead',
+  'not worth living', 'no reason to live',
+
+  // ── Bullying / harassment ───────────────────────────────────────────────────
+  'bully', 'bullying', 'bullied',
+  'loser', 'losers',
+  'pathetic', 'worthless',
+  'idiot', 'idiots',
+  'stupid', 'dumb', 'ugly', 'freak', 'weirdo', 'fat',
+
+  // ── Bullying phrases ─────────────────────────────────────────────────────────
+  'nobody likes you', 'no one likes you',
+  'everybody hates you', 'everyone hates you',
+  'no one wants you', 'no one cares about you',
 ]
 
 // Pre-build a regex that matches whole words only, case-insensitive.

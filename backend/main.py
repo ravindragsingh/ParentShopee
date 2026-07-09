@@ -169,15 +169,27 @@ _RESTRICTED = [
     # Drug phrases
     "get high","getting high","do drugs","doing drugs","take drugs","smoke weed",
     # Violence / hate
-    "bomb","genocide","gore","hate","kill","killed","killer","killing",
+    "bomb","choke","choked","choking","execute","executed","execution",
+    "genocide","gore","gun","guns","hang","hanged","hanging","hate","hated",
+    "hates","hating","kill","killed","killer","killing","kys",
     "murder","murdered","murderer","nazi","racist","racism","shoot","shooting",
     "stab","stabbing","suicide","terrorist","terrorism","torture","weapon","weapons",
     # Violence phrases
     "beat up","beat him up","beat her up","beat you up","burn down","burn it down",
     "set fire to","blow up","blow it up",
-    # Self-harm phrases
+    # Self-harm / suicide phrases
     "hurt myself","hurting myself","cut myself","cutting myself","harm myself",
+    "self-harm","selfharm","self harm",
     "end my life","end it all","want to die","wanna die","should die","go die",
+    "kill yourself","kill urself","hang yourself","shoot yourself",
+    "jump off a bridge","jump off a building","better off dead",
+    "not worth living","no reason to live",
+    # Bullying / harassment
+    "bully","bullying","bullied","loser","losers","pathetic","worthless",
+    "idiot","idiots","stupid","dumb","ugly","freak","weirdo","fat",
+    # Bullying phrases
+    "nobody likes you","no one likes you","everybody hates you",
+    "everyone hates you","no one wants you","no one cares about you",
 ]
 _WORD_RE = re.compile(
     r'\b(' + '|'.join(re.escape(w) for w in _RESTRICTED if ' ' not in w) + r')\b',
@@ -1312,6 +1324,7 @@ def send_message(body: MessageBody, db: Session = Depends(get_db), user: DBUser 
         fail("Message cannot be empty")
     if len(text) > 60:
         fail("Message cannot exceed 60 characters")
+    check_content(text)
     allowed = [c.id for c in _family_contacts(db, user)]
     if body.receiver_id not in allowed:
         fail("Not allowed to message this user", 403)
