@@ -145,12 +145,44 @@ SESSIONS: dict = {}   # token -> user_id  (in-memory; users re-login after resta
 CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "ravindragsingh@gmail.com")
 
 # ── Custom chore / shop item limits ─────────────────────────────────────────────
-# Families can pick freely from the built-in sample chores/rewards, but the number
-# of custom items they add themselves (one-off chores + recurring templates counted
-# together, and shop items separately) is capped for life — deleting an item does
-# NOT free up a slot. Families that need more should contact support.
+# Families can add as many chores/rewards as they want by picking from the built-in
+# sample list (title/name kept as-is). Only items with a title/name that doesn't
+# match a sample — i.e. genuinely custom ones — count against the lifetime cap
+# (one-off chores + recurring templates counted together, shop items separately).
+# Deleting an item does NOT free up a slot. Families that need more custom items
+# should contact support. Keep these two sets in sync with SAMPLE_CHORES /
+# SAMPLE_SHOP_ITEMS in frontend/src/components/ParentDashboard.jsx.
 LIMIT_EXTRA_CHORES     = 10
 LIMIT_EXTRA_SHOP_ITEMS = 10
+
+SAMPLE_CHORE_TITLES = {t.lower() for t in [
+    "Clean up your toys", "Put dirty clothes in hamper", "Pack your school bag",
+    "Put shoes away", "Clear your plate after eating", "Feed the pet",
+    "Water the plants", "Make your bed", "Tidy your bedroom", "Sort the recycling",
+    "Dust the furniture", "Help carry groceries", "Set the dinner table",
+    "Wipe down the bathroom sink", "Empty small bins", "Put books back on shelf",
+    "Wash the dishes", "Take out the trash", "Fold the laundry", "Sweep the floor",
+    "Vacuum the living room", "Clean the bathroom", "Wash the car", "Mop the floor",
+    "Empty the dishwasher", "Wipe kitchen surfaces", "Tidy the living room",
+    "Sweep the porch",
+]}
+
+SAMPLE_SHOP_ITEM_NAMES = {n.lower() for n in [
+    "Extra Screen Time (30 min)", "Extra Screen Time (1 hour)", "Video Game Session",
+    "Download a New App or Game", "YouTube / Streaming Hour", "Choose Dinner Tonight",
+    "Dessert of Your Choice", "Ice Cream Trip", "Skip Vegetables at Dinner",
+    "Breakfast in Bed", "Stay Up 30 Minutes Later", "Stay Up 1 Hour Later",
+    "Skip One Chore (one-time)", "Movie Night Pick", "Friend Can Come Over",
+    "Sleepover with a Friend", "Trip to the Park", "Bowling / Mini Golf Trip",
+    "Choose Weekend Activity", "New Book of Your Choice", "New Toy or Small Gift",
+    "Extra Pocket Money", "No Chores Day",
+]}
+
+def is_sample_chore(title: str) -> bool:
+    return (title or "").strip().lower() in SAMPLE_CHORE_TITLES
+
+def is_sample_shop_item(name: str) -> bool:
+    return (name or "").strip().lower() in SAMPLE_SHOP_ITEM_NAMES
 
 # ── Age-appropriate content filter ─────────────────────────────────────────────
 _RESTRICTED = [
@@ -949,7 +981,10 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
     for kid_id in kid_ids:
         if kid_id and not db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid").first():
             fail(f"Kid not found: {kid_id}", 404)
-    owner = check_add_limit(db, user, "chores_added_count", len(kid_ids), LIMIT_EXTRA_CHORES, "chores")
+    from_sample = is_sample_chore(body.title)
+    owner = get_family_owner(db, user)
+    if not from_sample:
+        owner = check_add_limit(db, user, "chores_added_count", len(kid_ids), LIMIT_EXTRA_CHORES, "chores")
     family_id = get_family_id(user)
     created = []
     for kid_id in kid_ids:
@@ -966,7 +1001,8 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
         )
         db.add(chore)
         created.append(chore)
-    owner.chores_added_count = (owner.chores_added_count or 0) + len(kid_ids)
+    if not from_sample:
+        owner.chores_added_count = (owner.chores_added_count or 0) + len(kid_ids)
     db.commit()
     for c in created:
         db.refresh(c)
@@ -1069,7 +1105,10 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
     if body.recurrenceType == 'monthly' and not body.recurrenceDom:
         fail("Specify a day of month for monthly recurrence")
 
-    owner = check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores")
+    from_sample = is_sample_chore(body.title)
+    owner = get_family_owner(db, user)
+    if not from_sample:
+        owner = check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores")
     family_id = get_family_id(user)
     rec_days = ','.join(str(d) for d in body.recurrenceDays) if body.recurrenceDays else None
     rec_dom = str(body.recurrenceDom) if body.recurrenceDom else None
@@ -1089,7 +1128,8 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
         created_at=now(),
     )
     db.add(template)
-    owner.chores_added_count = (owner.chores_added_count or 0) + 1
+    if not from_sample:
+        owner.chores_added_count = (owner.chores_added_count or 0) + 1
     db.commit()
     db.refresh(template)
     _generate_instances(db, template)
@@ -1136,12 +1176,16 @@ def get_shop(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)
 def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     check_content(body.name, body.description or "")
     if body.cost < 0: fail("cost must be a non-negative number")
-    owner = check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items")
+    from_sample = is_sample_shop_item(body.name)
+    owner = get_family_owner(db, user)
+    if not from_sample:
+        owner = check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items")
     item = DBShopItem(id=str(uuid4()), name=body.name.strip(), description=body.description or "",
                       cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now(),
                       family_id=get_family_id(user))
     db.add(item)
-    owner.shop_items_added_count = (owner.shop_items_added_count or 0) + 1
+    if not from_sample:
+        owner.shop_items_added_count = (owner.shop_items_added_count or 0) + 1
     db.commit()
     db.refresh(item)
     return ok(shop_dict(item), 201)

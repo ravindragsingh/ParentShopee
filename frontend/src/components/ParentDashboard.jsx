@@ -298,7 +298,7 @@ function ChoresTab({ kids }) {
                 background: choresAtLimit ? '#fee2e2' : '#f0fdfa',
                 color: choresAtLimit ? '#dc2626' : '#0d9488',
               }}>
-                {limits.choresUsed}/{limits.choresLimit} used
+                {limits.choresUsed}/{limits.choresLimit} custom used
               </span>
             )}
           </span>
@@ -307,13 +307,13 @@ function ChoresTab({ kids }) {
         {addChoreOpen && (
         <>
         {addError && <div className="error-msg">{addError}</div>}
-        {choresAtLimit ? (
-          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '14px 16px', color: '#991b1b', fontSize: '0.88rem', lineHeight: 1.6 }}>
-            You've reached the limit of {limits.choresLimit} custom chores for your family. You can still pick from
-            and edit the built-in sample chores. To add more custom chores, please contact our support team at{' '}
-            <strong>{limits.supportEmail}</strong>.
+        {choresAtLimit && (
+          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.82rem', lineHeight: 1.6 }}>
+            You've used all {limits.choresLimit} custom chore slots for your family. You can still add as many chores
+            as you like by picking one from "Start from a template" below without changing its title. For more
+            custom chores, contact support at <strong>{limits.supportEmail}</strong>.
           </div>
-        ) : (
+        )}
         <form onSubmit={handleAddChore}>
           <div className="form-group" style={{ marginBottom: 14 }}>
             <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
@@ -534,7 +534,6 @@ function ChoresTab({ kids }) {
             </div>
           )}
         </form>
-        )}
         </>
         )}
       </div>
@@ -737,18 +736,18 @@ function ShopTab() {
               background: shopAtLimit ? '#fee2e2' : '#f0fdfa',
               color: shopAtLimit ? '#dc2626' : '#0d9488',
             }}>
-              {limits.shopItemsUsed}/{limits.shopItemsLimit} used
+              {limits.shopItemsUsed}/{limits.shopItemsLimit} custom used
             </span>
           )}
         </div>
         {addError && <div className="error-msg">{addError}</div>}
-        {shopAtLimit ? (
-          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '14px 16px', color: '#991b1b', fontSize: '0.88rem', lineHeight: 1.6 }}>
-            You've reached the limit of {limits.shopItemsLimit} custom shop items for your family. You can still pick from
-            and edit the built-in sample rewards. To add more custom items, please contact our support team at{' '}
-            <strong>{limits.supportEmail}</strong>.
+        {shopAtLimit && (
+          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.82rem', lineHeight: 1.6 }}>
+            You've used all {limits.shopItemsLimit} custom shop item slots for your family. You can still add as many
+            items as you like by picking one from "Start from a template" below without changing its name. For more
+            custom items, contact support at <strong>{limits.supportEmail}</strong>.
           </div>
-        ) : (
+        )}
         <form onSubmit={handleAddItem}>
           <div className="form-group" style={{ marginBottom: 14 }}>
             <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
@@ -812,7 +811,6 @@ function ShopTab() {
             </div>
           </div>
         </form>
-        )}
       </div>
 
       {loading && <div className="loading-text">Loading shop...</div>}
