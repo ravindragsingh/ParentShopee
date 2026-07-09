@@ -94,6 +94,7 @@ function ChoresTab({ kids }) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState('')
+  const [addChoreOpen, setAddChoreOpen] = useState(false)
   const formRef = useRef(null)
 
   // Recurring chore state
@@ -221,9 +222,67 @@ function ChoresTab({ kids }) {
 
   return (
     <div>
-      {/* Add Chore Form */}
+      {/* Kid filter strip — only shown when there are 2+ kids */}
+      {kids.length > 1 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
+          <button
+            onClick={() => setFilterKidId('')}
+            style={{
+              padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+              border: `1.5px solid ${!filterKidId ? '#0d9488' : '#e2e8f0'}`,
+              background: !filterKidId ? '#f0fdfa' : '#fff',
+              color: !filterKidId ? '#0d9488' : '#64748b',
+              transition: 'all 0.15s',
+            }}
+          >
+            All kids
+          </button>
+          {kids.map(kid => (
+            <button
+              key={kid.id}
+              onClick={() => setFilterKidId(kid.id === filterKidId ? '' : kid.id)}
+              style={{
+                padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+                border: `1.5px solid ${filterKidId === kid.id ? '#0d9488' : '#e2e8f0'}`,
+                background: filterKidId === kid.id ? '#f0fdfa' : '#fff',
+                color: filterKidId === kid.id ? '#0d9488' : '#64748b',
+                transition: 'all 0.15s',
+              }}
+            >
+              {kid.avatar} {kid.name}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {loading && <div className="loading-text">Loading chores...</div>}
+      {error && <div className="error-msg">{error}</div>}
+
+      {/* Pending Approval — shown first so parents see what needs action */}
+      {!loading && (
+        <CollapsibleSection icon="⏳" title="Pending Approval" count={pending.length} colorClass="pending" defaultOpen emptyText="No chores awaiting approval.">
+          {pending.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+        </CollapsibleSection>
+      )}
+
+      {/* Add Chore Form — minimized by default */}
       <div className="form-card" ref={formRef}>
-        <div className="form-title">Add New Chore</div>
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => setAddChoreOpen(v => !v)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setAddChoreOpen(v => !v)}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            cursor: 'pointer', userSelect: 'none',
+            marginBottom: addChoreOpen ? 16 : 0,
+          }}
+        >
+          <span className="form-title" style={{ marginBottom: 0 }}>➕ Add New Chore</span>
+          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{addChoreOpen ? '▲' : '▼'}</span>
+        </div>
+        {addChoreOpen && (
+        <>
         {addError && <div className="error-msg">{addError}</div>}
         <form onSubmit={handleAddChore}>
           <div className="form-group" style={{ marginBottom: 14 }}>
@@ -445,53 +504,15 @@ function ChoresTab({ kids }) {
             </div>
           )}
         </form>
+        </>
+        )}
       </div>
 
-      {/* Kid filter strip — only shown when there are 2+ kids */}
-      {kids.length > 1 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 16, marginBottom: 4 }}>
-          <button
-            onClick={() => setFilterKidId('')}
-            style={{
-              padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
-              border: `1.5px solid ${!filterKidId ? '#0d9488' : '#e2e8f0'}`,
-              background: !filterKidId ? '#f0fdfa' : '#fff',
-              color: !filterKidId ? '#0d9488' : '#64748b',
-              transition: 'all 0.15s',
-            }}
-          >
-            All kids
-          </button>
-          {kids.map(kid => (
-            <button
-              key={kid.id}
-              onClick={() => setFilterKidId(kid.id === filterKidId ? '' : kid.id)}
-              style={{
-                padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
-                border: `1.5px solid ${filterKidId === kid.id ? '#0d9488' : '#e2e8f0'}`,
-                background: filterKidId === kid.id ? '#f0fdfa' : '#fff',
-                color: filterKidId === kid.id ? '#0d9488' : '#64748b',
-                transition: 'all 0.15s',
-              }}
-            >
-              {kid.avatar} {kid.name}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Chore Lists */}
-      {loading && <div className="loading-text">Loading chores...</div>}
-      {error && <div className="error-msg">{error}</div>}
-
+      {/* Remaining chore lists */}
       {!loading && (
         <>
           <CollapsibleSection icon="✨" title="Open" count={open.length} colorClass="open" defaultOpen emptyText="No open chores.">
             {open.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
-          </CollapsibleSection>
-
-          <CollapsibleSection icon="⏳" title="Pending Approval" count={pending.length} colorClass="pending" defaultOpen emptyText="No chores awaiting approval.">
-            {pending.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
           </CollapsibleSection>
 
           <CollapsibleSection icon="🏆" title="Complete" count={complete.length} colorClass="complete" emptyText="No completed chores yet.">
