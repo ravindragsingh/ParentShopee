@@ -165,6 +165,10 @@ function ChoresTab({ kids }) {
 
   async function handleAddChore(e) {
     e.preventDefault()
+    if (kids.length === 0) {
+      setAddError('Please add a child first before creating chores. Go to the Kids tab to add one.')
+      return
+    }
     if (!title.trim() || !points) {
       setAddError('Title and points are required.')
       return
@@ -308,6 +312,11 @@ function ChoresTab({ kids }) {
         {addChoreOpen && (
         <>
         {addError && <div className="error-msg">{addError}</div>}
+        {kids.length === 0 && (
+          <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#1e40af', fontSize: '0.82rem', lineHeight: 1.6 }}>
+            You haven't added any children yet. Go to the <strong>Kids</strong> tab and add a child before creating chores.
+          </div>
+        )}
         {choresAtLimit && (
           <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.82rem', lineHeight: 1.6 }}>
             You've used all {limits.choresLimit} custom chore slots for your family. You can still add as many chores
@@ -525,7 +534,7 @@ function ChoresTab({ kids }) {
             <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
               {showEmojiPicker ? 'Click an image to select, or click the icon again to close' : 'Click the icon to choose a chore image'}
             </span>
-            <button type="submit" className="btn btn-primary" disabled={adding} style={{ marginLeft: 'auto' }}>
+            <button type="submit" className="btn btn-primary" disabled={adding || kids.length === 0} style={{ marginLeft: 'auto' }}>
               {adding ? 'Adding...' : 'Add Chore'}
             </button>
           </div>

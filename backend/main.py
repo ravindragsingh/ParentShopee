@@ -1044,6 +1044,9 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
     check_content(body.title, body.description or "")
     if body.points < 0:
         fail("points must be a non-negative number")
+    family_id = get_family_id(user)
+    if db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).count() == 0:
+        fail("Please add a child first before creating chores.")
     # Resolve which kid IDs to assign — multi takes priority over single
     kid_ids: List[Optional[str]] = body.assignedKidIds if body.assignedKidIds else (
         [body.assignedKidId] if body.assignedKidId else [None]
@@ -1056,7 +1059,6 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
     owner = get_family_owner(db, user)
     if not from_sample:
         owner = check_add_limit(db, user, "chores_added_count", len(kid_ids), LIMIT_EXTRA_CHORES, "chores")
-    family_id = get_family_id(user)
     created = []
     for kid_id in kid_ids:
         chore = DBChore(
@@ -1176,11 +1178,14 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
     if body.recurrenceType == 'monthly' and not body.recurrenceDom:
         fail("Specify a day of month for monthly recurrence")
 
+    family_id = get_family_id(user)
+    if db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).count() == 0:
+        fail("Please add a child first before creating chores.")
+
     from_sample = is_sample_chore(body.title)
     owner = get_family_owner(db, user)
     if not from_sample:
         owner = check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores")
-    family_id = get_family_id(user)
     rec_days = ','.join(str(d) for d in body.recurrenceDays) if body.recurrenceDays else None
     rec_dom = str(body.recurrenceDom) if body.recurrenceDom else None
 
