@@ -754,6 +754,9 @@ def award_bonus(kid_id: str, body: BonusPointsBody, db: Session = Depends(get_db
 def adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     if body.amount == 0:
         fail("Amount cannot be zero")
+    if body.reason and len(body.reason.strip()) > 15:
+        fail("Message must be 15 characters or fewer")
+    check_content(body.reason or "")
     family_id = get_family_id(user)
     kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
     if not kid:

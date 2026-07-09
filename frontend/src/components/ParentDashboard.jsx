@@ -1059,12 +1059,15 @@ function KidsTab() {
   const [txLoading, setTxLoading] = useState(false)
   const [txError, setTxError] = useState('')
 
-  // Good behaviour
-  const [behaviourFor, setBehaviourFor] = useState(null)
-  const [behaviourPts, setBehaviourPts] = useState('')
-  const [behaviourLoading, setBehaviourLoading] = useState(false)
-  const [behaviourError, setBehaviourError] = useState('')
-  const [behaviourSuccess, setBehaviourSuccess] = useState('')
+  // Award bonus / remove points
+  const [adjustFor, setAdjustFor] = useState(null)     // kid id
+  const [adjustMode, setAdjustMode] = useState(null)   // 'bonus' | 'remove'
+  const [adjustPts, setAdjustPts] = useState('')
+  const [adjustMessage, setAdjustMessage] = useState('')
+  const [adjustLoading, setAdjustLoading] = useState(false)
+  const [adjustError, setAdjustError] = useState('')
+  const [adjustSuccess, setAdjustSuccess] = useState('')
+  const MAX_ADJUST_MESSAGE = 15
 
   async function loadKidTx(kidId) {
     setTxLoading(true); setTxError(''); setTxData(null)
@@ -1083,32 +1086,33 @@ function KidsTab() {
       setViewingTxFor(null)
     } else {
       setViewingTxFor(kid.id)
-      setChangingPwdFor(null); setBehaviourFor(null)
+      setChangingPwdFor(null); setAdjustFor(null); setAdjustMode(null)
       loadKidTx(kid.id)
     }
   }
 
-  async function handleBehaviour(kid, sign) {
-    setBehaviourError('')
-    setBehaviourSuccess('')
-    const pts = Number(behaviourPts)
-    if (!pts || isNaN(pts) || pts <= 0) { setBehaviourError('Enter a positive number of points.'); return }
-    const signedPts = sign * pts
-    if (sign < 0 && getBalance(kid.id) + signedPts < 0) {
-      setBehaviourError(`Cannot remove more than current balance (${getBalance(kid.id)} pts).`)
+  async function handleAdjust(kid) {
+    setAdjustError('')
+    setAdjustSuccess('')
+    const pts = Number(adjustPts)
+    if (!pts || isNaN(pts) || pts <= 0) { setAdjustError('Enter a positive number of points.'); return }
+    if (!adjustMessage.trim()) { setAdjustError(`Add a short message (up to ${MAX_ADJUST_MESSAGE} characters).`); return }
+    const signedPts = adjustMode === 'bonus' ? pts : -pts
+    if (adjustMode === 'remove' && getBalance(kid.id) + signedPts < 0) {
+      setAdjustError(`Cannot remove more than current balance (${getBalance(kid.id)} pts).`)
       return
     }
-    setBehaviourLoading(true)
+    setAdjustLoading(true)
     try {
-      const res = await api.awardBehaviour(kid.id, signedPts)
-      const label = sign > 0 ? 'awarded to' : 'removed from'
-      setBehaviourSuccess(`${pts} pts ${label} ${res.kidName}. New balance: ${res.newBalance} pts`)
-      setBehaviourPts('')
+      const res = await api.adjustWallet(kid.id, signedPts, adjustMessage.trim())
+      const label = adjustMode === 'bonus' ? 'awarded to' : 'removed from'
+      setAdjustSuccess(`${pts} pts ${label} ${res.kidName}. New balance: ${res.newBalance} pts`)
+      setAdjustPts(''); setAdjustMessage('')
       loadData()
     } catch (err) {
-      setBehaviourError(err.message)
+      setAdjustError(err.message)
     } finally {
-      setBehaviourLoading(false)
+      setAdjustLoading(false)
     }
   }
 
@@ -1245,21 +1249,36 @@ function KidsTab() {
                       className="btn btn-outline btn-sm"
                       onClick={() => {
                         setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
-                        setViewingTxFor(null); setBehaviourFor(null); setNewPwd(''); setPwdError('')
+                        setViewingTxFor(null); setAdjustFor(null); setAdjustMode(null); setNewPwd(''); setPwdError('')
                       }}
                     >
                       {changingPwdFor === kid.id ? 'Cancel' : '🔑 Password'}
                     </button>
                     <button
-                      className={`btn btn-sm ${behaviourFor === kid.id ? 'btn-outline' : ''}`}
-                      style={behaviourFor === kid.id ? {} : { background: 'linear-gradient(135deg,#f59e0b,#f97316)', border: 'none', color: '#fff' }}
+                      className={`btn btn-sm ${adjustFor === kid.id && adjustMode === 'bonus' ? 'btn-outline' : ''}`}
+                      style={adjustFor === kid.id && adjustMode === 'bonus' ? {} : { background: 'linear-gradient(135deg,#22c55e,#16a34a)', border: 'none', color: '#fff' }}
                       onClick={() => {
-                        setBehaviourFor(behaviourFor === kid.id ? null : kid.id)
+                        const opening = !(adjustFor === kid.id && adjustMode === 'bonus')
+                        setAdjustFor(opening ? kid.id : null)
+                        setAdjustMode(opening ? 'bonus' : null)
                         setChangingPwdFor(null); setViewingTxFor(null)
-                        setBehaviourPts(''); setBehaviourError(''); setBehaviourSuccess('')
+                        setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
                       }}
                     >
-                      {behaviourFor === kid.id ? 'Cancel' : '🌟 Behaviour'}
+                      {adjustFor === kid.id && adjustMode === 'bonus' ? 'Cancel' : '🌟 Award Bonus'}
+                    </button>
+                    <button
+                      className={`btn btn-sm ${adjustFor === kid.id && adjustMode === 'remove' ? 'btn-outline' : ''}`}
+                      style={adjustFor === kid.id && adjustMode === 'remove' ? {} : { background: 'linear-gradient(135deg,#ef4444,#dc2626)', border: 'none', color: '#fff' }}
+                      onClick={() => {
+                        const opening = !(adjustFor === kid.id && adjustMode === 'remove')
+                        setAdjustFor(opening ? kid.id : null)
+                        setAdjustMode(opening ? 'remove' : null)
+                        setChangingPwdFor(null); setViewingTxFor(null)
+                        setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
+                      }}
+                    >
+                      {adjustFor === kid.id && adjustMode === 'remove' ? 'Cancel' : '➖ Remove Points'}
                     </button>
                     <button
                       className={`btn btn-sm ${viewingTxFor === kid.id ? 'btn-primary' : 'btn-outline'}`}
@@ -1288,18 +1307,22 @@ function KidsTab() {
                     </td>
                   </tr>
                 )}
-                {behaviourFor === kid.id && (() => {
+                {adjustFor === kid.id && (() => {
                   const currentBal = getBalance(kid.id)
-                  const pts = Number(behaviourPts)
+                  const pts = Number(adjustPts)
                   const validPts = !isNaN(pts) && pts > 0
+                  const isBonus = adjustMode === 'bonus'
+                  const theme = isBonus
+                    ? { bg: '#f0fdf4', border: '#bbf7d0', text: '#166534', chipBg: '#dcfce7', chipBorder: '#bbf7d0' }
+                    : { bg: '#fef2f2', border: '#fecaca', text: '#991b1b', chipBg: '#fee2e2', chipBorder: '#fecaca' }
                   return (
-                    <tr key={`${kid.id}-behaviour`}>
-                      <td colSpan={5} style={{ background: '#fffbf0', padding: '14px 16px', borderTop: '2px solid #fde68a' }}>
-                        <div style={{ fontWeight: 600, color: '#92400e', marginBottom: 10, fontSize: '0.9rem' }}>
-                          🌟 Good Behaviour — {kid.name}
+                    <tr key={`${kid.id}-adjust`}>
+                      <td colSpan={5} style={{ background: theme.bg, padding: '14px 16px', borderTop: `2px solid ${theme.border}` }}>
+                        <div style={{ fontWeight: 600, color: theme.text, marginBottom: 10, fontSize: '0.9rem' }}>
+                          {isBonus ? '🌟 Award Bonus' : '➖ Remove Points'} — {kid.name}
                         </div>
-                        {behaviourError && <div className="error-msg" style={{ marginBottom: 8 }}>{behaviourError}</div>}
-                        {behaviourSuccess && <div style={{ color: '#059669', fontSize: '0.85rem', marginBottom: 8 }}>{behaviourSuccess}</div>}
+                        {adjustError && <div className="error-msg" style={{ marginBottom: 8 }}>{adjustError}</div>}
+                        {adjustSuccess && <div style={{ color: '#059669', fontSize: '0.85rem', marginBottom: 8 }}>{adjustSuccess}</div>}
                         <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 10 }}>
                           Current balance: <strong>{currentBal} pts</strong>
                         </div>
@@ -1311,44 +1334,50 @@ function KidsTab() {
                                 key={n}
                                 className="btn btn-sm"
                                 style={{
-                                  background: behaviourPts === String(n) ? '#f59e0b' : '#fef3c7',
-                                  color: behaviourPts === String(n) ? '#fff' : '#92400e',
-                                  border: '1px solid #fde68a', fontWeight: 600,
+                                  background: adjustPts === String(n) ? theme.text : theme.chipBg,
+                                  color: adjustPts === String(n) ? '#fff' : theme.text,
+                                  border: `1px solid ${theme.chipBorder}`, fontWeight: 600,
                                 }}
-                                onClick={() => setBehaviourPts(String(n))}
+                                onClick={() => setAdjustPts(String(n))}
                               >
                                 {n} pts
                               </button>
                             ))}
                           </div>
                         </div>
-                        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', flexWrap: 'wrap', marginBottom: 4 }}>
                           <input
                             type="number"
                             min="1"
-                            value={behaviourPts}
-                            onChange={e => setBehaviourPts(e.target.value)}
+                            value={adjustPts}
+                            onChange={e => setAdjustPts(e.target.value)}
                             placeholder="Custom pts"
-                            style={{ padding: '7px 12px', border: '1px solid #fbbf24', borderRadius: 7, fontSize: '0.9rem', width: 120 }}
+                            style={{ padding: '7px 12px', border: `1px solid ${theme.chipBorder}`, borderRadius: 7, fontSize: '0.9rem', width: 110 }}
                           />
-                          <button
-                            className="btn btn-sm btn-green"
-                            onClick={() => handleBehaviour(kid, 1)}
-                            disabled={behaviourLoading || !validPts}
-                          >
-                            {behaviourLoading ? 'Saving...' : '🌟 Award Good Behaviour'}
-                          </button>
+                          <div>
+                            <input
+                              type="text"
+                              value={adjustMessage}
+                              onChange={e => setAdjustMessage(e.target.value.slice(0, MAX_ADJUST_MESSAGE))}
+                              maxLength={MAX_ADJUST_MESSAGE}
+                              placeholder={isBonus ? 'Why? e.g. Great job!' : 'Why? e.g. Broke curfew'}
+                              style={{ padding: '7px 12px', border: `1px solid ${theme.chipBorder}`, borderRadius: 7, fontSize: '0.9rem', width: 200 }}
+                            />
+                            <div style={{ fontSize: '0.68rem', color: '#94a3b8', marginTop: 2, textAlign: 'right' }}>
+                              {adjustMessage.length}/{MAX_ADJUST_MESSAGE}
+                            </div>
+                          </div>
                           <button
                             className="btn btn-sm"
-                            style={{ background: '#fee2e2', color: '#dc2626', border: '1px solid #fca5a5' }}
-                            onClick={() => handleBehaviour(kid, -1)}
-                            disabled={behaviourLoading || !validPts || currentBal < pts}
+                            style={{ background: theme.text, color: '#fff', border: 'none' }}
+                            onClick={() => handleAdjust(kid)}
+                            disabled={adjustLoading || !validPts || (!isBonus && currentBal < pts)}
                           >
-                            {behaviourLoading ? 'Saving...' : '❌ Remove Points'}
+                            {adjustLoading ? 'Saving...' : isBonus ? '🌟 Award Bonus' : '➖ Remove Points'}
                           </button>
                         </div>
                         <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 8 }}>
-                          Recorded as "Bonus received for good behaviour" in {kid.name}'s wallet.
+                          Your message will be recorded in {kid.name}'s wallet history.
                         </div>
                       </td>
                     </tr>
