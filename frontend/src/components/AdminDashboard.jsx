@@ -333,17 +333,22 @@ export default function AdminDashboard() {
     await refreshAll(familyId)
   }
 
-  const countryOptions = [...new Set(families.map(f => f.parent.country).filter(Boolean))].sort()
+  // Filters match either the account-created location or the most-recent-login
+  // location, since existing accounts (created before location tracking) only
+  // ever populate the last-login fields.
+  const countryOptions = [...new Set(
+    families.flatMap(f => [f.parent.country, f.parent.lastLoginCountry]).filter(Boolean)
+  )].sort()
   const cityOptions = [...new Set(
     families
-      .filter(f => !countryFilter || f.parent.country === countryFilter)
-      .map(f => f.parent.city)
+      .filter(f => !countryFilter || f.parent.country === countryFilter || f.parent.lastLoginCountry === countryFilter)
+      .flatMap(f => [f.parent.city, f.parent.lastLoginCity])
       .filter(Boolean)
   )].sort()
 
   const filtered = families.filter(f => {
-    if (countryFilter && f.parent.country !== countryFilter) return false
-    if (cityFilter && f.parent.city !== cityFilter) return false
+    if (countryFilter && f.parent.country !== countryFilter && f.parent.lastLoginCountry !== countryFilter) return false
+    if (cityFilter && f.parent.city !== cityFilter && f.parent.lastLoginCity !== cityFilter) return false
     if (!search.trim()) return true
     const q = search.toLowerCase()
     return (
@@ -431,6 +436,9 @@ export default function AdminDashboard() {
               ✕ Clear location
             </button>
           )}
+          <div style={{ flexBasis: '100%', fontSize: '0.72rem', color: '#94a3b8' }}>
+            Location filters match a family's account-created location or their most recent login location.
+          </div>
         </div>
 
         {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem' }}>{error}</div>}
@@ -464,7 +472,12 @@ export default function AdminDashboard() {
                   {family.parent.email && <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{family.parent.email}</div>}
                   {(family.parent.city || family.parent.country) && (
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
-                      📍 {[family.parent.city, family.parent.country].filter(Boolean).join(', ')}
+                      📍 Created: {[family.parent.city, family.parent.country].filter(Boolean).join(', ')}
+                    </div>
+                  )}
+                  {(family.parent.lastLoginCity || family.parent.lastLoginCountry) && (
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+                      🕑 Last login: {[family.parent.lastLoginCity, family.parent.lastLoginCountry].filter(Boolean).join(', ')}
                     </div>
                   )}
                 </div>

@@ -8,7 +8,7 @@ import urllib.request
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
-from fastapi import FastAPI, HTTPException, Depends, Header
+from fastapi import FastAPI, HTTPException, Depends, Header, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -51,8 +51,10 @@ class DBUser(Base):
     parent_id     = Column(String, nullable=True)    # for kids: their parent's id
     co_parent_of  = Column(String, nullable=True)    # for co-parents: primary parent's id
     avatar        = Column(String, nullable=True)
-    country       = Column(String, nullable=True)     # best-effort, from IP at registration
-    city          = Column(String, nullable=True)     # best-effort, from IP at registration
+    country            = Column(String, nullable=True)  # best-effort, from IP at registration
+    city               = Column(String, nullable=True)  # best-effort, from IP at registration
+    last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login
+    last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
     chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-parent
     shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-parent
 
@@ -313,6 +315,23 @@ def get_location_from_ip(ip: str) -> dict:
     except Exception:
         return {"country": None, "city": None}
 
+def _record_login_location(user_id: str, ip: str) -> None:
+    """Runs after the login response is already sent, so the geolocation lookup
+    never adds latency to sign-in. Opens its own DB session (the request's is
+    closed by then)."""
+    location = get_location_from_ip(ip)
+    if not location["country"] and not location["city"]:
+        return
+    db = SessionLocal()
+    try:
+        u = db.query(DBUser).filter(DBUser.id == user_id).first()
+        if u:
+            u.last_login_country = location["country"]
+            u.last_login_city = location["city"]
+            db.commit()
+    finally:
+        db.close()
+
 def get_family_id(user: DBUser) -> str:
     return user.co_parent_of or user.id
 
@@ -336,7 +355,8 @@ def safe_user(u: DBUser) -> dict:
     return {"id": u.id, "name": u.name, "username": u.username, "role": u.role,
             "email": u.email, "parentId": u.parent_id, "avatar": u.avatar,
             "gender": u.gender, "coParentOf": u.co_parent_of,
-            "country": u.country, "city": u.city}
+            "country": u.country, "city": u.city,
+            "lastLoginCountry": u.last_login_country, "lastLoginCity": u.last_login_city}
 
 def chore_dict(c: DBChore) -> dict:
     return {"id": c.id, "title": c.title, "description": c.description,
@@ -624,6 +644,8 @@ def startup():
             ("users",      "shop_items_added_count", "FLOAT"),
             ("users",      "country",                "VARCHAR"),
             ("users",      "city",                   "VARCHAR"),
+            ("users",      "last_login_country",     "VARCHAR"),
+            ("users",      "last_login_city",        "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(_engine.url):
@@ -680,12 +702,13 @@ def startup():
 # ── Auth routes ────────────────────────────────────────────────────────────────
 
 @app.post("/api/auth/login")
-def login(body: LoginBody, db: Session = Depends(get_db)):
+def login(body: LoginBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     user = db.query(DBUser).filter(DBUser.username == body.username, DBUser.password == body.password).first()
     if not user:
         fail("Invalid credentials", 401)
     token = str(uuid4())
     SESSIONS[token] = user.id
+    background_tasks.add_task(_record_login_location, user.id, get_client_ip(request))
     return ok({"token": token, "user": safe_user(user)})
 
 @app.post("/api/auth/register")
