@@ -1,8 +1,10 @@
 import re
 import os
+import json
 import smtplib
 import base64
 import binascii
+import urllib.request
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
@@ -49,6 +51,8 @@ class DBUser(Base):
     parent_id     = Column(String, nullable=True)    # for kids: their parent's id
     co_parent_of  = Column(String, nullable=True)    # for co-parents: primary parent's id
     avatar        = Column(String, nullable=True)
+    country       = Column(String, nullable=True)     # best-effort, from IP at registration
+    city          = Column(String, nullable=True)     # best-effort, from IP at registration
     chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-parent
     shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-parent
 
@@ -282,6 +286,33 @@ def calculate_age(dob_str: str) -> int:
     t   = date.today()
     return t.year - dob.year - ((t.month, t.day) < (dob.month, dob.day))
 
+_PRIVATE_IP_PREFIXES = ("127.", "10.", "192.168.", "::1", "localhost")
+
+def get_client_ip(request: StarletteRequest) -> str:
+    """Real client IP, respecting X-Forwarded-For set by the hosting proxy (e.g. Render)."""
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else ""
+
+def get_location_from_ip(ip: str) -> dict:
+    """Best-effort IP geolocation for admin filtering. Never raises — registration
+    must succeed even if the lookup fails or the service is unreachable."""
+    if not ip or ip.startswith(_PRIVATE_IP_PREFIXES) or ip.startswith("172."):
+        return {"country": None, "city": None}
+    try:
+        req = urllib.request.Request(
+            f"https://ipapi.co/{ip}/json/",
+            headers={"User-Agent": "RewardUrKids/1.0"},
+        )
+        with urllib.request.urlopen(req, timeout=3) as resp:
+            data = json.loads(resp.read().decode())
+        if data.get("error"):
+            return {"country": None, "city": None}
+        return {"country": data.get("country_name"), "city": data.get("city")}
+    except Exception:
+        return {"country": None, "city": None}
+
 def get_family_id(user: DBUser) -> str:
     return user.co_parent_of or user.id
 
@@ -304,7 +335,8 @@ def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: in
 def safe_user(u: DBUser) -> dict:
     return {"id": u.id, "name": u.name, "username": u.username, "role": u.role,
             "email": u.email, "parentId": u.parent_id, "avatar": u.avatar,
-            "gender": u.gender, "coParentOf": u.co_parent_of}
+            "gender": u.gender, "coParentOf": u.co_parent_of,
+            "country": u.country, "city": u.city}
 
 def chore_dict(c: DBChore) -> dict:
     return {"id": c.id, "title": c.title, "description": c.description,
@@ -590,6 +622,8 @@ def startup():
             ("chores",     "scheduled_date", "VARCHAR"),
             ("users",      "chores_added_count",     "FLOAT"),
             ("users",      "shop_items_added_count", "FLOAT"),
+            ("users",      "country",                "VARCHAR"),
+            ("users",      "city",                   "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(_engine.url):
@@ -655,7 +689,7 @@ def login(body: LoginBody, db: Session = Depends(get_db)):
     return ok({"token": token, "user": safe_user(user)})
 
 @app.post("/api/auth/register")
-def register(body: RegisterBody, db: Session = Depends(get_db)):
+def register(body: RegisterBody, request: StarletteRequest, db: Session = Depends(get_db)):
     if not EMAIL_RE.match(body.email):
         fail("Please enter a valid email address")
     try:
@@ -674,6 +708,8 @@ def register(body: RegisterBody, db: Session = Depends(get_db)):
     if body.gender not in ("male", "female", "other"):
         fail("Gender must be 'male', 'female', or 'other'")
 
+    location = get_location_from_ip(get_client_ip(request))
+
     user = DBUser(
         id=str(uuid4()),
         name=body.name.strip(),
@@ -683,6 +719,8 @@ def register(body: RegisterBody, db: Session = Depends(get_db)):
         email=body.email.lower().strip(),
         date_of_birth=body.dateOfBirth,
         gender=body.gender,
+        country=location["country"],
+        city=location["city"],
     )
     db.add(user)
     db.commit()
