@@ -268,6 +268,105 @@ const POSTS = [
       },
     ],
   },
+  {
+    id: 3,
+    slug: 'real-benefits-of-reward-ur-kids',
+    title: 'The Real Benefits of Reward Ur Kids: What Actually Changes at Home',
+    subtitle: 'Less nagging, calmer evenings, and kids who feel seen for their effort — here is what families notice in the first few weeks.',
+    date: 'July 2026',
+    readTime: '6 min read',
+    emoji: '💛',
+    tags: ['Family Life', 'Parenting', 'Positive Reinforcement', 'Kids'],
+    content: [
+      {
+        type: 'intro',
+        text: "Most parenting apps promise to make family life easier. Few actually change the day-to-day feel of a household. Reward Ur Kids was built around a simple bet: if you make effort visible, reward it consistently, and give kids a real say in what they're working toward, the nagging stops on its own — because kids start choosing to help.",
+      },
+      {
+        type: 'intro',
+        text: "This isn't a theory. It's what happens when chores stop being a source of daily conflict and start being a shared, transparent system everyone in the family understands. Here is what actually changes once a family starts using it.",
+      },
+      {
+        type: 'h2',
+        text: 'A Typical Week, Before and After',
+      },
+      {
+        type: 'scenario',
+        items: [
+          { time: 'Before', text: 'Monday morning is a negotiation. "Did you make your bed?" "Can you please take the bins out — I\'ve asked three times." Chores happen, eventually, but only after repeated reminders and a bit of tension.' },
+          { time: 'Week 1', text: 'Chores move onto the app. Kids see exactly what\'s available and what it\'s worth. There\'s no reminder needed — the list is just there, waiting, whenever they check.' },
+          { time: 'Week 3', text: 'A child starts claiming chores before being asked, aiming for a reward in the shop. A sibling notices and does the same. Parents start using Award Bonus for things they\'d normally just say "well done" for — helping a sibling, trying hard at school — and it visibly means more to the kids than words alone.' },
+          { time: 'Week 6', text: 'The household has a rhythm. Recurring chores run themselves. Both parents can see and approve from their own phone. Evenings feel calmer, because the daily back-and-forth over chores has quietly disappeared.' },
+        ],
+      },
+      {
+        type: 'h2',
+        text: 'Six Benefits Families Notice Most',
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: 'Positive Reinforcement Replaces Constant Correction',
+        text: "It's far easier, and far more effective, to reward the behaviour you want than to repeatedly correct the behaviour you don't. Every completed chore and every Award Bonus is a small, immediate signal to a child that their effort was noticed. Over time, that shifts the entire tone of parenting from correction to encouragement.",
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: 'Consistency Parents Can Actually Keep Up',
+        text: "Good intentions fade by Wednesday. A points system doesn't. Because the app tracks everything automatically — who did what, what they earned, what's still open — parents stay consistent without having to hold it all in their head. Recurring chores mean the routine keeps running even on the days parents are too busy to think about it.",
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: 'Stronger, More Positive Communication',
+        text: "The built-in messaging means a parent can send a quick \"Proud of you today 🎉\" the moment they see a chore completed, not hours later when they remember. Small, well-timed encouragement adds up. Many parents say it's changed the tone of daily conversation with their kids — more noticing, less nagging.",
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: 'Visible Fairness Between Siblings',
+        text: "\"That's not fair, I did more!\" gets a lot harder to say when every chore, every point, and every purchase is logged and visible to everyone. Each child has their own wallet and history. Parents can set age-appropriate chores and points per child, and nobody has to take anyone's word for who did what.",
+      },
+      {
+        type: 'benefit',
+        number: 5,
+        title: 'A Real, Visible Record of Effort',
+        text: "Children rarely get to see their own progress laid out clearly. A growing points balance and a transaction history full of completed chores is proof, in black and white, that their effort adds up to something. That visible record does more for a child's confidence than a verbal \"good job\" ever fully captures.",
+      },
+      {
+        type: 'benefit',
+        number: 6,
+        title: 'Less Mental Load for Parents',
+        text: "Co-parent access means both parents see the same chores, the same balances, and the same history — no more re-explaining who agreed to what. Combined with recurring chores and automatic tracking, the app quietly takes over the bookkeeping side of parenting, leaving more energy for the parts that actually need a parent.",
+      },
+      {
+        type: 'h2',
+        text: 'Why Positive Reinforcement Works',
+      },
+      {
+        type: 'p',
+        text: "None of this is new psychology — rewarding a behaviour makes it more likely to happen again, and rewarding it consistently is what makes it stick. What's changed is how easy it now is to do consistently. A paper chart gets forgotten. A points balance on a phone doesn't. The mechanism is simple; the app just removes every excuse to fall out of the habit.",
+      },
+      {
+        type: 'h2',
+        text: 'Getting the Most Out of It',
+      },
+      {
+        type: 'steps',
+        items: [
+          'Reward effort as soon as you notice it — same-day points matter more to kids than delayed ones',
+          'Use Award Bonus for things outside the chore list too, like kindness or trying hard, not just tasks',
+          'Set up two or three recurring chores first, so the routine runs itself before you add more',
+          'Stock the shop with a mix of small, quick rewards and one bigger one worth saving up for',
+          'Check in through messages, not just approvals — a quick note of encouragement goes a long way',
+        ],
+      },
+      {
+        type: 'quote',
+        text: "The families who get the most out of Reward Ur Kids aren't the ones with the most chores listed — they're the ones who use it to notice their kids more often. The app just makes that easier to do, every single day.",
+      },
+    ],
+  },
 ]
 
 // ── Renderers ─────────────────────────────────────────────────────────────────
