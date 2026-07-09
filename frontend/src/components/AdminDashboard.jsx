@@ -264,6 +264,8 @@ export default function AdminDashboard() {
   const [loading,       setLoading]       = useState(true)
   const [error,         setError]         = useState('')
   const [search,        setSearch]        = useState('')
+  const [countryFilter, setCountryFilter] = useState('')
+  const [cityFilter,    setCityFilter]    = useState('')
   const [selected,      setSelected]      = useState(null)
   const [detail,        setDetail]        = useState({ chores: [], transactions: [] })
   const [detailLoading, setDetailLoading] = useState(false)
@@ -331,7 +333,22 @@ export default function AdminDashboard() {
     await refreshAll(familyId)
   }
 
+  // Filters match either the account-created location or the most-recent-login
+  // location, since existing accounts (created before location tracking) only
+  // ever populate the last-login fields.
+  const countryOptions = [...new Set(
+    families.flatMap(f => [f.parent.country, f.parent.lastLoginCountry]).filter(Boolean)
+  )].sort()
+  const cityOptions = [...new Set(
+    families
+      .filter(f => !countryFilter || f.parent.country === countryFilter || f.parent.lastLoginCountry === countryFilter)
+      .flatMap(f => [f.parent.city, f.parent.lastLoginCity])
+      .filter(Boolean)
+  )].sort()
+
   const filtered = families.filter(f => {
+    if (countryFilter && f.parent.country !== countryFilter && f.parent.lastLoginCountry !== countryFilter) return false
+    if (cityFilter && f.parent.city !== cityFilter && f.parent.lastLoginCity !== cityFilter) return false
     if (!search.trim()) return true
     const q = search.toLowerCase()
     return (
@@ -388,13 +405,40 @@ export default function AdminDashboard() {
           <StatCard icon="📋" label="Chores"   value={totalChores}   color="#d97706" />
         </div>
 
-        {/* Search */}
-        <div style={{ marginBottom: 16 }}>
+        {/* Search + location filters */}
+        <div style={{ marginBottom: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <input
             value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Search by parent name, username, email or child name…"
-            style={{ width: '100%', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
+            style={{ flex: '2 1 260px', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
           />
+          <select
+            value={countryFilter}
+            onChange={e => { setCountryFilter(e.target.value); setCityFilter('') }}
+            style={{ flex: '1 1 160px', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
+          >
+            <option value="">🌍 All countries</option>
+            {countryOptions.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+          <select
+            value={cityFilter}
+            onChange={e => setCityFilter(e.target.value)}
+            style={{ flex: '1 1 160px', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
+          >
+            <option value="">📍 All cities</option>
+            {cityOptions.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+          {(countryFilter || cityFilter) && (
+            <button
+              onClick={() => { setCountryFilter(''); setCityFilter('') }}
+              style={{ padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', fontSize: '0.82rem', fontWeight: 600, color: '#64748b', cursor: 'pointer' }}
+            >
+              ✕ Clear location
+            </button>
+          )}
+          <div style={{ flexBasis: '100%', fontSize: '0.72rem', color: '#94a3b8' }}>
+            Location filters match a family's account-created location or their most recent login location.
+          </div>
         </div>
 
         {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem' }}>{error}</div>}
@@ -402,7 +446,7 @@ export default function AdminDashboard() {
 
         {!loading && filtered.length === 0 && (
           <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>
-            {search ? 'No families match your search.' : 'No families registered yet.'}
+            {search || countryFilter || cityFilter ? 'No families match your search/filters.' : 'No families registered yet.'}
           </div>
         )}
 
@@ -426,6 +470,16 @@ export default function AdminDashboard() {
                   </div>
                   <div style={{ fontSize: '0.78rem', color: '#64748b' }}>@{family.parent.username}</div>
                   {family.parent.email && <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{family.parent.email}</div>}
+                  {(family.parent.city || family.parent.country) && (
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+                      📍 Created: {[family.parent.city, family.parent.country].filter(Boolean).join(', ')}
+                    </div>
+                  )}
+                  {(family.parent.lastLoginCity || family.parent.lastLoginCountry) && (
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+                      🕑 Last login: {[family.parent.lastLoginCity, family.parent.lastLoginCountry].filter(Boolean).join(', ')}
+                    </div>
+                  )}
                 </div>
 
                 {/* Co-parent */}
