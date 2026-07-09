@@ -1136,6 +1136,12 @@ function KidsTab() {
     return w?.balance ?? 0
   }
 
+  function getKidTier(balance) {
+    if (balance >= 30) return { label: 'Super Star', className: 'tier-super' }
+    if (balance >= 10) return { label: 'Rising Star', className: 'tier-rising' }
+    return { label: 'Getting Started', className: 'tier-start' }
+  }
+
   async function handleAddKid(e) {
     e.preventDefault()
     setAddError('')
@@ -1216,98 +1222,102 @@ function KidsTab() {
         )}
       </div>
 
-      {/* Kids table */}
+      {/* Kids list */}
       {kids.length === 0 ? (
         <div className="empty-text">No children added yet. Use "+ Add Child" above to get started.</div>
       ) : (
-        <table className="kids-table">
-          <thead>
-            <tr>
-              <th style={{ width: 52 }}></th>
-              <th>Name</th>
-              <th>Username</th>
-              <th>Balance</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {kids.map(kid => (
-              <>
-                <tr key={kid.id} style={{ cursor: 'pointer' }} onClick={() => toggleTransactions(kid)}>
-                  <td style={{ textAlign: 'center' }}>
-                    <span className="kid-avatar">{kid.avatar || '🐶'}</span>
-                  </td>
-                  <td style={{ fontWeight: 500 }}>{kid.name}</td>
-                  <td style={{ color: '#64748b' }}>{kid.username}</td>
-                  <td>
-                    <span className="balance-chip" style={{ cursor: 'pointer' }} onClick={e => { e.stopPropagation(); setSelectedKid(kid) }}>
-                      {getBalance(kid.id)} pts 👁
-                    </span>
-                  </td>
-                  <td style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }} onClick={e => e.stopPropagation()}>
-                    <button
-                      className="btn btn-outline btn-sm"
-                      onClick={() => {
-                        setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
-                        setViewingTxFor(null); setAdjustFor(null); setAdjustMode(null); setNewPwd(''); setPwdError('')
-                      }}
-                    >
-                      {changingPwdFor === kid.id ? 'Cancel' : '🔑 Password'}
+        <div className="kids-list">
+          <div className="kids-list-header">
+            <span>👤 Name</span>
+            <span>⭐ Balance</span>
+            <span>⚡ Actions</span>
+          </div>
+          {kids.map(kid => {
+            const tier = getKidTier(getBalance(kid.id))
+            return (
+            <div key={kid.id} className="kid-card" onClick={() => toggleTransactions(kid)}>
+              <div className="kid-card-main">
+                <div className="kid-card-identity">
+                  <span className="kid-card-avatar">{kid.avatar || '🐶'}</span>
+                  <div>
+                    <div className="kid-card-name">{kid.name}</div>
+                    <div className="kid-card-username">@{kid.username}</div>
+                    <span className={`kid-badge ${tier.className}`}>⭐ {tier.label}</span>
+                  </div>
+                </div>
+                <div className="kid-card-balance">
+                  <div className="kid-balance-ring">
+                    <div className="kid-balance-num">{getBalance(kid.id)}</div>
+                    <div className="kid-balance-caption">Points</div>
+                    <button className="kid-balance-view" onClick={e => { e.stopPropagation(); setSelectedKid(kid) }}>
+                      👁 View
                     </button>
-                    <button
-                      className={`btn btn-sm ${adjustFor === kid.id && adjustMode === 'bonus' ? 'btn-outline' : ''}`}
-                      style={adjustFor === kid.id && adjustMode === 'bonus' ? {} : { background: 'linear-gradient(135deg,#22c55e,#16a34a)', border: 'none', color: '#fff' }}
-                      onClick={() => {
-                        const opening = !(adjustFor === kid.id && adjustMode === 'bonus')
-                        setAdjustFor(opening ? kid.id : null)
-                        setAdjustMode(opening ? 'bonus' : null)
-                        setChangingPwdFor(null); setViewingTxFor(null)
-                        setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
-                      }}
-                    >
-                      {adjustFor === kid.id && adjustMode === 'bonus' ? 'Cancel' : '🌟 Award Bonus'}
+                  </div>
+                </div>
+                <div className="kid-card-actions" onClick={e => e.stopPropagation()}>
+                  <button
+                    className="kid-action-btn outline"
+                    onClick={() => {
+                      setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
+                      setViewingTxFor(null); setAdjustFor(null); setAdjustMode(null); setNewPwd(''); setPwdError('')
+                    }}
+                  >
+                    <span className="btn-label">🔑 {changingPwdFor === kid.id ? 'Cancel' : 'Password'}</span>
+                    <span className="chevron">›</span>
+                  </button>
+                  <button
+                    className="kid-action-btn green"
+                    onClick={() => {
+                      const opening = !(adjustFor === kid.id && adjustMode === 'bonus')
+                      setAdjustFor(opening ? kid.id : null)
+                      setAdjustMode(opening ? 'bonus' : null)
+                      setChangingPwdFor(null); setViewingTxFor(null)
+                      setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
+                    }}
+                  >
+                    <span className="btn-label">🎁 {adjustFor === kid.id && adjustMode === 'bonus' ? 'Cancel' : 'Award Bonus'}</span>
+                    <span className="chevron">›</span>
+                  </button>
+                  <button
+                    className="kid-action-btn red"
+                    onClick={() => {
+                      const opening = !(adjustFor === kid.id && adjustMode === 'remove')
+                      setAdjustFor(opening ? kid.id : null)
+                      setAdjustMode(opening ? 'remove' : null)
+                      setChangingPwdFor(null); setViewingTxFor(null)
+                      setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
+                    }}
+                  >
+                    <span className="btn-label">⊖ {adjustFor === kid.id && adjustMode === 'remove' ? 'Cancel' : 'Remove Points'}</span>
+                    <span className="chevron">›</span>
+                  </button>
+                  <button
+                    className="kid-action-btn outline"
+                    onClick={() => toggleTransactions(kid)}
+                  >
+                    <span className="btn-label">📋 {viewingTxFor === kid.id ? 'Hide' : 'Transactions'}</span>
+                    <span className="chevron">›</span>
+                  </button>
+                </div>
+              </div>
+              {changingPwdFor === kid.id && (
+                <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: '#f8fafc', borderRadius: 12, padding: '12px 16px' }}>
+                  {pwdError && <div className="error-msg" style={{ marginBottom: 8 }}>{pwdError}</div>}
+                  <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <input
+                      type="password"
+                      value={newPwd}
+                      onChange={e => setNewPwd(e.target.value)}
+                      placeholder="New password (min 4 chars)"
+                      style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
+                    />
+                    <button className="btn btn-green btn-sm" onClick={() => handleChangePassword(kid)} disabled={savingPwd}>
+                      {savingPwd ? 'Saving...' : 'Save Password'}
                     </button>
-                    <button
-                      className={`btn btn-sm ${adjustFor === kid.id && adjustMode === 'remove' ? 'btn-outline' : ''}`}
-                      style={adjustFor === kid.id && adjustMode === 'remove' ? {} : { background: 'linear-gradient(135deg,#ef4444,#dc2626)', border: 'none', color: '#fff' }}
-                      onClick={() => {
-                        const opening = !(adjustFor === kid.id && adjustMode === 'remove')
-                        setAdjustFor(opening ? kid.id : null)
-                        setAdjustMode(opening ? 'remove' : null)
-                        setChangingPwdFor(null); setViewingTxFor(null)
-                        setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
-                      }}
-                    >
-                      {adjustFor === kid.id && adjustMode === 'remove' ? 'Cancel' : '➖ Remove Points'}
-                    </button>
-                    <button
-                      className={`btn btn-sm ${viewingTxFor === kid.id ? 'btn-primary' : 'btn-outline'}`}
-                      onClick={() => toggleTransactions(kid)}
-                    >
-                      {viewingTxFor === kid.id ? '📋 Hide' : '📋 Transactions'}
-                    </button>
-                  </td>
-                </tr>
-                {changingPwdFor === kid.id && (
-                  <tr key={`${kid.id}-pwd`}>
-                    <td colSpan={5} style={{ background: '#f8fafc', padding: '12px 16px' }}>
-                      {pwdError && <div className="error-msg" style={{ marginBottom: 8 }}>{pwdError}</div>}
-                      <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                        <input
-                          type="password"
-                          value={newPwd}
-                          onChange={e => setNewPwd(e.target.value)}
-                          placeholder="New password (min 4 chars)"
-                          style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
-                        />
-                        <button className="btn btn-green btn-sm" onClick={() => handleChangePassword(kid)} disabled={savingPwd}>
-                          {savingPwd ? 'Saving...' : 'Save Password'}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-                {adjustFor === kid.id && (() => {
+                  </div>
+                </div>
+              )}
+              {adjustFor === kid.id && (() => {
                   const currentBal = getBalance(kid.id)
                   const pts = Number(adjustPts)
                   const validPts = !isNaN(pts) && pts > 0
@@ -1316,8 +1326,7 @@ function KidsTab() {
                     ? { bg: '#f0fdf4', border: '#bbf7d0', text: '#166534', chipBg: '#dcfce7', chipBorder: '#bbf7d0' }
                     : { bg: '#fef2f2', border: '#fecaca', text: '#991b1b', chipBg: '#fee2e2', chipBorder: '#fecaca' }
                   return (
-                    <tr key={`${kid.id}-adjust`}>
-                      <td colSpan={5} style={{ background: theme.bg, padding: '14px 16px', borderTop: `2px solid ${theme.border}` }}>
+                    <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: theme.bg, borderRadius: 12, padding: '14px 16px', border: `1px solid ${theme.border}` }}>
                         <div style={{ fontWeight: 600, color: theme.text, marginBottom: 10, fontSize: '0.9rem' }}>
                           {isBonus ? '🌟 Award Bonus' : '➖ Remove Points'} — {kid.name}
                         </div>
@@ -1379,13 +1388,11 @@ function KidsTab() {
                         <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 8 }}>
                           Your message will be recorded in {kid.name}'s wallet history.
                         </div>
-                      </td>
-                    </tr>
+                    </div>
                   )
                 })()}
-                {viewingTxFor === kid.id && (
-                  <tr key={`${kid.id}-tx`}>
-                    <td colSpan={5} style={{ background: '#f0f9ff', padding: '14px 16px', borderTop: '2px solid #bae6fd' }}>
+              {viewingTxFor === kid.id && (
+                  <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: '#f0f9ff', borderRadius: 12, padding: '14px 16px', border: '1px solid #bae6fd' }}>
                       <div style={{ fontWeight: 600, color: '#0369a1', marginBottom: 10, fontSize: '0.9rem' }}>
                         📋 Last 15 Transactions — {kid.name}
                       </div>
@@ -1425,18 +1432,24 @@ function KidsTab() {
                             {txData.transactions.length > 15 && (
                               <div style={{ textAlign: 'center', fontSize: '0.75rem', color: '#94a3b8', marginTop: 6 }}>
                                 Showing 15 most recent of {txData.transactions.length} transactions
-              </div>
+                              </div>
                             )}
                           </>
                         )
                       )}
-                    </td>
-                  </tr>
-                )}
-              </>
-            ))}
-          </tbody>
-        </table>
+                  </div>
+              )}
+            </div>
+            )
+          })}
+          <div className="kids-encourage-banner">
+            <div className="kids-encourage-icon">🏆</div>
+            <div>
+              <div className="kids-encourage-title">Great job!</div>
+              <div className="kids-encourage-text">Encourage your kids to earn more points and unlock exciting rewards.</div>
+            </div>
+          </div>
+        </div>
       )}
 
       {selectedKid && (
