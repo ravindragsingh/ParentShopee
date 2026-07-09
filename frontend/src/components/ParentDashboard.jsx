@@ -313,7 +313,7 @@ function ChoresTab({ kids }) {
         <>
         {addError && <div className="error-msg">{addError}</div>}
         {kids.length === 0 && (
-          <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#1e40af', fontSize: '0.82rem', lineHeight: 1.6 }}>
+          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#991b1b', fontSize: '0.82rem', lineHeight: 1.6 }}>
             You haven't added any children yet. Go to the <strong>Kids</strong> tab and add a child before creating chores.
           </div>
         )}
