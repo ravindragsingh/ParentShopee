@@ -95,7 +95,18 @@ function ChoresTab({ kids }) {
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState('')
   const [addChoreOpen, setAddChoreOpen] = useState(false)
+  const [limits, setLimits] = useState(null)
   const formRef = useRef(null)
+
+  const loadLimits = useCallback(async () => {
+    try {
+      const data = await api.getLimits()
+      setLimits(data)
+    } catch (e) {}
+  }, [])
+
+  useEffect(() => { loadLimits() }, [loadLimits])
+  const choresAtLimit = limits && limits.choresUsed >= limits.choresLimit
 
   // Recurring chore state
   const [recurring, setRecurring] = useState(false)
@@ -194,6 +205,7 @@ function ChoresTab({ kids }) {
       }
       resetForm()
       loadChores()
+      loadLimits()
     } catch (err) {
       setAddError(err.message)
     } finally {
@@ -278,12 +290,30 @@ function ChoresTab({ kids }) {
             marginBottom: addChoreOpen ? 16 : 0,
           }}
         >
-          <span className="form-title" style={{ marginBottom: 0 }}>➕ Add New Chore</span>
+          <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+            ➕ Add New Chore
+            {limits && (
+              <span style={{
+                fontSize: '0.72rem', fontWeight: 700, padding: '2px 8px', borderRadius: 999,
+                background: choresAtLimit ? '#fee2e2' : '#f0fdfa',
+                color: choresAtLimit ? '#dc2626' : '#0d9488',
+              }}>
+                {limits.choresUsed}/{limits.choresLimit} used
+              </span>
+            )}
+          </span>
           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{addChoreOpen ? '▲' : '▼'}</span>
         </div>
         {addChoreOpen && (
         <>
         {addError && <div className="error-msg">{addError}</div>}
+        {choresAtLimit ? (
+          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '14px 16px', color: '#991b1b', fontSize: '0.88rem', lineHeight: 1.6 }}>
+            You've reached the limit of {limits.choresLimit} custom chores for your family. You can still pick from
+            and edit the built-in sample chores. To add more custom chores, please contact our support team at{' '}
+            <strong>{limits.supportEmail}</strong>.
+          </div>
+        ) : (
         <form onSubmit={handleAddChore}>
           <div className="form-group" style={{ marginBottom: 14 }}>
             <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
@@ -504,6 +534,7 @@ function ChoresTab({ kids }) {
             </div>
           )}
         </form>
+        )}
         </>
         )}
       </div>
@@ -626,6 +657,17 @@ function ShopTab() {
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState('')
   const [sortOrder, setSortOrder] = useState('')  // '' | 'asc' | 'desc'
+  const [limits, setLimits] = useState(null)
+
+  const loadLimits = useCallback(async () => {
+    try {
+      const data = await api.getLimits()
+      setLimits(data)
+    } catch (e) {}
+  }, [])
+
+  useEffect(() => { loadLimits() }, [loadLimits])
+  const shopAtLimit = limits && limits.shopItemsUsed >= limits.shopItemsLimit
 
   function fillShopFromSample(sample) {
     setName(sample.name)
@@ -675,6 +717,7 @@ function ShopTab() {
       setCost('')
       setEmoji('🎁')
       loadItems()
+      loadLimits()
     } catch (err) {
       setAddError(err.message)
     } finally {
@@ -686,8 +729,26 @@ function ShopTab() {
     <div>
       {/* Add Item Form */}
       <div className="form-card">
-        <div className="form-title">Add Shop Item</div>
+        <div className="form-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          Add Shop Item
+          {limits && (
+            <span style={{
+              fontSize: '0.72rem', fontWeight: 700, padding: '2px 8px', borderRadius: 999,
+              background: shopAtLimit ? '#fee2e2' : '#f0fdfa',
+              color: shopAtLimit ? '#dc2626' : '#0d9488',
+            }}>
+              {limits.shopItemsUsed}/{limits.shopItemsLimit} used
+            </span>
+          )}
+        </div>
         {addError && <div className="error-msg">{addError}</div>}
+        {shopAtLimit ? (
+          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '14px 16px', color: '#991b1b', fontSize: '0.88rem', lineHeight: 1.6 }}>
+            You've reached the limit of {limits.shopItemsLimit} custom shop items for your family. You can still pick from
+            and edit the built-in sample rewards. To add more custom items, please contact our support team at{' '}
+            <strong>{limits.supportEmail}</strong>.
+          </div>
+        ) : (
         <form onSubmit={handleAddItem}>
           <div className="form-group" style={{ marginBottom: 14 }}>
             <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
@@ -751,6 +812,7 @@ function ShopTab() {
             </div>
           </div>
         </form>
+        )}
       </div>
 
       {loading && <div className="loading-text">Loading shop...</div>}

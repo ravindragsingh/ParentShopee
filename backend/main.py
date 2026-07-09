@@ -49,6 +49,8 @@ class DBUser(Base):
     parent_id     = Column(String, nullable=True)    # for kids: their parent's id
     co_parent_of  = Column(String, nullable=True)    # for co-parents: primary parent's id
     avatar        = Column(String, nullable=True)
+    chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-parent
+    shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-parent
 
 class DBChore(Base):
     __tablename__ = "chores"
@@ -140,6 +142,16 @@ app.add_middleware(MaxBodySizeMiddleware)
 EMAIL_RE = re.compile(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
 SESSIONS: dict = {}   # token -> user_id  (in-memory; users re-login after restart)
 
+CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "ravindragsingh@gmail.com")
+
+# ── Custom chore / shop item limits ─────────────────────────────────────────────
+# Families can pick freely from the built-in sample chores/rewards, but the number
+# of custom items they add themselves (one-off chores + recurring templates counted
+# together, and shop items separately) is capped for life — deleting an item does
+# NOT free up a slot. Families that need more should contact support.
+LIMIT_EXTRA_CHORES     = 10
+LIMIT_EXTRA_SHOP_ITEMS = 10
+
 # ── Age-appropriate content filter ─────────────────────────────────────────────
 _RESTRICTED = [
     # Profanity
@@ -228,6 +240,22 @@ def calculate_age(dob_str: str) -> int:
 
 def get_family_id(user: DBUser) -> str:
     return user.co_parent_of or user.id
+
+def get_family_owner(db: Session, user: DBUser) -> DBUser:
+    """The primary parent's row — where shared lifetime add-counters live."""
+    return db.query(DBUser).filter(DBUser.id == get_family_id(user)).first()
+
+def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: int, item_label: str) -> DBUser:
+    """Raises 400 if adding `extra` more items would exceed the family's lifetime limit."""
+    owner = get_family_owner(db, user)
+    current = getattr(owner, field) or 0
+    if current + extra > limit:
+        fail(
+            f"You've reached the limit of {limit} custom {item_label} for your family. "
+            f"To add more, please contact our support team at {CONTACT_EMAIL}.",
+            403,
+        )
+    return owner
 
 def safe_user(u: DBUser) -> dict:
     return {"id": u.id, "name": u.name, "username": u.username, "role": u.role,
@@ -516,6 +544,8 @@ def startup():
             ("messages",   "quote_content",  "VARCHAR"),
             ("chores",     "template_id",    "VARCHAR"),
             ("chores",     "scheduled_date", "VARCHAR"),
+            ("users",      "chores_added_count",     "FLOAT"),
+            ("users",      "shop_items_added_count", "FLOAT"),
         ]:
             try:
                 if "sqlite" in str(_engine.url):
@@ -531,6 +561,9 @@ def startup():
         conn.execute(text("UPDATE shop_items SET family_id='parent1' WHERE family_id IS NULL"))
         # Back-fill completed_at for existing complete chores (visible for 3 days from now)
         conn.execute(text(f"UPDATE chores SET completed_at='{_ts_now}' WHERE status='complete' AND completed_at IS NULL"))
+        # Back-fill new counters to 0 for existing users
+        conn.execute(text("UPDATE users SET chores_added_count=0 WHERE chores_added_count IS NULL"))
+        conn.execute(text("UPDATE users SET shop_items_added_count=0 WHERE shop_items_added_count IS NULL"))
         conn.commit()
     db = SessionLocal()
     try:
@@ -868,6 +901,19 @@ def _generate_instances(db: Session, template: DBRecurringTemplate):
         db.add(chore)
     db.commit()
 
+# ── Add-limits route ───────────────────────────────────────────────────────────
+
+@app.get("/api/limits")
+def get_add_limits(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    owner = get_family_owner(db, user)
+    return ok({
+        "choresUsed":       int(owner.chores_added_count or 0),
+        "choresLimit":      LIMIT_EXTRA_CHORES,
+        "shopItemsUsed":    int(owner.shop_items_added_count or 0),
+        "shopItemsLimit":   LIMIT_EXTRA_SHOP_ITEMS,
+        "supportEmail":     CONTACT_EMAIL,
+    })
+
 # ── Chore routes ───────────────────────────────────────────────────────────────
 
 @app.get("/api/chores")
@@ -903,6 +949,7 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
     for kid_id in kid_ids:
         if kid_id and not db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid").first():
             fail(f"Kid not found: {kid_id}", 404)
+    owner = check_add_limit(db, user, "chores_added_count", len(kid_ids), LIMIT_EXTRA_CHORES, "chores")
     family_id = get_family_id(user)
     created = []
     for kid_id in kid_ids:
@@ -919,6 +966,7 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
         )
         db.add(chore)
         created.append(chore)
+    owner.chores_added_count = (owner.chores_added_count or 0) + len(kid_ids)
     db.commit()
     for c in created:
         db.refresh(c)
@@ -1021,6 +1069,7 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
     if body.recurrenceType == 'monthly' and not body.recurrenceDom:
         fail("Specify a day of month for monthly recurrence")
 
+    owner = check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores")
     family_id = get_family_id(user)
     rec_days = ','.join(str(d) for d in body.recurrenceDays) if body.recurrenceDays else None
     rec_dom = str(body.recurrenceDom) if body.recurrenceDom else None
@@ -1040,6 +1089,7 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
         created_at=now(),
     )
     db.add(template)
+    owner.chores_added_count = (owner.chores_added_count or 0) + 1
     db.commit()
     db.refresh(template)
     _generate_instances(db, template)
@@ -1086,10 +1136,12 @@ def get_shop(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)
 def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     check_content(body.name, body.description or "")
     if body.cost < 0: fail("cost must be a non-negative number")
+    owner = check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items")
     item = DBShopItem(id=str(uuid4()), name=body.name.strip(), description=body.description or "",
                       cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now(),
                       family_id=get_family_id(user))
     db.add(item)
+    owner.shop_items_added_count = (owner.shop_items_added_count or 0) + 1
     db.commit()
     db.refresh(item)
     return ok(shop_dict(item), 201)
@@ -1175,7 +1227,6 @@ def get_wallet(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depend
 
 # ── Contact / support ticket route ────────────────────────────────────────────
 
-CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "ravindragsingh@gmail.com")
 SMTP_HOST     = os.getenv("SMTP_HOST", "smtp.gmail.com")
 try:
     SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))

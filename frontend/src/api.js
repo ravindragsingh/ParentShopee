@@ -54,6 +54,9 @@ export const api = {
   register: (body) =>
     request('POST', '/api/auth/register', body),
 
+  // Add-limits
+  getLimits: () => request('GET', '/api/limits'),
+
   // Chores
   getChores: (status) =>
     request('GET', `/api/chores${status ? `?status=${status}` : ''}`),
