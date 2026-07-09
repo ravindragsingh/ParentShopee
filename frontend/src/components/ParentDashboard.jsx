@@ -667,6 +667,8 @@ function ShopTab() {
   const [addError, setAddError] = useState('')
   const [sortOrder, setSortOrder] = useState('')  // '' | 'asc' | 'desc'
   const [limits, setLimits] = useState(null)
+  const [settingUpSample, setSettingUpSample] = useState(false)
+  const [deletingAll, setDeletingAll] = useState(false)
 
   const loadLimits = useCallback(async () => {
     try {
@@ -700,6 +702,37 @@ function ShopTab() {
   }, [])
 
   useEffect(() => { loadItems() }, [loadItems])
+
+  async function handleSetupSampleShop() {
+    setSettingUpSample(true)
+    setError('')
+    try {
+      const picks = [...SAMPLE_SHOP_ITEMS].sort(() => Math.random() - 0.5).slice(0, 5)
+      for (const s of picks) {
+        await api.createShopItem({ name: s.name, description: s.description, cost: s.cost, imageEmoji: s.imageEmoji })
+      }
+      await loadItems()
+      loadLimits()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSettingUpSample(false)
+    }
+  }
+
+  async function handleDeleteAllItems() {
+    if (!window.confirm(`Delete all ${items.length} item${items.length === 1 ? '' : 's'} from your shop? This cannot be undone.`)) return
+    setDeletingAll(true)
+    setError('')
+    try {
+      await Promise.all(items.map(item => api.deleteShopItem(item.id)))
+      await loadItems()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setDeletingAll(false)
+    }
+  }
 
   async function handleAddItem(e) {
     e.preventDefault()
@@ -827,12 +860,17 @@ function ShopTab() {
       {error && <div className="error-msg">{error}</div>}
 
       {!loading && items.length === 0 && (
-        <div className="empty-text">No items in the shop yet. Add some above!</div>
+        <div style={{ textAlign: 'center', padding: '20px 0' }}>
+          <div className="empty-text" style={{ marginBottom: 14 }}>No items in the shop yet. Add some above!</div>
+          <button className="btn btn-primary" onClick={handleSetupSampleShop} disabled={settingUpSample}>
+            {settingUpSample ? 'Setting up...' : '🎲 Set up my sample shop'}
+          </button>
+        </div>
       )}
 
       {!loading && items.length > 0 && (
         <>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, flexWrap: 'wrap' }}>
             <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Sort by points:</span>
             <button
               className={`btn btn-sm ${sortOrder === 'asc' ? 'btn-primary' : 'btn-outline'}`}
@@ -842,6 +880,14 @@ function ShopTab() {
               className={`btn btn-sm ${sortOrder === 'desc' ? 'btn-primary' : 'btn-outline'}`}
               onClick={() => setSortOrder(v => v === 'desc' ? '' : 'desc')}
             >↓ High → Low</button>
+            <button
+              className="btn btn-sm"
+              style={{ marginLeft: 'auto', background: '#fee2e2', color: '#dc2626', border: '1px solid #fca5a5' }}
+              onClick={handleDeleteAllItems}
+              disabled={deletingAll}
+            >
+              {deletingAll ? 'Deleting...' : `🗑️ Delete All (${items.length})`}
+            </button>
           </div>
           <div className="shop-grid">
             {[...items]
