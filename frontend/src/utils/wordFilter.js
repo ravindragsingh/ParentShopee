@@ -74,6 +74,18 @@ const RESTRICTED_WORDS = [
   'virgin',
   'xxx',
 
+  // ── Sexual phrases (innocuous words combined into an adult meaning) ───────────
+  'sleep with', 'sleeping with', 'slept with',
+  'in bed with',
+  'spend the night with', 'spending the night with',
+  'make out with', 'making out with', 'make out', 'making out',
+  'hook up with', 'hooking up with', 'hook up', 'hooking up', 'hooked up with',
+  'friends with benefits',
+  'one night stand',
+  'get naked', 'getting naked',
+  'take off your clothes',
+  'netflix and chill',
+
   // ── Drugs / alcohol ──────────────────────────────────────────────────────────
   'alcohol',
   'beer',
@@ -94,6 +106,11 @@ const RESTRICTED_WORDS = [
   'vodka', 'whiskey', 'whisky', 'tequila', 'gin', 'rum',
   'wine',           // context-dependent but safe to flag
 
+  // ── Drug phrases ────────────────────────────────────────────────────────────
+  'get high', 'getting high',
+  'do drugs', 'doing drugs', 'take drugs',
+  'smoke weed',
+
   // ── Violence / hate ──────────────────────────────────────────────────────────
   'bomb', 'bombing',
   'choke', 'choking',
@@ -113,6 +130,19 @@ const RESTRICTED_WORDS = [
   'terrorist', 'terrorism',
   'torture', 'torturing',
   'weapon', 'weapons',
+
+  // ── Violence phrases ────────────────────────────────────────────────────────
+  'beat up', 'beat him up', 'beat her up', 'beat you up',
+  'burn down', 'burn it down',
+  'set fire to',
+  'blow up', 'blow it up',
+
+  // ── Self-harm phrases ───────────────────────────────────────────────────────
+  'hurt myself', 'hurting myself',
+  'cut myself', 'cutting myself',
+  'harm myself',
+  'end my life', 'end it all',
+  'want to die', 'wanna die', 'should die', 'go die',
 ]
 
 // Pre-build a regex that matches whole words only, case-insensitive.

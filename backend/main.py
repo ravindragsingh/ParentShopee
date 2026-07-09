@@ -156,14 +156,28 @@ _RESTRICTED = [
     "handjob","horny","masturbate","masturbation","milf","naked","nude","nudes",
     "orgasm","penis","porn","porno","pornography","prostitute","rape","raped",
     "sex","sexy","sperm","stripper","testicle","vagina","vibrator","xxx",
+    # Sexual phrases (innocuous words combined into an adult meaning)
+    "sleep with","sleeping with","slept with","in bed with","spend the night with",
+    "spending the night with","make out with","making out with","make out",
+    "making out","hook up with","hooking up with","hook up","hooking up",
+    "hooked up with","friends with benefits","one night stand","get naked",
+    "getting naked","take off your clothes","netflix and chill",
     # Drugs / alcohol
     "alcohol","beer","booze","cannabis","cocaine","crack","ecstasy","mdma",
     "heroin","marijuana","weed","methamphetamine","meth","opioid","opium",
     "overdose","stoned","vodka","whiskey","whisky","tequila","gin","rum",
+    # Drug phrases
+    "get high","getting high","do drugs","doing drugs","take drugs","smoke weed",
     # Violence / hate
     "bomb","genocide","gore","hate","kill","killed","killer","killing",
     "murder","murdered","murderer","nazi","racist","racism","shoot","shooting",
     "stab","stabbing","suicide","terrorist","terrorism","torture","weapon","weapons",
+    # Violence phrases
+    "beat up","beat him up","beat her up","beat you up","burn down","burn it down",
+    "set fire to","blow up","blow it up",
+    # Self-harm phrases
+    "hurt myself","hurting myself","cut myself","cutting myself","harm myself",
+    "end my life","end it all","want to die","wanna die","should die","go die",
 ]
 _WORD_RE = re.compile(
     r'\b(' + '|'.join(re.escape(w) for w in _RESTRICTED if ' ' not in w) + r')\b',
