@@ -81,10 +81,12 @@ function ParentHelp() {
 
       <Section icon="✅" title="Managing Chores">
         <Tip emoji="✨" text="Open chores are available for kids to pick up. Assigned chores go directly to one child." />
-        <Tip emoji="⏳" text="When a child marks a chore done, it moves to Pending — you'll see it here to approve or reject." />
+        <Tip emoji="⏳" text="When a child marks a chore done, it moves to Pending Approval, shown at the top of the Chores tab so you see it first." />
         <Tip emoji="🏆" text="Approved chores move to Complete and the child's wallet is credited with the points automatically." />
         <Tip emoji="🔁" text="Completed or expired chores have a 'Repeat' / 'Add Again' button so you can reuse them easily." />
         <Tip emoji="📅" text="Set a due date so the chore auto-expires if it isn't done in time." />
+        <Tip emoji="➕" text="The 'Add New Chore' form starts collapsed to keep the page tidy — click its header to expand it." />
+        <Tip emoji="🔒" text="You can pick freely from the built-in sample chores at any time. Custom chores you write yourself (one-off or recurring) are capped at 10 per family — a badge on the Add New Chore header shows how many you've used. Need more? Contact support from the ☰ menu." />
       </Section>
 
       <Section icon="🛍️" title="Running the Shop">
@@ -92,19 +94,20 @@ function ParentHelp() {
         <Tip emoji="💰" text="Set a point cost for each item. Kids can only buy what they can afford." />
         <Tip emoji="📋" text="Use the sample templates dropdown to quickly fill in popular reward ideas." />
         <Tip emoji="↕️" text="Kids can sort shop items by points (low → high or high → low) to find what they can afford." />
+        <Tip emoji="🔒" text="Sample rewards are unlimited. Custom rewards you write yourself are capped at 10 per family, shown as a badge on the Add Shop Item header. Contact support from the ☰ menu to add more." />
       </Section>
 
-      <Section icon="🌟" title="Good Behaviour Points">
-        <Tip emoji="🌟" text="Go to the Kids tab and click '🌟 Behaviour' next to a child's name to award or remove points based on their behaviour." />
-        <Tip emoji="✅" text="Use the quick-select buttons (5, 10, 15, 20, 50 pts) or type a custom amount, then click 'Award Good Behaviour' to add points." />
-        <Tip emoji="➖" text="Click 'Remove Points' to deduct points if behaviour has been poor. A child's balance cannot go below zero." />
-        <Tip emoji="📒" text="Good behaviour awards show as a gold 🌟 entry in the child's wallet. Deductions show as a red entry." />
+      <Section icon="🎁" title="Award Bonus & Remove Points">
+        <Tip emoji="🎁" text="On the Kids page, click 'Award Bonus' or 'Remove Points' on a child's card to adjust their balance for anything outside the chore list — good behaviour, extra effort, or a consequence." />
+        <Tip emoji="✅" text="Use the quick-select buttons (5, 10, 15, 20, 50 pts) or type a custom amount." />
+        <Tip emoji="💬" text="You must add a short message (up to 15 characters) explaining why — it's saved to the child's wallet history so they know exactly what it was for." />
+        <Tip emoji="➖" text="Remove Points deducts from their balance. A child's balance cannot go below zero." />
       </Section>
 
       <Section icon="📋" title="Viewing Kids' Wallets">
-        <Tip emoji="👁" text="Click the green balance chip next to a kid's name to open their full wallet in a popup." />
-        <Tip emoji="📋" text="Click '📋 Transactions' to expand their last 15 transactions inline in the Kids table." />
-        <Tip emoji="🟢" text="Green = chore points earned · Gold ⭐ = bonus · Gold 🌟 = good behaviour · Red = points removed or spent in Shop." />
+        <Tip emoji="👁" text="Click '👁 View' inside a child's balance circle to open their full wallet in a popup." />
+        <Tip emoji="📋" text="Click 'Transactions' on their card — or click anywhere on the card itself — to expand their last 15 transactions inline." />
+        <Tip emoji="🟢" text="Green = chore points earned · Gold ⭐ = bonus awarded (including Award Bonus) · Red = points removed or spent in Shop." />
       </Section>
 
       <Section icon="👨‍👩‍👧" title="Co-Parent Management">
@@ -142,6 +145,7 @@ function ParentHelp() {
         <Tip emoji="💬" text="Use the Messages tab to chat with your kids or co-parent directly inside the app." />
         <Tip emoji="🔴" text="A red badge on the Messages tab (or contact) shows how many unread messages you have." />
         <Tip emoji="↵" text="Press Enter to send a message. Use Shift + Enter for a new line." />
+        <Tip emoji="🛡️" text="Messages, chore names, and shop items are all automatically checked for age-appropriate language before they're saved." />
       </Section>
     </div>
   )
@@ -191,15 +195,15 @@ function KidHelp() {
       <Section icon="💰" title="Your Wallet">
         <Tip emoji="💰" text="The Wallet tab shows your current point balance and the last 15 transactions." />
         <Tip emoji="🟢" text="Green entries are points you earned from completing chores." />
-        <Tip emoji="⭐" text="Gold ⭐ entries are bonus points your parent gave you." />
-        <Tip emoji="🌟" text="Gold 🌟 entries are good behaviour points your parent awarded you — keep it up!" />
-        <Tip emoji="🔴" text="Red entries are points you spent in the Shop or had removed." />
+        <Tip emoji="⭐" text="Gold ⭐ entries are bonus points your parent awarded you — check the message next to it to see why!" />
+        <Tip emoji="🔴" text="Red entries are points you spent in the Shop or had removed, with a message explaining why." />
       </Section>
 
       <Section icon="💬" title="Messaging">
         <Tip emoji="💬" text="Use the Messages tab to send a message to your parent or co-parent." />
         <Tip emoji="🔴" text="A red badge shows when you have new unread messages." />
         <Tip emoji="↵" text="Press Enter to send. Use Shift + Enter for a new line." />
+        <Tip emoji="🛡️" text="Messages are automatically checked for age-appropriate language before they're sent." />
       </Section>
 
       <Section icon="⚙️" title="Settings & Account">
@@ -237,7 +241,7 @@ export const LOGIN_HELP_CARDS = [
   { icon: '✅', title: 'Create Chores', text: 'Parents create chores with a points value. Kids see them and complete them in real life.' },
   { icon: '🔁', title: 'Recurring Chores', text: 'Mark a chore as Daily, Weekly, or Monthly. One instance appears on the day it is due — no duplicates. Stop the series any time from the Active Recurring Chores panel.' },
   { icon: '⭐', title: 'Earn Points', text: "Once a parent approves a chore, the child's wallet is credited automatically." },
-  { icon: '🌟', title: 'Good Behaviour', text: "Parents can award or deduct points for behaviour at any time — not just for completing chores. It shows as a special entry in the child's wallet." },
+  { icon: '🎁', title: 'Award Bonus & Remove Points', text: "Parents can award or deduct points any time — not just for completing chores — with a short message explaining why, saved right into the child's wallet history." },
   { icon: '🛍️', title: 'Spend in Shop', text: 'Kids redeem their points for rewards the parent has set up — screen time, picking dinner, and more.' },
   { icon: '💬', title: 'Stay Connected', text: 'Parents and kids can message each other inside the app. Add a co-parent so both parents share full family access.' },
 ]
