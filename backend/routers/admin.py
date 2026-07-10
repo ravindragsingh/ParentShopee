@@ -1,0 +1,148 @@
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from config import EMAIL_RE
+from database import get_db
+from deps import require_admin
+from helpers import chore_dict, safe_user
+from models import DBChore, DBRecurringTemplate, DBTransaction, DBUser, DBWallet
+from responses import fail, ok
+from schemas import AdminChoreUpdate, AdminUserUpdate
+from security import check_password_complexity
+
+router = APIRouter()
+
+
+@router.get("/api/admin/families")
+def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    primary_parents = db.query(DBUser).filter(
+        DBUser.role == "parent",
+        DBUser.co_parent_of == None,
+    ).all()
+
+    result = []
+    for parent in primary_parents:
+        family_id = parent.id
+        co_parent = db.query(DBUser).filter(DBUser.co_parent_of == family_id).first()
+        kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+
+        chore_counts = {}
+        for status in ("open", "pending", "complete", "expired"):
+            chore_counts[status] = db.query(DBChore).filter(
+                DBChore.family_id == family_id, DBChore.status == status
+            ).count()
+
+        recurring_count = db.query(DBRecurringTemplate).filter(
+            DBRecurringTemplate.family_id == family_id,
+            DBRecurringTemplate.is_active == "1",
+        ).count()
+
+        kid_data = []
+        for kid in kids:
+            wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
+            kid_data.append({**safe_user(kid), "balance": wallet.balance if wallet else 0})
+
+        result.append({
+            "familyId": family_id,
+            "parent": safe_user(parent),
+            "coParent": safe_user(co_parent) if co_parent else None,
+            "kids": kid_data,
+            "choreCounts": chore_counts,
+            "recurringCount": recurring_count,
+        })
+
+    return ok(result)
+
+
+@router.get("/api/admin/family/{family_id}/chores")
+def admin_family_chores(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    chores = db.query(DBChore).filter(
+        DBChore.family_id == family_id,
+    ).order_by(DBChore.created_at.desc()).limit(100).all()
+    return ok([chore_dict(c) for c in chores])
+
+
+@router.put("/api/admin/user/{user_id}")
+def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id).first()
+    if not target:
+        fail("User not found", 404)
+    if target.role == "admin":
+        fail("Cannot edit admin accounts", 403)
+    if body.name is not None:
+        if len(body.name.strip()) < 2:
+            fail("Name must be at least 2 characters")
+        target.name = body.name.strip()
+    if body.email is not None and body.email.strip():
+        if not EMAIL_RE.match(body.email.strip()):
+            fail("Invalid email address")
+        clash = db.query(DBUser).filter(DBUser.email == body.email.lower().strip(), DBUser.id != user_id).first()
+        if clash:
+            fail("Email address already in use")
+        target.email = body.email.lower().strip()
+    if body.password is not None and body.password:
+        check_password_complexity(body.password)
+        target.password = body.password
+    if body.avatar is not None:
+        target.avatar = body.avatar
+    db.commit()
+    db.refresh(target)
+    return ok(safe_user(target))
+
+
+@router.put("/api/admin/chore/{chore_id}")
+def admin_update_chore(chore_id: str, body: AdminChoreUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
+    if not chore:
+        fail("Chore not found", 404)
+    if body.title is not None:
+        if not body.title.strip():
+            fail("Title cannot be empty")
+        chore.title = body.title.strip()
+    if body.description is not None:
+        chore.description = body.description
+    if body.points is not None:
+        if body.points < 0:
+            fail("Points must be non-negative")
+        chore.points = body.points
+    if body.status is not None:
+        if body.status not in ("open", "pending", "complete", "expired"):
+            fail("Invalid status")
+        chore.status = body.status
+    if body.assignedKidId is not None:
+        chore.assigned_kid_id = body.assignedKidId or None
+    if body.dueDate is not None:
+        chore.due_date = body.dueDate or None
+    if body.imageEmoji is not None:
+        chore.image_emoji = body.imageEmoji
+    db.commit()
+    db.refresh(chore)
+    return ok(chore_dict(chore))
+
+
+@router.get("/api/admin/family/{family_id}/transactions")
+def admin_family_transactions(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+    kid_ids = [k.id for k in kids]
+    if not kid_ids:
+        return ok([])
+
+    kid_map = {k.id: k for k in kids}
+    txns = db.query(DBTransaction).filter(
+        DBTransaction.kid_id.in_(kid_ids)
+    ).order_by(DBTransaction.timestamp.desc()).limit(100).all()
+
+    result = []
+    for t in txns:
+        kid = kid_map.get(t.kid_id)
+        result.append({
+            "id": t.id,
+            "kidId": t.kid_id,
+            "kidName": kid.name if kid else "Unknown",
+            "kidAvatar": kid.avatar if kid else "👤",
+            "type": t.type,
+            "amount": t.amount,
+            "description": t.description,
+            "timestamp": t.timestamp,
+        })
+    return ok(result)
