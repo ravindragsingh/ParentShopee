@@ -12,7 +12,15 @@ services:
           name: parentshopee-db
           property: connectionString
       - key: FRONTEND_URL
-        value: https://parentshopee.vercel.app
+        value: https://rewardurkids.com
+      # Required to actually send emails (activation links, Contact Us tickets).
+      # Without these, the backend just logs the email content to server logs
+      # instead of sending it. Set the real values in the Render dashboard —
+      # never commit real credentials here.
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
 
 databases:
   - name: parentshopee-db

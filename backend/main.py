@@ -173,6 +173,12 @@ except ValueError:
     print("[email] SMTP_PORT env var is not a valid integer, defaulting to 587")
 SMTP_USER     = os.getenv("SMTP_USER")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+# The address recipients see as "From". Defaults to SMTP_USER for providers like
+# Gmail where the login and the sender are the same mailbox. Transactional senders
+# (Resend, SendGrid, Mailgun, SES...) authenticate with a fixed username or API key
+# that ISN'T a real mailbox, so EMAIL_FROM lets you send as e.g. help@rewardurkids.com
+# while SMTP_USER/PASSWORD stay whatever the provider issued you.
+EMAIL_FROM    = os.getenv("EMAIL_FROM", SMTP_USER)
 
 if not SMTP_USER or not SMTP_PASSWORD:
     print("[email] WARNING: SMTP_USER and/or SMTP_PASSWORD are not set — outgoing emails will not be sent")
@@ -187,7 +193,7 @@ def send_email(to_addr: str, subject: str, body_text: str) -> bool:
         return True
     try:
         msg = MIMEMultipart()
-        msg["From"] = SMTP_USER
+        msg["From"] = EMAIL_FROM
         msg["To"] = to_addr
         msg["Subject"] = subject
         msg.attach(MIMEText(body_text, "plain"))
@@ -1495,7 +1501,7 @@ def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)
     if SMTP_USER and SMTP_PASSWORD:
         try:
             msg = MIMEMultipart()
-            msg["From"]    = SMTP_USER
+            msg["From"]    = EMAIL_FROM
             msg["To"]      = CONTACT_EMAIL
             msg["Subject"] = f"[Reward Ur Kids] {body.category}: {body.subject}"
             msg.attach(MIMEText(body_text, "plain"))
