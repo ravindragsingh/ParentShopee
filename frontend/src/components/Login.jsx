@@ -334,6 +334,114 @@ function ActivationNeededModal({ username, onClose }) {
   )
 }
 
+// ── Forgot password / username panels ───────────────────────────────────────────
+
+function ForgotPasswordPanel() {
+  const [fpUsername, setFpUsername] = useState('')
+  const [fpEmail, setFpEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  async function handleSubmit() {
+    setError('')
+    setMessage('')
+    if (!fpUsername.trim() || !fpEmail.trim()) {
+      setError('Please enter your username and email.')
+      return
+    }
+    setLoading(true)
+    try {
+      const data = await api.forgotPassword(fpUsername.trim(), fpEmail.trim())
+      setMessage(data.message)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '14px 16px', marginBottom: 16 }}>
+      <div style={{ fontSize: '0.82rem', color: '#166534', marginBottom: 10, fontWeight: 600 }}>
+        Enter your username and the email on your account — we'll send a password reset link.
+      </div>
+      {message && <div className="success-msg" style={{ marginBottom: 0 }}>{message}</div>}
+      {error && <div className="error-msg" style={{ marginBottom: 8 }}>{error}</div>}
+      {!message && (
+        <>
+          <input
+            type="text"
+            value={fpUsername}
+            onChange={e => setFpUsername(e.target.value)}
+            placeholder="Username"
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #bbf7d0', borderRadius: 7, fontSize: '0.85rem', marginBottom: 8, boxSizing: 'border-box' }}
+          />
+          <input
+            type="email"
+            value={fpEmail}
+            onChange={e => setFpEmail(e.target.value)}
+            placeholder="Email on your account"
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #bbf7d0', borderRadius: 7, fontSize: '0.85rem', marginBottom: 10, boxSizing: 'border-box' }}
+          />
+          <button type="button" onClick={handleSubmit} disabled={loading} className="btn btn-sm btn-green" style={{ width: '100%' }}>
+            {loading ? 'Sending...' : 'Send Reset Link'}
+          </button>
+        </>
+      )}
+    </div>
+  )
+}
+
+function ForgotUsernamePanel() {
+  const [fuEmail, setFuEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  async function handleSubmit() {
+    setError('')
+    setMessage('')
+    if (!fuEmail.trim()) {
+      setError('Please enter your email.')
+      return
+    }
+    setLoading(true)
+    try {
+      const data = await api.forgotUsername(fuEmail.trim())
+      setMessage(data.message)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: '14px 16px', marginBottom: 16 }}>
+      <div style={{ fontSize: '0.82rem', color: '#1e40af', marginBottom: 10, fontWeight: 600 }}>
+        Enter the email on your account — we'll send you your username.
+      </div>
+      {message && <div className="success-msg" style={{ marginBottom: 0 }}>{message}</div>}
+      {error && <div className="error-msg" style={{ marginBottom: 8 }}>{error}</div>}
+      {!message && (
+        <>
+          <input
+            type="email"
+            value={fuEmail}
+            onChange={e => setFuEmail(e.target.value)}
+            placeholder="Email on your account"
+            style={{ width: '100%', padding: '8px 12px', border: '1px solid #bfdbfe', borderRadius: 7, fontSize: '0.85rem', marginBottom: 10, boxSizing: 'border-box' }}
+          />
+          <button type="button" onClick={handleSubmit} disabled={loading} className="btn btn-sm btn-primary" style={{ width: '100%' }}>
+            {loading ? 'Sending...' : 'Send My Username'}
+          </button>
+        </>
+      )}
+    </div>
+  )
+}
+
 // ── Login form ────────────────────────────────────────────────────────────────
 
 function LoginForm({ onRegister }) {
@@ -342,7 +450,8 @@ function LoginForm({ onRegister }) {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [remember, setRemember] = useState(false)
-  const [showForgot, setShowForgot] = useState(false)
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const [showForgotUsername, setShowForgotUsername] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showActivationModal, setShowActivationModal] = useState(false)
@@ -441,16 +550,26 @@ function LoginForm({ onRegister }) {
             <span className={`checkbox-box${remember ? ' checked' : ''}`}>{remember && '✓'}</span>
             Remember me
           </label>
-          <button type="button" className="forgot-link" onClick={() => setShowForgot(v => !v)}>
-            Forgot password?
-          </button>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button
+              type="button"
+              className="forgot-link"
+              onClick={() => { setShowForgotPassword(v => !v); setShowForgotUsername(false) }}
+            >
+              Forgot password?
+            </button>
+            <button
+              type="button"
+              className="forgot-link"
+              onClick={() => { setShowForgotUsername(v => !v); setShowForgotPassword(false) }}
+            >
+              Forgot username?
+            </button>
+          </div>
         </div>
 
-        {showForgot && (
-          <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '10px 14px', marginBottom: 16, fontSize: '0.8rem', color: '#166534' }}>
-            Ask your family's parent account holder to reset it from the Kids tab, or email ravindragsingh@gmail.com for help.
-          </div>
-        )}
+        {showForgotPassword && <ForgotPasswordPanel />}
+        {showForgotUsername && <ForgotUsernamePanel />}
 
         <button type="submit" className="login-btn" disabled={loading}>
           {loading ? 'Signing in...' : <>Sign In <span aria-hidden="true">→</span></>}
@@ -614,6 +733,93 @@ export function ActivatePage() {
             <>
               <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>⚠️</div>
               <h1 className="login-title">Activation Failed</h1>
+              <p className="login-subtitle">{message}</p>
+              <button className="login-btn" onClick={() => navigate('/')}>
+                Go to Sign In <span aria-hidden="true">→</span>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Password reset page (/reset-password?token=...) ────────────────────────────
+
+export function ResetPasswordPage() {
+  const navigate = useNavigate()
+  const token = new URLSearchParams(window.location.search).get('token')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [status, setStatus] = useState(token ? 'form' : 'error') // form | success | error
+  const [message, setMessage] = useState(token ? '' : 'This password reset link is missing its token.')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    const pwCheck = checkPasswordComplexity(password)
+    if (!pwCheck.ok) {
+      setError(pwCheck.message)
+      return
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.')
+      return
+    }
+    setLoading(true)
+    try {
+      const data = await api.resetPassword(token, password)
+      setStatus('success')
+      setMessage(data.message)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
+      <div className="login-shell">
+        <div className="login-card" style={{ textAlign: status === 'form' ? 'left' : 'center' }}>
+          {status === 'form' && (
+            <>
+              <h1 className="login-title">Reset Password</h1>
+              <p className="login-subtitle">Choose a new password for your account.</p>
+              {error && <div className="error-msg">{error}</div>}
+              <form onSubmit={handleSubmit}>
+                <div className="form-group" style={{ marginBottom: 12 }}>
+                  <label>New Password *</label>
+                  <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="e.g. Sunshine24!" />
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+                </div>
+                <div className="form-group" style={{ marginBottom: 16 }}>
+                  <label>Confirm Password *</label>
+                  <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repeat password" />
+                </div>
+                <button type="submit" className="login-btn" disabled={loading}>
+                  {loading ? 'Resetting...' : 'Reset Password'}
+                </button>
+              </form>
+            </>
+          )}
+          {status === 'success' && (
+            <>
+              <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>✅</div>
+              <h1 className="login-title">Password Reset!</h1>
+              <p className="login-subtitle">{message}</p>
+              <button className="login-btn" onClick={() => navigate('/')}>
+                Go to Sign In <span aria-hidden="true">→</span>
+              </button>
+            </>
+          )}
+          {status === 'error' && (
+            <>
+              <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>⚠️</div>
+              <h1 className="login-title">Something Went Wrong</h1>
               <p className="login-subtitle">{message}</p>
               <button className="login-btn" onClick={() => navigate('/')}>
                 Go to Sign In <span aria-hidden="true">→</span>

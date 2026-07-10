@@ -60,6 +60,8 @@ class DBUser(Base):
     is_active               = Column(String, default="1")  # "1"/"0" — "0" only for parents pending email activation
     activation_token        = Column(String, nullable=True)
     activation_token_expires = Column(String, nullable=True)  # ISO timestamp
+    reset_token              = Column(String, nullable=True)
+    reset_token_expires      = Column(String, nullable=True)  # ISO timestamp
 
 class DBChore(Base):
     __tablename__ = "chores"
@@ -536,6 +538,17 @@ class ActivateBody(BaseModel):
 class ResendActivationBody(BaseModel):
     username: str
 
+class ForgotPasswordBody(BaseModel):
+    username: str
+    email: str
+
+class ResetPasswordBody(BaseModel):
+    token: str
+    password: str
+
+class ForgotUsernameBody(BaseModel):
+    email: str
+
 class AddKidBody(BaseModel):
     name: str
     username: str
@@ -714,6 +727,8 @@ def startup():
             ("users",      "is_active",               "VARCHAR"),
             ("users",      "activation_token",        "VARCHAR"),
             ("users",      "activation_token_expires","VARCHAR"),
+            ("users",      "reset_token",             "VARCHAR"),
+            ("users",      "reset_token_expires",     "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(_engine.url):
@@ -882,6 +897,69 @@ def resend_activation(body: ResendActivationBody, db: Session = Depends(get_db))
     if not _send_activation_email(user):
         fail("Failed to send the activation email. Please try again shortly.", 500)
     return ok({"message": f"Activation email resent to {user.email}."})
+
+RESET_TOKEN_TTL_HOURS = 1
+
+def _send_reset_email(user: DBUser) -> bool:
+    link = f"{FRONTEND_URL}/reset-password?token={user.reset_token}"
+    subject = "Reset your Reward Ur Kids password"
+    body_text = (
+        f"Hi {user.name},\n\n"
+        f"We received a request to reset the password for your Reward Ur Kids account "
+        f"(username: {user.username}). Click the link below to choose a new password:\n\n"
+        f"    {link}\n\n"
+        f"This link expires in {RESET_TOKEN_TTL_HOURS} hour. If you didn't request this, "
+        f"you can safely ignore this email — your password won't be changed.\n"
+    )
+    return send_email(user.email, subject, body_text)
+
+def _send_username_email(user: DBUser) -> bool:
+    subject = "Your Reward Ur Kids username"
+    body_text = (
+        f"Hi {user.name},\n\n"
+        f"You (or someone) requested a reminder of your Reward Ur Kids username. It is:\n\n"
+        f"    {user.username}\n\n"
+        f"If you didn't request this, you can safely ignore this email.\n"
+    )
+    return send_email(user.email, subject, body_text)
+
+@app.post("/api/auth/forgot-password")
+def forgot_password(body: ForgotPasswordBody, db: Session = Depends(get_db)):
+    username = body.username.strip()
+    email = body.email.strip().lower()
+    user = db.query(DBUser).filter(DBUser.username == username, DBUser.email == email).first()
+    if not user:
+        fail("We couldn't find an account with that username and email combination.")
+    user.reset_token = str(uuid4())
+    user.reset_token_expires = (datetime.now(timezone.utc) + timedelta(hours=RESET_TOKEN_TTL_HOURS)).isoformat()
+    db.commit()
+    if not _send_reset_email(user):
+        fail("Username and email matched, but we couldn't send the reset email. Please try again shortly.", 500)
+    return ok({"message": "Username and email matched! A password reset link has been sent to your email."})
+
+@app.post("/api/auth/reset-password")
+def reset_password(body: ResetPasswordBody, db: Session = Depends(get_db)):
+    user = db.query(DBUser).filter(DBUser.reset_token == body.token).first()
+    if not user:
+        fail("This password reset link is invalid. It may have already been used — request a new one.")
+    if user.reset_token_expires and datetime.fromisoformat(user.reset_token_expires) < datetime.now(timezone.utc):
+        fail("This password reset link has expired. Please request a new one.")
+    check_password_complexity(body.password)
+    user.password = body.password
+    user.reset_token = None
+    user.reset_token_expires = None
+    db.commit()
+    return ok({"message": "Your password has been reset. You can sign in with your new password now."})
+
+@app.post("/api/auth/forgot-username")
+def forgot_username(body: ForgotUsernameBody, db: Session = Depends(get_db)):
+    email = body.email.strip().lower()
+    user = db.query(DBUser).filter(DBUser.email == email).first()
+    if not user:
+        fail("We couldn't find an account with that email address.")
+    if not _send_username_email(user):
+        fail("Email matched, but we couldn't send the reminder. Please try again shortly.", 500)
+    return ok({"message": "Email matched! Your username has been sent to your email."})
 
 # ── User routes ────────────────────────────────────────────────────────────────
 

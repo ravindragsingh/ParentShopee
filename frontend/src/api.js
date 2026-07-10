@@ -59,6 +59,12 @@ export const api = {
     request('POST', '/api/auth/activate', { token }),
   resendActivation: (username) =>
     request('POST', '/api/auth/resend-activation', { username }),
+  forgotPassword: (username, email) =>
+    request('POST', '/api/auth/forgot-password', { username, email }),
+  resetPassword: (token, password) =>
+    request('POST', '/api/auth/reset-password', { token, password }),
+  forgotUsername: (email) =>
+    request('POST', '/api/auth/forgot-username', { email }),
 
   // Add-limits
   getLimits: () => request('GET', '/api/limits'),
