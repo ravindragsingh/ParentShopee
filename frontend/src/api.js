@@ -125,5 +125,6 @@ export const api = {
   adminFamilyChores:       (familyId)      => request('GET', `/api/admin/family/${familyId}/chores`),
   adminFamilyTransactions: (familyId)      => request('GET', `/api/admin/family/${familyId}/transactions`),
   adminUpdateUser:         (userId, body)  => request('PUT', `/api/admin/user/${userId}`, body),
+  adminDeleteUser:         (userId)        => request('DELETE', `/api/admin/user/${userId}`),
   adminUpdateChore:        (choreId, body) => request('PUT', `/api/admin/chore/${choreId}`, body),
 }
