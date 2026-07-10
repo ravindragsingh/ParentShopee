@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
-import Login from './components/Login.jsx'
+import Login, { ActivatePage, ResetPasswordPage } from './components/Login.jsx'
 import ParentDashboard from './components/ParentDashboard.jsx'
 import KidDashboard from './components/KidDashboard.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
@@ -31,6 +31,8 @@ export default function App() {
           <Route path="/"           element={<LoginRoute />} />
           <Route path="/blog"       element={<Blogs />} />
           <Route path="/blog/:slug" element={<Blogs />} />
+          <Route path="/activate"       element={<ActivatePage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/dashboard"  element={<DashboardRoute />} />
           <Route path="*"           element={<Navigate to="/" replace />} />
         </Routes>

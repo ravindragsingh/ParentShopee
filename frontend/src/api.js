@@ -35,7 +35,9 @@ async function request(method, path, body) {
 
     const data = await res.json()
     if (!data.success) {
-      throw new Error(data.error || 'Request failed')
+      const err = new Error(data.error || 'Request failed')
+      if (data.code) err.code = data.code
+      throw err
     }
     return data.data
   } catch (err) {
@@ -53,6 +55,16 @@ export const api = {
     request('POST', '/api/auth/login', { username, password }),
   register: (body) =>
     request('POST', '/api/auth/register', body),
+  activateAccount: (token) =>
+    request('POST', '/api/auth/activate', { token }),
+  resendActivation: (username) =>
+    request('POST', '/api/auth/resend-activation', { username }),
+  forgotPassword: (username, email) =>
+    request('POST', '/api/auth/forgot-password', { username, email }),
+  resetPassword: (token, password) =>
+    request('POST', '/api/auth/reset-password', { token, password }),
+  forgotUsername: (email) =>
+    request('POST', '/api/auth/forgot-username', { email }),
 
   // Add-limits
   getLimits: () => request('GET', '/api/limits'),
