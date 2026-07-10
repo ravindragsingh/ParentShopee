@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -117,12 +117,12 @@ function Section({ title, children }) {
 // ── Register form ─────────────────────────────────────────────────────────────
 
 function RegisterForm({ onBack }) {
-  const { login } = useAuth()
   const [form, setForm] = useState({ name: '', email: '', username: '', password: '', confirmPassword: '', dateOfBirth: '', gender: '' })
   const [agreed, setAgreed] = useState(false)
   const [showAgreement, setShowAgreement] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [registered, setRegistered] = useState(null) // { email, message } once registration succeeds
 
   function set(field) {
     return e => setForm(f => ({ ...f, [field]: e.target.value }))
@@ -162,12 +162,28 @@ function RegisterForm({ onBack }) {
         dateOfBirth: form.dateOfBirth,
         gender: form.gender,
       })
-      login(data.user, data.token)
+      setRegistered({ email: data.email, message: data.message })
     } catch (err) {
       setError(err.message)
     } finally {
       setLoading(false)
     }
+  }
+
+  if (registered) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>📧</div>
+        <h1 className="login-title">Check Your Email</h1>
+        <p className="login-subtitle" style={{ marginBottom: 8 }}>{registered.message}</p>
+        <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 22 }}>
+          We sent an activation link to <strong>{registered.email}</strong>. Click it to activate your account, then sign in.
+        </p>
+        <button onClick={onBack} className="login-btn-outline">
+          Back to Sign In <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    )
   }
 
   return (
@@ -268,6 +284,56 @@ function RegisterForm({ onBack }) {
   )
 }
 
+// ── Activation-needed modal ─────────────────────────────────────────────────────
+
+function ActivationNeededModal({ username, onClose }) {
+  const [resending, setResending] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  async function handleResend() {
+    setResending(true)
+    setError('')
+    setMessage('')
+    try {
+      const data = await api.resendActivation(username)
+      setMessage(data.message)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setResending(false)
+    }
+  }
+
+  return createPortal(
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 16, maxWidth: 400, width: '100%', padding: '28px 24px', boxShadow: '0 20px 60px rgba(0,0,0,0.25)', textAlign: 'center' }}
+      >
+        <div style={{ fontSize: '2.2rem', marginBottom: 10 }}>📧</div>
+        <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1e293b', marginBottom: 8 }}>Activate your account</div>
+        <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: 1.6, marginBottom: 18 }}>
+          You need to activate your account before signing in. Click the link we emailed you when you signed up —
+          or resend it below if it's gone or expired.
+        </p>
+        {message && <div className="success-msg">{message}</div>}
+        {error && <div className="error-msg">{error}</div>}
+        <button className="login-btn" onClick={handleResend} disabled={resending} style={{ marginBottom: 10 }}>
+          {resending ? 'Sending...' : 'Resend Activation Email'}
+        </button>
+        <button onClick={onClose} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '0.85rem' }}>
+          Close
+        </button>
+      </div>
+    </div>,
+    document.body
+  )
+}
+
 // ── Login form ────────────────────────────────────────────────────────────────
 
 function LoginForm({ onRegister }) {
@@ -279,6 +345,7 @@ function LoginForm({ onRegister }) {
   const [showForgot, setShowForgot] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showActivationModal, setShowActivationModal] = useState(false)
   const [sessionExpired] = useState(() => {
     const expired = localStorage.getItem('session_expired') === '1'
     if (expired) localStorage.removeItem('session_expired')
@@ -307,7 +374,11 @@ function LoginForm({ onRegister }) {
       else localStorage.removeItem('remembered_username')
       login(data.user, data.token)
     } catch (err) {
-      setError(err.message || 'Login failed. Please try again.')
+      if (err.code === 'account_not_activated') {
+        setShowActivationModal(true)
+      } else {
+        setError(err.message || 'Login failed. Please try again.')
+      }
     } finally {
       setLoading(false)
     }
@@ -315,6 +386,10 @@ function LoginForm({ onRegister }) {
 
   return (
     <>
+      {showActivationModal && (
+        <ActivationNeededModal username={username.trim()} onClose={() => setShowActivationModal(false)} />
+      )}
+
       {sessionExpired && (
         <div style={{ background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: 8, padding: '10px 14px', marginBottom: 14, fontSize: '0.85rem', color: '#92400e', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
           <span>⚠️</span>
@@ -485,6 +560,69 @@ function HowItWorksModal({ onClose }) {
       </div>
     </div>,
     document.body
+  )
+}
+
+// ── Account activation page (/activate?token=...) ──────────────────────────────
+
+export function ActivatePage() {
+  const navigate = useNavigate()
+  const [status, setStatus] = useState('loading') // loading | success | error
+  const [message, setMessage] = useState('')
+  const requested = useRef(false)
+
+  useEffect(() => {
+    const token = new URLSearchParams(window.location.search).get('token')
+    if (!token) {
+      setStatus('error')
+      setMessage('This activation link is missing its token.')
+      return
+    }
+    // Guard against firing twice — React StrictMode double-invokes effects in dev,
+    // and the token is single-use, so a second call would wrongly report failure.
+    if (requested.current) return
+    requested.current = true
+    api.activateAccount(token)
+      .then(data => {
+        setStatus('success')
+        setMessage(data.message)
+      })
+      .catch(err => {
+        setStatus('error')
+        setMessage(err.message)
+      })
+  }, [])
+
+  return (
+    <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
+      <div className="login-shell">
+        <div className="login-card" style={{ textAlign: 'center' }}>
+          {status === 'loading' && (
+            <p style={{ fontSize: '0.95rem', color: '#64748b' }}>Activating your account…</p>
+          )}
+          {status === 'success' && (
+            <>
+              <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>✅</div>
+              <h1 className="login-title">Account Activated!</h1>
+              <p className="login-subtitle">{message}</p>
+              <button className="login-btn" onClick={() => navigate('/')}>
+                Go to Sign In <span aria-hidden="true">→</span>
+              </button>
+            </>
+          )}
+          {status === 'error' && (
+            <>
+              <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>⚠️</div>
+              <h1 className="login-title">Activation Failed</h1>
+              <p className="login-subtitle">{message}</p>
+              <button className="login-btn" onClick={() => navigate('/')}>
+                Go to Sign In <span aria-hidden="true">→</span>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
 

@@ -57,6 +57,9 @@ class DBUser(Base):
     last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
     chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-parent
     shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-parent
+    is_active               = Column(String, default="1")  # "1"/"0" — "0" only for parents pending email activation
+    activation_token        = Column(String, nullable=True)
+    activation_token_expires = Column(String, nullable=True)  # ISO timestamp
 
 class DBChore(Base):
     __tablename__ = "chores"
@@ -145,10 +148,57 @@ class MaxBodySizeMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(MaxBodySizeMiddleware)
 
+@app.exception_handler(HTTPException)
+async def _flatten_http_exception(request: StarletteRequest, exc: HTTPException):
+    """fail() raises HTTPException(detail={"success": False, "error": ...}). FastAPI's
+    default handler wraps that as {"detail": {...}}, which doesn't match ok()'s flat
+    {"success", "data"} shape and left every server-side error message unreadable by
+    the frontend (which fell back to a generic "Request failed"). Return detail as-is
+    at the top level so success and error responses are symmetrical."""
+    if isinstance(exc.detail, dict):
+        return JSONResponse(status_code=exc.status_code, content=exc.detail)
+    return JSONResponse(status_code=exc.status_code, content={"success": False, "error": str(exc.detail)})
+
 EMAIL_RE = re.compile(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
 SESSIONS: dict = {}   # token -> user_id  (in-memory; users re-login after restart)
 
 CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "ravindragsingh@gmail.com")
+FRONTEND_URL  = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
+SMTP_HOST     = os.getenv("SMTP_HOST", "smtp.gmail.com")
+try:
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+except ValueError:
+    SMTP_PORT = 587
+    print("[email] SMTP_PORT env var is not a valid integer, defaulting to 587")
+SMTP_USER     = os.getenv("SMTP_USER")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+
+if not SMTP_USER or not SMTP_PASSWORD:
+    print("[email] WARNING: SMTP_USER and/or SMTP_PASSWORD are not set — outgoing emails will not be sent")
+
+def send_email(to_addr: str, subject: str, body_text: str) -> bool:
+    """Best-effort plain-text email send. Returns True if actually sent. If SMTP
+    creds aren't configured (e.g. local dev), logs the content instead so the flow
+    is still testable, and callers treat that as success (matches existing /api/contact
+    behaviour)."""
+    if not SMTP_USER or not SMTP_PASSWORD:
+        print(f"[email — not configured] To: {to_addr}\nSubject: {subject}\n{body_text}")
+        return True
+    try:
+        msg = MIMEMultipart()
+        msg["From"] = SMTP_USER
+        msg["To"] = to_addr
+        msg["Subject"] = subject
+        msg.attach(MIMEText(body_text, "plain"))
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as srv:
+            srv.starttls()
+            srv.login(SMTP_USER, SMTP_PASSWORD)
+            srv.send_message(msg)
+        return True
+    except Exception as exc:
+        print(f"[email] send failed: {exc}")
+        return False
 
 # ── Custom chore / shop item limits ─────────────────────────────────────────────
 # Families can add as many chores/rewards as they want by picking from the built-in
@@ -385,8 +435,11 @@ def shop_dict(s: DBShopItem) -> dict:
 def ok(data, status: int = 200):
     return JSONResponse({"success": True, "data": data}, status_code=status)
 
-def fail(msg: str, status: int = 400):
-    raise HTTPException(status_code=status, detail={"success": False, "error": msg})
+def fail(msg: str, status: int = 400, code: Optional[str] = None):
+    detail = {"success": False, "error": msg}
+    if code:
+        detail["code"] = code
+    raise HTTPException(status_code=status, detail=detail)
 
 # ── DB dependency ──────────────────────────────────────────────────────────────
 
@@ -470,6 +523,12 @@ class RegisterBody(BaseModel):
     password: str
     dateOfBirth: str
     gender: str
+
+class ActivateBody(BaseModel):
+    token: str
+
+class ResendActivationBody(BaseModel):
+    username: str
 
 class AddKidBody(BaseModel):
     name: str
@@ -646,6 +705,9 @@ def startup():
             ("users",      "city",                   "VARCHAR"),
             ("users",      "last_login_country",     "VARCHAR"),
             ("users",      "last_login_city",        "VARCHAR"),
+            ("users",      "is_active",               "VARCHAR"),
+            ("users",      "activation_token",        "VARCHAR"),
+            ("users",      "activation_token_expires","VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(_engine.url):
@@ -664,6 +726,9 @@ def startup():
         # Back-fill new counters to 0 for existing users
         conn.execute(text("UPDATE users SET chores_added_count=0 WHERE chores_added_count IS NULL"))
         conn.execute(text("UPDATE users SET shop_items_added_count=0 WHERE shop_items_added_count IS NULL"))
+        # Everyone who exists before this feature (or isn't a self-registering parent)
+        # is active by default — only fresh registrations start inactive.
+        conn.execute(text("UPDATE users SET is_active='1' WHERE is_active IS NULL"))
         conn.commit()
     db = SessionLocal()
     try:
@@ -706,10 +771,31 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
     user = db.query(DBUser).filter(DBUser.username == body.username, DBUser.password == body.password).first()
     if not user:
         fail("Invalid credentials", 401)
+    if user.is_active != "1":
+        fail(
+            "Please activate your account before signing in — check your email for the activation link.",
+            403,
+            code="account_not_activated",
+        )
     token = str(uuid4())
     SESSIONS[token] = user.id
     background_tasks.add_task(_record_login_location, user.id, get_client_ip(request))
     return ok({"token": token, "user": safe_user(user)})
+
+ACTIVATION_TOKEN_TTL_HOURS = 24
+
+def _send_activation_email(user: DBUser) -> bool:
+    link = f"{FRONTEND_URL}/activate?token={user.activation_token}"
+    subject = "Activate your Reward Ur Kids account"
+    body_text = (
+        f"Hi {user.name},\n\n"
+        f"Thanks for signing up for Reward Ur Kids! Please activate your account by "
+        f"clicking the link below:\n\n"
+        f"    {link}\n\n"
+        f"This link expires in {ACTIVATION_TOKEN_TTL_HOURS} hours. If you didn't create "
+        f"this account, you can safely ignore this email.\n"
+    )
+    return send_email(user.email, subject, body_text)
 
 @app.post("/api/auth/register")
 def register(body: RegisterBody, request: StarletteRequest, db: Session = Depends(get_db)):
@@ -732,6 +818,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         fail("Gender must be 'male', 'female', or 'other'")
 
     location = get_location_from_ip(get_client_ip(request))
+    expires = (datetime.now(timezone.utc) + timedelta(hours=ACTIVATION_TOKEN_TTL_HOURS)).isoformat()
 
     user = DBUser(
         id=str(uuid4()),
@@ -744,13 +831,51 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         gender=body.gender,
         country=location["country"],
         city=location["city"],
+        is_active="0",
+        activation_token=str(uuid4()),
+        activation_token_expires=expires,
     )
     db.add(user)
     db.commit()
     db.refresh(user)
-    token = str(uuid4())
-    SESSIONS[token] = user.id
-    return ok({"token": token, "user": safe_user(user)}, 201)
+
+    if not _send_activation_email(user):
+        fail("Account created, but we couldn't send the activation email. Please try 'Resend activation email' from the sign-in page.", 500)
+
+    return ok({
+        "activationRequired": True,
+        "email": user.email,
+        "message": "Account created! Check your email for a link to activate your account.",
+    }, 201)
+
+@app.post("/api/auth/activate")
+def activate_account(body: ActivateBody, db: Session = Depends(get_db)):
+    user = db.query(DBUser).filter(DBUser.activation_token == body.token).first()
+    if not user:
+        fail("This activation link is invalid. It may have already been used — try signing in, or request a new link.")
+    if user.is_active == "1":
+        return ok({"message": "Your account is already active. You can sign in now."})
+    if user.activation_token_expires and datetime.fromisoformat(user.activation_token_expires) < datetime.now(timezone.utc):
+        fail("This activation link has expired. Please request a new one from the sign-in page.")
+    user.is_active = "1"
+    user.activation_token = None
+    user.activation_token_expires = None
+    db.commit()
+    return ok({"message": "Account activated! You can sign in now."})
+
+@app.post("/api/auth/resend-activation")
+def resend_activation(body: ResendActivationBody, db: Session = Depends(get_db)):
+    user = db.query(DBUser).filter(DBUser.username == body.username.strip()).first()
+    if not user:
+        fail("No account found with that username.")
+    if user.is_active == "1":
+        return ok({"message": "This account is already active. You can sign in now."})
+    user.activation_token = str(uuid4())
+    user.activation_token_expires = (datetime.now(timezone.utc) + timedelta(hours=ACTIVATION_TOKEN_TTL_HOURS)).isoformat()
+    db.commit()
+    if not _send_activation_email(user):
+        fail("Failed to send the activation email. Please try again shortly.", 500)
+    return ok({"message": f"Activation email resent to {user.email}."})
 
 # ── User routes ────────────────────────────────────────────────────────────────
 
@@ -1346,18 +1471,6 @@ def get_wallet(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depend
                                  for t in txs]})
 
 # ── Contact / support ticket route ────────────────────────────────────────────
-
-SMTP_HOST     = os.getenv("SMTP_HOST", "smtp.gmail.com")
-try:
-    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-except ValueError:
-    SMTP_PORT = 587
-    print("[contact] SMTP_PORT env var is not a valid integer, defaulting to 587")
-SMTP_USER     = os.getenv("SMTP_USER")
-SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
-
-if not SMTP_USER or not SMTP_PASSWORD:
-    print("[contact] WARNING: SMTP_USER and/or SMTP_PASSWORD are not set — contact form emails will not be sent")
 
 @app.post("/api/contact")
 def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)):
