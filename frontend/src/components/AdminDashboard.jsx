@@ -30,6 +30,10 @@ const editBtnStyle = {
   background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 6,
   padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#0d9488', flexShrink: 0,
 }
+const deleteBtnStyle = {
+  background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6,
+  padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#dc2626', flexShrink: 0,
+}
 
 // ── Edit modal ────────────────────────────────────────────────────────────────
 
@@ -228,6 +232,76 @@ function EditModal({ target, familyKids, onSave, onClose }) {
   )
 }
 
+// ── Delete confirmation modal ───────────────────────────────────────────────────
+
+function ConfirmDeleteModal({ target, onConfirm, onClose }) {
+  const [deleting, setDeleting] = useState(false)
+  const [error,    setError]    = useState('')
+  const d = target.data
+  const roleLabel = d.role === 'kid' ? 'child' : (d.coParentOf ? 'co-parent' : 'parent')
+  const kidCount = target.family?.kids?.length || 0
+  const hasCoParent = !!target.family?.coParent
+
+  async function handleConfirm() {
+    setDeleting(true)
+    setError('')
+    try {
+      await onConfirm()
+    } catch (err) {
+      setError(err.message)
+      setDeleting(false)
+    }
+  }
+
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 440, boxShadow: '0 20px 60px rgba(0,0,0,0.22)', padding: '22px 24px' }}
+      >
+        <div style={{ fontSize: '1.8rem', marginBottom: 8 }}>⚠️</div>
+        <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b', marginBottom: 8 }}>
+          Delete this {roleLabel} account?
+        </div>
+        <div style={{ fontSize: '0.87rem', color: '#475569', lineHeight: 1.55, marginBottom: 10 }}>
+          You're about to permanently delete <strong>{d.name}</strong> (@{d.username}).
+          {target.isPrimary && (kidCount > 0 || hasCoParent) && (
+            <> This is the primary parent — deleting them will also permanently delete{' '}
+              {kidCount > 0 && <>{kidCount} child account{kidCount > 1 ? 's' : ''}</>}
+              {kidCount > 0 && hasCoParent && ' and '}
+              {hasCoParent && 'the co-parent account'}
+              , along with all of their chores, shop items, wallets and transaction history.</>
+          )}
+          {!target.isPrimary && d.role === 'kid' && (
+            <> This will also delete their wallet, transaction history and messages.</>
+          )}
+        </div>
+        <div style={{ fontSize: '0.82rem', color: '#b91c1c', fontWeight: 700, marginBottom: 18 }}>
+          This action cannot be undone.
+        </div>
+        {error && (
+          <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>
+            {error}
+          </div>
+        )}
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+          <button type="button" onClick={onClose} disabled={deleting}
+            style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem' }}>
+            Cancel
+          </button>
+          <button type="button" onClick={handleConfirm} disabled={deleting}
+            style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#dc2626', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: deleting ? 0.7 : 1 }}>
+            {deleting ? 'Deleting…' : 'Delete Permanently'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Helper components ─────────────────────────────────────────────────────────
 
 function StatCard({ icon, label, value, color }) {
@@ -271,6 +345,7 @@ export default function AdminDashboard() {
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailTab,     setDetailTab]     = useState('chores')
   const [editTarget,    setEditTarget]    = useState(null)
+  const [deleteTarget,  setDeleteTarget]  = useState(null)
 
   useEffect(() => { loadFamilies() }, [])
 
@@ -333,6 +408,24 @@ export default function AdminDashboard() {
     await refreshAll(familyId)
   }
 
+  function openDeleteUser(e, data, family) {
+    e.stopPropagation()
+    setDeleteTarget({ data, family, isPrimary: data.id === family.parent.id })
+  }
+
+  async function handleDeleteConfirm() {
+    const { data, family, isPrimary } = deleteTarget
+    await api.adminDeleteUser(data.id)
+    setDeleteTarget(null)
+    if (isPrimary) {
+      setSelected(null)
+      setDetail({ chores: [], transactions: [] })
+      await loadFamilies()
+    } else {
+      await refreshAll(family.familyId)
+    }
+  }
+
   // Filters match either the account-created location or the most-recent-login
   // location, since existing accounts (created before location tracking) only
   // ever populate the last-login fields.
@@ -375,6 +468,15 @@ export default function AdminDashboard() {
           familyKids={editTarget.familyKids || []}
           onSave={handleEditSave}
           onClose={() => setEditTarget(null)}
+        />
+      )}
+
+      {/* Delete confirmation modal */}
+      {deleteTarget && (
+        <ConfirmDeleteModal
+          target={deleteTarget}
+          onConfirm={handleDeleteConfirm}
+          onClose={() => setDeleteTarget(null)}
         />
       )}
 
@@ -467,6 +569,7 @@ export default function AdminDashboard() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                     <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{family.parent.name}</span>
                     <button style={editBtnStyle} onClick={e => openEditUser(e, family.parent, family.familyId)}>✏️ Edit</button>
+                    <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.parent, family)}>🗑️ Delete</button>
                   </div>
                   <div style={{ fontSize: '0.78rem', color: '#64748b' }}>@{family.parent.username}</div>
                   {family.parent.email && <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{family.parent.email}</div>}
@@ -490,6 +593,7 @@ export default function AdminDashboard() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                           <span style={{ fontWeight: 600, color: '#334155', fontSize: '0.88rem' }}>{family.coParent.name}</span>
                           <button style={editBtnStyle} onClick={e => openEditUser(e, family.coParent, family.familyId)}>✏️ Edit</button>
+                          <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.coParent, family)}>🗑️</button>
                         </div>
                         <div style={{ fontSize: '0.78rem', color: '#64748b' }}>@{family.coParent.username}</div>
                       </>
@@ -508,6 +612,7 @@ export default function AdminDashboard() {
                             {kid.avatar} <strong>{kid.name}</strong>
                             <span style={{ color: '#0d9488', fontWeight: 700, marginLeft: 2 }}>{kid.balance} pts</span>
                             <button style={{ ...editBtnStyle, padding: '1px 6px', marginLeft: 2 }} onClick={e => openEditUser(e, kid, family.familyId)}>✏️</button>
+                            <button style={{ ...deleteBtnStyle, padding: '1px 6px', marginLeft: 2 }} onClick={e => openDeleteUser(e, kid, family)}>🗑️</button>
                           </span>
                         ))
                     }
@@ -590,12 +695,20 @@ export default function AdminDashboard() {
                                 <div style={{ fontSize: '0.78rem', color: '#0d9488', fontWeight: 700, marginTop: 2 }}>{member.balance} pts</div>
                               )}
                             </div>
-                            <button
-                              style={{ ...editBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
-                              onClick={e => openEditUser(e, member, family.familyId)}
-                            >
-                              ✏️ Edit
-                            </button>
+                            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                              <button
+                                style={{ ...editBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
+                                onClick={e => openEditUser(e, member, family.familyId)}
+                              >
+                                ✏️ Edit
+                              </button>
+                              <button
+                                style={{ ...deleteBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
+                                onClick={e => openDeleteUser(e, member, family)}
+                              >
+                                🗑️ Delete
+                              </button>
+                            </div>
                           </div>
                         ))}
                       </div>
