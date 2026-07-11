@@ -42,9 +42,21 @@ body {
 }
 
 .navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: -0.5px;
+}
+
+.navbar-brand-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.navbar-brand-text {
+  display: inline-block;
 }
 
 .navbar-user {
@@ -67,6 +79,20 @@ body {
 
 .logout-btn:hover {
   background: rgba(255,255,255,0.3);
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    padding: 12px 14px;
+  }
+
+  .navbar-brand-text {
+    display: none;
+  }
+
+  .navbar-brand-icon {
+    font-size: 1.35rem;
+  }
 }
 
 .main-content {

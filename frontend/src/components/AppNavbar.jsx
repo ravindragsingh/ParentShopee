@@ -13,7 +13,10 @@ export default function AppNavbar({
 }) {
   return (
     <nav className={`navbar ${variant}`}>
-      <div className="navbar-brand">{title}</div>
+      <div className="navbar-brand">
+        <span className="navbar-brand-icon">🏆</span>
+        <span className="navbar-brand-text">{title.replace(/^🏆\s*/, '')}</span>
+      </div>
       <div className="navbar-user">
         {avatar && <span className={variant === 'kid' ? 'kid-avatar lg' : ''}>{avatar}</span>}
         <span>Hi, {userName}!</span>

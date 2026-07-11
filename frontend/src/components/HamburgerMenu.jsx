@@ -6,6 +6,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
   const [open, setOpen] = useState(false)
   const [pos, setPos] = useState({ top: 0, right: 0 })
   const [unreadCount, setUnreadCount] = useState(0)
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640)
   const btnRef  = useRef(null)
   const dropRef = useRef(null)
 
@@ -38,9 +39,15 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
     setOpen(v => !v)
   }
 
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 640)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
   // Re-sync position on visual-viewport resize/scroll (rotation, zoom, soft-keyboard)
   useEffect(() => {
-    if (!open) return
+    if (!open || isMobile) return
     const vv = window.visualViewport
     if (vv) {
       vv.addEventListener('resize', computePos)
@@ -114,64 +121,128 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
     ...(onLogout ? [{ id: 'logout', icon: '🚪', label: 'Sign Out' }] : []),
   ]
 
+  const handleItemClick = (item) => {
+    if (item.id === 'logout') {
+      setOpen(false)
+      onLogout?.()
+      return
+    }
+    setTab(item.id)
+    setOpen(false)
+  }
+
   const dropdown = open ? (
-    <div
-      ref={dropRef}
-      style={{
-        position: 'fixed',
-        top: pos.top,
-        right: pos.right,
-        zIndex: 99999,
-        background: 'white',
-        borderRadius: 14,
-        boxShadow: '0 12px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12)',
-        minWidth: 200,
-        overflow: 'hidden',
-        border: '1px solid #e2e8f0',
-        animation: 'fadeSlideDown 0.15s ease',
-      }}
-    >
-      {items.map((item, i) => (
-        <button
-          key={item.id}
-          onClick={() => {
-            if (item.id === 'logout') {
+    isMobile ? (
+      <div
+        ref={dropRef}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 99999,
+          background: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '12px 14px' }}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
               setOpen(false)
-              onLogout?.()
-              return
-            }
-            setTab(item.id)
-            setOpen(false)
-          }}
-          style={{
-            width: '100%',
-            textAlign: 'left',
-            padding: '14px 18px',
-            background: tab === item.id ? accentBg : 'white',
-            border: 'none',
-            borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
-            cursor: 'pointer',
-            color: tab === item.id ? accent : '#334155',
-            fontWeight: tab === item.id ? 700 : 500,
-            fontSize: '0.93rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-          }}
-        >
-          <span style={{ fontSize: '1.05rem' }}>{item.icon}</span>
-          {item.label}
-          {item.id === 'messages' && hasNotification && (
-            <span style={{ marginLeft: 'auto', background: '#ef4444', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
-              New
-            </span>
-          )}
-          {tab === item.id && (
-            <span style={{ marginLeft: 'auto', width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0 }} />
-          )}
-        </button>
-      ))}
-    </div>
+            }}
+            style={{ border: 'none', background: 'transparent', color: '#334155', width: 40, height: 40, borderRadius: '50%', fontSize: '1.2rem', cursor: 'pointer' }}
+          >
+            ✕
+          </button>
+        </div>
+
+        <div style={{ flex: 1, overflowY: 'auto', padding: '4px 0 8px' }}>
+          {items.map((item, i) => (
+            <button
+              key={item.id}
+              onClick={() => handleItemClick(item)}
+              style={{
+                width: '100%',
+                textAlign: 'left',
+                padding: '16px 18px',
+                background: tab === item.id ? accentBg : 'white',
+                border: 'none',
+                borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
+                cursor: 'pointer',
+                color: tab === item.id ? accent : '#334155',
+                fontWeight: tab === item.id ? 700 : 600,
+                fontSize: '0.95rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+              }}
+            >
+              <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
+              {item.label}
+              {item.id === 'messages' && hasNotification && (
+                <span style={{ marginLeft: 'auto', background: '#ef4444', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
+                  New
+                </span>
+              )}
+              {tab === item.id && (
+                <span style={{ marginLeft: 'auto', width: 8, height: 8, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div
+        ref={dropRef}
+        style={{
+          position: 'fixed',
+          top: pos.top,
+          right: pos.right,
+          zIndex: 99999,
+          background: 'white',
+          borderRadius: 14,
+          boxShadow: '0 12px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.12)',
+          minWidth: 200,
+          overflow: 'hidden',
+          border: '1px solid #e2e8f0',
+          animation: 'fadeSlideDown 0.15s ease',
+        }}
+      >
+        {items.map((item, i) => (
+          <button
+            key={item.id}
+            onClick={() => handleItemClick(item)}
+            style={{
+              width: '100%',
+              textAlign: 'left',
+              padding: '14px 18px',
+              background: tab === item.id ? accentBg : 'white',
+              border: 'none',
+              borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
+              cursor: 'pointer',
+              color: tab === item.id ? accent : '#334155',
+              fontWeight: tab === item.id ? 700 : 500,
+              fontSize: '0.93rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+            }}
+          >
+            <span style={{ fontSize: '1.05rem' }}>{item.icon}</span>
+            {item.label}
+            {item.id === 'messages' && hasNotification && (
+              <span style={{ marginLeft: 'auto', background: '#ef4444', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
+                New
+              </span>
+            )}
+            {tab === item.id && (
+              <span style={{ marginLeft: 'auto', width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+            )}
+          </button>
+        ))}
+      </div>
+    )
   ) : null
 
   return (
