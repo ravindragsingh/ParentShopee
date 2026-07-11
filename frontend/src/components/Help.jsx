@@ -223,7 +223,7 @@ function KidHelp() {
 
 export function HelpTab({ role }) {
   return (
-    <div style={{ maxWidth: 700 }}>
+    <div>
       <div style={{ marginBottom: 20 }}>
         <h2 style={{ fontWeight: 800, color: '#1e293b', marginBottom: 4 }}>❓ Help & Guide</h2>
         <p style={{ fontSize: '0.875rem', color: '#64748b' }}>

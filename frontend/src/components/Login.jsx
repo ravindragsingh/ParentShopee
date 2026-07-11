@@ -336,7 +336,7 @@ function ActivationNeededModal({ username, onClose }) {
 
 // ── Forgot password / username panels ───────────────────────────────────────────
 
-function ForgotPasswordPanel() {
+function ForgotPasswordPanel({ onShowUsernameRecovery }) {
   const [fpUsername, setFpUsername] = useState('')
   const [fpEmail, setFpEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -384,8 +384,20 @@ function ForgotPasswordPanel() {
             placeholder="Email on your account"
             style={{ width: '100%', padding: '8px 12px', border: '1px solid #bbf7d0', borderRadius: 7, fontSize: '0.85rem', marginBottom: 10, boxSizing: 'border-box' }}
           />
-          <button type="button" onClick={handleSubmit} disabled={loading} className="btn btn-sm btn-green" style={{ width: '100%' }}>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={loading}
+            style={{ width: '100%', background: 'linear-gradient(135deg,#0f766e,#0d9488)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 12px', fontWeight: 700, cursor: 'pointer' }}
+          >
             {loading ? 'Sending...' : 'Send Reset Link'}
+          </button>
+          <button
+            type="button"
+            onClick={onShowUsernameRecovery}
+            style={{ width: '100%', background: 'none', border: 'none', color: '#2563eb', fontWeight: 600, cursor: 'pointer', paddingTop: 8, textAlign: 'center' }}
+          >
+            Forgot username?
           </button>
         </>
       )}
@@ -393,7 +405,7 @@ function ForgotPasswordPanel() {
   )
 }
 
-function ForgotUsernamePanel() {
+function ForgotUsernamePanel({ onShowPasswordRecovery }) {
   const [fuEmail, setFuEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -433,8 +445,20 @@ function ForgotUsernamePanel() {
             placeholder="Email on your account"
             style={{ width: '100%', padding: '8px 12px', border: '1px solid #bfdbfe', borderRadius: 7, fontSize: '0.85rem', marginBottom: 10, boxSizing: 'border-box' }}
           />
-          <button type="button" onClick={handleSubmit} disabled={loading} className="btn btn-sm btn-primary" style={{ width: '100%' }}>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={loading}
+            style={{ width: '100%', background: 'linear-gradient(135deg,#2563eb,#3b82f6)', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 12px', fontWeight: 700, cursor: 'pointer' }}
+          >
             {loading ? 'Sending...' : 'Send My Username'}
+          </button>
+          <button
+            type="button"
+            onClick={onShowPasswordRecovery}
+            style={{ width: '100%', background: 'none', border: 'none', color: '#0f766e', fontWeight: 600, cursor: 'pointer', paddingTop: 8, textAlign: 'center' }}
+          >
+            Forgot password?
           </button>
         </>
       )}
@@ -450,8 +474,8 @@ function LoginForm({ onRegister }) {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [remember, setRemember] = useState(false)
-  const [showForgotPassword, setShowForgotPassword] = useState(false)
-  const [showForgotUsername, setShowForgotUsername] = useState(false)
+  const [recoveryMode, setRecoveryMode] = useState(null)
+  const [showForgotUsernameInPanel, setShowForgotUsernameInPanel] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showActivationModal, setShowActivationModal] = useState(false)
@@ -508,73 +532,84 @@ function LoginForm({ onRegister }) {
 
       {error && <div className="error-msg">{error}</div>}
 
-      <form onSubmit={handleSubmit}>
-        <div className="input-icon-group">
-          <label>Username</label>
-          <div className="input-icon-wrap">
-            <span className="field-icon">👤</span>
-            <input
-              type="text"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              placeholder="e.g. parent1 or kid1"
-              autoFocus
-            />
-          </div>
+      {recoveryMode ? (
+        <div>
+          {recoveryMode === 'password' ? (
+            <ForgotPasswordPanel onShowUsernameRecovery={() => setRecoveryMode('username')} />
+          ) : (
+            <ForgotUsernamePanel onShowPasswordRecovery={() => setRecoveryMode('password')} />
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              setRecoveryMode(null)
+              setShowForgotUsernameInPanel(false)
+            }}
+            style={{ width: '100%', background: 'none', border: '1px solid #cbd5e1', color: '#0f766e', borderRadius: 8, padding: '9px 12px', fontWeight: 600, cursor: 'pointer', marginTop: 6 }}
+          >
+            Back to sign in
+          </button>
         </div>
-
-        <div className="input-icon-group">
-          <label>Password</label>
-          <div className="input-icon-wrap">
-            <span className="field-icon">🔒</span>
-            <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="Password"
-            />
-            <button
-              type="button"
-              className="toggle-visibility"
-              onClick={() => setShowPassword(v => !v)}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              {showPassword ? '🙈' : '👁'}
-            </button>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div className="input-icon-group">
+            <label>Username</label>
+            <div className="input-icon-wrap">
+              <span className="field-icon">👤</span>
+              <input
+                type="text"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                placeholder="e.g. parent1 or kid1"
+                autoFocus
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="login-options-row">
-          <label className="remember-me">
-            <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} style={{ display: 'none' }} />
-            <span className={`checkbox-box${remember ? ' checked' : ''}`}>{remember && '✓'}</span>
-            Remember me
-          </label>
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div className="input-icon-group">
+            <label>Password</label>
+            <div className="input-icon-wrap">
+              <span className="field-icon">🔒</span>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Password"
+              />
+              <button
+                type="button"
+                className="toggle-visibility"
+                onClick={() => setShowPassword(v => !v)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? '🙈' : '👁'}
+              </button>
+            </div>
+          </div>
+
+          <div className="login-options-row" style={{ justifyContent: 'center' }}>
+            <label className="remember-me">
+              <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} style={{ display: 'none' }} />
+              <span className={`checkbox-box${remember ? ' checked' : ''}`}>{remember && '✓'}</span>
+              Remember me
+            </label>
+          </div>
+
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? 'Signing in...' : <>Sign In <span aria-hidden="true">→</span></>}
+          </button>
+
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 10 }}>
             <button
               type="button"
               className="forgot-link"
-              onClick={() => { setShowForgotPassword(v => !v); setShowForgotUsername(false) }}
+              onClick={() => setRecoveryMode('password')}
             >
               Forgot password?
             </button>
-            <button
-              type="button"
-              className="forgot-link"
-              onClick={() => { setShowForgotUsername(v => !v); setShowForgotPassword(false) }}
-            >
-              Forgot username?
-            </button>
           </div>
-        </div>
-
-        {showForgotPassword && <ForgotPasswordPanel />}
-        {showForgotUsername && <ForgotUsernamePanel />}
-
-        <button type="submit" className="login-btn" disabled={loading}>
-          {loading ? 'Signing in...' : <>Sign In <span aria-hidden="true">→</span></>}
-        </button>
-      </form>
+        </form>
+      )}
 
       <div className="login-divider">New here?</div>
 
