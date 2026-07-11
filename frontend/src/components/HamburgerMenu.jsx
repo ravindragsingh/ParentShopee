@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { api } from '../api.js'
 
-export default function HamburgerMenu({ tab, setTab, role }) {
+export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
   const [open, setOpen] = useState(false)
   const [pos, setPos] = useState({ top: 0, right: 0 })
+  const [unreadCount, setUnreadCount] = useState(0)
   const btnRef  = useRef(null)
   const dropRef = useRef(null)
 
@@ -78,12 +80,38 @@ export default function HamburgerMenu({ tab, setTab, role }) {
     return () => window.removeEventListener('scroll', close, true)
   }, [open])
 
+  useEffect(() => {
+    let active = true
+
+    async function refreshUnread() {
+      try {
+        const data = await api.getContacts()
+        const contacts = Array.isArray(data) ? data : []
+        const count = contacts.reduce((sum, contact) => sum + (Number(contact.unread) || 0), 0)
+        if (active) setUnreadCount(count)
+      } catch {
+        if (active) setUnreadCount(0)
+      }
+    }
+
+    refreshUnread()
+    const intervalId = window.setInterval(refreshUnread, 10000)
+
+    return () => {
+      active = false
+      window.clearInterval(intervalId)
+    }
+  }, [])
+
+  const hasNotification = unreadCount > 0
+
   const items = [
     ...(role === 'parent' ? [{ id: 'co-parent', icon: '👥', label: 'Co-Parent' }] : []),
     { id: 'messages', icon: '💬', label: 'Messages'   },
     { id: 'help',     icon: '❓', label: 'Help'        },
     { id: 'contact',  icon: '📩', label: 'Contact Us'  },
     { id: 'settings', icon: '⚙️', label: 'Settings'   },
+    ...(onLogout ? [{ id: 'logout', icon: '🚪', label: 'Sign Out' }] : []),
   ]
 
   const dropdown = open ? (
@@ -106,7 +134,15 @@ export default function HamburgerMenu({ tab, setTab, role }) {
       {items.map((item, i) => (
         <button
           key={item.id}
-          onClick={() => { setTab(item.id); setOpen(false) }}
+          onClick={() => {
+            if (item.id === 'logout') {
+              setOpen(false)
+              onLogout?.()
+              return
+            }
+            setTab(item.id)
+            setOpen(false)
+          }}
           style={{
             width: '100%',
             textAlign: 'left',
@@ -125,6 +161,11 @@ export default function HamburgerMenu({ tab, setTab, role }) {
         >
           <span style={{ fontSize: '1.05rem' }}>{item.icon}</span>
           {item.label}
+          {item.id === 'messages' && hasNotification && (
+            <span style={{ marginLeft: 'auto', background: '#ef4444', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
+              New
+            </span>
+          )}
           {tab === item.id && (
             <span style={{ marginLeft: 'auto', width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0 }} />
           )}
@@ -140,9 +181,35 @@ export default function HamburgerMenu({ tab, setTab, role }) {
         className={`tab-btn${isMenuTab ? activeClass : ''}`}
         onClick={handleToggle}
         title="More"
-        style={{ fontSize: '1.15rem', padding: '10px 16px', marginLeft: 'auto', flexShrink: 0 }}
+        style={{
+          fontSize: '1.35rem',
+          padding: '10px 16px',
+          marginLeft: 'auto',
+          flexShrink: 0,
+          position: 'relative',
+          color: 'white',
+          background: 'linear-gradient(135deg, #0f766e, #0d9488)',
+          border: '1px solid rgba(255,255,255,0.25)',
+          boxShadow: '0 6px 16px rgba(13, 148, 136, 0.25)',
+        }}
       >
         {open ? '✕' : '☰'}
+        {hasNotification && (
+          <span
+            aria-label="New messages"
+            style={{
+              position: 'absolute',
+              top: 4,
+              right: 4,
+              width: 10,
+              height: 10,
+              borderRadius: '50%',
+              background: '#ef4444',
+              border: '2px solid white',
+              boxShadow: '0 0 0 1px rgba(0,0,0,0.08)',
+            }}
+          />
+        )}
       </button>
 
       {/* Portal renders dropdown directly into document.body —

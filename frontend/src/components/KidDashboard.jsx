@@ -6,9 +6,9 @@ import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
-import HamburgerMenu from './HamburgerMenu.jsx'
 import SettingsPanel from './Settings.jsx'
 import ContactUs from './ContactUs.jsx'
+import AppNavbar from './AppNavbar.jsx'
 
 // ─── Collapsible section header ──────────────────────────────────────────────
 
@@ -274,21 +274,21 @@ export default function KidDashboard() {
 
   return (
     <div className="app-container">
-      <nav className="navbar kid">
-        <div className="navbar-brand">🏆 Reward Ur Kids</div>
-        <div className="navbar-user">
-          {user.avatar && (
-            <span className="kid-avatar lg">{user.avatar}</span>
-          )}
-          <span>Hi, {user.name}!</span>
-          {balance !== null && (
-            <span style={{ background: '#ecfdf5', border: '1.5px solid #6ee7b7', borderRadius: 20, padding: '4px 12px', fontSize: '0.82rem', fontWeight: 700, color: '#059669' }}>
-              ⭐ {balance} pts
-            </span>
-          )}
-          <button className="logout-btn" onClick={logout}>Sign Out</button>
-        </div>
-      </nav>
+      <AppNavbar
+        variant="kid"
+        userName={user.name}
+        avatar={user.avatar}
+        onLogout={logout}
+        tab={tab}
+        setTab={setTab}
+        role="kid"
+      >
+        {balance !== null && (
+          <span style={{ background: '#ecfdf5', border: '1.5px solid #6ee7b7', borderRadius: 20, padding: '4px 12px', fontSize: '0.82rem', fontWeight: 700, color: '#059669' }}>
+            ⭐ {balance} pts
+          </span>
+        )}
+      </AppNavbar>
 
       <div className="main-content">
         <div className="tabs">
@@ -301,7 +301,6 @@ export default function KidDashboard() {
               {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
             </button>
           ))}
-          <HamburgerMenu tab={tab} setTab={setTab} role="kid" />
         </div>
 
         <MotivationalBanner name={user.name} />

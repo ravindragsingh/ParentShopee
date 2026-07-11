@@ -6,11 +6,11 @@ import { ParentShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
-import HamburgerMenu from './HamburgerMenu.jsx'
 import SettingsPanel from './Settings.jsx'
 import { checkFields } from '../utils/wordFilter.js'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
+import AppNavbar from './AppNavbar.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1559,13 +1559,14 @@ export default function ParentDashboard() {
 
   return (
     <div className="app-container">
-      <nav className="navbar parent">
-        <div className="navbar-brand">🏆 Reward Ur Kids</div>
-        <div className="navbar-user">
-          <span>Hi, {user.name}!</span>
-          <button className="logout-btn" onClick={logout}>Sign Out</button>
-        </div>
-      </nav>
+      <AppNavbar
+        variant="parent"
+        userName={user.name}
+        onLogout={logout}
+        tab={tab}
+        setTab={setTab}
+        role="parent"
+      />
 
       <div className="main-content">
         <div className="tabs">
@@ -1578,7 +1579,6 @@ export default function ParentDashboard() {
               {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Kids'}
             </button>
           ))}
-          <HamburgerMenu tab={tab} setTab={setTab} role="parent" />
         </div>
 
         {kids.length > 0 && (
