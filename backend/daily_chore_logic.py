@@ -21,14 +21,18 @@ def ensure_daily_chores_seeded(db: Session, kid: DBUser) -> None:
         db.add(DBDailyChoreItem(
             id=str(uuid4()), kid_id=kid.id, title=sample["title"],
             image_emoji=sample["imageEmoji"], points=2, order_index=i,
-            is_active="1", checked="0", reset_date=None, created_at=now(),
+            is_active="1", status="open", reset_date=None, created_at=now(),
         ))
     db.commit()
 
 
 def resolve_daily_chores(db: Session, kid: DBUser) -> None:
-    """Lazily rolls over to a new day: anything left unchecked from a previous day
-    gets deducted (if enabled) and every item resets to unchecked for today."""
+    """Lazily rolls over to a new day. Three cases per item still on a stale
+    reset_date: "open" (never attempted) loses its points if enabled; "pending"
+    (kid submitted, awaiting approval) is left untouched — it carries over
+    until a parent approves or rejects it, same as regular chores never time
+    out; "complete" (already approved) just clears back to "open" for the new
+    day without any further point change."""
     today_str = date.today().isoformat()
     items = db.query(DBDailyChoreItem).filter(
         DBDailyChoreItem.kid_id == kid.id,
@@ -39,7 +43,7 @@ def resolve_daily_chores(db: Session, kid: DBUser) -> None:
         return
 
     deduction_enabled = kid.daily_deduction_enabled != "0"
-    missed = [i for i in items if i.reset_date is not None and i.checked != "1"]
+    missed = [i for i in items if i.reset_date is not None and i.status == "open"]
     if missed and deduction_enabled:
         wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
         if not wallet:
@@ -57,6 +61,8 @@ def resolve_daily_chores(db: Session, kid: DBUser) -> None:
             ))
 
     for item in items:
-        item.checked = "0"
+        if item.status == "pending":
+            continue  # awaiting parent action — don't touch until they act
+        item.status = "open"
         item.reset_date = today_str
     db.commit()

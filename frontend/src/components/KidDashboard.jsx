@@ -95,13 +95,28 @@ function KidChoresTab({ userId, onBalanceChange }) {
     <div>
       <DailyChoresCard kid={{ id: userId }} isParent={false} onWalletChange={onBalanceChange} />
 
-      <CollapsibleSection icon="✨" title="Available" count={available.length} colorClass="open" defaultOpen emptyText="No available chores right now.">
-        {available.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
-      </CollapsibleSection>
-
-      <CollapsibleSection icon="⏳" title="My Pending" count={myPending.length} colorClass="pending" defaultOpen emptyText="No chores awaiting approval.">
-        {myPending.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
-      </CollapsibleSection>
+      <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
+        <div className="form-title" style={{ marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          ✨ Chores
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
+            {available.length + myPending.length} total
+          </span>
+          {myPending.length > 0 && (
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
+              ⏳ {myPending.length} awaiting approval
+            </span>
+          )}
+        </div>
+        {(available.length + myPending.length) === 0 ? (
+          <div className="empty-text">No available chores right now.</div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {[...myPending, ...available].map(chore => (
+              <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />
+            ))}
+          </div>
+        )}
+      </div>
 
       <CollapsibleSection icon="🏆" title="My Completed" count={myCompleted.length} colorClass="complete" emptyText="No approved chores yet. Keep it up!">
         {myCompleted.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}

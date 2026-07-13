@@ -43,6 +43,19 @@ def _owning_kid_for_item(db: Session, user: DBUser, item: DBDailyChoreItem) -> D
     return kid
 
 
+def _award(db: Session, kid: DBUser, item: DBDailyChoreItem, desc_prefix: str) -> DBWallet:
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=kid.id, balance=0)
+        db.add(wallet)
+        db.flush()
+    wallet.balance += item.points
+    db.add(DBTransaction(id=str(uuid4()), kid_id=kid.id, type="earned",
+                         amount=item.points, description=f"{desc_prefix}: {item.title}", timestamp=now()))
+    item.status = "complete"
+    return wallet
+
+
 @router.get("/api/daily-chores")
 def get_daily_chores(kidId: str = None, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     kid = _resolve_target_kid(db, user, kidId)
@@ -73,7 +86,7 @@ def create_daily_chore(body: DailyChoreItemCreate, db: Session = Depends(get_db)
     item = DBDailyChoreItem(
         id=str(uuid4()), kid_id=kid.id, title=body.title.strip(),
         image_emoji=body.imageEmoji or "✅", points=body.points if body.points is not None else 2,
-        order_index=max_order, is_active="1", checked="0", reset_date=None, created_at=now(),
+        order_index=max_order, is_active="1", status="open", reset_date=None, created_at=now(),
     )
     db.add(item)
     db.commit()
@@ -133,7 +146,7 @@ def regenerate_daily_chores(kid_id: str, db: Session = Depends(get_db), user: DB
         db.add(DBDailyChoreItem(
             id=str(uuid4()), kid_id=kid.id, title=sample["title"],
             image_emoji=sample["imageEmoji"], points=2, order_index=i,
-            is_active="1", checked="0", reset_date=None, created_at=now(),
+            is_active="1", status="open", reset_date=None, created_at=now(),
         ))
     db.commit()
     items = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.kid_id == kid.id).order_by(DBDailyChoreItem.order_index).all()
@@ -142,6 +155,9 @@ def regenerate_daily_chores(kid_id: str, db: Session = Depends(get_db), user: DB
 
 @router.post("/api/daily-chores/{item_id}/toggle")
 def toggle_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    """Kids submit/withdraw (open <-> pending), no points move yet. Parents get a
+    one-click shortcut that skips the approval step entirely (their own check
+    already IS the approval), and can undo it the same way regular chores work."""
     item = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.id == item_id).first()
     if not item:
         fail("Daily chore not found", 404)
@@ -149,26 +165,58 @@ def toggle_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser
     resolve_daily_chores(db, kid)
     db.refresh(item)
 
-    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
-    if not wallet:
-        wallet = DBWallet(kid_id=kid.id, balance=0)
-        db.add(wallet)
-        db.flush()
+    if user.role == "kid":
+        if item.status == "open":
+            item.status = "pending"
+        elif item.status == "pending":
+            item.status = "open"
+        else:
+            fail("This chore has already been approved.")
+        db.commit()
+        db.refresh(item)
+        return ok({"item": daily_chore_dict(item)})
 
-    if item.checked != "1":
-        wallet.balance += item.points
-        db.add(DBTransaction(id=str(uuid4()), kid_id=kid.id, type="earned",
-                             amount=item.points, description=f"Daily chore: {item.title}", timestamp=now()))
-        item.checked = "1"
+    # Parent quick toggle
+    if item.status in ("open", "pending"):
+        wallet = _award(db, kid, item, "Daily chore")
     else:
-        if wallet.balance - item.points < 0:
+        wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
+        if not wallet or wallet.balance - item.points < 0:
             fail("Can't undo — these points have already been spent.")
         wallet.balance -= item.points
         db.add(DBTransaction(id=str(uuid4()), kid_id=kid.id, type="deduct",
                              amount=item.points, description=f"Unchecked: {item.title}", timestamp=now()))
-        item.checked = "0"
-
+        item.status = "open"
     db.commit()
     db.refresh(item)
     db.refresh(wallet)
     return ok({"item": daily_chore_dict(item), "newBalance": wallet.balance})
+
+
+@router.post("/api/daily-chores/{item_id}/approve")
+def approve_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    item = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.id == item_id).first()
+    if not item:
+        fail("Daily chore not found", 404)
+    kid = _owning_kid_for_item(db, user, item)
+    if item.status != "pending":
+        fail("Only pending daily chores can be approved")
+    wallet = _award(db, kid, item, "Daily chore approved")
+    db.commit()
+    db.refresh(item)
+    db.refresh(wallet)
+    return ok({"item": daily_chore_dict(item), "newBalance": wallet.balance})
+
+
+@router.post("/api/daily-chores/{item_id}/reject")
+def reject_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    item = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.id == item_id).first()
+    if not item:
+        fail("Daily chore not found", 404)
+    _owning_kid_for_item(db, user, item)
+    if item.status != "pending":
+        fail("Only pending daily chores can be rejected")
+    item.status = "open"
+    db.commit()
+    db.refresh(item)
+    return ok({"item": daily_chore_dict(item)})

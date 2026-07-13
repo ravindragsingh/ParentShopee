@@ -75,7 +75,7 @@ function DueDateBadge({ dueDate, status }) {
 
 // ── Parent chore card ─────────────────────────────────────────────────────────
 
-export function ParentChoreCard({ chore, kids, onRefresh }) {
+export function ParentChoreCard({ chore, kids, onRefresh, variant = 'card' }) {
   const [editing, setEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(chore.title)
   const [editDesc, setEditDesc] = useState(chore.description || '')
@@ -154,6 +154,98 @@ export function ParentChoreCard({ chore, kids, onRefresh }) {
     } finally {
       setActionLoading(false)
     }
+  }
+
+  if (variant === 'row') {
+    return (
+      <div style={{ display: 'flex', alignItems: editing ? 'flex-start' : 'center', gap: 12, background: '#fff', border: `1px solid ${chore.status === 'pending' ? '#fed7aa' : '#e2e8f0'}`, borderRadius: 10, padding: '10px 14px' }}>
+        {chore.status === 'pending' ? (
+          <span style={{ fontSize: '1.2rem', flexShrink: 0, marginTop: editing ? 8 : 0 }}>⏳</span>
+        ) : (
+          <input
+            type="checkbox"
+            checked={chore.status === 'complete'}
+            disabled
+            title="Kids mark chores complete from their own dashboard"
+            style={{ width: 20, height: 20, flexShrink: 0, marginTop: editing ? 8 : 0 }}
+          />
+        )}
+        {!editing && <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{chore.imageEmoji || '📋'}</span>}
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {editing ? (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                <button type="button" className="chore-emoji-btn" title="Change chore image" onClick={() => setShowEmojiPicker(v => !v)}>
+                  {editEmoji}
+                </button>
+                <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                  {showEmojiPicker ? 'Pick an image' : 'Click to change image'}
+                </span>
+              </div>
+              {showEmojiPicker && (
+                <div style={{ marginBottom: 8 }}>
+                  <EmojiPicker emojis={CHORE_EMOJIS} value={editEmoji} onChange={e => { setEditEmoji(e); setShowEmojiPicker(false) }} />
+                </div>
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <input value={editTitle} onChange={e => setEditTitle(e.target.value)} placeholder="Title"
+                  style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', boxSizing: 'border-box' }} />
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <input type="number" value={editPoints} onChange={e => setEditPoints(e.target.value)} placeholder="Points"
+                    style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '80px' }} />
+                  <select value={editKid} onChange={e => setEditKid(e.target.value)}
+                    style={{ flex: 1, padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.82rem' }}>
+                    <option value="">Any kid</option>
+                    {kids.map(k => <option key={k.id} value={k.id}>{k.avatar} {k.name}</option>)}
+                  </select>
+                </div>
+                <input value={editDesc} onChange={e => setEditDesc(e.target.value)} placeholder="Description"
+                  style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', boxSizing: 'border-box' }} />
+                <input type="date" value={editDueDate} onChange={e => setEditDueDate(e.target.value)}
+                  style={{ padding: '6px 10px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', boxSizing: 'border-box' }} />
+              </div>
+              {error && <div style={{ color: '#dc2626', fontSize: '0.8rem', marginTop: 4 }}>{error}</div>}
+            </>
+          ) : (
+            <>
+              <span style={{ fontWeight: 600, color: '#1e293b' }}>{chore.title}</span>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 2, alignItems: 'center' }}>
+                <DueDateBadge dueDate={chore.dueDate} status={chore.status} />
+                {chore.status === 'open' && <>{assignedKid?.avatar && <span>{assignedKid.avatar}</span>}Assigned: {assignedKidName}</>}
+                {chore.status === 'pending' && <>{completedByKid?.avatar && <span>{completedByKid.avatar}</span>}Completed by: {completedByName}</>}
+                {chore.templateId && <span style={{ fontSize: '0.72rem', background: '#ccfbf1', color: '#0d9488', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>🔁 Recurring</span>}
+              </div>
+              {error && <div style={{ color: '#dc2626', fontSize: '0.75rem', marginTop: 2 }}>{error}</div>}
+            </>
+          )}
+        </div>
+
+        {!editing && <span className="points-badge">{chore.points} pts</span>}
+
+        <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+          {chore.status === 'open' && (
+            editing ? (
+              <>
+                <button className="btn btn-green btn-sm" onClick={handleSave} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
+                <button className="btn btn-outline btn-sm" onClick={() => { setEditing(false); setError(''); setShowEmojiPicker(false) }}>Cancel</button>
+              </>
+            ) : (
+              <>
+                <button className="btn btn-outline btn-sm" onClick={() => setEditing(true)}>Edit</button>
+                <button className="btn btn-red btn-sm" onClick={handleDelete} disabled={actionLoading}>Delete</button>
+              </>
+            )
+          )}
+          {chore.status === 'pending' && (
+            <>
+              <button className="btn btn-green btn-sm" onClick={handleApprove} disabled={actionLoading}>✓ Approve</button>
+              <button className="btn btn-red btn-sm" onClick={handleReject} disabled={actionLoading}>✕ Reject</button>
+            </>
+          )}
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -315,7 +407,7 @@ export function ParentChoreCard({ chore, kids, onRefresh }) {
 
 // ── Kid chore card ────────────────────────────────────────────────────────────
 
-export function KidChoreCard({ chore, onRefresh }) {
+export function KidChoreCard({ chore, onRefresh, variant = 'card' }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -324,6 +416,33 @@ export function KidChoreCard({ chore, onRefresh }) {
     try { await api.completeChore(chore.id); onRefresh() }
     catch (err) { setError(err.message) }
     finally { setLoading(false) }
+  }
+
+  if (variant === 'row') {
+    const isPending = chore.status === 'pending'
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: `1px solid ${isPending ? '#fed7aa' : '#e2e8f0'}`, borderRadius: 10, padding: '10px 14px' }}>
+        {isPending ? (
+          <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>⏳</span>
+        ) : (
+          <input
+            type="checkbox"
+            checked={false}
+            disabled={loading}
+            onChange={handleComplete}
+            style={{ width: 20, height: 20, accentColor: '#0d9488', cursor: loading ? 'default' : 'pointer', flexShrink: 0 }}
+          />
+        )}
+        <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{chore.imageEmoji || '📋'}</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ fontWeight: 600, color: '#1e293b' }}>{chore.title}</span>
+          {isPending && <span style={{ display: 'block', fontSize: '0.72rem', color: '#c2410c', fontWeight: 700 }}>⏳ Waiting for approval</span>}
+          {error && <span style={{ display: 'block', color: '#dc2626', fontSize: '0.72rem' }}>{error}</span>}
+        </span>
+        <DueDateBadge dueDate={chore.dueDate} status={chore.status} />
+        <span className="points-badge">{chore.points} pts</span>
+      </div>
+    )
   }
 
   return (

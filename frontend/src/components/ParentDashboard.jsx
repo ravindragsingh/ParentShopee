@@ -285,11 +285,30 @@ function ChoresTab({ kids }) {
       {loading && <div className="loading-text">Loading chores...</div>}
       {error && <div className="error-msg">{error}</div>}
 
-      {/* Pending Approval — shown first so parents see what needs action */}
+      {/* Open Chores — includes chores awaiting approval inline, styled like Daily Chores */}
       {!loading && (
-        <CollapsibleSection icon="⏳" title="Pending Approval" count={pending.length} colorClass="pending" defaultOpen emptyText="No chores awaiting approval.">
-          {pending.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
-        </CollapsibleSection>
+        <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
+          <div className="form-title" style={{ marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            ✨ Open Chores
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
+              {open.length + pending.length} total
+            </span>
+            {pending.length > 0 && (
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
+                ⏳ {pending.length} awaiting approval
+              </span>
+            )}
+          </div>
+          {(open.length + pending.length) === 0 ? (
+            <div className="empty-text">No open chores.</div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[...pending, ...open].map(chore => (
+                <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" />
+              ))}
+            </div>
+          )}
+        </div>
       )}
 
       {/* Add Chore Form — minimized by default */}
@@ -561,10 +580,6 @@ function ChoresTab({ kids }) {
       {/* Remaining chore lists */}
       {!loading && (
         <>
-          <CollapsibleSection icon="✨" title="Open" count={open.length} colorClass="open" defaultOpen emptyText="No open chores.">
-            {open.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
-          </CollapsibleSection>
-
           <CollapsibleSection icon="🏆" title="Complete" count={complete.length} colorClass="complete" emptyText="No completed chores yet.">
             {complete.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
           </CollapsibleSection>

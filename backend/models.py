@@ -115,6 +115,6 @@ class DBDailyChoreItem(Base):
     points      = Column(Float, default=2)
     order_index = Column(Integer, default=0)
     is_active   = Column(String, default="1")   # "1"/"0" — soft delete
-    checked     = Column(String, default="0")   # "1"/"0" — whether done for `reset_date`
-    reset_date  = Column(String, nullable=True)  # YYYY-MM-DD the `checked` state applies to
+    status      = Column(String, default="open")  # open | pending | complete — for `reset_date`
+    reset_date  = Column(String, nullable=True)  # YYYY-MM-DD the `status` cycle applies to
     created_at  = Column(String, nullable=False)

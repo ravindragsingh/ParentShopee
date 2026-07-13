@@ -9,7 +9,7 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
   const [error, setError] = useState('')
   const [expanded, setExpanded] = useState(true)
   const [editMode, setEditMode] = useState(false)
-  const [togglingId, setTogglingId] = useState(null)
+  const [busyId, setBusyId] = useState(null)
   const [savingSettings, setSavingSettings] = useState(false)
 
   const [newTitle, setNewTitle] = useState('')
@@ -33,16 +33,44 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
 
   useEffect(() => { load() }, [load])
 
+  function applyResult(item, newBalance) {
+    setData(d => ({ ...d, items: d.items.map(i => i.id === item.id ? item : i) }))
+    if (newBalance !== undefined) onWalletChange && onWalletChange(newBalance)
+  }
+
   async function handleToggle(item) {
-    setTogglingId(item.id)
+    setBusyId(item.id)
     try {
       const res = await api.toggleDailyChore(item.id)
-      setData(d => ({ ...d, items: d.items.map(i => i.id === item.id ? res.item : i) }))
-      onWalletChange && onWalletChange(res.newBalance)
+      applyResult(res.item, res.newBalance)
     } catch (err) {
       alert(err.message)
     } finally {
-      setTogglingId(null)
+      setBusyId(null)
+    }
+  }
+
+  async function handleApprove(item) {
+    setBusyId(item.id)
+    try {
+      const res = await api.approveDailyChore(item.id)
+      applyResult(res.item, res.newBalance)
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  async function handleReject(item) {
+    setBusyId(item.id)
+    try {
+      const res = await api.rejectDailyChore(item.id)
+      applyResult(res.item)
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setBusyId(null)
     }
   }
 
@@ -108,7 +136,8 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
   if (error) return <div className="form-card"><div className="error-msg">{error}</div></div>
   if (!data) return null
 
-  const doneCount = data.items.filter(i => i.checked).length
+  const doneCount = data.items.filter(i => i.status === 'complete').length
+  const pendingCount = data.items.filter(i => i.status === 'pending').length
 
   return (
     <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
@@ -123,6 +152,11 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
           <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
             {doneCount}/{data.items.length} today
           </span>
+          {pendingCount > 0 && (
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
+              ⏳ {pendingCount} awaiting approval
+            </span>
+          )}
         </span>
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           {isParent && (
@@ -143,33 +177,54 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
             <div className="empty-text">No daily chores yet.{isParent && ' Add one below.'}</div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {data.items.map(item => (
-                <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 14px' }}>
-                  <input
-                    type="checkbox"
-                    checked={item.checked}
-                    disabled={togglingId === item.id || (isParent && editMode)}
-                    onChange={() => handleToggle(item)}
-                    style={{ width: 20, height: 20, accentColor: '#0d9488', cursor: 'pointer', flexShrink: 0 }}
-                  />
-                  <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{item.imageEmoji}</span>
-                  <span style={{ flex: 1, minWidth: 0, fontWeight: 600, color: item.checked ? '#94a3b8' : '#1e293b', textDecoration: item.checked ? 'line-through' : 'none' }}>
-                    {item.title}
-                  </span>
-                  {isParent && editMode ? (
-                    <>
+              {data.items.map(item => {
+                const isPending = item.status === 'pending'
+                const isComplete = item.status === 'complete'
+                const showApprovalButtons = isParent && !editMode && isPending
+                const checkboxChecked = isComplete || (isPending && !isParent)
+                const checkboxDisabled = busyId === item.id || (isParent && editMode) || (isParent && isPending) || (!isParent && isComplete)
+                return (
+                  <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: `1px solid ${isPending ? '#fed7aa' : '#e2e8f0'}`, borderRadius: 10, padding: '10px 14px' }}>
+                    {showApprovalButtons ? (
+                      <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>⏳</span>
+                    ) : (
                       <input
-                        type="number" min="0" value={item.points}
-                        onChange={e => handleEditPoints(item, Number(e.target.value))}
-                        style={{ width: 56, padding: '4px 6px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                        type="checkbox"
+                        checked={checkboxChecked}
+                        disabled={checkboxDisabled}
+                        onChange={() => handleToggle(item)}
+                        style={{ width: 20, height: 20, accentColor: isPending ? '#ea580c' : '#0d9488', cursor: checkboxDisabled ? 'default' : 'pointer', flexShrink: 0 }}
                       />
-                      <button type="button" className="btn btn-red btn-sm" onClick={() => handleDelete(item)}>✕</button>
-                    </>
-                  ) : (
-                    <span className="points-badge">{item.points} pts</span>
-                  )}
-                </div>
-              ))}
+                    )}
+                    <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{item.imageEmoji}</span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{ fontWeight: 600, color: isComplete ? '#94a3b8' : '#1e293b', textDecoration: isComplete ? 'line-through' : 'none' }}>
+                        {item.title}
+                      </span>
+                      {isPending && !isParent && (
+                        <span style={{ display: 'block', fontSize: '0.72rem', color: '#c2410c', fontWeight: 700 }}>⏳ Waiting for approval</span>
+                      )}
+                    </span>
+                    {isParent && editMode ? (
+                      <>
+                        <input
+                          type="number" min="0" value={item.points}
+                          onChange={e => handleEditPoints(item, Number(e.target.value))}
+                          style={{ width: 56, padding: '4px 6px', borderRadius: 6, border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                        />
+                        <button type="button" className="btn btn-red btn-sm" onClick={() => handleDelete(item)}>✕</button>
+                      </>
+                    ) : showApprovalButtons ? (
+                      <>
+                        <button type="button" className="btn btn-green btn-sm" disabled={busyId === item.id} onClick={() => handleApprove(item)}>✓ Approve</button>
+                        <button type="button" className="btn btn-red btn-sm" disabled={busyId === item.id} onClick={() => handleReject(item)}>✕ Reject</button>
+                      </>
+                    ) : (
+                      <span className="points-badge">{item.points} pts</span>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           )}
 

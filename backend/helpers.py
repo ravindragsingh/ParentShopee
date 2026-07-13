@@ -76,4 +76,4 @@ def shop_dict(s: DBShopItem) -> dict:
 def daily_chore_dict(item: DBDailyChoreItem) -> dict:
     return {"id": item.id, "kidId": item.kid_id, "title": item.title,
             "imageEmoji": item.image_emoji, "points": item.points,
-            "orderIndex": item.order_index, "checked": item.checked == "1"}
+            "orderIndex": item.order_index, "status": item.status}

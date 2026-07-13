@@ -126,6 +126,8 @@ export const api = {
   updateDailyChore:        (id, body)             => request('PUT',    `/api/daily-chores/${id}`, body),
   deleteDailyChore:        (id)                   => request('DELETE', `/api/daily-chores/${id}`),
   toggleDailyChore:        (id)                   => request('POST',   `/api/daily-chores/${id}/toggle`),
+  approveDailyChore:       (id)                   => request('POST',   `/api/daily-chores/${id}/approve`),
+  rejectDailyChore:        (id)                   => request('POST',   `/api/daily-chores/${id}/reject`),
   updateDailyChoreSettings:(kidId, deductionEnabled) => request('PUT', '/api/daily-chores/settings', { kidId, deductionEnabled }),
   regenerateDailyChores:   (kidId)                => request('POST',   `/api/daily-chores/${kidId}/regenerate`),
 
