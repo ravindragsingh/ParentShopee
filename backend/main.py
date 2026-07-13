@@ -88,6 +88,7 @@ def startup():
             ("users",      "birth_month",             "INTEGER"),
             ("users",      "birth_year",              "INTEGER"),
             ("users",      "daily_deduction_enabled", "VARCHAR"),
+            ("daily_chore_items", "status",           "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -110,6 +111,15 @@ def startup():
         # is active by default — only fresh registrations start inactive.
         conn.execute(text("UPDATE users SET is_active='1' WHERE is_active IS NULL"))
         conn.execute(text("UPDATE users SET daily_deduction_enabled='1' WHERE daily_deduction_enabled IS NULL"))
+        # Daily chore items from before the open/pending/complete status column existed
+        # tracked completion with a "checked" 0/1 column instead — carry that over.
+        try:
+            conn.execute(text("UPDATE daily_chore_items SET status = CASE WHEN checked='1' THEN 'complete' ELSE 'open' END WHERE status IS NULL"))
+            conn.commit()
+        except Exception:
+            conn.rollback()  # no legacy "checked" column on this table (fresh install) — Postgres
+            # aborts the whole transaction on error, so it must be rolled back before continuing
+        conn.execute(text("UPDATE daily_chore_items SET status='open' WHERE status IS NULL"))
         conn.commit()
     db = SessionLocal()
     try:
