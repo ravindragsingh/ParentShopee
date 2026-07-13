@@ -75,7 +75,7 @@ function DueDateBadge({ dueDate, status }) {
 
 // ── Parent chore card ─────────────────────────────────────────────────────────
 
-export function ParentChoreCard({ chore, kids, onRefresh, variant = 'card' }) {
+export function ParentChoreCard({ chore, kids, onRefresh, variant = 'card', editMode = false }) {
   const [editing, setEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(chore.title)
   const [editDesc, setEditDesc] = useState(chore.description || '')
@@ -137,6 +137,22 @@ export function ParentChoreCard({ chore, kids, onRefresh, variant = 'card' }) {
     finally { setActionLoading(false) }
   }
 
+  async function handleSaveInline() {
+    const trimmedTitle = editTitle.trim()
+    if (!trimmedTitle) { setEditTitle(chore.title); return }
+    const pts = Number(editPoints)
+    if (trimmedTitle === chore.title && pts === chore.points) return  // nothing changed
+    setSaving(true); setError('')
+    try {
+      await api.updateChore(chore.id, { title: trimmedTitle, points: pts })
+      onRefresh()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
   async function handleRepeat() {
     setActionLoading(true); setError('')
     try {
@@ -157,6 +173,7 @@ export function ParentChoreCard({ chore, kids, onRefresh, variant = 'card' }) {
   }
 
   if (variant === 'row') {
+    const showInlineEdit = editMode && chore.status === 'open'
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: `1px solid ${chore.status === 'pending' ? '#fed7aa' : '#e2e8f0'}`, borderRadius: 10, padding: '10px 14px' }}>
         {chore.status === 'pending' ? (
@@ -173,7 +190,17 @@ export function ParentChoreCard({ chore, kids, onRefresh, variant = 'card' }) {
         <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{chore.imageEmoji || '📋'}</span>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ fontWeight: 600, color: '#1e293b' }}>{chore.title}</span>
+          {showInlineEdit ? (
+            <input
+              value={editTitle}
+              onChange={e => setEditTitle(e.target.value)}
+              onBlur={handleSaveInline}
+              disabled={saving}
+              style={{ padding: '4px 8px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', maxWidth: 280, boxSizing: 'border-box' }}
+            />
+          ) : (
+            <span style={{ fontWeight: 600, color: '#1e293b' }}>{chore.title}</span>
+          )}
           <div style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 2, alignItems: 'center' }}>
             <DueDateBadge dueDate={chore.dueDate} status={chore.status} />
             {chore.status === 'open' && <>{assignedKid?.avatar && <span>{assignedKid.avatar}</span>}Assigned: {assignedKidName}</>}
@@ -188,6 +215,14 @@ export function ParentChoreCard({ chore, kids, onRefresh, variant = 'card' }) {
             <button className="btn btn-green btn-sm" onClick={handleApprove} disabled={actionLoading}>✓ Approve</button>
             <button className="btn btn-red btn-sm" onClick={handleReject} disabled={actionLoading}>✕ Reject</button>
           </div>
+        ) : showInlineEdit ? (
+          <input
+            type="number" min="0" value={editPoints}
+            onChange={e => setEditPoints(e.target.value)}
+            onBlur={handleSaveInline}
+            disabled={saving}
+            style={{ width: 60, padding: '4px 6px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem' }}
+          />
         ) : (
           <span className="points-badge">{chore.points} pts</span>
         )}

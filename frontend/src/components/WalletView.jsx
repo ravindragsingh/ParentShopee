@@ -62,32 +62,12 @@ export function KidWalletView({ kidId }) {
   if (error) return <div className="error-msg">{error}</div>
   if (!wallet) return null
 
-  const sorted = [...(wallet.transactions || [])]
-    .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
-    .slice(0, 15)
-
   return (
     <div>
       <div className="balance-display">
         <div className="balance-label">⭐ Your Balance ⭐</div>
         <div className="balance-amount">{wallet.balance} pts</div>
       </div>
-
-      <h3 style={{ marginBottom: 14, color: '#334155' }}>📋 Transaction History</h3>
-      {sorted.length === 0 ? (
-        <div className="empty-text">No transactions yet.</div>
-      ) : (
-        <>
-          <div className="transaction-list">
-            {sorted.map((tx, i) => <TxItem key={tx.id || i} tx={tx} i={i} />)}
-          </div>
-          {wallet.transactions.length > 15 && (
-            <div style={{ textAlign: 'center', fontSize: '0.8rem', color: '#94a3b8', marginTop: 8 }}>
-              Showing 15 most recent of {wallet.transactions.length} transactions
-            </div>
-          )}
-        </>
-      )}
     </div>
   )
 }

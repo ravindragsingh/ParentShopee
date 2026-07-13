@@ -157,6 +157,7 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
 
   const doneCount = data.items.filter(i => i.status === 'complete').length
   const pendingCount = data.items.filter(i => i.status === 'pending').length
+  const atRiskPoints = data.items.filter(i => i.status === 'open').reduce((sum, i) => sum + i.points, 0)
 
   return (
     <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
@@ -174,6 +175,11 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
           {pendingCount > 0 && (
             <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
               ⏳ {pendingCount} awaiting approval
+            </span>
+          )}
+          {data.deductionEnabled && atRiskPoints > 0 && (
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#b91c1c', background: '#fee2e2', borderRadius: 999, padding: '2px 10px' }} title="Points lost for anything left unchecked by end of day">
+              ⚠️ -{atRiskPoints} pts if not done today
             </span>
           )}
         </span>
