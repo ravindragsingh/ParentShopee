@@ -83,6 +83,8 @@ def startup():
             ("users",      "activation_token_expires","VARCHAR"),
             ("users",      "reset_token",             "VARCHAR"),
             ("users",      "reset_token_expires",     "VARCHAR"),
+            ("users",      "birth_month",             "INTEGER"),
+            ("users",      "birth_year",              "INTEGER"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
