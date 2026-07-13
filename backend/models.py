@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Float
+from sqlalchemy import Column, String, Float, Integer
 
 from database import Base
 
@@ -16,6 +16,8 @@ class DBUser(Base):
     parent_id     = Column(String, nullable=True)    # for kids: their parent's id
     co_parent_of  = Column(String, nullable=True)    # for co-parents: primary parent's id
     avatar        = Column(String, nullable=True)
+    birth_month   = Column(Integer, nullable=True)   # kids: month of birth (1-12), used for approximate age
+    birth_year    = Column(Integer, nullable=True)   # kids: year of birth, used for approximate age
     country            = Column(String, nullable=True)  # best-effort, from IP at registration
     city               = Column(String, nullable=True)  # best-effort, from IP at registration
     last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login

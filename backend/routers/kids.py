@@ -1,3 +1,4 @@
+from datetime import date
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
@@ -39,6 +40,11 @@ def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depe
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
     check_password_complexity(body.password)
+    if not (1 <= body.birthMonth <= 12):
+        fail("Birth month must be between 1 and 12")
+    current_year = date.today().year
+    if not (current_year - 25 <= body.birthYear <= current_year):
+        fail("Please enter a valid birth year")
 
     kid = DBUser(
         id=str(uuid4()),
@@ -48,6 +54,8 @@ def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depe
         role="kid",
         parent_id=family_id,
         avatar=body.avatar or "🐶",
+        birth_month=body.birthMonth,
+        birth_year=body.birthYear,
     )
     db.add(kid)
     db.flush()   # get kid.id before commit

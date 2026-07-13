@@ -15,6 +15,11 @@ def calculate_age(dob_str: str) -> int:
     t   = date.today()
     return t.year - dob.year - ((t.month, t.day) < (dob.month, dob.day))
 
+def calculate_approx_age(birth_month: int, birth_year: int) -> int:
+    """Approximate age from birth month/year only (kids don't give an exact day)."""
+    t = date.today()
+    return t.year - birth_year - (t.month < birth_month)
+
 def get_family_id(user: DBUser) -> str:
     return user.co_parent_of or user.id
 
@@ -39,7 +44,9 @@ def safe_user(u: DBUser) -> dict:
             "email": u.email, "parentId": u.parent_id, "avatar": u.avatar,
             "gender": u.gender, "coParentOf": u.co_parent_of,
             "country": u.country, "city": u.city,
-            "lastLoginCountry": u.last_login_country, "lastLoginCity": u.last_login_city}
+            "lastLoginCountry": u.last_login_country, "lastLoginCity": u.last_login_city,
+            "birthMonth": u.birth_month, "birthYear": u.birth_year,
+            "age": calculate_approx_age(u.birth_month, u.birth_year) if (u.birth_month and u.birth_year) else None}
 
 def chore_dict(c: DBChore) -> dict:
     return {"id": c.id, "title": c.title, "description": c.description,

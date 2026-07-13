@@ -37,6 +37,8 @@ class AddKidBody(BaseModel):
     username: str
     password: str
     avatar: Optional[str] = "🐶"
+    birthMonth: int   # 1-12
+    birthYear: int
 
 class UpdateKidPasswordBody(BaseModel):
     password: str

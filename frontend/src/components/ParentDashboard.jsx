@@ -1095,6 +1095,13 @@ function CoParentTab() {
 
 // ─── Kids Tab ────────────────────────────────────────────────────────────────
 
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+]
+const CURRENT_YEAR = new Date().getFullYear()
+const BIRTH_YEAR_OPTIONS = Array.from({ length: 21 }, (_, i) => CURRENT_YEAR - i)
+
 function KidsTab() {
   const [wallets, setWallets] = useState([])
   const [kids, setKids] = useState([])
@@ -1108,6 +1115,8 @@ function KidsTab() {
   const [newUsername, setNewUsername] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [newAvatar, setNewAvatar] = useState('🐶')
+  const [newBirthMonth, setNewBirthMonth] = useState('')
+  const [newBirthYear, setNewBirthYear] = useState('')
   const [addError, setAddError] = useState('')
   const [adding, setAdding] = useState(false)
 
@@ -1213,6 +1222,10 @@ function KidsTab() {
       setAddError('Name, username and password are required.')
       return
     }
+    if (!newBirthMonth || !newBirthYear) {
+      setAddError("Child's birth month and year are required.")
+      return
+    }
     const pwCheck = checkPasswordComplexity(newPassword)
     if (!pwCheck.ok) {
       setAddError(pwCheck.message)
@@ -1220,8 +1233,12 @@ function KidsTab() {
     }
     setAdding(true)
     try {
-      await api.addKid({ name: newName.trim(), username: newUsername.trim(), password: newPassword, avatar: newAvatar })
+      await api.addKid({
+        name: newName.trim(), username: newUsername.trim(), password: newPassword, avatar: newAvatar,
+        birthMonth: Number(newBirthMonth), birthYear: Number(newBirthYear),
+      })
       setNewName(''); setNewUsername(''); setNewPassword(''); setNewAvatar('🐶')
+      setNewBirthMonth(''); setNewBirthYear('')
       setShowAddForm(false)
       loadData()
     } catch (err) {
@@ -1282,6 +1299,27 @@ function KidsTab() {
                 <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
               </div>
             </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Birth Month *</label>
+                <select value={newBirthMonth} onChange={e => setNewBirthMonth(e.target.value)}>
+                  <option value="">Select month</option>
+                  {MONTH_NAMES.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Birth Year *</label>
+                <select value={newBirthYear} onChange={e => setNewBirthYear(e.target.value)}>
+                  <option value="">Select year</option>
+                  {BIRTH_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                </select>
+              </div>
+              <div className="form-group" style={{ alignSelf: 'flex-end' }}>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', paddingBottom: 8 }}>
+                  Used to show your child's approximate age.
+                </div>
+              </div>
+            </div>
             <div className="form-group" style={{ marginBottom: 14 }}>
               <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {newAvatar}</span></label>
               <EmojiPicker emojis={KID_AVATARS} value={newAvatar} onChange={setNewAvatar} />
@@ -1312,7 +1350,9 @@ function KidsTab() {
                   <span className="kid-card-avatar">{kid.avatar || '🐶'}</span>
                   <div>
                     <div className="kid-card-name">{kid.name}</div>
-                    <div className="kid-card-username">@{kid.username}</div>
+                    <div className="kid-card-username">
+                      @{kid.username}{kid.age != null && <> · 🎂 {kid.age} yrs</>}
+                    </div>
                     <span className={`kid-badge ${tier.className}`}>⭐ {tier.label}</span>
                   </div>
                 </div>
