@@ -227,6 +227,41 @@ function ChoresTab({ kids }) {
 
   // Open Chores card expand state
   const [openChoresExpanded, setOpenChoresExpanded] = useState(false)
+  const [openChoresEditMode, setOpenChoresEditMode] = useState(false)
+
+  // Open Chores inline quick-add (mirrors the Daily Chores quick-add form)
+  const [quickTitle, setQuickTitle] = useState('')
+  const [quickEmoji, setQuickEmoji] = useState('📋')
+  const [quickPoints, setQuickPoints] = useState('5')
+  const [quickError, setQuickError] = useState('')
+  const [quickAdding, setQuickAdding] = useState(false)
+
+  async function handleQuickAdd(e) {
+    e.preventDefault()
+    if (kids.length === 0) { setQuickError('Please add a child first before creating chores.'); return }
+    if (!quickTitle.trim()) { setQuickError('Title is required.'); return }
+    const wordCheck = checkFields(quickTitle)
+    if (!wordCheck.ok) { setQuickError(wordCheck.message); return }
+    setQuickAdding(true)
+    setQuickError('')
+    try {
+      await api.createChore({
+        title: quickTitle.trim(),
+        description: '',
+        points: Number(quickPoints) || 0,
+        assignedKidIds: [],
+        dueDate: null,
+        imageEmoji: quickEmoji || '📋',
+      })
+      setQuickTitle(''); setQuickEmoji('📋'); setQuickPoints('5')
+      loadChores()
+      loadLimits()
+    } catch (err) {
+      setQuickError(err.message)
+    } finally {
+      setQuickAdding(false)
+    }
+  }
 
   function filterByKid(list) {
     if (!filterKidId) return list
@@ -308,7 +343,15 @@ function ChoresTab({ kids }) {
                 </span>
               )}
             </span>
-            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{openChoresExpanded ? '▲' : '▼'}</span>
+            <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <button
+                type="button" className="btn btn-outline btn-sm"
+                onClick={e => { e.stopPropagation(); setOpenChoresEditMode(v => !v) }}
+              >
+                {openChoresEditMode ? 'Done Editing' : '✏️ Edit'}
+              </button>
+              <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{openChoresExpanded ? '▲' : '▼'}</span>
+            </span>
           </div>
           {openChoresExpanded && (
             <div style={{ marginTop: 14 }}>
@@ -319,6 +362,59 @@ function ChoresTab({ kids }) {
                   {[...pending, ...open].map(chore => (
                     <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" />
                   ))}
+                </div>
+              )}
+
+              {openChoresEditMode && (
+                <div style={{ marginTop: 16, borderTop: '1px dashed #cbd5e1', paddingTop: 14 }}>
+                  {limits && (
+                    <div style={{ marginBottom: 10 }}>
+                      <span style={{
+                        fontSize: '0.72rem', fontWeight: 700, padding: '2px 8px', borderRadius: 999,
+                        background: choresAtLimit ? '#fee2e2' : '#f0fdfa',
+                        color: choresAtLimit ? '#dc2626' : '#0d9488',
+                      }}>
+                        {limits.choresUsed}/{limits.choresLimit} custom used
+                      </span>
+                    </div>
+                  )}
+                  <form onSubmit={handleQuickAdd} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                    {quickError && <div className="error-msg" style={{ flexBasis: '100%' }}>{quickError}</div>}
+                    <div className="form-group" style={{ flex: '100%' }}>
+                      <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
+                      <select
+                        value=""
+                        onChange={e => {
+                          const s = SAMPLE_CHORES.find(c => c.title === e.target.value)
+                          if (s) { setQuickTitle(s.title); setQuickEmoji(s.imageEmoji); setQuickPoints(String(s.points)) }
+                        }}
+                      >
+                        <option value="">— Pick a sample chore to pre-fill the form —</option>
+                        {SAMPLE_CHORES.map(s => (
+                          <option key={s.title} value={s.title}>{s.imageEmoji} {s.title} ({s.points} pts)</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="form-group" style={{ flex: '2 1 160px' }}>
+                      <label>Chore title</label>
+                      <input value={quickTitle} onChange={e => setQuickTitle(e.target.value)} placeholder="e.g. Wash the dishes" />
+                    </div>
+                    <div className="form-group" style={{ flex: '0 0 64px' }}>
+                      <label>Emoji</label>
+                      <input value={quickEmoji} onChange={e => setQuickEmoji(e.target.value)} style={{ textAlign: 'center' }} />
+                    </div>
+                    <div className="form-group" style={{ flex: '0 0 72px' }}>
+                      <label>Points</label>
+                      <input type="number" min="0" value={quickPoints} onChange={e => setQuickPoints(e.target.value)} />
+                    </div>
+                    <button type="submit" className="btn btn-green btn-sm" disabled={quickAdding || kids.length === 0}>
+                      {quickAdding ? 'Adding...' : '+ Add'}
+                    </button>
+                  </form>
+                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 6 }}>
+                    Added here without a due date, assigned to any child. For due dates, multiple assignees,
+                    a description, or recurring chores, use "Add New Chore" below.
+                  </div>
                 </div>
               )}
             </div>

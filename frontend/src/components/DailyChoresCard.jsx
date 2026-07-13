@@ -17,6 +17,7 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
   const [newPoints, setNewPoints] = useState('2')
   const [addError, setAddError] = useState('')
   const [adding, setAdding] = useState(false)
+  const [templates, setTemplates] = useState(null)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -32,6 +33,17 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
   }, [kid.id, isParent])
 
   useEffect(() => { load() }, [load])
+
+  useEffect(() => {
+    if (isParent && editMode && templates === null) {
+      api.getDailyChoreTemplates().then(setTemplates).catch(() => setTemplates([]))
+    }
+  }, [isParent, editMode, templates])
+
+  function applyTemplate(title, emoji) {
+    setNewTitle(title)
+    setNewEmoji(emoji)
+  }
 
   function applyResult(item, newBalance) {
     setData(d => ({ ...d, items: d.items.map(i => i.id === item.id ? item : i) }))
@@ -248,6 +260,25 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
               {data.items.length < MAX_ITEMS ? (
                 <form onSubmit={handleAdd} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
                   {addError && <div className="error-msg" style={{ flexBasis: '100%' }}>{addError}</div>}
+                  <div className="form-group" style={{ flex: '100%' }}>
+                    <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
+                    <select
+                      value=""
+                      onChange={e => {
+                        const [title, emoji] = e.target.value.split('|')
+                        if (title) applyTemplate(title, emoji)
+                      }}
+                    >
+                      <option value="">— Pick a sample daily chore to pre-fill the form —</option>
+                      {(templates || []).map(band => (
+                        <optgroup key={band.label} label={band.label}>
+                          {band.items.map(s => (
+                            <option key={s.title} value={`${s.title}|${s.imageEmoji}`}>{s.imageEmoji} {s.title}</option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </select>
+                  </div>
                   <div className="form-group" style={{ flex: '2 1 160px' }}>
                     <label>Chore title</label>
                     <input value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="e.g. Brush teeth" />

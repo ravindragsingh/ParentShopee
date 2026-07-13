@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from content_filter import check_content
 from daily_chore_logic import ensure_daily_chores_seeded, resolve_daily_chores
-from daily_chore_samples import MAX_DAILY_CHORE_ITEMS, get_daily_chore_bank
+from daily_chore_samples import MAX_DAILY_CHORE_ITEMS, get_all_daily_chore_templates, get_daily_chore_bank
 from database import get_db
 from deps import require_auth, require_parent
 from helpers import calculate_approx_age, daily_chore_dict, get_family_id, now
@@ -54,6 +54,11 @@ def _award(db: Session, kid: DBUser, item: DBDailyChoreItem, desc_prefix: str) -
                          amount=item.points, description=f"{desc_prefix}: {item.title}", timestamp=now()))
     item.status = "complete"
     return wallet
+
+
+@router.get("/api/daily-chores/templates")
+def get_daily_chore_templates(user: DBUser = Depends(require_parent)):
+    return ok(get_all_daily_chore_templates())
 
 
 @router.get("/api/daily-chores")

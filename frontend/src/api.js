@@ -121,6 +121,7 @@ export const api = {
   deleteRecurring: (id)   => request('DELETE', `/api/recurring/${id}`),
 
   // Daily chores
+  getDailyChoreTemplates:  ()                     => request('GET',    '/api/daily-chores/templates'),
   getDailyChores:          (kidId)               => request('GET',    `/api/daily-chores${kidId ? `?kidId=${kidId}` : ''}`),
   addDailyChore:           (body)                 => request('POST',   '/api/daily-chores', body),
   updateDailyChore:        (id, body)             => request('PUT',    `/api/daily-chores/${id}`, body),
