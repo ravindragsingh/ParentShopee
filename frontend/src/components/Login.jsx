@@ -479,11 +479,13 @@ function LoginForm({ onRegister }) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showActivationModal, setShowActivationModal] = useState(false)
-  const [sessionExpired] = useState(() => {
-    const expired = localStorage.getItem('session_expired') === '1'
-    if (expired) localStorage.removeItem('session_expired')
-    return expired
-  })
+  const [sessionExpired] = useState(() => localStorage.getItem('session_expired') === '1')
+  const [loggedOutInactivity] = useState(() => localStorage.getItem('logged_out_inactivity') === '1')
+
+  useEffect(() => {
+    localStorage.removeItem('session_expired')
+    localStorage.removeItem('logged_out_inactivity')
+  }, [])
 
   useEffect(() => {
     const saved = localStorage.getItem('remembered_username')
@@ -527,6 +529,13 @@ function LoginForm({ onRegister }) {
         <div style={{ background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: 8, padding: '10px 14px', marginBottom: 14, fontSize: '0.85rem', color: '#92400e', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
           <span>⚠️</span>
           <span>Your session expired — the server restarted. Please sign in again.</span>
+        </div>
+      )}
+
+      {loggedOutInactivity && (
+        <div style={{ background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: 8, padding: '10px 14px', marginBottom: 14, fontSize: '0.85rem', color: '#92400e', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+          <span>⏱️</span>
+          <span>You were signed out after 30 minutes of inactivity. Please sign in again.</span>
         </div>
       )}
 

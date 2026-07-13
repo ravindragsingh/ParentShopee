@@ -266,7 +266,7 @@ function ChoresTab({ kids }) {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {[...pending, ...open].map(chore => (
-                    <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" />
+                    <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" editMode={openChoresEditMode} />
                   ))}
                 </div>
               )}
@@ -318,8 +318,7 @@ function ChoresTab({ kids }) {
                     </button>
                   </form>
                   <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 6 }}>
-                    Added here without a due date, assigned to any child. For due dates, multiple assignees,
-                    a description, or recurring chores, use "Add New Chore" below.
+                    Added here without a due date, assigned to any child. While editing, click a chore's title or points above to change it.
                   </div>
                 </div>
               )}
