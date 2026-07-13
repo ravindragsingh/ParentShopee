@@ -1015,12 +1015,6 @@ function KidsTab() {
   const [pwdError, setPwdError] = useState('')
   const [savingPwd, setSavingPwd] = useState(false)
 
-  // View transactions inline
-  const [viewingTxFor, setViewingTxFor] = useState(null)
-  const [txData, setTxData] = useState(null)
-  const [txLoading, setTxLoading] = useState(false)
-  const [txError, setTxError] = useState('')
-
   // Award bonus / remove points
   const [adjustFor, setAdjustFor] = useState(null)     // kid id
   const [adjustMode, setAdjustMode] = useState(null)   // 'bonus' | 'remove'
@@ -1055,7 +1049,7 @@ function KidsTab() {
       setReportFor(null)
     } else {
       setReportFor(kid.id)
-      setChangingPwdFor(null); setViewingTxFor(null); setAdjustFor(null); setAdjustMode(null)
+      setChangingPwdFor(null); setAdjustFor(null); setAdjustMode(null)
       loadReport(kid.id, reportPeriod)
     }
   }
@@ -1063,28 +1057,6 @@ function KidsTab() {
   function changeReportPeriod(kidId, period) {
     setReportPeriod(period)
     loadReport(kidId, period)
-  }
-
-  async function loadKidTx(kidId) {
-    setTxLoading(true); setTxError(''); setTxData(null)
-    try {
-      const data = await api.getWallet(kidId)
-      setTxData(data)
-    } catch (err) {
-      setTxError(err.message)
-    } finally {
-      setTxLoading(false)
-    }
-  }
-
-  function toggleTransactions(kid) {
-    if (viewingTxFor === kid.id) {
-      setViewingTxFor(null)
-    } else {
-      setViewingTxFor(kid.id)
-      setChangingPwdFor(null); setAdjustFor(null); setAdjustMode(null); setReportFor(null)
-      loadKidTx(kid.id)
-    }
   }
 
   async function handleAdjust(kid) {
@@ -1267,7 +1239,7 @@ function KidsTab() {
           {kids.map(kid => {
             const tier = getKidTier(getBalance(kid.id))
             return (
-            <div key={kid.id} className="kid-card" onClick={() => toggleTransactions(kid)}>
+            <div key={kid.id} className="kid-card">
               <div className="kid-card-main">
                 <div className="kid-card-identity">
                   <span className="kid-card-avatar">{kid.avatar || '🐶'}</span>
@@ -1293,7 +1265,7 @@ function KidsTab() {
                     className="kid-action-btn outline"
                     onClick={() => {
                       setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
-                      setViewingTxFor(null); setAdjustFor(null); setAdjustMode(null); setReportFor(null); setNewPwd(''); setPwdError('')
+                      setAdjustFor(null); setAdjustMode(null); setReportFor(null); setNewPwd(''); setPwdError('')
                     }}
                   >
                     <span className="btn-label">🔑 {changingPwdFor === kid.id ? 'Cancel' : 'Password'}</span>
@@ -1305,7 +1277,7 @@ function KidsTab() {
                       const opening = !(adjustFor === kid.id && adjustMode === 'bonus')
                       setAdjustFor(opening ? kid.id : null)
                       setAdjustMode(opening ? 'bonus' : null)
-                      setChangingPwdFor(null); setViewingTxFor(null); setReportFor(null)
+                      setChangingPwdFor(null); setReportFor(null)
                       setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
                     }}
                   >
@@ -1318,18 +1290,11 @@ function KidsTab() {
                       const opening = !(adjustFor === kid.id && adjustMode === 'remove')
                       setAdjustFor(opening ? kid.id : null)
                       setAdjustMode(opening ? 'remove' : null)
-                      setChangingPwdFor(null); setViewingTxFor(null); setReportFor(null)
+                      setChangingPwdFor(null); setReportFor(null)
                       setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
                     }}
                   >
                     <span className="btn-label">⊖ {adjustFor === kid.id && adjustMode === 'remove' ? 'Cancel' : 'Remove Points'}</span>
-                    <span className="chevron">›</span>
-                  </button>
-                  <button
-                    className="kid-action-btn outline"
-                    onClick={() => toggleTransactions(kid)}
-                  >
-                    <span className="btn-label">📋 {viewingTxFor === kid.id ? 'Hide' : 'Transactions'}</span>
                     <span className="chevron">›</span>
                   </button>
                   <button
@@ -1491,54 +1456,6 @@ function KidsTab() {
                     </div>
                   )
                 })()}
-              {viewingTxFor === kid.id && (
-                  <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: '#f0f9ff', borderRadius: 12, padding: '14px 16px', border: '1px solid #bae6fd' }}>
-                      <div style={{ fontWeight: 600, color: '#0369a1', marginBottom: 10, fontSize: '0.9rem' }}>
-                        📋 Last 15 Transactions — {kid.name}
-                      </div>
-                      {txLoading && <div className="loading-text" style={{ fontSize: '0.85rem' }}>Loading...</div>}
-                      {txError && <div className="error-msg">{txError}</div>}
-                      {txData && (
-                        !txData.transactions || txData.transactions.length === 0 ? (
-                          <div className="empty-text" style={{ fontSize: '0.85rem' }}>No transactions yet.</div>
-                        ) : (
-                          <>
-                            <div className="transaction-list" style={{ maxHeight: 300, overflowY: 'auto' }}>
-                              {[...txData.transactions]
-                                .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
-                                .slice(0, 15)
-                                .map((tx, i) => {
-                                  const isBonus           = tx.type === 'bonus'
-                                  const isDeduct          = tx.type === 'deduct'
-                                  const isBehaviour       = tx.type === 'behaviour'
-                                  const isBehaviourDeduct = tx.type === 'behaviour_deduct'
-                                  const isAnyAdd          = isBonus || isBehaviour
-                                  const isAnyDeduct       = isDeduct || isBehaviourDeduct
-                                  const isEarned          = tx.type === 'earned' || (!isAnyAdd && !isAnyDeduct && tx.amount > 0)
-                                  const icon = isBonus ? '⭐ +' : isBehaviour ? '🌟 +' : isAnyDeduct ? '− ' : isEarned ? '+' : ''
-                                  return (
-                                    <div key={tx.id || i} className={`transaction-item${isAnyAdd ? ' bonus-tx' : isAnyDeduct ? ' deduct-tx' : ''}`} style={{ fontSize: '0.85rem' }}>
-                                      <div>
-                                        <div className="tx-desc">{tx.description || (isEarned ? 'Chore completed' : isAnyDeduct ? 'Points adjusted' : 'Purchase')}</div>
-                                        <div className="tx-time">{new Date(tx.timestamp || tx.createdAt).toLocaleString()}</div>
-                                      </div>
-                                      <div className={`tx-amount ${isAnyAdd ? 'bonus' : isAnyDeduct ? 'deduct' : isEarned ? 'earned' : 'spent'}`} style={{ fontSize: '0.9rem' }}>
-                                        {icon}{tx.amount} pts
-                                      </div>
-                                    </div>
-                                  )
-                                })}
-                            </div>
-                            {txData.transactions.length > 15 && (
-                              <div style={{ textAlign: 'center', fontSize: '0.75rem', color: '#94a3b8', marginTop: 6 }}>
-                                Showing 15 most recent of {txData.transactions.length} transactions
-                              </div>
-                            )}
-                          </>
-                        )
-                      )}
-                  </div>
-              )}
             </div>
             )
           })}
