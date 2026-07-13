@@ -10,7 +10,7 @@ from database import get_db
 from deps import require_auth
 from email_utils import send_activation_email, send_reset_email, send_username_email
 from geolocation import get_client_ip, get_location_from_ip, record_login_location
-from helpers import calculate_age, safe_user
+from helpers import calculate_age, now, safe_user
 from models import DBUser
 from responses import fail, ok
 from schemas import (
@@ -33,6 +33,9 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
             403,
             code="account_not_activated",
         )
+    user.last_login_at = now()
+    db.commit()
+    db.refresh(user)
     token = str(uuid4())
     SESSIONS[token] = user.id
     background_tasks.add_task(record_login_location, user.id, get_client_ip(request))

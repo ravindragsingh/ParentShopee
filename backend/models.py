@@ -22,6 +22,7 @@ class DBUser(Base):
     city               = Column(String, nullable=True)  # best-effort, from IP at registration
     last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
+    last_login_at      = Column(String, nullable=True)  # ISO timestamp of most recent login
     chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-parent
     shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-parent
     is_active               = Column(String, default="1")  # "1"/"0" — "0" only for parents pending email activation
