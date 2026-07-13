@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { KidChoreCard } from './ChoreCard.jsx'
+import { DailyChoresCard } from './DailyChoresCard.jsx'
 import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
@@ -43,10 +44,11 @@ function CollapsibleSection({ icon, title, count, colorClass, defaultOpen = fals
 
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
-function KidChoresTab({ userId }) {
+function KidChoresTab({ userId, onBalanceChange }) {
   const [chores, setChores] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [choresExpanded, setChoresExpanded] = useState(false)
 
   const loadChores = useCallback(async () => {
     setLoading(true)
@@ -92,13 +94,40 @@ function KidChoresTab({ userId }) {
 
   return (
     <div>
-      <CollapsibleSection icon="✨" title="Available" count={available.length} colorClass="open" defaultOpen emptyText="No available chores right now.">
-        {available.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
-      </CollapsibleSection>
+      <DailyChoresCard kid={{ id: userId }} isParent={false} onWalletChange={onBalanceChange} />
 
-      <CollapsibleSection icon="⏳" title="My Pending" count={myPending.length} colorClass="pending" defaultOpen emptyText="No chores awaiting approval.">
-        {myPending.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
-      </CollapsibleSection>
+      <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
+        <div
+          role="button" tabIndex={0}
+          onClick={() => setChoresExpanded(v => !v)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setChoresExpanded(v => !v)}
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
+        >
+          <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            ✨ Chores
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
+              {available.length + myPending.length} total
+            </span>
+            {myPending.length > 0 && (
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
+                ⏳ {myPending.length} awaiting approval
+              </span>
+            )}
+          </span>
+          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{choresExpanded ? '▲' : '▼'}</span>
+        </div>
+        {choresExpanded && (
+          (available.length + myPending.length) === 0 ? (
+            <div className="empty-text" style={{ marginTop: 14 }}>No available chores right now.</div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
+              {[...myPending, ...available].map(chore => (
+                <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />
+              ))}
+            </div>
+          )
+        )}
+      </div>
 
       <CollapsibleSection icon="🏆" title="My Completed" count={myCompleted.length} colorClass="complete" emptyText="No approved chores yet. Keep it up!">
         {myCompleted.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
@@ -305,7 +334,7 @@ export default function KidDashboard() {
 
         <MotivationalBanner name={user.name} />
 
-        {tab === 'chores'   && <KidChoresTab userId={user.id} />}
+        {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
         {tab === 'wallet'   && <KidWalletView kidId={user.id} />}
         {tab === 'messages' && <MessagesTab />}

@@ -120,6 +120,18 @@ export const api = {
   getRecurring:    ()     => request('GET',    '/api/recurring'),
   deleteRecurring: (id)   => request('DELETE', `/api/recurring/${id}`),
 
+  // Daily chores
+  getDailyChoreTemplates:  ()                     => request('GET',    '/api/daily-chores/templates'),
+  getDailyChores:          (kidId)               => request('GET',    `/api/daily-chores${kidId ? `?kidId=${kidId}` : ''}`),
+  addDailyChore:           (body)                 => request('POST',   '/api/daily-chores', body),
+  updateDailyChore:        (id, body)             => request('PUT',    `/api/daily-chores/${id}`, body),
+  deleteDailyChore:        (id)                   => request('DELETE', `/api/daily-chores/${id}`),
+  toggleDailyChore:        (id)                   => request('POST',   `/api/daily-chores/${id}/toggle`),
+  approveDailyChore:       (id)                   => request('POST',   `/api/daily-chores/${id}/approve`),
+  rejectDailyChore:        (id)                   => request('POST',   `/api/daily-chores/${id}/reject`),
+  updateDailyChoreSettings:(kidId, deductionEnabled) => request('PUT', '/api/daily-chores/settings', { kidId, deductionEnabled }),
+  regenerateDailyChores:   (kidId)                => request('POST',   `/api/daily-chores/${kidId}/regenerate`),
+
   // Admin
   adminFamilies:           ()              => request('GET', '/api/admin/families'),
   adminFamilyChores:       (familyId)      => request('GET', `/api/admin/family/${familyId}/chores`),

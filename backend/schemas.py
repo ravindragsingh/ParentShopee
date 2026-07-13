@@ -113,6 +113,21 @@ class ShopItemUpdate(BaseModel):
     cost: Optional[float] = None
     imageEmoji: Optional[str] = None
 
+class DailyChoreItemCreate(BaseModel):
+    kidId: str
+    title: str
+    points: Optional[float] = 2
+    imageEmoji: Optional[str] = "✅"
+
+class DailyChoreItemUpdate(BaseModel):
+    title: Optional[str] = None
+    points: Optional[float] = None
+    imageEmoji: Optional[str] = None
+
+class DailyChoreSettingsUpdate(BaseModel):
+    kidId: str
+    deductionEnabled: bool
+
 class AdminUserUpdate(BaseModel):
     name:     Optional[str] = None
     email:    Optional[str] = None

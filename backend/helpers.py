@@ -3,7 +3,7 @@ from datetime import date, datetime, timezone
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
-from models import DBChore, DBRecurringTemplate, DBShopItem, DBUser
+from models import DBChore, DBDailyChoreItem, DBRecurringTemplate, DBShopItem, DBUser
 from responses import fail
 
 
@@ -72,3 +72,8 @@ def recurring_dict(t: DBRecurringTemplate) -> dict:
 def shop_dict(s: DBShopItem) -> dict:
     return {"id": s.id, "name": s.name, "description": s.description,
             "cost": s.cost, "imageEmoji": s.image_emoji, "createdAt": s.created_at}
+
+def daily_chore_dict(item: DBDailyChoreItem) -> dict:
+    return {"id": item.id, "kidId": item.kid_id, "title": item.title,
+            "imageEmoji": item.image_emoji, "points": item.points,
+            "orderIndex": item.order_index, "status": item.status}

@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
-import { ParentChoreCard, EmojiPicker, CHORE_EMOJIS, KID_AVATARS } from './ChoreCard.jsx'
+import { ParentChoreCard, EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
+import { DailyChoresCard } from './DailyChoresCard.jsx'
 import { ParentShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
@@ -85,19 +86,7 @@ function ChoresTab({ kids }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  // Add chore form
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [points, setPoints] = useState('')
-  const [assignedKidIds, setAssignedKidIds] = useState(new Set())
-  const [dueDate, setDueDate] = useState('')
-  const [choreEmoji, setChoreEmoji] = useState('📋')
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
-  const [adding, setAdding] = useState(false)
-  const [addError, setAddError] = useState('')
-  const [addChoreOpen, setAddChoreOpen] = useState(false)
   const [limits, setLimits] = useState(null)
-  const formRef = useRef(null)
 
   const loadLimits = useCallback(async () => {
     try {
@@ -109,13 +98,7 @@ function ChoresTab({ kids }) {
   useEffect(() => { loadLimits() }, [loadLimits])
   const choresAtLimit = limits && limits.choresUsed >= limits.choresLimit
 
-  // Recurring chore state
-  const [recurring, setRecurring] = useState(false)
-  const [recurrenceType, setRecurrenceType] = useState('daily')
-  const [recurrenceDays, setRecurrenceDays] = useState(new Set())
-  const [recurrenceDom, setRecurrenceDom] = useState(1)
-
-  // Recurring templates list
+  // Recurring templates list — created via the recurring toggle in the quick-add form
   const [recurringTemplates, setRecurringTemplates] = useState([])
 
   const loadRecurring = useCallback(async () => {
@@ -126,21 +109,6 @@ function ChoresTab({ kids }) {
   }, [])
 
   useEffect(() => { loadRecurring() }, [loadRecurring])
-
-  function fillFromSample(sample) {
-    setTitle(sample.title)
-    setDescription(sample.description)
-    setPoints(String(sample.points))
-    setChoreEmoji(sample.imageEmoji)
-    setAssignedKidIds(new Set())
-    setShowEmojiPicker(false)
-    setAddError('')
-    setRecurring(false)
-    setRecurrenceType('daily')
-    setRecurrenceDays(new Set())
-    setRecurrenceDom(1)
-    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
 
   const loadChores = useCallback(async () => {
     setLoading(true)
@@ -157,72 +125,49 @@ function ChoresTab({ kids }) {
 
   useEffect(() => { loadChores() }, [loadChores])
 
-  function resetForm() {
-    setTitle(''); setDescription(''); setPoints(''); setAssignedKidIds(new Set())
-    setDueDate(''); setChoreEmoji('📋'); setShowEmojiPicker(false)
-    setRecurring(false); setRecurrenceType('daily'); setRecurrenceDays(new Set()); setRecurrenceDom(1)
-  }
-
-  async function handleAddChore(e) {
-    e.preventDefault()
-    if (kids.length === 0) {
-      setAddError('Please add a child first before creating chores. Go to the Kids tab to add one.')
-      return
-    }
-    if (!title.trim() || !points) {
-      setAddError('Title and points are required.')
-      return
-    }
-    const wordCheck = checkFields(title, description)
-    if (!wordCheck.ok) {
-      setAddError(wordCheck.message)
-      return
-    }
-    if (recurring && recurrenceType === 'weekly' && recurrenceDays.size === 0) {
-      setAddError('Select at least one day for weekly recurring chores.')
-      return
-    }
-    setAdding(true)
-    setAddError('')
-    try {
-      if (recurring) {
-        const kidId = assignedKidIds.size >= 1 ? [...assignedKidIds][0] : null
-        await api.createRecurring({
-          title: title.trim(),
-          description: description.trim(),
-          points: Number(points),
-          imageEmoji: choreEmoji,
-          assignedKidId: kidId,
-          recurrenceType,
-          recurrenceDays: recurrenceType === 'weekly' ? [...recurrenceDays] : [],
-          recurrenceDom: recurrenceType === 'monthly' ? recurrenceDom : null,
-        })
-        loadRecurring()
-      } else {
-        await api.createChore({
-          title: title.trim(),
-          description: description.trim(),
-          points: Number(points),
-          assignedKidIds: [...assignedKidIds],
-          dueDate: dueDate || null,
-          imageEmoji: choreEmoji,
-        })
-      }
-      resetForm()
-      loadChores()
-      loadLimits()
-    } catch (err) {
-      setAddError(err.message)
-    } finally {
-      setAdding(false)
-    }
-  }
-
   // Kid filter
   const [filterKidId, setFilterKidId] = useState('')
 
   // Recurring section expand state
   const [recurringExpanded, setRecurringExpanded] = useState(false)
+
+  // Open Chores card expand state
+  const [openChoresExpanded, setOpenChoresExpanded] = useState(false)
+  const [openChoresEditMode, setOpenChoresEditMode] = useState(false)
+
+  // Open Chores inline quick-add (mirrors the Daily Chores quick-add form)
+  const [quickTitle, setQuickTitle] = useState('')
+  const [quickEmoji, setQuickEmoji] = useState('📋')
+  const [quickPoints, setQuickPoints] = useState('5')
+  const [quickError, setQuickError] = useState('')
+  const [quickAdding, setQuickAdding] = useState(false)
+
+  async function handleQuickAdd(e) {
+    e.preventDefault()
+    if (kids.length === 0) { setQuickError('Please add a child first before creating chores.'); return }
+    if (!quickTitle.trim()) { setQuickError('Title is required.'); return }
+    const wordCheck = checkFields(quickTitle)
+    if (!wordCheck.ok) { setQuickError(wordCheck.message); return }
+    setQuickAdding(true)
+    setQuickError('')
+    try {
+      await api.createChore({
+        title: quickTitle.trim(),
+        description: '',
+        points: Number(quickPoints) || 0,
+        assignedKidIds: [],
+        dueDate: null,
+        imageEmoji: quickEmoji || '📋',
+      })
+      setQuickTitle(''); setQuickEmoji('📋'); setQuickPoints('5')
+      loadChores()
+      loadLimits()
+    } catch (err) {
+      setQuickError(err.message)
+    } finally {
+      setQuickAdding(false)
+    }
+  }
 
   function filterByKid(list) {
     if (!filterKidId) return list
@@ -272,289 +217,120 @@ function ChoresTab({ kids }) {
         </div>
       )}
 
+      {/* Daily Chores — shown first, per child */}
+      {kids.length > 0 && (
+        <>
+          {(filterKidId ? kids.filter(k => k.id === filterKidId) : kids).map(kid => (
+            <DailyChoresCard key={kid.id} kid={kid} isParent />
+          ))}
+        </>
+      )}
+
       {loading && <div className="loading-text">Loading chores...</div>}
       {error && <div className="error-msg">{error}</div>}
 
-      {/* Pending Approval — shown first so parents see what needs action */}
+      {/* Open Chores — includes chores awaiting approval inline, styled like Daily Chores */}
       {!loading && (
-        <CollapsibleSection icon="⏳" title="Pending Approval" count={pending.length} colorClass="pending" defaultOpen emptyText="No chores awaiting approval.">
-          {pending.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
-        </CollapsibleSection>
-      )}
-
-      {/* Add Chore Form — minimized by default */}
-      <div className="form-card" ref={formRef}>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={() => setAddChoreOpen(v => !v)}
-          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setAddChoreOpen(v => !v)}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            cursor: 'pointer', userSelect: 'none',
-            marginBottom: addChoreOpen ? 16 : 0,
-          }}
-        >
-          <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-            ➕ Add New Chore
-            {limits && (
-              <span style={{
-                fontSize: '0.72rem', fontWeight: 700, padding: '2px 8px', borderRadius: 999,
-                background: choresAtLimit ? '#fee2e2' : '#f0fdfa',
-                color: choresAtLimit ? '#dc2626' : '#0d9488',
-              }}>
-                {limits.choresUsed}/{limits.choresLimit} custom used
+        <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
+          <div
+            role="button" tabIndex={0}
+            onClick={() => setOpenChoresExpanded(v => !v)}
+            onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setOpenChoresExpanded(v => !v)}
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
+          >
+            <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              ✨ Open Chores
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
+                {open.length + pending.length} total
               </span>
-            )}
-          </span>
-          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{addChoreOpen ? '▲' : '▼'}</span>
-        </div>
-        {addChoreOpen && (
-        <>
-        {addError && <div className="error-msg">{addError}</div>}
-        {kids.length === 0 && (
-          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#991b1b', fontSize: '0.82rem', lineHeight: 1.6 }}>
-            You haven't added any children yet. Go to the <strong>Kids</strong> tab and add a child before creating chores.
+              {pending.length > 0 && (
+                <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
+                  ⏳ {pending.length} awaiting approval
+                </span>
+              )}
+            </span>
+            <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <button
+                type="button" className="btn btn-outline btn-sm"
+                onClick={e => { e.stopPropagation(); setOpenChoresEditMode(v => !v) }}
+              >
+                {openChoresEditMode ? 'Done Editing' : '✏️ Edit'}
+              </button>
+              <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{openChoresExpanded ? '▲' : '▼'}</span>
+            </span>
           </div>
-        )}
-        {choresAtLimit && (
-          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.82rem', lineHeight: 1.6 }}>
-            You've used all {limits.choresLimit} custom chore slots for your family. You can still add as many chores
-            as you like by picking one from "Start from a template" below without changing its title. For more
-            custom chores, contact support at <strong>{limits.supportEmail}</strong>.
-          </div>
-        )}
-        <form onSubmit={handleAddChore}>
-          <div className="form-group" style={{ marginBottom: 14 }}>
-            <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
-            <select
-              value=""
-              onChange={e => {
-                const s = SAMPLE_CHORES.find(c => c.title === e.target.value)
-                if (s) fillFromSample(s)
-              }}
-            >
-              <option value="">— Pick a sample chore to pre-fill the form —</option>
-              {SAMPLE_CHORES.map(s => (
-                <option key={s.title} value={s.title}>
-                  {s.imageEmoji} {s.title} ({s.points} pts)
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-row">
-            <div className="form-group" style={{ flex: 2 }}>
-              <label>Title *</label>
-              <input
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-                placeholder="e.g. Wash the dishes"
-              />
-            </div>
-            <div className="form-group" style={{ flex: 1, minWidth: '100px', maxWidth: '120px' }}>
-              <label>Points *</label>
-              <input
-                type="number"
-                min="1"
-                value={points}
-                onChange={e => setPoints(e.target.value)}
-                placeholder="10"
-              />
-            </div>
-            <div className="form-group" style={{ flex: '100%' }}>
-              <label>Assign To <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional — select one or more)</span></label>
-              {kids.length === 0 ? (
-                <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: 4 }}>No children added yet</div>
+          {openChoresExpanded && (
+            <div style={{ marginTop: 14 }}>
+              {(open.length + pending.length) === 0 ? (
+                <div className="empty-text">No open chores.</div>
               ) : (
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 6 }}>
-                  {kids.map(k => {
-                    const checked = assignedKidIds.has(k.id)
-                    return (
-                      <div
-                        key={k.id}
-                        role="checkbox"
-                        aria-checked={checked}
-                        tabIndex={0}
-                        onClick={() => setAssignedKidIds(prev => {
-                          const next = new Set(prev)
-                          next.has(k.id) ? next.delete(k.id) : next.add(k.id)
-                          return next
-                        })}
-                        onKeyDown={e => {
-                          if (e.key === ' ' || e.key === 'Enter') {
-                            e.preventDefault()
-                            setAssignedKidIds(prev => {
-                              const next = new Set(prev)
-                              next.has(k.id) ? next.delete(k.id) : next.add(k.id)
-                              return next
-                            })
-                          }
-                        }}
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: 6,
-                          cursor: 'pointer', userSelect: 'none',
-                          padding: '7px 14px', borderRadius: 999,
-                          background: checked ? '#f0fdfa' : '#f8fafc',
-                          border: `2px solid ${checked ? '#2dd4bf' : '#e2e8f0'}`,
-                          fontSize: '0.875rem',
-                          fontWeight: checked ? 700 : 400,
-                          color: checked ? '#0f766e' : '#475569',
-                          transition: 'all 0.15s',
-                        }}
-                      >
-                        <span>{k.avatar || '🐶'}</span>
-                        {k.name}
-                        {checked && <span style={{ fontSize: '0.75rem' }}>✓</span>}
-                      </div>
-                    )
-                  })}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {[...pending, ...open].map(chore => (
+                    <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" />
+                  ))}
                 </div>
               )}
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 6 }}>
-                {assignedKidIds.size === 0
-                  ? 'No one selected — any child can claim it'
-                  : assignedKidIds.size === 1
-                  ? '1 child selected'
-                  : `${assignedKidIds.size} children selected — one copy per child will be created`}
-              </div>
-            </div>
-          </div>
-          <div className="form-row">
-            <div className="form-group" style={{ flex: 2 }}>
-              <label>Description</label>
-              <input
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder="Optional details..."
-              />
-            </div>
-            {!recurring && (
-              <div className="form-group" style={{ flex: 1, minWidth: '160px', maxWidth: '200px' }}>
-                <label>Due Date (optional)</label>
-                <input
-                  type="date"
-                  value={dueDate}
-                  onChange={e => setDueDate(e.target.value)}
-                />
-              </div>
-            )}
-          </div>
 
-          {/* Recurring toggle */}
-          <div style={{ marginBottom: 14 }}>
-            <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, cursor: 'pointer', userSelect: 'none' }}>
-              <input
-                type="checkbox"
-                checked={recurring}
-                onChange={e => setRecurring(e.target.checked)}
-                style={{ width: 16, height: 16, cursor: 'pointer' }}
-              />
-              <span style={{ fontSize: '0.9rem', fontWeight: 600, color: '#475569' }}>🔁 Make this a recurring chore</span>
-            </label>
-          </div>
-
-          {recurring && (
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 14px', marginBottom: 14 }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#64748b', marginBottom: 8 }}>Repeat frequency</div>
-              <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-                {['daily', 'weekly', 'monthly'].map(rt => (
-                  <button
-                    key={rt}
-                    type="button"
-                    className={`btn btn-sm ${recurrenceType === rt ? 'btn-primary' : 'btn-outline'}`}
-                    onClick={() => setRecurrenceType(rt)}
-                  >
-                    {rt === 'daily' ? 'Daily' : rt === 'weekly' ? 'Weekly' : 'Monthly'}
-                  </button>
-                ))}
-              </div>
-
-              {recurrenceType === 'weekly' && (
-                <div style={{ marginBottom: 8 }}>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b', marginBottom: 6 }}>Select days:</div>
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                    {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((day, i) => {
-                      const checked = recurrenceDays.has(i)
-                      return (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => setRecurrenceDays(prev => {
-                            const next = new Set(prev)
-                            next.has(i) ? next.delete(i) : next.add(i)
-                            return next
-                          })}
-                          style={{
-                            padding: '4px 10px', borderRadius: 6, fontSize: '0.8rem', cursor: 'pointer',
-                            background: checked ? '#0d9488' : '#fff',
-                            color: checked ? '#fff' : '#475569',
-                            border: `1px solid ${checked ? '#0d9488' : '#e2e8f0'}`,
-                            fontWeight: checked ? 700 : 400,
-                          }}
-                        >
-                          {day}
-                        </button>
-                      )
-                    })}
+              {openChoresEditMode && (
+                <div style={{ marginTop: 16, borderTop: '1px dashed #cbd5e1', paddingTop: 14 }}>
+                  {limits && (
+                    <div style={{ marginBottom: 10 }}>
+                      <span style={{
+                        fontSize: '0.72rem', fontWeight: 700, padding: '2px 8px', borderRadius: 999,
+                        background: choresAtLimit ? '#fee2e2' : '#f0fdfa',
+                        color: choresAtLimit ? '#dc2626' : '#0d9488',
+                      }}>
+                        {limits.choresUsed}/{limits.choresLimit} custom used
+                      </span>
+                    </div>
+                  )}
+                  <form onSubmit={handleQuickAdd} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                    {quickError && <div className="error-msg" style={{ flexBasis: '100%' }}>{quickError}</div>}
+                    <div className="form-group" style={{ flex: '100%' }}>
+                      <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
+                      <select
+                        value=""
+                        onChange={e => {
+                          const s = SAMPLE_CHORES.find(c => c.title === e.target.value)
+                          if (s) { setQuickTitle(s.title); setQuickEmoji(s.imageEmoji); setQuickPoints(String(s.points)) }
+                        }}
+                      >
+                        <option value="">— Pick a sample chore to pre-fill the form —</option>
+                        {SAMPLE_CHORES.map(s => (
+                          <option key={s.title} value={s.title}>{s.imageEmoji} {s.title} ({s.points} pts)</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="form-group" style={{ flex: '2 1 160px' }}>
+                      <label>Chore title</label>
+                      <input value={quickTitle} onChange={e => setQuickTitle(e.target.value)} placeholder="e.g. Wash the dishes" />
+                    </div>
+                    <div className="form-group" style={{ flex: '0 0 64px' }}>
+                      <label>Emoji</label>
+                      <input value={quickEmoji} onChange={e => setQuickEmoji(e.target.value)} style={{ textAlign: 'center' }} />
+                    </div>
+                    <div className="form-group" style={{ flex: '0 0 72px' }}>
+                      <label>Points</label>
+                      <input type="number" min="0" value={quickPoints} onChange={e => setQuickPoints(e.target.value)} />
+                    </div>
+                    <button type="submit" className="btn btn-green btn-sm" disabled={quickAdding || kids.length === 0}>
+                      {quickAdding ? 'Adding...' : '+ Add'}
+                    </button>
+                  </form>
+                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 6 }}>
+                    Added here without a due date, assigned to any child. For due dates, multiple assignees,
+                    a description, or recurring chores, use "Add New Chore" below.
                   </div>
                 </div>
               )}
-
-              {recurrenceType === 'monthly' && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <label style={{ fontSize: '0.8rem', color: '#64748b' }}>Day of month:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="28"
-                    value={recurrenceDom}
-                    onChange={e => setRecurrenceDom(Number(e.target.value))}
-                    style={{ width: 64, padding: '4px 8px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem' }}
-                  />
-                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Use 1–28 so it works every month</span>
-                </div>
-              )}
-
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 8 }}>
-                Chore instances will be auto-created for upcoming dates. Due dates are managed automatically.
-                {assignedKidIds.size > 1 && ' With recurring chores, only the first selected kid will be assigned.'}
-              </div>
             </div>
           )}
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-            <button
-              type="button"
-              className="chore-emoji-btn"
-              title="Choose chore image"
-              onClick={() => setShowEmojiPicker(v => !v)}
-            >
-              {choreEmoji}
-            </button>
-            <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>
-              {showEmojiPicker ? 'Click an image to select, or click the icon again to close' : 'Click the icon to choose a chore image'}
-            </span>
-            <button type="submit" className="btn btn-primary" disabled={adding || kids.length === 0} style={{ marginLeft: 'auto' }}>
-              {adding ? 'Adding...' : 'Add Chore'}
-            </button>
-          </div>
-          {showEmojiPicker && (
-            <div style={{ marginBottom: 14 }}>
-              <EmojiPicker emojis={CHORE_EMOJIS} value={choreEmoji} onChange={e => { setChoreEmoji(e); setShowEmojiPicker(false) }} />
-            </div>
-          )}
-        </form>
-        </>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Remaining chore lists */}
       {!loading && (
         <>
-          <CollapsibleSection icon="✨" title="Open" count={open.length} colorClass="open" defaultOpen emptyText="No open chores.">
-            {open.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
-          </CollapsibleSection>
-
           <CollapsibleSection icon="🏆" title="Complete" count={complete.length} colorClass="complete" emptyText="No completed chores yet.">
             {complete.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
           </CollapsibleSection>
