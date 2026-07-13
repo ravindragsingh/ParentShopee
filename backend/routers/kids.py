@@ -57,6 +57,7 @@ def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depe
         avatar=body.avatar or "🐶",
         birth_month=body.birthMonth,
         birth_year=body.birthYear,
+        created_at=now(),
     )
     db.add(kid)
     db.flush()   # get kid.id before commit

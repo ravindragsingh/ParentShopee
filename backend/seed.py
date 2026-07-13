@@ -14,11 +14,11 @@ def seed_db(db: Session):
     today = date.today()
 
     for u in [
-        DBUser(id="parent1", name="Mom",     username="parent1", password="pass1", role="parent", email="mom@family.com", date_of_birth="1980-03-10", gender="female"),
-        DBUser(id="parent2", name="Dad",     username="parent2", password="pass2", role="parent", email="dad@family.com", date_of_birth="1978-07-22", gender="male"),
-        DBUser(id="kid1",    name="Alice",   username="kid1",    password="pass1", role="kid",    parent_id="parent1", avatar="🐱"),
-        DBUser(id="kid2",    name="Bob",     username="kid2",    password="pass1", role="kid",    parent_id="parent1", avatar="🐶"),
-        DBUser(id="kid3",    name="Charlie", username="kid3",    password="pass1", role="kid",    parent_id="parent2", avatar="🦁"),
+        DBUser(id="parent1", name="Mom",     username="parent1", password="pass1", role="parent", email="mom@family.com", date_of_birth="1980-03-10", gender="female", created_at=now()),
+        DBUser(id="parent2", name="Dad",     username="parent2", password="pass2", role="parent", email="dad@family.com", date_of_birth="1978-07-22", gender="male", created_at=now()),
+        DBUser(id="kid1",    name="Alice",   username="kid1",    password="pass1", role="kid",    parent_id="parent1", avatar="🐱", created_at=now()),
+        DBUser(id="kid2",    name="Bob",     username="kid2",    password="pass1", role="kid",    parent_id="parent1", avatar="🐶", created_at=now()),
+        DBUser(id="kid3",    name="Charlie", username="kid3",    password="pass1", role="kid",    parent_id="parent2", avatar="🦁", created_at=now()),
     ]:
         db.add(u)
 

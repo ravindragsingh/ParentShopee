@@ -28,6 +28,15 @@ function formatLastLogin(iso) {
   return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
 }
 
+const suspendBtnStyle = {
+  background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 6,
+  padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#c2410c', flexShrink: 0,
+}
+const unsuspendBtnStyle = {
+  background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 6,
+  padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#166534', flexShrink: 0,
+}
+
 const inputStyle = {
   width: '100%', padding: '8px 11px', borderRadius: 8,
   border: '1px solid #e2e8f0', fontSize: '0.87rem', outline: 'none', boxSizing: 'border-box',
@@ -337,10 +346,112 @@ function Td({ children, style }) {
   )
 }
 
+// ── Support Tickets panel ───────────────────────────────────────────────────────
+
+const TICKET_CATEGORY_STYLE = {
+  'Bug Report':      { bg: '#fef2f2', color: '#b91c1c' },
+  'Feature Request': { bg: '#eff6ff', color: '#1d4ed8' },
+  'Account Issue':   { bg: '#f5f3ff', color: '#6d28d9' },
+  'General Inquiry': { bg: '#f8fafc', color: '#475569' },
+}
+const DEFAULT_CATEGORY_STYLE = { bg: '#f8fafc', color: '#475569' }
+
+function TicketsPanel() {
+  const [tickets,      setTickets]      = useState([])
+  const [loading,      setLoading]      = useState(true)
+  const [error,        setError]        = useState('')
+  const [statusFilter, setStatusFilter] = useState('open')
+  const [busyId,       setBusyId]       = useState(null)
+
+  useEffect(() => { load() }, [statusFilter])
+
+  async function load() {
+    setLoading(true)
+    setError('')
+    try {
+      const data = await api.adminTickets(statusFilter === 'all' ? undefined : statusFilter)
+      setTickets(data)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function toggleResolved(ticket) {
+    setBusyId(ticket.id)
+    try {
+      if (ticket.status === 'open') await api.adminResolveTicket(ticket.id)
+      else await api.adminReopenTicket(ticket.id)
+      await load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        {['open', 'resolved', 'all'].map(s => (
+          <button
+            key={s}
+            onClick={() => setStatusFilter(s)}
+            style={{
+              padding: '7px 16px', borderRadius: 8, border: `1px solid ${statusFilter === s ? '#0d9488' : '#e2e8f0'}`,
+              background: statusFilter === s ? '#f0fdfa' : '#fff', color: statusFilter === s ? '#0d9488' : '#64748b',
+              fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', textTransform: 'capitalize',
+            }}
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+
+      {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem' }}>{error}</div>}
+      {loading && <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>Loading tickets…</div>}
+      {!loading && tickets.length === 0 && (
+        <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>No {statusFilter !== 'all' ? statusFilter : ''} tickets.</div>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {tickets.map(t => {
+          const cat = TICKET_CATEGORY_STYLE[t.category] || DEFAULT_CATEGORY_STYLE
+          return (
+            <div key={t.id} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, padding: '14px 18px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 6 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                  <span style={{ background: cat.bg, color: cat.color, borderRadius: 6, padding: '2px 9px', fontSize: '0.72rem', fontWeight: 700, textTransform: 'capitalize' }}>{t.category}</span>
+                  <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{t.subject}</span>
+                </div>
+                <button
+                  onClick={() => toggleResolved(t)}
+                  disabled={busyId === t.id}
+                  style={t.status === 'open' ? unsuspendBtnStyle : suspendBtnStyle}
+                >
+                  {busyId === t.id ? '…' : t.status === 'open' ? '✓ Mark Resolved' : '↺ Reopen'}
+                </button>
+              </div>
+              <div style={{ fontSize: '0.85rem', color: '#475569', lineHeight: 1.5, marginBottom: 8, whiteSpace: 'pre-wrap' }}>{t.message}</div>
+              <div style={{ fontSize: '0.76rem', color: '#94a3b8', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                <span>From: <strong>{t.userName}</strong> (@{t.username}, {t.userRole})</span>
+                <span>{formatLastLogin(t.createdAt)}</span>
+                {t.status === 'resolved' && t.resolvedAt && <span>Resolved: {formatLastLogin(t.resolvedAt)}</span>}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 // ── Admin Dashboard ────────────────────────────────────────────────────────────
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth()
+  const [view,          setView]         = useState('families')  // 'families' | 'tickets'
   const [families,      setFamilies]      = useState([])
   const [loading,       setLoading]       = useState(true)
   const [error,         setError]         = useState('')
@@ -353,6 +464,7 @@ export default function AdminDashboard() {
   const [detailTab,     setDetailTab]     = useState('chores')
   const [editTarget,    setEditTarget]    = useState(null)
   const [deleteTarget,  setDeleteTarget]  = useState(null)
+  const [suspendBusyId, setSuspendBusyId] = useState(null)
 
   useEffect(() => { loadFamilies() }, [])
 
@@ -433,6 +545,20 @@ export default function AdminDashboard() {
     }
   }
 
+  async function handleToggleSuspend(e, member, familyId) {
+    e.stopPropagation()
+    setSuspendBusyId(member.id)
+    try {
+      if (member.isSuspended) await api.adminUnsuspendUser(member.id)
+      else await api.adminSuspendUser(member.id)
+      await refreshAll(familyId)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSuspendBusyId(null)
+    }
+  }
+
   // Filters match either the account-created location or the most-recent-login
   // location, since existing accounts (created before location tracking) only
   // ever populate the last-login fields.
@@ -506,6 +632,30 @@ export default function AdminDashboard() {
 
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '22px 16px' }}>
 
+        {/* View tabs */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 20, borderBottom: '1px solid #e2e8f0' }}>
+          {[
+            { id: 'families', label: '🏠 Families' },
+            { id: 'tickets',  label: '🎫 Support Tickets' },
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setView(tab.id)}
+              style={{
+                padding: '10px 18px', border: 'none', background: 'none', cursor: 'pointer', fontWeight: 700,
+                fontSize: '0.9rem', color: view === tab.id ? '#0d9488' : '#64748b',
+                borderBottom: `2px solid ${view === tab.id ? '#0d9488' : 'transparent'}`, marginBottom: -1,
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {view === 'tickets' && <TicketsPanel />}
+
+        {view === 'families' && <>
+
         {/* Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 22 }}>
           <StatCard icon="🏠" label="Families" value={totalFamilies} color="#0d9488" />
@@ -575,7 +725,11 @@ export default function AdminDashboard() {
                   <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 3 }}>Primary Parent</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                     <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{family.parent.name}</span>
+                    {family.parent.isSuspended && <span style={{ background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🚫 Suspended</span>}
                     <button style={editBtnStyle} onClick={e => openEditUser(e, family.parent, family.familyId)}>✏️ Edit</button>
+                    <button style={family.parent.isSuspended ? unsuspendBtnStyle : suspendBtnStyle} onClick={e => handleToggleSuspend(e, family.parent, family.familyId)} disabled={suspendBusyId === family.parent.id}>
+                      {family.parent.isSuspended ? '↺ Unsuspend' : '🚫 Suspend'}
+                    </button>
                     <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.parent, family)}>🗑️ Delete</button>
                   </div>
                   <div style={{ fontSize: '0.78rem', color: '#64748b' }}>@{family.parent.username}</div>
@@ -603,7 +757,11 @@ export default function AdminDashboard() {
                     ? <>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                           <span style={{ fontWeight: 600, color: '#334155', fontSize: '0.88rem' }}>{family.coParent.name}</span>
+                          {family.coParent.isSuspended && <span style={{ background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🚫</span>}
                           <button style={editBtnStyle} onClick={e => openEditUser(e, family.coParent, family.familyId)}>✏️ Edit</button>
+                          <button style={family.coParent.isSuspended ? unsuspendBtnStyle : suspendBtnStyle} onClick={e => handleToggleSuspend(e, family.coParent, family.familyId)} disabled={suspendBusyId === family.coParent.id}>
+                            {family.coParent.isSuspended ? '↺' : '🚫'}
+                          </button>
                           <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.coParent, family)}>🗑️</button>
                         </div>
                         <div style={{ fontSize: '0.78rem', color: '#64748b' }}>@{family.coParent.username}</div>
@@ -619,10 +777,14 @@ export default function AdminDashboard() {
                     {family.kids.length === 0
                       ? <span style={{ fontSize: '0.82rem', color: '#cbd5e1' }}>None</span>
                       : family.kids.map(kid => (
-                          <span key={kid.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 20, padding: '4px 10px', fontSize: '0.8rem' }}>
+                          <span key={kid.id} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: kid.isSuspended ? '#fef2f2' : '#f8fafc', border: `1px solid ${kid.isSuspended ? '#fecaca' : '#e2e8f0'}`, borderRadius: 20, padding: '4px 10px', fontSize: '0.8rem' }}>
                             {kid.avatar} <strong>{kid.name}</strong>
+                            {kid.isSuspended && <span title="Suspended">🚫</span>}
                             <span style={{ color: '#0d9488', fontWeight: 700, marginLeft: 2 }}>{kid.balance} pts</span>
                             <button style={{ ...editBtnStyle, padding: '1px 6px', marginLeft: 2 }} onClick={e => openEditUser(e, kid, family.familyId)}>✏️</button>
+                            <button style={{ ...(kid.isSuspended ? unsuspendBtnStyle : suspendBtnStyle), padding: '1px 6px', marginLeft: 2 }} onClick={e => handleToggleSuspend(e, kid, family.familyId)} disabled={suspendBusyId === kid.id}>
+                              {kid.isSuspended ? '↺' : '🚫'}
+                            </button>
                             <button style={{ ...deleteBtnStyle, padding: '1px 6px', marginLeft: 2 }} onClick={e => openDeleteUser(e, kid, family)}>🗑️</button>
                           </span>
                         ))
@@ -699,11 +861,18 @@ export default function AdminDashboard() {
                               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                                 <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{member.name}</span>
                                 <span style={{ fontSize: '0.72rem', background: '#f1f5f9', color: '#64748b', borderRadius: 6, padding: '2px 8px', fontWeight: 600 }}>{member._label}</span>
+                                {member.isSuspended && <span style={{ fontSize: '0.72rem', background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '2px 8px', fontWeight: 700 }}>🚫 Suspended</span>}
                               </div>
                               <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>@{member.username}</div>
                               {member.email && <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>{member.email}</div>}
+                              {formatLastLogin(member.createdAt) && (
+                                <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>📅 Joined: {formatLastLogin(member.createdAt)}</div>
+                              )}
                               {formatLastLogin(member.lastLoginAt) && (
                                 <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>🕑 Last login: {formatLastLogin(member.lastLoginAt)}</div>
+                              )}
+                              {formatLastLogin(member.lastActiveAt) && (
+                                <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>🟢 Last active: {formatLastLogin(member.lastActiveAt)}</div>
                               )}
                               {member.balance !== undefined && (
                                 <div style={{ fontSize: '0.78rem', color: '#0d9488', fontWeight: 700, marginTop: 2 }}>{member.balance} pts</div>
@@ -715,6 +884,13 @@ export default function AdminDashboard() {
                                 onClick={e => openEditUser(e, member, family.familyId)}
                               >
                                 ✏️ Edit
+                              </button>
+                              <button
+                                style={{ ...(member.isSuspended ? unsuspendBtnStyle : suspendBtnStyle), padding: '8px 18px', fontSize: '0.85rem' }}
+                                onClick={e => handleToggleSuspend(e, member, family.familyId)}
+                                disabled={suspendBusyId === member.id}
+                              >
+                                {member.isSuspended ? '↺ Unsuspend' : '🚫 Suspend'}
                               </button>
                               <button
                                 style={{ ...deleteBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
@@ -806,6 +982,7 @@ export default function AdminDashboard() {
             </div>
           )
         })}
+        </>}
       </div>
     </div>
   )

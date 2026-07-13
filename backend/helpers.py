@@ -3,7 +3,7 @@ from datetime import date, datetime, timezone
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
-from models import DBChore, DBDailyChoreItem, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBUser
+from models import DBChore, DBDailyChoreItem, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser
 from responses import fail
 
 
@@ -48,7 +48,9 @@ def safe_user(u: DBUser) -> dict:
             "lastLoginCountry": u.last_login_country, "lastLoginCity": u.last_login_city,
             "lastLoginAt": u.last_login_at,
             "birthMonth": u.birth_month, "birthYear": u.birth_year,
-            "age": calculate_approx_age(u.birth_month, u.birth_year) if (u.birth_month and u.birth_year) else None}
+            "age": calculate_approx_age(u.birth_month, u.birth_year) if (u.birth_month and u.birth_year) else None,
+            "createdAt": u.created_at, "lastActiveAt": u.last_active_at,
+            "isSuspended": u.is_suspended == "1"}
 
 def chore_dict(c: DBChore) -> dict:
     return {"id": c.id, "title": c.title, "description": c.description,
@@ -83,3 +85,9 @@ def purchase_dict(p: DBShopPurchase) -> dict:
     return {"id": p.id, "kidId": p.kid_id, "shopItemId": p.shop_item_id,
             "itemName": p.item_name, "imageEmoji": p.image_emoji, "cost": p.cost,
             "status": p.status, "createdAt": p.created_at, "resolvedAt": p.resolved_at}
+
+def ticket_dict(t: DBSupportTicket) -> dict:
+    return {"id": t.id, "userId": t.user_id, "userName": t.user_name, "username": t.username,
+            "userRole": t.user_role, "category": t.category, "subject": t.subject,
+            "message": t.message, "status": t.status,
+            "createdAt": t.created_at, "resolvedAt": t.resolved_at}

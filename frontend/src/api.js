@@ -145,4 +145,9 @@ export const api = {
   adminUpdateUser:         (userId, body)  => request('PUT', `/api/admin/user/${userId}`, body),
   adminDeleteUser:         (userId)        => request('DELETE', `/api/admin/user/${userId}`),
   adminUpdateChore:        (choreId, body) => request('PUT', `/api/admin/chore/${choreId}`, body),
+  adminSuspendUser:        (userId)        => request('POST', `/api/admin/user/${userId}/suspend`),
+  adminUnsuspendUser:      (userId)        => request('POST', `/api/admin/user/${userId}/unsuspend`),
+  adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),
+  adminResolveTicket:      (id)            => request('POST', `/api/admin/tickets/${id}/resolve`),
+  adminReopenTicket:       (id)            => request('POST', `/api/admin/tickets/${id}/reopen`),
 }

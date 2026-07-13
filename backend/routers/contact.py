@@ -4,12 +4,16 @@ import smtplib
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from uuid import uuid4
 
 from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL, EMAIL_FROM, SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER
+from database import get_db
 from deps import require_auth
-from models import DBUser
+from helpers import now
+from models import DBSupportTicket, DBUser
 from responses import fail, ok
 from schemas import ContactTicketBody
 
@@ -17,11 +21,19 @@ router = APIRouter()
 
 
 @router.post("/api/contact")
-def submit_contact(body: ContactTicketBody, user: DBUser = Depends(require_auth)):
+def submit_contact(body: ContactTicketBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     if not body.subject.strip():
         fail("Subject is required")
     if len(body.message.strip()) < 20:
         fail("Message must be at least 20 characters")
+
+    # Persist the ticket first so it's never lost even if email delivery fails below.
+    db.add(DBSupportTicket(
+        id=str(uuid4()), user_id=user.id, user_name=user.name, username=user.username,
+        user_role=user.role, category=body.category, subject=body.subject.strip(),
+        message=body.message.strip(), created_at=now(),
+    ))
+    db.commit()
 
     # Build email body
     body_text = (

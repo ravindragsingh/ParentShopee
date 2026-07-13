@@ -32,6 +32,9 @@ class DBUser(Base):
     reset_token_expires      = Column(String, nullable=True)  # ISO timestamp
     daily_deduction_enabled  = Column(String, default="1")  # kids: "1"/"0" — deduct points for unchecked daily chores at day's end
     shop_approval_enabled    = Column(String, default="0")  # family owner: "1"/"0" — kid purchases need parent approval
+    created_at    = Column(String, nullable=True)  # ISO timestamp of signup; NULL for accounts that predate this field
+    last_active_at = Column(String, nullable=True)  # ISO timestamp of most recent authenticated request (any activity, not just login)
+    is_suspended  = Column(String, default="0")     # "1"/"0" — admin moderation flag; blocks login and API access
 
 
 class DBChore(Base):
@@ -130,5 +133,20 @@ class DBShopPurchase(Base):
     image_emoji = Column(String, default="🎁")
     cost        = Column(Float, nullable=False)
     status      = Column(String, default="pending")  # pending | approved | rejected
+    created_at  = Column(String, nullable=False)
+    resolved_at = Column(String, nullable=True)
+
+
+class DBSupportTicket(Base):
+    __tablename__ = "support_tickets"
+    id          = Column(String, primary_key=True)
+    user_id     = Column(String, nullable=False, index=True)
+    user_name   = Column(String, nullable=False)   # snapshot at submission time
+    username    = Column(String, nullable=False)   # snapshot at submission time
+    user_role   = Column(String, nullable=False)
+    category    = Column(String, nullable=False)
+    subject     = Column(String, nullable=False)
+    message     = Column(String, nullable=False)
+    status      = Column(String, default="open")   # open | resolved
     created_at  = Column(String, nullable=False)
     resolved_at = Column(String, nullable=True)

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from deps import require_parent
-from helpers import safe_user
+from helpers import now, safe_user
 from models import DBUser
 from responses import fail, ok
 from schemas import CoParentBody, UpdateKidPasswordBody
@@ -42,6 +42,7 @@ def add_co_parent(body: CoParentBody, db: Session = Depends(get_db), user: DBUse
         password=body.password,
         role="parent",
         co_parent_of=user.id,
+        created_at=now(),
     )
     db.add(co_parent)
     db.commit()

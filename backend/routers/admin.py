@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, Depends
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -5,8 +7,8 @@ from sqlalchemy.orm import Session
 from config import EMAIL_RE
 from database import get_db
 from deps import require_admin
-from helpers import chore_dict, safe_user
-from models import DBChore, DBMessage, DBRecurringTemplate, DBShopItem, DBTransaction, DBUser, DBWallet
+from helpers import chore_dict, now, safe_user, ticket_dict
+from models import DBChore, DBMessage, DBRecurringTemplate, DBShopItem, DBSupportTicket, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import AdminChoreUpdate, AdminUserUpdate
 from security import check_password_complexity
@@ -86,6 +88,30 @@ def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends
         target.password = body.password
     if body.avatar is not None:
         target.avatar = body.avatar
+    db.commit()
+    db.refresh(target)
+    return ok(safe_user(target))
+
+
+@router.post("/api/admin/user/{user_id}/suspend")
+def admin_suspend_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id).first()
+    if not target:
+        fail("User not found", 404)
+    if target.role == "admin":
+        fail("Cannot suspend admin accounts", 403)
+    target.is_suspended = "1"
+    db.commit()
+    db.refresh(target)
+    return ok(safe_user(target))
+
+
+@router.post("/api/admin/user/{user_id}/unsuspend")
+def admin_unsuspend_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id).first()
+    if not target:
+        fail("User not found", 404)
+    target.is_suspended = "0"
     db.commit()
     db.refresh(target)
     return ok(safe_user(target))
@@ -194,3 +220,38 @@ def admin_family_transactions(family_id: str, db: Session = Depends(get_db), use
             "timestamp": t.timestamp,
         })
     return ok(result)
+
+
+@router.get("/api/admin/tickets")
+def admin_list_tickets(status: Optional[str] = None, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    q = db.query(DBSupportTicket)
+    if status:
+        if status not in ("open", "resolved"):
+            fail("status must be 'open' or 'resolved'")
+        q = q.filter(DBSupportTicket.status == status)
+    tickets = q.order_by(DBSupportTicket.created_at.desc()).limit(200).all()
+    return ok([ticket_dict(t) for t in tickets])
+
+
+@router.post("/api/admin/tickets/{ticket_id}/resolve")
+def admin_resolve_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    ticket = db.query(DBSupportTicket).filter(DBSupportTicket.id == ticket_id).first()
+    if not ticket:
+        fail("Ticket not found", 404)
+    ticket.status = "resolved"
+    ticket.resolved_at = now()
+    db.commit()
+    db.refresh(ticket)
+    return ok(ticket_dict(ticket))
+
+
+@router.post("/api/admin/tickets/{ticket_id}/reopen")
+def admin_reopen_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    ticket = db.query(DBSupportTicket).filter(DBSupportTicket.id == ticket_id).first()
+    if not ticket:
+        fail("Ticket not found", 404)
+    ticket.status = "open"
+    ticket.resolved_at = None
+    db.commit()
+    db.refresh(ticket)
+    return ok(ticket_dict(ticket))
