@@ -100,6 +100,11 @@ def update_chore(chore_id: str, body: ChoreUpdate, db: Session = Depends(get_db)
     chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore:
         fail("Chore not found", 404)
+    if body.title is not None or body.description is not None:
+        check_content(
+            body.title if body.title is not None else chore.title,
+            body.description if body.description is not None else (chore.description or ""),
+        )
     if body.title       is not None: chore.title       = body.title
     if body.description is not None: chore.description = body.description
     if body.points is not None:
