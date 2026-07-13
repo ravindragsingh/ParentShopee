@@ -133,7 +133,14 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
   }
 
   if (loading) return <div className="form-card"><div className="loading-text">Loading Daily Chores...</div></div>
-  if (error) return <div className="form-card"><div className="error-msg">{error}</div></div>
+  if (error) return (
+    <div className="form-card">
+      <div className="error-msg" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+        <span>📅 Daily Chores failed to load: {error}</span>
+        <button type="button" className="btn btn-outline btn-sm" onClick={load}>↻ Retry</button>
+      </div>
+    </div>
+  )
   if (!data) return null
 
   const doneCount = data.items.filter(i => i.status === 'complete').length
