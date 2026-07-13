@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { ParentChoreCard, EmojiPicker, CHORE_EMOJIS, KID_AVATARS } from './ChoreCard.jsx'
+import { DailyChoresCard } from './DailyChoresCard.jsx'
 import { ParentShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
@@ -270,6 +271,15 @@ function ChoresTab({ kids }) {
             </button>
           ))}
         </div>
+      )}
+
+      {/* Daily Chores — shown first, per child */}
+      {kids.length > 0 && (
+        <>
+          {(filterKidId ? kids.filter(k => k.id === filterKidId) : kids).map(kid => (
+            <DailyChoresCard key={kid.id} kid={kid} isParent />
+          ))}
+        </>
       )}
 
       {loading && <div className="loading-text">Loading chores...</div>}

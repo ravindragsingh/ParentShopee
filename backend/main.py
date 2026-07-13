@@ -12,7 +12,7 @@ import models  # noqa: F401 — import ensures all tables are registered on Base
 from database import SessionLocal, engine, Base
 from seed import seed_db
 from models import DBUser
-from routers import admin, auth, chores, contact, family, kids, messages, shop, wallet
+from routers import admin, auth, chores, contact, daily_chores, family, kids, messages, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -54,6 +54,7 @@ app.include_router(wallet.router)
 app.include_router(contact.router)
 app.include_router(messages.router)
 app.include_router(admin.router)
+app.include_router(daily_chores.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -86,6 +87,7 @@ def startup():
             ("users",      "reset_token_expires",     "VARCHAR"),
             ("users",      "birth_month",             "INTEGER"),
             ("users",      "birth_year",              "INTEGER"),
+            ("users",      "daily_deduction_enabled", "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -107,6 +109,7 @@ def startup():
         # Everyone who exists before this feature (or isn't a self-registering parent)
         # is active by default — only fresh registrations start inactive.
         conn.execute(text("UPDATE users SET is_active='1' WHERE is_active IS NULL"))
+        conn.execute(text("UPDATE users SET daily_deduction_enabled='1' WHERE daily_deduction_enabled IS NULL"))
         conn.commit()
     db = SessionLocal()
     try:

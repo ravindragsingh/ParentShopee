@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { KidChoreCard } from './ChoreCard.jsx'
+import { DailyChoresCard } from './DailyChoresCard.jsx'
 import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
@@ -43,7 +44,7 @@ function CollapsibleSection({ icon, title, count, colorClass, defaultOpen = fals
 
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
-function KidChoresTab({ userId }) {
+function KidChoresTab({ userId, onBalanceChange }) {
   const [chores, setChores] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -92,6 +93,8 @@ function KidChoresTab({ userId }) {
 
   return (
     <div>
+      <DailyChoresCard kid={{ id: userId }} isParent={false} onWalletChange={onBalanceChange} />
+
       <CollapsibleSection icon="✨" title="Available" count={available.length} colorClass="open" defaultOpen emptyText="No available chores right now.">
         {available.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
       </CollapsibleSection>
@@ -305,7 +308,7 @@ export default function KidDashboard() {
 
         <MotivationalBanner name={user.name} />
 
-        {tab === 'chores'   && <KidChoresTab userId={user.id} />}
+        {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
         {tab === 'wallet'   && <KidWalletView kidId={user.id} />}
         {tab === 'messages' && <MessagesTab />}

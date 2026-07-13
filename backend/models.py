@@ -30,6 +30,7 @@ class DBUser(Base):
     activation_token_expires = Column(String, nullable=True)  # ISO timestamp
     reset_token              = Column(String, nullable=True)
     reset_token_expires      = Column(String, nullable=True)  # ISO timestamp
+    daily_deduction_enabled  = Column(String, default="1")  # kids: "1"/"0" — deduct points for unchecked daily chores at day's end
 
 
 class DBChore(Base):
@@ -103,3 +104,17 @@ class DBTransaction(Base):
     amount      = Column(Float,  nullable=False)
     description = Column(String, nullable=False)
     timestamp   = Column(String, nullable=False)
+
+
+class DBDailyChoreItem(Base):
+    __tablename__ = "daily_chore_items"
+    id          = Column(String, primary_key=True)
+    kid_id      = Column(String, nullable=False, index=True)
+    title       = Column(String, nullable=False)
+    image_emoji = Column(String, default="✅")
+    points      = Column(Float, default=2)
+    order_index = Column(Integer, default=0)
+    is_active   = Column(String, default="1")   # "1"/"0" — soft delete
+    checked     = Column(String, default="0")   # "1"/"0" — whether done for `reset_date`
+    reset_date  = Column(String, nullable=True)  # YYYY-MM-DD the `checked` state applies to
+    created_at  = Column(String, nullable=False)
