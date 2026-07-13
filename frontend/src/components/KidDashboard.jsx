@@ -148,17 +148,21 @@ function KidShopTab({ userId }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [sortOrder, setSortOrder] = useState('')  // '' | 'asc' | 'desc'
+  const [pendingItemIds, setPendingItemIds] = useState(new Set())
 
   const loadData = useCallback(async () => {
     setLoading(true)
     setError('')
     try {
-      const [shopData, walletData] = await Promise.all([
+      const [shopData, walletData, purchasesData] = await Promise.all([
         api.getShopItems(),
-        api.getWallet(userId)
+        api.getWallet(userId),
+        api.getShopPurchases(),
       ])
       setItems(Array.isArray(shopData) ? shopData : [])
       setBalance(walletData?.balance ?? 0)
+      const pending = (Array.isArray(purchasesData) ? purchasesData : []).filter(p => p.status === 'pending')
+      setPendingItemIds(new Set(pending.map(p => p.shopItemId)))
     } catch (err) {
       setError(err.message)
     } finally {
@@ -189,6 +193,12 @@ function KidShopTab({ userId }) {
         <span className="balance-chip">Balance: {balance} pts</span>
       </div>
 
+      {pendingItemIds.size > 0 && (
+        <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.85rem' }}>
+          ⏳ You have {pendingItemIds.size} purchase{pendingItemIds.size > 1 ? 's' : ''} waiting for a parent to approve.
+        </div>
+      )}
+
       {items.length === 0 ? (
         <div className="empty-text">The shop is empty. Check back later!</div>
       ) : (
@@ -200,6 +210,7 @@ function KidShopTab({ userId }) {
                 key={item.id}
                 item={item}
                 balance={balance}
+                isPending={pendingItemIds.has(item.id)}
                 onRefresh={loadData}
               />
             ))}

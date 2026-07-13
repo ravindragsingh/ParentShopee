@@ -1,14 +1,15 @@
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from content_filter import check_content
 from database import get_db
 from deps import require_auth, require_parent
 from helpers import get_family_id, now, safe_user
-from models import DBTransaction, DBUser, DBWallet
+from models import DBChore, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import AddKidBody, BehaviourBody, BonusPointsBody, UpdateKidPasswordBody, WalletAdjustBody
 from security import check_password_complexity
@@ -158,3 +159,56 @@ def update_kid_password(kid_id: str, body: UpdateKidPasswordBody, db: Session = 
     kid.password = body.password
     db.commit()
     return ok({"message": f"Password updated for {kid.name}"})
+
+
+@router.get("/api/kids/{kid_id}/report")
+def get_kid_report(kid_id: str, period: str = "weekly", db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    if period not in ("weekly", "monthly"):
+        fail("period must be 'weekly' or 'monthly'")
+    family_id = get_family_id(user)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    if not kid:
+        fail("Child not found or not in your family", 404)
+
+    days = 7 if period == "weekly" else 30
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+
+    chores = db.query(DBChore).filter(
+        DBChore.status == "complete",
+        DBChore.completed_at.isnot(None),
+        DBChore.completed_at >= cutoff,
+        or_(DBChore.assigned_kid_id == kid_id, DBChore.completed_by_kid_id == kid_id),
+    ).all()
+
+    txns = db.query(DBTransaction).filter(
+        DBTransaction.kid_id == kid_id,
+        DBTransaction.timestamp >= cutoff,
+    ).order_by(DBTransaction.timestamp.desc()).all()
+
+    daily_completions = [t for t in txns if t.type == "earned" and t.description.startswith("Daily chore")]
+    earned_total = sum(t.amount for t in txns if t.type in ("earned", "bonus"))
+    spent_total = sum(t.amount for t in txns if t.type == "spent")
+
+    tasks = []
+    for c in chores:
+        tasks.append({"title": c.title, "imageEmoji": c.image_emoji, "points": c.points,
+                      "completedAt": c.completed_at, "kind": "chore"})
+    for t in daily_completions:
+        title = t.description.split(": ", 1)[1] if ": " in t.description else t.description
+        tasks.append({"title": title, "imageEmoji": "📅", "points": t.amount,
+                      "completedAt": t.timestamp, "kind": "daily"})
+    tasks.sort(key=lambda x: x["completedAt"], reverse=True)
+
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
+
+    return ok({
+        "kidId": kid_id,
+        "kidName": kid.name,
+        "period": period,
+        "since": cutoff,
+        "tasksCompleted": len(tasks),
+        "pointsEarned": earned_total,
+        "pointsSpent": spent_total,
+        "currentBalance": wallet.balance if wallet else 0,
+        "tasks": tasks[:100],
+    })

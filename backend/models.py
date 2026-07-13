@@ -31,6 +31,7 @@ class DBUser(Base):
     reset_token              = Column(String, nullable=True)
     reset_token_expires      = Column(String, nullable=True)  # ISO timestamp
     daily_deduction_enabled  = Column(String, default="1")  # kids: "1"/"0" — deduct points for unchecked daily chores at day's end
+    shop_approval_enabled    = Column(String, default="0")  # family owner: "1"/"0" — kid purchases need parent approval
 
 
 class DBChore(Base):
@@ -118,3 +119,16 @@ class DBDailyChoreItem(Base):
     status      = Column(String, default="open")  # open | pending | complete — for `reset_date`
     reset_date  = Column(String, nullable=True)  # YYYY-MM-DD the `status` cycle applies to
     created_at  = Column(String, nullable=False)
+
+
+class DBShopPurchase(Base):
+    __tablename__ = "shop_purchases"
+    id          = Column(String, primary_key=True)
+    kid_id      = Column(String, nullable=False, index=True)
+    shop_item_id = Column(String, nullable=True)   # best-effort link; item may later be edited/deleted
+    item_name   = Column(String, nullable=False)   # snapshot at request time
+    image_emoji = Column(String, default="🎁")
+    cost        = Column(Float, nullable=False)
+    status      = Column(String, default="pending")  # pending | approved | rejected
+    created_at  = Column(String, nullable=False)
+    resolved_at = Column(String, nullable=True)

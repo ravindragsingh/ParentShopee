@@ -88,6 +88,7 @@ def startup():
             ("users",      "birth_month",             "INTEGER"),
             ("users",      "birth_year",              "INTEGER"),
             ("users",      "daily_deduction_enabled", "VARCHAR"),
+            ("users",      "shop_approval_enabled",   "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
         ]:
             try:
@@ -111,6 +112,7 @@ def startup():
         # is active by default — only fresh registrations start inactive.
         conn.execute(text("UPDATE users SET is_active='1' WHERE is_active IS NULL"))
         conn.execute(text("UPDATE users SET daily_deduction_enabled='1' WHERE daily_deduction_enabled IS NULL"))
+        conn.execute(text("UPDATE users SET shop_approval_enabled='0' WHERE shop_approval_enabled IS NULL"))
         # Daily chore items from before the open/pending/complete status column existed
         # tracked completion with a "checked" 0/1 column instead — carry that over.
         try:

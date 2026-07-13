@@ -430,7 +430,7 @@ const SAMPLE_SHOP_ITEMS = [
 
 // ─── Shop Tab ────────────────────────────────────────────────────────────────
 
-function ShopTab() {
+function ShopTab({ kids = [] }) {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -445,6 +445,64 @@ function ShopTab() {
   const [limits, setLimits] = useState(null)
   const [settingUpSample, setSettingUpSample] = useState(false)
   const [deletingAll, setDeletingAll] = useState(false)
+
+  // Purchase approvals
+  const [approvalExpanded, setApprovalExpanded] = useState(false)
+  const [shopSettings, setShopSettings] = useState(null)
+  const [savingSettings, setSavingSettings] = useState(false)
+  const [purchases, setPurchases] = useState([])
+  const [purchaseBusyId, setPurchaseBusyId] = useState(null)
+  const [purchaseError, setPurchaseError] = useState('')
+
+  const loadShopSettings = useCallback(async () => {
+    try { setShopSettings(await api.getShopSettings()) } catch (e) {}
+  }, [])
+
+  const loadPurchases = useCallback(async () => {
+    try { setPurchases(await api.getShopPurchases()) } catch (e) {}
+  }, [])
+
+  useEffect(() => { loadShopSettings(); loadPurchases() }, [loadShopSettings, loadPurchases])
+
+  async function handleToggleShopApproval() {
+    setSavingSettings(true)
+    try {
+      const res = await api.updateShopSettings(!shopSettings.shopApprovalEnabled)
+      setShopSettings(res)
+    } catch (err) {
+      setPurchaseError(err.message)
+    } finally {
+      setSavingSettings(false)
+    }
+  }
+
+  async function handleApprovePurchase(purchase) {
+    setPurchaseBusyId(purchase.id)
+    setPurchaseError('')
+    try {
+      await api.approveShopPurchase(purchase.id)
+      loadPurchases()
+    } catch (err) {
+      setPurchaseError(err.message)
+    } finally {
+      setPurchaseBusyId(null)
+    }
+  }
+
+  async function handleRejectPurchase(purchase) {
+    setPurchaseBusyId(purchase.id)
+    setPurchaseError('')
+    try {
+      await api.rejectShopPurchase(purchase.id)
+      loadPurchases()
+    } catch (err) {
+      setPurchaseError(err.message)
+    } finally {
+      setPurchaseBusyId(null)
+    }
+  }
+
+  const pendingPurchases = purchases.filter(p => p.status === 'pending')
 
   const loadLimits = useCallback(async () => {
     try {
@@ -545,6 +603,62 @@ function ShopTab() {
 
   return (
     <div>
+      {/* Purchase Approvals */}
+      <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
+        <div
+          role="button" tabIndex={0}
+          onClick={() => setApprovalExpanded(v => !v)}
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setApprovalExpanded(v => !v)}
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
+        >
+          <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            🛍️ Purchase Approvals
+            {pendingPurchases.length > 0 && (
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
+                ⏳ {pendingPurchases.length} awaiting approval
+              </span>
+            )}
+          </span>
+          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{approvalExpanded ? '▲' : '▼'}</span>
+        </div>
+        {approvalExpanded && (
+          <div style={{ marginTop: 14 }}>
+            {shopSettings && (
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#334155', fontWeight: 600, cursor: 'pointer', marginBottom: 14 }}>
+                <input type="checkbox" checked={shopSettings.shopApprovalEnabled} disabled={savingSettings} onChange={handleToggleShopApproval} />
+                Require my approval before kids can redeem shop items
+              </label>
+            )}
+            {purchaseError && <div className="error-msg" style={{ marginBottom: 10 }}>{purchaseError}</div>}
+            {pendingPurchases.length === 0 ? (
+              <div className="empty-text">No purchase requests waiting on you right now.</div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {pendingPurchases.map(p => {
+                  const kid = kids.find(k => k.id === p.kidId)
+                  return (
+                    <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1px solid #fed7aa', borderRadius: 10, padding: '10px 14px' }}>
+                      <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{p.imageEmoji}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <span style={{ fontWeight: 600, color: '#1e293b' }}>{p.itemName}</span>
+                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>
+                          {kid?.avatar && <span>{kid.avatar} </span>}Requested by: {kid?.name || 'Unknown'}
+                        </div>
+                      </div>
+                      <span className="points-badge">{p.cost} pts</span>
+                      <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                        <button className="btn btn-green btn-sm" disabled={purchaseBusyId === p.id} onClick={() => handleApprovePurchase(p)}>✓ Approve</button>
+                        <button className="btn btn-red btn-sm" disabled={purchaseBusyId === p.id} onClick={() => handleRejectPurchase(p)}>✕ Reject</button>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Add Item Form */}
       <div className="form-card">
         <div className="form-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -918,6 +1032,40 @@ function KidsTab() {
   const [adjustSuccess, setAdjustSuccess] = useState('')
   const MAX_ADJUST_MESSAGE = 15
 
+  // Report
+  const [reportFor, setReportFor] = useState(null)      // kid id
+  const [reportPeriod, setReportPeriod] = useState('weekly')
+  const [reportData, setReportData] = useState(null)
+  const [reportLoading, setReportLoading] = useState(false)
+  const [reportError, setReportError] = useState('')
+
+  async function loadReport(kidId, period) {
+    setReportLoading(true); setReportError(''); setReportData(null)
+    try {
+      const data = await api.getKidReport(kidId, period)
+      setReportData(data)
+    } catch (err) {
+      setReportError(err.message)
+    } finally {
+      setReportLoading(false)
+    }
+  }
+
+  function toggleReport(kid) {
+    if (reportFor === kid.id) {
+      setReportFor(null)
+    } else {
+      setReportFor(kid.id)
+      setChangingPwdFor(null); setViewingTxFor(null); setAdjustFor(null); setAdjustMode(null)
+      loadReport(kid.id, reportPeriod)
+    }
+  }
+
+  function changeReportPeriod(kidId, period) {
+    setReportPeriod(period)
+    loadReport(kidId, period)
+  }
+
   async function loadKidTx(kidId) {
     setTxLoading(true); setTxError(''); setTxData(null)
     try {
@@ -935,7 +1083,7 @@ function KidsTab() {
       setViewingTxFor(null)
     } else {
       setViewingTxFor(kid.id)
-      setChangingPwdFor(null); setAdjustFor(null); setAdjustMode(null)
+      setChangingPwdFor(null); setAdjustFor(null); setAdjustMode(null); setReportFor(null)
       loadKidTx(kid.id)
     }
   }
@@ -1146,7 +1294,7 @@ function KidsTab() {
                     className="kid-action-btn outline"
                     onClick={() => {
                       setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
-                      setViewingTxFor(null); setAdjustFor(null); setAdjustMode(null); setNewPwd(''); setPwdError('')
+                      setViewingTxFor(null); setAdjustFor(null); setAdjustMode(null); setReportFor(null); setNewPwd(''); setPwdError('')
                     }}
                   >
                     <span className="btn-label">🔑 {changingPwdFor === kid.id ? 'Cancel' : 'Password'}</span>
@@ -1158,7 +1306,7 @@ function KidsTab() {
                       const opening = !(adjustFor === kid.id && adjustMode === 'bonus')
                       setAdjustFor(opening ? kid.id : null)
                       setAdjustMode(opening ? 'bonus' : null)
-                      setChangingPwdFor(null); setViewingTxFor(null)
+                      setChangingPwdFor(null); setViewingTxFor(null); setReportFor(null)
                       setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
                     }}
                   >
@@ -1171,7 +1319,7 @@ function KidsTab() {
                       const opening = !(adjustFor === kid.id && adjustMode === 'remove')
                       setAdjustFor(opening ? kid.id : null)
                       setAdjustMode(opening ? 'remove' : null)
-                      setChangingPwdFor(null); setViewingTxFor(null)
+                      setChangingPwdFor(null); setViewingTxFor(null); setReportFor(null)
                       setAdjustPts(''); setAdjustMessage(''); setAdjustError(''); setAdjustSuccess('')
                     }}
                   >
@@ -1185,8 +1333,73 @@ function KidsTab() {
                     <span className="btn-label">📋 {viewingTxFor === kid.id ? 'Hide' : 'Transactions'}</span>
                     <span className="chevron">›</span>
                   </button>
+                  <button
+                    className="kid-action-btn outline"
+                    onClick={() => toggleReport(kid)}
+                  >
+                    <span className="btn-label">📊 {reportFor === kid.id ? 'Hide' : 'Report'}</span>
+                    <span className="chevron">›</span>
+                  </button>
                 </div>
               </div>
+              {reportFor === kid.id && (
+                <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: '#f8fafc', borderRadius: 12, padding: '12px 16px' }}>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                    <button
+                      className={`btn btn-sm ${reportPeriod === 'weekly' ? 'btn-green' : 'btn-outline'}`}
+                      onClick={() => changeReportPeriod(kid.id, 'weekly')}
+                    >
+                      Weekly
+                    </button>
+                    <button
+                      className={`btn btn-sm ${reportPeriod === 'monthly' ? 'btn-green' : 'btn-outline'}`}
+                      onClick={() => changeReportPeriod(kid.id, 'monthly')}
+                    >
+                      Monthly
+                    </button>
+                  </div>
+                  {reportLoading && <div className="empty-text">Loading report...</div>}
+                  {reportError && <div className="error-msg">{reportError}</div>}
+                  {!reportLoading && !reportError && reportData && (
+                    <div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
+                        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '8px 14px', minWidth: 110 }}>
+                          <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Tasks Done</div>
+                          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a' }}>{reportData.tasksCompleted}</div>
+                        </div>
+                        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '8px 14px', minWidth: 110 }}>
+                          <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Points Earned</div>
+                          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#059669' }}>+{reportData.pointsEarned}</div>
+                        </div>
+                        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '8px 14px', minWidth: 110 }}>
+                          <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Points Spent</div>
+                          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#dc2626' }}>-{reportData.pointsSpent}</div>
+                        </div>
+                        <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '8px 14px', minWidth: 110 }}>
+                          <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Current Balance</div>
+                          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a' }}>{reportData.currentBalance}</div>
+                        </div>
+                      </div>
+                      {reportData.tasks.length === 0 ? (
+                        <div className="empty-text">No completed tasks in this period.</div>
+                      ) : (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 260, overflowY: 'auto' }}>
+                          {reportData.tasks.map((t, i) => (
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '6px 10px' }}>
+                              <span style={{ fontSize: '1.1rem' }}>{t.imageEmoji}</span>
+                              <span style={{ flex: 1, fontSize: '0.85rem', color: '#334155' }}>{t.title}</span>
+                              <span className="points-badge">+{t.points}</span>
+                              <span style={{ fontSize: '0.72rem', color: '#94a3b8', minWidth: 90, textAlign: 'right' }}>
+                                {new Date(t.completedAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
               {changingPwdFor === kid.id && (
                 <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: '#f8fafc', borderRadius: 12, padding: '12px 16px' }}>
                   {pwdError && <div className="error-msg" style={{ marginBottom: 8 }}>{pwdError}</div>}
@@ -1455,7 +1668,7 @@ export default function ParentDashboard() {
         )}
 
         {tab === 'chores'    && <ChoresTab kids={kids} />}
-        {tab === 'shop'      && <ShopTab />}
+        {tab === 'shop'      && <ShopTab kids={kids} />}
         {tab === 'kids'      && <KidsTab />}
         {tab === 'co-parent' && <CoParentTab />}
         {tab === 'messages'  && <MessagesTab />}

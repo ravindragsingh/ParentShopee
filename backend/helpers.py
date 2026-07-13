@@ -3,7 +3,7 @@ from datetime import date, datetime, timezone
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
-from models import DBChore, DBDailyChoreItem, DBRecurringTemplate, DBShopItem, DBUser
+from models import DBChore, DBDailyChoreItem, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBUser
 from responses import fail
 
 
@@ -25,7 +25,8 @@ def get_family_id(user: DBUser) -> str:
 
 def get_family_owner(db: Session, user: DBUser) -> DBUser:
     """The primary parent's row — where shared lifetime add-counters live."""
-    return db.query(DBUser).filter(DBUser.id == get_family_id(user)).first()
+    family_id = user.parent_id if user.role == "kid" else get_family_id(user)
+    return db.query(DBUser).filter(DBUser.id == family_id).first()
 
 def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: int, item_label: str) -> DBUser:
     """Raises 400 if adding `extra` more items would exceed the family's lifetime limit."""
@@ -77,3 +78,8 @@ def daily_chore_dict(item: DBDailyChoreItem) -> dict:
     return {"id": item.id, "kidId": item.kid_id, "title": item.title,
             "imageEmoji": item.image_emoji, "points": item.points,
             "orderIndex": item.order_index, "status": item.status}
+
+def purchase_dict(p: DBShopPurchase) -> dict:
+    return {"id": p.id, "kidId": p.kid_id, "shopItemId": p.shop_item_id,
+            "itemName": p.item_name, "imageEmoji": p.image_emoji, "cost": p.cost,
+            "status": p.status, "createdAt": p.created_at, "resolvedAt": p.resolved_at}
