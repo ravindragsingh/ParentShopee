@@ -78,6 +78,7 @@ def startup():
             ("users",      "city",                   "VARCHAR"),
             ("users",      "last_login_country",     "VARCHAR"),
             ("users",      "last_login_city",        "VARCHAR"),
+            ("users",      "last_login_at",          "VARCHAR"),
             ("users",      "is_active",               "VARCHAR"),
             ("users",      "activation_token",        "VARCHAR"),
             ("users",      "activation_token_expires","VARCHAR"),

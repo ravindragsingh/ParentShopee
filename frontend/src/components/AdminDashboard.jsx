@@ -21,6 +21,13 @@ const TXN_STYLE = {
 
 const KID_AVATARS = ['🐶','🐱','🦁','🐯','🦊','🐻','🐼','🐨','🐸','🦄','🐧','🐬','🦋','🐙','🦖','🦒','🐘','🌟','⭐','🌈']
 
+function formatLastLogin(iso) {
+  if (!iso) return null
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return null
+  return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
+}
+
 const inputStyle = {
   width: '100%', padding: '8px 11px', borderRadius: 8,
   border: '1px solid #e2e8f0', fontSize: '0.87rem', outline: 'none', boxSizing: 'border-box',
@@ -578,9 +585,13 @@ export default function AdminDashboard() {
                       📍 Created: {[family.parent.city, family.parent.country].filter(Boolean).join(', ')}
                     </div>
                   )}
-                  {(family.parent.lastLoginCity || family.parent.lastLoginCountry) && (
+                  {(family.parent.lastLoginCity || family.parent.lastLoginCountry || family.parent.lastLoginAt) && (
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
-                      🕑 Last login: {[family.parent.lastLoginCity, family.parent.lastLoginCountry].filter(Boolean).join(', ')}
+                      🕑 Last login:{' '}
+                      {[family.parent.lastLoginCity, family.parent.lastLoginCountry].filter(Boolean).join(', ')}
+                      {formatLastLogin(family.parent.lastLoginAt) && (
+                        <> {(family.parent.lastLoginCity || family.parent.lastLoginCountry) ? '· ' : ''}{formatLastLogin(family.parent.lastLoginAt)}</>
+                      )}
                     </div>
                   )}
                 </div>
@@ -691,6 +702,9 @@ export default function AdminDashboard() {
                               </div>
                               <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>@{member.username}</div>
                               {member.email && <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>{member.email}</div>}
+                              {formatLastLogin(member.lastLoginAt) && (
+                                <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>🕑 Last login: {formatLastLogin(member.lastLoginAt)}</div>
+                              )}
                               {member.balance !== undefined && (
                                 <div style={{ fontSize: '0.78rem', color: '#0d9488', fontWeight: 700, marginTop: 2 }}>{member.balance} pts</div>
                               )}

@@ -45,6 +45,7 @@ def safe_user(u: DBUser) -> dict:
             "gender": u.gender, "coParentOf": u.co_parent_of,
             "country": u.country, "city": u.city,
             "lastLoginCountry": u.last_login_country, "lastLoginCity": u.last_login_city,
+            "lastLoginAt": u.last_login_at,
             "birthMonth": u.birth_month, "birthYear": u.birth_year,
             "age": calculate_approx_age(u.birth_month, u.birth_year) if (u.birth_month and u.birth_year) else None}
 
