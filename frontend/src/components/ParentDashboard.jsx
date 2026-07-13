@@ -225,6 +225,9 @@ function ChoresTab({ kids }) {
   // Recurring section expand state
   const [recurringExpanded, setRecurringExpanded] = useState(false)
 
+  // Open Chores card expand state
+  const [openChoresExpanded, setOpenChoresExpanded] = useState(false)
+
   function filterByKid(list) {
     if (!filterKidId) return list
     return list.filter(c =>
@@ -288,24 +291,36 @@ function ChoresTab({ kids }) {
       {/* Open Chores — includes chores awaiting approval inline, styled like Daily Chores */}
       {!loading && (
         <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
-          <div className="form-title" style={{ marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            ✨ Open Chores
-            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
-              {open.length + pending.length} total
-            </span>
-            {pending.length > 0 && (
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
-                ⏳ {pending.length} awaiting approval
+          <div
+            role="button" tabIndex={0}
+            onClick={() => setOpenChoresExpanded(v => !v)}
+            onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setOpenChoresExpanded(v => !v)}
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
+          >
+            <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              ✨ Open Chores
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
+                {open.length + pending.length} total
               </span>
-            )}
+              {pending.length > 0 && (
+                <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
+                  ⏳ {pending.length} awaiting approval
+                </span>
+              )}
+            </span>
+            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{openChoresExpanded ? '▲' : '▼'}</span>
           </div>
-          {(open.length + pending.length) === 0 ? (
-            <div className="empty-text">No open chores.</div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[...pending, ...open].map(chore => (
-                <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" />
-              ))}
+          {openChoresExpanded && (
+            <div style={{ marginTop: 14 }}>
+              {(open.length + pending.length) === 0 ? (
+                <div className="empty-text">No open chores.</div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {[...pending, ...open].map(chore => (
+                    <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -7,7 +7,7 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [busyId, setBusyId] = useState(null)
   const [savingSettings, setSavingSettings] = useState(false)
