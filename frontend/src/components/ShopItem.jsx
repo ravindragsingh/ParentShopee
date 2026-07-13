@@ -103,20 +103,20 @@ export function ParentShopItem({ item, onRefresh }) {
 }
 
 // Kid view of shop item with buy button
-export function KidShopItem({ item, balance, onRefresh }) {
+export function KidShopItem({ item, balance, isPending, onRefresh }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const canAfford = balance >= item.cost
 
   async function handleBuy() {
-    if (!canAfford) return
+    if (!canAfford || isPending) return
     setLoading(true)
     setError('')
     setSuccess('')
     try {
-      await api.buyShopItem(item.id)
-      setSuccess('Purchased!')
+      const res = await api.buyShopItem(item.id)
+      setSuccess(res.pending ? 'Submitted for approval!' : 'Purchased!')
       onRefresh()
     } catch (err) {
       setError(err.message)
@@ -134,12 +134,12 @@ export function KidShopItem({ item, balance, onRefresh }) {
       {error && <div style={{ color: '#dc2626', fontSize: '0.78rem' }}>{error}</div>}
       {success && <div style={{ color: '#059669', fontSize: '0.78rem' }}>{success}</div>}
       <button
-        className={`btn btn-sm ${canAfford ? 'btn-green' : 'btn-gray'}`}
+        className={`btn btn-sm ${isPending ? 'btn-outline' : canAfford ? 'btn-green' : 'btn-gray'}`}
         onClick={handleBuy}
-        disabled={loading || !canAfford}
-        title={canAfford ? 'Buy this item' : 'Not enough points'}
+        disabled={loading || !canAfford || isPending}
+        title={isPending ? 'Waiting for parent approval' : canAfford ? 'Buy this item' : 'Not enough points'}
       >
-        {loading ? 'Buying...' : canAfford ? 'Buy' : 'Not enough pts'}
+        {loading ? 'Buying...' : isPending ? '⏳ Awaiting approval' : canAfford ? 'Buy' : 'Not enough pts'}
       </button>
     </div>
   )

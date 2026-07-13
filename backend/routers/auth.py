@@ -27,6 +27,8 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
     user = db.query(DBUser).filter(DBUser.username == body.username, DBUser.password == body.password).first()
     if not user:
         fail("Invalid credentials", 401)
+    if user.is_suspended == "1":
+        fail("This account has been suspended. Contact support for help.", 403, code="account_suspended")
     if user.is_active != "1":
         fail(
             "Please activate your account before signing in — check your email for the activation link.",
@@ -34,6 +36,7 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
             code="account_not_activated",
         )
     user.last_login_at = now()
+    user.last_active_at = user.last_login_at
     db.commit()
     db.refresh(user)
     token = str(uuid4())
@@ -79,6 +82,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         is_active="0",
         activation_token=str(uuid4()),
         activation_token_expires=expires,
+        created_at=now(),
     )
     db.add(user)
     db.commit()

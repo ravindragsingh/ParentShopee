@@ -85,6 +85,11 @@ export const api = {
   updateShopItem: (id, body) => request('PUT', `/api/shop/${id}`, body),
   deleteShopItem: (id) => request('DELETE', `/api/shop/${id}`),
   buyShopItem: (id) => request('POST', `/api/shop/${id}/buy`),
+  getShopSettings:      ()               => request('GET', '/api/shop/settings'),
+  updateShopSettings:   (enabled)        => request('PUT', '/api/shop/settings', { enabled }),
+  getShopPurchases:     ()               => request('GET', '/api/shop/purchases'),
+  approveShopPurchase:  (id)             => request('POST', `/api/shop/purchases/${id}/approve`),
+  rejectShopPurchase:   (id)             => request('POST', `/api/shop/purchases/${id}/reject`),
 
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
@@ -96,6 +101,7 @@ export const api = {
   updateKidPassword: (kidId, pwd)         => request('PUT',  `/api/kids/${kidId}/password`, { password: pwd }),
   awardBonus:        (kidId, points, reason) => request('POST', `/api/kids/${kidId}/bonus`, { points, reason }),
   adjustWallet:      (kidId, amount, reason) => request('POST', `/api/kids/${kidId}/wallet/adjust`, { amount, reason }),
+  getKidReport:      (kidId, period)      => request('GET', `/api/kids/${kidId}/report?period=${period}`),
 
   // Account
   changeOwnPassword: (password) => request('PUT', '/api/auth/password', { password }),
@@ -139,4 +145,9 @@ export const api = {
   adminUpdateUser:         (userId, body)  => request('PUT', `/api/admin/user/${userId}`, body),
   adminDeleteUser:         (userId)        => request('DELETE', `/api/admin/user/${userId}`),
   adminUpdateChore:        (choreId, body) => request('PUT', `/api/admin/chore/${choreId}`, body),
+  adminSuspendUser:        (userId)        => request('POST', `/api/admin/user/${userId}/suspend`),
+  adminUnsuspendUser:      (userId)        => request('POST', `/api/admin/user/${userId}/unsuspend`),
+  adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),
+  adminResolveTicket:      (id)            => request('POST', `/api/admin/tickets/${id}/resolve`),
+  adminReopenTicket:       (id)            => request('POST', `/api/admin/tickets/${id}/reopen`),
 }

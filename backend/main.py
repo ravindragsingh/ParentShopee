@@ -88,6 +88,10 @@ def startup():
             ("users",      "birth_month",             "INTEGER"),
             ("users",      "birth_year",              "INTEGER"),
             ("users",      "daily_deduction_enabled", "VARCHAR"),
+            ("users",      "shop_approval_enabled",   "VARCHAR"),
+            ("users",      "created_at",              "VARCHAR"),
+            ("users",      "last_active_at",          "VARCHAR"),
+            ("users",      "is_suspended",            "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
         ]:
             try:
@@ -111,6 +115,11 @@ def startup():
         # is active by default — only fresh registrations start inactive.
         conn.execute(text("UPDATE users SET is_active='1' WHERE is_active IS NULL"))
         conn.execute(text("UPDATE users SET daily_deduction_enabled='1' WHERE daily_deduction_enabled IS NULL"))
+        conn.execute(text("UPDATE users SET shop_approval_enabled='0' WHERE shop_approval_enabled IS NULL"))
+        conn.execute(text("UPDATE users SET is_suspended='0' WHERE is_suspended IS NULL"))
+        # Commit everything backfilled above before the risky statement below — its
+        # rollback-on-failure would otherwise also discard all of these uncommitted updates.
+        conn.commit()
         # Daily chore items from before the open/pending/complete status column existed
         # tracked completion with a "checked" 0/1 column instead — carry that over.
         try:
