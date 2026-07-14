@@ -90,7 +90,8 @@ def remove_co_parent(db: Session = Depends(get_db), user: DBUser = Depends(requi
 # `user` on both endpoints below is always the primary parent's own "device"
 # session — the one established by the real username+password login. Kids and
 # co-parents no longer get an independent login token from /api/auth/login, so
-# there's no ambiguity about whose family this is.
+# there's no ambiguity about whose family this is. Every profile — including the
+# primary parent's own — is PIN-gated, so picking any tile always asks for a PIN.
 
 @router.get("/api/family/profiles")
 def list_family_profiles(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
@@ -112,7 +113,7 @@ def list_family_profiles(db: Session = Depends(get_db), user: DBUser = Depends(r
             "tempPin": u.pin if needs_setup else None,
         }
 
-    profiles = [profile_dict(parent, False)]
+    profiles = [profile_dict(parent, parent.pin is not None)]
     if co_parent:
         profiles.append(profile_dict(co_parent, True))
     for kid in kids:
@@ -126,19 +127,15 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
     family_id = get_family_id(user)
 
     if profile_id == family_id:
-        # Continuing as the primary parent themselves — they already proved who
-        # they are with their real password, no PIN needed.
-        token = str(uuid4())
-        SESSIONS[token] = user.id
-        return ok({"token": token, "user": safe_user(user)})
-
-    profile = db.query(DBUser).filter(
-        DBUser.id == profile_id,
-        or_(
-            and_(DBUser.role == "kid", DBUser.parent_id == family_id),
-            DBUser.co_parent_of == family_id,
-        ),
-    ).first()
+        profile = db.query(DBUser).filter(DBUser.id == family_id).first()
+    else:
+        profile = db.query(DBUser).filter(
+            DBUser.id == profile_id,
+            or_(
+                and_(DBUser.role == "kid", DBUser.parent_id == family_id),
+                DBUser.co_parent_of == family_id,
+            ),
+        ).first()
     if not profile:
         fail("Profile not found", 404)
 
@@ -149,7 +146,7 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
         except ValueError:
             pass
 
-    if not body.pin or body.pin != profile.pin:
+    if not profile.pin or not body.pin or body.pin != profile.pin:
         profile.pin_attempts = (profile.pin_attempts or 0) + 1
         if profile.pin_attempts >= PIN_MAX_ATTEMPTS:
             profile.pin_locked_until = (datetime.now(timezone.utc) + timedelta(minutes=PIN_LOCKOUT_MINUTES)).isoformat()

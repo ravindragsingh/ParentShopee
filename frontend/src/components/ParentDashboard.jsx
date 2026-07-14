@@ -1002,6 +1002,12 @@ function AdminPanelTab() {
   const [pwdSuccess, setPwdSuccess] = useState('')
   const [saving, setSaving] = useState(false)
 
+  const [newPin, setNewPin] = useState('')
+  const [confirmPin, setConfirmPin] = useState('')
+  const [pinError, setPinError] = useState('')
+  const [pinSuccess, setPinSuccess] = useState('')
+  const [savingPin, setSavingPin] = useState(false)
+
   const isPrimaryParent = !user.coParentOf
 
   async function handleChangePwd(e) {
@@ -1019,6 +1025,24 @@ function AdminPanelTab() {
       setPwdError(err.message)
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function handleChangePin(e) {
+    e.preventDefault()
+    setPinError(''); setPinSuccess('')
+    const pinCheck = checkPinComplexity(newPin)
+    if (!pinCheck.ok) { setPinError(pinCheck.message); return }
+    if (newPin !== confirmPin) { setPinError('PINs do not match.'); return }
+    setSavingPin(true)
+    try {
+      await api.updateMyPin(newPin)
+      setPinSuccess('PIN updated successfully.')
+      setNewPin(''); setConfirmPin('')
+    } catch (err) {
+      setPinError(err.message)
+    } finally {
+      setSavingPin(false)
     }
   }
 
@@ -1082,6 +1106,35 @@ function AdminPanelTab() {
               </div>
               <button type="submit" className="btn btn-primary" disabled={saving}>
                 {saving ? 'Saving…' : 'Update Password'}
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* Change profile-picker PIN — primary parent only; this is what unlocks
+            their own tile in the picker, separate from their login password */}
+        {isPrimaryParent && (
+          <div className="form-card" style={{ marginBottom: 16 }}>
+            <div className="form-title">Change My PIN</div>
+            <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 14 }}>
+              This is the 6-digit PIN that unlocks your own profile from the profile picker — separate from your sign-in password.
+            </p>
+            <form onSubmit={handleChangePin}>
+              {pinError   && <div className="error-msg">{pinError}</div>}
+              {pinSuccess && <div className="success-msg">{pinSuccess}</div>}
+              <div className="form-row" style={{ marginBottom: 6 }}>
+                <div className="form-group">
+                  <label>New 6-digit PIN</label>
+                  <input inputMode="numeric" maxLength={6} value={newPin} onChange={e => setNewPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
+                </div>
+                <div className="form-group">
+                  <label>Confirm PIN</label>
+                  <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+                </div>
+              </div>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
+              <button type="submit" className="btn btn-primary" disabled={savingPin}>
+                {savingPin ? 'Saving…' : 'Update PIN'}
               </button>
             </form>
           </div>

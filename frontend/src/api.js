@@ -105,6 +105,7 @@ export const api = {
 
   // Account
   changeOwnPassword: (password) => request('PUT', '/api/auth/password', { password }),
+  updateMyPin:       (pin)      => request('PUT', '/api/auth/pin', { pin }),
 
   // Messaging
   getContacts:  ()                       => request('GET',  '/api/messages/contacts'),

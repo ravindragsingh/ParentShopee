@@ -1,3 +1,4 @@
+import random
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
@@ -15,9 +16,9 @@ from models import DBUser
 from responses import fail, ok
 from schemas import (
     ActivateBody, ChangeOwnPasswordBody, ForgotPasswordBody, ForgotUsernameBody,
-    LoginBody, RegisterBody, ResendActivationBody, ResetPasswordBody,
+    LoginBody, RegisterBody, ResendActivationBody, ResetPasswordBody, UpdatePinBody,
 )
-from security import check_password_complexity
+from security import check_password_complexity, check_pin_complexity
 
 router = APIRouter()
 
@@ -74,6 +75,11 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
     location = get_location_from_ip(get_client_ip(request))
     expires = (datetime.now(timezone.utc) + timedelta(hours=ACTIVATION_TOKEN_TTL_HOURS)).isoformat()
 
+    # Every profile in the picker is PIN-gated, including the primary parent's own —
+    # seed a temporary PIN now so they aren't locked out of their first "continue as
+    # me" pick; the profile picker's migration-notice banner surfaces it to them.
+    temp_pin = f"{random.randint(0, 999999):06d}"
+
     user = DBUser(
         id=str(uuid4()),
         name=body.name.strip(),
@@ -88,6 +94,8 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         is_active="0",
         activation_token=str(uuid4()),
         activation_token_expires=expires,
+        pin=temp_pin,
+        pin_auto_generated="1",
         created_at=now(),
     )
     db.add(user)
@@ -182,3 +190,19 @@ def change_own_password(body: ChangeOwnPasswordBody, db: Session = Depends(get_d
     user.password = body.password
     db.add(user); db.commit()
     return ok({"message": "Password updated"})
+
+
+@router.put("/api/auth/pin")
+def change_own_pin(body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    # Only the primary parent self-services their own entry PIN here — kids' and
+    # the co-parent's PINs are set by the primary parent (kids.py / family.py),
+    # same as before.
+    if user.role != "parent" or user.co_parent_of:
+        fail("Only the primary parent can change their own PIN this way", 403)
+    check_pin_complexity(body.pin)
+    user.pin = body.pin
+    user.pin_auto_generated = "0"
+    user.pin_attempts = 0
+    user.pin_locked_until = None
+    db.commit()
+    return ok({"message": "PIN updated"})

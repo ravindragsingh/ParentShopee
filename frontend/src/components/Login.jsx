@@ -631,12 +631,12 @@ function LoginForm({ onRegister }) {
 
 // ── Demo box ──────────────────────────────────────────────────────────────────
 
-// Every family member now unlocks via the profile picker under the same real
-// login (parent1/pass1) — the "Kid" quick-demo signs in as the family, then
-// auto-enters kid1's profile with its seeded demo PIN, in one click.
+// Every profile — including the primary parent's own — is now PIN-gated, so
+// both quick-demos sign in as the family (parent1/pass1) then auto-enter the
+// chosen profile with its seeded demo PIN, in one click.
 const DEMO_ACCOUNTS = {
-  parent: { label: 'Parent', avatar: '🧑', username: 'parent1', password: 'pass1' },
-  kid:    { label: 'Kid',    avatar: '🧒', username: 'parent1', password: 'pass1', profileId: 'kid1', profilePin: '123456' },
+  parent: { label: 'Parent', avatar: '🧑', username: 'parent1', password: 'pass1', profileId: 'parent1', profileName: 'Mom',   profilePin: '246810' },
+  kid:    { label: 'Kid',    avatar: '🧒', username: 'parent1', password: 'pass1', profileId: 'kid1',    profileName: 'Alice', profilePin: '123456' },
 }
 
 function DemoBox() {
@@ -653,12 +653,8 @@ function DemoBox() {
       const acc = DEMO_ACCOUNTS[selected]
       const data = await api.login(acc.username, acc.password)
       login(data.user, data.token)
-      if (acc.profileId) {
-        const profileData = await api.enterProfile(acc.profileId, acc.profilePin)
-        enterProfile(profileData.user, profileData.token)
-      } else {
-        enterProfile(data.user, data.token)
-      }
+      const profileData = await api.enterProfile(acc.profileId, acc.profilePin)
+      enterProfile(profileData.user, profileData.token)
       navigate('/dashboard')
     } catch (err) {
       setError(err.message || 'Could not start the demo.')
@@ -682,7 +678,7 @@ function DemoBox() {
             <div className="demo-option-text">
               <div className="demo-option-name">{acc.label}</div>
               <div className="demo-option-cred">
-                {acc.profileId ? `Alice · PIN ${acc.profilePin}` : `${acc.username} / ${acc.password}`}
+                {acc.profileName} · PIN {acc.profilePin}
               </div>
             </div>
           </div>

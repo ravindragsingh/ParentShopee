@@ -100,22 +100,10 @@ export default function ProfilePicker() {
     }
   }
 
-  async function handleTileClick(profile) {
-    if (!profile.requiresPin) {
-      // The parent's own profile — they already proved who they are with
-      // their real password, so this just confirms "continue as me."
-      setEntering(true)
-      try {
-        const data = await api.enterProfile(profile.id, null)
-        enterProfile(data.user, data.token)
-        navigate('/dashboard')
-      } catch (err) {
-        setError(err.message)
-      } finally {
-        setEntering(false)
-      }
-      return
-    }
+  function handleTileClick(profile) {
+    // Every profile — including the parent's own — is PIN-gated, so picking
+    // any tile always opens the PIN entry form. This is what makes "Switch
+    // Profile" actually lock the device instead of leaving one profile open.
     setPinFor(profile.id)
     setPinValue('')
     setPinError('')
@@ -164,7 +152,7 @@ export default function ProfilePicker() {
           {!loading && !error && needsSetup.length > 0 && !dismissedNotice && (
             <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '12px 16px', marginBottom: 18, fontSize: '0.85rem', color: '#92400e' }}>
               <div style={{ fontWeight: 700, marginBottom: 6 }}>⚠️ New PINs were set up for your family</div>
-              <div style={{ marginBottom: 8 }}>We generated a temporary PIN for each profile below. Note these down (or change them anytime from the Kids / Co-Parent tab):</div>
+              <div style={{ marginBottom: 8 }}>We generated a temporary PIN for each profile below. Note these down (or change them anytime from the Admin Panel / Kids tab):</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10 }}>
                 {needsSetup.map(p => (
                   <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', background: '#fff', borderRadius: 6, padding: '4px 10px' }}>

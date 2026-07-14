@@ -124,12 +124,14 @@ def startup():
         conn.execute(text("UPDATE users SET is_suspended='0' WHERE is_suspended IS NULL"))
         conn.execute(text("UPDATE users SET pin_attempts=0 WHERE pin_attempts IS NULL"))
         conn.execute(text("UPDATE users SET pin_auto_generated='0' WHERE pin_auto_generated IS NULL"))
-        # Migrate existing kid/co-parent accounts (which used to log in with their own
-        # username+password) onto the PIN model: generate a PIN for every one that
-        # doesn't have one yet, and flag it so the parent sees a one-time "here are
-        # your new PINs" notice on the profile picker until they set their own.
+        # Migrate every family-profile account (kids, co-parent, and now the primary
+        # parent too — every profile in the picker is PIN-gated) onto the PIN model:
+        # generate a PIN for anyone who doesn't have one yet, and flag it so the
+        # parent sees a one-time "here are your new PINs" notice on the profile
+        # picker until they set their own. Admins have no profile-picker concept
+        # and are excluded.
         rows = conn.execute(text(
-            "SELECT id FROM users WHERE pin IS NULL AND (role='kid' OR co_parent_of IS NOT NULL)"
+            "SELECT id FROM users WHERE pin IS NULL AND role != 'admin'"
         )).fetchall()
         for (user_id,) in rows:
             new_pin = f"{random.randint(0, 999999):06d}"
