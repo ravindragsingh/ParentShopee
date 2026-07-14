@@ -473,6 +473,204 @@ const POSTS = [
       },
     ],
   },
+  {
+    id: 3,
+    slug: 'parenting-guidance-ages-5-to-11',
+    title: 'The Primary Years: A Parent\'s Guide to Raising Children Aged 5 to 11',
+    subtitle: 'What to expect at each stage, how to build responsibility early, and why these six years are the most important window for shaping lifelong habits.',
+    date: 'July 2026',
+    readTime: '9 min read',
+    emoji: '🌱',
+    tags: ['Parenting', 'Child Development', 'Ages 5–11', 'Responsibility'],
+    content: [
+      {
+        type: 'intro',
+        text: 'The years between five and eleven are a window unlike any other in a child\'s life. They are curious enough to absorb everything, old enough to reason, and young enough that the habits you build now will travel with them well into adulthood. This is not the time to sit back and hope for the best — it is the time to be intentional.',
+      },
+      {
+        type: 'intro',
+        text: 'This guide walks through what children in each age band actually need from their parents, what responsibilities are developmentally appropriate, and how to make the most of this remarkable six-year stretch.',
+      },
+      {
+        type: 'h2',
+        text: 'Why Ages 5–11 Are So Important',
+      },
+      {
+        type: 'p',
+        text: 'Child psychologists consistently identify the primary school years as a critical period for developing what researchers call "self-regulation" — the ability to manage emotions, plan ahead, and persist through difficulty. Children who develop strong self-regulation by age 11 are statistically more likely to succeed academically, maintain healthier relationships, and manage money more responsibly as adults.',
+      },
+      {
+        type: 'p',
+        text: 'The good news: self-regulation is not a fixed trait. It is a skill, and like any skill, it is built through practice. The everyday routines of your home — chores, bedtimes, screen-time rules, dinner conversations — are the training ground. The stakes feel low, but the lessons are lifelong.',
+      },
+      {
+        type: 'h2',
+        text: 'Ages 5–6: The Foundation Years',
+      },
+      {
+        type: 'feature',
+        icon: '🧠',
+        title: 'What\'s happening developmentally',
+        text: 'Children this age are transitioning from pure play-based learning to structured school environments. They are developing cause-and-effect thinking ("if I do this, that happens") and beginning to understand rules as something that exist for a reason, not just because grown-ups say so.',
+      },
+      {
+        type: 'feature',
+        icon: '✅',
+        title: 'What they can take responsibility for',
+        text: 'Making their bed (not perfectly, but consistently), putting dirty clothes in a hamper, tidying toys before bed, feeding a pet, carrying their own school bag, and clearing their plate from the table. Short, simple, daily tasks work best.',
+      },
+      {
+        type: 'feature',
+        icon: '💬',
+        title: 'What they need most from you',
+        text: 'Warmth, clear predictable routines, and immediate positive feedback. Children aged 5–6 are not yet good at delayed gratification — praise right after the task matters far more than a reward promised for next week. Be specific: "You put all your toys in the box without being asked — that\'s brilliant" lands better than "good job."',
+      },
+      {
+        type: 'feature',
+        icon: '⚠️',
+        title: 'Common parenting pitfall',
+        text: 'Doing everything for them because it\'s faster. A five-year-old who never makes their own bed will still be expecting someone else to do it at fifteen. Resist the urge to rescue. It takes longer, but the independence is worth it.',
+      },
+      {
+        type: 'h2',
+        text: 'Ages 7–8: The Competence Window',
+      },
+      {
+        type: 'p',
+        text: 'Children at this age experience what developmental psychologist Erik Erikson called the "industry vs. inferiority" stage — they desperately want to feel capable and competent. This makes it the single best time to introduce genuine household responsibilities and let them feel the pride of doing something real.',
+      },
+      {
+        type: 'feature',
+        icon: '✅',
+        title: 'What they can take responsibility for',
+        text: 'Helping prepare simple meals, loading and unloading the dishwasher, vacuuming a room, watering plants, folding and putting away their own laundry, taking out bins, and helping younger siblings with simple tasks.',
+      },
+      {
+        type: 'feature',
+        icon: '💬',
+        title: 'What they need most from you',
+        text: 'Opportunities to demonstrate skill. Give them a real task with real stakes — not a pretend job. "Can you be responsible for feeding the dog every morning this week?" creates a sense of genuine ownership. Praise the effort and the follow-through, not just the outcome.',
+      },
+      {
+        type: 'feature',
+        icon: '🎯',
+        title: 'Introducing a reward system',
+        text: 'Ages 7–8 are the sweet spot for point-based systems. Children this age understand the logic of "earn, save, spend" and have enough memory to connect effort today with reward tomorrow. A simple chore chart — physical or digital — makes the contract visible and fair.',
+      },
+      {
+        type: 'feature',
+        icon: '⚠️',
+        title: 'Common parenting pitfall',
+        text: 'Criticising the quality of work so often that they stop trying. A seven-year-old\'s dishwasher loading will not be perfect. That\'s fine. Correct gently, no more than once, and lead with what they did right.',
+      },
+      {
+        type: 'h2',
+        text: 'Ages 9–11: The Responsibility Leap',
+      },
+      {
+        type: 'p',
+        text: 'The final years of primary school are marked by rapidly growing abstract thinking. Children this age can plan ahead, understand fairness at a deep level, manage basic schedules, and hold themselves to standards without constant parental oversight — if they have been given the opportunity to practise.',
+      },
+      {
+        type: 'feature',
+        icon: '✅',
+        title: 'What they can take responsibility for',
+        text: 'Managing their own homework schedule, cooking simple meals independently, cleaning bathrooms and kitchens with instruction, doing their own laundry from start to finish, mowing the lawn (with supervision), caring for younger siblings for short periods, and managing a small weekly allowance.',
+      },
+      {
+        type: 'feature',
+        icon: '💬',
+        title: 'What they need most from you',
+        text: 'Trust and increasing autonomy — with clear boundaries. Children this age need to know you believe they can handle things. Micromanaging is the enemy of confidence at this stage. Step back, let them try, let them fail safely, and be there to talk through what went wrong rather than swooping in to fix it.',
+      },
+      {
+        type: 'feature',
+        icon: '💰',
+        title: 'Money conversations start here',
+        text: 'Ages 9–11 are developmentally ready for real financial conversations: the difference between needs and wants, why some rewards require saving, what "value" means. A reward shop — whether physical or in an app — makes these abstract ideas concrete and immediate.',
+      },
+      {
+        type: 'feature',
+        icon: '⚠️',
+        title: 'Common parenting pitfall',
+        text: 'Caving under pressure. Nine to eleven-year-olds are skilled negotiators who will test every boundary. Consistency is more important now than it has ever been. If screen time is earned, it is always earned. If a chore is agreed upon, it is always expected. Exceptions teach children that rules are optional.',
+      },
+      {
+        type: 'h2',
+        text: 'The Five Habits Worth Building Before Age 12',
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: 'Contributing to the household without being asked',
+        text: 'The goal is not obedience — it is intrinsic motivation. Children who understand that a household runs because everyone contributes, and who feel the satisfaction of being a real part of that, carry that team mentality into school, friendships, and eventually workplaces.',
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: 'Managing their own belongings',
+        text: 'A child who knows where their school bag is, keeps their room tidy enough to find things, and takes care of their possessions develops a sense of personal ownership and accountability. These are not trivial skills. They are foundational ones.',
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: 'Connecting effort to reward',
+        text: 'Every time a child earns a reward through their own effort, they build the neural pathway that says "my actions have consequences." Every time a parent shortcuts this — buying the toy anyway, giving the screen time without the chore — that pathway weakens. Protect the connection.',
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: 'Handling disappointment without falling apart',
+        text: 'Not getting the reward, losing the game, being told no — these moments are opportunities, not emergencies. Children who learn to process disappointment in a safe environment at age eight are far better equipped to handle it at eighteen. Don\'t protect them from small failures. Coach them through.',
+      },
+      {
+        type: 'benefit',
+        number: 5,
+        title: 'Communicating needs clearly',
+        text: 'Encourage children to say what they want, ask for help when they need it, and express frustration with words rather than behaviour. Family dinners, bedtime chats, and even in-app messages between parents and kids all create low-stakes spaces to practise this essential skill.',
+      },
+      {
+        type: 'h2',
+        text: 'What About Screen Time?',
+      },
+      {
+        type: 'p',
+        text: 'No parenting guide for this age group would be complete without addressing screens. The research on this has settled considerably: it is not the screen time itself that causes harm, but what it replaces. Children who have limited physical play, face-to-face conversation, and opportunities for boredom — because screens fill every gap — show measurable deficits in creativity, attention, and emotional regulation.',
+      },
+      {
+        type: 'p',
+        text: 'The most effective approach parents report is not banning screens, but earning them. When screen time is a reward for completed responsibilities rather than a default activity, two things happen: children value it more, and they are less likely to be addicted to it. The act of earning also reinforces the effort-reward cycle that underpins every other habit on this list.',
+      },
+      {
+        type: 'h2',
+        text: 'Talking With Your Child, Not At Them',
+      },
+      {
+        type: 'p',
+        text: 'Children aged 5–11 respond very differently to instructions than teenagers do, but one thing is consistent across the whole age range: they comply more readily when they understand the reason. "Put your shoes away because I said so" produces resentment. "Put your shoes away so nobody trips over them" produces understanding. "You remembered to put your shoes away — that was really thoughtful" produces a child who does it again tomorrow.',
+      },
+      {
+        type: 'p',
+        text: 'Make it a habit to explain, not just instruct. Ask what they think about the rules rather than simply imposing them. When children feel that their perspective is heard — even when the answer is still no — they are far more likely to cooperate and far less likely to rebel.',
+      },
+      {
+        type: 'h2',
+        text: 'A Note on Comparing Siblings',
+      },
+      {
+        type: 'p',
+        text: 'If you have more than one child in this age range, resist the urge to compare them — to each other or to what you remember of yourself at their age. Each child\'s development is individual. A nine-year-old who still struggles to remember to make their bed is not failing; they may simply need a different kind of reminder, a different reward, or a bit more time.',
+      },
+      {
+        type: 'p',
+        text: 'What works is giving each child their own responsibilities at their own level, tracking their individual progress rather than ranking them against each other, and celebrating each one\'s growth on its own terms. A fair system is not an identical system — it is one where every child feels seen and valued for what they specifically contribute.',
+      },
+      {
+        type: 'quote',
+        text: "The primary years are not about raising a child who is perfectly behaved. They are about raising a child who is building the skills, habits, and self-belief to navigate a complicated world. Every chore done, every reward earned, every conversation had at the dinner table is a small investment in the person they are becoming. It adds up faster than you think.",
+      },
+    ],
+  },
 ]
 
 // ── Renderers ─────────────────────────────────────────────────────────────────
