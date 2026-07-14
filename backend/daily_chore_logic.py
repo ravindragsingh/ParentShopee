@@ -1,6 +1,7 @@
 from datetime import date
 from uuid import uuid4
 
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from daily_chore_samples import MAX_DAILY_CHORE_ITEMS, get_daily_chore_bank
@@ -37,7 +38,11 @@ def resolve_daily_chores(db: Session, kid: DBUser) -> None:
     items = db.query(DBDailyChoreItem).filter(
         DBDailyChoreItem.kid_id == kid.id,
         DBDailyChoreItem.is_active == "1",
-        DBDailyChoreItem.reset_date != today_str,
+        # reset_date IS NULL for items that have never been through a rollover yet
+        # (freshly seeded, or completed on their very first day) — plain `!=` would
+        # silently exclude those rows forever, since SQL's NULL != x is NULL, not
+        # true, so the row never matches and the item never resets to "open" again.
+        or_(DBDailyChoreItem.reset_date.is_(None), DBDailyChoreItem.reset_date != today_str),
     ).all()
     if not items:
         return
