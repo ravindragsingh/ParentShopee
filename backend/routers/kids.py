@@ -8,11 +8,11 @@ from sqlalchemy.orm import Session
 from content_filter import check_content
 from database import get_db
 from deps import require_auth, require_parent
-from helpers import get_family_id, now, safe_user
+from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBChore, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import AddKidBody, BehaviourBody, BonusPointsBody, UpdateKidPasswordBody, WalletAdjustBody
-from security import check_password_complexity
+from schemas import AddKidBody, BehaviourBody, BonusPointsBody, UpdatePinBody, WalletAdjustBody
+from security import check_pin_complexity
 
 router = APIRouter()
 
@@ -36,27 +36,28 @@ def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depe
     count = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).count()
     if count >= 10:
         fail("You can add a maximum of 10 children")
-    if db.query(DBUser).filter(DBUser.username == body.username.strip()).first():
-        fail("Username already taken")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
-    check_password_complexity(body.password)
+    check_pin_complexity(body.pin)
     if not (1 <= body.birthMonth <= 12):
         fail("Birth month must be between 1 and 12")
     current_year = date.today().year
     if not (current_year - 25 <= body.birthYear <= current_year):
         fail("Please enter a valid birth year")
 
+    username, password = generate_inert_credentials()
     kid = DBUser(
         id=str(uuid4()),
         name=body.name.strip(),
-        username=body.username.strip(),
-        password=body.password,
+        username=username,
+        password=password,
         role="kid",
         parent_id=family_id,
         avatar=body.avatar or "🐶",
         birth_month=body.birthMonth,
         birth_year=body.birthYear,
+        pin=body.pin,
+        pin_auto_generated="0",
         created_at=now(),
     )
     db.add(kid)
@@ -150,16 +151,19 @@ def award_behaviour(kid_id: str, body: BehaviourBody, db: Session = Depends(get_
     return ok({"kidName": kid.name, "points": body.points, "newBalance": wallet.balance})
 
 
-@router.put("/api/kids/{kid_id}/password")
-def update_kid_password(kid_id: str, body: UpdateKidPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+@router.put("/api/kids/{kid_id}/pin")
+def update_kid_pin(kid_id: str, body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
     family_id = get_family_id(user)
     kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
     if not kid:
         fail("Child not found or not in your family", 404)
-    check_password_complexity(body.password)
-    kid.password = body.password
+    check_pin_complexity(body.pin)
+    kid.pin = body.pin
+    kid.pin_auto_generated = "0"
+    kid.pin_attempts = 0
+    kid.pin_locked_until = None
     db.commit()
-    return ok({"message": f"Password updated for {kid.name}"})
+    return ok({"message": f"PIN updated for {kid.name}"})
 
 
 @router.get("/api/kids/{kid_id}/report")

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { api } from '../api.js'
 
-export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
+export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchProfile }) {
   const [open, setOpen] = useState(false)
   const [pos, setPos] = useState({ top: 0, right: 0 })
   const [unreadCount, setUnreadCount] = useState(0)
@@ -118,6 +118,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
     { id: 'help',     icon: '❓', label: 'Help'        },
     { id: 'contact',  icon: '📩', label: 'Contact Us'  },
     { id: 'settings', icon: '⚙️', label: 'Settings'   },
+    ...(onSwitchProfile ? [{ id: 'switch-profile', icon: '🔄', label: 'Switch Profile' }] : []),
     ...(onLogout ? [{ id: 'logout', icon: '🚪', label: 'Sign Out' }] : []),
   ]
 
@@ -125,6 +126,11 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
     if (item.id === 'logout') {
       setOpen(false)
       onLogout?.()
+      return
+    }
+    if (item.id === 'switch-profile') {
+      setOpen(false)
+      onSwitchProfile?.()
       return
     }
     setTab(item.id)

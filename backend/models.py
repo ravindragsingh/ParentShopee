@@ -35,6 +35,10 @@ class DBUser(Base):
     created_at    = Column(String, nullable=True)  # ISO timestamp of signup; NULL for accounts that predate this field
     last_active_at = Column(String, nullable=True)  # ISO timestamp of most recent authenticated request (any activity, not just login)
     is_suspended  = Column(String, default="0")     # "1"/"0" — admin moderation flag; blocks login and API access
+    pin                = Column(String, nullable=True)   # 6-digit PIN — kid/co-parent profiles unlock with this instead of a password
+    pin_attempts       = Column(Integer, default=0)      # consecutive failed PIN attempts, for lockout
+    pin_locked_until   = Column(String, nullable=True)    # ISO timestamp; PIN entry blocked until this passes
+    pin_auto_generated = Column(String, default="0")      # "1" = system-generated during migration, parent hasn't set their own yet
 
 
 class DBChore(Base):

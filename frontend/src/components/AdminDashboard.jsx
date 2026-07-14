@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
+import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
 
 const STATUS_STYLE = {
   open:     { bg: '#f0fdfa', color: '#0d9488' },
@@ -54,15 +55,17 @@ const deleteBtnStyle = {
 // ── Edit modal ────────────────────────────────────────────────────────────────
 
 function EditModal({ target, familyKids, onSave, onClose }) {
-  const isUser = target.type === 'user'
-  const isKid  = isUser && target.data.role === 'kid'
-  const d      = target.data
+  const isUser    = target.type === 'user'
+  const d         = target.data
+  const isKid     = isUser && d.role === 'kid'
+  const isProfile = isUser && (isKid || !!d.coParentOf)   // kid or co-parent — PIN-gated, not password
 
   const [form, setForm] = useState({
     // user fields
     name:          d.name          || '',
     email:         d.email         || '',
     password:      '',
+    pin:           '',
     avatar:        d.avatar        || '🐶',
     // chore fields
     title:         d.title         || '',
@@ -84,14 +87,19 @@ function EditModal({ target, familyKids, onSave, onClose }) {
     setError('')
     try {
       if (isUser) {
-        if (form.password) {
+        if (isProfile && form.pin) {
+          const pinCheck = checkPinComplexity(form.pin)
+          if (!pinCheck.ok) { setError(pinCheck.message); setSaving(false); return }
+        }
+        if (!isProfile && form.password) {
           const pwCheck = checkPasswordComplexity(form.password)
           if (!pwCheck.ok) { setError(pwCheck.message); setSaving(false); return }
         }
         const body = { name: form.name }
-        if (!isKid && form.email)  body.email    = form.email
-        if (form.password)         body.password = form.password
-        if (isKid)                 body.avatar   = form.avatar
+        if (!isProfile && form.email)  body.email    = form.email
+        if (!isProfile && form.password) body.password = form.password
+        if (isProfile && form.pin)     body.pin      = form.pin
+        if (isProfile)                 body.avatar   = form.avatar
         await api.adminUpdateUser(d.id, body)
       } else {
         await api.adminUpdateChore(d.id, {
@@ -129,7 +137,7 @@ function EditModal({ target, familyKids, onSave, onClose }) {
               {isUser ? `Edit ${roleLabel}` : 'Edit Chore'}
             </div>
             <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>
-              {isUser ? `@${d.username}` : d.title}
+              {isUser ? (isProfile ? 'Unlocked with a 6-digit PIN' : `@${d.username}`) : d.title}
             </div>
           </div>
           <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
@@ -150,23 +158,36 @@ function EditModal({ target, familyKids, onSave, onClose }) {
                 <label style={labelStyle}>Full Name</label>
                 <input value={form.name} onChange={set('name')} style={inputStyle} required />
               </div>
-              {!isKid && (
+              {!isProfile && (
                 <div style={{ marginBottom: 14 }}>
                   <label style={labelStyle}>Email</label>
                   <input type="email" value={form.email} onChange={set('email')} style={inputStyle} />
                 </div>
               )}
-              <div style={{ marginBottom: isKid ? 16 : 6 }}>
-                <label style={labelStyle}>
-                  New Password{' '}
-                  <span style={{ fontWeight: 400, color: '#94a3b8' }}>(leave blank to keep current)</span>
-                </label>
-                <input type="password" value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" style={inputStyle} />
-                {form.password && (
-                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
-                )}
-              </div>
-              {isKid && (
+              {isProfile ? (
+                <div style={{ marginBottom: 16 }}>
+                  <label style={labelStyle}>
+                    New PIN{' '}
+                    <span style={{ fontWeight: 400, color: '#94a3b8' }}>(leave blank to keep current)</span>
+                  </label>
+                  <input inputMode="numeric" maxLength={6} value={form.pin} onChange={e => setForm(f => ({ ...f, pin: e.target.value.replace(/\D/g, '').slice(0, 6) }))} placeholder="e.g. 482910" style={inputStyle} />
+                  {form.pin && (
+                    <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PIN_REQUIREMENTS_HINT}</div>
+                  )}
+                </div>
+              ) : (
+                <div style={{ marginBottom: 6 }}>
+                  <label style={labelStyle}>
+                    New Password{' '}
+                    <span style={{ fontWeight: 400, color: '#94a3b8' }}>(leave blank to keep current)</span>
+                  </label>
+                  <input type="password" value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" style={inputStyle} />
+                  {form.password && (
+                    <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+                  )}
+                </div>
+              )}
+              {isProfile && (
                 <div style={{ marginBottom: 6 }}>
                   <label style={labelStyle}>Avatar</label>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
@@ -283,7 +304,7 @@ function ConfirmDeleteModal({ target, onConfirm, onClose }) {
           Delete this {roleLabel} account?
         </div>
         <div style={{ fontSize: '0.87rem', color: '#475569', lineHeight: 1.55, marginBottom: 10 }}>
-          You're about to permanently delete <strong>{d.name}</strong> (@{d.username}).
+          You're about to permanently delete <strong>{d.name}</strong>{!(d.role === 'kid' || d.coParentOf) && <> (@{d.username})</>}.
           {target.isPrimary && (kidCount > 0 || hasCoParent) && (
             <> This is the primary parent — deleting them will also permanently delete{' '}
               {kidCount > 0 && <>{kidCount} child account{kidCount > 1 ? 's' : ''}</>}
@@ -764,7 +785,7 @@ export default function AdminDashboard() {
                           </button>
                           <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.coParent, family)}>🗑️</button>
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>@{family.coParent.username}</div>
+                        <div style={{ fontSize: '0.78rem', color: '#64748b' }}>PIN-gated profile</div>
                       </>
                     : <div style={{ fontSize: '0.82rem', color: '#cbd5e1' }}>—</div>
                   }
@@ -863,7 +884,9 @@ export default function AdminDashboard() {
                                 <span style={{ fontSize: '0.72rem', background: '#f1f5f9', color: '#64748b', borderRadius: 6, padding: '2px 8px', fontWeight: 600 }}>{member._label}</span>
                                 {member.isSuspended && <span style={{ fontSize: '0.72rem', background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '2px 8px', fontWeight: 700 }}>🚫 Suspended</span>}
                               </div>
-                              <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>@{member.username}</div>
+                              <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>
+                                {member._label === 'Primary Parent' ? `@${member.username}` : 'PIN-gated profile'}
+                              </div>
                               {member.email && <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>{member.email}</div>}
                               {formatLastLogin(member.createdAt) && (
                                 <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>📅 Joined: {formatLastLogin(member.createdAt)}</div>

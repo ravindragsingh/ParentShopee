@@ -631,13 +631,17 @@ function LoginForm({ onRegister }) {
 
 // ── Demo box ──────────────────────────────────────────────────────────────────
 
+// Every family member now unlocks via the profile picker under the same real
+// login (parent1/pass1) — the "Kid" quick-demo signs in as the family, then
+// auto-enters kid1's profile with its seeded demo PIN, in one click.
 const DEMO_ACCOUNTS = {
   parent: { label: 'Parent', avatar: '🧑', username: 'parent1', password: 'pass1' },
-  kid:    { label: 'Kid',    avatar: '🧒', username: 'kid1',    password: 'pass1' },
+  kid:    { label: 'Kid',    avatar: '🧒', username: 'parent1', password: 'pass1', profileId: 'kid1', profilePin: '123456' },
 }
 
 function DemoBox() {
-  const { login } = useAuth()
+  const { login, enterProfile } = useAuth()
+  const navigate = useNavigate()
   const [selected, setSelected] = useState('parent')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -649,6 +653,13 @@ function DemoBox() {
       const acc = DEMO_ACCOUNTS[selected]
       const data = await api.login(acc.username, acc.password)
       login(data.user, data.token)
+      if (acc.profileId) {
+        const profileData = await api.enterProfile(acc.profileId, acc.profilePin)
+        enterProfile(profileData.user, profileData.token)
+      } else {
+        enterProfile(data.user, data.token)
+      }
+      navigate('/dashboard')
     } catch (err) {
       setError(err.message || 'Could not start the demo.')
     } finally {
@@ -670,7 +681,9 @@ function DemoBox() {
             <div className="demo-avatar">{acc.avatar}</div>
             <div className="demo-option-text">
               <div className="demo-option-name">{acc.label}</div>
-              <div className="demo-option-cred">{acc.username} / {acc.password}</div>
+              <div className="demo-option-cred">
+                {acc.profileId ? `Alice · PIN ${acc.profilePin}` : `${acc.username} / ${acc.password}`}
+              </div>
             </div>
           </div>
         ))}

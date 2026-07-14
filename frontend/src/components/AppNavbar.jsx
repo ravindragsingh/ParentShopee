@@ -6,6 +6,7 @@ export default function AppNavbar({
   userName,
   avatar,
   onLogout,
+  onSwitchProfile,
   tab,
   setTab,
   role = variant,
@@ -22,7 +23,7 @@ export default function AppNavbar({
         <span>Hi, {userName}!</span>
         {children}
         {setTab && (
-          <HamburgerMenu tab={tab} setTab={setTab} role={role} onLogout={onLogout} />
+          <HamburgerMenu tab={tab} setTab={setTab} role={role} onLogout={onLogout} onSwitchProfile={onSwitchProfile} />
         )}
       </div>
     </nav>

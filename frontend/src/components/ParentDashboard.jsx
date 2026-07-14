@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { ParentChoreCard, EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
@@ -9,7 +10,7 @@ import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
 import SettingsPanel from './Settings.jsx'
 import { checkFields } from '../utils/wordFilter.js'
-import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
+import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
 
@@ -793,6 +794,8 @@ function ShopTab({ kids = [] }) {
 
 // ─── Co-Parent Tab ────────────────────────────────────────────────────────────
 
+const COPARENT_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
+
 function CoParentTab() {
   const [info, setInfo] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -800,12 +803,13 @@ function CoParentTab() {
 
   // Create form
   const [name, setName] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [avatar, setAvatar] = useState('🧑')
+  const [pin, setPin] = useState('')
+  const [confirmPin, setConfirmPin] = useState('')
   const [adding, setAdding] = useState(false)
   const [addError, setAddError] = useState('')
 
-  // Change password
+  // Change PIN
   const [showPwdForm, setShowPwdForm] = useState(false)
   const [newPwd, setNewPwd] = useState('')
   const [pwdError, setPwdError] = useState('')
@@ -826,19 +830,23 @@ function CoParentTab() {
   async function handleAdd(e) {
     e.preventDefault()
     setAddError('')
-    if (!name.trim() || !username.trim() || !password) {
-      setAddError('All fields are required.')
+    if (!name.trim()) {
+      setAddError('Name is required.')
       return
     }
-    const pwCheck = checkPasswordComplexity(password)
-    if (!pwCheck.ok) {
-      setAddError(pwCheck.message)
+    const pinCheck = checkPinComplexity(pin)
+    if (!pinCheck.ok) {
+      setAddError(pinCheck.message)
+      return
+    }
+    if (pin !== confirmPin) {
+      setAddError('PINs do not match.')
       return
     }
     setAdding(true)
     try {
-      await api.addCoParent({ name: name.trim(), username: username.trim(), password })
-      setName(''); setUsername(''); setPassword('')
+      await api.addCoParent({ name: name.trim(), avatar, pin })
+      setName(''); setAvatar('🧑'); setPin(''); setConfirmPin('')
       loadInfo()
     } catch (err) {
       setAddError(err.message)
@@ -849,11 +857,11 @@ function CoParentTab() {
 
   async function handleChangePassword() {
     setPwdError('')
-    const pwCheck = checkPasswordComplexity(newPwd)
-    if (!pwCheck.ok) { setPwdError(pwCheck.message); return }
+    const pinCheck = checkPinComplexity(newPwd)
+    if (!pinCheck.ok) { setPwdError(pinCheck.message); return }
     setSavingPwd(true)
     try {
-      await api.updateCoParentPassword(newPwd)
+      await api.updateCoParentPin(newPwd)
       setNewPwd(''); setShowPwdForm(false)
     } catch (err) {
       setPwdError(err.message)
@@ -877,7 +885,7 @@ function CoParentTab() {
         <div className="form-title" style={{ marginBottom: 6 }}>Co-Parent Access</div>
         <p style={{ fontSize: '0.9rem', color: '#475569' }}>
           You have co-parent access to <strong>{info.primaryParent?.name || 'this family'}</strong>'s account.
-          You can manage their children's chores, passwords and wallet — same as the primary parent.
+          You can manage their children's chores, PINs and wallet — same as the primary parent.
         </p>
       </div>
     )
@@ -893,8 +901,8 @@ function CoParentTab() {
         <div className="form-card">
           <div className="form-title">Add Co-Parent</div>
           <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
-            Create an account for another parent (partner, spouse, etc.). They get the same access as you —
-            they can manage children, chores, shop and wallets. Only one co-parent per family.
+            Add a profile for another parent (partner, spouse, etc.) to your family. They get the same access as you —
+            they can manage children, chores, shop and wallets — unlocked with their own 6-digit PIN from the profile picker. Only one co-parent per family.
           </p>
           {addError && <div className="error-msg">{addError}</div>}
           <form onSubmit={handleAdd}>
@@ -904,20 +912,22 @@ function CoParentTab() {
                 <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. John Smith" />
               </div>
               <div className="form-group">
-                <label>Username *</label>
-                <input value={username} onChange={e => setUsername(e.target.value)} placeholder="e.g. john_parent" />
+                <label>6-digit PIN *</label>
+                <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
               </div>
               <div className="form-group">
-                <label>Password *</label>
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="e.g. Sunshine24!" />
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                <button type="submit" className="btn btn-primary" disabled={adding}>
-                  {adding ? 'Creating...' : 'Create Co-Parent'}
-                </button>
+                <label>Confirm PIN *</label>
+                <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PIN_REQUIREMENTS_HINT}</div>
               </div>
             </div>
+            <div className="form-group" style={{ marginBottom: 14 }}>
+              <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
+              <EmojiPicker emojis={COPARENT_AVATARS} value={avatar} onChange={setAvatar} />
+            </div>
+            <button type="submit" className="btn btn-primary" disabled={adding}>
+              {adding ? 'Creating...' : 'Create Co-Parent'}
+            </button>
           </form>
         </div>
       )}
@@ -933,15 +943,14 @@ function CoParentTab() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
             <div style={{
               width: 56, height: 56, borderRadius: '50%',
-              background: 'linear-gradient(135deg,#0f766e,#0d9488)',
-              color: 'white', display: 'flex', alignItems: 'center',
-              justifyContent: 'center', fontSize: '1.4rem', fontWeight: 700, flexShrink: 0
+              background: 'linear-gradient(135deg, #f0fdfa, #fff7ed)', border: '2px solid #f9a8d4',
+              display: 'flex', alignItems: 'center',
+              justifyContent: 'center', fontSize: '1.8rem', flexShrink: 0
             }}>
-              {info.coParent.name.charAt(0).toUpperCase()}
+              {info.coParent.avatar || '🧑'}
             </div>
             <div>
               <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b' }}>{info.coParent.name}</div>
-              <div style={{ fontSize: '0.85rem', color: '#64748b' }}>@{info.coParent.username}</div>
               <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: 2 }}>Full parent access to all children</div>
             </div>
           </div>
@@ -951,7 +960,7 @@ function CoParentTab() {
               className="btn btn-outline btn-sm"
               onClick={() => { setShowPwdForm(v => !v); setNewPwd(''); setPwdError('') }}
             >
-              {showPwdForm ? 'Cancel' : '🔑 Change Password'}
+              {showPwdForm ? 'Cancel' : '🔑 Change PIN'}
             </button>
             <button className="btn btn-red btn-sm" onClick={handleRevoke} disabled={revoking}>
               {revoking ? 'Removing...' : 'Remove Co-Parent'}
@@ -961,17 +970,18 @@ function CoParentTab() {
           {showPwdForm && (
             <div style={{ marginTop: 14, padding: '12px 16px', background: '#f8fafc', borderRadius: 8 }}>
               {pwdError && <div className="error-msg" style={{ marginBottom: 8 }}>{pwdError}</div>}
-              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 6 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 6 }}>{PIN_REQUIREMENTS_HINT}</div>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                 <input
-                  type="password"
+                  inputMode="numeric"
+                  maxLength={6}
                   value={newPwd}
-                  onChange={e => setNewPwd(e.target.value)}
-                  placeholder="e.g. Sunshine24!"
+                  onChange={e => setNewPwd(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  placeholder="e.g. 482910"
                   style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
                 />
                 <button className="btn btn-green btn-sm" onClick={handleChangePassword} disabled={savingPwd}>
-                  {savingPwd ? 'Saving...' : 'Save Password'}
+                  {savingPwd ? 'Saving...' : 'Save PIN'}
                 </button>
               </div>
             </div>
@@ -1001,8 +1011,8 @@ function KidsTab() {
   // Add child form
   const [showAddForm, setShowAddForm] = useState(false)
   const [newName, setNewName] = useState('')
-  const [newUsername, setNewUsername] = useState('')
-  const [newPassword, setNewPassword] = useState('')
+  const [newPin, setNewPin] = useState('')
+  const [newConfirmPin, setNewConfirmPin] = useState('')
   const [newAvatar, setNewAvatar] = useState('🐶')
   const [newBirthMonth, setNewBirthMonth] = useState('')
   const [newBirthYear, setNewBirthYear] = useState('')
@@ -1113,26 +1123,30 @@ function KidsTab() {
   async function handleAddKid(e) {
     e.preventDefault()
     setAddError('')
-    if (!newName.trim() || !newUsername.trim() || !newPassword) {
-      setAddError('Name, username and password are required.')
+    if (!newName.trim()) {
+      setAddError("Child's name is required.")
       return
     }
     if (!newBirthMonth || !newBirthYear) {
       setAddError("Child's birth month and year are required.")
       return
     }
-    const pwCheck = checkPasswordComplexity(newPassword)
-    if (!pwCheck.ok) {
-      setAddError(pwCheck.message)
+    const pinCheck = checkPinComplexity(newPin)
+    if (!pinCheck.ok) {
+      setAddError(pinCheck.message)
+      return
+    }
+    if (newPin !== newConfirmPin) {
+      setAddError('PINs do not match.')
       return
     }
     setAdding(true)
     try {
       await api.addKid({
-        name: newName.trim(), username: newUsername.trim(), password: newPassword, avatar: newAvatar,
+        name: newName.trim(), avatar: newAvatar, pin: newPin,
         birthMonth: Number(newBirthMonth), birthYear: Number(newBirthYear),
       })
-      setNewName(''); setNewUsername(''); setNewPassword(''); setNewAvatar('🐶')
+      setNewName(''); setNewPin(''); setNewConfirmPin(''); setNewAvatar('🐶')
       setNewBirthMonth(''); setNewBirthYear('')
       setShowAddForm(false)
       loadData()
@@ -1145,11 +1159,11 @@ function KidsTab() {
 
   async function handleChangePassword(kid) {
     setPwdError('')
-    const pwCheck = checkPasswordComplexity(newPwd)
-    if (!pwCheck.ok) { setPwdError(pwCheck.message); return }
+    const pinCheck = checkPinComplexity(newPwd)
+    if (!pinCheck.ok) { setPwdError(pinCheck.message); return }
     setSavingPwd(true)
     try {
-      await api.updateKidPassword(kid.id, newPwd)
+      await api.updateKidPin(kid.id, newPwd)
       setChangingPwdFor(null); setNewPwd('')
     } catch (err) {
       setPwdError(err.message)
@@ -1185,13 +1199,13 @@ function KidsTab() {
                 <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="e.g. Emma" />
               </div>
               <div className="form-group">
-                <label>Username *</label>
-                <input value={newUsername} onChange={e => setNewUsername(e.target.value)} placeholder="e.g. emma2015" />
+                <label>6-digit PIN *</label>
+                <input inputMode="numeric" maxLength={6} value={newPin} onChange={e => setNewPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
               </div>
               <div className="form-group">
-                <label>Password *</label>
-                <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="e.g. Sunshine24!" />
-                <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+                <label>Confirm PIN *</label>
+                <input inputMode="numeric" maxLength={6} value={newConfirmPin} onChange={e => setNewConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PIN_REQUIREMENTS_HINT}</div>
               </div>
             </div>
             <div className="form-row">
@@ -1245,9 +1259,9 @@ function KidsTab() {
                   <span className="kid-card-avatar">{kid.avatar || '🐶'}</span>
                   <div>
                     <div className="kid-card-name">{kid.name}</div>
-                    <div className="kid-card-username">
-                      @{kid.username}{kid.age != null && <> · 🎂 {kid.age} yrs</>}
-                    </div>
+                    {kid.age != null && (
+                      <div className="kid-card-username">🎂 {kid.age} yrs</div>
+                    )}
                     <span className={`kid-badge ${tier.className}`}>⭐ {tier.label}</span>
                   </div>
                 </div>
@@ -1268,7 +1282,7 @@ function KidsTab() {
                       setAdjustFor(null); setAdjustMode(null); setReportFor(null); setNewPwd(''); setPwdError('')
                     }}
                   >
-                    <span className="btn-label">🔑 {changingPwdFor === kid.id ? 'Cancel' : 'Password'}</span>
+                    <span className="btn-label">🔑 {changingPwdFor === kid.id ? 'Cancel' : 'PIN'}</span>
                     <span className="chevron">›</span>
                   </button>
                   <button
@@ -1367,17 +1381,18 @@ function KidsTab() {
               {changingPwdFor === kid.id && (
                 <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: '#f8fafc', borderRadius: 12, padding: '12px 16px' }}>
                   {pwdError && <div className="error-msg" style={{ marginBottom: 8 }}>{pwdError}</div>}
-                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 6 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 6 }}>{PIN_REQUIREMENTS_HINT}</div>
                   <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                     <input
-                      type="password"
+                      inputMode="numeric"
+                      maxLength={6}
                       value={newPwd}
-                      onChange={e => setNewPwd(e.target.value)}
-                      placeholder="e.g. Sunshine24!"
+                      onChange={e => setNewPwd(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                      placeholder="e.g. 482910"
                       style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
                     />
                     <button className="btn btn-green btn-sm" onClick={() => handleChangePassword(kid)} disabled={savingPwd}>
-                      {savingPwd ? 'Saving...' : 'Save Password'}
+                      {savingPwd ? 'Saving...' : 'Save PIN'}
                     </button>
                   </div>
                 </div>
@@ -1479,7 +1494,8 @@ function KidsTab() {
 // ─── Parent Dashboard Shell ──────────────────────────────────────────────────
 
 export default function ParentDashboard() {
-  const { user, logout } = useAuth()
+  const { user, logout, switchProfile } = useAuth()
+  const navigate = useNavigate()
   const [tab, setTab] = useState('chores')
   const [kids, setKids] = useState([])
   const [wallets, setWallets] = useState([])
@@ -1508,6 +1524,7 @@ export default function ParentDashboard() {
         variant="parent"
         userName={user.name}
         onLogout={logout}
+        onSwitchProfile={() => { switchProfile(); navigate('/profiles') }}
         tab={tab}
         setTab={setTab}
         role="parent"

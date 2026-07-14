@@ -60,6 +60,7 @@ app.include_router(daily_chores.router)
 
 @app.on_event("startup")
 def startup():
+    import random
     from datetime import datetime, timezone
     from sqlalchemy import text
     Base.metadata.create_all(bind=engine)
@@ -92,6 +93,10 @@ def startup():
             ("users",      "created_at",              "VARCHAR"),
             ("users",      "last_active_at",          "VARCHAR"),
             ("users",      "is_suspended",            "VARCHAR"),
+            ("users",      "pin",                     "VARCHAR"),
+            ("users",      "pin_attempts",             "INTEGER"),
+            ("users",      "pin_locked_until",          "VARCHAR"),
+            ("users",      "pin_auto_generated",        "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
         ]:
             try:
@@ -117,6 +122,21 @@ def startup():
         conn.execute(text("UPDATE users SET daily_deduction_enabled='1' WHERE daily_deduction_enabled IS NULL"))
         conn.execute(text("UPDATE users SET shop_approval_enabled='0' WHERE shop_approval_enabled IS NULL"))
         conn.execute(text("UPDATE users SET is_suspended='0' WHERE is_suspended IS NULL"))
+        conn.execute(text("UPDATE users SET pin_attempts=0 WHERE pin_attempts IS NULL"))
+        conn.execute(text("UPDATE users SET pin_auto_generated='0' WHERE pin_auto_generated IS NULL"))
+        # Migrate existing kid/co-parent accounts (which used to log in with their own
+        # username+password) onto the PIN model: generate a PIN for every one that
+        # doesn't have one yet, and flag it so the parent sees a one-time "here are
+        # your new PINs" notice on the profile picker until they set their own.
+        rows = conn.execute(text(
+            "SELECT id FROM users WHERE pin IS NULL AND (role='kid' OR co_parent_of IS NOT NULL)"
+        )).fetchall()
+        for (user_id,) in rows:
+            new_pin = f"{random.randint(0, 999999):06d}"
+            conn.execute(
+                text("UPDATE users SET pin=:pin, pin_auto_generated='1' WHERE id=:id"),
+                {"pin": new_pin, "id": user_id},
+            )
         # Commit everything backfilled above before the risky statement below — its
         # rollback-on-failure would otherwise also discard all of these uncommitted updates.
         conn.commit()
