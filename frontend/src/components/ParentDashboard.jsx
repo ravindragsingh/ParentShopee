@@ -8,9 +8,9 @@ import { ParentShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
-import SettingsPanel from './Settings.jsx'
 import { checkFields } from '../utils/wordFilter.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
+import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
 
@@ -992,6 +992,121 @@ function CoParentTab() {
   )
 }
 
+// ─── Admin Panel Tab (Settings + Co-Parent, combined) ────────────────────────
+
+function AdminPanelTab() {
+  const { user, logout } = useAuth()
+  const [newPwd, setNewPwd] = useState('')
+  const [confirmPwd, setConfirmPwd] = useState('')
+  const [pwdError, setPwdError] = useState('')
+  const [pwdSuccess, setPwdSuccess] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  const isPrimaryParent = !user.coParentOf
+
+  async function handleChangePwd(e) {
+    e.preventDefault()
+    setPwdError(''); setPwdSuccess('')
+    const pwCheck = checkPasswordComplexity(newPwd)
+    if (!pwCheck.ok) { setPwdError(pwCheck.message); return }
+    if (newPwd !== confirmPwd) { setPwdError('Passwords do not match.'); return }
+    setSaving(true)
+    try {
+      await api.changeOwnPassword(newPwd)
+      setPwdSuccess('Password updated successfully.')
+      setNewPwd(''); setConfirmPwd('')
+    } catch (err) {
+      setPwdError(err.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div>
+      <h2 style={{ fontWeight: 800, color: '#1e293b', marginBottom: 4 }}>🛡️ Admin Panel</h2>
+      <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: 24 }}>Manage your account and co-parent access.</p>
+
+      <div style={{ maxWidth: 500 }}>
+        {/* Profile */}
+        <div className="form-card" style={{ marginBottom: 16 }}>
+          <div className="form-title">My Profile</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: user.email ? 14 : 0 }}>
+            <div style={{
+              width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
+              background: 'linear-gradient(135deg,#f0fdfa,#ccfbf1)',
+              border: '2px solid #99f6e4',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '1.8rem',
+            }}>
+              {user.avatar || '👤'}
+            </div>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1e293b' }}>{user.name}</div>
+              {isPrimaryParent && <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 2 }}>@{user.username}</div>}
+              <div style={{ marginTop: 6 }}>
+                <span className="badge complete">{isPrimaryParent ? '👑 Family Admin' : 'Co-Parent'}</span>
+              </div>
+            </div>
+          </div>
+          {user.email && (
+            <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 4 }}>📧 {user.email}</div>
+          )}
+        </div>
+
+        {/* Change password — primary parent only; co-parent/kids sign in with a PIN, not a password */}
+        {isPrimaryParent && (
+          <div className="form-card" style={{ marginBottom: 16 }}>
+            <div className="form-title">Change Password</div>
+            <form onSubmit={handleChangePwd}>
+              {pwdError   && <div className="error-msg">{pwdError}</div>}
+              {pwdSuccess && <div className="success-msg">{pwdSuccess}</div>}
+              <div className="form-group" style={{ marginBottom: 12 }}>
+                <label>New Password</label>
+                <input
+                  type="password"
+                  value={newPwd}
+                  onChange={e => setNewPwd(e.target.value)}
+                  placeholder="e.g. Sunshine24!"
+                />
+                <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+              </div>
+              <div className="form-group" style={{ marginBottom: 16 }}>
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  value={confirmPwd}
+                  onChange={e => setConfirmPwd(e.target.value)}
+                  placeholder="Repeat new password"
+                />
+              </div>
+              <button type="submit" className="btn btn-primary" disabled={saving}>
+                {saving ? 'Saving…' : 'Update Password'}
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+
+      {/* Co-parent management */}
+      <div style={{ maxWidth: 500 }}>
+        <CoParentTab />
+      </div>
+
+      {/* Sign out */}
+      <div className="form-card" style={{ maxWidth: 500 }}>
+        <div className="form-title">Sign Out</div>
+        <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: 14 }}>
+          You'll need your username and password to sign back in.
+        </p>
+        <button className="btn btn-red" onClick={logout} style={{ width: '100%', padding: 12 }}>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  )
+}
+
 // ─── Kids Tab ────────────────────────────────────────────────────────────────
 
 const MONTH_NAMES = [
@@ -1589,10 +1704,10 @@ export default function ParentDashboard() {
                 </button>{' '}
                 tab to add your children, and the{' '}
                 <button
-                  onClick={() => setTab('co-parent')}
+                  onClick={() => setTab('admin')}
                   style={{ background: 'none', border: 'none', color: '#2563eb', fontWeight: 600, cursor: 'pointer', padding: 0, fontSize: 'inherit' }}
                 >
-                  Co-Parent
+                  Admin Panel
                 </button>{' '}
                 tab to invite a co-parent. Only you (the family admin) can manage family members.
               </div>
@@ -1603,11 +1718,10 @@ export default function ParentDashboard() {
         {tab === 'chores'    && <ChoresTab kids={kids} />}
         {tab === 'shop'      && <ShopTab kids={kids} />}
         {tab === 'kids'      && <KidsTab />}
-        {tab === 'co-parent' && <CoParentTab />}
+        {tab === 'admin'     && <AdminPanelTab />}
         {tab === 'messages'  && <MessagesTab />}
         {tab === 'help'      && <HelpTab role="parent" />}
         {tab === 'contact'   && <ContactUs />}
-        {tab === 'settings'  && <SettingsPanel />}
       </div>
     </div>
   )

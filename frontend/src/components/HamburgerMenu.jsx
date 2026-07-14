@@ -11,7 +11,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
   const dropRef = useRef(null)
 
   const menuTabIds = role === 'parent'
-    ? ['co-parent', 'messages', 'help', 'contact', 'settings']
+    ? ['admin', 'messages', 'help', 'contact']
     : ['messages', 'help', 'contact', 'settings']
 
   const isMenuTab   = menuTabIds.includes(tab)
@@ -113,11 +113,11 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
   const hasNotification = unreadCount > 0
 
   const items = [
-    ...(role === 'parent' ? [{ id: 'co-parent', icon: '👥', label: 'Co-Parent' }] : []),
+    ...(role === 'parent' ? [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }] : []),
     { id: 'messages', icon: '💬', label: 'Messages'   },
     { id: 'help',     icon: '❓', label: 'Help'        },
     { id: 'contact',  icon: '📩', label: 'Contact Us'  },
-    { id: 'settings', icon: '⚙️', label: 'Settings'   },
+    ...(role !== 'parent' ? [{ id: 'settings', icon: '⚙️', label: 'Settings' }] : []),
     ...(onSwitchProfile ? [{ id: 'switch-profile', icon: '🔄', label: 'Switch Profile' }] : []),
     ...(onLogout ? [{ id: 'logout', icon: '🚪', label: 'Sign Out' }] : []),
   ]
