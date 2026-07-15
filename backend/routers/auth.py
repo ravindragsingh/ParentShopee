@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, BackgroundTasks, Depends
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from starlette.requests import Request as StarletteRequest
 
@@ -25,7 +26,10 @@ router = APIRouter()
 
 @router.post("/api/auth/login")
 def login(body: LoginBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
-    user = db.query(DBUser).filter(DBUser.username == body.username, DBUser.password == body.password).first()
+    user = db.query(DBUser).filter(
+        func.lower(DBUser.username) == body.username.strip().lower(),
+        DBUser.password == body.password,
+    ).first()
     if not user:
         fail("Invalid credentials", 401)
     if user.role == "kid" or user.co_parent_of:
@@ -62,7 +66,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         fail("Invalid date of birth — use YYYY-MM-DD format")
     if age < 25:
         fail("To register as Parent, you should be 25 years or more.")
-    if db.query(DBUser).filter(DBUser.username == body.username.strip()).first():
+    if db.query(DBUser).filter(func.lower(DBUser.username) == body.username.strip().lower()).first():
         fail("Username already taken")
     if db.query(DBUser).filter(DBUser.email == body.email.lower().strip()).first():
         fail("Email address already registered")
@@ -130,7 +134,7 @@ def activate_account(body: ActivateBody, db: Session = Depends(get_db)):
 
 @router.post("/api/auth/resend-activation")
 def resend_activation(body: ResendActivationBody, db: Session = Depends(get_db)):
-    user = db.query(DBUser).filter(DBUser.username == body.username.strip()).first()
+    user = db.query(DBUser).filter(func.lower(DBUser.username) == body.username.strip().lower()).first()
     if not user:
         fail("No account found with that username.")
     if user.is_active == "1":
@@ -147,7 +151,7 @@ def resend_activation(body: ResendActivationBody, db: Session = Depends(get_db))
 def forgot_password(body: ForgotPasswordBody, db: Session = Depends(get_db)):
     username = body.username.strip()
     email = body.email.strip().lower()
-    user = db.query(DBUser).filter(DBUser.username == username, DBUser.email == email).first()
+    user = db.query(DBUser).filter(func.lower(DBUser.username) == username.lower(), DBUser.email == email).first()
     if not user:
         fail("We couldn't find an account with that username and email combination.")
     user.reset_token = str(uuid4())
