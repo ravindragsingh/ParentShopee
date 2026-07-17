@@ -11,7 +11,7 @@ from deps import require_parent
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBUser
 from responses import fail, ok
-from schemas import CoParentBody, ProfileEnterBody, UpdatePinBody
+from schemas import CoParentBody, ProfileEnterBody, RecoverPinBody, UpdatePinBody
 from security import check_pin_complexity
 
 router = APIRouter()
@@ -163,3 +163,29 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
     token = str(uuid4())
     SESSIONS[token] = profile.id
     return ok({"token": token, "user": safe_user(profile)})
+
+
+@router.post("/api/family/profiles/recover-pin")
+def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+    # Recovery for a forgotten PIN, primary parent only — kids and the co-parent
+    # get their PIN reset by the primary parent instead (Kids tab / Admin Panel),
+    # same as before. Re-proving the real account password is what makes this
+    # safe to skip the PIN for: it's the one secret only the primary parent
+    # knows, so it can't be used to bypass another profile's PIN on a shared
+    # device the way just clicking "forgot PIN" without a check could.
+    if user.co_parent_of:
+        fail("Only the primary parent can recover their PIN this way", 403)
+    if body.password != user.password:
+        fail("Incorrect password", 401)
+    check_pin_complexity(body.newPin)
+
+    user.pin = body.newPin
+    user.pin_auto_generated = "0"
+    user.pin_attempts = 0
+    user.pin_locked_until = None
+    db.commit()
+    db.refresh(user)
+
+    token = str(uuid4())
+    SESSIONS[token] = user.id
+    return ok({"token": token, "user": safe_user(user)})

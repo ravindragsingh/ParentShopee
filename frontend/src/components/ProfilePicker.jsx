@@ -81,6 +81,14 @@ export default function ProfilePicker() {
   const [pinError, setPinError] = useState('')
   const [entering, setEntering] = useState(false)
 
+  // Forgotten-PIN recovery — primary parent's own profile only. Re-proving the
+  // account password stands in for the PIN, then they choose a new one.
+  const [recoverMode, setRecoverMode] = useState(false)
+  const [recoverPassword, setRecoverPassword] = useState('')
+  const [recoverNewPin, setRecoverNewPin] = useState('')
+  const [recoverConfirmPin, setRecoverConfirmPin] = useState('')
+  const [recoverError, setRecoverError] = useState('')
+
   const [addMode, setAddMode] = useState(null)    // null | 'choose' | 'kid' | 'coparent'
   const [dismissedNotice, setDismissedNotice] = useState(false)
 
@@ -107,6 +115,11 @@ export default function ProfilePicker() {
     setPinFor(profile.id)
     setPinValue('')
     setPinError('')
+    setRecoverMode(false)
+    setRecoverPassword('')
+    setRecoverNewPin('')
+    setRecoverConfirmPin('')
+    setRecoverError('')
   }
 
   async function handlePinSubmit(e) {
@@ -128,6 +141,24 @@ export default function ProfilePicker() {
     }
   }
 
+  async function handleRecoverSubmit(e) {
+    e.preventDefault()
+    setRecoverError('')
+    const pinCheck = checkPinComplexity(recoverNewPin)
+    if (!pinCheck.ok) { setRecoverError(pinCheck.message); return }
+    if (recoverNewPin !== recoverConfirmPin) { setRecoverError('PINs do not match.'); return }
+    setEntering(true)
+    try {
+      const data = await api.recoverPin(recoverPassword, recoverNewPin)
+      enterProfile(data.user, data.token)
+      navigate('/dashboard')
+    } catch (err) {
+      setRecoverError(err.message)
+    } finally {
+      setEntering(false)
+    }
+  }
+
   function handleSignOut() {
     logout()
     navigate('/')
@@ -136,6 +167,7 @@ export default function ProfilePicker() {
   const needsSetup = (profiles || []).filter(p => p.needsPinSetup)
   // The primary parent is always first in the list the backend returns.
   const familyName = profiles?.[0]?.name
+  const primaryParentId = profiles?.[0]?.id
 
   return (
     <div className="login-wrapper">
@@ -174,7 +206,7 @@ export default function ProfilePicker() {
                 <AddProfileTile onClick={() => setAddMode('choose')} disabled={kidsCount >= 10 && hasCoParent} />
               </div>
 
-              {pinFor && (
+              {pinFor && !recoverMode && (
                 <form onSubmit={handlePinSubmit} style={{ marginTop: 20, borderTop: '1px solid #e5e7eb', paddingTop: 18 }}>
                   <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#334155', marginBottom: 8, textAlign: 'center' }}>
                     Enter 6-digit PIN
@@ -191,8 +223,52 @@ export default function ProfilePicker() {
                   <button type="submit" className="login-btn" disabled={entering} style={{ marginTop: 14 }}>
                     {entering ? 'Checking...' : 'Unlock'}
                   </button>
+                  {pinFor === primaryParentId && (
+                    <div style={{ textAlign: 'center', marginTop: 10 }}>
+                      <button type="button" className="forgot-link" onClick={() => setRecoverMode(true)}>
+                        Forgot PIN?
+                      </button>
+                    </div>
+                  )}
                   <button type="button" className="login-btn-outline" style={{ marginTop: 8 }} onClick={() => setPinFor(null)}>
                     Cancel
+                  </button>
+                </form>
+              )}
+
+              {pinFor && recoverMode && (
+                <form onSubmit={handleRecoverSubmit} style={{ marginTop: 20, borderTop: '1px solid #e5e7eb', paddingTop: 18 }}>
+                  <div className="login-title" style={{ fontSize: '1.05rem', textAlign: 'center' }}>Reset Your PIN</div>
+                  <p style={{ fontSize: '0.82rem', color: '#64748b', textAlign: 'center', marginBottom: 14 }}>
+                    Enter your account password to confirm it's you, then choose a new PIN.
+                  </p>
+                  {recoverError && <div className="error-msg">{recoverError}</div>}
+                  <div className="form-group" style={{ marginBottom: 10 }}>
+                    <label>Account Password</label>
+                    <input
+                      autoFocus
+                      type="password"
+                      value={recoverPassword}
+                      onChange={e => setRecoverPassword(e.target.value)}
+                      placeholder="Your sign-in password"
+                    />
+                  </div>
+                  <div className="form-row" style={{ marginBottom: 6 }}>
+                    <div className="form-group">
+                      <label>New 6-digit PIN</label>
+                      <input inputMode="numeric" maxLength={6} value={recoverNewPin} onChange={e => setRecoverNewPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
+                    </div>
+                    <div className="form-group">
+                      <label>Confirm PIN</label>
+                      <input inputMode="numeric" maxLength={6} value={recoverConfirmPin} onChange={e => setRecoverConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+                    </div>
+                  </div>
+                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
+                  <button type="submit" className="login-btn" disabled={entering}>
+                    {entering ? 'Resetting...' : 'Reset PIN & Sign In'}
+                  </button>
+                  <button type="button" className="login-btn-outline" style={{ marginTop: 8 }} onClick={() => { setRecoverMode(false); setRecoverError('') }}>
+                    Back
                   </button>
                 </form>
               )}

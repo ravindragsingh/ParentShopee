@@ -48,7 +48,11 @@ class CoParentBody(BaseModel):
     avatar: Optional[str] = "🧑"
 
 class ProfileEnterBody(BaseModel):
-    pin: Optional[str] = None   # not required when entering the primary parent's own profile
+    pin: Optional[str] = None
+
+class RecoverPinBody(BaseModel):
+    password: str
+    newPin: str
 
 class BonusPointsBody(BaseModel):
     points: float
