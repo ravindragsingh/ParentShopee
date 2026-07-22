@@ -1,23 +1,23 @@
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4001'
 
 function getToken() {
   return localStorage.getItem('token')
 }
 
-function authHeaders() {
-  const token = getToken()
+function authHeaders(tokenOverride) {
+  const token = tokenOverride || getToken()
   return {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {})
   }
 }
 
-async function request(method, path, body) {
+async function request(method, path, body, tokenOverride) {
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), 25000)
   const options = {
     method,
-    headers: authHeaders(),
+    headers: authHeaders(tokenOverride),
     signal: controller.signal,
   }
   if (body !== undefined) {
@@ -98,13 +98,14 @@ export const api = {
   // Users & kids management
   getKids:           ()                    => request('GET',  '/api/users/kids'),
   addKid:            (body)               => request('POST', '/api/kids', body),
-  updateKidPassword: (kidId, pwd)         => request('PUT',  `/api/kids/${kidId}/password`, { password: pwd }),
+  updateKidPin:      (kidId, pin)         => request('PUT',  `/api/kids/${kidId}/pin`, { pin }),
   awardBonus:        (kidId, points, reason) => request('POST', `/api/kids/${kidId}/bonus`, { points, reason }),
   adjustWallet:      (kidId, amount, reason) => request('POST', `/api/kids/${kidId}/wallet/adjust`, { amount, reason }),
   getKidReport:      (kidId, period)      => request('GET', `/api/kids/${kidId}/report?period=${period}`),
 
   // Account
   changeOwnPassword: (password) => request('PUT', '/api/auth/password', { password }),
+  updateMyPin:       (pin)      => request('PUT', '/api/auth/pin', { pin }),
 
   // Messaging
   getContacts:  ()                       => request('GET',  '/api/messages/contacts'),
@@ -118,8 +119,17 @@ export const api = {
   // Co-parent management
   getCoParent:            ()           => request('GET',    '/api/family/co-parent'),
   addCoParent:            (body)       => request('POST',   '/api/family/co-parent', body),
-  updateCoParentPassword: (pwd)        => request('PUT',    '/api/family/co-parent/password', { password: pwd }),
+  updateCoParentPin:      (pin)        => request('PUT',    '/api/family/co-parent/pin', { pin }),
   removeCoParent:         ()           => request('DELETE', '/api/family/co-parent'),
+
+  // Netflix-style profile picker — both calls use the "device" token
+  // (the family's real login), not whichever profile is currently active.
+  getFamilyProfiles: () =>
+    request('GET', '/api/family/profiles', undefined, localStorage.getItem('device_token')),
+  enterProfile: (profileId, pin) =>
+    request('POST', `/api/family/profiles/${profileId}/enter`, { pin }, localStorage.getItem('device_token')),
+  recoverPin: (password, newPin) =>
+    request('POST', '/api/family/profiles/recover-pin', { password, newPin }, localStorage.getItem('device_token')),
 
   // Recurring chore templates
   createRecurring: (body) => request('POST',   '/api/recurring', body),

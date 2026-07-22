@@ -631,13 +631,17 @@ function LoginForm({ onRegister }) {
 
 // ── Demo box ──────────────────────────────────────────────────────────────────
 
+// Every profile — including the primary parent's own — is now PIN-gated, so
+// both quick-demos sign in as the family (parent1/pass1) then auto-enter the
+// chosen profile with its seeded demo PIN, in one click.
 const DEMO_ACCOUNTS = {
-  parent: { label: 'Parent', avatar: '🧑', username: 'parent1', password: 'pass1' },
-  kid:    { label: 'Kid',    avatar: '🧒', username: 'kid1',    password: 'pass1' },
+  parent: { label: 'Parent', avatar: '🧑', username: 'parent1', password: 'pass1', profileId: 'parent1', profileName: 'Mom',   profilePin: '246810' },
+  kid:    { label: 'Kid',    avatar: '🧒', username: 'parent1', password: 'pass1', profileId: 'kid1',    profileName: 'Alice', profilePin: '123456' },
 }
 
 function DemoBox() {
-  const { login } = useAuth()
+  const { login, enterProfile } = useAuth()
+  const navigate = useNavigate()
   const [selected, setSelected] = useState('parent')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -649,6 +653,9 @@ function DemoBox() {
       const acc = DEMO_ACCOUNTS[selected]
       const data = await api.login(acc.username, acc.password)
       login(data.user, data.token)
+      const profileData = await api.enterProfile(acc.profileId, acc.profilePin)
+      enterProfile(profileData.user, profileData.token)
+      navigate('/dashboard')
     } catch (err) {
       setError(err.message || 'Could not start the demo.')
     } finally {
@@ -670,7 +677,9 @@ function DemoBox() {
             <div className="demo-avatar">{acc.avatar}</div>
             <div className="demo-option-text">
               <div className="demo-option-name">{acc.label}</div>
-              <div className="demo-option-cred">{acc.username} / {acc.password}</div>
+              <div className="demo-option-cred">
+                {acc.profileName} · PIN {acc.profilePin}
+              </div>
             </div>
           </div>
         ))}
@@ -717,7 +726,7 @@ function HowItWorksModal({ onClose }) {
             </div>
           ))}
           <div style={{ marginTop: 6, padding: '10px 14px', background: '#f0fdfa', borderRadius: 10, fontSize: '0.8rem', color: '#115e59' }}>
-            👑 <strong>Parents</strong> register an account · 🧒 <strong>Kids</strong> log in with credentials the parent creates for them
+            👑 <strong>Parents</strong> register an account · 🔒 <strong>Every profile is PIN-protected</strong> — kids, co-parent, even the parent's own — so switching profiles always locks the device
           </div>
         </div>
       </div>

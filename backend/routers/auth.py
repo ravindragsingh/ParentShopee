@@ -1,7 +1,9 @@
+import random
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, BackgroundTasks, Depends
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from starlette.requests import Request as StarletteRequest
 
@@ -15,18 +17,27 @@ from models import DBUser
 from responses import fail, ok
 from schemas import (
     ActivateBody, ChangeOwnPasswordBody, ForgotPasswordBody, ForgotUsernameBody,
-    LoginBody, RegisterBody, ResendActivationBody, ResetPasswordBody,
+    LoginBody, RegisterBody, ResendActivationBody, ResetPasswordBody, UpdatePinBody,
 )
-from security import check_password_complexity
+from security import check_password_complexity, check_pin_complexity
 
 router = APIRouter()
 
 
 @router.post("/api/auth/login")
 def login(body: LoginBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
-    user = db.query(DBUser).filter(DBUser.username == body.username, DBUser.password == body.password).first()
+    user = db.query(DBUser).filter(
+        func.lower(DBUser.username) == body.username.strip().lower(),
+        DBUser.password == body.password,
+    ).first()
     if not user:
         fail("Invalid credentials", 401)
+    if user.role == "kid" or user.co_parent_of:
+        fail(
+            "This account is part of a family — sign in with your family's main account and select your profile.",
+            403,
+            code="use_family_login",
+        )
     if user.is_suspended == "1":
         fail("This account has been suspended. Contact support for help.", 403, code="account_suspended")
     if user.is_active != "1":
@@ -55,7 +66,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         fail("Invalid date of birth — use YYYY-MM-DD format")
     if age < 25:
         fail("To register as Parent, you should be 25 years or more.")
-    if db.query(DBUser).filter(DBUser.username == body.username.strip()).first():
+    if db.query(DBUser).filter(func.lower(DBUser.username) == body.username.strip().lower()).first():
         fail("Username already taken")
     if db.query(DBUser).filter(DBUser.email == body.email.lower().strip()).first():
         fail("Email address already registered")
@@ -67,6 +78,11 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
 
     location = get_location_from_ip(get_client_ip(request))
     expires = (datetime.now(timezone.utc) + timedelta(hours=ACTIVATION_TOKEN_TTL_HOURS)).isoformat()
+
+    # Every profile in the picker is PIN-gated, including the primary parent's own —
+    # seed a temporary PIN now so they aren't locked out of their first "continue as
+    # me" pick; the profile picker's migration-notice banner surfaces it to them.
+    temp_pin = f"{random.randint(0, 999999):06d}"
 
     user = DBUser(
         id=str(uuid4()),
@@ -82,6 +98,8 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         is_active="0",
         activation_token=str(uuid4()),
         activation_token_expires=expires,
+        pin=temp_pin,
+        pin_auto_generated="1",
         created_at=now(),
     )
     db.add(user)
@@ -116,7 +134,7 @@ def activate_account(body: ActivateBody, db: Session = Depends(get_db)):
 
 @router.post("/api/auth/resend-activation")
 def resend_activation(body: ResendActivationBody, db: Session = Depends(get_db)):
-    user = db.query(DBUser).filter(DBUser.username == body.username.strip()).first()
+    user = db.query(DBUser).filter(func.lower(DBUser.username) == body.username.strip().lower()).first()
     if not user:
         fail("No account found with that username.")
     if user.is_active == "1":
@@ -133,7 +151,7 @@ def resend_activation(body: ResendActivationBody, db: Session = Depends(get_db))
 def forgot_password(body: ForgotPasswordBody, db: Session = Depends(get_db)):
     username = body.username.strip()
     email = body.email.strip().lower()
-    user = db.query(DBUser).filter(DBUser.username == username, DBUser.email == email).first()
+    user = db.query(DBUser).filter(func.lower(DBUser.username) == username.lower(), DBUser.email == email).first()
     if not user:
         fail("We couldn't find an account with that username and email combination.")
     user.reset_token = str(uuid4())
@@ -176,3 +194,19 @@ def change_own_password(body: ChangeOwnPasswordBody, db: Session = Depends(get_d
     user.password = body.password
     db.add(user); db.commit()
     return ok({"message": "Password updated"})
+
+
+@router.put("/api/auth/pin")
+def change_own_pin(body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    # Only the primary parent self-services their own entry PIN here — kids' and
+    # the co-parent's PINs are set by the primary parent (kids.py / family.py),
+    # same as before.
+    if user.role != "parent" or user.co_parent_of:
+        fail("Only the primary parent can change their own PIN this way", 403)
+    check_pin_complexity(body.pin)
+    user.pin = body.pin
+    user.pin_auto_generated = "0"
+    user.pin_attempts = 0
+    user.pin_locked_until = None
+    db.commit()
+    return ok({"message": "PIN updated"})

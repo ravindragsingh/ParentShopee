@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { KidChoreCard } from './ChoreCard.jsx'
@@ -296,7 +297,8 @@ function MotivationalBanner({ name }) {
 // ─── Kid Dashboard Shell ─────────────────────────────────────────────────────
 
 export default function KidDashboard() {
-  const { user, logout } = useAuth()
+  const { user, logout, switchProfile } = useAuth()
+  const navigate = useNavigate()
   const [tab, setTab] = useState('chores')
   const [balance, setBalance] = useState(null)
 
@@ -319,6 +321,7 @@ export default function KidDashboard() {
         userName={user.name}
         avatar={user.avatar}
         onLogout={logout}
+        onSwitchProfile={() => { switchProfile(); navigate('/profiles') }}
         tab={tab}
         setTab={setTab}
         role="kid"

@@ -34,19 +34,25 @@ class ForgotUsernameBody(BaseModel):
 
 class AddKidBody(BaseModel):
     name: str
-    username: str
-    password: str
+    pin: str
     avatar: Optional[str] = "🐶"
     birthMonth: int   # 1-12
     birthYear: int
 
-class UpdateKidPasswordBody(BaseModel):
-    password: str
+class UpdatePinBody(BaseModel):
+    pin: str
 
 class CoParentBody(BaseModel):
     name: str
-    username: str
+    pin: str
+    avatar: Optional[str] = "🧑"
+
+class ProfileEnterBody(BaseModel):
+    pin: Optional[str] = None
+
+class RecoverPinBody(BaseModel):
     password: str
+    newPin: str
 
 class BonusPointsBody(BaseModel):
     points: float
@@ -134,7 +140,8 @@ class DailyChoreSettingsUpdate(BaseModel):
 class AdminUserUpdate(BaseModel):
     name:     Optional[str] = None
     email:    Optional[str] = None
-    password: Optional[str] = None
+    password: Optional[str] = None   # primary parent accounts only
+    pin:      Optional[str] = None   # kid / co-parent profiles only
     avatar:   Optional[str] = None
 
 class AdminChoreUpdate(BaseModel):

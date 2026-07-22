@@ -11,7 +11,7 @@ from helpers import chore_dict, now, safe_user, ticket_dict
 from models import DBChore, DBMessage, DBRecurringTemplate, DBShopItem, DBSupportTicket, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import AdminChoreUpdate, AdminUserUpdate
-from security import check_password_complexity
+from security import check_password_complexity, check_pin_complexity
 
 router = APIRouter()
 
@@ -83,7 +83,14 @@ def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends
         if clash:
             fail("Email address already in use")
         target.email = body.email.lower().strip()
-    if body.password is not None and body.password:
+    is_profile = target.role == "kid" or target.co_parent_of
+    if body.pin is not None and body.pin and is_profile:
+        check_pin_complexity(body.pin)
+        target.pin = body.pin
+        target.pin_auto_generated = "0"
+        target.pin_attempts = 0
+        target.pin_locked_until = None
+    if body.password is not None and body.password and not is_profile:
         check_password_complexity(body.password)
         target.password = body.password
     if body.avatar is not None:

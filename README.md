@@ -45,7 +45,7 @@ frontend/
 ```
 cd backend
 pip install -r requirements.txt
-python main.py            # serves on :3001, SQLite db created automatically
+python main.py            # serves on :4001, SQLite db created automatically
 ```
 Set `ADMIN_USERNAME` / `ADMIN_PASSWORD` env vars to provision an admin account on startup.
 

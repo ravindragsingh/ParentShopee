@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { api } from '../api.js'
 
-export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
+export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchProfile }) {
   const [open, setOpen] = useState(false)
   const [pos, setPos] = useState({ top: 0, right: 0 })
   const [unreadCount, setUnreadCount] = useState(0)
@@ -11,7 +11,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
   const dropRef = useRef(null)
 
   const menuTabIds = role === 'parent'
-    ? ['co-parent', 'messages', 'help', 'contact', 'settings']
+    ? ['admin', 'messages', 'help', 'contact']
     : ['messages', 'help', 'contact', 'settings']
 
   const isMenuTab   = menuTabIds.includes(tab)
@@ -113,11 +113,12 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
   const hasNotification = unreadCount > 0
 
   const items = [
-    ...(role === 'parent' ? [{ id: 'co-parent', icon: '👥', label: 'Co-Parent' }] : []),
+    ...(role === 'parent' ? [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }] : []),
     { id: 'messages', icon: '💬', label: 'Messages'   },
     { id: 'help',     icon: '❓', label: 'Help'        },
     { id: 'contact',  icon: '📩', label: 'Contact Us'  },
-    { id: 'settings', icon: '⚙️', label: 'Settings'   },
+    ...(role !== 'parent' ? [{ id: 'settings', icon: '⚙️', label: 'Settings' }] : []),
+    ...(onSwitchProfile ? [{ id: 'switch-profile', icon: '🔄', label: 'Switch Profile' }] : []),
     ...(onLogout ? [{ id: 'logout', icon: '🚪', label: 'Sign Out' }] : []),
   ]
 
@@ -125,6 +126,11 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout }) {
     if (item.id === 'logout') {
       setOpen(false)
       onLogout?.()
+      return
+    }
+    if (item.id === 'switch-profile') {
+      setOpen(false)
+      onSwitchProfile?.()
       return
     }
     setTab(item.id)
