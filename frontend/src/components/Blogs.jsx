@@ -788,6 +788,34 @@ const POSTS = [
       },
     ],
   },
+  {
+    id: 7,
+    slug: 'how-to-use-reward-ur-kids',
+    title: 'How to Use Reward Ur Kids: A Visual Walkthrough',
+    subtitle: "No lecture, just the screens. Here's exactly what using the app looks like, start to finish.",
+    date: 'July 2026',
+    readTime: '3 min read',
+    emoji: '📸',
+    tags: ['Tutorial', 'Getting Started', 'Walkthrough'],
+    content: [
+      {
+        type: 'intro',
+        text: "The fastest way to understand Reward Ur Kids is to see it. Here's the whole app, screen by screen.",
+      },
+      { type: 'h2', text: 'For Parents' },
+      { type: 'image', step: 1, src: '/blog-images/how-to-use/sign-in.png', alt: 'Sign in screen', caption: 'Sign in with your account — one login for the whole family.' },
+      { type: 'image', step: 2, src: '/blog-images/how-to-use/profile-picker.png', alt: 'Profile picker screen', caption: 'Pick a profile. Everyone in the family gets their own.' },
+      { type: 'image', step: 3, src: '/blog-images/how-to-use/pin-entry.png', alt: 'PIN entry screen', caption: 'Unlock it with a private 6-digit PIN.' },
+      { type: 'image', step: 4, src: '/blog-images/how-to-use/parent-chores.png', alt: 'Parent chores tab', caption: 'Create and track chores from the Chores tab.' },
+      { type: 'image', step: 5, src: '/blog-images/how-to-use/parent-kids.png', alt: 'Parent kids tab', caption: 'Add your kids and manage them from the Kids tab.' },
+      { type: 'image', step: 6, src: '/blog-images/how-to-use/parent-shop.png', alt: 'Parent shop tab', caption: 'Stock the Shop with rewards worth working for.' },
+      { type: 'image', step: 7, src: '/blog-images/how-to-use/admin-panel.png', alt: 'Admin panel screen', caption: 'Manage your account, PIN, and co-parent from the Admin Panel.' },
+      { type: 'h2', text: 'For Kids' },
+      { type: 'image', step: 8, src: '/blog-images/how-to-use/kid-chores.png', alt: 'Kid chores tab', caption: 'Kids see their own chores the moment they log in.' },
+      { type: 'image', step: 9, src: '/blog-images/how-to-use/kid-shop.png', alt: 'Kid shop tab', caption: 'They spend their points in the Shop...' },
+      { type: 'image', step: 10, src: '/blog-images/how-to-use/kid-wallet.png', alt: 'Kid wallet tab', caption: '...and watch it all add up in their Wallet.' },
+    ],
+  },
 ]
 
 // ── Renderers ─────────────────────────────────────────────────────────────────
@@ -885,6 +913,27 @@ function renderContent(block, i) {
             </div>
           ))}
         </div>
+      )
+    case 'image':
+      return (
+        <figure key={i} style={{ margin: '0 0 32px', textAlign: 'center' }}>
+          {block.step && (
+            <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg,#0f766e,#0d9488)', color: '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '0.85rem', marginBottom: 12 }}>
+              {block.step}
+            </div>
+          )}
+          <img
+            src={block.src}
+            alt={block.alt || ''}
+            loading="lazy"
+            style={{ display: 'block', maxWidth: 340, width: '100%', margin: '0 auto', borderRadius: 16, border: '1px solid #e2e8f0', boxShadow: '0 6px 24px rgba(0,0,0,0.1)' }}
+          />
+          {block.caption && (
+            <figcaption style={{ marginTop: 12, fontSize: '0.92rem', color: '#334155', fontWeight: 600, maxWidth: 340, marginLeft: 'auto', marginRight: 'auto' }}>
+              {block.caption}
+            </figcaption>
+          )}
+        </figure>
       )
     default:
       return null
