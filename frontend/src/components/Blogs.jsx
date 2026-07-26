@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 // ── Blog data ─────────────────────────────────────────────────────────────────
@@ -169,21 +170,46 @@ const POSTS = [
         type: 'intro',
         text: "The fastest way to understand Reward Ur Kids is to see it. Here's the whole app, screen by screen.",
       },
-      { type: 'h2', text: 'For Parents' },
-      { type: 'image', step: 1, src: '/blog-images/how-to-use/sign-in.png', alt: 'Sign in screen', caption: 'Sign in with your account — one login for the whole family.' },
-      { type: 'image', step: 2, src: '/blog-images/how-to-use/profile-picker.png', alt: 'Profile picker screen', caption: 'Pick a profile. Everyone in the family gets their own.' },
-      { type: 'image', step: 3, src: '/blog-images/how-to-use/pin-entry.png', alt: 'PIN entry screen', caption: 'Unlock it with a private 6-digit PIN.' },
-      { type: 'image', step: 4, src: '/blog-images/how-to-use/parent-chores.png', alt: 'Parent chores tab', caption: 'The Chores tab shows everything open, pending, and complete.' },
-      { type: 'image', step: 5, src: '/blog-images/how-to-use/add-chore-form.png', alt: 'Add chore form', caption: 'Adding a chore takes seconds — a title, an emoji, and a point value.' },
-      { type: 'image', step: 6, src: '/blog-images/how-to-use/parent-kids.png', alt: 'Parent kids tab', caption: 'Add your kids and manage them from the Kids tab.' },
-      { type: 'image', step: 7, src: '/blog-images/how-to-use/parent-shop.png', alt: 'Parent shop tab', caption: 'Stock the Shop with rewards worth working for.' },
-      { type: 'image', step: 8, src: '/blog-images/how-to-use/add-reward-form.png', alt: 'Add shop item form', caption: 'Adding a reward works the same way — name it, price it, done.' },
-      { type: 'image', step: 9, src: '/blog-images/how-to-use/admin-panel.png', alt: 'Admin panel screen', caption: 'Manage your account, PIN, and co-parent from the Admin Panel.' },
-      { type: 'h2', text: 'For Kids' },
-      { type: 'image', step: 10, src: '/blog-images/how-to-use/kid-chores.png', alt: 'Kid chores tab', caption: 'Kids see their own chores the moment they log in.' },
-      { type: 'image', step: 11, src: '/blog-images/how-to-use/kid-available-chores.png', alt: 'Kid available chores list', caption: 'They open the list and see exactly what they can claim, and for how many points.' },
-      { type: 'image', step: 12, src: '/blog-images/how-to-use/kid-shop.png', alt: 'Kid shop tab', caption: 'They spend their points in the Shop...' },
-      { type: 'image', step: 13, src: '/blog-images/how-to-use/kid-wallet.png', alt: 'Kid wallet tab', caption: '...and watch it all add up in their Wallet.' },
+      {
+        type: 'section',
+        icon: '📝',
+        title: 'Registration Flow',
+        items: [
+          { type: 'image', step: 1, src: '/blog-images/how-to-use/registration/sign-up-form.png', alt: 'Sign up form', caption: 'Create your account with a name, email, and password.' },
+          { type: 'image', step: 2, src: '/blog-images/how-to-use/registration/check-your-email.png', alt: 'Check your email screen', caption: 'Confirm your email to activate the account.' },
+          { type: 'image', step: 3, src: '/blog-images/how-to-use/registration/account-activated.png', alt: 'Account activated screen', caption: "One click activates it — you're ready to sign in." },
+          { type: 'image', step: 4, src: '/blog-images/how-to-use/registration/new-family-picker.png', alt: 'New family profile picker', caption: 'A temporary PIN is generated for your own profile too.' },
+          { type: 'image', step: 5, src: '/blog-images/how-to-use/registration/new-family-pin-entry.png', alt: 'PIN entry for a new family', caption: 'Unlock it with that PIN.' },
+          { type: 'image', step: 6, src: '/blog-images/how-to-use/registration/first-dashboard.png', alt: 'First dashboard view', caption: "You're in — ready to add your first kid and chore." },
+        ],
+      },
+      {
+        type: 'section',
+        icon: '👑',
+        title: 'For Parents',
+        items: [
+          { type: 'image', step: 1, src: '/blog-images/how-to-use/sign-in.png', alt: 'Sign in screen', caption: 'Sign in with your account — one login for the whole family.' },
+          { type: 'image', step: 2, src: '/blog-images/how-to-use/profile-picker.png', alt: 'Profile picker screen', caption: 'Pick a profile. Everyone in the family gets their own.' },
+          { type: 'image', step: 3, src: '/blog-images/how-to-use/pin-entry.png', alt: 'PIN entry screen', caption: 'Unlock it with a private 6-digit PIN.' },
+          { type: 'image', step: 4, src: '/blog-images/how-to-use/parent-chores.png', alt: 'Parent chores tab', caption: 'The Chores tab shows everything open, pending, and complete.' },
+          { type: 'image', step: 5, src: '/blog-images/how-to-use/add-chore-form.png', alt: 'Add chore form', caption: 'Adding a chore takes seconds — a title, an emoji, and a point value.' },
+          { type: 'image', step: 6, src: '/blog-images/how-to-use/parent-kids.png', alt: 'Parent kids tab', caption: 'Add your kids and manage them from the Kids tab.' },
+          { type: 'image', step: 7, src: '/blog-images/how-to-use/parent-shop.png', alt: 'Parent shop tab', caption: 'Stock the Shop with rewards worth working for.' },
+          { type: 'image', step: 8, src: '/blog-images/how-to-use/add-reward-form.png', alt: 'Add shop item form', caption: 'Adding a reward works the same way — name it, price it, done.' },
+          { type: 'image', step: 9, src: '/blog-images/how-to-use/admin-panel.png', alt: 'Admin panel screen', caption: 'Manage your account, PIN, and co-parent from the Admin Panel.' },
+        ],
+      },
+      {
+        type: 'section',
+        icon: '🧒',
+        title: 'For Kids',
+        items: [
+          { type: 'image', step: 1, src: '/blog-images/how-to-use/kid-chores.png', alt: 'Kid chores tab', caption: 'Kids see their own chores the moment they log in.' },
+          { type: 'image', step: 2, src: '/blog-images/how-to-use/kid-available-chores.png', alt: 'Kid available chores list', caption: 'They open the list and see exactly what they can claim, and for how many points.' },
+          { type: 'image', step: 3, src: '/blog-images/how-to-use/kid-shop.png', alt: 'Kid shop tab', caption: 'They spend their points in the Shop...' },
+          { type: 'image', step: 4, src: '/blog-images/how-to-use/kid-wallet.png', alt: 'Kid wallet tab', caption: '...and watch it all add up in their Wallet.' },
+        ],
+      },
     ],
   },
   {
@@ -821,6 +847,32 @@ const POSTS = [
   },
 ]
 
+// ── Collapsible section (for screenshot-heavy posts) ───────────────────────────
+
+function CollapsibleSection({ icon, title, defaultOpen = true, children }) {
+  const [open, setOpen] = useState(defaultOpen)
+  return (
+    <div style={{ marginTop: 40, marginBottom: open ? 24 : 8 }}>
+      <button
+        onClick={() => setOpen(v => !v)}
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%',
+          background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left',
+          marginBottom: open ? 20 : 0,
+        }}
+      >
+        <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f766e', letterSpacing: '-0.3px' }}>
+          {icon ? `${icon} ` : ''}{title}
+        </span>
+        <span style={{ fontSize: '0.82rem', color: '#94a3b8', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+          {open ? 'Hide' : 'Show'} <span>{open ? '▲' : '▼'}</span>
+        </span>
+      </button>
+      {open && <div>{children}</div>}
+    </div>
+  )
+}
+
 // ── Renderers ─────────────────────────────────────────────────────────────────
 
 function renderContent(block, i) {
@@ -937,6 +989,12 @@ function renderContent(block, i) {
             style={{ display: 'block', maxWidth: 340, width: '100%', margin: '0 auto', borderRadius: 16, border: '1px solid #e2e8f0', boxShadow: '0 6px 24px rgba(0,0,0,0.1)' }}
           />
         </figure>
+      )
+    case 'section':
+      return (
+        <CollapsibleSection key={i} icon={block.icon} title={block.title} defaultOpen={block.defaultOpen !== false}>
+          {block.items.map((b, j) => renderContent(b, j))}
+        </CollapsibleSection>
       )
     default:
       return null
