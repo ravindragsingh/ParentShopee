@@ -671,6 +671,123 @@ const POSTS = [
       },
     ],
   },
+  {
+    id: 6,
+    slug: 'reward-ur-kids-vs-sticker-charts',
+    title: 'Sticker Charts vs. Reward Ur Kids: Why Families Are Making the Switch',
+    subtitle: "The sticker chart taught a generation of parents the basics of positive reinforcement. Here's exactly where it still holds up — and where it quietly falls apart.",
+    date: 'July 2026',
+    readTime: '6 min read',
+    emoji: '🆚',
+    tags: ['Comparison', 'Sticker Charts', 'Chores', 'Parenting'],
+    content: [
+      {
+        type: 'intro',
+        text: "Sticker charts have earned their place in parenting history for a reason — they're simple, visual, and genuinely satisfying to a five-year-old the first time a gold star goes up next to their name. For a lot of families, a sticker chart was the very first system that ever worked, even if only for a few weeks.",
+      },
+      {
+        type: 'intro',
+        text: "The question worth asking isn't whether sticker charts work. It's why so many end up curling at the corners on the fridge door, half-finished, three months after being taped up with real optimism. Reward Ur Kids was built by looking honestly at exactly where that system breaks down — and fixing only that, without losing what made stickers fun in the first place.",
+      },
+      {
+        type: 'h2',
+        text: 'What Sticker Charts Actually Get Right',
+      },
+      {
+        type: 'p',
+        text: "Credit where it's due. A sticker chart is visual, immediate, and tactile — a child can see their own progress building up in a way that feels real. It costs almost nothing to start, needs no login, and for a very young child, the simple act of placing a sticker is half the reward. None of that should be dismissed.",
+      },
+      {
+        type: 'p',
+        text: "The problem was never the idea. It was that a piece of paper on a fridge was never built to survive real family life — school mornings, holidays, two houses, more than one kid, and a parent's memory being asked to do far too much unpaid admin.",
+      },
+      {
+        type: 'h2',
+        text: 'Where the Wheels Come Off',
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: "It Runs on a Parent's Memory, Not a System",
+        text: "Every sticker chart depends on someone remembering to notice, praise, and physically walk over with a sticker in hand. On a normal, busy day, that job competes with dinner, homework, and everything else — and it's usually the first thing to slip.",
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: "The Chart Doesn't Travel",
+        text: "It's stuck to one fridge, in one house. For co-parenting families, or even just a parent working late, whoever isn't standing in that kitchen has no idea what's been done, what's outstanding, or what was promised as a reward.",
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: "Rewards Are Vague Until They're Not",
+        text: "\"Five stickers gets you something nice\" sounds fine in the moment, then turns into a negotiation once the fifth sticker actually goes up. Without a real, visible price list, the reward conversation happens after the work is already done — exactly the wrong order.",
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: "It Doesn't Scale Past One Child",
+        text: "Add a second or third child and the single chart becomes a source of disputes rather than motivation — whose sticker is whose, who has more, who \"cheated\" by adding one when nobody was looking.",
+      },
+      {
+        type: 'benefit',
+        number: 5,
+        title: "There's No Record, and No Undo",
+        text: "Once a sticker is on the chart, there's no history of when it was earned or for what. If the chart gets lost — and it usually does — every bit of progress goes with it.",
+      },
+      {
+        type: 'h2',
+        text: 'Sticker Chart vs. Reward Ur Kids, Side by Side',
+      },
+      {
+        type: 'p',
+        text: "Put the two systems next to each other and the pattern is consistent: sticker charts are strong on nostalgia and weak on anything that has to survive more than a few weeks of ordinary family chaos.",
+      },
+      {
+        type: 'comparison',
+        rows: [
+          { label: 'Setting it up', a: 'Buy a chart and stickers, then decide the reward tiers yourself, from scratch', b: 'Add a chore in under a minute — a point value and a shop full of rewards are already built in' },
+          { label: 'Where it lives', a: 'One physical chart, on one fridge, in one house', b: 'On any phone, tablet, or computer — visible from anywhere, for both parents' },
+          { label: 'What a reward actually costs', a: 'Vague until it\'s negotiated after the fact — "how many stickers is that worth?"', b: 'A real shop with a fixed point price for every reward, visible before a single chore is done' },
+          { label: 'More than one child', a: 'One shared chart invites mix-ups and arguments over who did what', b: 'Every child has their own wallet, tracked separately and fairly' },
+          { label: 'Two parents, one household', a: "Whoever isn't home has no idea what's been done or promised", b: 'Both parents see the same live dashboard and can approve chores from their own device' },
+          { label: 'Staying consistent', a: 'Runs on whoever remembers to grab a sticker — a habit that tends to fade by week three', b: 'Recurring chores reappear on their own schedule, with nothing for a parent to remember' },
+          { label: 'Accountability', a: "Nothing stops a sticker going up for a chore that wasn't really finished", b: 'A child claims a chore, a parent approves it — points only post once a parent says so' },
+          { label: 'History', a: "No record beyond what's currently stuck to the fridge", b: 'A full, timestamped history of every chore and every point, for every child' },
+        ],
+      },
+      {
+        type: 'h2',
+        text: 'To Be Fair: When a Sticker Chart Is Still Enough',
+      },
+      {
+        type: 'p',
+        text: "For a single toddler working on one or two very simple habits — brushing teeth, using the potty — a sticker chart's simplicity is genuinely hard to beat. The physical act of placing a sticker is part of the point at that age, and no app should try to replace it.",
+      },
+      {
+        type: 'p',
+        text: "Reward Ur Kids isn't aimed at that moment. It's built for the stage right after — school-age kids with a real list of responsibilities, more than one child in the house, and parents who need the system to run itself on the days there's no time to stand at the fridge with a sheet of stars.",
+      },
+      {
+        type: 'h2',
+        text: 'Making the Switch Without Losing the Magic',
+      },
+      {
+        type: 'steps',
+        items: [
+          'Recreate your existing chart as your first few chores — the ones you already ask for every day',
+          'Turn your best sticker rewards into shop items, with a real point price attached to each one',
+          'Tell your kids their effort counts the same as before — the stickers just became points that actually add up to something',
+          'Let recurring chores handle the daily habits, so nobody has to remember to reset a paper chart on Monday',
+          'Keep the celebration — approve chores the same day, out loud, the way a sticker used to go up on the spot',
+        ],
+      },
+      {
+        type: 'quote',
+        text: "A sticker chart was never wrong about the idea. Effort deserves to be seen and rewarded, consistently, in a way a child can watch build up over time. Reward Ur Kids keeps that idea completely intact — it just stops asking a parent's memory, and a piece of paper on a fridge, to be the thing that holds the whole system together.",
+      },
+    ],
+  },
 ]
 
 // ── Renderers ─────────────────────────────────────────────────────────────────
@@ -748,6 +865,26 @@ function renderContent(block, i) {
         <blockquote key={i} style={{ borderLeft: '4px solid #0d9488', paddingLeft: 20, margin: '32px 0', fontStyle: 'italic', color: '#475569', fontSize: '1rem', lineHeight: 1.8 }}>
           {block.text}
         </blockquote>
+      )
+    case 'comparison':
+      return (
+        <div key={i} style={{ marginBottom: 28 }}>
+          {block.rows.map((row, j) => (
+            <div key={j} style={{ marginBottom: j < block.rows.length - 1 ? 18 : 0 }}>
+              <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 8 }}>{row.label}</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10 }}>
+                <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 14px' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: 6 }}>⭐ Sticker Chart</div>
+                  <p style={{ fontSize: '0.87rem', color: '#64748b', lineHeight: 1.6, margin: 0 }}>{row.a}</p>
+                </div>
+                <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '12px 14px' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#0d9488', textTransform: 'uppercase', letterSpacing: '0.4px', marginBottom: 6 }}>🏆 Reward Ur Kids</div>
+                  <p style={{ fontSize: '0.87rem', color: '#0f766e', lineHeight: 1.6, margin: 0 }}>{row.b}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )
     default:
       return null
