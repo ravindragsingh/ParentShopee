@@ -694,6 +694,7 @@ function DemoBox() {
 // ── How It Works modal ───────────────────────────────────────────────────────
 
 function HowItWorksModal({ onClose }) {
+  const navigate = useNavigate()
   return createPortal(
     <div
       onClick={onClose}
@@ -728,6 +729,12 @@ function HowItWorksModal({ onClose }) {
           <div style={{ marginTop: 6, padding: '10px 14px', background: '#f0fdfa', borderRadius: 10, fontSize: '0.8rem', color: '#115e59' }}>
             👑 <strong>Parents</strong> register an account · 🔒 <strong>Every profile is PIN-protected</strong> — kids, co-parent, even the parent's own — so switching profiles always locks the device
           </div>
+          <button
+            onClick={() => { onClose(); navigate('/blog/how-to-use-reward-ur-kids') }}
+            style={{ marginTop: 2, background: 'none', border: 'none', padding: 0, color: '#0d9488', fontWeight: 700, fontSize: '0.85rem', textAlign: 'left', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}
+          >
+            📸 Prefer to see it? Watch the visual walkthrough →
+          </button>
         </div>
       </div>
     </div>,
