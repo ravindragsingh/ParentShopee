@@ -713,6 +713,22 @@ function HowItWorksModal({ onClose }) {
           <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.3rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
         </div>
 
+        {/* Walkthrough CTA */}
+        <div style={{ padding: '14px 22px 0' }}>
+          <button
+            onClick={() => { onClose(); navigate('/blog/how-to-use-reward-ur-kids') }}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+              width: '100%', boxSizing: 'border-box', padding: '10px 14px',
+              background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10,
+              color: '#0f766e', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', textAlign: 'left',
+            }}
+          >
+            <span>📸 Prefer to see it? Watch the visual walkthrough</span>
+            <span>→</span>
+          </button>
+        </div>
+
         {/* Cards */}
         <div style={{ overflowY: 'auto', padding: '18px 22px 22px', display: 'flex', flexDirection: 'column', gap: 14 }}>
           {LOGIN_HELP_CARDS.map(c => (
@@ -729,12 +745,6 @@ function HowItWorksModal({ onClose }) {
           <div style={{ marginTop: 6, padding: '10px 14px', background: '#f0fdfa', borderRadius: 10, fontSize: '0.8rem', color: '#115e59' }}>
             👑 <strong>Parents</strong> register an account · 🔒 <strong>Every profile is PIN-protected</strong> — kids, co-parent, even the parent's own — so switching profiles always locks the device
           </div>
-          <button
-            onClick={() => { onClose(); navigate('/blog/how-to-use-reward-ur-kids') }}
-            style={{ marginTop: 2, background: 'none', border: 'none', padding: 0, color: '#0d9488', fontWeight: 700, fontSize: '0.85rem', textAlign: 'left', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: 3 }}
-          >
-            📸 Prefer to see it? Watch the visual walkthrough →
-          </button>
         </div>
       </div>
     </div>,
