@@ -106,10 +106,13 @@ def startup():
                     conn.execute(text(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS {col} {col_type}"))
                 conn.commit()
             except Exception:
-                pass  # column already exists
+                conn.rollback()  # column already exists — Postgres aborts the whole
+                # transaction on error, so it must be rolled back before continuing
         # Rename columns for the parent -> guardian terminology update. Only matters for
         # a database that predates this change — a fresh database already gets the new
-        # column names straight from models.py, so these fail harmlessly (caught below).
+        # column names straight from models.py. On every redeploy after the first
+        # successful run, parent_id/co_parent_of no longer exist, so these fail (and
+        # must roll back cleanly) every time from then on.
         for table, old_col, new_col in [
             ("users", "parent_id", "guardian_id"),
             ("users", "co_parent_of", "co_guardian_of"),
@@ -118,10 +121,13 @@ def startup():
                 conn.execute(text(f"ALTER TABLE {table} RENAME COLUMN {old_col} TO {new_col}"))
                 conn.commit()
             except Exception:
-                pass  # already renamed, or this DB never had the old column name
+                conn.rollback()  # already renamed, or this DB never had the old column name
         # Migrate the "parent" role value itself to "guardian" for existing accounts
-        conn.execute(text("UPDATE users SET role='guardian' WHERE role='parent'"))
-        conn.commit()
+        try:
+            conn.execute(text("UPDATE users SET role='guardian' WHERE role='parent'"))
+            conn.commit()
+        except Exception:
+            conn.rollback()
         # Back-fill family_id for existing seed rows
         conn.execute(text("UPDATE chores SET family_id='parent1' WHERE family_id IS NULL AND (assigned_kid_id IN ('kid1','kid2') OR assigned_kid_id IS NULL)"))
         conn.execute(text("UPDATE chores SET family_id='parent2' WHERE family_id IS NULL AND assigned_kid_id='kid3'"))
