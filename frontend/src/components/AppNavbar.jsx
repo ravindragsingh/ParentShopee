@@ -1,7 +1,7 @@
 import HamburgerMenu from './HamburgerMenu.jsx'
 
 export default function AppNavbar({
-  variant = 'parent',
+  variant = 'guardian',
   title = '🏆 Reward Ur Kids',
   userName,
   avatar,

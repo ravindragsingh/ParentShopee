@@ -18,16 +18,16 @@ router = APIRouter()
 
 @router.get("/api/admin/families")
 def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
-    primary_parents = db.query(DBUser).filter(
-        DBUser.role == "parent",
-        DBUser.co_parent_of == None,
+    primary_guardians = db.query(DBUser).filter(
+        DBUser.role == "guardian",
+        DBUser.co_guardian_of == None,
     ).all()
 
     result = []
-    for parent in primary_parents:
-        family_id = parent.id
-        co_parent = db.query(DBUser).filter(DBUser.co_parent_of == family_id).first()
-        kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+    for guardian in primary_guardians:
+        family_id = guardian.id
+        co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == family_id).first()
+        kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
 
         chore_counts = {}
         for status in ("open", "pending", "complete", "expired"):
@@ -47,8 +47,8 @@ def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(re
 
         result.append({
             "familyId": family_id,
-            "parent": safe_user(parent),
-            "coParent": safe_user(co_parent) if co_parent else None,
+            "guardian": safe_user(guardian),
+            "coGuardian": safe_user(co_guardian) if co_guardian else None,
             "kids": kid_data,
             "choreCounts": chore_counts,
             "recurringCount": recurring_count,
@@ -83,7 +83,7 @@ def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends
         if clash:
             fail("Email address already in use")
         target.email = body.email.lower().strip()
-    is_profile = target.role == "kid" or target.co_parent_of
+    is_profile = target.role == "kid" or target.co_guardian_of
     if body.pin is not None and body.pin and is_profile:
         check_pin_complexity(body.pin)
         target.pin = body.pin
@@ -137,19 +137,19 @@ def _delete_lone_user(db: Session, u: DBUser):
     db.query(DBMessage).filter(or_(DBMessage.sender_id == u.id, DBMessage.receiver_id == u.id)).delete(synchronize_session=False)
     db.delete(u)
 
-def _delete_family(db: Session, parent: DBUser):
-    """Deleting the primary parent removes the whole family — every kid, the
-    co-parent (if any), and all chores/recurring templates/shop items they own."""
-    family_id = parent.id
-    for kid in db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all():
+def _delete_family(db: Session, guardian: DBUser):
+    """Deleting the primary guardian removes the whole family — every kid, the
+    co-guardian (if any), and all chores/recurring templates/shop items they own."""
+    family_id = guardian.id
+    for kid in db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all():
         _delete_kid(db, kid)
-    co_parent = db.query(DBUser).filter(DBUser.co_parent_of == family_id).first()
-    if co_parent:
-        _delete_lone_user(db, co_parent)
+    co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == family_id).first()
+    if co_guardian:
+        _delete_lone_user(db, co_guardian)
     db.query(DBChore).filter(DBChore.family_id == family_id).delete(synchronize_session=False)
     db.query(DBRecurringTemplate).filter(DBRecurringTemplate.family_id == family_id).delete(synchronize_session=False)
     db.query(DBShopItem).filter(DBShopItem.family_id == family_id).delete(synchronize_session=False)
-    _delete_lone_user(db, parent)
+    _delete_lone_user(db, guardian)
 
 @router.delete("/api/admin/user/{user_id}")
 def admin_delete_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
@@ -162,7 +162,7 @@ def admin_delete_user(user_id: str, db: Session = Depends(get_db), user: DBUser 
     name, username = target.name, target.username
     if target.role == "kid":
         _delete_kid(db, target)
-    elif target.co_parent_of:
+    elif target.co_guardian_of:
         _delete_lone_user(db, target)
     else:
         _delete_family(db, target)
@@ -203,7 +203,7 @@ def admin_update_chore(chore_id: str, body: AdminChoreUpdate, db: Session = Depe
 
 @router.get("/api/admin/family/{family_id}/transactions")
 def admin_family_transactions(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
-    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
     kid_ids = [k.id for k in kids]
     if not kid_ids:
         return ok([])

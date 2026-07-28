@@ -34,17 +34,17 @@ const POSTS = [
       {
         type: 'section',
         icon: '👑',
-        title: 'For Parents',
+        title: 'For Guardians',
         items: [
           { type: 'image', step: 1, src: '/blog-images/how-to-use/sign-in.png', alt: 'Sign in screen', caption: 'Sign in with your account — one login for the whole family.' },
           { type: 'image', step: 2, src: '/blog-images/how-to-use/profile-picker.png', alt: 'Profile picker screen', caption: 'Pick a profile. Everyone in the family gets their own.' },
           { type: 'image', step: 3, src: '/blog-images/how-to-use/pin-entry.png', alt: 'PIN entry screen', caption: 'Unlock it with a private 6-digit PIN.' },
-          { type: 'image', step: 4, src: '/blog-images/how-to-use/parent-chores.png', alt: 'Parent chores tab', caption: 'The Chores tab shows everything open, pending, and complete.' },
+          { type: 'image', step: 4, src: '/blog-images/how-to-use/guardian-chores.png', alt: 'Guardian chores tab', caption: 'The Chores tab shows everything open, pending, and complete.' },
           { type: 'image', step: 5, src: '/blog-images/how-to-use/add-chore-form.png', alt: 'Add chore form', caption: 'Adding a chore takes seconds — a title, an emoji, and a point value.' },
-          { type: 'image', step: 6, src: '/blog-images/how-to-use/parent-kids.png', alt: 'Parent kids tab', caption: 'Add your kids and manage them from the Kids tab.' },
-          { type: 'image', step: 7, src: '/blog-images/how-to-use/parent-shop.png', alt: 'Parent shop tab', caption: 'Stock the Shop with rewards worth working for.' },
+          { type: 'image', step: 6, src: '/blog-images/how-to-use/guardian-kids.png', alt: 'Guardian kids tab', caption: 'Add your kids and manage them from the Kids tab.' },
+          { type: 'image', step: 7, src: '/blog-images/how-to-use/guardian-shop.png', alt: 'Guardian shop tab', caption: 'Stock the Shop with rewards worth working for.' },
           { type: 'image', step: 8, src: '/blog-images/how-to-use/add-reward-form.png', alt: 'Add shop item form', caption: 'Adding a reward works the same way — name it, price it, done.' },
-          { type: 'image', step: 9, src: '/blog-images/how-to-use/admin-panel.png', alt: 'Admin panel screen', caption: 'Manage your account, PIN, and co-parent from the Admin Panel.' },
+          { type: 'image', step: 9, src: '/blog-images/how-to-use/admin-panel.png', alt: 'Admin panel screen', caption: 'Manage your account, PIN, and co-guardian from the Admin Panel.' },
         ],
       },
       {
@@ -72,11 +72,11 @@ const POSTS = [
     content: [
       {
         type: 'intro',
-        text: 'Parenting has always been about balance — nurturing independence while instilling responsibility, encouraging good behaviour while keeping the household running. For generations, parents have turned to pocket money, star charts, and chore rosters to teach children the value of effort and reward. But managing all of this manually is exhausting, inconsistent, and easy to forget.',
+        text: 'Parenting has always been about balance — nurturing independence while instilling responsibility, encouraging good behaviour while keeping the household running. For generations, guardians have turned to pocket money, star charts, and chore rosters to teach children the value of effort and reward. But managing all of this manually is exhausting, inconsistent, and easy to forget.',
       },
       {
         type: 'intro',
-        text: 'Reward Ur Kids is a free family app that brings the chore-and-reward system into the 21st century — organised, transparent, and genuinely fun for kids and parents alike.',
+        text: 'Reward Ur Kids is a free family app that brings the chore-and-reward system into the 21st century — organised, transparent, and genuinely fun for kids and guardians alike.',
       },
       {
         type: 'h2',
@@ -84,11 +84,11 @@ const POSTS = [
       },
       {
         type: 'p',
-        text: "Reward Ur Kids is a family management app where parents create chores, children complete them to earn points, and those points can be redeemed in a family reward shop for things that matter to them — extra screen time, choosing dinner, a day off from another chore, or anything else a parent sets up.",
+        text: "Reward Ur Kids is a family management app where guardians create chores, children complete them to earn points, and those points can be redeemed in a family reward shop for things that matter to them — extra screen time, choosing dinner, a day off from another chore, or anything else a guardian sets up.",
       },
       {
         type: 'p',
-        text: "It works across the whole family. Parents manage everything from a dedicated dashboard. Kids log in and see exactly what's available to them, what they've earned, and what they can spend. There is even a co-parent feature so both mum and dad can share equal access without stepping on each other's toes.",
+        text: "It works across the whole family. Guardians manage everything from a dedicated dashboard. Kids log in and see exactly what's available to them, what they've earned, and what they can spend. There is even a co-guardian feature so both mum and dad can share equal access without stepping on each other's toes.",
       },
       {
         type: 'h2',
@@ -98,7 +98,7 @@ const POSTS = [
         type: 'scenario',
         items: [
           { time: 'Morning', text: 'Dad logs in and checks the chores dashboard. He sees that "Tidy your room" and "Unload the dishwasher" are open. He adds a new one — "Put the bins out" — worth 15 points, due by 6 PM.' },
-          { time: 'After school', text: 'Eight-year-old Priya opens the app and sees three chores waiting. She claims "Unload the dishwasher" and gets it done, then taps the complete button. The chore moves to Pending — waiting for a parent to approve it.' },
+          { time: 'After school', text: 'Eight-year-old Priya opens the app and sees three chores waiting. She claims "Unload the dishwasher" and gets it done, then taps the complete button. The chore moves to Pending — waiting for a guardian to approve it.' },
           { time: 'Evening', text: "Mum reviews it, sees it's done properly, and approves it. Priya's wallet instantly jumps by 20 points. She opens the Shop tab, sees she's now got enough for \"Movie night pick\" — 50 points — and feels genuinely proud." },
         ],
       },
@@ -114,47 +114,47 @@ const POSTS = [
         type: 'feature',
         icon: '✅',
         title: 'Chores That Actually Get Done',
-        text: 'Parents create chores with a title, description, point value, emoji, and optional due date. Chores can be assigned to a specific child or left open for any child to claim. Kids see them in real time, pick what they want to do, and mark them complete. Parents review and approve — nothing gets credited without their say-so.',
+        text: 'Guardians create chores with a title, description, point value, emoji, and optional due date. Chores can be assigned to a specific child or left open for any child to claim. Kids see them in real time, pick what they want to do, and mark them complete. Guardians review and approve — nothing gets credited without their say-so.',
       },
       {
         type: 'feature',
         icon: '🔁',
         title: 'Recurring Chores — Set It Once, Run Forever',
-        text: 'Some chores happen every day, every week, or every month — making the bed, taking out the bins, cleaning the bathroom. Reward Ur Kids handles these automatically. Set a chore as recurring and it reappears on schedule without parents needing to recreate it every time.',
+        text: 'Some chores happen every day, every week, or every month — making the bed, taking out the bins, cleaning the bathroom. Reward Ur Kids handles these automatically. Set a chore as recurring and it reappears on schedule without guardians needing to recreate it every time.',
       },
       {
         type: 'feature',
         icon: '🛍️',
         title: 'The Family Reward Shop',
-        text: 'Parents stock the shop with personalised rewards — things that actually motivate their children. Unlike generic star-chart stickers, the shop can contain anything: extra screen time, choosing dinner, a trip to the cinema, staying up later on a Friday, or a new book.',
+        text: 'Guardians stock the shop with personalised rewards — things that actually motivate their children. Unlike generic star-chart stickers, the shop can contain anything: extra screen time, choosing dinner, a trip to the cinema, staying up later on a Friday, or a new book.',
       },
       {
         type: 'feature',
         icon: '🌟',
         title: 'Good Behaviour Points',
-        text: 'Not everything in family life comes down to chores. Sometimes a child helps a sibling without being asked, shows exceptional kindness, or puts in extra effort at school. The Good Behaviour feature lets parents award bonus points on the spot for moments like these.',
+        text: 'Not everything in family life comes down to chores. Sometimes a child helps a sibling without being asked, shows exceptional kindness, or puts in extra effort at school. The Good Behaviour feature lets guardians award bonus points on the spot for moments like these.',
       },
       {
         type: 'feature',
         icon: '👥',
-        title: 'Co-Parent Access',
-        text: 'Both parents get equal, full access to the family account. Create chores, approve completions, manage the shop, view wallet histories — either parent can do it all, from their own device, without sharing a single login.',
+        title: 'Co-Guardian Access',
+        text: 'Both guardians get equal, full access to the family account. Create chores, approve completions, manage the shop, view wallet histories — either guardian can do it all, from their own device, without sharing a single login.',
       },
       {
         type: 'feature',
         icon: '💬',
         title: 'In-App Messaging',
-        text: 'Parents and children can message each other directly inside the app. A quick "Great job on the dishes tonight! 🎉" from mum or dad means a lot to a child — and it keeps the positive reinforcement loop going beyond just points.',
+        text: 'Guardians and children can message each other directly inside the app. A quick "Great job on the dishes tonight! 🎉" from mum or dad means a lot to a child — and it keeps the positive reinforcement loop going beyond just points.',
       },
       {
         type: 'h2',
-        text: 'Why Parents Should Use It',
+        text: 'Why Guardians Should Use It',
       },
       {
         type: 'benefit',
         number: 1,
         title: 'It Ends the Nagging',
-        text: "The number one complaint from parents is that they spend more time asking children to do chores than it would take to just do them themselves. Reward Ur Kids changes the dynamic entirely. When children have a personal points balance they are actively growing — and a shop full of things they actually want — the motivation to complete chores becomes intrinsic rather than forced.",
+        text: "The number one complaint from guardians is that they spend more time asking children to do chores than it would take to just do them themselves. Reward Ur Kids changes the dynamic entirely. When children have a personal points balance they are actively growing — and a shop full of things they actually want — the motivation to complete chores becomes intrinsic rather than forced.",
       },
       {
         type: 'benefit',
@@ -178,19 +178,19 @@ const POSTS = [
         type: 'benefit',
         number: 5,
         title: 'It Brings Consistency That Star Charts Never Could',
-        text: "Paper star charts get lost. Whiteboards get wiped. Spreadsheets are for accountants, not children. Reward Ur Kids is always there — on any phone, tablet, or computer — and always up to date. Parents travelling for work can approve chores remotely. The system runs itself.",
+        text: "Paper star charts get lost. Whiteboards get wiped. Spreadsheets are for accountants, not children. Reward Ur Kids is always there — on any phone, tablet, or computer — and always up to date. Guardians travelling for work can approve chores remotely. The system runs itself.",
       },
       {
         type: 'benefit',
         number: 6,
         title: "It Adapts to Your Family's Values",
-        text: "Every family is different. Some value academics, some outdoor activity, some helping with cooking. The app imposes nothing — parents choose every chore, every reward, and every point value. The system reflects your family's priorities, not a generic template.",
+        text: "Every family is different. Some value academics, some outdoor activity, some helping with cooking. The app imposes nothing — guardians choose every chore, every reward, and every point value. The system reflects your family's priorities, not a generic template.",
       },
       {
         type: 'benefit',
         number: 7,
-        title: 'It Keeps Both Parents Equally Involved',
-        text: "The co-parent feature is a game changer for two-parent households. Both parents see the same dashboard, can create and approve chores, and can message the kids. No more \"I didn't know she already did that\" — everyone is on the same page.",
+        title: 'It Keeps Both Guardians Equally Involved',
+        text: "The co-guardian feature is a game changer for two-guardian households. Both guardians see the same dashboard, can create and approve chores, and can message the kids. No more \"I didn't know she already did that\" — everyone is on the same page.",
       },
       {
         type: 'h2',
@@ -199,7 +199,7 @@ const POSTS = [
       {
         type: 'steps',
         items: [
-          'Register as a parent — takes 60 seconds',
+          'Register as a guardian — takes 60 seconds',
           'Add your children in the Kids tab — give each one a name and a fun avatar',
           'Create your first chores — start with 3 or 4 things you already ask them to do',
           'Set up the shop — add 2 or 3 rewards you know they will work toward',
@@ -307,7 +307,7 @@ const POSTS = [
       },
       {
         type: 'h2',
-        text: 'What Parents Notice Over Time',
+        text: 'What Guardians Notice Over Time',
       },
       {
         type: 'steps',
@@ -352,8 +352,8 @@ const POSTS = [
         items: [
           { time: 'Before', text: 'Monday morning is a negotiation. "Did you make your bed?" "Can you please take the bins out — I\'ve asked three times." Chores happen, eventually, but only after repeated reminders and a bit of tension.' },
           { time: 'Week 1', text: 'Chores move onto the app. Kids see exactly what\'s available and what it\'s worth. There\'s no reminder needed — the list is just there, waiting, whenever they check.' },
-          { time: 'Week 3', text: 'A child starts claiming chores before being asked, aiming for a reward in the shop. A sibling notices and does the same. Parents start using Award Bonus for things they\'d normally just say "well done" for — helping a sibling, trying hard at school — and it visibly means more to the kids than words alone.' },
-          { time: 'Week 6', text: 'The household has a rhythm. Recurring chores run themselves. Both parents can see and approve from their own phone. Evenings feel calmer, because the daily back-and-forth over chores has quietly disappeared.' },
+          { time: 'Week 3', text: 'A child starts claiming chores before being asked, aiming for a reward in the shop. A sibling notices and does the same. Guardians start using Award Bonus for things they\'d normally just say "well done" for — helping a sibling, trying hard at school — and it visibly means more to the kids than words alone.' },
+          { time: 'Week 6', text: 'The household has a rhythm. Recurring chores run themselves. Both guardians can see and approve from their own phone. Evenings feel calmer, because the daily back-and-forth over chores has quietly disappeared.' },
         ],
       },
       {
@@ -369,20 +369,20 @@ const POSTS = [
       {
         type: 'benefit',
         number: 2,
-        title: 'Consistency Parents Can Actually Keep Up',
-        text: "Good intentions fade by Wednesday. A points system doesn't. Because the app tracks everything automatically — who did what, what they earned, what's still open — parents stay consistent without having to hold it all in their head. Recurring chores mean the routine keeps running even on the days parents are too busy to think about it.",
+        title: 'Consistency Guardians Can Actually Keep Up',
+        text: "Good intentions fade by Wednesday. A points system doesn't. Because the app tracks everything automatically — who did what, what they earned, what's still open — guardians stay consistent without having to hold it all in their head. Recurring chores mean the routine keeps running even on the days guardians are too busy to think about it.",
       },
       {
         type: 'benefit',
         number: 3,
         title: 'Stronger, More Positive Communication',
-        text: "The built-in messaging means a parent can send a quick \"Proud of you today 🎉\" the moment they see a chore completed, not hours later when they remember. Small, well-timed encouragement adds up. Many parents say it's changed the tone of daily conversation with their kids — more noticing, less nagging.",
+        text: "The built-in messaging means a guardian can send a quick \"Proud of you today 🎉\" the moment they see a chore completed, not hours later when they remember. Small, well-timed encouragement adds up. Many guardians say it's changed the tone of daily conversation with their kids — more noticing, less nagging.",
       },
       {
         type: 'benefit',
         number: 4,
         title: 'Visible Fairness Between Siblings',
-        text: "\"That's not fair, I did more!\" gets a lot harder to say when every chore, every point, and every purchase is logged and visible to everyone. Each child has their own wallet and history. Parents can set age-appropriate chores and points per child, and nobody has to take anyone's word for who did what.",
+        text: "\"That's not fair, I did more!\" gets a lot harder to say when every chore, every point, and every purchase is logged and visible to everyone. Each child has their own wallet and history. Guardians can set age-appropriate chores and points per child, and nobody has to take anyone's word for who did what.",
       },
       {
         type: 'benefit',
@@ -393,8 +393,8 @@ const POSTS = [
       {
         type: 'benefit',
         number: 6,
-        title: 'Less Mental Load for Parents',
-        text: "Co-parent access means both parents see the same chores, the same balances, and the same history — no more re-explaining who agreed to what. Combined with recurring chores and automatic tracking, the app quietly takes over the bookkeeping side of parenting, leaving more energy for the parts that actually need a parent.",
+        title: 'Less Mental Load for Guardians',
+        text: "Co-guardian access means both guardians see the same chores, the same balances, and the same history — no more re-explaining who agreed to what. Combined with recurring chores and automatic tracking, the app quietly takes over the bookkeeping side of parenting, leaving more energy for the parts that actually need a guardian.",
       },
       {
         type: 'h2',
@@ -436,11 +436,11 @@ const POSTS = [
     content: [
       {
         type: 'intro',
-        text: "Every parent has felt the pull toward pressure — the raised voice, the repeated demand, the \"because I said so\" when patience runs thin. It works, sometimes, in the moment. A child complies. But pressure is a short-term tool with a long-term cost: it teaches children to avoid getting caught, not to understand why something mattered in the first place.",
+        text: "Every guardian has felt the pull toward pressure — the raised voice, the repeated demand, the \"because I said so\" when patience runs thin. It works, sometimes, in the moment. A child complies. But pressure is a short-term tool with a long-term cost: it teaches children to avoid getting caught, not to understand why something mattered in the first place.",
       },
       {
         type: 'intro',
-        text: "The alternative isn't permissiveness — it's conversation. Talking to a child, explaining the why behind a request, and actually listening to their side changes the entire relationship between a parent's expectation and a child's response. It takes longer in the moment. It works far better over time.",
+        text: "The alternative isn't permissiveness — it's conversation. Talking to a child, explaining the why behind a request, and actually listening to their side changes the entire relationship between a guardian's expectation and a child's response. It takes longer in the moment. It works far better over time.",
       },
       {
         type: 'h2',
@@ -448,7 +448,7 @@ const POSTS = [
       },
       {
         type: 'p',
-        text: "Pressure produces compliance, not understanding. A child who is pushed, threatened, or nagged into doing something learns one thing clearly: avoid the consequence. They rarely learn why the task mattered, and the moment the pressure disappears — a parent leaves the room, stops watching — so does the motivation. Worse, repeated pressure teaches kids to associate a parent's voice with stress rather than guidance, which makes them less likely to come to that parent when something is actually wrong.",
+        text: "Pressure produces compliance, not understanding. A child who is pushed, threatened, or nagged into doing something learns one thing clearly: avoid the consequence. They rarely learn why the task mattered, and the moment the pressure disappears — a guardian leaves the room, stops watching — so does the motivation. Worse, repeated pressure teaches kids to associate a guardian's voice with stress rather than guidance, which makes them less likely to come to that guardian when something is actually wrong.",
       },
       {
         type: 'h2',
@@ -476,13 +476,13 @@ const POSTS = [
         type: 'benefit',
         number: 2,
         title: 'It Builds Trust Instead of Fear',
-        text: "A child who is talked to, not talked at, learns that their parent is someone who listens — which makes them far more likely to come forward next time something is genuinely wrong, whether that's a problem at school, a falling-out with a friend, or a mistake they're afraid to admit.",
+        text: "A child who is talked to, not talked at, learns that their guardian is someone who listens — which makes them far more likely to come forward next time something is genuinely wrong, whether that's a problem at school, a falling-out with a friend, or a mistake they're afraid to admit.",
       },
       {
         type: 'benefit',
         number: 3,
         title: 'It Teaches Kids to Reason, Not Just Obey',
-        text: "When parents explain the why behind a request — \"we tidy up so nobody trips in the dark\" — instead of simply issuing it, children start to internalise the reasoning, not just the rule. Over time they begin applying that same reasoning on their own, without being asked.",
+        text: "When guardians explain the why behind a request — \"we tidy up so nobody trips in the dark\" — instead of simply issuing it, children start to internalise the reasoning, not just the rule. Over time they begin applying that same reasoning on their own, without being asked.",
       },
       {
         type: 'benefit',
@@ -502,7 +502,7 @@ const POSTS = [
       },
       {
         type: 'p',
-        text: "The app is deliberately designed so pressure is never the mechanism. Chores aren't forced onto a child with a countdown — they're offered, and kids choose what to claim. Nothing gets rewarded automatically; a parent reviews and approves each one, which naturally opens a small moment to talk — \"nice work on this, how did it go?\" — instead of a silent tick box.",
+        text: "The app is deliberately designed so pressure is never the mechanism. Chores aren't forced onto a child with a countdown — they're offered, and kids choose what to claim. Nothing gets rewarded automatically; a guardian reviews and approves each one, which naturally opens a small moment to talk — \"nice work on this, how did it go?\" — instead of a silent tick box.",
       },
       {
         type: 'feature',
@@ -533,7 +533,7 @@ const POSTS = [
   {
     id: 3,
     slug: 'parenting-guidance-ages-5-to-11',
-    title: 'The Primary Years: A Parent\'s Guide to Raising Children Aged 5 to 11',
+    title: 'The Primary Years: A Guardian\'s Guide to Raising Children Aged 5 to 11',
     subtitle: 'What to expect at each stage, how to build responsibility early, and why these six years are the most important window for shaping lifelong habits.',
     date: 'July 2026',
     readTime: '9 min read',
@@ -546,7 +546,7 @@ const POSTS = [
       },
       {
         type: 'intro',
-        text: 'This guide walks through what children in each age band actually need from their parents, what responsibilities are developmentally appropriate, and how to make the most of this remarkable six-year stretch.',
+        text: 'This guide walks through what children in each age band actually need from their guardians, what responsibilities are developmentally appropriate, and how to make the most of this remarkable six-year stretch.',
       },
       {
         type: 'h2',
@@ -672,7 +672,7 @@ const POSTS = [
         type: 'benefit',
         number: 3,
         title: 'Connecting effort to reward',
-        text: 'Every time a child earns a reward through their own effort, they build the neural pathway that says "my actions have consequences." Every time a parent shortcuts this — buying the toy anyway, giving the screen time without the chore — that pathway weakens. Protect the connection.',
+        text: 'Every time a child earns a reward through their own effort, they build the neural pathway that says "my actions have consequences." Every time a guardian shortcuts this — buying the toy anyway, giving the screen time without the chore — that pathway weakens. Protect the connection.',
       },
       {
         type: 'benefit',
@@ -684,7 +684,7 @@ const POSTS = [
         type: 'benefit',
         number: 5,
         title: 'Communicating needs clearly',
-        text: 'Encourage children to say what they want, ask for help when they need it, and express frustration with words rather than behaviour. Family dinners, bedtime chats, and even in-app messages between parents and kids all create low-stakes spaces to practise this essential skill.',
+        text: 'Encourage children to say what they want, ask for help when they need it, and express frustration with words rather than behaviour. Family dinners, bedtime chats, and even in-app messages between guardians and kids all create low-stakes spaces to practise this essential skill.',
       },
       {
         type: 'h2',
@@ -696,7 +696,7 @@ const POSTS = [
       },
       {
         type: 'p',
-        text: 'The most effective approach parents report is not banning screens, but earning them. When screen time is a reward for completed responsibilities rather than a default activity, two things happen: children value it more, and they are less likely to be addicted to it. The act of earning also reinforces the effort-reward cycle that underpins every other habit on this list.',
+        text: 'The most effective approach guardians report is not banning screens, but earning them. When screen time is a reward for completed responsibilities rather than a default activity, two things happen: children value it more, and they are less likely to be addicted to it. The act of earning also reinforces the effort-reward cycle that underpins every other habit on this list.',
       },
       {
         type: 'h2',
@@ -732,7 +732,7 @@ const POSTS = [
     id: 6,
     slug: 'reward-ur-kids-vs-sticker-charts',
     title: 'Sticker Charts vs. Reward Ur Kids: Why Families Are Making the Switch',
-    subtitle: "The sticker chart taught a generation of parents the basics of positive reinforcement. Here's exactly where it still holds up — and where it quietly falls apart.",
+    subtitle: "The sticker chart taught a generation of guardians the basics of positive reinforcement. Here's exactly where it still holds up — and where it quietly falls apart.",
     date: 'July 2026',
     readTime: '6 min read',
     emoji: '🆚',
@@ -756,7 +756,7 @@ const POSTS = [
       },
       {
         type: 'p',
-        text: "The problem was never the idea. It was that a piece of paper on a fridge was never built to survive real family life — school mornings, holidays, two houses, more than one kid, and a parent's memory being asked to do far too much unpaid admin.",
+        text: "The problem was never the idea. It was that a piece of paper on a fridge was never built to survive real family life — school mornings, holidays, two houses, more than one kid, and a guardian's memory being asked to do far too much unpaid admin.",
       },
       {
         type: 'h2',
@@ -765,14 +765,14 @@ const POSTS = [
       {
         type: 'benefit',
         number: 1,
-        title: "It Runs on a Parent's Memory, Not a System",
+        title: "It Runs on a Guardian's Memory, Not a System",
         text: "Every sticker chart depends on someone remembering to notice, praise, and physically walk over with a sticker in hand. On a normal, busy day, that job competes with dinner, homework, and everything else — and it's usually the first thing to slip.",
       },
       {
         type: 'benefit',
         number: 2,
         title: "The Chart Doesn't Travel",
-        text: "It's stuck to one fridge, in one house. For co-parenting families, or even just a parent working late, whoever isn't standing in that kitchen has no idea what's been done, what's outstanding, or what was promised as a reward.",
+        text: "It's stuck to one fridge, in one house. For co-parenting families, or even just a guardian working late, whoever isn't standing in that kitchen has no idea what's been done, what's outstanding, or what was promised as a reward.",
       },
       {
         type: 'benefit',
@@ -804,12 +804,12 @@ const POSTS = [
         type: 'comparison',
         rows: [
           { label: 'Setting it up', a: 'Buy a chart and stickers, then decide the reward tiers yourself, from scratch', b: 'Add a chore in under a minute — a point value and a shop full of rewards are already built in' },
-          { label: 'Where it lives', a: 'One physical chart, on one fridge, in one house', b: 'On any phone, tablet, or computer — visible from anywhere, for both parents' },
+          { label: 'Where it lives', a: 'One physical chart, on one fridge, in one house', b: 'On any phone, tablet, or computer — visible from anywhere, for both guardians' },
           { label: 'What a reward actually costs', a: 'Vague until it\'s negotiated after the fact — "how many stickers is that worth?"', b: 'A real shop with a fixed point price for every reward, visible before a single chore is done' },
           { label: 'More than one child', a: 'One shared chart invites mix-ups and arguments over who did what', b: 'Every child has their own wallet, tracked separately and fairly' },
-          { label: 'Two parents, one household', a: "Whoever isn't home has no idea what's been done or promised", b: 'Both parents see the same live dashboard and can approve chores from their own device' },
-          { label: 'Staying consistent', a: 'Runs on whoever remembers to grab a sticker — a habit that tends to fade by week three', b: 'Recurring chores reappear on their own schedule, with nothing for a parent to remember' },
-          { label: 'Accountability', a: "Nothing stops a sticker going up for a chore that wasn't really finished", b: 'A child claims a chore, a parent approves it — points only post once a parent says so' },
+          { label: 'Two guardians, one household', a: "Whoever isn't home has no idea what's been done or promised", b: 'Both guardians see the same live dashboard and can approve chores from their own device' },
+          { label: 'Staying consistent', a: 'Runs on whoever remembers to grab a sticker — a habit that tends to fade by week three', b: 'Recurring chores reappear on their own schedule, with nothing for a guardian to remember' },
+          { label: 'Accountability', a: "Nothing stops a sticker going up for a chore that wasn't really finished", b: 'A child claims a chore, a guardian approves it — points only post once a guardian says so' },
           { label: 'History', a: "No record beyond what's currently stuck to the fridge", b: 'A full, timestamped history of every chore and every point, for every child' },
         ],
       },
@@ -823,7 +823,7 @@ const POSTS = [
       },
       {
         type: 'p',
-        text: "Reward Ur Kids isn't aimed at that moment. It's built for the stage right after — school-age kids with a real list of responsibilities, more than one child in the house, and parents who need the system to run itself on the days there's no time to stand at the fridge with a sheet of stars.",
+        text: "Reward Ur Kids isn't aimed at that moment. It's built for the stage right after — school-age kids with a real list of responsibilities, more than one child in the house, and guardians who need the system to run itself on the days there's no time to stand at the fridge with a sheet of stars.",
       },
       {
         type: 'h2',
@@ -841,7 +841,7 @@ const POSTS = [
       },
       {
         type: 'quote',
-        text: "A sticker chart was never wrong about the idea. Effort deserves to be seen and rewarded, consistently, in a way a child can watch build up over time. Reward Ur Kids keeps that idea completely intact — it just stops asking a parent's memory, and a piece of paper on a fridge, to be the thing that holds the whole system together.",
+        text: "A sticker chart was never wrong about the idea. Effort deserves to be seen and rewarded, consistently, in a way a child can watch build up over time. Reward Ur Kids keeps that idea completely intact — it just stops asking a guardian's memory, and a piece of paper on a fridge, to be the thing that holds the whole system together.",
       },
     ],
   },
@@ -1084,7 +1084,7 @@ function BlogList() {
           📖 Our Blog
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.88)', fontSize: '1.05rem', maxWidth: 480, margin: '0 auto', lineHeight: 1.6 }}>
-          Tips, guides, and ideas for families using Reward Ur Kids — and for parents who want to raise responsible, motivated children.
+          Tips, guides, and ideas for families using Reward Ur Kids — and for guardians who want to raise responsible, motivated children.
         </p>
       </div>
 

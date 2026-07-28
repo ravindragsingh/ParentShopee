@@ -1,6 +1,6 @@
 import { useAuth } from '../context/AuthContext.jsx'
 
-// Kid Dashboard only now — the parent's equivalent lives in ParentDashboard's
+// Kid Dashboard only now — the guardian's equivalent lives in GuardianDashboard's
 // Admin Panel tab, which also covers the password/PIN they actually have.
 export default function SettingsPanel() {
   const { user, logout } = useAuth()
@@ -36,7 +36,7 @@ export default function SettingsPanel() {
       <div className="form-card" style={{ marginBottom: 16 }}>
         <div className="form-title">Your PIN</div>
         <p style={{ fontSize: '0.875rem', color: '#64748b', margin: 0 }}>
-          Your profile is unlocked with a 6-digit PIN instead of a password. Forgot it? Ask your parent —
+          Your profile is unlocked with a 6-digit PIN instead of a password. Forgot it? Ask your guardian —
           they can set you a new one from the Kids tab.
         </p>
       </div>

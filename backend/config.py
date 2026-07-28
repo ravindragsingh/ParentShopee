@@ -32,7 +32,7 @@ if not SMTP_USER or not SMTP_PASSWORD:
 # (one-off chores + recurring templates counted together, shop items separately).
 # Deleting an item does NOT free up a slot. Families that need more custom items
 # should contact support. Keep these two sets in sync with SAMPLE_CHORES /
-# SAMPLE_SHOP_ITEMS in frontend/src/components/ParentDashboard.jsx.
+# SAMPLE_SHOP_ITEMS in frontend/src/components/GuardianDashboard.jsx.
 LIMIT_EXTRA_CHORES     = 10
 LIMIT_EXTRA_SHOP_ITEMS = 10
 

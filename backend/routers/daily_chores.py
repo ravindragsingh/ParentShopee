@@ -7,7 +7,7 @@ from content_filter import check_content
 from daily_chore_logic import ensure_daily_chores_seeded, resolve_daily_chores
 from daily_chore_samples import MAX_DAILY_CHORE_ITEMS, get_all_daily_chore_templates, get_daily_chore_bank
 from database import get_db
-from deps import require_auth, require_parent
+from deps import require_auth, require_guardian
 from helpers import calculate_approx_age, daily_chore_dict, get_family_id, now
 from models import DBDailyChoreItem, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
@@ -17,14 +17,14 @@ router = APIRouter()
 
 
 def _get_family_kid(db: Session, family_id: str, kid_id: str) -> DBUser:
-    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
     if not kid:
         fail("Child not found or not in your family", 404)
     return kid
 
 
 def _resolve_target_kid(db: Session, user: DBUser, kid_id_param: str = None) -> DBUser:
-    """Kids may only ever act on themselves; parents must specify a kid in their family."""
+    """Kids may only ever act on themselves; guardians must specify a kid in their family."""
     if user.role == "kid":
         return user
     if not kid_id_param:
@@ -38,7 +38,7 @@ def _owning_kid_for_item(db: Session, user: DBUser, item: DBDailyChoreItem) -> D
             fail("Not allowed to modify this item", 403)
         return user
     kid = db.query(DBUser).filter(DBUser.id == item.kid_id).first()
-    if not kid or kid.parent_id != get_family_id(user):
+    if not kid or kid.guardian_id != get_family_id(user):
         fail("Not allowed to modify this item", 403)
     return kid
 
@@ -57,7 +57,7 @@ def _award(db: Session, kid: DBUser, item: DBDailyChoreItem, desc_prefix: str) -
 
 
 @router.get("/api/daily-chores/templates")
-def get_daily_chore_templates(user: DBUser = Depends(require_parent)):
+def get_daily_chore_templates(user: DBUser = Depends(require_guardian)):
     return ok(get_all_daily_chore_templates())
 
 
@@ -78,7 +78,7 @@ def get_daily_chores(kidId: str = None, db: Session = Depends(get_db), user: DBU
 
 
 @router.post("/api/daily-chores")
-def create_daily_chore(body: DailyChoreItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def create_daily_chore(body: DailyChoreItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     kid = _get_family_kid(db, get_family_id(user), body.kidId)
     check_content(body.title)
     if body.points is not None and body.points < 0:
@@ -100,7 +100,7 @@ def create_daily_chore(body: DailyChoreItemCreate, db: Session = Depends(get_db)
 
 
 @router.put("/api/daily-chores/settings")
-def update_daily_chore_settings(body: DailyChoreSettingsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def update_daily_chore_settings(body: DailyChoreSettingsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     kid = _get_family_kid(db, get_family_id(user), body.kidId)
     kid.daily_deduction_enabled = "1" if body.deductionEnabled else "0"
     db.commit()
@@ -108,7 +108,7 @@ def update_daily_chore_settings(body: DailyChoreSettingsUpdate, db: Session = De
 
 
 @router.put("/api/daily-chores/{item_id}")
-def update_daily_chore(item_id: str, body: DailyChoreItemUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def update_daily_chore(item_id: str, body: DailyChoreItemUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.id == item_id).first()
     if not item:
         fail("Daily chore not found", 404)
@@ -130,7 +130,7 @@ def update_daily_chore(item_id: str, body: DailyChoreItemUpdate, db: Session = D
 
 
 @router.delete("/api/daily-chores/{item_id}")
-def delete_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def delete_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.id == item_id).first()
     if not item:
         fail("Daily chore not found", 404)
@@ -141,7 +141,7 @@ def delete_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser
 
 
 @router.post("/api/daily-chores/{kid_id}/regenerate")
-def regenerate_daily_chores(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def regenerate_daily_chores(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     kid = _get_family_kid(db, get_family_id(user), kid_id)
     db.query(DBDailyChoreItem).filter(DBDailyChoreItem.kid_id == kid.id).delete(synchronize_session=False)
     db.commit()
@@ -160,7 +160,7 @@ def regenerate_daily_chores(kid_id: str, db: Session = Depends(get_db), user: DB
 
 @router.post("/api/daily-chores/{item_id}/toggle")
 def toggle_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    """Kids submit/withdraw (open <-> pending), no points move yet. Parents get a
+    """Kids submit/withdraw (open <-> pending), no points move yet. Guardians get a
     one-click shortcut that skips the approval step entirely (their own check
     already IS the approval), and can undo it the same way regular chores work."""
     item = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.id == item_id).first()
@@ -181,7 +181,7 @@ def toggle_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser
         db.refresh(item)
         return ok({"item": daily_chore_dict(item)})
 
-    # Parent quick toggle
+    # Guardian quick toggle
     if item.status in ("open", "pending"):
         wallet = _award(db, kid, item, "Daily chore")
     else:
@@ -199,7 +199,7 @@ def toggle_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser
 
 
 @router.post("/api/daily-chores/{item_id}/approve")
-def approve_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def approve_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.id == item_id).first()
     if not item:
         fail("Daily chore not found", 404)
@@ -214,7 +214,7 @@ def approve_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUse
 
 
 @router.post("/api/daily-chores/{item_id}/reject")
-def reject_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def reject_daily_chore(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBDailyChoreItem).filter(DBDailyChoreItem.id == item_id).first()
     if not item:
         fail("Daily chore not found", 404)

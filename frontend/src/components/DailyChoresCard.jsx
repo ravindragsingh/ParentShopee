@@ -3,7 +3,7 @@ import { api } from '../api.js'
 
 const MAX_ITEMS = 10
 
-export function DailyChoresCard({ kid, isParent, onWalletChange }) {
+export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -23,22 +23,22 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
     setLoading(true)
     setError('')
     try {
-      const res = await api.getDailyChores(isParent ? kid.id : undefined)
+      const res = await api.getDailyChores(isGuardian ? kid.id : undefined)
       setData(res)
     } catch (err) {
       setError(err.message)
     } finally {
       setLoading(false)
     }
-  }, [kid.id, isParent])
+  }, [kid.id, isGuardian])
 
   useEffect(() => { load() }, [load])
 
   useEffect(() => {
-    if (isParent && editMode && templates === null) {
+    if (isGuardian && editMode && templates === null) {
       api.getDailyChoreTemplates().then(setTemplates).catch(() => setTemplates([]))
     }
-  }, [isParent, editMode, templates])
+  }, [isGuardian, editMode, templates])
 
   function applyTemplate(title, emoji) {
     setNewTitle(title)
@@ -168,7 +168,7 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
       >
         <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          📅 Daily Chores{isParent && kid.name && <> — {kid.name}</>}
+          📅 Daily Chores{isGuardian && kid.name && <> — {kid.name}</>}
           <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
             {doneCount}/{data.items.length} today
           </span>
@@ -184,7 +184,7 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
           )}
         </span>
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          {isParent && (
+          {isGuardian && (
             <button
               type="button" className="btn btn-outline btn-sm"
               onClick={e => { e.stopPropagation(); setEditMode(v => !v) }}
@@ -199,15 +199,15 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
       {expanded && (
         <div style={{ marginTop: 14 }}>
           {data.items.length === 0 ? (
-            <div className="empty-text">No daily chores yet.{isParent && ' Add one below.'}</div>
+            <div className="empty-text">No daily chores yet.{isGuardian && ' Add one below.'}</div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {data.items.map(item => {
                 const isPending = item.status === 'pending'
                 const isComplete = item.status === 'complete'
-                const showApprovalButtons = isParent && !editMode && isPending
-                const checkboxChecked = isComplete || (isPending && !isParent)
-                const checkboxDisabled = busyId === item.id || (isParent && editMode) || (isParent && isPending) || (!isParent && isComplete)
+                const showApprovalButtons = isGuardian && !editMode && isPending
+                const checkboxChecked = isComplete || (isPending && !isGuardian)
+                const checkboxDisabled = busyId === item.id || (isGuardian && editMode) || (isGuardian && isPending) || (!isGuardian && isComplete)
                 return (
                   <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: `1px solid ${isPending ? '#fed7aa' : '#e2e8f0'}`, borderRadius: 10, padding: '10px 14px' }}>
                     {showApprovalButtons ? (
@@ -226,11 +226,11 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
                       <span style={{ fontWeight: 600, color: isComplete ? '#94a3b8' : '#1e293b', textDecoration: isComplete ? 'line-through' : 'none' }}>
                         {item.title}
                       </span>
-                      {isPending && !isParent && (
+                      {isPending && !isGuardian && (
                         <span style={{ display: 'block', fontSize: '0.72rem', color: '#c2410c', fontWeight: 700 }}>⏳ Waiting for approval</span>
                       )}
                     </span>
-                    {isParent && editMode ? (
+                    {isGuardian && editMode ? (
                       <>
                         <input
                           type="number" min="0" value={item.points}
@@ -253,7 +253,7 @@ export function DailyChoresCard({ kid, isParent, onWalletChange }) {
             </div>
           )}
 
-          {isParent && editMode && (
+          {isGuardian && editMode && (
             <div style={{ marginTop: 16, borderTop: '1px dashed #cbd5e1', paddingTop: 14 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
                 <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#334155', fontWeight: 600, cursor: 'pointer' }}>

@@ -107,6 +107,21 @@ def startup():
                 conn.commit()
             except Exception:
                 pass  # column already exists
+        # Rename columns for the parent -> guardian terminology update. Only matters for
+        # a database that predates this change — a fresh database already gets the new
+        # column names straight from models.py, so these fail harmlessly (caught below).
+        for table, old_col, new_col in [
+            ("users", "parent_id", "guardian_id"),
+            ("users", "co_parent_of", "co_guardian_of"),
+        ]:
+            try:
+                conn.execute(text(f"ALTER TABLE {table} RENAME COLUMN {old_col} TO {new_col}"))
+                conn.commit()
+            except Exception:
+                pass  # already renamed, or this DB never had the old column name
+        # Migrate the "parent" role value itself to "guardian" for existing accounts
+        conn.execute(text("UPDATE users SET role='guardian' WHERE role='parent'"))
+        conn.commit()
         # Back-fill family_id for existing seed rows
         conn.execute(text("UPDATE chores SET family_id='parent1' WHERE family_id IS NULL AND (assigned_kid_id IN ('kid1','kid2') OR assigned_kid_id IS NULL)"))
         conn.execute(text("UPDATE chores SET family_id='parent2' WHERE family_id IS NULL AND assigned_kid_id='kid3'"))
@@ -116,7 +131,7 @@ def startup():
         # Back-fill new counters to 0 for existing users
         conn.execute(text("UPDATE users SET chores_added_count=0 WHERE chores_added_count IS NULL"))
         conn.execute(text("UPDATE users SET shop_items_added_count=0 WHERE shop_items_added_count IS NULL"))
-        # Everyone who exists before this feature (or isn't a self-registering parent)
+        # Everyone who exists before this feature (or isn't a self-registering guardian)
         # is active by default — only fresh registrations start inactive.
         conn.execute(text("UPDATE users SET is_active='1' WHERE is_active IS NULL"))
         conn.execute(text("UPDATE users SET daily_deduction_enabled='1' WHERE daily_deduction_enabled IS NULL"))
@@ -124,10 +139,10 @@ def startup():
         conn.execute(text("UPDATE users SET is_suspended='0' WHERE is_suspended IS NULL"))
         conn.execute(text("UPDATE users SET pin_attempts=0 WHERE pin_attempts IS NULL"))
         conn.execute(text("UPDATE users SET pin_auto_generated='0' WHERE pin_auto_generated IS NULL"))
-        # Migrate every family-profile account (kids, co-parent, and now the primary
-        # parent too — every profile in the picker is PIN-gated) onto the PIN model:
+        # Migrate every family-profile account (kids, co-guardian, and now the primary
+        # guardian too — every profile in the picker is PIN-gated) onto the PIN model:
         # generate a PIN for anyone who doesn't have one yet, and flag it so the
-        # parent sees a one-time "here are your new PINs" notice on the profile
+        # guardian sees a one-time "here are your new PINs" notice on the profile
         # picker until they set their own. Admins have no profile-picker concept
         # and are excluded.
         rows = conn.execute(text(

@@ -9,7 +9,7 @@ from chore_logic import check_and_expire_chores, generate_instances, get_visible
 from config import CONTACT_EMAIL, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
-from deps import require_auth, require_kid, require_parent
+from deps import require_auth, require_kid, require_guardian
 from helpers import chore_dict, check_add_limit, get_family_id, get_family_owner, now, recurring_dict
 from models import DBChore, DBRecurringTemplate, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
@@ -20,7 +20,7 @@ router = APIRouter()
 
 
 @router.get("/api/limits")
-def get_add_limits(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def get_add_limits(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     owner = get_family_owner(db, user)
     return ok({
         "choresUsed":       int(owner.chores_added_count or 0),
@@ -35,15 +35,15 @@ def get_add_limits(db: Session = Depends(get_db), user: DBUser = Depends(require
 def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
                db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     check_and_expire_chores(db)
-    # parents see their own family's chores; kids see chores from their parent's family
-    fid = get_family_id(user) if user.role == "parent" else user.parent_id
+    # guardians see their own family's chores; kids see chores from their guardian's family
+    fid = get_family_id(user) if user.role == "guardian" else user.guardian_id
     # Generate any missing instances for active recurring templates in this family
     for t in db.query(DBRecurringTemplate).filter(
         DBRecurringTemplate.family_id == fid,
         DBRecurringTemplate.is_active == "1",
     ).all():
         generate_instances(db, t)
-    cutoff = 72 if user.role == "parent" else 48   # 3 days for parents, 2 days for kids
+    cutoff = 72 if user.role == "guardian" else 48   # 3 days for guardians, 2 days for kids
     chores = get_visible_chores(db, family_id=fid, cutoff_hours=cutoff)
     if status:
         chores = [c for c in chores if c.status == status]
@@ -53,12 +53,12 @@ def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
 
 
 @router.post("/api/chores")
-def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     check_content(body.title, body.description or "")
     if body.points < 0:
         fail("points must be a non-negative number")
     family_id = get_family_id(user)
-    if db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).count() == 0:
+    if db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).count() == 0:
         fail("Please add a child first before creating chores.")
     # Resolve which kid IDs to assign — multi takes priority over single
     kid_ids: List[Optional[str]] = body.assignedKidIds if body.assignedKidIds else (
@@ -96,7 +96,7 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
 
 
 @router.put("/api/chores/{chore_id}")
-def update_chore(chore_id: str, body: ChoreUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def update_chore(chore_id: str, body: ChoreUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore:
         fail("Chore not found", 404)
@@ -128,7 +128,7 @@ def update_chore(chore_id: str, body: ChoreUpdate, db: Session = Depends(get_db)
 
 
 @router.delete("/api/chores/{chore_id}")
-def delete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def delete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
     if chore.status not in ("open", "expired"): fail("Only open or expired chores can be deleted")
@@ -152,7 +152,7 @@ def complete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = 
 
 
 @router.post("/api/chores/{chore_id}/approve")
-def approve_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def approve_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
     if chore.status != "pending": fail("Only pending chores can be approved")
@@ -177,7 +177,7 @@ def approve_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = D
 
 
 @router.post("/api/chores/{chore_id}/reject")
-def reject_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def reject_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
     if chore.status != "pending": fail("Only pending chores can be rejected")
@@ -189,7 +189,7 @@ def reject_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = De
 
 
 @router.post("/api/recurring")
-def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     check_content(body.title, body.description or "")
     if body.points < 0:
         fail("points must be a non-negative number")
@@ -201,7 +201,7 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
         fail("Specify a day of month for monthly recurrence")
 
     family_id = get_family_id(user)
-    if db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).count() == 0:
+    if db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).count() == 0:
         fail("Please add a child first before creating chores.")
 
     from_sample = is_sample_chore(body.title)
@@ -235,7 +235,7 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
 
 
 @router.get("/api/recurring")
-def list_recurring(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def list_recurring(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
     templates = db.query(DBRecurringTemplate).filter(
         DBRecurringTemplate.family_id == family_id,
@@ -245,7 +245,7 @@ def list_recurring(db: Session = Depends(get_db), user: DBUser = Depends(require
 
 
 @router.delete("/api/recurring/{template_id}")
-def delete_recurring(template_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def delete_recurring(template_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
     template = db.query(DBRecurringTemplate).filter(
         DBRecurringTemplate.id == template_id,

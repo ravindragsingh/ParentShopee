@@ -10,14 +10,14 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
   const btnRef  = useRef(null)
   const dropRef = useRef(null)
 
-  const menuTabIds = role === 'parent'
+  const menuTabIds = role === 'guardian'
     ? ['admin', 'messages', 'help', 'contact']
     : ['messages', 'help', 'contact', 'settings']
 
   const isMenuTab   = menuTabIds.includes(tab)
-  const accent      = role === 'parent' ? '#0d9488' : '#059669'
-  const accentBg    = role === 'parent' ? '#f0fdfa' : '#f0fdf4'
-  const activeClass = role === 'parent' ? ' active parent' : ' active kid'
+  const accent      = role === 'guardian' ? '#0d9488' : '#059669'
+  const accentBg    = role === 'guardian' ? '#f0fdfa' : '#f0fdf4'
+  const activeClass = role === 'guardian' ? ' active guardian' : ' active kid'
 
   // getBoundingClientRect() is already relative to the visual viewport.
   // We must NOT add visualViewport.offsetTop — that would double-count scroll.
@@ -113,11 +113,11 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
   const hasNotification = unreadCount > 0
 
   const items = [
-    ...(role === 'parent' ? [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }] : []),
+    ...(role === 'guardian' ? [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }] : []),
     { id: 'messages', icon: '💬', label: 'Messages'   },
     { id: 'help',     icon: '❓', label: 'Help'        },
     { id: 'contact',  icon: '📩', label: 'Contact Us'  },
-    ...(role !== 'parent' ? [{ id: 'settings', icon: '⚙️', label: 'Settings' }] : []),
+    ...(role !== 'guardian' ? [{ id: 'settings', icon: '⚙️', label: 'Settings' }] : []),
     ...(onSwitchProfile ? [{ id: 'switch-profile', icon: '🔄', label: 'Switch Profile' }] : []),
     ...(onLogout ? [{ id: 'logout', icon: '🚪', label: 'Sign Out' }] : []),
   ]
@@ -290,7 +290,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
       </button>
 
       {/* Portal renders dropdown directly into document.body —
-          completely escapes any parent overflow, transform, or stacking context */}
+          completely escapes any ancestor overflow, transform, or stacking context */}
       {createPortal(dropdown, document.body)}
     </>
   )

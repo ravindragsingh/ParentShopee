@@ -9,12 +9,12 @@ class DBUser(Base):
     name          = Column(String, nullable=False)
     username      = Column(String, unique=True, nullable=False, index=True)
     password      = Column(String, nullable=False)
-    role          = Column(String, nullable=False)   # parent | kid
+    role          = Column(String, nullable=False)   # guardian | kid
     email         = Column(String, nullable=True)
     date_of_birth = Column(String, nullable=True)
     gender        = Column(String, nullable=True)
-    parent_id     = Column(String, nullable=True)    # for kids: their parent's id
-    co_parent_of  = Column(String, nullable=True)    # for co-parents: primary parent's id
+    guardian_id     = Column(String, nullable=True)    # for kids: their guardian's id
+    co_guardian_of  = Column(String, nullable=True)    # for co-guardians: primary guardian's id
     avatar        = Column(String, nullable=True)
     birth_month   = Column(Integer, nullable=True)   # kids: month of birth (1-12), used for approximate age
     birth_year    = Column(Integer, nullable=True)   # kids: year of birth, used for approximate age
@@ -23,22 +23,22 @@ class DBUser(Base):
     last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_at      = Column(String, nullable=True)  # ISO timestamp of most recent login
-    chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-parent
-    shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-parent
-    is_active               = Column(String, default="1")  # "1"/"0" — "0" only for parents pending email activation
+    chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-guardian
+    shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-guardian
+    is_active               = Column(String, default="1")  # "1"/"0" — "0" only for guardians pending email activation
     activation_token        = Column(String, nullable=True)
     activation_token_expires = Column(String, nullable=True)  # ISO timestamp
     reset_token              = Column(String, nullable=True)
     reset_token_expires      = Column(String, nullable=True)  # ISO timestamp
     daily_deduction_enabled  = Column(String, default="1")  # kids: "1"/"0" — deduct points for unchecked daily chores at day's end
-    shop_approval_enabled    = Column(String, default="0")  # family owner: "1"/"0" — kid purchases need parent approval
+    shop_approval_enabled    = Column(String, default="0")  # family owner: "1"/"0" — kid purchases need guardian approval
     created_at    = Column(String, nullable=True)  # ISO timestamp of signup; NULL for accounts that predate this field
     last_active_at = Column(String, nullable=True)  # ISO timestamp of most recent authenticated request (any activity, not just login)
     is_suspended  = Column(String, default="0")     # "1"/"0" — admin moderation flag; blocks login and API access
-    pin                = Column(String, nullable=True)   # 6-digit PIN — kid/co-parent profiles unlock with this instead of a password
+    pin                = Column(String, nullable=True)   # 6-digit PIN — kid/co-guardian profiles unlock with this instead of a password
     pin_attempts       = Column(Integer, default=0)      # consecutive failed PIN attempts, for lockout
     pin_locked_until   = Column(String, nullable=True)    # ISO timestamp; PIN entry blocked until this passes
-    pin_auto_generated = Column(String, default="0")      # "1" = system-generated during migration, parent hasn't set their own yet
+    pin_auto_generated = Column(String, default="0")      # "1" = system-generated during migration, guardian hasn't set their own yet
 
 
 class DBChore(Base):

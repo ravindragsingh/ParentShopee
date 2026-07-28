@@ -57,7 +57,7 @@ export function AuthProvider({ children }) {
   }
 
   // Step 2: a profile was picked from the Netflix-style picker — either the
-  // parent's own ("continue as me", no PIN) or a kid/co-parent after a
+  // guardian's own ("continue as me", no PIN) or a kid/co-guardian after a
   // correct PIN. Replaces the active identity; deviceToken is untouched so
   // "Switch Profile" can come back here without re-entering the password.
   function enterProfile(userData, authToken) {

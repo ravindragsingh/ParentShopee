@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from content_filter import check_content
 from database import get_db
-from deps import require_auth, require_parent
+from deps import require_auth, require_guardian
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBChore, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
@@ -18,22 +18,22 @@ router = APIRouter()
 
 
 @router.get("/api/users/kids")
-def list_kids(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def list_kids(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
-    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
     return ok([safe_user(k) for k in kids])
 
 
-@router.get("/api/users/parents")
-def list_parents(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    parents = db.query(DBUser).filter(DBUser.role == "parent").all()
-    return ok([safe_user(p) for p in parents])
+@router.get("/api/users/guardians")
+def list_guardians(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    guardians = db.query(DBUser).filter(DBUser.role == "guardian").all()
+    return ok([safe_user(p) for p in guardians])
 
 
 @router.post("/api/kids")
-def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
-    count = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).count()
+    count = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).count()
     if count >= 10:
         fail("You can add a maximum of 10 children")
     if len(body.name.strip()) < 2:
@@ -52,7 +52,7 @@ def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depe
         username=username,
         password=password,
         role="kid",
-        parent_id=family_id,
+        guardian_id=family_id,
         avatar=body.avatar or "🐶",
         birth_month=body.birthMonth,
         birth_year=body.birthYear,
@@ -69,9 +69,9 @@ def add_kid(body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depe
 
 
 @router.post("/api/kids/{kid_id}/bonus")
-def award_bonus(kid_id: str, body: BonusPointsBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def award_bonus(kid_id: str, body: BonusPointsBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
-    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
     if not kid:
         fail("Child not found or not in your family", 404)
     if body.points <= 0:
@@ -96,14 +96,14 @@ def award_bonus(kid_id: str, body: BonusPointsBody, db: Session = Depends(get_db
 
 
 @router.post("/api/kids/{kid_id}/wallet/adjust")
-def adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     if body.amount == 0:
         fail("Amount cannot be zero")
     if body.reason and len(body.reason.strip()) > 15:
         fail("Message must be 15 characters or fewer")
     check_content(body.reason or "")
     family_id = get_family_id(user)
-    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
     if not kid:
         fail("Child not found or not in your family", 404)
     wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
@@ -125,11 +125,11 @@ def adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get
 
 
 @router.post("/api/kids/{kid_id}/behaviour")
-def award_behaviour(kid_id: str, body: BehaviourBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def award_behaviour(kid_id: str, body: BehaviourBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     if body.points == 0:
         fail("Points cannot be zero")
     family_id = get_family_id(user)
-    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
     if not kid:
         fail("Child not found or not in your family", 404)
     wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
@@ -152,9 +152,9 @@ def award_behaviour(kid_id: str, body: BehaviourBody, db: Session = Depends(get_
 
 
 @router.put("/api/kids/{kid_id}/pin")
-def update_kid_pin(kid_id: str, body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def update_kid_pin(kid_id: str, body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
-    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
     if not kid:
         fail("Child not found or not in your family", 404)
     check_pin_complexity(body.pin)
@@ -167,11 +167,11 @@ def update_kid_pin(kid_id: str, body: UpdatePinBody, db: Session = Depends(get_d
 
 
 @router.get("/api/kids/{kid_id}/report")
-def get_kid_report(kid_id: str, period: str = "weekly", db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def get_kid_report(kid_id: str, period: str = "weekly", db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     if period not in ("weekly", "monthly"):
         fail("period must be 'weekly' or 'monthly'")
     family_id = get_family_id(user)
-    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.parent_id == family_id).first()
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
     if not kid:
         fail("Child not found or not in your family", 404)
 

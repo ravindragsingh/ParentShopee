@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { api } from '../api.js'
 
-// Parent view of shop item with edit/delete
-export function ParentShopItem({ item, onRefresh }) {
+// Guardian view of shop item with edit/delete
+export function GuardianShopItem({ item, onRefresh }) {
   const [editing, setEditing] = useState(false)
   const [editName, setEditName] = useState(item.name)
   const [editDesc, setEditDesc] = useState(item.description || '')
@@ -137,7 +137,7 @@ export function KidShopItem({ item, balance, isPending, onRefresh }) {
         className={`btn btn-sm ${isPending ? 'btn-outline' : canAfford ? 'btn-green' : 'btn-gray'}`}
         onClick={handleBuy}
         disabled={loading || !canAfford || isPending}
-        title={isPending ? 'Waiting for parent approval' : canAfford ? 'Buy this item' : 'Not enough points'}
+        title={isPending ? 'Waiting for guardian approval' : canAfford ? 'Buy this item' : 'Not enough points'}
       >
         {loading ? 'Buying...' : isPending ? '⏳ Awaiting approval' : canAfford ? 'Buy' : 'Not enough pts'}
       </button>

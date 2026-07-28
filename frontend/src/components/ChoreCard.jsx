@@ -73,9 +73,9 @@ function DueDateBadge({ dueDate, status }) {
   return <span className={cls}>{label}</span>
 }
 
-// ── Parent chore card ─────────────────────────────────────────────────────────
+// ── Guardian chore card ─────────────────────────────────────────────────────────
 
-export function ParentChoreCard({ chore, kids, onRefresh, variant = 'card', editMode = false }) {
+export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', editMode = false }) {
   const [editing, setEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(chore.title)
   const [editDesc, setEditDesc] = useState(chore.description || '')

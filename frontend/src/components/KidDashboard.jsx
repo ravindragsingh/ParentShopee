@@ -72,13 +72,13 @@ function KidChoresTab({ userId, onBalanceChange }) {
     (!c.assignedKidId || c.assignedKidId === userId)
   )
 
-  // My pending: chores I marked complete, awaiting parent approval
+  // My pending: chores I marked complete, awaiting guardian approval
   const myPending = chores.filter(c =>
     c.status === 'pending' &&
     (c.completedByKidId === userId || c.assignedKidId === userId)
   )
 
-  // My completed: chores I completed and parent approved
+  // My completed: chores I completed and guardian approved
   const myCompleted = chores.filter(c =>
     c.status === 'complete' &&
     (c.completedByKidId === userId || c.assignedKidId === userId)
@@ -95,7 +95,7 @@ function KidChoresTab({ userId, onBalanceChange }) {
 
   return (
     <div>
-      <DailyChoresCard kid={{ id: userId }} isParent={false} onWalletChange={onBalanceChange} />
+      <DailyChoresCard kid={{ id: userId }} isGuardian={false} onWalletChange={onBalanceChange} />
 
       <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
         <div
@@ -196,7 +196,7 @@ function KidShopTab({ userId }) {
 
       {pendingItemIds.size > 0 && (
         <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.85rem' }}>
-          ⏳ You have {pendingItemIds.size} purchase{pendingItemIds.size > 1 ? 's' : ''} waiting for a parent to approve.
+          ⏳ You have {pendingItemIds.size} purchase{pendingItemIds.size > 1 ? 's' : ''} waiting for a guardian to approve.
         </div>
       )}
 

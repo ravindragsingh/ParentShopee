@@ -24,9 +24,9 @@ export default function ContactUs() {
   const [error, setError]           = useState('')
   const fileRef = useRef(null)
 
-  const isParent = user.role === 'parent'
-  const accent   = isParent ? '#0d9488' : '#059669'
-  const accentGrad = isParent
+  const isGuardian = user.role === 'guardian'
+  const accent   = isGuardian ? '#0d9488' : '#059669'
+  const accentGrad = isGuardian
     ? 'linear-gradient(135deg,#0f766e,#0d9488)'
     : 'linear-gradient(135deg,#059669,#0d9488)'
 
@@ -145,7 +145,7 @@ export default function ContactUs() {
                   display: 'flex', alignItems: 'center', gap: 6,
                   cursor: 'pointer', userSelect: 'none',
                   padding: '7px 14px', borderRadius: 999,
-                  background: category === c.value ? (isParent ? '#f0fdfa' : '#f0fdf4') : '#f8fafc',
+                  background: category === c.value ? (isGuardian ? '#f0fdfa' : '#f0fdf4') : '#f8fafc',
                   border: `2px solid ${category === c.value ? accent : '#e2e8f0'}`,
                   fontSize: '0.85rem', fontWeight: category === c.value ? 700 : 400,
                   color: category === c.value ? accent : '#475569',

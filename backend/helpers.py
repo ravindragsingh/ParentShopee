@@ -22,15 +22,15 @@ def calculate_approx_age(birth_month: int, birth_year: int) -> int:
     return t.year - birth_year - (t.month < birth_month)
 
 def get_family_id(user: DBUser) -> str:
-    return user.co_parent_of or user.id
+    return user.co_guardian_of or user.id
 
 def get_family_owner(db: Session, user: DBUser) -> DBUser:
-    """The primary parent's row — where shared lifetime add-counters live."""
-    family_id = user.parent_id if user.role == "kid" else get_family_id(user)
+    """The primary guardian's row — where shared lifetime add-counters live."""
+    family_id = user.guardian_id if user.role == "kid" else get_family_id(user)
     return db.query(DBUser).filter(DBUser.id == family_id).first()
 
 def generate_inert_credentials() -> tuple:
-    """Kid/co-parent profiles no longer log in with a username+password — they're
+    """Kid/co-guardian profiles no longer log in with a username+password — they're
     entered via PIN under the family's device session. `username`/`password`
     stay NOT NULL/unique columns though, so give them harmless, never-shown,
     never-usable placeholder values rather than risking a schema rebuild."""
@@ -50,8 +50,8 @@ def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: in
 
 def safe_user(u: DBUser) -> dict:
     return {"id": u.id, "name": u.name, "username": u.username, "role": u.role,
-            "email": u.email, "parentId": u.parent_id, "avatar": u.avatar,
-            "gender": u.gender, "coParentOf": u.co_parent_of,
+            "email": u.email, "guardianId": u.guardian_id, "avatar": u.avatar,
+            "gender": u.gender, "coGuardianOf": u.co_guardian_of,
             "country": u.country, "city": u.city,
             "lastLoginCountry": u.last_login_country, "lastLoginCity": u.last_login_city,
             "lastLoginAt": u.last_login_at,

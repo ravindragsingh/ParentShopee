@@ -12,9 +12,9 @@ router = APIRouter()
 
 @router.get("/api/wallet")
 def get_all_wallets(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    if user.role == "parent":
+    if user.role == "guardian":
         family_id = get_family_id(user)
-        kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()
+        kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
     else:
         kids = [user]
 

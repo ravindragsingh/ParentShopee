@@ -7,11 +7,11 @@ from sqlalchemy.orm import Session
 
 from config import SESSIONS
 from database import get_db
-from deps import require_parent
+from deps import require_guardian
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBUser
 from responses import fail, ok
-from schemas import CoParentBody, ProfileEnterBody, RecoverPinBody, UpdatePinBody
+from schemas import CoGuardianBody, ProfileEnterBody, RecoverPinBody, UpdatePinBody
 from security import check_pin_complexity
 
 router = APIRouter()
@@ -20,85 +20,85 @@ PIN_MAX_ATTEMPTS = 5
 PIN_LOCKOUT_MINUTES = 15
 
 
-@router.get("/api/family/co-parent")
-def get_co_parent(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
-    if user.co_parent_of:
-        primary = db.query(DBUser).filter(DBUser.id == user.co_parent_of).first()
-        return ok({"isCoParent": True, "coParent": None, "primaryParent": safe_user(primary) if primary else None})
-    co_parent = db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first()
-    return ok({"isCoParent": False, "coParent": safe_user(co_parent) if co_parent else None, "primaryParent": None})
+@router.get("/api/family/co-guardian")
+def get_co_guardian(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    if user.co_guardian_of:
+        primary = db.query(DBUser).filter(DBUser.id == user.co_guardian_of).first()
+        return ok({"isCoGuardian": True, "coGuardian": None, "primaryGuardian": safe_user(primary) if primary else None})
+    co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == user.id, DBUser.role == "guardian").first()
+    return ok({"isCoGuardian": False, "coGuardian": safe_user(co_guardian) if co_guardian else None, "primaryGuardian": None})
 
 
-@router.post("/api/family/co-parent")
-def add_co_parent(body: CoParentBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
-    if user.co_parent_of:
-        fail("Co-parents cannot create other co-parents")
-    if db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first():
-        fail("You already have a co-parent. Remove them first.")
+@router.post("/api/family/co-guardian")
+def add_co_guardian(body: CoGuardianBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    if user.co_guardian_of:
+        fail("Co-guardians cannot create other co-guardians")
+    if db.query(DBUser).filter(DBUser.co_guardian_of == user.id, DBUser.role == "guardian").first():
+        fail("You already have a co-guardian. Remove them first.")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
     check_pin_complexity(body.pin)
 
     username, password = generate_inert_credentials()
-    co_parent = DBUser(
+    co_guardian = DBUser(
         id=str(uuid4()),
         name=body.name.strip(),
         username=username,
         password=password,
-        role="parent",
-        co_parent_of=user.id,
+        role="guardian",
+        co_guardian_of=user.id,
         avatar=body.avatar or "🧑",
         pin=body.pin,
         pin_auto_generated="0",
         created_at=now(),
     )
-    db.add(co_parent)
+    db.add(co_guardian)
     db.commit()
-    db.refresh(co_parent)
-    return ok(safe_user(co_parent), 201)
+    db.refresh(co_guardian)
+    return ok(safe_user(co_guardian), 201)
 
 
-@router.put("/api/family/co-parent/pin")
-def update_co_parent_pin(body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
-    if user.co_parent_of:
-        fail("Co-parents cannot change their own PIN via this endpoint")
-    co_parent = db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first()
-    if not co_parent:
-        fail("No co-parent found")
+@router.put("/api/family/co-guardian/pin")
+def update_co_guardian_pin(body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    if user.co_guardian_of:
+        fail("Co-guardians cannot change their own PIN via this endpoint")
+    co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == user.id, DBUser.role == "guardian").first()
+    if not co_guardian:
+        fail("No co-guardian found")
     check_pin_complexity(body.pin)
-    co_parent.pin = body.pin
-    co_parent.pin_auto_generated = "0"
-    co_parent.pin_attempts = 0
-    co_parent.pin_locked_until = None
+    co_guardian.pin = body.pin
+    co_guardian.pin_auto_generated = "0"
+    co_guardian.pin_attempts = 0
+    co_guardian.pin_locked_until = None
     db.commit()
-    return ok({"message": f"PIN updated for {co_parent.name}"})
+    return ok({"message": f"PIN updated for {co_guardian.name}"})
 
 
-@router.delete("/api/family/co-parent")
-def remove_co_parent(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
-    if user.co_parent_of:
-        fail("Co-parents cannot revoke access themselves")
-    co_parent = db.query(DBUser).filter(DBUser.co_parent_of == user.id, DBUser.role == "parent").first()
-    if not co_parent:
-        fail("No co-parent found")
-    db.delete(co_parent)
+@router.delete("/api/family/co-guardian")
+def remove_co_guardian(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    if user.co_guardian_of:
+        fail("Co-guardians cannot revoke access themselves")
+    co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == user.id, DBUser.role == "guardian").first()
+    if not co_guardian:
+        fail("No co-guardian found")
+    db.delete(co_guardian)
     db.commit()
-    return ok({"message": "Co-parent account removed"})
+    return ok({"message": "Co-guardian account removed"})
 
 
 # ── Netflix-style profile picker ────────────────────────────────────────────────
-# `user` on both endpoints below is always the primary parent's own "device"
+# `user` on both endpoints below is always the primary guardian's own "device"
 # session — the one established by the real username+password login. Kids and
-# co-parents no longer get an independent login token from /api/auth/login, so
+# co-guardians no longer get an independent login token from /api/auth/login, so
 # there's no ambiguity about whose family this is. Every profile — including the
-# primary parent's own — is PIN-gated, so picking any tile always asks for a PIN.
+# primary guardian's own — is PIN-gated, so picking any tile always asks for a PIN.
 
 @router.get("/api/family/profiles")
-def list_family_profiles(db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def list_family_profiles(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
-    parent = db.query(DBUser).filter(DBUser.id == family_id).first()
-    co_parent = db.query(DBUser).filter(DBUser.co_parent_of == family_id, DBUser.role == "parent").first()
-    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).order_by(DBUser.created_at).all()
+    guardian = db.query(DBUser).filter(DBUser.id == family_id).first()
+    co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == family_id, DBUser.role == "guardian").first()
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).order_by(DBUser.created_at).all()
 
     def profile_dict(u: DBUser, requires_pin: bool) -> dict:
         needs_setup = u.pin_auto_generated == "1"
@@ -107,23 +107,23 @@ def list_family_profiles(db: Session = Depends(get_db), user: DBUser = Depends(r
             "requiresPin": requires_pin,
             "needsPinSetup": needs_setup,
             # PINs are otherwise write-only, but a still-auto-generated one is
-            # surfaced here so the parent — the only person who can ever see
+            # surfaced here so the guardian — the only person who can ever see
             # this endpoint for their own family — can actually learn and
-            # share it. Never included once the parent has set their own.
+            # share it. Never included once the guardian has set their own.
             "tempPin": u.pin if needs_setup else None,
         }
 
-    profiles = [profile_dict(parent, parent.pin is not None)]
-    if co_parent:
-        profiles.append(profile_dict(co_parent, True))
+    profiles = [profile_dict(guardian, guardian.pin is not None)]
+    if co_guardian:
+        profiles.append(profile_dict(co_guardian, True))
     for kid in kids:
         profiles.append(profile_dict(kid, True))
 
-    return ok({"profiles": profiles, "kidsCount": len(kids), "hasCoParent": co_parent is not None})
+    return ok({"profiles": profiles, "kidsCount": len(kids), "hasCoGuardian": co_guardian is not None})
 
 
 @router.post("/api/family/profiles/{profile_id}/enter")
-def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
 
     if profile_id == family_id:
@@ -132,8 +132,8 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
         profile = db.query(DBUser).filter(
             DBUser.id == profile_id,
             or_(
-                and_(DBUser.role == "kid", DBUser.parent_id == family_id),
-                DBUser.co_parent_of == family_id,
+                and_(DBUser.role == "kid", DBUser.guardian_id == family_id),
+                DBUser.co_guardian_of == family_id,
             ),
         ).first()
     if not profile:
@@ -166,15 +166,15 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
 
 
 @router.post("/api/family/profiles/recover-pin")
-def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
-    # Recovery for a forgotten PIN, primary parent only — kids and the co-parent
-    # get their PIN reset by the primary parent instead (Kids tab / Admin Panel),
+def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    # Recovery for a forgotten PIN, primary guardian only — kids and the co-guardian
+    # get their PIN reset by the primary guardian instead (Kids tab / Admin Panel),
     # same as before. Re-proving the real account password is what makes this
-    # safe to skip the PIN for: it's the one secret only the primary parent
+    # safe to skip the PIN for: it's the one secret only the primary guardian
     # knows, so it can't be used to bypass another profile's PIN on a shared
     # device the way just clicking "forgot PIN" without a check could.
-    if user.co_parent_of:
-        fail("Only the primary parent can recover their PIN this way", 403)
+    if user.co_guardian_of:
+        fail("Only the primary guardian can recover their PIN this way", 403)
     if body.password != user.password:
         fail("Incorrect password", 401)
     check_pin_complexity(body.newPin)

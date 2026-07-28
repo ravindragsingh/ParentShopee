@@ -32,7 +32,7 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
     ).first()
     if not user:
         fail("Invalid credentials", 401)
-    if user.role == "kid" or user.co_parent_of:
+    if user.role == "kid" or user.co_guardian_of:
         fail(
             "This account is part of a family — sign in with your family's main account and select your profile.",
             403,
@@ -65,7 +65,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
     except Exception:
         fail("Invalid date of birth — use YYYY-MM-DD format")
     if age < 25:
-        fail("To register as Parent, you should be 25 years or more.")
+        fail("To register as Guardian, you should be 25 years or more.")
     if db.query(DBUser).filter(func.lower(DBUser.username) == body.username.strip().lower()).first():
         fail("Username already taken")
     if db.query(DBUser).filter(DBUser.email == body.email.lower().strip()).first():
@@ -79,7 +79,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
     location = get_location_from_ip(get_client_ip(request))
     expires = (datetime.now(timezone.utc) + timedelta(hours=ACTIVATION_TOKEN_TTL_HOURS)).isoformat()
 
-    # Every profile in the picker is PIN-gated, including the primary parent's own —
+    # Every profile in the picker is PIN-gated, including the primary guardian's own —
     # seed a temporary PIN now so they aren't locked out of their first "continue as
     # me" pick; the profile picker's migration-notice banner surfaces it to them.
     temp_pin = f"{random.randint(0, 999999):06d}"
@@ -89,7 +89,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         name=body.name.strip(),
         username=body.username.strip(),
         password=body.password,
-        role="parent",
+        role="guardian",
         email=body.email.lower().strip(),
         date_of_birth=body.dateOfBirth,
         gender=body.gender,
@@ -198,11 +198,11 @@ def change_own_password(body: ChangeOwnPasswordBody, db: Session = Depends(get_d
 
 @router.put("/api/auth/pin")
 def change_own_pin(body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    # Only the primary parent self-services their own entry PIN here — kids' and
-    # the co-parent's PINs are set by the primary parent (kids.py / family.py),
+    # Only the primary guardian self-services their own entry PIN here — kids' and
+    # the co-guardian's PINs are set by the primary guardian (kids.py / family.py),
     # same as before.
-    if user.role != "parent" or user.co_parent_of:
-        fail("Only the primary parent can change their own PIN this way", 403)
+    if user.role != "guardian" or user.co_guardian_of:
+        fail("Only the primary guardian can change their own PIN this way", 403)
     check_pin_complexity(body.pin)
     user.pin = body.pin
     user.pin_auto_generated = "0"

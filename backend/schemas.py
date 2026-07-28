@@ -42,7 +42,7 @@ class AddKidBody(BaseModel):
 class UpdatePinBody(BaseModel):
     pin: str
 
-class CoParentBody(BaseModel):
+class CoGuardianBody(BaseModel):
     name: str
     pin: str
     avatar: Optional[str] = "🧑"
@@ -140,8 +140,8 @@ class DailyChoreSettingsUpdate(BaseModel):
 class AdminUserUpdate(BaseModel):
     name:     Optional[str] = None
     email:    Optional[str] = None
-    password: Optional[str] = None   # primary parent accounts only
-    pin:      Optional[str] = None   # kid / co-parent profiles only
+    password: Optional[str] = None   # primary guardian accounts only
+    pin:      Optional[str] = None   # kid / co-guardian profiles only
     avatar:   Optional[str] = None
 
 class AdminChoreUpdate(BaseModel):

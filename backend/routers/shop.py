@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from config import LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
-from deps import require_auth, require_kid, require_parent
+from deps import require_auth, require_kid, require_guardian
 from helpers import check_add_limit, get_family_id, get_family_owner, now, purchase_dict, shop_dict
 from models import DBShopItem, DBShopPurchase, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
@@ -23,7 +23,7 @@ def get_shop_settings(db: Session = Depends(get_db), user: DBUser = Depends(requ
 
 
 @router.put("/api/shop/settings")
-def update_shop_settings(body: ShopSettingsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def update_shop_settings(body: ShopSettingsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     owner = get_family_owner(db, user)
     owner.shop_approval_enabled = "1" if body.enabled else "0"
     db.commit()
@@ -36,7 +36,7 @@ def get_shop_purchases(db: Session = Depends(get_db), user: DBUser = Depends(req
         kid_ids = [user.id]
     else:
         family_id = get_family_id(user)
-        kid_ids = [k.id for k in db.query(DBUser).filter(DBUser.role == "kid", DBUser.parent_id == family_id).all()]
+        kid_ids = [k.id for k in db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()]
         if not kid_ids:
             return ok([])
     purchases = db.query(DBShopPurchase).filter(
@@ -47,13 +47,13 @@ def get_shop_purchases(db: Session = Depends(get_db), user: DBUser = Depends(req
 
 @router.get("/api/shop")
 def get_shop(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    fid = get_family_id(user) if user.role == "parent" else user.parent_id
+    fid = get_family_id(user) if user.role == "guardian" else user.guardian_id
     items = db.query(DBShopItem).filter(DBShopItem.family_id == fid).all()
     return ok([shop_dict(s) for s in items])
 
 
 @router.post("/api/shop")
-def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     check_content(body.name, body.description or "")
     if body.cost < 0: fail("cost must be a non-negative number")
     from_sample = is_sample_shop_item(body.name)
@@ -72,7 +72,7 @@ def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: 
 
 
 @router.put("/api/shop/{item_id}")
-def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
     if body.name        is not None: item.name        = body.name.strip()
@@ -87,7 +87,7 @@ def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(g
 
 
 @router.delete("/api/shop/{item_id}")
-def delete_shop_item(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def delete_shop_item(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
     db.delete(item)
@@ -129,11 +129,11 @@ def buy_shop_item(item_id: str, db: Session = Depends(get_db), user: DBUser = De
 
 
 @router.post("/api/shop/purchases/{purchase_id}/approve")
-def approve_shop_purchase(purchase_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def approve_shop_purchase(purchase_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     purchase = db.query(DBShopPurchase).filter(DBShopPurchase.id == purchase_id).first()
     if not purchase: fail("Purchase request not found", 404)
     kid = db.query(DBUser).filter(DBUser.id == purchase.kid_id).first()
-    if not kid or kid.parent_id != get_family_id(user): fail("Not allowed to modify this request", 403)
+    if not kid or kid.guardian_id != get_family_id(user): fail("Not allowed to modify this request", 403)
     if purchase.status != "pending": fail("Only pending purchase requests can be approved")
 
     wallet = db.query(DBWallet).filter(DBWallet.kid_id == purchase.kid_id).first()
@@ -152,11 +152,11 @@ def approve_shop_purchase(purchase_id: str, db: Session = Depends(get_db), user:
 
 
 @router.post("/api/shop/purchases/{purchase_id}/reject")
-def reject_shop_purchase(purchase_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_parent)):
+def reject_shop_purchase(purchase_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     purchase = db.query(DBShopPurchase).filter(DBShopPurchase.id == purchase_id).first()
     if not purchase: fail("Purchase request not found", 404)
     kid = db.query(DBUser).filter(DBUser.id == purchase.kid_id).first()
-    if not kid or kid.parent_id != get_family_id(user): fail("Not allowed to modify this request", 403)
+    if not kid or kid.guardian_id != get_family_id(user): fail("Not allowed to modify this request", 403)
     if purchase.status != "pending": fail("Only pending purchase requests can be rejected")
 
     purchase.status = "rejected"

@@ -56,7 +56,7 @@ def get_daily_chore_bank(age: Optional[int]) -> List[DailyChoreSample]:
 
 
 def get_all_daily_chore_templates() -> List[dict]:
-    """Full template catalog grouped by age band, for a parent's optional
+    """Full template catalog grouped by age band, for a guardian's optional
     "start from template" picker when manually adding a daily chore."""
     return [
         {"label": label, "items": [{"title": t, "imageEmoji": e} for t, e in items]}

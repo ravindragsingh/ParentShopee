@@ -2,9 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
-import { ParentChoreCard, EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
+import { GuardianChoreCard, EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
 import { DailyChoresCard } from './DailyChoresCard.jsx'
-import { ParentShopItem } from './ShopItem.jsx'
+import { GuardianShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
@@ -222,7 +222,7 @@ function ChoresTab({ kids }) {
       {kids.length > 0 && (
         <>
           {(filterKidId ? kids.filter(k => k.id === filterKidId) : kids).map(kid => (
-            <DailyChoresCard key={kid.id} kid={kid} isParent />
+            <DailyChoresCard key={kid.id} kid={kid} isGuardian />
           ))}
         </>
       )}
@@ -267,7 +267,7 @@ function ChoresTab({ kids }) {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {[...pending, ...open].map(chore => (
-                    <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" editMode={openChoresEditMode} />
+                    <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" editMode={openChoresEditMode} />
                   ))}
                 </div>
               )}
@@ -332,11 +332,11 @@ function ChoresTab({ kids }) {
       {!loading && (
         <>
           <CollapsibleSection icon="🏆" title="Complete" count={complete.length} colorClass="complete" emptyText="No completed chores yet.">
-            {complete.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+            {complete.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
           </CollapsibleSection>
 
           <CollapsibleSection icon="⌛" title="Expired" count={expired.length} colorClass="expired" emptyText="No expired chores.">
-            {expired.map(chore => <ParentChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+            {expired.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
           </CollapsibleSection>
         </>
       )}
@@ -783,7 +783,7 @@ function ShopTab({ kids = [] }) {
             {[...items]
               .sort((a, b) => sortOrder === 'asc' ? a.cost - b.cost : sortOrder === 'desc' ? b.cost - a.cost : 0)
               .map(item => (
-                <ParentShopItem key={item.id} item={item} onRefresh={loadItems} />
+                <GuardianShopItem key={item.id} item={item} onRefresh={loadItems} />
               ))}
           </div>
         </>
@@ -792,11 +792,11 @@ function ShopTab({ kids = [] }) {
   )
 }
 
-// ─── Co-Parent Tab ────────────────────────────────────────────────────────────
+// ─── Co-Guardian Tab ────────────────────────────────────────────────────────────
 
-const COPARENT_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
+const COGUARDIAN_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
 
-function CoParentTab() {
+function CoGuardianTab() {
   const [info, setInfo] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -822,7 +822,7 @@ function CoParentTab() {
 
   async function loadInfo() {
     setLoading(true); setError('')
-    try { setInfo(await api.getCoParent()) }
+    try { setInfo(await api.getCoGuardian()) }
     catch (err) { setError(err.message) }
     finally { setLoading(false) }
   }
@@ -845,7 +845,7 @@ function CoParentTab() {
     }
     setAdding(true)
     try {
-      await api.addCoParent({ name: name.trim(), avatar, pin })
+      await api.addCoGuardian({ name: name.trim(), avatar, pin })
       setName(''); setAvatar('🧑'); setPin(''); setConfirmPin('')
       loadInfo()
     } catch (err) {
@@ -861,7 +861,7 @@ function CoParentTab() {
     if (!pinCheck.ok) { setPwdError(pinCheck.message); return }
     setSavingPwd(true)
     try {
-      await api.updateCoParentPin(newPwd)
+      await api.updateCoGuardianPin(newPwd)
       setNewPwd(''); setShowPwdForm(false)
     } catch (err) {
       setPwdError(err.message)
@@ -871,21 +871,21 @@ function CoParentTab() {
   }
 
   async function handleRevoke() {
-    if (!window.confirm(`Remove co-parent "${info.coParent?.name}"? They will lose access immediately.`)) return
+    if (!window.confirm(`Remove co-guardian "${info.coGuardian?.name}"? They will lose access immediately.`)) return
     setRevoking(true)
-    try { await api.removeCoParent(); loadInfo() }
+    try { await api.removeCoGuardian(); loadInfo() }
     catch (err) { setError(err.message) }
     finally { setRevoking(false) }
   }
 
-  // Co-parents see a notice — they cannot manage this tab
-  if (info?.isCoParent) {
+  // Co-guardians see a notice — they cannot manage this tab
+  if (info?.isCoGuardian) {
     return (
       <div className="form-card" style={{ borderLeft: '4px solid #0d9488' }}>
-        <div className="form-title" style={{ marginBottom: 6 }}>Co-Parent Access</div>
+        <div className="form-title" style={{ marginBottom: 6 }}>Co-Guardian Access</div>
         <p style={{ fontSize: '0.9rem', color: '#475569' }}>
-          You have co-parent access to <strong>{info.primaryParent?.name || 'this family'}</strong>'s account.
-          You can manage their children's chores, PINs and wallet — same as the primary parent.
+          You have co-guardian access to <strong>{info.primaryGuardian?.name || 'this family'}</strong>'s account.
+          You can manage their children's chores, PINs and wallet — same as the primary guardian.
         </p>
       </div>
     )
@@ -896,13 +896,13 @@ function CoParentTab() {
 
   return (
     <div>
-      {/* Add co-parent form */}
-      {!info?.coParent && (
+      {/* Add co-guardian form */}
+      {!info?.coGuardian && (
         <div className="form-card">
-          <div className="form-title">Add Co-Parent</div>
+          <div className="form-title">Add Co-Guardian</div>
           <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
-            Add a profile for another parent (partner, spouse, etc.) to your family. They get the same access as you —
-            they can manage children, chores, shop and wallets — unlocked with their own 6-digit PIN from the profile picker. Only one co-parent per family.
+            Add a profile for another guardian (partner, spouse, etc.) to your family. They get the same access as you —
+            they can manage children, chores, shop and wallets — unlocked with their own 6-digit PIN from the profile picker. Only one co-guardian per family.
           </p>
           {addError && <div className="error-msg">{addError}</div>}
           <form onSubmit={handleAdd}>
@@ -923,20 +923,20 @@ function CoParentTab() {
             </div>
             <div className="form-group" style={{ marginBottom: 14 }}>
               <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
-              <EmojiPicker emojis={COPARENT_AVATARS} value={avatar} onChange={setAvatar} />
+              <EmojiPicker emojis={COGUARDIAN_AVATARS} value={avatar} onChange={setAvatar} />
             </div>
             <button type="submit" className="btn btn-primary" disabled={adding}>
-              {adding ? 'Creating...' : 'Create Co-Parent'}
+              {adding ? 'Creating...' : 'Create Co-Guardian'}
             </button>
           </form>
         </div>
       )}
 
-      {/* Existing co-parent details */}
-      {info?.coParent && (
+      {/* Existing co-guardian details */}
+      {info?.coGuardian && (
         <div className="form-card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-            <div className="form-title" style={{ marginBottom: 0 }}>Co-Parent</div>
+            <div className="form-title" style={{ marginBottom: 0 }}>Co-Guardian</div>
             <span className="badge complete">Active</span>
           </div>
 
@@ -947,11 +947,11 @@ function CoParentTab() {
               display: 'flex', alignItems: 'center',
               justifyContent: 'center', fontSize: '1.8rem', flexShrink: 0
             }}>
-              {info.coParent.avatar || '🧑'}
+              {info.coGuardian.avatar || '🧑'}
             </div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b' }}>{info.coParent.name}</div>
-              <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: 2 }}>Full parent access to all children</div>
+              <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b' }}>{info.coGuardian.name}</div>
+              <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: 2 }}>Full guardian access to all children</div>
             </div>
           </div>
 
@@ -963,7 +963,7 @@ function CoParentTab() {
               {showPwdForm ? 'Cancel' : '🔑 Change PIN'}
             </button>
             <button className="btn btn-red btn-sm" onClick={handleRevoke} disabled={revoking}>
-              {revoking ? 'Removing...' : 'Remove Co-Parent'}
+              {revoking ? 'Removing...' : 'Remove Co-Guardian'}
             </button>
           </div>
 
@@ -992,7 +992,7 @@ function CoParentTab() {
   )
 }
 
-// ─── Admin Panel Tab (Settings + Co-Parent, combined) ────────────────────────
+// ─── Admin Panel Tab (Settings + Co-Guardian, combined) ────────────────────────
 
 function AdminPanelTab() {
   const { user, logout } = useAuth()
@@ -1008,7 +1008,7 @@ function AdminPanelTab() {
   const [pinSuccess, setPinSuccess] = useState('')
   const [savingPin, setSavingPin] = useState(false)
 
-  const isPrimaryParent = !user.coParentOf
+  const isPrimaryGuardian = !user.coGuardianOf
 
   async function handleChangePwd(e) {
     e.preventDefault()
@@ -1049,7 +1049,7 @@ function AdminPanelTab() {
   return (
     <div>
       <h2 style={{ fontWeight: 800, color: '#1e293b', marginBottom: 4 }}>🛡️ Admin Panel</h2>
-      <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: 24 }}>Manage your account and co-parent access.</p>
+      <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: 24 }}>Manage your account and co-guardian access.</p>
 
       <div style={{ maxWidth: 500 }}>
         {/* Profile */}
@@ -1067,9 +1067,9 @@ function AdminPanelTab() {
             </div>
             <div>
               <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1e293b' }}>{user.name}</div>
-              {isPrimaryParent && <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 2 }}>@{user.username}</div>}
+              {isPrimaryGuardian && <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 2 }}>@{user.username}</div>}
               <div style={{ marginTop: 6 }}>
-                <span className="badge complete">{isPrimaryParent ? '👑 Family Admin' : 'Co-Parent'}</span>
+                <span className="badge complete">{isPrimaryGuardian ? '👑 Family Admin' : 'Co-Guardian'}</span>
               </div>
             </div>
           </div>
@@ -1078,8 +1078,8 @@ function AdminPanelTab() {
           )}
         </div>
 
-        {/* Change password — primary parent only; co-parent/kids sign in with a PIN, not a password */}
-        {isPrimaryParent && (
+        {/* Change password — primary guardian only; co-guardian/kids sign in with a PIN, not a password */}
+        {isPrimaryGuardian && (
           <div className="form-card" style={{ marginBottom: 16 }}>
             <div className="form-title">Change Password</div>
             <form onSubmit={handleChangePwd}>
@@ -1111,9 +1111,9 @@ function AdminPanelTab() {
           </div>
         )}
 
-        {/* Change profile-picker PIN — primary parent only; this is what unlocks
+        {/* Change profile-picker PIN — primary guardian only; this is what unlocks
             their own tile in the picker, separate from their login password */}
-        {isPrimaryParent && (
+        {isPrimaryGuardian && (
           <div className="form-card" style={{ marginBottom: 16 }}>
             <div className="form-title">Change My PIN</div>
             <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 14 }}>
@@ -1141,9 +1141,9 @@ function AdminPanelTab() {
         )}
       </div>
 
-      {/* Co-parent management */}
+      {/* Co-guardian management */}
       <div style={{ maxWidth: 500 }}>
-        <CoParentTab />
+        <CoGuardianTab />
       </div>
 
       {/* Sign out */}
@@ -1659,9 +1659,9 @@ function KidsTab() {
   )
 }
 
-// ─── Parent Dashboard Shell ──────────────────────────────────────────────────
+// ─── Guardian Dashboard Shell ──────────────────────────────────────────────────
 
-export default function ParentDashboard() {
+export default function GuardianDashboard() {
   const { user, logout, switchProfile } = useAuth()
   const navigate = useNavigate()
   const [tab, setTab] = useState('chores')
@@ -1689,13 +1689,13 @@ export default function ParentDashboard() {
   return (
     <div className="app-container">
       <AppNavbar
-        variant="parent"
+        variant="guardian"
         userName={user.name}
         onLogout={logout}
         onSwitchProfile={() => { switchProfile(); navigate('/profiles') }}
         tab={tab}
         setTab={setTab}
-        role="parent"
+        role="guardian"
       />
 
       <div className="main-content">
@@ -1703,7 +1703,7 @@ export default function ParentDashboard() {
           {['chores', 'shop', 'kids'].map(t => (
             <button
               key={t}
-              className={`tab-btn${tab === t ? ' active parent' : ''}`}
+              className={`tab-btn${tab === t ? ' active guardian' : ''}`}
               onClick={() => setTab(t)}
             >
               {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Kids'}
@@ -1762,7 +1762,7 @@ export default function ParentDashboard() {
                 >
                   Admin Panel
                 </button>{' '}
-                tab to invite a co-parent. Only you (the family admin) can manage family members.
+                tab to invite a co-guardian. Only you (the family admin) can manage family members.
               </div>
             </div>
           </div>
@@ -1773,7 +1773,7 @@ export default function ParentDashboard() {
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}
         {tab === 'messages'  && <MessagesTab />}
-        {tab === 'help'      && <HelpTab role="parent" />}
+        {tab === 'help'      && <HelpTab role="guardian" />}
         {tab === 'contact'   && <ContactUs />}
       </div>
     </div>

@@ -24,18 +24,18 @@ def _family_contacts(db: Session, user: DBUser) -> list:
     """Return all users this user is allowed to message."""
     family_id = get_family_id(user)
     contacts = []
-    if user.role == "parent":
-        contacts += db.query(DBUser).filter(DBUser.parent_id == family_id, DBUser.role == "kid").all()
-        if user.co_parent_of:
-            p = db.query(DBUser).filter(DBUser.id == user.co_parent_of).first()
+    if user.role == "guardian":
+        contacts += db.query(DBUser).filter(DBUser.guardian_id == family_id, DBUser.role == "kid").all()
+        if user.co_guardian_of:
+            p = db.query(DBUser).filter(DBUser.id == user.co_guardian_of).first()
             if p: contacts.append(p)
         else:
-            cp = db.query(DBUser).filter(DBUser.co_parent_of == user.id).first()
+            cp = db.query(DBUser).filter(DBUser.co_guardian_of == user.id).first()
             if cp: contacts.append(cp)
     else:
-        p = db.query(DBUser).filter(DBUser.id == user.parent_id).first()
+        p = db.query(DBUser).filter(DBUser.id == user.guardian_id).first()
         if p: contacts.append(p)
-        cp = db.query(DBUser).filter(DBUser.co_parent_of == user.parent_id).first()
+        cp = db.query(DBUser).filter(DBUser.co_guardian_of == user.guardian_id).first()
         if cp: contacts.append(cp)
     return contacts
 

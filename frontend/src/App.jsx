@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
 import Login, { ActivatePage, ResetPasswordPage } from './components/Login.jsx'
 import ProfilePicker from './components/ProfilePicker.jsx'
-import ParentDashboard from './components/ParentDashboard.jsx'
+import GuardianDashboard from './components/GuardianDashboard.jsx'
 import KidDashboard from './components/KidDashboard.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import Blogs from './components/Blogs.jsx'
@@ -37,7 +37,7 @@ function DashboardRoute() {
   // profile (even "continue as me") before reaching its dashboard.
   if (user.role !== 'admin' && !profileEntered) return <Navigate to="/profiles" replace />
   if (user.role === 'admin')  return <AdminDashboard />
-  if (user.role === 'parent') return <ParentDashboard />
+  if (user.role === 'guardian') return <GuardianDashboard />
   if (user.role === 'kid')    return <KidDashboard />
   return <div className="loading-text">Unknown role: {user.role}</div>
 }

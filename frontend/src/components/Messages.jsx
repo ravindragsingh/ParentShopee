@@ -109,10 +109,10 @@ export default function MessagesTab() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const isParent = user.role === 'parent'
-  const accentColor = isParent ? '#0d9488' : '#059669'
-  const accentLight = isParent ? '#f0fdfa' : '#f0fdf4'
-  const accentGrad  = isParent
+  const isGuardian = user.role === 'guardian'
+  const accentColor = isGuardian ? '#0d9488' : '#059669'
+  const accentLight = isGuardian ? '#f0fdfa' : '#f0fdf4'
+  const accentGrad  = isGuardian
     ? 'linear-gradient(135deg, #0f766e, #0d9488)'
     : 'linear-gradient(135deg, #059669, #0d9488)'
 
@@ -199,7 +199,7 @@ export default function MessagesTab() {
                     )}
                   </div>
                   <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {contact.lastMessage || (contact.role === 'kid' ? 'Kid' : 'Parent')}
+                    {contact.lastMessage || (contact.role === 'kid' ? 'Kid' : 'Guardian')}
                   </div>
                 </div>
               </button>

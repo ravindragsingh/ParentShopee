@@ -92,7 +92,7 @@ export function KidWalletView({ kidId }) {
   )
 }
 
-// Modal showing a single kid's wallet for the parent
+// Modal showing a single kid's wallet for the guardian
 export function KidWalletModal({ kid, onClose }) {
   const [wallet, setWallet] = useState(null)
   const [loading, setLoading] = useState(true)

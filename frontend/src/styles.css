@@ -33,7 +33,7 @@ body {
   box-shadow: 0 3px 12px rgba(0,0,0,0.15);
 }
 
-.navbar.parent {
+.navbar.guardian {
   background: linear-gradient(135deg, #f97316 0%, #ec4899 50%, #0d9488 100%);
 }
 
@@ -128,7 +128,7 @@ body {
   color: #334155;
 }
 
-.tab-btn.active.parent {
+.tab-btn.active.guardian {
   color: #ea580c;
   border-bottom-color: #ea580c;
 }
@@ -691,13 +691,13 @@ body {
   margin: 0 auto;
   z-index: 1;
 }
-.hero-parent, .hero-kid, .hero-trophy {
+.hero-guardian, .hero-kid, .hero-trophy {
   position: absolute;
   filter: drop-shadow(0 6px 10px rgba(0,0,0,0.15));
 }
-.hero-parent { font-size: 3.7rem; bottom: 28px; }
-.hero-parent.left  { left: -6px; }
-.hero-parent.right { right: -6px; }
+.hero-guardian { font-size: 3.7rem; bottom: 28px; }
+.hero-guardian.left  { left: -6px; }
+.hero-guardian.right { right: -6px; }
 .hero-kid { font-size: 2.5rem; bottom: 0; z-index: 2; }
 .hero-kid.left  { left: 58px; }
 .hero-kid.right { right: 54px; }

@@ -116,11 +116,11 @@ export const api = {
   // Support tickets
   submitContact: (body) => request('POST', '/api/contact', body),
 
-  // Co-parent management
-  getCoParent:            ()           => request('GET',    '/api/family/co-parent'),
-  addCoParent:            (body)       => request('POST',   '/api/family/co-parent', body),
-  updateCoParentPin:      (pin)        => request('PUT',    '/api/family/co-parent/pin', { pin }),
-  removeCoParent:         ()           => request('DELETE', '/api/family/co-parent'),
+  // Co-guardian management
+  getCoGuardian:            ()           => request('GET',    '/api/family/co-guardian'),
+  addCoGuardian:            (body)       => request('POST',   '/api/family/co-guardian', body),
+  updateCoGuardianPin:      (pin)        => request('PUT',    '/api/family/co-guardian/pin', { pin }),
+  removeCoGuardian:         ()           => request('DELETE', '/api/family/co-guardian'),
 
   // Netflix-style profile picker — both calls use the "device" token
   // (the family's real login), not whichever profile is currently active.

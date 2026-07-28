@@ -11,7 +11,7 @@ const MONTH_NAMES = [
 ]
 const CURRENT_YEAR = new Date().getFullYear()
 const BIRTH_YEAR_OPTIONS = Array.from({ length: 21 }, (_, i) => CURRENT_YEAR - i)
-const COPARENT_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
+const COGUARDIAN_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
 
 function ProfileTile({ profile, busy, onClick }) {
   return (
@@ -72,7 +72,7 @@ export default function ProfilePicker() {
 
   const [profiles, setProfiles] = useState(null)
   const [kidsCount, setKidsCount] = useState(0)
-  const [hasCoParent, setHasCoParent] = useState(false)
+  const [hasCoGuardian, setHasCoGuardian] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -81,7 +81,7 @@ export default function ProfilePicker() {
   const [pinError, setPinError] = useState('')
   const [entering, setEntering] = useState(false)
 
-  // Forgotten-PIN recovery — primary parent's own profile only. Re-proving the
+  // Forgotten-PIN recovery — primary guardian's own profile only. Re-proving the
   // account password stands in for the PIN, then they choose a new one.
   const [recoverMode, setRecoverMode] = useState(false)
   const [recoverPassword, setRecoverPassword] = useState('')
@@ -89,7 +89,7 @@ export default function ProfilePicker() {
   const [recoverConfirmPin, setRecoverConfirmPin] = useState('')
   const [recoverError, setRecoverError] = useState('')
 
-  const [addMode, setAddMode] = useState(null)    // null | 'choose' | 'kid' | 'coparent'
+  const [addMode, setAddMode] = useState(null)    // null | 'choose' | 'kid' | 'coguardian'
   const [dismissedNotice, setDismissedNotice] = useState(false)
 
   useEffect(() => { load() }, [])
@@ -100,7 +100,7 @@ export default function ProfilePicker() {
       const data = await api.getFamilyProfiles()
       setProfiles(data.profiles)
       setKidsCount(data.kidsCount)
-      setHasCoParent(data.hasCoParent)
+      setHasCoGuardian(data.hasCoGuardian)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -109,7 +109,7 @@ export default function ProfilePicker() {
   }
 
   function handleTileClick(profile) {
-    // Every profile — including the parent's own — is PIN-gated, so picking
+    // Every profile — including the guardian's own — is PIN-gated, so picking
     // any tile always opens the PIN entry form. This is what makes "Switch
     // Profile" actually lock the device instead of leaving one profile open.
     setPinFor(profile.id)
@@ -165,9 +165,9 @@ export default function ProfilePicker() {
   }
 
   const needsSetup = (profiles || []).filter(p => p.needsPinSetup)
-  // The primary parent is always first in the list the backend returns.
+  // The primary guardian is always first in the list the backend returns.
   const familyName = profiles?.[0]?.name
-  const primaryParentId = profiles?.[0]?.id
+  const primaryGuardianId = profiles?.[0]?.id
 
   return (
     <div className="login-wrapper">
@@ -203,7 +203,7 @@ export default function ProfilePicker() {
                 {profiles.map(p => (
                   <ProfileTile key={p.id} profile={p} busy={entering} onClick={() => handleTileClick(p)} />
                 ))}
-                <AddProfileTile onClick={() => setAddMode('choose')} disabled={kidsCount >= 10 && hasCoParent} />
+                <AddProfileTile onClick={() => setAddMode('choose')} disabled={kidsCount >= 10 && hasCoGuardian} />
               </div>
 
               {pinFor && !recoverMode && (
@@ -223,7 +223,7 @@ export default function ProfilePicker() {
                   <button type="submit" className="login-btn" disabled={entering} style={{ marginTop: 14 }}>
                     {entering ? 'Checking...' : 'Unlock'}
                   </button>
-                  {pinFor === primaryParentId && (
+                  {pinFor === primaryGuardianId && (
                     <div style={{ textAlign: 'center', marginTop: 10 }}>
                       <button type="button" className="forgot-link" onClick={() => setRecoverMode(true)}>
                         Forgot PIN?
@@ -282,8 +282,8 @@ export default function ProfilePicker() {
                 {kidsCount < 10 && (
                   <button className="login-btn-outline" onClick={() => setAddMode('kid')}>🧒 Add Child</button>
                 )}
-                {!hasCoParent && (
-                  <button className="login-btn-outline" onClick={() => setAddMode('coparent')}>🧑 Add Co-Parent</button>
+                {!hasCoGuardian && (
+                  <button className="login-btn-outline" onClick={() => setAddMode('coguardian')}>🧑 Add Co-Guardian</button>
                 )}
                 <button className="login-btn-outline" onClick={() => setAddMode(null)}>Cancel</button>
               </div>
@@ -294,8 +294,8 @@ export default function ProfilePicker() {
             <AddKidForm onDone={() => { setAddMode(null); load() }} onCancel={() => setAddMode(null)} />
           )}
 
-          {addMode === 'coparent' && (
-            <AddCoParentForm onDone={() => { setAddMode(null); load() }} onCancel={() => setAddMode(null)} />
+          {addMode === 'coguardian' && (
+            <AddCoGuardianForm onDone={() => { setAddMode(null); load() }} onCancel={() => setAddMode(null)} />
           )}
 
           {!addMode && !pinFor && (
@@ -383,7 +383,7 @@ function AddKidForm({ onDone, onCancel }) {
   )
 }
 
-function AddCoParentForm({ onDone, onCancel }) {
+function AddCoGuardianForm({ onDone, onCancel }) {
   const [name, setName] = useState('')
   const [avatar, setAvatar] = useState('🧑')
   const [pin, setPin] = useState('')
@@ -400,7 +400,7 @@ function AddCoParentForm({ onDone, onCancel }) {
     if (pin !== confirmPin) { setError('PINs do not match.'); return }
     setSaving(true)
     try {
-      await api.addCoParent({ name: name.trim(), avatar, pin })
+      await api.addCoGuardian({ name: name.trim(), avatar, pin })
       onDone()
     } catch (err) {
       setError(err.message)
@@ -411,7 +411,7 @@ function AddCoParentForm({ onDone, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Co-Parent</div>
+      <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Co-Guardian</div>
       {error && <div className="error-msg">{error}</div>}
       <div className="form-group" style={{ marginBottom: 10 }}>
         <label>Full Name *</label>
@@ -419,7 +419,7 @@ function AddCoParentForm({ onDone, onCancel }) {
       </div>
       <div className="form-group" style={{ marginBottom: 10 }}>
         <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
-        <EmojiPicker emojis={COPARENT_AVATARS} value={avatar} onChange={setAvatar} />
+        <EmojiPicker emojis={COGUARDIAN_AVATARS} value={avatar} onChange={setAvatar} />
       </div>
       <div className="form-row" style={{ marginBottom: 6 }}>
         <div className="form-group">
@@ -432,7 +432,7 @@ function AddCoParentForm({ onDone, onCancel }) {
         </div>
       </div>
       <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
-      <button type="submit" className="login-btn" disabled={saving}>{saving ? 'Creating...' : 'Create Co-Parent'}</button>
+      <button type="submit" className="login-btn" disabled={saving}>{saving ? 'Creating...' : 'Create Co-Guardian'}</button>
       <button type="button" className="login-btn-outline" style={{ marginTop: 8 }} onClick={onCancel}>Cancel</button>
     </form>
   )

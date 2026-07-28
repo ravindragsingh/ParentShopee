@@ -40,15 +40,15 @@ function UserAgreementModal({ onClose }) {
         <div style={{ overflowY: 'auto', padding: '18px 22px', fontSize: '0.82rem', color: '#334155', lineHeight: 1.65 }}>
 
           <Section title="1. About Reward Ur Kids">
-            Reward Ur Kids is a family management app that allows parents to assign chores to children, award points, and let children redeem those points in a family shop. By creating an account you agree to use the app only for lawful family management purposes.
+            Reward Ur Kids is a family management app that allows guardians to assign chores to children, award points, and let children redeem those points in a family shop. By creating an account you agree to use the app only for lawful family management purposes.
           </Section>
 
           <Section title="2. Eligibility">
-            Account holders (parents) must be at least 25 years of age. By registering you confirm that the date of birth you provide is accurate. Children added to the family account do not create their own accounts; their profiles are managed entirely by the parent.
+            Account holders (guardians) must be at least 25 years of age. By registering you confirm that the date of birth you provide is accurate. Children added to the family account do not create their own accounts; their profiles are managed entirely by the guardian.
           </Section>
 
           <Section title="3. Children's Privacy">
-            We take children's privacy seriously. Children's names, avatars, and point balances are stored solely to operate the app for your family. We do not share, sell, or disclose children's data to third parties. Parents are responsible for keeping their login credentials secure.
+            We take children's privacy seriously. Children's names, avatars, and point balances are stored solely to operate the app for your family. We do not share, sell, or disclose children's data to third parties. Guardians are responsible for keeping their login credentials secure.
           </Section>
 
           <Section title="4. Account Responsibilities">
@@ -70,7 +70,7 @@ function UserAgreementModal({ onClose }) {
           </Section>
 
           <Section title="7. Points & Rewards">
-            Points awarded within the app have no monetary value and cannot be exchanged for real money. Parents retain full discretion over awarding and adjusting points. Reward Ur Kids is not responsible for disputes arising from point adjustments made by parents.
+            Points awarded within the app have no monetary value and cannot be exchanged for real money. Guardians retain full discretion over awarding and adjusting points. Reward Ur Kids is not responsible for disputes arising from point adjustments made by guardians.
           </Section>
 
           <Section title="8. Data Storage">
@@ -191,7 +191,7 @@ function RegisterForm({ onBack }) {
       {showAgreement && <UserAgreementModal onClose={() => setShowAgreement(false)} />}
 
       <h1 className="login-title">Create Account</h1>
-      <p className="login-subtitle">Parents only · Must be 25 or older</p>
+      <p className="login-subtitle">Guardians only · Must be 25 or older</p>
 
       {error && <div className="error-msg">{error}</div>}
 
@@ -631,18 +631,18 @@ function LoginForm({ onRegister }) {
 
 // ── Demo box ──────────────────────────────────────────────────────────────────
 
-// Every profile — including the primary parent's own — is now PIN-gated, so
+// Every profile — including the primary guardian's own — is now PIN-gated, so
 // both quick-demos sign in as the family (parent1/pass1) then auto-enter the
 // chosen profile with its seeded demo PIN, in one click.
 const DEMO_ACCOUNTS = {
-  parent: { label: 'Parent', avatar: '🧑', username: 'parent1', password: 'pass1', profileId: 'parent1', profileName: 'Mom',   profilePin: '246810' },
+  guardian: { label: 'Guardian', avatar: '🧑', username: 'parent1', password: 'pass1', profileId: 'parent1', profileName: 'Mom',   profilePin: '246810' },
   kid:    { label: 'Kid',    avatar: '🧒', username: 'parent1', password: 'pass1', profileId: 'kid1',    profileName: 'Alice', profilePin: '123456' },
 }
 
 function DemoBox() {
   const { login, enterProfile } = useAuth()
   const navigate = useNavigate()
-  const [selected, setSelected] = useState('parent')
+  const [selected, setSelected] = useState('guardian')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -743,7 +743,7 @@ function HowItWorksModal({ onClose }) {
             </div>
           ))}
           <div style={{ marginTop: 6, padding: '10px 14px', background: '#f0fdfa', borderRadius: 10, fontSize: '0.8rem', color: '#115e59' }}>
-            👑 <strong>Parents</strong> register an account · 🔒 <strong>Every profile is PIN-protected</strong> — kids, co-parent, even the parent's own — so switching profiles always locks the device
+            👑 <strong>Guardians</strong> register an account · 🔒 <strong>Every profile is PIN-protected</strong> — kids, co-guardian, even the guardian's own — so switching profiles always locks the device
           </div>
         </div>
       </div>
@@ -939,8 +939,8 @@ export default function Login() {
               <span className="hero-decor gift">🎁</span>
               <span className="hero-decor coin">🪙</span>
               <div className="hero-family">
-                <span className="hero-parent left">👨</span>
-                <span className="hero-parent right">👩</span>
+                <span className="hero-guardian left">👨</span>
+                <span className="hero-guardian right">👩</span>
                 <span className="hero-kid left">👦</span>
                 <span className="hero-kid right">👧</span>
                 <span className="hero-trophy">🏆</span>

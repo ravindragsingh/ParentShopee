@@ -41,9 +41,9 @@ def require_auth(db: Session = Depends(get_db), authorization: Optional[str] = H
     _touch_last_active(db, user)
     return user
 
-def require_parent(user: DBUser = Depends(require_auth)) -> DBUser:
-    if user.role != "parent":
-        fail("Forbidden — parents only", 403)
+def require_guardian(user: DBUser = Depends(require_auth)) -> DBUser:
+    if user.role != "guardian":
+        fail("Forbidden — guardians only", 403)
     return user
 
 def require_kid(user: DBUser = Depends(require_auth)) -> DBUser:

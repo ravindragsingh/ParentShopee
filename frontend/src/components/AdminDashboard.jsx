@@ -58,7 +58,7 @@ function EditModal({ target, familyKids, onSave, onClose }) {
   const isUser    = target.type === 'user'
   const d         = target.data
   const isKid     = isUser && d.role === 'kid'
-  const isProfile = isUser && (isKid || !!d.coParentOf)   // kid or co-parent — PIN-gated, not password
+  const isProfile = isUser && (isKid || !!d.coGuardianOf)   // kid or co-guardian — PIN-gated, not password
 
   const [form, setForm] = useState({
     // user fields
@@ -119,7 +119,7 @@ function EditModal({ target, familyKids, onSave, onClose }) {
     }
   }
 
-  const roleLabel = isKid ? 'Child' : (d.coParentOf ? 'Co-Parent' : 'Parent')
+  const roleLabel = isKid ? 'Child' : (d.coGuardianOf ? 'Co-Guardian' : 'Guardian')
 
   return (
     <div
@@ -275,9 +275,9 @@ function ConfirmDeleteModal({ target, onConfirm, onClose }) {
   const [deleting, setDeleting] = useState(false)
   const [error,    setError]    = useState('')
   const d = target.data
-  const roleLabel = d.role === 'kid' ? 'child' : (d.coParentOf ? 'co-parent' : 'parent')
+  const roleLabel = d.role === 'kid' ? 'child' : (d.coGuardianOf ? 'co-guardian' : 'guardian')
   const kidCount = target.family?.kids?.length || 0
-  const hasCoParent = !!target.family?.coParent
+  const hasCoGuardian = !!target.family?.coGuardian
 
   async function handleConfirm() {
     setDeleting(true)
@@ -304,12 +304,12 @@ function ConfirmDeleteModal({ target, onConfirm, onClose }) {
           Delete this {roleLabel} account?
         </div>
         <div style={{ fontSize: '0.87rem', color: '#475569', lineHeight: 1.55, marginBottom: 10 }}>
-          You're about to permanently delete <strong>{d.name}</strong>{!(d.role === 'kid' || d.coParentOf) && <> (@{d.username})</>}.
-          {target.isPrimary && (kidCount > 0 || hasCoParent) && (
-            <> This is the primary parent — deleting them will also permanently delete{' '}
+          You're about to permanently delete <strong>{d.name}</strong>{!(d.role === 'kid' || d.coGuardianOf) && <> (@{d.username})</>}.
+          {target.isPrimary && (kidCount > 0 || hasCoGuardian) && (
+            <> This is the primary guardian — deleting them will also permanently delete{' '}
               {kidCount > 0 && <>{kidCount} child account{kidCount > 1 ? 's' : ''}</>}
-              {kidCount > 0 && hasCoParent && ' and '}
-              {hasCoParent && 'the co-parent account'}
+              {kidCount > 0 && hasCoGuardian && ' and '}
+              {hasCoGuardian && 'the co-guardian account'}
               , along with all of their chores, shop items, wallets and transaction history.</>
           )}
           {!target.isPrimary && d.role === 'kid' && (
@@ -550,7 +550,7 @@ export default function AdminDashboard() {
 
   function openDeleteUser(e, data, family) {
     e.stopPropagation()
-    setDeleteTarget({ data, family, isPrimary: data.id === family.parent.id })
+    setDeleteTarget({ data, family, isPrimary: data.id === family.guardian.id })
   }
 
   async function handleDeleteConfirm() {
@@ -584,31 +584,31 @@ export default function AdminDashboard() {
   // location, since existing accounts (created before location tracking) only
   // ever populate the last-login fields.
   const countryOptions = [...new Set(
-    families.flatMap(f => [f.parent.country, f.parent.lastLoginCountry]).filter(Boolean)
+    families.flatMap(f => [f.guardian.country, f.guardian.lastLoginCountry]).filter(Boolean)
   )].sort()
   const cityOptions = [...new Set(
     families
-      .filter(f => !countryFilter || f.parent.country === countryFilter || f.parent.lastLoginCountry === countryFilter)
-      .flatMap(f => [f.parent.city, f.parent.lastLoginCity])
+      .filter(f => !countryFilter || f.guardian.country === countryFilter || f.guardian.lastLoginCountry === countryFilter)
+      .flatMap(f => [f.guardian.city, f.guardian.lastLoginCity])
       .filter(Boolean)
   )].sort()
 
   const filtered = families.filter(f => {
-    if (countryFilter && f.parent.country !== countryFilter && f.parent.lastLoginCountry !== countryFilter) return false
-    if (cityFilter && f.parent.city !== cityFilter && f.parent.lastLoginCity !== cityFilter) return false
+    if (countryFilter && f.guardian.country !== countryFilter && f.guardian.lastLoginCountry !== countryFilter) return false
+    if (cityFilter && f.guardian.city !== cityFilter && f.guardian.lastLoginCity !== cityFilter) return false
     if (!search.trim()) return true
     const q = search.toLowerCase()
     return (
-      f.parent.name.toLowerCase().includes(q) ||
-      f.parent.username.toLowerCase().includes(q) ||
-      (f.parent.email || '').toLowerCase().includes(q) ||
+      f.guardian.name.toLowerCase().includes(q) ||
+      f.guardian.username.toLowerCase().includes(q) ||
+      (f.guardian.email || '').toLowerCase().includes(q) ||
       f.kids.some(k => k.name.toLowerCase().includes(q)) ||
-      (f.coParent?.name || '').toLowerCase().includes(q)
+      (f.coGuardian?.name || '').toLowerCase().includes(q)
     )
   })
 
   const totalFamilies = families.length
-  const totalParents  = families.reduce((s, f) => s + 1 + (f.coParent ? 1 : 0), 0)
+  const totalGuardians  = families.reduce((s, f) => s + 1 + (f.coGuardian ? 1 : 0), 0)
   const totalKids     = families.reduce((s, f) => s + f.kids.length, 0)
   const totalChores   = families.reduce((s, f) => s + Object.values(f.choreCounts).reduce((a, b) => a + b, 0), 0)
 
@@ -680,7 +680,7 @@ export default function AdminDashboard() {
         {/* Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 22 }}>
           <StatCard icon="🏠" label="Families" value={totalFamilies} color="#0d9488" />
-          <StatCard icon="👤" label="Parents"  value={totalParents}  color="#0369a1" />
+          <StatCard icon="👤" label="Guardians"  value={totalGuardians}  color="#0369a1" />
           <StatCard icon="🧒" label="Children" value={totalKids}     color="#059669" />
           <StatCard icon="📋" label="Chores"   value={totalChores}   color="#d97706" />
         </div>
@@ -689,7 +689,7 @@ export default function AdminDashboard() {
         <div style={{ marginBottom: 16, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <input
             value={search} onChange={e => setSearch(e.target.value)}
-            placeholder="Search by parent name, username, email or child name…"
+            placeholder="Search by guardian name, username, email or child name…"
             style={{ flex: '2 1 260px', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
           />
           <select
@@ -741,49 +741,49 @@ export default function AdminDashboard() {
                 onClick={() => selectFamily(family)}
                 style={{ background: '#fff', borderRadius: isSelected ? '12px 12px 0 0' : 12, border: `1.5px solid ${isSelected ? '#0d9488' : '#e2e8f0'}`, cursor: 'pointer', padding: '16px 20px', display: 'flex', alignItems: 'flex-start', gap: 20, flexWrap: 'wrap' }}
               >
-                {/* Primary parent */}
+                {/* Primary guardian */}
                 <div style={{ flex: '1 1 200px', minWidth: 0 }}>
-                  <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 3 }}>Primary Parent</div>
+                  <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 3 }}>Primary Guardian</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                    <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{family.parent.name}</span>
-                    {family.parent.isSuspended && <span style={{ background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🚫 Suspended</span>}
-                    <button style={editBtnStyle} onClick={e => openEditUser(e, family.parent, family.familyId)}>✏️ Edit</button>
-                    <button style={family.parent.isSuspended ? unsuspendBtnStyle : suspendBtnStyle} onClick={e => handleToggleSuspend(e, family.parent, family.familyId)} disabled={suspendBusyId === family.parent.id}>
-                      {family.parent.isSuspended ? '↺ Unsuspend' : '🚫 Suspend'}
+                    <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{family.guardian.name}</span>
+                    {family.guardian.isSuspended && <span style={{ background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🚫 Suspended</span>}
+                    <button style={editBtnStyle} onClick={e => openEditUser(e, family.guardian, family.familyId)}>✏️ Edit</button>
+                    <button style={family.guardian.isSuspended ? unsuspendBtnStyle : suspendBtnStyle} onClick={e => handleToggleSuspend(e, family.guardian, family.familyId)} disabled={suspendBusyId === family.guardian.id}>
+                      {family.guardian.isSuspended ? '↺ Unsuspend' : '🚫 Suspend'}
                     </button>
-                    <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.parent, family)}>🗑️ Delete</button>
+                    <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.guardian, family)}>🗑️ Delete</button>
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748b' }}>@{family.parent.username}</div>
-                  {family.parent.email && <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{family.parent.email}</div>}
-                  {(family.parent.city || family.parent.country) && (
+                  <div style={{ fontSize: '0.78rem', color: '#64748b' }}>@{family.guardian.username}</div>
+                  {family.guardian.email && <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{family.guardian.email}</div>}
+                  {(family.guardian.city || family.guardian.country) && (
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
-                      📍 Created: {[family.parent.city, family.parent.country].filter(Boolean).join(', ')}
+                      📍 Created: {[family.guardian.city, family.guardian.country].filter(Boolean).join(', ')}
                     </div>
                   )}
-                  {(family.parent.lastLoginCity || family.parent.lastLoginCountry || family.parent.lastLoginAt) && (
+                  {(family.guardian.lastLoginCity || family.guardian.lastLoginCountry || family.guardian.lastLoginAt) && (
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
                       🕑 Last login:{' '}
-                      {[family.parent.lastLoginCity, family.parent.lastLoginCountry].filter(Boolean).join(', ')}
-                      {formatLastLogin(family.parent.lastLoginAt) && (
-                        <> {(family.parent.lastLoginCity || family.parent.lastLoginCountry) ? '· ' : ''}{formatLastLogin(family.parent.lastLoginAt)}</>
+                      {[family.guardian.lastLoginCity, family.guardian.lastLoginCountry].filter(Boolean).join(', ')}
+                      {formatLastLogin(family.guardian.lastLoginAt) && (
+                        <> {(family.guardian.lastLoginCity || family.guardian.lastLoginCountry) ? '· ' : ''}{formatLastLogin(family.guardian.lastLoginAt)}</>
                       )}
                     </div>
                   )}
                 </div>
 
-                {/* Co-parent */}
+                {/* Co-guardian */}
                 <div style={{ flex: '1 1 160px', minWidth: 0 }}>
-                  <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 3 }}>Co-Parent</div>
-                  {family.coParent
+                  <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 3 }}>Co-Guardian</div>
+                  {family.coGuardian
                     ? <>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                          <span style={{ fontWeight: 600, color: '#334155', fontSize: '0.88rem' }}>{family.coParent.name}</span>
-                          {family.coParent.isSuspended && <span style={{ background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🚫</span>}
-                          <button style={editBtnStyle} onClick={e => openEditUser(e, family.coParent, family.familyId)}>✏️ Edit</button>
-                          <button style={family.coParent.isSuspended ? unsuspendBtnStyle : suspendBtnStyle} onClick={e => handleToggleSuspend(e, family.coParent, family.familyId)} disabled={suspendBusyId === family.coParent.id}>
-                            {family.coParent.isSuspended ? '↺' : '🚫'}
+                          <span style={{ fontWeight: 600, color: '#334155', fontSize: '0.88rem' }}>{family.coGuardian.name}</span>
+                          {family.coGuardian.isSuspended && <span style={{ background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🚫</span>}
+                          <button style={editBtnStyle} onClick={e => openEditUser(e, family.coGuardian, family.familyId)}>✏️ Edit</button>
+                          <button style={family.coGuardian.isSuspended ? unsuspendBtnStyle : suspendBtnStyle} onClick={e => handleToggleSuspend(e, family.coGuardian, family.familyId)} disabled={suspendBusyId === family.coGuardian.id}>
+                            {family.coGuardian.isSuspended ? '↺' : '🚫'}
                           </button>
-                          <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.coParent, family)}>🗑️</button>
+                          <button style={deleteBtnStyle} onClick={e => openDeleteUser(e, family.coGuardian, family)}>🗑️</button>
                         </div>
                         <div style={{ fontSize: '0.78rem', color: '#64748b' }}>PIN-gated profile</div>
                       </>
@@ -840,7 +840,7 @@ export default function AdminDashboard() {
                   {/* Tabs */}
                   <div style={{ display: 'flex', padding: '0 20px', borderBottom: '1px solid #e2e8f0' }}>
                     {[
-                      { id: 'members',      label: '👥 Members',      count: family.kids.length + 1 + (family.coParent ? 1 : 0) },
+                      { id: 'members',      label: '👥 Members',      count: family.kids.length + 1 + (family.coGuardian ? 1 : 0) },
                       { id: 'chores',       label: '📋 Chores',       count: detail.chores.length },
                       { id: 'transactions', label: '💳 Transactions',  count: detail.transactions.length },
                     ].map(tab => (
@@ -870,8 +870,8 @@ export default function AdminDashboard() {
                     {detailTab === 'members' && (
                       <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
                         {[
-                          { ...family.parent,   _label: 'Primary Parent' },
-                          ...(family.coParent ? [{ ...family.coParent, _label: 'Co-Parent' }] : []),
+                          { ...family.guardian,   _label: 'Primary Guardian' },
+                          ...(family.coGuardian ? [{ ...family.coGuardian, _label: 'Co-Guardian' }] : []),
                           ...family.kids.map(k => ({ ...k, _label: 'Child' })),
                         ].map(member => (
                           <div key={member.id} style={{ display: 'flex', alignItems: 'center', gap: 14, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 16px' }}>
@@ -885,7 +885,7 @@ export default function AdminDashboard() {
                                 {member.isSuspended && <span style={{ fontSize: '0.72rem', background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '2px 8px', fontWeight: 700 }}>🚫 Suspended</span>}
                               </div>
                               <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 2 }}>
-                                {member._label === 'Primary Parent' ? `@${member.username}` : 'PIN-gated profile'}
+                                {member._label === 'Primary Guardian' ? `@${member.username}` : 'PIN-gated profile'}
                               </div>
                               {member.email && <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>{member.email}</div>}
                               {formatLastLogin(member.createdAt) && (
