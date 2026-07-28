@@ -198,6 +198,12 @@ export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
 
       {expanded && (
         <div style={{ marginTop: 14 }}>
+          {isGuardian && (
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#334155', fontWeight: 600, cursor: 'pointer', marginBottom: 14, background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 8, padding: '8px 12px' }}>
+              <input type="checkbox" checked={data.deductionEnabled} disabled={savingSettings} onChange={handleToggleDeduction} />
+              Deduct points for chores not completed by end of day
+            </label>
+          )}
           {data.items.length === 0 ? (
             <div className="empty-text">No daily chores yet.{isGuardian && ' Add one below.'}</div>
           ) : (
@@ -255,11 +261,7 @@ export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
 
           {isGuardian && editMode && (
             <div style={{ marginTop: 16, borderTop: '1px dashed #cbd5e1', paddingTop: 14 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#334155', fontWeight: 600, cursor: 'pointer' }}>
-                  <input type="checkbox" checked={data.deductionEnabled} disabled={savingSettings} onChange={handleToggleDeduction} />
-                  Deduct points for chores not completed by end of day
-                </label>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
                 <button type="button" className="btn btn-outline btn-sm" onClick={handleRegenerate}>🔄 Reset to suggested list</button>
               </div>
 

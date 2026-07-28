@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { KidChoreCard } from './ChoreCard.jsx'
-import { DailyChoresCard } from './DailyChoresCard.jsx'
 import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
@@ -43,10 +42,40 @@ function CollapsibleSection({ icon, title, count, colorClass, defaultOpen = fals
   )
 }
 
+// ─── Daily chore row (highlighted within the merged Chores list) ────────────
+
+function DailyChoreRow({ item, busy, onToggle }) {
+  const isPending = item.status === 'pending'
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fffbeb', border: `1px solid ${isPending ? '#fed7aa' : '#fde68a'}`, borderRadius: 10, padding: '10px 14px' }}>
+      {isPending ? (
+        <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>⏳</span>
+      ) : (
+        <input
+          type="checkbox"
+          checked={item.status === 'complete'}
+          disabled={busy}
+          onChange={onToggle}
+          style={{ width: 20, height: 20, accentColor: '#d97706', cursor: busy ? 'default' : 'pointer', flexShrink: 0 }}
+        />
+      )}
+      <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{item.imageEmoji}</span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{ fontWeight: 600, color: '#1e293b' }}>{item.title}</span>
+        {isPending && <span style={{ display: 'block', fontSize: '0.72rem', color: '#c2410c', fontWeight: 700 }}>⏳ Waiting for approval</span>}
+      </span>
+      <span style={{ fontSize: '0.72rem', background: '#fde68a', color: '#92400e', borderRadius: 6, padding: '1px 7px', fontWeight: 700, flexShrink: 0 }}>📅 Daily</span>
+      <span className="points-badge">{item.points} pts</span>
+    </div>
+  )
+}
+
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
 function KidChoresTab({ userId, onBalanceChange }) {
   const [chores, setChores] = useState([])
+  const [dailyItems, setDailyItems] = useState([])
+  const [dailyBusyId, setDailyBusyId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [choresExpanded, setChoresExpanded] = useState(false)
@@ -55,8 +84,9 @@ function KidChoresTab({ userId, onBalanceChange }) {
     setLoading(true)
     setError('')
     try {
-      const data = await api.getChores()
-      setChores(Array.isArray(data) ? data : [])
+      const [choresData, dailyData] = await Promise.all([api.getChores(), api.getDailyChores()])
+      setChores(Array.isArray(choresData) ? choresData : [])
+      setDailyItems(Array.isArray(dailyData?.items) ? dailyData.items : [])
     } catch (err) {
       setError(err.message)
     } finally {
@@ -65,6 +95,19 @@ function KidChoresTab({ userId, onBalanceChange }) {
   }, [])
 
   useEffect(() => { loadChores() }, [loadChores])
+
+  async function handleDailyToggle(item) {
+    setDailyBusyId(item.id)
+    try {
+      const res = await api.toggleDailyChore(item.id)
+      setDailyItems(items => items.map(i => i.id === item.id ? res.item : i))
+      if (res.newBalance !== undefined) onBalanceChange && onBalanceChange(res.newBalance)
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setDailyBusyId(null)
+    }
+  }
 
   // Available: open chores assigned to me or to nobody
   const available = chores.filter(c =>
@@ -90,13 +133,18 @@ function KidChoresTab({ userId, onBalanceChange }) {
     (!c.assignedKidId || c.assignedKidId === userId)
   )
 
+  // Daily chore items — merged into the same list, just visually highlighted
+  const dailyAvailable = dailyItems.filter(i => i.status === 'open')
+  const dailyPending = dailyItems.filter(i => i.status === 'pending')
+
+  const totalCount = available.length + myPending.length + dailyAvailable.length + dailyPending.length
+  const totalPendingCount = myPending.length + dailyPending.length
+
   if (loading) return <div className="loading-text">Loading chores...</div>
   if (error) return <div className="error-msg">{error}</div>
 
   return (
     <div>
-      <DailyChoresCard kid={{ id: userId }} isGuardian={false} onWalletChange={onBalanceChange} />
-
       <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
         <div
           role="button" tabIndex={0}
@@ -107,22 +155,31 @@ function KidChoresTab({ userId, onBalanceChange }) {
           <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
             ✨ Chores
             <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
-              {available.length + myPending.length} total
+              {totalCount} total
             </span>
-            {myPending.length > 0 && (
+            {totalPendingCount > 0 && (
               <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
-                ⏳ {myPending.length} awaiting approval
+                ⏳ {totalPendingCount} awaiting approval
               </span>
             )}
           </span>
           <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{choresExpanded ? '▲' : '▼'}</span>
         </div>
         {choresExpanded && (
-          (available.length + myPending.length) === 0 ? (
+          totalCount === 0 ? (
             <div className="empty-text" style={{ marginTop: 14 }}>No available chores right now.</div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
-              {[...myPending, ...available].map(chore => (
+              {dailyPending.map(item => (
+                <DailyChoreRow key={`daily-${item.id}`} item={item} busy={dailyBusyId === item.id} onToggle={() => handleDailyToggle(item)} />
+              ))}
+              {myPending.map(chore => (
+                <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />
+              ))}
+              {dailyAvailable.map(item => (
+                <DailyChoreRow key={`daily-${item.id}`} item={item} busy={dailyBusyId === item.id} onToggle={() => handleDailyToggle(item)} />
+              ))}
+              {available.map(chore => (
                 <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />
               ))}
             </div>

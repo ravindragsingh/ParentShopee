@@ -140,8 +140,14 @@ function ChoresTab({ kids }) {
   const [quickTitle, setQuickTitle] = useState('')
   const [quickEmoji, setQuickEmoji] = useState('📋')
   const [quickPoints, setQuickPoints] = useState('5')
+  const [quickKidIds, setQuickKidIds] = useState([])   // empty = any kid can claim it
+  const [quickDueDate, setQuickDueDate] = useState('')
   const [quickError, setQuickError] = useState('')
   const [quickAdding, setQuickAdding] = useState(false)
+
+  function toggleQuickKid(kidId) {
+    setQuickKidIds(ids => ids.includes(kidId) ? ids.filter(i => i !== kidId) : [...ids, kidId])
+  }
 
   async function handleQuickAdd(e) {
     e.preventDefault()
@@ -156,11 +162,11 @@ function ChoresTab({ kids }) {
         title: quickTitle.trim(),
         description: '',
         points: Number(quickPoints) || 0,
-        assignedKidIds: [],
-        dueDate: null,
+        assignedKidIds: quickKidIds,
+        dueDate: quickDueDate || null,
         imageEmoji: quickEmoji || '📋',
       })
-      setQuickTitle(''); setQuickEmoji('📋'); setQuickPoints('5')
+      setQuickTitle(''); setQuickEmoji('📋'); setQuickPoints('5'); setQuickKidIds([]); setQuickDueDate('')
       loadChores()
       loadLimits()
     } catch (err) {
@@ -240,7 +246,7 @@ function ChoresTab({ kids }) {
             style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
           >
             <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              ✨ Open Chores
+              ✨ Add non daily chores
               <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
                 {open.length + pending.length} total
               </span>
@@ -314,12 +320,41 @@ function ChoresTab({ kids }) {
                       <label>Points</label>
                       <input type="number" min="0" value={quickPoints} onChange={e => setQuickPoints(e.target.value)} />
                     </div>
+                    <div className="form-group" style={{ flex: '0 0 160px' }}>
+                      <label>Due date <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.78rem' }}>(optional)</span></label>
+                      <input type="date" value={quickDueDate} onChange={e => setQuickDueDate(e.target.value)} />
+                    </div>
+                    <div className="form-group" style={{ flex: '100%' }}>
+                      <label>
+                        Assign to
+                        <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.78rem' }}>
+                          {' '}(leave unselected for "any kid" · pick more than one to create it for each of them)
+                        </span>
+                      </label>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                        {kids.map(k => (
+                          <button
+                            key={k.id}
+                            type="button"
+                            onClick={() => toggleQuickKid(k.id)}
+                            style={{
+                              padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+                              border: `1.5px solid ${quickKidIds.includes(k.id) ? '#0d9488' : '#e2e8f0'}`,
+                              background: quickKidIds.includes(k.id) ? '#f0fdfa' : '#fff',
+                              color: quickKidIds.includes(k.id) ? '#0d9488' : '#64748b',
+                            }}
+                          >
+                            {k.avatar} {k.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                     <button type="submit" className="btn btn-green btn-sm" disabled={quickAdding || kids.length === 0}>
                       {quickAdding ? 'Adding...' : '+ Add'}
                     </button>
                   </form>
                   <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 6 }}>
-                    Added here without a due date, assigned to any child. While editing, click a chore's title or points above to change it.
+                    While editing, click a chore's title, points, assignment, or due date above to change it.
                   </div>
                 </div>
               )}
