@@ -430,6 +430,152 @@ function ChoresTab({ kids }) {
   )
 }
 
+// ─── Maths Tab ──────────────────────────────────────────────────────────────
+
+function MathsTab({ kids }) {
+  const [selectedKidId, setSelectedKidId] = useState(kids[0]?.id || '')
+  const [topics, setTopics] = useState([])
+  const [maths, setMaths] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [assigningTopicId, setAssigningTopicId] = useState(null)
+  const [assignError, setAssignError] = useState('')
+
+  useEffect(() => {
+    if (kids.length && !kids.some(k => k.id === selectedKidId)) setSelectedKidId(kids[0].id)
+  }, [kids, selectedKidId])
+
+  useEffect(() => {
+    api.getMathTopics().then(setTopics).catch(() => {})
+  }, [])
+
+  const loadMaths = useCallback(async () => {
+    if (!selectedKidId) return
+    setLoading(true); setError('')
+    try {
+      setMaths(await api.getMaths(selectedKidId))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [selectedKidId])
+
+  useEffect(() => { loadMaths() }, [loadMaths])
+
+  async function handleAssign(topicId) {
+    setAssigningTopicId(topicId); setAssignError('')
+    try {
+      await api.assignMathTopic(selectedKidId, topicId)
+      loadMaths()
+    } catch (err) {
+      setAssignError(err.message)
+    } finally {
+      setAssigningTopicId(null)
+    }
+  }
+
+  async function handleDelete(assignmentId) {
+    if (!window.confirm('Remove this Math topic?')) return
+    try {
+      await api.deleteMathAssignment(assignmentId)
+      loadMaths()
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
+  if (kids.length === 0) {
+    return <div className="empty-text">Add a child first to assign Math topics.</div>
+  }
+
+  const selectedKid = kids.find(k => k.id === selectedKidId)
+
+  return (
+    <div>
+      {kids.length > 1 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
+          {kids.map(kid => (
+            <button
+              key={kid.id}
+              onClick={() => setSelectedKidId(kid.id)}
+              style={{
+                padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+                border: `1.5px solid ${selectedKidId === kid.id ? '#7c3aed' : '#e2e8f0'}`,
+                background: selectedKidId === kid.id ? '#f5f3ff' : '#fff',
+                color: selectedKidId === kid.id ? '#7c3aed' : '#64748b',
+              }}
+            >
+              {kid.avatar} {kid.name}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {error && <div className="error-msg">{error}</div>}
+
+      <div className="form-card" style={{ border: '1.5px solid #ddd6fe', background: 'linear-gradient(135deg, #f5f3ff, #ffffff)' }}>
+        <div className="form-title">➕ Assign Today's Math Topic{selectedKid && <> — {selectedKid.name}</>}</div>
+        {maths && !maths.canAddToday && (
+          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.85rem' }}>
+            You've already added a Math topic for {selectedKid?.name} today — come back tomorrow to add another.
+          </div>
+        )}
+        {assignError && <div className="error-msg" style={{ marginBottom: 10 }}>{assignError}</div>}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+          {topics.map(t => (
+            <div key={t.id} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 14px', background: '#fff', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ fontSize: '1.6rem', marginBottom: 6 }}>{t.emoji}</div>
+              <div style={{ fontWeight: 700, color: '#1e293b', marginBottom: 4 }}>{t.title}</div>
+              <div style={{ fontSize: '0.78rem', color: '#64748b', marginBottom: 10, lineHeight: 1.4, flex: 1 }}>
+                {t.explanation.length > 110 ? t.explanation.slice(0, 110) + '…' : t.explanation}
+              </div>
+              <button
+                className="btn btn-primary btn-sm"
+                disabled={!maths?.canAddToday || assigningTopicId === t.id}
+                onClick={() => handleAssign(t.id)}
+              >
+                {assigningTopicId === t.id ? 'Adding...' : `+ Assign to ${selectedKid?.name || 'kid'}`}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="loading-text">Loading Maths history...</div>
+      ) : (
+        <div className="form-card">
+          <div className="form-title">📚 Math History{selectedKid && <> — {selectedKid.name}</>}</div>
+          {(!maths || maths.assignments.length === 0) ? (
+            <div className="empty-text">No Math topics added yet.</div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {maths.assignments.map(a => (
+                <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 14px' }}>
+                  <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{a.topic.emoji}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 600, color: '#1e293b' }}>{a.topic.title}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                      {a.assignedDate}
+                      {a.submittedAt
+                        ? ` · ${a.score}/${a.questionCount} correct · +${a.pointsEarned} pts`
+                        : ' · Not completed yet'}
+                    </div>
+                  </div>
+                  {!a.submittedAt && (
+                    <button className="btn btn-red btn-sm" onClick={() => handleDelete(a.id)}>🗑️ Delete</button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ─── Sample shop item templates ───────────────────────────────────────────────
 
 const SAMPLE_SHOP_ITEMS = [
@@ -1735,13 +1881,13 @@ export default function GuardianDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'shop', 'kids'].map(t => (
+          {['chores', 'maths', 'shop', 'kids'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active guardian' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Kids'}
+              {t === 'chores' ? 'Chores' : t === 'maths' ? '➗ Maths' : t === 'shop' ? 'Shop' : 'Kids'}
             </button>
           ))}
         </div>
@@ -1804,6 +1950,7 @@ export default function GuardianDashboard() {
         )}
 
         {tab === 'chores'    && <ChoresTab kids={kids} />}
+        {tab === 'maths'     && <MathsTab kids={kids} />}
         {tab === 'shop'      && <ShopTab kids={kids} />}
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}

@@ -198,6 +198,121 @@ function KidChoresTab({ userId, onBalanceChange }) {
   )
 }
 
+// ─── Maths Tab ──────────────────────────────────────────────────────────────
+
+function MathAssignmentCard({ assignment, onSubmitted }) {
+  const [answers, setAnswers] = useState(() => Array(assignment.topic.questions.length).fill(''))
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+  const [expanded, setExpanded] = useState(!assignment.submittedAt)
+
+  const submitted = !!assignment.submittedAt
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (answers.some(a => !a.trim())) { setError('Please answer every question.'); return }
+    setSubmitting(true); setError('')
+    try {
+      const res = await api.submitMathAssignment(assignment.id, answers)
+      onSubmitted(res)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="form-card" style={{ border: '1.5px solid #ddd6fe', background: 'linear-gradient(135deg, #f5f3ff, #ffffff)' }}>
+      <div
+        role="button" tabIndex={0}
+        onClick={() => setExpanded(v => !v)}
+        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setExpanded(v => !v)}
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
+      >
+        <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          {assignment.topic.emoji} {assignment.topic.title}
+          {submitted ? (
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
+              {assignment.score}/{assignment.questionCount} correct · +{assignment.pointsEarned} pts
+            </span>
+          ) : (
+            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#7c3aed', background: '#ede9fe', borderRadius: 999, padding: '2px 10px' }}>
+              📝 Not done yet
+            </span>
+          )}
+        </span>
+        <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{expanded ? '▲' : '▼'}</span>
+      </div>
+      {expanded && (
+        <div style={{ marginTop: 14 }}>
+          <p style={{ fontSize: '0.88rem', color: '#334155', lineHeight: 1.6, marginBottom: 14 }}>{assignment.topic.explanation}</p>
+          {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+          <form onSubmit={handleSubmit}>
+            {assignment.topic.questions.map((q, i) => (
+              <div className="form-group" key={i} style={{ marginBottom: 10 }}>
+                <label>{i + 1}. {q.question}</label>
+                <input
+                  value={submitted ? (assignment.answers?.[i] || '') : answers[i]}
+                  onChange={e => !submitted && setAnswers(a => a.map((v, idx) => idx === i ? e.target.value : v))}
+                  disabled={submitted}
+                  placeholder="Your answer"
+                />
+                {submitted && q.answer && (
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>Correct answer: {q.answer}</div>
+                )}
+              </div>
+            ))}
+            {!submitted && (
+              <button type="submit" className="btn btn-primary" disabled={submitting}>
+                {submitting ? 'Checking...' : '✓ Submit Answers'}
+              </button>
+            )}
+          </form>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function KidMathsTab({ onBalanceChange }) {
+  const [maths, setMaths] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  const load = useCallback(async () => {
+    setLoading(true); setError('')
+    try {
+      setMaths(await api.getMaths())
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  function handleSubmitted(res) {
+    load()
+    if (res.newBalance !== undefined) onBalanceChange && onBalanceChange(res.newBalance)
+  }
+
+  if (loading) return <div className="loading-text">Loading Maths...</div>
+  if (error) return <div className="error-msg">{error}</div>
+  if (!maths || maths.assignments.length === 0) {
+    return <div className="empty-text">No Math topics yet — check back once your guardian adds one!</div>
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {maths.assignments.map(a => (
+        <MathAssignmentCard key={a.id} assignment={a} onSubmitted={handleSubmitted} />
+      ))}
+    </div>
+  )
+}
+
 // ─── Shop Tab ────────────────────────────────────────────────────────────────
 
 function KidShopTab({ userId }) {
@@ -392,13 +507,13 @@ export default function KidDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'shop', 'wallet'].map(t => (
+          {['chores', 'maths', 'shop', 'wallet'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active kid' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
+              {t === 'chores' ? 'Chores' : t === 'maths' ? '➗ Maths' : t === 'shop' ? 'Shop' : 'Wallet'}
             </button>
           ))}
         </div>
@@ -406,6 +521,7 @@ export default function KidDashboard() {
         <MotivationalBanner name={user.name} />
 
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
+        {tab === 'maths'    && <KidMathsTab onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
         {tab === 'wallet'   && <KidWalletView kidId={user.id} />}
         {tab === 'messages' && <MessagesTab />}

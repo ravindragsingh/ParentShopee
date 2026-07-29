@@ -144,6 +144,13 @@ class AdminUserUpdate(BaseModel):
     pin:      Optional[str] = None   # kid / co-guardian profiles only
     avatar:   Optional[str] = None
 
+class MathAssignBody(BaseModel):
+    kidId: str
+    topicId: str
+
+class MathSubmitBody(BaseModel):
+    answers: List[str]
+
 class AdminChoreUpdate(BaseModel):
     title:         Optional[str]   = None
     description:   Optional[str]   = None

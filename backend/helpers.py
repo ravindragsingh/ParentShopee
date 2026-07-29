@@ -1,10 +1,11 @@
+import json
 from datetime import date, datetime, timezone
 from uuid import uuid4
 
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
-from models import DBChore, DBDailyChoreItem, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser
+from models import DBChore, DBDailyChoreItem, DBMathAssignment, DBMathTopic, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser
 from responses import fail
 
 
@@ -89,6 +90,30 @@ def daily_chore_dict(item: DBDailyChoreItem) -> dict:
     return {"id": item.id, "kidId": item.kid_id, "title": item.title,
             "imageEmoji": item.image_emoji, "points": item.points,
             "orderIndex": item.order_index, "status": item.status}
+
+def math_topic_dict(t: DBMathTopic) -> dict:
+    questions = json.loads(t.questions)
+    return {"id": t.id, "title": t.title, "emoji": t.emoji, "grade": t.grade,
+            "explanation": t.explanation,
+            "questions": [{"question": q["question"]} for q in questions],
+            "questionCount": len(questions)}
+
+def math_assignment_dict(a: DBMathAssignment, topic: DBMathTopic) -> dict:
+    questions = json.loads(topic.questions)
+    submitted = a.submitted_at is not None
+    return {
+        "id": a.id, "kidId": a.kid_id, "assignedDate": a.assigned_date, "createdAt": a.created_at,
+        "topic": {
+            "id": topic.id, "title": topic.title, "emoji": topic.emoji, "explanation": topic.explanation,
+            "questions": [
+                {"question": q["question"], "answer": q["answers"][0] if submitted else None}
+                for q in questions
+            ],
+        },
+        "answers": json.loads(a.answers) if a.answers else None,
+        "score": a.score, "questionCount": len(questions),
+        "pointsEarned": a.points_earned, "submittedAt": a.submitted_at,
+    }
 
 def purchase_dict(p: DBShopPurchase) -> dict:
     return {"id": p.id, "kidId": p.kid_id, "shopItemId": p.shop_item_id,

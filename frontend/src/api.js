@@ -148,6 +148,13 @@ export const api = {
   updateDailyChoreSettings:(kidId, deductionEnabled) => request('PUT', '/api/daily-chores/settings', { kidId, deductionEnabled }),
   regenerateDailyChores:   (kidId)                => request('POST',   `/api/daily-chores/${kidId}/regenerate`),
 
+  // Maths
+  getMathTopics:      ()                  => request('GET',    '/api/maths/topics'),
+  getMaths:           (kidId)              => request('GET',    `/api/maths${kidId ? `?kidId=${kidId}` : ''}`),
+  assignMathTopic:    (kidId, topicId)     => request('POST',   '/api/maths/assign', { kidId, topicId }),
+  deleteMathAssignment: (id)               => request('DELETE', `/api/maths/${id}`),
+  submitMathAssignment: (id, answers)      => request('POST',   `/api/maths/${id}/submit`, { answers }),
+
   // Admin
   adminFamilies:           ()              => request('GET', '/api/admin/families'),
   adminFamilyChores:       (familyId)      => request('GET', `/api/admin/family/${familyId}/chores`),

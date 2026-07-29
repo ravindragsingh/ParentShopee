@@ -1,3 +1,4 @@
+import json
 import os
 from uuid import uuid4
 
@@ -10,9 +11,10 @@ from starlette.responses import Response as StarletteResponse
 
 import models  # noqa: F401 — import ensures all tables are registered on Base before create_all()
 from database import SessionLocal, engine, Base
+from math_topics_seed import MATH_TOPICS
 from seed import seed_db
-from models import DBUser
-from routers import admin, auth, chores, contact, daily_chores, family, kids, messages, shop, wallet
+from models import DBMathTopic, DBUser
+from routers import admin, auth, chores, contact, daily_chores, family, kids, maths, messages, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -55,6 +57,7 @@ app.include_router(contact.router)
 app.include_router(messages.router)
 app.include_router(admin.router)
 app.include_router(daily_chores.router)
+app.include_router(maths.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -176,6 +179,15 @@ def startup():
     db = SessionLocal()
     try:
         seed_db(db)
+        # Grade-4 Maths topic catalog — shared curriculum content, not per-family,
+        # so it's seeded independently of seed_db() (which only runs on a fresh DB).
+        if db.query(DBMathTopic).count() == 0:
+            for i, t in enumerate(MATH_TOPICS):
+                db.add(DBMathTopic(
+                    id=str(uuid4()), title=t["title"], emoji=t["emoji"], grade=4,
+                    explanation=t["explanation"], questions=json.dumps(t["questions"]), order_index=i,
+                ))
+            db.commit()
     finally:
         db.close()
 

@@ -141,6 +141,32 @@ class DBShopPurchase(Base):
     resolved_at = Column(String, nullable=True)
 
 
+class DBMathTopic(Base):
+    __tablename__ = "math_topics"
+    id          = Column(String, primary_key=True)
+    title       = Column(String, nullable=False)
+    emoji       = Column(String, default="🔢")
+    grade       = Column(Integer, default=4)
+    explanation = Column(String, nullable=False)
+    questions   = Column(String, nullable=False)   # JSON list of {question, answers: [...]}
+    order_index = Column(Integer, default=0)
+
+
+class DBMathAssignment(Base):
+    __tablename__ = "math_assignments"
+    id            = Column(String, primary_key=True)
+    kid_id        = Column(String, nullable=False, index=True)
+    topic_id      = Column(String, nullable=False)
+    family_id     = Column(String, nullable=True, index=True)
+    assigned_date = Column(String, nullable=False)   # YYYY-MM-DD — enforces one topic per kid per day
+    added_by      = Column(String, nullable=True)
+    created_at    = Column(String, nullable=False)
+    answers       = Column(String, nullable=True)    # JSON list of the kid's submitted answers
+    score         = Column(Integer, nullable=True)    # number of correct answers, once submitted
+    points_earned = Column(Float, nullable=True)
+    submitted_at  = Column(String, nullable=True)
+
+
 class DBSupportTicket(Base):
     __tablename__ = "support_tickets"
     id          = Column(String, primary_key=True)
