@@ -149,11 +149,30 @@ export const api = {
   regenerateDailyChores:   (kidId)                => request('POST',   `/api/daily-chores/${kidId}/regenerate`),
 
   // Maths
-  getMathTopics:      ()                  => request('GET',    '/api/maths/topics'),
+  getMathTopics:      (topic)              => request('GET',    `/api/maths/topics${topic ? `?topic=${encodeURIComponent(topic)}` : ''}`),
   getMaths:           (kidId)              => request('GET',    `/api/maths${kidId ? `?kidId=${kidId}` : ''}`),
   assignMathTopic:    (kidId, topicId)     => request('POST',   '/api/maths/assign', { kidId, topicId }),
+  assignMathTopicToClass: (classId, topicId, dueDate) => request('POST', '/api/maths/assign-class', { classId, topicId, dueDate: dueDate || null }),
   deleteMathAssignment: (id)               => request('DELETE', `/api/maths/${id}`),
   submitMathAssignment: (id, answers)      => request('POST',   `/api/maths/${id}/submit`, { answers }),
+
+  // Classes
+  createClass:        (name)               => request('POST',   '/api/classes', { name }),
+  getClasses:         ()                   => request('GET',    '/api/classes'),
+  getClassRoster:     (classId)            => request('GET',    `/api/classes/${classId}/roster`),
+  deleteClass:        (classId)            => request('DELETE', `/api/classes/${classId}`),
+  joinClass:          (joinCode, kidId)    => request('POST',   '/api/classes/join', { joinCode, kidId }),
+  getMyClassMemberships: ()                => request('GET',    '/api/classes/mine'),
+  approveMembership:  (membershipId)       => request('POST',   `/api/classes/memberships/${membershipId}/approve`),
+  rejectMembership:   (membershipId)       => request('POST',   `/api/classes/memberships/${membershipId}/reject`),
+
+  // Reading materials
+  createMaterial:     (body)               => request('POST',   '/api/materials', body),
+  getMaterials:       (topic)              => request('GET',    `/api/materials${topic ? `?topic=${encodeURIComponent(topic)}` : ''}`),
+  deleteMaterial:     (id)                 => request('DELETE', `/api/materials/${id}`),
+  shareMaterial:      (id, classId)        => request('POST',   `/api/materials/${id}/share`, { classId }),
+  unshareMaterial:    (id, classId)        => request('DELETE', `/api/materials/${id}/share/${classId}`),
+  getSharedMaterials: (kidId)              => request('GET',    `/api/materials/shared${kidId ? `?kidId=${kidId}` : ''}`),
 
   // Admin
   adminFamilies:           ()              => request('GET', '/api/admin/families'),

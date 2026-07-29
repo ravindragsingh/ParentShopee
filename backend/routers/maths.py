@@ -7,11 +7,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from database import get_db
-from deps import require_auth, require_guardian
-from helpers import get_family_id, math_assignment_dict, math_topic_dict, now
-from models import DBMathAssignment, DBMathTopic, DBTransaction, DBUser, DBWallet
+from deps import require_auth, require_guardian, require_guardian_or_teacher, require_teacher
+from helpers import class_dict, get_family_id, math_assignment_dict, math_topic_dict, now
+from models import DBClass, DBClassMembership, DBMathAssignment, DBMathTopic, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import MathAssignBody, MathSubmitBody
+from schemas import MathAssignBody, MathAssignClassBody, MathSubmitBody
 
 router = APIRouter()
 
@@ -51,8 +51,11 @@ def _is_correct(kid_answer: str, accepted_answers: list) -> bool:
 
 
 @router.get("/api/maths/topics")
-def list_math_topics(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+def list_math_topics(topic: str = None, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian_or_teacher)):
     topics = db.query(DBMathTopic).order_by(DBMathTopic.order_index).all()
+    if topic:
+        needle = topic.strip().lower()
+        topics = [t for t in topics if needle in t.title.lower() or needle in t.explanation.lower()]
     return ok([math_topic_dict(t) for t in topics])
 
 
@@ -65,10 +68,15 @@ def get_maths(kidId: str = None, db: Session = Depends(get_db), user: DBUser = D
     results = []
     for a in assignments:
         topic = db.query(DBMathTopic).filter(DBMathTopic.id == a.topic_id).first()
-        if topic:
-            results.append(math_assignment_dict(a, topic))
+        if not topic:
+            continue
+        class_name = None
+        if a.class_id:
+            cls = db.query(DBClass).filter(DBClass.id == a.class_id).first()
+            class_name = cls.name if cls else None
+        results.append(math_assignment_dict(a, topic, class_name=class_name))
     today = date.today().isoformat()
-    can_add_today = not any(a.assigned_date == today for a in assignments)
+    can_add_today = not any(a.assigned_date == today and not a.class_id for a in assignments)
     return ok({"kidId": kid.id, "assignments": results, "canAddToday": can_add_today})
 
 
@@ -94,14 +102,58 @@ def assign_math_topic(body: MathAssignBody, db: Session = Depends(get_db), user:
     return ok(math_assignment_dict(assignment, topic), 201)
 
 
+@router.post("/api/maths/assign-class")
+def assign_math_topic_to_class(body: MathAssignClassBody, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
+    cls = db.query(DBClass).filter(DBClass.id == body.classId, DBClass.teacher_id == user.id).first()
+    if not cls:
+        fail("Class not found", 404)
+    topic = db.query(DBMathTopic).filter(DBMathTopic.id == body.topicId).first()
+    if not topic:
+        fail("Math topic not found", 404)
+
+    memberships = db.query(DBClassMembership).filter(
+        DBClassMembership.class_id == cls.id, DBClassMembership.status == "approved"
+    ).all()
+    if not memberships:
+        fail("This class has no students yet — approve a join request first", 400)
+
+    today = date.today().isoformat()
+    assigned_count = 0
+    skipped_count = 0
+    for m in memberships:
+        kid = db.query(DBUser).filter(DBUser.id == m.kid_id, DBUser.role == "kid").first()
+        if not kid:
+            continue
+        dup = db.query(DBMathAssignment).filter(
+            DBMathAssignment.kid_id == kid.id, DBMathAssignment.class_id == cls.id,
+            DBMathAssignment.topic_id == topic.id,
+        ).first()
+        if dup:
+            skipped_count += 1
+            continue
+        db.add(DBMathAssignment(
+            id=str(uuid4()), kid_id=kid.id, topic_id=topic.id, family_id=kid.guardian_id,
+            assigned_date=today, added_by=user.id, created_at=now(),
+            class_id=cls.id, due_date=body.dueDate or None,
+        ))
+        assigned_count += 1
+    db.commit()
+    return ok({"assignedCount": assigned_count, "skippedCount": skipped_count, "classId": cls.id, "className": cls.name})
+
+
 @router.delete("/api/maths/{assignment_id}")
-def delete_math_assignment(assignment_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+def delete_math_assignment(assignment_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian_or_teacher)):
     assignment = db.query(DBMathAssignment).filter(DBMathAssignment.id == assignment_id).first()
     if not assignment:
         fail("Math assignment not found", 404)
-    kid = db.query(DBUser).filter(DBUser.id == assignment.kid_id).first()
-    if not kid or kid.guardian_id != get_family_id(user):
-        fail("Not allowed to modify this item", 403)
+    if assignment.class_id:
+        cls = db.query(DBClass).filter(DBClass.id == assignment.class_id).first()
+        if user.role != "teacher" or not cls or cls.teacher_id != user.id:
+            fail("Only the assigning teacher can remove a class assignment", 403)
+    else:
+        kid = db.query(DBUser).filter(DBUser.id == assignment.kid_id).first()
+        if user.role != "guardian" or not kid or kid.guardian_id != get_family_id(user):
+            fail("Not allowed to modify this item", 403)
     if assignment.submitted_at:
         fail("Can't remove a topic your child has already completed")
     db.delete(assignment)

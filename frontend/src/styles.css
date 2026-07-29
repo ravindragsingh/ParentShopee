@@ -142,6 +142,11 @@ body {
   border-bottom-color: #059669;
 }
 
+.tab-btn.active.teacher {
+  color: #4f46e5;
+  border-bottom-color: #4f46e5;
+}
+
 /* Cards */
 .card {
   background: white;

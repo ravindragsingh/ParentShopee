@@ -5,7 +5,10 @@ from uuid import uuid4
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
-from models import DBChore, DBDailyChoreItem, DBMathAssignment, DBMathTopic, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser
+from models import (
+    DBChore, DBClass, DBClassMembership, DBDailyChoreItem, DBMathAssignment, DBMathTopic,
+    DBReadingMaterial, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser,
+)
 from responses import fail
 
 
@@ -98,11 +101,12 @@ def math_topic_dict(t: DBMathTopic) -> dict:
             "questions": [{"question": q["question"]} for q in questions],
             "questionCount": len(questions)}
 
-def math_assignment_dict(a: DBMathAssignment, topic: DBMathTopic) -> dict:
+def math_assignment_dict(a: DBMathAssignment, topic: DBMathTopic, class_name: str = None) -> dict:
     questions = json.loads(topic.questions)
     submitted = a.submitted_at is not None
     return {
         "id": a.id, "kidId": a.kid_id, "assignedDate": a.assigned_date, "createdAt": a.created_at,
+        "dueDate": a.due_date, "classId": a.class_id, "className": class_name,
         "topic": {
             "id": topic.id, "title": topic.title, "emoji": topic.emoji, "explanation": topic.explanation,
             "questions": [
@@ -114,6 +118,24 @@ def math_assignment_dict(a: DBMathAssignment, topic: DBMathTopic) -> dict:
         "score": a.score, "questionCount": len(questions),
         "pointsEarned": a.points_earned, "submittedAt": a.submitted_at,
     }
+
+def class_dict(c: DBClass) -> dict:
+    return {"id": c.id, "teacherId": c.teacher_id, "name": c.name,
+            "joinCode": c.join_code, "createdAt": c.created_at}
+
+def membership_dict(m: DBClassMembership, kid: DBUser = None, class_: DBClass = None, guardian: DBUser = None) -> dict:
+    return {
+        "id": m.id, "classId": m.class_id, "kidId": m.kid_id, "guardianId": m.guardian_id,
+        "status": m.status, "requestedAt": m.requested_at, "resolvedAt": m.resolved_at,
+        "kidName": kid.name if kid else None, "kidAvatar": kid.avatar if kid else None,
+        "className": class_.name if class_ else None,
+        "guardianName": guardian.name if guardian else None,
+    }
+
+def material_dict(m: DBReadingMaterial, shared_class_ids: list = None) -> dict:
+    return {"id": m.id, "teacherId": m.teacher_id, "title": m.title, "description": m.description,
+            "url": m.url, "topic": m.topic, "createdAt": m.created_at,
+            "sharedClassIds": shared_class_ids or []}
 
 def purchase_dict(p: DBShopPurchase) -> dict:
     return {"id": p.id, "kidId": p.kid_id, "shopItemId": p.shop_item_id,

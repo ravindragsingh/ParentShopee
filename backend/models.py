@@ -158,13 +158,54 @@ class DBMathAssignment(Base):
     kid_id        = Column(String, nullable=False, index=True)
     topic_id      = Column(String, nullable=False)
     family_id     = Column(String, nullable=True, index=True)
-    assigned_date = Column(String, nullable=False)   # YYYY-MM-DD — enforces one topic per kid per day
+    assigned_date = Column(String, nullable=False)   # YYYY-MM-DD — enforces one topic per kid per day (guardian-added only)
     added_by      = Column(String, nullable=True)
     created_at    = Column(String, nullable=False)
     answers       = Column(String, nullable=True)    # JSON list of the kid's submitted answers
     score         = Column(Integer, nullable=True)    # number of correct answers, once submitted
     points_earned = Column(Float, nullable=True)
     submitted_at  = Column(String, nullable=True)
+    class_id      = Column(String, nullable=True, index=True)   # set when a teacher assigned this to a whole class
+    due_date      = Column(String, nullable=True)
+
+
+class DBClass(Base):
+    __tablename__ = "classes"
+    id         = Column(String, primary_key=True)
+    teacher_id = Column(String, nullable=False, index=True)
+    name       = Column(String, nullable=False)
+    join_code  = Column(String, nullable=False, unique=True, index=True)
+    created_at = Column(String, nullable=False)
+
+
+class DBClassMembership(Base):
+    __tablename__ = "class_memberships"
+    id           = Column(String, primary_key=True)
+    class_id     = Column(String, nullable=False, index=True)
+    kid_id       = Column(String, nullable=False, index=True)
+    guardian_id  = Column(String, nullable=False, index=True)
+    status       = Column(String, default="pending")   # pending | approved | rejected
+    requested_at = Column(String, nullable=False)
+    resolved_at  = Column(String, nullable=True)
+
+
+class DBReadingMaterial(Base):
+    __tablename__ = "reading_materials"
+    id          = Column(String, primary_key=True)
+    teacher_id  = Column(String, nullable=False, index=True)
+    title       = Column(String, nullable=False)
+    description = Column(String, default="")
+    url         = Column(String, nullable=True)
+    topic       = Column(String, nullable=True, index=True)
+    created_at  = Column(String, nullable=False)
+
+
+class DBReadingMaterialShare(Base):
+    __tablename__ = "reading_material_shares"
+    id          = Column(String, primary_key=True)
+    material_id = Column(String, nullable=False, index=True)
+    class_id    = Column(String, nullable=False, index=True)
+    shared_at   = Column(String, nullable=False)
 
 
 class DBSupportTicket(Base):

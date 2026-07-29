@@ -14,7 +14,7 @@ from database import SessionLocal, engine, Base
 from math_topics_seed import MATH_TOPICS
 from seed import seed_db
 from models import DBMathTopic, DBUser
-from routers import admin, auth, chores, contact, daily_chores, family, kids, maths, messages, shop, wallet
+from routers import admin, auth, chores, classes, contact, daily_chores, family, kids, materials, maths, messages, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -58,6 +58,8 @@ app.include_router(messages.router)
 app.include_router(admin.router)
 app.include_router(daily_chores.router)
 app.include_router(maths.router)
+app.include_router(classes.router)
+app.include_router(materials.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -101,6 +103,8 @@ def startup():
             ("users",      "pin_locked_until",          "VARCHAR"),
             ("users",      "pin_auto_generated",        "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
+            ("math_assignments", "class_id",          "VARCHAR"),
+            ("math_assignments", "due_date",           "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):

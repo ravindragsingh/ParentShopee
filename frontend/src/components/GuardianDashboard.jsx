@@ -555,15 +555,23 @@ function MathsTab({ kids }) {
                 <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 14px' }}>
                   <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{a.topic.emoji}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 600, color: '#1e293b' }}>{a.topic.title}</div>
+                    <div style={{ fontWeight: 600, color: '#1e293b', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                      {a.topic.title}
+                      {a.classId && (
+                        <span style={{ fontSize: '0.72rem', fontWeight: 700, background: '#eef2ff', color: '#4f46e5', borderRadius: 6, padding: '1px 7px' }}>
+                          🏫 {a.className || 'Class'}
+                        </span>
+                      )}
+                    </div>
                     <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
                       {a.assignedDate}
+                      {a.dueDate && ` · Due ${a.dueDate}`}
                       {a.submittedAt
                         ? ` · ${a.score}/${a.questionCount} correct · +${a.pointsEarned} pts`
                         : ' · Not completed yet'}
                     </div>
                   </div>
-                  {!a.submittedAt && (
+                  {!a.submittedAt && !a.classId && (
                     <button className="btn btn-red btn-sm" onClick={() => handleDelete(a.id)}>🗑️ Delete</button>
                   )}
                 </div>
@@ -572,6 +580,123 @@ function MathsTab({ kids }) {
           )}
         </div>
       )}
+    </div>
+  )
+}
+
+// ─── Classes Tab (join a teacher's class) ────────────────────────────────────
+
+function ClassesTab({ kids }) {
+  const [memberships, setMemberships] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  const [joinCode, setJoinCode] = useState('')
+  const [joinKidId, setJoinKidId] = useState(kids[0]?.id || '')
+  const [joining, setJoining] = useState(false)
+  const [joinError, setJoinError] = useState('')
+  const [joinSuccess, setJoinSuccess] = useState('')
+
+  const load = useCallback(async () => {
+    setLoading(true); setError('')
+    try {
+      setMemberships(await api.getMyClassMemberships())
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  useEffect(() => {
+    if (kids.length && !kids.some(k => k.id === joinKidId)) setJoinKidId(kids[0].id)
+  }, [kids, joinKidId])
+
+  async function handleJoin(e) {
+    e.preventDefault()
+    if (!joinCode.trim()) { setJoinError('Enter the class join code.'); return }
+    if (!joinKidId) { setJoinError('Select a child.'); return }
+    setJoining(true); setJoinError(''); setJoinSuccess('')
+    try {
+      await api.joinClass(joinCode.trim().toUpperCase(), joinKidId)
+      setJoinSuccess('Request sent! The teacher needs to approve it before your child appears in the class.')
+      setJoinCode('')
+      load()
+    } catch (err) {
+      setJoinError(err.message)
+    } finally {
+      setJoining(false)
+    }
+  }
+
+  const STATUS_STYLE = {
+    pending:  { bg: '#fff7ed', color: '#c2410c', label: '⏳ Pending' },
+    approved: { bg: '#f0fdf4', color: '#15803d', label: '✓ Approved' },
+    rejected: { bg: '#fef2f2', color: '#dc2626', label: '✕ Rejected' },
+  }
+
+  if (kids.length === 0) {
+    return <div className="empty-text">Add a child first to join a class.</div>
+  }
+
+  return (
+    <div>
+      <div className="form-card" style={{ marginBottom: 16 }}>
+        <div className="form-title">🏫 Join a Class</div>
+        <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 14 }}>
+          Ask your child's teacher for their class join code, then pick which child should join.
+        </p>
+        {joinError && <div className="error-msg">{joinError}</div>}
+        {joinSuccess && <div className="success-msg">{joinSuccess}</div>}
+        <form onSubmit={handleJoin} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+          <div className="form-group" style={{ flex: '0 0 160px' }}>
+            <label>Join Code</label>
+            <input
+              value={joinCode}
+              onChange={e => setJoinCode(e.target.value.toUpperCase())}
+              placeholder="e.g. S7MIVF"
+              style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+              maxLength={6}
+            />
+          </div>
+          <div className="form-group" style={{ flex: '1 1 160px' }}>
+            <label>Child</label>
+            <select value={joinKidId} onChange={e => setJoinKidId(e.target.value)}>
+              {kids.map(k => <option key={k.id} value={k.id}>{k.avatar} {k.name}</option>)}
+            </select>
+          </div>
+          <button type="submit" className="btn btn-primary btn-sm" disabled={joining}>{joining ? 'Sending...' : 'Join Class'}</button>
+        </form>
+      </div>
+
+      <div className="form-card">
+        <div className="form-title">My Classes</div>
+        {loading ? (
+          <div className="loading-text">Loading...</div>
+        ) : error ? (
+          <div className="error-msg">{error}</div>
+        ) : memberships.length === 0 ? (
+          <div className="empty-text">No class requests yet.</div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {memberships.map(m => {
+              const s = STATUS_STYLE[m.status] || STATUS_STYLE.pending
+              return (
+                <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 14px', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{m.kidAvatar}</span>
+                  <div style={{ flex: 1, minWidth: 160 }}>
+                    <div style={{ fontWeight: 600, color: '#1e293b' }}>{m.className}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{m.kidName} · Teacher: {m.teacherName || 'Unknown'}</div>
+                  </div>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, background: s.bg, color: s.color, borderRadius: 999, padding: '2px 10px' }}>{s.label}</span>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -1881,13 +2006,13 @@ export default function GuardianDashboard() {
 
       <div className="main-content">
         <div className="tabs">
-          {['chores', 'maths', 'shop', 'kids'].map(t => (
+          {['chores', 'maths', 'classes', 'shop', 'kids'].map(t => (
             <button
               key={t}
               className={`tab-btn${tab === t ? ' active guardian' : ''}`}
               onClick={() => setTab(t)}
             >
-              {t === 'chores' ? 'Chores' : t === 'maths' ? '➗ Maths' : t === 'shop' ? 'Shop' : 'Kids'}
+              {t === 'chores' ? 'Chores' : t === 'maths' ? '➗ Maths' : t === 'classes' ? '🏫 Classes' : t === 'shop' ? 'Shop' : 'Kids'}
             </button>
           ))}
         </div>
@@ -1951,6 +2076,7 @@ export default function GuardianDashboard() {
 
         {tab === 'chores'    && <ChoresTab kids={kids} />}
         {tab === 'maths'     && <MathsTab kids={kids} />}
+        {tab === 'classes'   && <ClassesTab kids={kids} />}
         {tab === 'shop'      && <ShopTab kids={kids} />}
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}

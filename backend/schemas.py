@@ -152,6 +152,27 @@ class MathAssignBody(BaseModel):
 class MathSubmitBody(BaseModel):
     answers: List[str]
 
+class MathAssignClassBody(BaseModel):
+    classId: str
+    topicId: str
+    dueDate: Optional[str] = None
+
+class ClassCreateBody(BaseModel):
+    name: str
+
+class ClassJoinBody(BaseModel):
+    joinCode: str
+    kidId: str
+
+class MaterialCreateBody(BaseModel):
+    title: str
+    description: Optional[str] = ""
+    url: Optional[str] = None
+    topic: Optional[str] = None
+
+class MaterialShareBody(BaseModel):
+    classId: str
+
 class AdminChoreUpdate(BaseModel):
     title:         Optional[str]   = None
     description:   Optional[str]   = None

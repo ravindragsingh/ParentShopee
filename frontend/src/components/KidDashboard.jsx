@@ -232,6 +232,14 @@ function MathAssignmentCard({ assignment, onSubmitted }) {
       >
         <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           {assignment.topic.emoji} {assignment.topic.title}
+          {assignment.classId && (
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, background: '#eef2ff', color: '#4f46e5', borderRadius: 6, padding: '1px 7px' }}>
+              🏫 {assignment.className || 'Class'}
+            </span>
+          )}
+          {assignment.dueDate && !submitted && (
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#c2410c' }}>Due {assignment.dueDate}</span>
+          )}
           {submitted ? (
             <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
               {assignment.score}/{assignment.questionCount} correct · +{assignment.pointsEarned} pts
@@ -275,6 +283,35 @@ function MathAssignmentCard({ assignment, onSubmitted }) {
   )
 }
 
+function ReadingMaterialSection() {
+  const [materials, setMaterials] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    api.getSharedMaterials().then(setMaterials).catch(() => setMaterials([])).finally(() => setLoading(false))
+  }, [])
+
+  if (loading || materials.length === 0) return null
+
+  return (
+    <div className="form-card" style={{ border: '1.5px solid #ddd6fe', background: 'linear-gradient(135deg, #f5f3ff, #ffffff)' }}>
+      <div className="form-title">📖 Reading Material from Your Teacher</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {materials.map(m => (
+          <div key={m.id} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 14px' }}>
+            <div style={{ fontWeight: 600, color: '#1e293b' }}>
+              {m.title}
+              {m.topic && <span style={{ marginLeft: 8, fontSize: '0.72rem', background: '#f1f5f9', color: '#64748b', borderRadius: 6, padding: '1px 7px' }}>{m.topic}</span>}
+            </div>
+            {m.description && <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 4 }}>{m.description}</div>}
+            {m.url && <a href={m.url} target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: '#7c3aed', display: 'inline-block', marginTop: 6 }}>🔗 {m.url}</a>}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function KidMathsTab({ onBalanceChange }) {
   const [maths, setMaths] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -300,15 +337,17 @@ function KidMathsTab({ onBalanceChange }) {
 
   if (loading) return <div className="loading-text">Loading Maths...</div>
   if (error) return <div className="error-msg">{error}</div>
-  if (!maths || maths.assignments.length === 0) {
-    return <div className="empty-text">No Math topics yet — check back once your guardian adds one!</div>
-  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      {maths.assignments.map(a => (
-        <MathAssignmentCard key={a.id} assignment={a} onSubmitted={handleSubmitted} />
-      ))}
+      <ReadingMaterialSection />
+      {(!maths || maths.assignments.length === 0) ? (
+        <div className="empty-text">No Math topics yet — check back once your guardian or teacher adds one!</div>
+      ) : (
+        maths.assignments.map(a => (
+          <MathAssignmentCard key={a.id} assignment={a} onSubmitted={handleSubmitted} />
+        ))
+      )}
     </div>
   )
 }
