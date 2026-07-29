@@ -5,16 +5,20 @@ import ProfilePicker from './components/ProfilePicker.jsx'
 import GuardianDashboard from './components/GuardianDashboard.jsx'
 import KidDashboard from './components/KidDashboard.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
+import TeacherDashboard from './components/TeacherDashboard.jsx'
 import Blogs from './components/Blogs.jsx'
 
 function Loading() {
   return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
 }
 
+// Roles with no family/profile-picker concept — they go straight to their dashboard.
+const NO_PROFILE_ROLES = ['admin', 'teacher']
+
 function LoginRoute() {
   const { user, deviceToken, loading } = useAuth()
   if (loading) return <Loading />
-  if (user) return <Navigate to={user.role === 'admin' ? '/dashboard' : '/profiles'} replace />
+  if (user) return <Navigate to={NO_PROFILE_ROLES.includes(user.role) ? '/dashboard' : '/profiles'} replace />
   // Mid "Switch Profile" (device still authenticated, no active profile yet)
   // should never fall back to the password form.
   if (deviceToken) return <Navigate to="/profiles" replace />
@@ -25,7 +29,7 @@ function ProfilePickerRoute() {
   const { user, deviceToken, loading } = useAuth()
   if (loading) return <Loading />
   if (!deviceToken) return <Navigate to="/" replace />
-  if (user?.role === 'admin') return <Navigate to="/dashboard" replace />
+  if (user && NO_PROFILE_ROLES.includes(user.role)) return <Navigate to="/dashboard" replace />
   return <ProfilePicker />
 }
 
@@ -33,10 +37,11 @@ function DashboardRoute() {
   const { user, loading, profileEntered } = useAuth()
   if (loading) return <Loading />
   if (!user) return <Navigate to="/" replace />
-  // Admin has no family/profile concept — every other role must pick a
-  // profile (even "continue as me") before reaching its dashboard.
-  if (user.role !== 'admin' && !profileEntered) return <Navigate to="/profiles" replace />
-  if (user.role === 'admin')  return <AdminDashboard />
+  // Admin/teacher have no family/profile concept — every other role must pick
+  // a profile (even "continue as me") before reaching its dashboard.
+  if (!NO_PROFILE_ROLES.includes(user.role) && !profileEntered) return <Navigate to="/profiles" replace />
+  if (user.role === 'admin')   return <AdminDashboard />
+  if (user.role === 'teacher') return <TeacherDashboard />
   if (user.role === 'guardian') return <GuardianDashboard />
   if (user.role === 'kid')    return <KidDashboard />
   return <div className="loading-text">Unknown role: {user.role}</div>

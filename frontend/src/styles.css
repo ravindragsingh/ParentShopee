@@ -41,6 +41,10 @@ body {
   background: linear-gradient(135deg, #10b981 0%, #06b6d4 60%, #0d9488 100%);
 }
 
+.navbar.teacher {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #2563eb 100%);
+}
+
 .navbar-brand {
   display: flex;
   align-items: center;

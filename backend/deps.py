@@ -46,6 +46,11 @@ def require_guardian(user: DBUser = Depends(require_auth)) -> DBUser:
         fail("Forbidden — guardians only", 403)
     return user
 
+def require_teacher(user: DBUser = Depends(require_auth)) -> DBUser:
+    if user.role != "teacher":
+        fail("Forbidden — teachers only", 403)
+    return user
+
 def require_kid(user: DBUser = Depends(require_auth)) -> DBUser:
     if user.role != "kid":
         fail("Forbidden — kids only", 403)

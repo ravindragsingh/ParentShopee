@@ -58,6 +58,9 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
 
 @router.post("/api/auth/register")
 def register(body: RegisterBody, request: StarletteRequest, db: Session = Depends(get_db)):
+    role = body.role or "guardian"
+    if role not in ("guardian", "teacher"):
+        fail("Role must be 'guardian' or 'teacher'")
     if not EMAIL_RE.match(body.email):
         fail("Please enter a valid email address")
     try:
@@ -65,7 +68,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
     except Exception:
         fail("Invalid date of birth — use YYYY-MM-DD format")
     if age < 25:
-        fail("To register as Guardian, you should be 25 years or more.")
+        fail(f"To register as a {role.capitalize()}, you should be 25 years or more.")
     if db.query(DBUser).filter(func.lower(DBUser.username) == body.username.strip().lower()).first():
         fail("Username already taken")
     if db.query(DBUser).filter(DBUser.email == body.email.lower().strip()).first():
@@ -82,14 +85,15 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
     # Every profile in the picker is PIN-gated, including the primary guardian's own —
     # seed a temporary PIN now so they aren't locked out of their first "continue as
     # me" pick; the profile picker's migration-notice banner surfaces it to them.
-    temp_pin = f"{random.randint(0, 999999):06d}"
+    # Teachers have no profile-picker/family concept, so they don't need one.
+    temp_pin = f"{random.randint(0, 999999):06d}" if role == "guardian" else None
 
     user = DBUser(
         id=str(uuid4()),
         name=body.name.strip(),
         username=body.username.strip(),
         password=body.password,
-        role="guardian",
+        role=role,
         email=body.email.lower().strip(),
         date_of_birth=body.dateOfBirth,
         gender=body.gender,
@@ -99,7 +103,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         activation_token=str(uuid4()),
         activation_token_expires=expires,
         pin=temp_pin,
-        pin_auto_generated="1",
+        pin_auto_generated="1" if role == "guardian" else "0",
         created_at=now(),
     )
     db.add(user)

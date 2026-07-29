@@ -14,6 +14,7 @@ class RegisterBody(BaseModel):
     password: str
     dateOfBirth: str
     gender: str
+    role: Optional[str] = "guardian"   # "guardian" or "teacher"
 
 class ActivateBody(BaseModel):
     token: str

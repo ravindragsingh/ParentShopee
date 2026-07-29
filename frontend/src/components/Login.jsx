@@ -117,7 +117,7 @@ function Section({ title, children }) {
 // ── Register form ─────────────────────────────────────────────────────────────
 
 function RegisterForm({ onBack }) {
-  const [form, setForm] = useState({ name: '', email: '', username: '', password: '', confirmPassword: '', dateOfBirth: '', gender: '' })
+  const [form, setForm] = useState({ role: 'guardian', name: '', email: '', username: '', password: '', confirmPassword: '', dateOfBirth: '', gender: '' })
   const [agreed, setAgreed] = useState(false)
   const [showAgreement, setShowAgreement] = useState(false)
   const [error, setError] = useState('')
@@ -155,6 +155,7 @@ function RegisterForm({ onBack }) {
     setLoading(true)
     try {
       const data = await api.register({
+        role: form.role,
         name: form.name.trim(),
         email: form.email.trim(),
         username: form.username.trim(),
@@ -191,11 +192,34 @@ function RegisterForm({ onBack }) {
       {showAgreement && <UserAgreementModal onClose={() => setShowAgreement(false)} />}
 
       <h1 className="login-title">Create Account</h1>
-      <p className="login-subtitle">Guardians only · Must be 25 or older</p>
+      <p className="login-subtitle">Must be 25 or older</p>
 
       {error && <div className="error-msg">{error}</div>}
 
       <form onSubmit={handleSubmit}>
+        <div className="form-group" style={{ marginBottom: 16 }}>
+          <label>I am registering as *</label>
+          <div style={{ display: 'flex', gap: 10 }}>
+            {[
+              { value: 'guardian', label: '👨‍👩‍👧 Guardian', desc: 'Manage your own family' },
+              { value: 'teacher', label: '🍎 Teacher', desc: 'Manage a classroom' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setForm(f => ({ ...f, role: opt.value }))}
+                style={{
+                  flex: 1, textAlign: 'left', padding: '10px 14px', borderRadius: 10, cursor: 'pointer',
+                  border: `1.5px solid ${form.role === opt.value ? '#0d9488' : '#e2e8f0'}`,
+                  background: form.role === opt.value ? '#f0fdfa' : '#fff',
+                }}
+              >
+                <div style={{ fontWeight: 700, color: form.role === opt.value ? '#0d9488' : '#334155', fontSize: '0.9rem' }}>{opt.label}</div>
+                <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{opt.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="form-group" style={{ marginBottom: 12 }}>
           <label>Full Name *</label>
           <input value={form.name} onChange={set('name')} placeholder="e.g. Jane Smith" />
@@ -265,7 +289,7 @@ function RegisterForm({ onBack }) {
             >
               User Agreement
             </span>
-            . I confirm I am 25 years of age or older and accept responsibility for managing my family's account.
+            . I confirm I am 25 years of age or older and accept responsibility for managing my {form.role === 'teacher' ? 'teacher' : "family's"} account.
           </div>
         </div>
 
