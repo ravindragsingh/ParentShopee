@@ -199,6 +199,7 @@ class DBReadingMaterial(Base):
     description = Column(String, default="")
     url         = Column(String, nullable=True)
     topic       = Column(String, nullable=True, index=True)
+    grade       = Column(Integer, nullable=True)   # class/grade — required whenever questions are attached
     questions   = Column(String, nullable=True)   # optional JSON list of {question, answers: [...]}, same shape as math topics
     created_at  = Column(String, nullable=False)
 

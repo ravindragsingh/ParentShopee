@@ -178,6 +178,7 @@ class MaterialCreateBody(BaseModel):
     description: Optional[str] = ""
     url: Optional[str] = None
     topic: Optional[str] = None
+    grade: Optional[int] = None
     questions: Optional[List[MaterialQuestionBody]] = None
 
 class MaterialShareBody(BaseModel):

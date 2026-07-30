@@ -171,6 +171,7 @@ export const api = {
 
   // Reading materials
   createMaterial:     (body)               => request('POST',   '/api/materials', body),
+  updateMaterial:     (id, body)           => request('PUT',    `/api/materials/${id}`, body),
   getMaterials:       (topic)              => request('GET',    `/api/materials${topic ? `?topic=${encodeURIComponent(topic)}` : ''}`),
   deleteMaterial:     (id)                 => request('DELETE', `/api/materials/${id}`),
   shareMaterial:      (id, classId)        => request('POST',   `/api/materials/${id}/share`, { classId }),

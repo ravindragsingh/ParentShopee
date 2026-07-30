@@ -108,6 +108,7 @@ def startup():
             ("math_assignments", "source",            "VARCHAR"),
             ("reading_materials", "questions",         "VARCHAR"),
             ("math_topics",      "subject",            "VARCHAR"),
+            ("reading_materials", "grade",              "INTEGER"),
         ]:
             try:
                 if "sqlite" in str(engine.url):

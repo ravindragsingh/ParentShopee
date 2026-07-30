@@ -185,7 +185,7 @@ def material_dict(m: DBReadingMaterial, shared_class_ids: list = None, shared_ki
     """Teacher-facing view — includes full question answers since they authored them."""
     questions = json.loads(m.questions) if m.questions else []
     return {"id": m.id, "teacherId": m.teacher_id, "title": m.title, "description": m.description,
-            "url": m.url, "topic": m.topic, "createdAt": m.created_at,
+            "url": m.url, "topic": m.topic, "grade": m.grade, "createdAt": m.created_at,
             "questions": questions, "questionCount": len(questions),
             "sharedClassIds": shared_class_ids or [], "sharedKidIds": shared_kid_ids or []}
 
@@ -195,7 +195,7 @@ def material_for_kid_dict(m: DBReadingMaterial, submission=None) -> dict:
     submitted = submission is not None
     return {
         "id": m.id, "title": m.title, "description": m.description, "url": m.url, "topic": m.topic,
-        "createdAt": m.created_at, "questionCount": len(questions),
+        "grade": m.grade, "createdAt": m.created_at, "questionCount": len(questions),
         "questions": [
             {"question": q["question"], "answer": q["answers"][0] if submitted else None}
             for q in questions

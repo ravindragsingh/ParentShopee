@@ -623,17 +623,138 @@ function MaterialShareControls({ material, classes, students, onChanged }) {
   )
 }
 
+const GRADE_OPTIONS = Array.from({ length: 12 }, (_, i) => i + 1)
+
+function QuestionRowsEditor({ rows, onChange }) {
+  function update(i, field, value) {
+    onChange(rows.map((r, idx) => (idx === i ? { ...r, [field]: value } : r)))
+  }
+  function add() {
+    onChange([...rows, { question: '', answers: '' }])
+  }
+  function remove(i) {
+    onChange(rows.filter((_, idx) => idx !== i))
+  }
+  return (
+    <div>
+      {rows.map((q, i) => (
+        <div key={i} style={{ display: 'flex', gap: 6, marginBottom: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+          <input value={q.question} onChange={e => update(i, 'question', e.target.value)} placeholder="Question" style={{ flex: '2 1 200px' }} />
+          <input value={q.answers} onChange={e => update(i, 'answers', e.target.value)} placeholder="Accepted answers, comma-separated *" style={{ flex: '1 1 180px' }} />
+          <button type="button" className="btn btn-red btn-sm" onClick={() => remove(i)}>✕</button>
+        </div>
+      ))}
+      <button type="button" className="btn btn-outline btn-sm" onClick={add}>+ Add Question</button>
+    </div>
+  )
+}
+
+// Every non-empty row needs BOTH a question and an answer; returns
+// [cleanedQuestions, errorMessage] — errorMessage is null when valid.
+function validateQuestionRows(rows) {
+  const nonEmpty = rows.filter(r => r.question.trim() || r.answers.trim())
+  for (const r of nonEmpty) {
+    if (!r.question.trim()) return [null, 'Every question needs question text.']
+    if (!r.answers.trim()) return [null, `"${r.question}" needs at least one accepted answer.`]
+  }
+  return [nonEmpty.map(r => ({ question: r.question.trim(), answers: r.answers.split(',').map(a => a.trim()).filter(Boolean) })), null]
+}
+
+function MaterialEditForm({ material, onSaved, onCancel }) {
+  const [title, setTitle] = useState(material.title)
+  const [description, setDescription] = useState(material.description || '')
+  const [url, setUrl] = useState(material.url || '')
+  const [topic, setTopic] = useState(material.topic || '')
+  const [grade, setGrade] = useState(material.grade ? String(material.grade) : '')
+  const [questions, setQuestions] = useState(
+    (material.questions || []).map(q => ({ question: q.question, answers: (q.answers || []).join(', ') }))
+  )
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSave(e) {
+    e.preventDefault()
+    if (!title.trim()) { setError('Title is required.'); return }
+    const [cleanQuestions, qError] = validateQuestionRows(questions)
+    if (qError) { setError(qError); return }
+    if (cleanQuestions.length > 0 && !grade) { setError('Class is required when adding practice questions.'); return }
+    setSaving(true); setError('')
+    try {
+      await api.updateMaterial(material.id, {
+        title: title.trim(), description: description.trim(), url: url.trim() || null, topic: topic.trim() || null,
+        grade: grade ? Number(grade) : null,
+        questions: cleanQuestions.length ? cleanQuestions : undefined,
+      })
+      onSaved()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSave} style={{ marginTop: 10, paddingTop: 10, borderTop: '1px dashed #e2e8f0' }}>
+      {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+      <div className="form-row">
+        <div className="form-group" style={{ flex: 2 }}>
+          <label>Title *</label>
+          <input value={title} onChange={e => setTitle(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label>Class {questions.some(q => q.question.trim() || q.answers.trim()) && '*'}</label>
+          <select value={grade} onChange={e => setGrade(e.target.value)}>
+            <option value="">—</option>
+            {GRADE_OPTIONS.map(g => <option key={g} value={g}>Class {g}</option>)}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Topic</label>
+          <input value={topic} onChange={e => setTopic(e.target.value)} />
+        </div>
+      </div>
+      <div className="form-group" style={{ marginBottom: 10 }}>
+        <label>Description</label>
+        <input value={description} onChange={e => setDescription(e.target.value)} />
+      </div>
+      <div className="form-group" style={{ marginBottom: 12 }}>
+        <label>Link</label>
+        <input value={url} onChange={e => setUrl(e.target.value)} />
+      </div>
+      <div className="form-group" style={{ marginBottom: 12 }}>
+        <label>Practice Questions</label>
+        <QuestionRowsEditor rows={questions} onChange={setQuestions} />
+      </div>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button type="submit" className="btn btn-primary btn-sm" disabled={saving}>{saving ? 'Saving...' : 'Save Changes'}</button>
+        <button type="button" className="btn btn-outline btn-sm" onClick={onCancel}>Cancel</button>
+      </div>
+    </form>
+  )
+}
+
 function MaterialsTab({ classes, students }) {
   const [materials, setMaterials] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [url, setUrl] = useState('')
-  const [topic, setTopic] = useState('')
-  const [questions, setQuestions] = useState([])
-  const [adding, setAdding] = useState(false)
-  const [addError, setAddError] = useState('')
+  const [editingId, setEditingId] = useState(null)
+
+  // "Questions" form (quiz-style content — Class + questions are mandatory)
+  const [qTitle, setQTitle] = useState('')
+  const [qTopic, setQTopic] = useState('')
+  const [qUrl, setQUrl] = useState('')
+  const [qGrade, setQGrade] = useState('')
+  const [qQuestions, setQQuestions] = useState([{ question: '', answers: '' }])
+  const [qAdding, setQAdding] = useState(false)
+  const [qError, setQError] = useState('')
+
+  // "Study Material" form (plain content — no questions, no Class requirement)
+  const [sTitle, setSTitle] = useState('')
+  const [sDescription, setSDescription] = useState('')
+  const [sUrl, setSUrl] = useState('')
+  const [sTopic, setSTopic] = useState('')
+  const [sAdding, setSAdding] = useState(false)
+  const [sError, setSError] = useState('')
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -648,39 +769,45 @@ function MaterialsTab({ classes, students }) {
 
   useEffect(() => { load() }, [load])
 
-  function addQuestionRow() {
-    setQuestions(qs => [...qs, { question: '', answers: '' }])
-  }
-  function updateQuestionRow(i, field, value) {
-    setQuestions(qs => qs.map((q, idx) => (idx === i ? { ...q, [field]: value } : q)))
-  }
-  function removeQuestionRow(i) {
-    setQuestions(qs => qs.filter((_, idx) => idx !== i))
-  }
-
-  async function handleAdd(e) {
+  async function handleAddQuestions(e) {
     e.preventDefault()
-    if (!title.trim()) { setAddError('Title is required.'); return }
-    const cleanQuestions = questions
-      .filter(q => q.question.trim() && q.answers.trim())
-      .map(q => ({ question: q.question.trim(), answers: q.answers.split(',').map(a => a.trim()).filter(Boolean) }))
-    setAdding(true); setAddError('')
+    if (!qTitle.trim()) { setQError('Title is required.'); return }
+    const [cleanQuestions, qRowError] = validateQuestionRows(qQuestions)
+    if (qRowError) { setQError(qRowError); return }
+    if (cleanQuestions.length === 0) { setQError('Add at least one question.'); return }
+    if (!qGrade) { setQError('Class is required when adding practice questions.'); return }
+    setQAdding(true); setQError('')
     try {
       await api.createMaterial({
-        title: title.trim(), description: description.trim(), url: url.trim() || null, topic: topic.trim() || null,
-        questions: cleanQuestions.length ? cleanQuestions : undefined,
+        title: qTitle.trim(), description: '', url: qUrl.trim() || null, topic: qTopic.trim() || null,
+        grade: Number(qGrade), questions: cleanQuestions,
       })
-      setTitle(''); setDescription(''); setUrl(''); setTopic(''); setQuestions([])
+      setQTitle(''); setQTopic(''); setQUrl(''); setQGrade(''); setQQuestions([{ question: '', answers: '' }])
       load()
     } catch (err) {
-      setAddError(err.message)
+      setQError(err.message)
     } finally {
-      setAdding(false)
+      setQAdding(false)
+    }
+  }
+
+  async function handleAddStudyMaterial(e) {
+    e.preventDefault()
+    if (!sTitle.trim()) { setSError('Title is required.'); return }
+    setSAdding(true); setSError('')
+    try {
+      await api.createMaterial({ title: sTitle.trim(), description: sDescription.trim(), url: sUrl.trim() || null, topic: sTopic.trim() || null })
+      setSTitle(''); setSDescription(''); setSUrl(''); setSTopic('')
+      load()
+    } catch (err) {
+      setSError(err.message)
+    } finally {
+      setSAdding(false)
     }
   }
 
   async function handleDelete(id) {
-    if (!window.confirm('Delete this reading material? It will be removed from any classes or students it was shared with.')) return
+    if (!window.confirm('Delete this material? It will be removed from any classes or students it was shared with.')) return
     try {
       await api.deleteMaterial(id)
       load()
@@ -691,40 +818,68 @@ function MaterialsTab({ classes, students }) {
 
   return (
     <div>
-      <div className="form-card" style={{ marginBottom: 16 }}>
-        <div className="form-title">➕ Add Reading Material</div>
-        {addError && <div className="error-msg">{addError}</div>}
-        <form onSubmit={handleAdd}>
+      <div className="form-card" style={{ marginBottom: 16, border: '1.5px solid #ddd6fe', background: 'linear-gradient(135deg, #f5f3ff, #ffffff)' }}>
+        <div className="form-title">❓ Questions</div>
+        <p style={{ fontSize: '0.82rem', color: '#64748b', marginTop: -8, marginBottom: 14 }}>
+          Create a set of practice questions students can answer for points.
+        </p>
+        {qError && <div className="error-msg">{qError}</div>}
+        <form onSubmit={handleAddQuestions}>
           <div className="form-row">
             <div className="form-group" style={{ flex: 2 }}>
               <label>Title *</label>
-              <input value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Fun with Fractions" />
+              <input value={qTitle} onChange={e => setQTitle(e.target.value)} placeholder="e.g. Quick Fractions Quiz" />
+            </div>
+            <div className="form-group">
+              <label>Class *</label>
+              <select value={qGrade} onChange={e => setQGrade(e.target.value)}>
+                <option value="">Select class</option>
+                {GRADE_OPTIONS.map(g => <option key={g} value={g}>Class {g}</option>)}
+              </select>
             </div>
             <div className="form-group">
               <label>Topic</label>
-              <input value={topic} onChange={e => setTopic(e.target.value)} placeholder="e.g. fractions" />
+              <input value={qTopic} onChange={e => setQTopic(e.target.value)} placeholder="e.g. fractions" />
+            </div>
+          </div>
+          <div className="form-group" style={{ marginBottom: 12 }}>
+            <label>Link (optional)</label>
+            <input value={qUrl} onChange={e => setQUrl(e.target.value)} placeholder="https://..." />
+          </div>
+          <div className="form-group" style={{ marginBottom: 12 }}>
+            <label>Questions * <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.78rem' }}>(each one needs at least one accepted answer)</span></label>
+            <QuestionRowsEditor rows={qQuestions} onChange={setQQuestions} />
+          </div>
+          <button type="submit" className="btn btn-primary" disabled={qAdding}>{qAdding ? 'Adding...' : 'Add Questions'}</button>
+        </form>
+      </div>
+
+      <div className="form-card" style={{ marginBottom: 16 }}>
+        <div className="form-title">📖 Add Study Material</div>
+        <p style={{ fontSize: '0.82rem', color: '#64748b', marginTop: -8, marginBottom: 14 }}>
+          Share a reading link or note — no questions attached.
+        </p>
+        {sError && <div className="error-msg">{sError}</div>}
+        <form onSubmit={handleAddStudyMaterial}>
+          <div className="form-row">
+            <div className="form-group" style={{ flex: 2 }}>
+              <label>Title *</label>
+              <input value={sTitle} onChange={e => setSTitle(e.target.value)} placeholder="e.g. Fun with Fractions" />
+            </div>
+            <div className="form-group">
+              <label>Topic</label>
+              <input value={sTopic} onChange={e => setSTopic(e.target.value)} placeholder="e.g. fractions" />
             </div>
           </div>
           <div className="form-group" style={{ marginBottom: 10 }}>
             <label>Description</label>
-            <input value={description} onChange={e => setDescription(e.target.value)} placeholder="Optional details..." />
+            <input value={sDescription} onChange={e => setSDescription(e.target.value)} placeholder="Optional details..." />
           </div>
           <div className="form-group" style={{ marginBottom: 12 }}>
             <label>Link (optional)</label>
-            <input value={url} onChange={e => setUrl(e.target.value)} placeholder="https://..." />
+            <input value={sUrl} onChange={e => setSUrl(e.target.value)} placeholder="https://..." />
           </div>
-          <div className="form-group" style={{ marginBottom: 12 }}>
-            <label>Practice Questions <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.78rem' }}>(optional — students can answer these for points)</span></label>
-            {questions.map((q, i) => (
-              <div key={i} style={{ display: 'flex', gap: 6, marginBottom: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-                <input value={q.question} onChange={e => updateQuestionRow(i, 'question', e.target.value)} placeholder="Question" style={{ flex: '2 1 200px' }} />
-                <input value={q.answers} onChange={e => updateQuestionRow(i, 'answers', e.target.value)} placeholder="Accepted answers, comma-separated" style={{ flex: '1 1 180px' }} />
-                <button type="button" className="btn btn-red btn-sm" onClick={() => removeQuestionRow(i)}>✕</button>
-              </div>
-            ))}
-            <button type="button" className="btn btn-outline btn-sm" onClick={addQuestionRow}>+ Add Question</button>
-          </div>
-          <button type="submit" className="btn btn-primary" disabled={adding}>{adding ? 'Adding...' : 'Add Material'}</button>
+          <button type="submit" className="btn btn-primary" disabled={sAdding}>{sAdding ? 'Adding...' : 'Add Study Material'}</button>
         </form>
       </div>
 
@@ -738,7 +893,7 @@ function MaterialsTab({ classes, students }) {
       {loading ? (
         <div className="loading-text">Loading...</div>
       ) : materials.length === 0 ? (
-        <div className="empty-text">No reading material {search ? 'matches your search' : 'yet — add some above'}.</div>
+        <div className="empty-text">No material {search ? 'matches your search' : 'yet — add some above'}.</div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {materials.map(m => (
@@ -747,15 +902,25 @@ function MaterialsTab({ classes, students }) {
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 700, color: '#1e293b' }}>
                     {m.title}
+                    {m.grade && <span style={{ marginLeft: 8, fontSize: '0.72rem', background: '#eef2ff', color: '#4f46e5', borderRadius: 6, padding: '1px 7px', fontWeight: 600 }}>Class {m.grade}</span>}
                     {m.topic && <span style={{ marginLeft: 8, fontSize: '0.72rem', background: '#f1f5f9', color: '#64748b', borderRadius: 6, padding: '1px 7px', fontWeight: 600 }}>{m.topic}</span>}
                     {m.questionCount > 0 && <span style={{ marginLeft: 8, fontSize: '0.72rem', background: '#ede9fe', color: '#7c3aed', borderRadius: 6, padding: '1px 7px', fontWeight: 600 }}>❓ {m.questionCount} questions</span>}
                   </div>
                   {m.description && <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 4 }}>{m.description}</div>}
                   {m.url && <a href={m.url} target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: '#4f46e5', display: 'inline-block', marginTop: 6 }}>🔗 {m.url}</a>}
                 </div>
-                <button className="btn btn-red btn-sm" onClick={() => handleDelete(m.id)}>🗑️</button>
+                <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                  <button className="btn btn-outline btn-sm" onClick={() => setEditingId(editingId === m.id ? null : m.id)}>
+                    {editingId === m.id ? 'Close' : '✏️ Edit'}
+                  </button>
+                  <button className="btn btn-red btn-sm" onClick={() => handleDelete(m.id)}>🗑️</button>
+                </div>
               </div>
-              <MaterialShareControls material={m} classes={classes} students={students} onChanged={load} />
+              {editingId === m.id ? (
+                <MaterialEditForm material={m} onSaved={() => { setEditingId(null); load() }} onCancel={() => setEditingId(null)} />
+              ) : (
+                <MaterialShareControls material={m} classes={classes} students={students} onChanged={load} />
+              )}
             </div>
           ))}
         </div>

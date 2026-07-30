@@ -24,25 +24,63 @@ def _get_teacher_material(db: Session, teacher_id: str, material_id: str) -> DBR
     return m
 
 
+def _validate_questions(questions) -> str:
+    """Every question needs text AND at least one accepted answer — returns the
+    JSON string to store, or None if no questions were given."""
+    if not questions:
+        return None
+    cleaned = []
+    for q in questions:
+        qtext = q.question.strip()
+        answers = [a.strip() for a in (q.answers or []) if a.strip()]
+        if not qtext:
+            fail("Every question needs question text")
+        if not answers:
+            fail(f"Question \"{qtext}\" needs at least one accepted answer")
+        cleaned.append({"question": qtext, "answers": answers})
+    return json.dumps(cleaned)
+
+
+def _material_shares(db: Session, material_id: str) -> dict:
+    class_shares = db.query(DBReadingMaterialShare).filter(DBReadingMaterialShare.material_id == material_id).all()
+    kid_shares = db.query(DBReadingMaterialKidShare).filter(DBReadingMaterialKidShare.material_id == material_id).all()
+    return {"shared_class_ids": [s.class_id for s in class_shares], "shared_kid_ids": [s.kid_id for s in kid_shares]}
+
+
 @router.post("/api/materials")
 def create_material(body: MaterialCreateBody, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
     if len(body.title.strip()) < 2:
         fail("Title must be at least 2 characters")
-    questions = None
-    if body.questions:
-        for q in body.questions:
-            if not q.question.strip() or not q.answers or not any(a.strip() for a in q.answers):
-                fail("Each question needs text and at least one accepted answer")
-        questions = json.dumps([{"question": q.question.strip(), "answers": [a.strip() for a in q.answers if a.strip()]} for q in body.questions])
+    if body.questions and body.grade is None:
+        fail("Class is required when adding practice questions")
+    questions = _validate_questions(body.questions)
     material = DBReadingMaterial(
         id=str(uuid4()), teacher_id=user.id, title=body.title.strip(),
         description=(body.description or "").strip(), url=(body.url or "").strip() or None,
-        topic=(body.topic or "").strip() or None, questions=questions, created_at=now(),
+        topic=(body.topic or "").strip() or None, grade=body.grade, questions=questions, created_at=now(),
     )
     db.add(material)
     db.commit()
     db.refresh(material)
     return ok(material_dict(material), 201)
+
+
+@router.put("/api/materials/{material_id}")
+def update_material(material_id: str, body: MaterialCreateBody, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
+    material = _get_teacher_material(db, user.id, material_id)
+    if len(body.title.strip()) < 2:
+        fail("Title must be at least 2 characters")
+    if body.questions and body.grade is None:
+        fail("Class is required when adding practice questions")
+    material.questions = _validate_questions(body.questions)
+    material.title = body.title.strip()
+    material.description = (body.description or "").strip()
+    material.url = (body.url or "").strip() or None
+    material.topic = (body.topic or "").strip() or None
+    material.grade = body.grade
+    db.commit()
+    db.refresh(material)
+    return ok(material_dict(material, **_material_shares(db, material.id)))
 
 
 @router.get("/api/materials")
@@ -55,11 +93,7 @@ def list_materials(topic: str = None, db: Session = Depends(get_db), user: DBUse
             m for m in materials
             if needle in (m.topic or "").lower() or needle in m.title.lower() or needle in (m.description or "").lower()
         ]
-    result = []
-    for m in materials:
-        class_shares = db.query(DBReadingMaterialShare).filter(DBReadingMaterialShare.material_id == m.id).all()
-        kid_shares = db.query(DBReadingMaterialKidShare).filter(DBReadingMaterialKidShare.material_id == m.id).all()
-        result.append(material_dict(m, shared_class_ids=[s.class_id for s in class_shares], shared_kid_ids=[s.kid_id for s in kid_shares]))
+    result = [material_dict(m, **_material_shares(db, m.id)) for m in materials]
     return ok(result)
 
 
