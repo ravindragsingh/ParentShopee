@@ -169,11 +169,9 @@ export const api = {
   getAllStudents:     ()                   => request('GET',    '/api/classes/students'),
   getStudentActivity: (kidId)              => request('GET',    `/api/classes/students/${kidId}/activity`),
 
-  // Reading materials
-  createMaterial:     (body)               => request('POST',   '/api/materials', body),
-  updateMaterial:     (id, body)           => request('PUT',    `/api/materials/${id}`, body),
-  getMaterials:       (topic)              => request('GET',    `/api/materials${topic ? `?topic=${encodeURIComponent(topic)}` : ''}`),
-  deleteMaterial:     (id)                 => request('DELETE', `/api/materials/${id}`),
+  // Reading materials — the catalog itself lives in Strapi (see cms/); teachers
+  // browse it and share items to their own classes/students.
+  getMaterialCatalog: (topic, grade)       => request('GET',    `/api/materials/catalog?${new URLSearchParams({ ...(topic ? { topic } : {}), ...(grade ? { grade } : {}) })}`),
   shareMaterial:      (id, classId)        => request('POST',   `/api/materials/${id}/share`, { classId }),
   unshareMaterial:    (id, classId)        => request('DELETE', `/api/materials/${id}/share/${classId}`),
   shareMaterialWithStudent:   (id, kidId)  => request('POST',   `/api/materials/${id}/share-student`, { kidId }),

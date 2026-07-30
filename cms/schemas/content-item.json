@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "content_items",
+  "info": {
+    "singularName": "content-item",
+    "pluralName": "content-items",
+    "displayName": "Content Item",
+    "description": "Grade-wise learning content — Math topics and teacher study materials, unified under one type so future subjects slot in the same way."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subject": {
+      "type": "string",
+      "required": true,
+      "default": "Maths"
+    },
+    "grade": {
+      "type": "integer",
+      "required": true
+    },
+    "topic": {
+      "type": "string"
+    },
+    "emoji": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "enumeration",
+      "enum": ["topic", "material"],
+      "required": true,
+      "default": "material"
+    },
+    "explanation": {
+      "type": "text"
+    },
+    "description": {
+      "type": "text"
+    },
+    "url": {
+      "type": "string"
+    },
+    "questions": {
+      "type": "component",
+      "repeatable": true,
+      "component": "content.question"
+    }
+  }
+}

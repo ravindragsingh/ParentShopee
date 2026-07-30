@@ -38,3 +38,10 @@ LIMIT_EXTRA_SHOP_ITEMS = 10
 
 ACTIVATION_TOKEN_TTL_HOURS = 24
 RESET_TOKEN_TTL_HOURS = 1
+
+# ── Strapi CMS (Math topics + teacher study materials) ──────────────────────────
+# The content catalog itself lives in Strapi now, not this app's database — see
+# ../cms/README.md for setup. STRAPI_API_TOKEN needs at least read access to the
+# Content Item collection type.
+STRAPI_URL       = os.getenv("STRAPI_URL", "http://localhost:1337")
+STRAPI_API_TOKEN = os.getenv("STRAPI_API_TOKEN")

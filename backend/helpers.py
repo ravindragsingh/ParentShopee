@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
 from models import (
-    DBChore, DBClass, DBClassMembership, DBDailyChoreItem, DBMathAssignment, DBMathTopic,
-    DBReadingMaterial, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser,
+    DBChore, DBClass, DBClassMembership, DBDailyChoreItem, DBMathAssignment,
+    DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser,
 )
 from responses import fail
 
@@ -141,23 +141,25 @@ def daily_chore_dict(item: DBDailyChoreItem) -> dict:
             "imageEmoji": item.image_emoji, "points": item.points,
             "orderIndex": item.order_index, "status": item.status}
 
-def math_topic_dict(t: DBMathTopic) -> dict:
-    questions = json.loads(t.questions)
-    return {"id": t.id, "title": t.title, "emoji": t.emoji, "grade": t.grade,
-            "subject": t.subject or "Maths",
-            "explanation": t.explanation,
+def math_topic_dict(t: dict) -> dict:
+    """t is a plain dict from strapi_client (list_content/get_content)."""
+    questions = t.get("questions") or []
+    return {"id": t["id"], "title": t["title"], "emoji": t.get("emoji"), "grade": t.get("grade"),
+            "subject": t.get("subject") or "Maths",
+            "explanation": t.get("explanation"),
             "questions": [{"question": q["question"]} for q in questions],
             "questionCount": len(questions)}
 
-def math_assignment_dict(a: DBMathAssignment, topic: DBMathTopic, class_name: str = None) -> dict:
-    questions = json.loads(topic.questions)
+def math_assignment_dict(a: DBMathAssignment, topic: dict, class_name: str = None) -> dict:
+    """topic is a plain dict from strapi_client, not a DBMathTopic row."""
+    questions = topic.get("questions") or []
     submitted = a.submitted_at is not None
     return {
         "id": a.id, "kidId": a.kid_id, "assignedDate": a.assigned_date, "createdAt": a.created_at,
         "dueDate": a.due_date, "classId": a.class_id, "className": class_name,
         "source": a.source or "guardian",
         "topic": {
-            "id": topic.id, "title": topic.title, "emoji": topic.emoji, "explanation": topic.explanation,
+            "id": topic["id"], "title": topic["title"], "emoji": topic.get("emoji"), "explanation": topic.get("explanation"),
             "questions": [
                 {"question": q["question"], "answer": q["answers"][0] if submitted else None}
                 for q in questions
@@ -181,21 +183,23 @@ def membership_dict(m: DBClassMembership, kid: DBUser = None, class_: DBClass = 
         "guardianName": guardian.name if guardian else None,
     }
 
-def material_dict(m: DBReadingMaterial, shared_class_ids: list = None, shared_kid_ids: list = None) -> dict:
-    """Teacher-facing view — includes full question answers since they authored them."""
-    questions = json.loads(m.questions) if m.questions else []
-    return {"id": m.id, "teacherId": m.teacher_id, "title": m.title, "description": m.description,
-            "url": m.url, "topic": m.topic, "grade": m.grade, "createdAt": m.created_at,
+def material_dict(m: dict, shared_class_ids: list = None, shared_kid_ids: list = None) -> dict:
+    """Catalog view of a Strapi-backed study material (m is a plain dict from
+    strapi_client) — includes full question answers since this is shared
+    curriculum content, not a student's own submission."""
+    questions = m.get("questions") or []
+    return {"id": m["id"], "title": m["title"], "description": m.get("description"),
+            "url": m.get("url"), "topic": m.get("topic"), "grade": m.get("grade"), "subject": m.get("subject"),
             "questions": questions, "questionCount": len(questions),
             "sharedClassIds": shared_class_ids or [], "sharedKidIds": shared_kid_ids or []}
 
-def material_for_kid_dict(m: DBReadingMaterial, submission=None) -> dict:
+def material_for_kid_dict(m: dict, submission=None) -> dict:
     """Kid/guardian-facing view — question answers hidden until the kid submits."""
-    questions = json.loads(m.questions) if m.questions else []
+    questions = m.get("questions") or []
     submitted = submission is not None
     return {
-        "id": m.id, "title": m.title, "description": m.description, "url": m.url, "topic": m.topic,
-        "grade": m.grade, "createdAt": m.created_at, "questionCount": len(questions),
+        "id": m["id"], "title": m["title"], "description": m.get("description"), "url": m.get("url"), "topic": m.get("topic"),
+        "grade": m.get("grade"), "questionCount": len(questions),
         "questions": [
             {"question": q["question"], "answer": q["answers"][0] if submitted else None}
             for q in questions

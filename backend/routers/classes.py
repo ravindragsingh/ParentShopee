@@ -3,6 +3,7 @@ import string
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
+import strapi_client
 from fastapi import APIRouter, Depends
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -11,8 +12,8 @@ from database import get_db
 from deps import require_guardian, require_teacher
 from helpers import class_dict, get_family_id, get_teacher_student, membership_dict, now
 from models import (
-    DBClass, DBClassMembership, DBMaterialSubmission, DBMathAssignment, DBMathTopic,
-    DBReadingMaterial, DBUser,
+    DBClass, DBClassMembership, DBMaterialSubmission, DBMathAssignment,
+    DBReadingMaterialKidShare, DBReadingMaterialShare, DBUser,
 )
 from responses import fail, ok
 from schemas import ClassCreateBody, ClassJoinBody
@@ -122,8 +123,8 @@ def get_student_activity(kid_id: str, db: Session = Depends(get_db), user: DBUse
         or_(*source_conditions),
     ).all()
     for a in assignments:
-        topic = db.query(DBMathTopic).filter(DBMathTopic.id == a.topic_id).first()
-        title = topic.title if topic else "a Math topic"
+        topic = strapi_client.get_content(a.topic_id)
+        title = topic["title"] if topic else "a Math topic"
         if a.created_at and a.created_at >= cutoff:
             events.append({"type": "math_assigned", "timestamp": a.created_at, "text": f"Assigned \"{title}\""})
         if a.submitted_at and a.submitted_at >= cutoff:
@@ -132,15 +133,19 @@ def get_student_activity(kid_id: str, db: Session = Depends(get_db), user: DBUse
                 "text": f"Completed \"{title}\" — {a.score} correct, +{a.points_earned} pts",
             })
 
-    materials = db.query(DBReadingMaterial).filter(DBReadingMaterial.teacher_id == user.id).all()
-    material_by_id = {m.id: m for m in materials}
+    # Materials aren't teacher-owned anymore (Strapi is the catalog) — a
+    # material counts as "this teacher's" if they shared it with one of
+    # their own classes or students.
+    class_shares = db.query(DBReadingMaterialShare).filter(DBReadingMaterialShare.class_id.in_(class_ids)).all() if class_ids else []
+    kid_shares = db.query(DBReadingMaterialKidShare).filter(DBReadingMaterialKidShare.kid_id == kid.id).all()
+    material_ids = {s.material_id for s in class_shares} | {s.material_id for s in kid_shares}
     submissions = db.query(DBMaterialSubmission).filter(
-        DBMaterialSubmission.kid_id == kid.id, DBMaterialSubmission.material_id.in_(list(material_by_id.keys())),
-    ).all() if material_by_id else []
+        DBMaterialSubmission.kid_id == kid.id, DBMaterialSubmission.material_id.in_(material_ids),
+    ).all() if material_ids else []
     for s in submissions:
         if s.submitted_at and s.submitted_at >= cutoff:
-            material = material_by_id.get(s.material_id)
-            title = material.title if material else "reading material"
+            material = strapi_client.get_content(s.material_id)
+            title = material["title"] if material else "reading material"
             events.append({
                 "type": "material_submitted", "timestamp": s.submitted_at,
                 "text": f"Completed \"{title}\" — {s.score} correct, +{s.points_earned} pts",

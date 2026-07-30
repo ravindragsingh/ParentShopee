@@ -169,18 +169,6 @@ class ClassJoinBody(BaseModel):
     joinCode: str
     kidId: str
 
-class MaterialQuestionBody(BaseModel):
-    question: str
-    answers: List[str]
-
-class MaterialCreateBody(BaseModel):
-    title: str
-    description: Optional[str] = ""
-    url: Optional[str] = None
-    topic: Optional[str] = None
-    grade: Optional[int] = None
-    questions: Optional[List[MaterialQuestionBody]] = None
-
 class MaterialShareBody(BaseModel):
     classId: str
 

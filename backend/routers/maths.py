@@ -1,14 +1,15 @@
+import json
 from datetime import date
 from uuid import uuid4
-import json
 
+import strapi_client
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from database import get_db
 from deps import require_auth, require_guardian, require_guardian_or_teacher, require_teacher
 from helpers import get_family_id, get_teacher_student, grade_answers, math_assignment_dict, math_topic_dict, now
-from models import DBClass, DBClassMembership, DBMathAssignment, DBMathTopic, DBTransaction, DBUser, DBWallet
+from models import DBClass, DBClassMembership, DBMathAssignment, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import MathAssignBody, MathAssignClassBody, MathAssignStudentBody, MathSubmitBody
 
@@ -32,12 +33,7 @@ def _resolve_target_kid(db: Session, user: DBUser, kid_id_param: str = None) -> 
 
 @router.get("/api/maths/topics")
 def list_math_topics(topic: str = None, grade: int = None, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian_or_teacher)):
-    topics = db.query(DBMathTopic).order_by(DBMathTopic.grade, DBMathTopic.order_index).all()
-    if grade is not None:
-        topics = [t for t in topics if t.grade == grade]
-    if topic:
-        needle = topic.strip().lower()
-        topics = [t for t in topics if needle in t.title.lower() or needle in t.explanation.lower()]
+    topics = strapi_client.list_content(kind="topic", grade=grade, search=topic)
     return ok([math_topic_dict(t) for t in topics])
 
 
@@ -49,7 +45,7 @@ def get_maths(kidId: str = None, db: Session = Depends(get_db), user: DBUser = D
     ).all()
     results = []
     for a in assignments:
-        topic = db.query(DBMathTopic).filter(DBMathTopic.id == a.topic_id).first()
+        topic = strapi_client.get_content(a.topic_id)
         if not topic:
             continue
         class_name = None
@@ -65,7 +61,7 @@ def get_maths(kidId: str = None, db: Session = Depends(get_db), user: DBUser = D
 @router.post("/api/maths/assign")
 def assign_math_topic(body: MathAssignBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     kid = _get_family_kid(db, get_family_id(user), body.kidId)
-    topic = db.query(DBMathTopic).filter(DBMathTopic.id == body.topicId).first()
+    topic = strapi_client.get_content(body.topicId)
     if not topic:
         fail("Math topic not found", 404)
     today = date.today().isoformat()
@@ -76,7 +72,7 @@ def assign_math_topic(body: MathAssignBody, db: Session = Depends(get_db), user:
     if existing:
         fail(f"You've already added a Math topic for {kid.name} today. Try again tomorrow.", 400)
     assignment = DBMathAssignment(
-        id=str(uuid4()), kid_id=kid.id, topic_id=topic.id, family_id=get_family_id(user),
+        id=str(uuid4()), kid_id=kid.id, topic_id=topic["id"], family_id=get_family_id(user),
         assigned_date=today, added_by=user.id, created_at=now(), source="guardian",
     )
     db.add(assignment)
@@ -90,7 +86,7 @@ def assign_math_topic_to_class(body: MathAssignClassBody, db: Session = Depends(
     cls = db.query(DBClass).filter(DBClass.id == body.classId, DBClass.teacher_id == user.id).first()
     if not cls:
         fail("Class not found", 404)
-    topic = db.query(DBMathTopic).filter(DBMathTopic.id == body.topicId).first()
+    topic = strapi_client.get_content(body.topicId)
     if not topic:
         fail("Math topic not found", 404)
 
@@ -109,13 +105,13 @@ def assign_math_topic_to_class(body: MathAssignClassBody, db: Session = Depends(
             continue
         dup = db.query(DBMathAssignment).filter(
             DBMathAssignment.kid_id == kid.id, DBMathAssignment.class_id == cls.id,
-            DBMathAssignment.topic_id == topic.id,
+            DBMathAssignment.topic_id == topic["id"],
         ).first()
         if dup:
             skipped_count += 1
             continue
         db.add(DBMathAssignment(
-            id=str(uuid4()), kid_id=kid.id, topic_id=topic.id, family_id=kid.guardian_id,
+            id=str(uuid4()), kid_id=kid.id, topic_id=topic["id"], family_id=kid.guardian_id,
             assigned_date=today, added_by=user.id, created_at=now(), source="teacher",
             class_id=cls.id, due_date=body.dueDate or None,
         ))
@@ -127,19 +123,19 @@ def assign_math_topic_to_class(body: MathAssignClassBody, db: Session = Depends(
 @router.post("/api/maths/assign-student")
 def assign_math_topic_to_student(body: MathAssignStudentBody, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
     kid = get_teacher_student(db, user.id, body.kidId)
-    topic = db.query(DBMathTopic).filter(DBMathTopic.id == body.topicId).first()
+    topic = strapi_client.get_content(body.topicId)
     if not topic:
         fail("Math topic not found", 404)
 
     dup = db.query(DBMathAssignment).filter(
-        DBMathAssignment.kid_id == kid.id, DBMathAssignment.topic_id == topic.id,
+        DBMathAssignment.kid_id == kid.id, DBMathAssignment.topic_id == topic["id"],
         DBMathAssignment.added_by == user.id, DBMathAssignment.class_id.is_(None),
     ).first()
     if dup:
         fail(f"You've already assigned this topic to {kid.name}")
 
     assignment = DBMathAssignment(
-        id=str(uuid4()), kid_id=kid.id, topic_id=topic.id, family_id=kid.guardian_id,
+        id=str(uuid4()), kid_id=kid.id, topic_id=topic["id"], family_id=kid.guardian_id,
         assigned_date=date.today().isoformat(), added_by=user.id, created_at=now(),
         source="teacher", due_date=body.dueDate or None,
     )
@@ -179,11 +175,11 @@ def submit_math_assignment(assignment_id: str, body: MathSubmitBody, db: Session
         fail("Not allowed to submit this assignment", 403)
     if assignment.submitted_at:
         fail("This topic has already been submitted")
-    topic = db.query(DBMathTopic).filter(DBMathTopic.id == assignment.topic_id).first()
+    topic = strapi_client.get_content(assignment.topic_id)
     if not topic:
         fail("Math topic not found", 404)
 
-    questions = json.loads(topic.questions)
+    questions = topic.get("questions") or []
     answers = body.answers or []
     if len(answers) != len(questions):
         fail(f"Expected {len(questions)} answers")
@@ -199,7 +195,7 @@ def submit_math_assignment(assignment_id: str, body: MathSubmitBody, db: Session
         wallet.balance += points
         db.add(DBTransaction(
             id=str(uuid4()), kid_id=user.id, type="earned", amount=points,
-            description=f"Maths: {topic.title} ({score}/{len(questions)} correct)", timestamp=now(),
+            description=f"Maths: {topic['title']} ({score}/{len(questions)} correct)", timestamp=now(),
         ))
 
     assignment.answers = json.dumps(answers)
