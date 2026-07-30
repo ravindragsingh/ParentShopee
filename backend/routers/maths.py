@@ -31,8 +31,10 @@ def _resolve_target_kid(db: Session, user: DBUser, kid_id_param: str = None) -> 
 
 
 @router.get("/api/maths/topics")
-def list_math_topics(topic: str = None, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian_or_teacher)):
-    topics = db.query(DBMathTopic).order_by(DBMathTopic.order_index).all()
+def list_math_topics(topic: str = None, grade: int = None, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian_or_teacher)):
+    topics = db.query(DBMathTopic).order_by(DBMathTopic.grade, DBMathTopic.order_index).all()
+    if grade is not None:
+        topics = [t for t in topics if t.grade == grade]
     if topic:
         needle = topic.strip().lower()
         topics = [t for t in topics if needle in t.title.lower() or needle in t.explanation.lower()]

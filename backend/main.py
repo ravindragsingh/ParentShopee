@@ -107,6 +107,7 @@ def startup():
             ("math_assignments", "due_date",           "VARCHAR"),
             ("math_assignments", "source",            "VARCHAR"),
             ("reading_materials", "questions",         "VARCHAR"),
+            ("math_topics",      "subject",            "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -159,6 +160,7 @@ def startup():
         # exist before teachers did); everything else predates teachers entirely.
         conn.execute(text("UPDATE math_assignments SET source='teacher' WHERE source IS NULL AND class_id IS NOT NULL"))
         conn.execute(text("UPDATE math_assignments SET source='guardian' WHERE source IS NULL"))
+        conn.execute(text("UPDATE math_topics SET subject='Maths' WHERE subject IS NULL"))
         # Migrate every family-profile account (kids, co-guardian, and now the primary
         # guardian too — every profile in the picker is PIN-gated) onto the PIN model:
         # generate a PIN for anyone who doesn't have one yet, and flag it so the

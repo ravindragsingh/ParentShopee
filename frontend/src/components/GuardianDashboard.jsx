@@ -13,6 +13,7 @@ import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
+import TopicPicker from './TopicPicker.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -434,7 +435,6 @@ function ChoresTab({ kids }) {
 
 function MathsTab({ kids }) {
   const [selectedKidId, setSelectedKidId] = useState(kids[0]?.id || '')
-  const [topics, setTopics] = useState([])
   const [maths, setMaths] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -444,10 +444,6 @@ function MathsTab({ kids }) {
   useEffect(() => {
     if (kids.length && !kids.some(k => k.id === selectedKidId)) setSelectedKidId(kids[0].id)
   }, [kids, selectedKidId])
-
-  useEffect(() => {
-    api.getMathTopics().then(setTopics).catch(() => {})
-  }, [])
 
   const loadMaths = useCallback(async () => {
     if (!selectedKidId) return
@@ -516,30 +512,22 @@ function MathsTab({ kids }) {
 
       <div className="form-card" style={{ border: '1.5px solid #ddd6fe', background: 'linear-gradient(135deg, #f5f3ff, #ffffff)' }}>
         <div className="form-title">➕ Assign Today's Math Topic{selectedKid && <> — {selectedKid.name}</>}</div>
-        {maths && !maths.canAddToday && (
-          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.85rem' }}>
-            You've already added a Math topic for {selectedKid?.name} today — come back tomorrow to add another.
-          </div>
-        )}
-        {assignError && <div className="error-msg" style={{ marginBottom: 10 }}>{assignError}</div>}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
-          {topics.map(t => (
-            <div key={t.id} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 14px', background: '#fff', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ fontSize: '1.6rem', marginBottom: 6 }}>{t.emoji}</div>
-              <div style={{ fontWeight: 700, color: '#1e293b', marginBottom: 4 }}>{t.title}</div>
-              <div style={{ fontSize: '0.78rem', color: '#64748b', marginBottom: 10, lineHeight: 1.4, flex: 1 }}>
-                {t.explanation.length > 110 ? t.explanation.slice(0, 110) + '…' : t.explanation}
-              </div>
-              <button
-                className="btn btn-primary btn-sm"
-                disabled={!maths?.canAddToday || assigningTopicId === t.id}
-                onClick={() => handleAssign(t.id)}
-              >
-                {assigningTopicId === t.id ? 'Adding...' : `+ Assign to ${selectedKid?.name || 'kid'}`}
-              </button>
-            </div>
-          ))}
-        </div>
+        <TopicPicker
+          assignLabel={`+ Assign to ${selectedKid?.name || 'kid'}`}
+          assignDisabled={!maths?.canAddToday}
+          assigningTopicId={assigningTopicId}
+          onAssign={handleAssign}
+          banner={
+            <>
+              {maths && !maths.canAddToday && (
+                <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.85rem' }}>
+                  You've already added a Math topic for {selectedKid?.name} today — come back tomorrow to add another.
+                </div>
+              )}
+              {assignError && <div className="error-msg" style={{ marginBottom: 10 }}>{assignError}</div>}
+            </>
+          }
+        />
       </div>
 
       {loading ? (

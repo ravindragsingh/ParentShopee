@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import AppNavbar from './AppNavbar.jsx'
+import TopicPicker from './TopicPicker.jsx'
 
 // ─── Home Tab ───────────────────────────────────────────────────────────────
 
@@ -143,8 +144,6 @@ function ClassesTab({ classes, onRefresh, preselectClassId, onViewStudent }) {
   const [rosterLoading, setRosterLoading] = useState(false)
   const [approveBusyId, setApproveBusyId] = useState(null)
 
-  const [topics, setTopics] = useState([])
-  const [topicSearch, setTopicSearch] = useState('')
   const [dueDate, setDueDate] = useState('')
   const [assigningTopicId, setAssigningTopicId] = useState(null)
   const [assignMsg, setAssignMsg] = useState('')
@@ -175,10 +174,6 @@ function ClassesTab({ classes, onRefresh, preselectClassId, onViewStudent }) {
   }, [selectedClassId])
 
   useEffect(() => { loadRoster() }, [loadRoster])
-
-  useEffect(() => {
-    api.getMathTopics(topicSearch || undefined).then(setTopics).catch(() => {})
-  }, [topicSearch])
 
   const loadMaterials = useCallback(async () => {
     try { setMaterials(await api.getMaterials()) } catch (e) {}
@@ -378,28 +373,21 @@ function ClassesTab({ classes, onRefresh, preselectClassId, onViewStudent }) {
 
               <div className="form-card" style={{ marginBottom: 16, border: '1.5px solid #ddd6fe', background: 'linear-gradient(135deg, #f5f3ff, #ffffff)' }}>
                 <div className="form-title">➗ Assign a Math Topic to the Whole Class</div>
-                <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-                  <input value={topicSearch} onChange={e => setTopicSearch(e.target.value)} placeholder="🔍 Search topics..." style={{ flex: '1 1 200px' }} />
+                <div style={{ marginBottom: 12 }}>
                   <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} title="Due date (optional)" />
                 </div>
-                {assignMsg && <div className="success-msg" style={{ marginBottom: 10 }}>{assignMsg}</div>}
-                {roster.length === 0 && <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: 10 }}>Add students to this class first.</div>}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 10 }}>
-                  {topics.map(t => (
-                    <div key={t.id} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 12px', background: '#fff' }}>
-                      <div style={{ fontSize: '1.3rem', marginBottom: 4 }}>{t.emoji}</div>
-                      <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 8 }}>{t.title}</div>
-                      <button
-                        className="btn btn-primary btn-sm"
-                        disabled={roster.length === 0 || assigningTopicId === t.id}
-                        onClick={() => handleAssignTopic(t.id)}
-                      >
-                        {assigningTopicId === t.id ? 'Assigning...' : '+ Assign to Class'}
-                      </button>
-                    </div>
-                  ))}
-                  {topics.length === 0 && <div className="empty-text">No topics match your search.</div>}
-                </div>
+                <TopicPicker
+                  assignLabel="+ Assign to Class"
+                  assignDisabled={roster.length === 0}
+                  assigningTopicId={assigningTopicId}
+                  onAssign={handleAssignTopic}
+                  banner={
+                    <>
+                      {assignMsg && <div className="success-msg" style={{ marginBottom: 10 }}>{assignMsg}</div>}
+                      {roster.length === 0 && <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: 10 }}>Add students to this class first.</div>}
+                    </>
+                  }
+                />
               </div>
 
               <div className="form-card">
@@ -446,8 +434,6 @@ function StudentsTab({ students, preselectStudentId }) {
   const [activity, setActivity] = useState(null)
   const [activityLoading, setActivityLoading] = useState(false)
 
-  const [topics, setTopics] = useState([])
-  const [topicSearch, setTopicSearch] = useState('')
   const [dueDate, setDueDate] = useState('')
   const [assigningTopicId, setAssigningTopicId] = useState(null)
   const [assignMsg, setAssignMsg] = useState('')
@@ -475,10 +461,6 @@ function StudentsTab({ students, preselectStudentId }) {
   }, [selectedId])
 
   useEffect(() => { loadActivity() }, [loadActivity])
-
-  useEffect(() => {
-    api.getMathTopics(topicSearch || undefined).then(setTopics).catch(() => {})
-  }, [topicSearch])
 
   async function handleAssignTopic(topicId) {
     setAssigningTopicId(topicId); setAssignMsg('')
@@ -530,27 +512,15 @@ function StudentsTab({ students, preselectStudentId }) {
 
           <div className="form-card" style={{ marginBottom: 16, border: '1.5px solid #ddd6fe', background: 'linear-gradient(135deg, #f5f3ff, #ffffff)' }}>
             <div className="form-title">➗ Assign a Math Topic to {selected.name}</div>
-            <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
-              <input value={topicSearch} onChange={e => setTopicSearch(e.target.value)} placeholder="🔍 Search topics..." style={{ flex: '1 1 200px' }} />
+            <div style={{ marginBottom: 12 }}>
               <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} title="Due date (optional)" />
             </div>
-            {assignMsg && <div className="success-msg" style={{ marginBottom: 10 }}>{assignMsg}</div>}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 10 }}>
-              {topics.map(t => (
-                <div key={t.id} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 12px', background: '#fff' }}>
-                  <div style={{ fontSize: '1.3rem', marginBottom: 4 }}>{t.emoji}</div>
-                  <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1e293b', marginBottom: 8 }}>{t.title}</div>
-                  <button
-                    className="btn btn-primary btn-sm"
-                    disabled={assigningTopicId === t.id}
-                    onClick={() => handleAssignTopic(t.id)}
-                  >
-                    {assigningTopicId === t.id ? 'Assigning...' : `+ Assign to ${selected.name}`}
-                  </button>
-                </div>
-              ))}
-              {topics.length === 0 && <div className="empty-text">No topics match your search.</div>}
-            </div>
+            <TopicPicker
+              assignLabel={`+ Assign to ${selected.name}`}
+              assigningTopicId={assigningTopicId}
+              onAssign={handleAssignTopic}
+              banner={assignMsg && <div className="success-msg" style={{ marginBottom: 10 }}>{assignMsg}</div>}
+            />
           </div>
 
           <div className="form-card">

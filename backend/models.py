@@ -147,6 +147,7 @@ class DBMathTopic(Base):
     title       = Column(String, nullable=False)
     emoji       = Column(String, default="🔢")
     grade       = Column(Integer, default=4)
+    subject     = Column(String, default="Maths")   # only "Maths" today — more subjects planned
     explanation = Column(String, nullable=False)
     questions   = Column(String, nullable=False)   # JSON list of {question, answers: [...]}
     order_index = Column(Integer, default=0)

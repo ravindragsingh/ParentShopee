@@ -144,6 +144,7 @@ def daily_chore_dict(item: DBDailyChoreItem) -> dict:
 def math_topic_dict(t: DBMathTopic) -> dict:
     questions = json.loads(t.questions)
     return {"id": t.id, "title": t.title, "emoji": t.emoji, "grade": t.grade,
+            "subject": t.subject or "Maths",
             "explanation": t.explanation,
             "questions": [{"question": q["question"]} for q in questions],
             "questionCount": len(questions)}
