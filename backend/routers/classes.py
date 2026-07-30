@@ -1,16 +1,23 @@
 import random
 import string
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from database import get_db
 from deps import require_guardian, require_teacher
-from helpers import class_dict, get_family_id, membership_dict, now
-from models import DBClass, DBClassMembership, DBUser
+from helpers import class_dict, get_family_id, get_teacher_student, membership_dict, now
+from models import (
+    DBClass, DBClassMembership, DBMaterialSubmission, DBMathAssignment, DBMathTopic,
+    DBReadingMaterial, DBUser,
+)
 from responses import fail, ok
 from schemas import ClassCreateBody, ClassJoinBody
+
+ACTIVITY_LOG_DAYS = 10
 
 router = APIRouter()
 
@@ -79,6 +86,68 @@ def get_class_roster(class_id: str, db: Session = Depends(get_db), user: DBUser 
         if kid:
             roster.append({"id": kid.id, "name": kid.name, "avatar": kid.avatar, "membershipId": m.id})
     return ok(roster)
+
+
+@router.get("/api/classes/students")
+def list_all_students(db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
+    classes = db.query(DBClass).filter(DBClass.teacher_id == user.id).all()
+    students_by_kid = {}
+    for cls in classes:
+        memberships = db.query(DBClassMembership).filter(
+            DBClassMembership.class_id == cls.id, DBClassMembership.status == "approved"
+        ).all()
+        for m in memberships:
+            kid = db.query(DBUser).filter(DBUser.id == m.kid_id).first()
+            if not kid:
+                continue
+            entry = students_by_kid.setdefault(kid.id, {"id": kid.id, "name": kid.name, "avatar": kid.avatar, "classes": []})
+            entry["classes"].append({"id": cls.id, "name": cls.name})
+    result = sorted(students_by_kid.values(), key=lambda s: s["name"])
+    return ok(result)
+
+
+@router.get("/api/classes/students/{kid_id}/activity")
+def get_student_activity(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
+    kid = get_teacher_student(db, user.id, kid_id)
+    class_ids = [c.id for c in db.query(DBClass).filter(DBClass.teacher_id == user.id).all()]
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=ACTIVITY_LOG_DAYS)).isoformat()
+
+    events = []
+
+    source_conditions = [DBMathAssignment.added_by == user.id]
+    if class_ids:
+        source_conditions.append(DBMathAssignment.class_id.in_(class_ids))
+    assignments = db.query(DBMathAssignment).filter(
+        DBMathAssignment.kid_id == kid.id, DBMathAssignment.source == "teacher",
+        or_(*source_conditions),
+    ).all()
+    for a in assignments:
+        topic = db.query(DBMathTopic).filter(DBMathTopic.id == a.topic_id).first()
+        title = topic.title if topic else "a Math topic"
+        if a.created_at and a.created_at >= cutoff:
+            events.append({"type": "math_assigned", "timestamp": a.created_at, "text": f"Assigned \"{title}\""})
+        if a.submitted_at and a.submitted_at >= cutoff:
+            events.append({
+                "type": "math_submitted", "timestamp": a.submitted_at,
+                "text": f"Completed \"{title}\" — {a.score} correct, +{a.points_earned} pts",
+            })
+
+    materials = db.query(DBReadingMaterial).filter(DBReadingMaterial.teacher_id == user.id).all()
+    material_by_id = {m.id: m for m in materials}
+    submissions = db.query(DBMaterialSubmission).filter(
+        DBMaterialSubmission.kid_id == kid.id, DBMaterialSubmission.material_id.in_(list(material_by_id.keys())),
+    ).all() if material_by_id else []
+    for s in submissions:
+        if s.submitted_at and s.submitted_at >= cutoff:
+            material = material_by_id.get(s.material_id)
+            title = material.title if material else "reading material"
+            events.append({
+                "type": "material_submitted", "timestamp": s.submitted_at,
+                "text": f"Completed \"{title}\" — {s.score} correct, +{s.points_earned} pts",
+            })
+
+    events.sort(key=lambda e: e["timestamp"], reverse=True)
+    return ok({"kidId": kid.id, "kidName": kid.name, "kidAvatar": kid.avatar, "days": ACTIVITY_LOG_DAYS, "events": events[:50]})
 
 
 @router.delete("/api/classes/{class_id}")

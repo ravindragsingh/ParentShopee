@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import date, datetime, timezone
 from uuid import uuid4
 
@@ -10,6 +11,52 @@ from models import (
     DBReadingMaterial, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser,
 )
 from responses import fail
+
+
+def get_teacher_student(db: Session, teacher_id: str, kid_id: str) -> DBUser:
+    """A teacher's "student" is any kid with an approved membership in one of their classes."""
+    class_ids = [c.id for c in db.query(DBClass).filter(DBClass.teacher_id == teacher_id).all()]
+    if class_ids:
+        membership = db.query(DBClassMembership).filter(
+            DBClassMembership.kid_id == kid_id, DBClassMembership.class_id.in_(class_ids),
+            DBClassMembership.status == "approved",
+        ).first()
+    else:
+        membership = None
+    if not membership:
+        fail("Student not found in any of your classes", 404)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid").first()
+    if not kid:
+        fail("Student not found", 404)
+    return kid
+
+POINTS_PER_CORRECT = 3   # shared between Math topics and reading-material quiz questions
+
+
+def normalize_answer(s: str) -> str:
+    s = (s or "").strip().lower().replace(",", "")
+    return re.sub(r"\s+", " ", s)
+
+
+def is_correct_answer(given_answer: str, accepted_answers: list) -> bool:
+    """Case/comma/whitespace-insensitive match, also accepting unordered token-set
+    matches (e.g. "1, 2, 5, 10" matches "1 2 5 10" regardless of spacing/order)."""
+    given = normalize_answer(given_answer)
+    given_tokens = set(given.split())
+    for accepted in accepted_answers:
+        norm = normalize_answer(accepted)
+        if given == norm:
+            return True
+        if given_tokens and given_tokens == set(norm.split()):
+            return True
+    return False
+
+
+def grade_answers(questions: list, answers: list) -> tuple:
+    """Returns (score, points) for a list of {question, answers:[...]} questions
+    against a parallel list of submitted answer strings."""
+    score = sum(1 for q, a in zip(questions, answers) if is_correct_answer(a, q["answers"]))
+    return score, score * POINTS_PER_CORRECT
 
 
 def now() -> str:
@@ -107,6 +154,7 @@ def math_assignment_dict(a: DBMathAssignment, topic: DBMathTopic, class_name: st
     return {
         "id": a.id, "kidId": a.kid_id, "assignedDate": a.assigned_date, "createdAt": a.created_at,
         "dueDate": a.due_date, "classId": a.class_id, "className": class_name,
+        "source": a.source or "guardian",
         "topic": {
             "id": topic.id, "title": topic.title, "emoji": topic.emoji, "explanation": topic.explanation,
             "questions": [
@@ -132,10 +180,31 @@ def membership_dict(m: DBClassMembership, kid: DBUser = None, class_: DBClass = 
         "guardianName": guardian.name if guardian else None,
     }
 
-def material_dict(m: DBReadingMaterial, shared_class_ids: list = None) -> dict:
+def material_dict(m: DBReadingMaterial, shared_class_ids: list = None, shared_kid_ids: list = None) -> dict:
+    """Teacher-facing view — includes full question answers since they authored them."""
+    questions = json.loads(m.questions) if m.questions else []
     return {"id": m.id, "teacherId": m.teacher_id, "title": m.title, "description": m.description,
             "url": m.url, "topic": m.topic, "createdAt": m.created_at,
-            "sharedClassIds": shared_class_ids or []}
+            "questions": questions, "questionCount": len(questions),
+            "sharedClassIds": shared_class_ids or [], "sharedKidIds": shared_kid_ids or []}
+
+def material_for_kid_dict(m: DBReadingMaterial, submission=None) -> dict:
+    """Kid/guardian-facing view — question answers hidden until the kid submits."""
+    questions = json.loads(m.questions) if m.questions else []
+    submitted = submission is not None
+    return {
+        "id": m.id, "title": m.title, "description": m.description, "url": m.url, "topic": m.topic,
+        "createdAt": m.created_at, "questionCount": len(questions),
+        "questions": [
+            {"question": q["question"], "answer": q["answers"][0] if submitted else None}
+            for q in questions
+        ] if questions else [],
+        "submissionId": submission.id if submission else None,
+        "answers": json.loads(submission.answers) if (submission and submission.answers) else None,
+        "score": submission.score if submission else None,
+        "pointsEarned": submission.points_earned if submission else None,
+        "submittedAt": submission.submitted_at if submission else None,
+    }
 
 def purchase_dict(p: DBShopPurchase) -> dict:
     return {"id": p.id, "kidId": p.kid_id, "shopItemId": p.shop_item_id,

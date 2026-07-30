@@ -232,9 +232,9 @@ function MathAssignmentCard({ assignment, onSubmitted }) {
       >
         <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           {assignment.topic.emoji} {assignment.topic.title}
-          {assignment.classId && (
+          {assignment.source === 'teacher' && (
             <span style={{ fontSize: '0.72rem', fontWeight: 700, background: '#eef2ff', color: '#4f46e5', borderRadius: 6, padding: '1px 7px' }}>
-              🏫 {assignment.className || 'Class'}
+              🍎 {assignment.className || 'Teacher'}
             </span>
           )}
           {assignment.dueDate && !submitted && (
@@ -283,13 +283,88 @@ function MathAssignmentCard({ assignment, onSubmitted }) {
   )
 }
 
-function ReadingMaterialSection() {
+function MaterialCard({ material, onSubmitted }) {
+  const hasQuestions = material.questionCount > 0
+  const submitted = !!material.submittedAt
+  const [answers, setAnswers] = useState(() => Array(material.questionCount).fill(''))
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (answers.some(a => !a.trim())) { setError('Please answer every question.'); return }
+    setSubmitting(true); setError('')
+    try {
+      const res = await api.submitMaterial(material.id, answers)
+      onSubmitted(res)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 14px' }}>
+      <div style={{ fontWeight: 600, color: '#1e293b', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+        {material.title}
+        {material.topic && <span style={{ fontSize: '0.72rem', background: '#f1f5f9', color: '#64748b', borderRadius: 6, padding: '1px 7px' }}>{material.topic}</span>}
+        {hasQuestions && submitted && (
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, background: '#ccfbf1', color: '#0d9488', borderRadius: 999, padding: '2px 10px' }}>
+            {material.score}/{material.questionCount} correct · +{material.pointsEarned} pts
+          </span>
+        )}
+        {hasQuestions && !submitted && (
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, background: '#ede9fe', color: '#7c3aed', borderRadius: 999, padding: '2px 10px' }}>📝 Not done yet</span>
+        )}
+      </div>
+      {material.description && <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 4 }}>{material.description}</div>}
+      {material.url && <a href={material.url} target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: '#7c3aed', display: 'inline-block', marginTop: 6 }}>🔗 {material.url}</a>}
+
+      {hasQuestions && (
+        <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px dashed #e2e8f0' }}>
+          {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+          <form onSubmit={handleSubmit}>
+            {material.questions.map((q, i) => (
+              <div className="form-group" key={i} style={{ marginBottom: 10 }}>
+                <label>{i + 1}. {q.question}</label>
+                <input
+                  value={submitted ? (material.answers?.[i] || '') : answers[i]}
+                  onChange={e => !submitted && setAnswers(a => a.map((v, idx) => (idx === i ? e.target.value : v)))}
+                  disabled={submitted}
+                  placeholder="Your answer"
+                />
+                {submitted && q.answer && (
+                  <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>Correct answer: {q.answer}</div>
+                )}
+              </div>
+            ))}
+            {!submitted && (
+              <button type="submit" className="btn btn-primary btn-sm" disabled={submitting}>
+                {submitting ? 'Checking...' : '✓ Submit Answers'}
+              </button>
+            )}
+          </form>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function ReadingMaterialSection({ onBalanceChange }) {
   const [materials, setMaterials] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
+  const load = useCallback(() => {
     api.getSharedMaterials().then(setMaterials).catch(() => setMaterials([])).finally(() => setLoading(false))
   }, [])
+
+  useEffect(() => { load() }, [load])
+
+  function handleSubmitted(res) {
+    load()
+    if (res.newBalance !== undefined) onBalanceChange && onBalanceChange(res.newBalance)
+  }
 
   if (loading || materials.length === 0) return null
 
@@ -298,14 +373,7 @@ function ReadingMaterialSection() {
       <div className="form-title">📖 Reading Material from Your Teacher</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {materials.map(m => (
-          <div key={m.id} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 14px' }}>
-            <div style={{ fontWeight: 600, color: '#1e293b' }}>
-              {m.title}
-              {m.topic && <span style={{ marginLeft: 8, fontSize: '0.72rem', background: '#f1f5f9', color: '#64748b', borderRadius: 6, padding: '1px 7px' }}>{m.topic}</span>}
-            </div>
-            {m.description && <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 4 }}>{m.description}</div>}
-            {m.url && <a href={m.url} target="_blank" rel="noreferrer" style={{ fontSize: '0.8rem', color: '#7c3aed', display: 'inline-block', marginTop: 6 }}>🔗 {m.url}</a>}
-          </div>
+          <MaterialCard key={m.id} material={m} onSubmitted={handleSubmitted} />
         ))}
       </div>
     </div>
@@ -340,7 +408,7 @@ function KidMathsTab({ onBalanceChange }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <ReadingMaterialSection />
+      <ReadingMaterialSection onBalanceChange={onBalanceChange} />
       {(!maths || maths.assignments.length === 0) ? (
         <div className="empty-text">No Math topics yet — check back once your guardian or teacher adds one!</div>
       ) : (

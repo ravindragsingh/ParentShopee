@@ -557,9 +557,9 @@ function MathsTab({ kids }) {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontWeight: 600, color: '#1e293b', display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                       {a.topic.title}
-                      {a.classId && (
+                      {a.source === 'teacher' && (
                         <span style={{ fontSize: '0.72rem', fontWeight: 700, background: '#eef2ff', color: '#4f46e5', borderRadius: 6, padding: '1px 7px' }}>
-                          🏫 {a.className || 'Class'}
+                          🍎 {a.className || 'Teacher'}
                         </span>
                       )}
                     </div>
@@ -571,7 +571,7 @@ function MathsTab({ kids }) {
                         : ' · Not completed yet'}
                     </div>
                   </div>
-                  {!a.submittedAt && !a.classId && (
+                  {!a.submittedAt && a.source !== 'teacher' && (
                     <button className="btn btn-red btn-sm" onClick={() => handleDelete(a.id)}>🗑️ Delete</button>
                   )}
                 </div>

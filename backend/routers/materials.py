@@ -1,14 +1,18 @@
+import json
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from database import get_db
-from deps import require_auth, require_guardian, require_teacher
-from helpers import get_family_id, material_dict, now
-from models import DBClass, DBClassMembership, DBReadingMaterial, DBReadingMaterialShare, DBUser
+from deps import require_auth, require_teacher
+from helpers import get_family_id, get_teacher_student, grade_answers, material_dict, material_for_kid_dict, now
+from models import (
+    DBClass, DBClassMembership, DBMaterialSubmission, DBReadingMaterial,
+    DBReadingMaterialKidShare, DBReadingMaterialShare, DBTransaction, DBUser, DBWallet,
+)
 from responses import fail, ok
-from schemas import MaterialCreateBody, MaterialShareBody
+from schemas import MaterialCreateBody, MaterialShareBody, MaterialShareStudentBody, MaterialSubmitBody
 
 router = APIRouter()
 
@@ -24,10 +28,16 @@ def _get_teacher_material(db: Session, teacher_id: str, material_id: str) -> DBR
 def create_material(body: MaterialCreateBody, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
     if len(body.title.strip()) < 2:
         fail("Title must be at least 2 characters")
+    questions = None
+    if body.questions:
+        for q in body.questions:
+            if not q.question.strip() or not q.answers or not any(a.strip() for a in q.answers):
+                fail("Each question needs text and at least one accepted answer")
+        questions = json.dumps([{"question": q.question.strip(), "answers": [a.strip() for a in q.answers if a.strip()]} for q in body.questions])
     material = DBReadingMaterial(
         id=str(uuid4()), teacher_id=user.id, title=body.title.strip(),
         description=(body.description or "").strip(), url=(body.url or "").strip() or None,
-        topic=(body.topic or "").strip() or None, created_at=now(),
+        topic=(body.topic or "").strip() or None, questions=questions, created_at=now(),
     )
     db.add(material)
     db.commit()
@@ -47,8 +57,9 @@ def list_materials(topic: str = None, db: Session = Depends(get_db), user: DBUse
         ]
     result = []
     for m in materials:
-        shares = db.query(DBReadingMaterialShare).filter(DBReadingMaterialShare.material_id == m.id).all()
-        result.append(material_dict(m, shared_class_ids=[s.class_id for s in shares]))
+        class_shares = db.query(DBReadingMaterialShare).filter(DBReadingMaterialShare.material_id == m.id).all()
+        kid_shares = db.query(DBReadingMaterialKidShare).filter(DBReadingMaterialKidShare.material_id == m.id).all()
+        result.append(material_dict(m, shared_class_ids=[s.class_id for s in class_shares], shared_kid_ids=[s.kid_id for s in kid_shares]))
     return ok(result)
 
 
@@ -56,6 +67,8 @@ def list_materials(topic: str = None, db: Session = Depends(get_db), user: DBUse
 def delete_material(material_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
     material = _get_teacher_material(db, user.id, material_id)
     db.query(DBReadingMaterialShare).filter(DBReadingMaterialShare.material_id == material_id).delete(synchronize_session=False)
+    db.query(DBReadingMaterialKidShare).filter(DBReadingMaterialKidShare.material_id == material_id).delete(synchronize_session=False)
+    db.query(DBMaterialSubmission).filter(DBMaterialSubmission.material_id == material_id).delete(synchronize_session=False)
     db.delete(material)
     db.commit()
     return ok({"deleted": True})
@@ -86,6 +99,29 @@ def unshare_material(material_id: str, class_id: str, db: Session = Depends(get_
     return ok({"unshared": True})
 
 
+@router.post("/api/materials/{material_id}/share-student")
+def share_material_with_student(material_id: str, body: MaterialShareStudentBody, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
+    _get_teacher_material(db, user.id, material_id)
+    get_teacher_student(db, user.id, body.kidId)
+    existing = db.query(DBReadingMaterialKidShare).filter(
+        DBReadingMaterialKidShare.material_id == material_id, DBReadingMaterialKidShare.kid_id == body.kidId
+    ).first()
+    if not existing:
+        db.add(DBReadingMaterialKidShare(id=str(uuid4()), material_id=material_id, kid_id=body.kidId, shared_at=now()))
+        db.commit()
+    return ok({"shared": True})
+
+
+@router.delete("/api/materials/{material_id}/share-student/{kid_id}")
+def unshare_material_from_student(material_id: str, kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
+    _get_teacher_material(db, user.id, material_id)
+    db.query(DBReadingMaterialKidShare).filter(
+        DBReadingMaterialKidShare.material_id == material_id, DBReadingMaterialKidShare.kid_id == kid_id
+    ).delete(synchronize_session=False)
+    db.commit()
+    return ok({"unshared": True})
+
+
 @router.get("/api/materials/shared")
 def list_shared_materials(kidId: str = None, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     if user.role == "kid":
@@ -106,14 +142,68 @@ def list_shared_materials(kidId: str = None, db: Session = Depends(get_db), user
             DBClassMembership.kid_id == kid.id, DBClassMembership.status == "approved"
         ).all()
     ]
-    if not class_ids:
-        return ok([])
-
-    shares = db.query(DBReadingMaterialShare).filter(DBReadingMaterialShare.class_id.in_(class_ids)).all()
-    material_ids = list({s.material_id for s in shares})
+    material_ids = set()
+    if class_ids:
+        material_ids.update(
+            s.material_id for s in db.query(DBReadingMaterialShare).filter(DBReadingMaterialShare.class_id.in_(class_ids)).all()
+        )
+    material_ids.update(
+        s.material_id for s in db.query(DBReadingMaterialKidShare).filter(DBReadingMaterialKidShare.kid_id == kid.id).all()
+    )
     if not material_ids:
         return ok([])
     materials = db.query(DBReadingMaterial).filter(DBReadingMaterial.id.in_(material_ids)).order_by(
         DBReadingMaterial.created_at.desc()
     ).all()
-    return ok([material_dict(m) for m in materials])
+    result = []
+    for m in materials:
+        submission = db.query(DBMaterialSubmission).filter(
+            DBMaterialSubmission.material_id == m.id, DBMaterialSubmission.kid_id == kid.id
+        ).first()
+        result.append(material_for_kid_dict(m, submission=submission))
+    return ok(result)
+
+
+@router.post("/api/materials/{material_id}/submit")
+def submit_material(material_id: str, body: MaterialSubmitBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    if user.role != "kid":
+        fail("Only kids can submit answers", 403)
+    material = db.query(DBReadingMaterial).filter(DBReadingMaterial.id == material_id).first()
+    if not material:
+        fail("Reading material not found", 404)
+    if not material.questions:
+        fail("This material has no questions to answer")
+    existing = db.query(DBMaterialSubmission).filter(
+        DBMaterialSubmission.material_id == material_id, DBMaterialSubmission.kid_id == user.id
+    ).first()
+    if existing:
+        fail("You've already submitted answers for this material")
+
+    questions = json.loads(material.questions)
+    answers = body.answers or []
+    if len(answers) != len(questions):
+        fail(f"Expected {len(questions)} answers")
+
+    score, points = grade_answers(questions, answers)
+
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == user.id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=user.id, balance=0)
+        db.add(wallet)
+        db.flush()
+    if points > 0:
+        wallet.balance += points
+        db.add(DBTransaction(
+            id=str(uuid4()), kid_id=user.id, type="earned", amount=points,
+            description=f"Reading material: {material.title} ({score}/{len(questions)} correct)", timestamp=now(),
+        ))
+
+    submission = DBMaterialSubmission(
+        id=str(uuid4()), material_id=material_id, kid_id=user.id,
+        answers=json.dumps(answers), score=score, points_earned=points, submitted_at=now(),
+    )
+    db.add(submission)
+    db.commit()
+    db.refresh(submission)
+    db.refresh(wallet)
+    return ok({"material": material_for_kid_dict(material, submission=submission), "newBalance": wallet.balance})

@@ -105,6 +105,8 @@ def startup():
             ("daily_chore_items", "status",           "VARCHAR"),
             ("math_assignments", "class_id",          "VARCHAR"),
             ("math_assignments", "due_date",           "VARCHAR"),
+            ("math_assignments", "source",            "VARCHAR"),
+            ("reading_materials", "questions",         "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -152,6 +154,11 @@ def startup():
         conn.execute(text("UPDATE users SET is_suspended='0' WHERE is_suspended IS NULL"))
         conn.execute(text("UPDATE users SET pin_attempts=0 WHERE pin_attempts IS NULL"))
         conn.execute(text("UPDATE users SET pin_auto_generated='0' WHERE pin_auto_generated IS NULL"))
+        # Back-fill the new source flag on existing Math assignments — any row that
+        # already had a class_id was necessarily teacher-assigned (class_id didn't
+        # exist before teachers did); everything else predates teachers entirely.
+        conn.execute(text("UPDATE math_assignments SET source='teacher' WHERE source IS NULL AND class_id IS NOT NULL"))
+        conn.execute(text("UPDATE math_assignments SET source='guardian' WHERE source IS NULL"))
         # Migrate every family-profile account (kids, co-guardian, and now the primary
         # guardian too — every profile in the picker is PIN-gated) onto the PIN model:
         # generate a PIN for anyone who doesn't have one yet, and flag it so the

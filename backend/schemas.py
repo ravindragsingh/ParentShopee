@@ -157,6 +157,11 @@ class MathAssignClassBody(BaseModel):
     topicId: str
     dueDate: Optional[str] = None
 
+class MathAssignStudentBody(BaseModel):
+    kidId: str
+    topicId: str
+    dueDate: Optional[str] = None
+
 class ClassCreateBody(BaseModel):
     name: str
 
@@ -164,14 +169,25 @@ class ClassJoinBody(BaseModel):
     joinCode: str
     kidId: str
 
+class MaterialQuestionBody(BaseModel):
+    question: str
+    answers: List[str]
+
 class MaterialCreateBody(BaseModel):
     title: str
     description: Optional[str] = ""
     url: Optional[str] = None
     topic: Optional[str] = None
+    questions: Optional[List[MaterialQuestionBody]] = None
 
 class MaterialShareBody(BaseModel):
     classId: str
+
+class MaterialShareStudentBody(BaseModel):
+    kidId: str
+
+class MaterialSubmitBody(BaseModel):
+    answers: List[str]
 
 class AdminChoreUpdate(BaseModel):
     title:         Optional[str]   = None

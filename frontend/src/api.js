@@ -153,6 +153,7 @@ export const api = {
   getMaths:           (kidId)              => request('GET',    `/api/maths${kidId ? `?kidId=${kidId}` : ''}`),
   assignMathTopic:    (kidId, topicId)     => request('POST',   '/api/maths/assign', { kidId, topicId }),
   assignMathTopicToClass: (classId, topicId, dueDate) => request('POST', '/api/maths/assign-class', { classId, topicId, dueDate: dueDate || null }),
+  assignMathTopicToStudent: (kidId, topicId, dueDate) => request('POST', '/api/maths/assign-student', { kidId, topicId, dueDate: dueDate || null }),
   deleteMathAssignment: (id)               => request('DELETE', `/api/maths/${id}`),
   submitMathAssignment: (id, answers)      => request('POST',   `/api/maths/${id}/submit`, { answers }),
 
@@ -165,6 +166,8 @@ export const api = {
   getMyClassMemberships: ()                => request('GET',    '/api/classes/mine'),
   approveMembership:  (membershipId)       => request('POST',   `/api/classes/memberships/${membershipId}/approve`),
   rejectMembership:   (membershipId)       => request('POST',   `/api/classes/memberships/${membershipId}/reject`),
+  getAllStudents:     ()                   => request('GET',    '/api/classes/students'),
+  getStudentActivity: (kidId)              => request('GET',    `/api/classes/students/${kidId}/activity`),
 
   // Reading materials
   createMaterial:     (body)               => request('POST',   '/api/materials', body),
@@ -172,6 +175,9 @@ export const api = {
   deleteMaterial:     (id)                 => request('DELETE', `/api/materials/${id}`),
   shareMaterial:      (id, classId)        => request('POST',   `/api/materials/${id}/share`, { classId }),
   unshareMaterial:    (id, classId)        => request('DELETE', `/api/materials/${id}/share/${classId}`),
+  shareMaterialWithStudent:   (id, kidId)  => request('POST',   `/api/materials/${id}/share-student`, { kidId }),
+  unshareMaterialFromStudent: (id, kidId)  => request('DELETE', `/api/materials/${id}/share-student/${kidId}`),
+  submitMaterial:     (id, answers)        => request('POST',   `/api/materials/${id}/submit`, { answers }),
   getSharedMaterials: (kidId)              => request('GET',    `/api/materials/shared${kidId ? `?kidId=${kidId}` : ''}`),
 
   // Admin

@@ -1,21 +1,18 @@
-import json
-import re
 from datetime import date
 from uuid import uuid4
+import json
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from database import get_db
 from deps import require_auth, require_guardian, require_guardian_or_teacher, require_teacher
-from helpers import class_dict, get_family_id, math_assignment_dict, math_topic_dict, now
+from helpers import get_family_id, get_teacher_student, grade_answers, math_assignment_dict, math_topic_dict, now
 from models import DBClass, DBClassMembership, DBMathAssignment, DBMathTopic, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import MathAssignBody, MathAssignClassBody, MathSubmitBody
+from schemas import MathAssignBody, MathAssignClassBody, MathAssignStudentBody, MathSubmitBody
 
 router = APIRouter()
-
-POINTS_PER_CORRECT = 3
 
 
 def _get_family_kid(db: Session, family_id: str, kid_id: str) -> DBUser:
@@ -31,23 +28,6 @@ def _resolve_target_kid(db: Session, user: DBUser, kid_id_param: str = None) -> 
     if not kid_id_param:
         fail("kidId is required", 400)
     return _get_family_kid(db, get_family_id(user), kid_id_param)
-
-
-def _normalize(s: str) -> str:
-    s = (s or "").strip().lower().replace(",", "")
-    return re.sub(r"\s+", " ", s)
-
-
-def _is_correct(kid_answer: str, accepted_answers: list) -> bool:
-    given = _normalize(kid_answer)
-    given_tokens = set(given.split())
-    for accepted in accepted_answers:
-        norm = _normalize(accepted)
-        if given == norm:
-            return True
-        if given_tokens and given_tokens == set(norm.split()):
-            return True
-    return False
 
 
 @router.get("/api/maths/topics")
@@ -76,7 +56,7 @@ def get_maths(kidId: str = None, db: Session = Depends(get_db), user: DBUser = D
             class_name = cls.name if cls else None
         results.append(math_assignment_dict(a, topic, class_name=class_name))
     today = date.today().isoformat()
-    can_add_today = not any(a.assigned_date == today and not a.class_id for a in assignments)
+    can_add_today = not any(a.assigned_date == today and (a.source or "guardian") == "guardian" for a in assignments)
     return ok({"kidId": kid.id, "assignments": results, "canAddToday": can_add_today})
 
 
@@ -88,13 +68,14 @@ def assign_math_topic(body: MathAssignBody, db: Session = Depends(get_db), user:
         fail("Math topic not found", 404)
     today = date.today().isoformat()
     existing = db.query(DBMathAssignment).filter(
-        DBMathAssignment.kid_id == kid.id, DBMathAssignment.assigned_date == today
+        DBMathAssignment.kid_id == kid.id, DBMathAssignment.assigned_date == today,
+        DBMathAssignment.source == "guardian",
     ).first()
     if existing:
         fail(f"You've already added a Math topic for {kid.name} today. Try again tomorrow.", 400)
     assignment = DBMathAssignment(
         id=str(uuid4()), kid_id=kid.id, topic_id=topic.id, family_id=get_family_id(user),
-        assigned_date=today, added_by=user.id, created_at=now(),
+        assigned_date=today, added_by=user.id, created_at=now(), source="guardian",
     )
     db.add(assignment)
     db.commit()
@@ -133,7 +114,7 @@ def assign_math_topic_to_class(body: MathAssignClassBody, db: Session = Depends(
             continue
         db.add(DBMathAssignment(
             id=str(uuid4()), kid_id=kid.id, topic_id=topic.id, family_id=kid.guardian_id,
-            assigned_date=today, added_by=user.id, created_at=now(),
+            assigned_date=today, added_by=user.id, created_at=now(), source="teacher",
             class_id=cls.id, due_date=body.dueDate or None,
         ))
         assigned_count += 1
@@ -141,15 +122,39 @@ def assign_math_topic_to_class(body: MathAssignClassBody, db: Session = Depends(
     return ok({"assignedCount": assigned_count, "skippedCount": skipped_count, "classId": cls.id, "className": cls.name})
 
 
+@router.post("/api/maths/assign-student")
+def assign_math_topic_to_student(body: MathAssignStudentBody, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
+    kid = get_teacher_student(db, user.id, body.kidId)
+    topic = db.query(DBMathTopic).filter(DBMathTopic.id == body.topicId).first()
+    if not topic:
+        fail("Math topic not found", 404)
+
+    dup = db.query(DBMathAssignment).filter(
+        DBMathAssignment.kid_id == kid.id, DBMathAssignment.topic_id == topic.id,
+        DBMathAssignment.added_by == user.id, DBMathAssignment.class_id.is_(None),
+    ).first()
+    if dup:
+        fail(f"You've already assigned this topic to {kid.name}")
+
+    assignment = DBMathAssignment(
+        id=str(uuid4()), kid_id=kid.id, topic_id=topic.id, family_id=kid.guardian_id,
+        assigned_date=date.today().isoformat(), added_by=user.id, created_at=now(),
+        source="teacher", due_date=body.dueDate or None,
+    )
+    db.add(assignment)
+    db.commit()
+    db.refresh(assignment)
+    return ok(math_assignment_dict(assignment, topic), 201)
+
+
 @router.delete("/api/maths/{assignment_id}")
 def delete_math_assignment(assignment_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian_or_teacher)):
     assignment = db.query(DBMathAssignment).filter(DBMathAssignment.id == assignment_id).first()
     if not assignment:
         fail("Math assignment not found", 404)
-    if assignment.class_id:
-        cls = db.query(DBClass).filter(DBClass.id == assignment.class_id).first()
-        if user.role != "teacher" or not cls or cls.teacher_id != user.id:
-            fail("Only the assigning teacher can remove a class assignment", 403)
+    if (assignment.source or "guardian") == "teacher":
+        if user.role != "teacher" or assignment.added_by != user.id:
+            fail("Only the assigning teacher can remove this assignment", 403)
     else:
         kid = db.query(DBUser).filter(DBUser.id == assignment.kid_id).first()
         if user.role != "guardian" or not kid or kid.guardian_id != get_family_id(user):
@@ -181,8 +186,7 @@ def submit_math_assignment(assignment_id: str, body: MathSubmitBody, db: Session
     if len(answers) != len(questions):
         fail(f"Expected {len(questions)} answers")
 
-    score = sum(1 for q, a in zip(questions, answers) if _is_correct(a, q["answers"]))
-    points = score * POINTS_PER_CORRECT
+    score, points = grade_answers(questions, answers)
 
     wallet = db.query(DBWallet).filter(DBWallet.kid_id == user.id).first()
     if not wallet:

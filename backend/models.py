@@ -167,6 +167,7 @@ class DBMathAssignment(Base):
     submitted_at  = Column(String, nullable=True)
     class_id      = Column(String, nullable=True, index=True)   # set when a teacher assigned this to a whole class
     due_date      = Column(String, nullable=True)
+    source        = Column(String, default="guardian")   # "guardian" | "teacher" — who assigned it, independent of class_id
 
 
 class DBClass(Base):
@@ -197,6 +198,7 @@ class DBReadingMaterial(Base):
     description = Column(String, default="")
     url         = Column(String, nullable=True)
     topic       = Column(String, nullable=True, index=True)
+    questions   = Column(String, nullable=True)   # optional JSON list of {question, answers: [...]}, same shape as math topics
     created_at  = Column(String, nullable=False)
 
 
@@ -206,6 +208,25 @@ class DBReadingMaterialShare(Base):
     material_id = Column(String, nullable=False, index=True)
     class_id    = Column(String, nullable=False, index=True)
     shared_at   = Column(String, nullable=False)
+
+
+class DBReadingMaterialKidShare(Base):
+    __tablename__ = "reading_material_kid_shares"
+    id          = Column(String, primary_key=True)
+    material_id = Column(String, nullable=False, index=True)
+    kid_id      = Column(String, nullable=False, index=True)
+    shared_at   = Column(String, nullable=False)
+
+
+class DBMaterialSubmission(Base):
+    __tablename__ = "material_submissions"
+    id             = Column(String, primary_key=True)
+    material_id    = Column(String, nullable=False, index=True)
+    kid_id         = Column(String, nullable=False, index=True)
+    answers        = Column(String, nullable=True)   # JSON list of the kid's submitted answers
+    score          = Column(Integer, nullable=True)
+    points_earned  = Column(Float, nullable=True)
+    submitted_at   = Column(String, nullable=False)
 
 
 class DBSupportTicket(Base):
