@@ -21,11 +21,30 @@ it elsewhere.)
 
 ## 2. Add the content type + component
 
-Copy the two schema files from `schemas/` in this folder into the generated
+Copy the schema files from `schemas/` in this folder into the generated
 project:
 
 - `schemas/question-component.json` → `cms/src/components/content/question.json`
 - `schemas/content-item.json` → `cms/src/api/content-item/content-types/content-item/schema.json`
+- `schemas/api/routes/content-item.js` → `cms/src/api/content-item/routes/content-item.js`
+- `schemas/api/controllers/content-item.js` → `cms/src/api/content-item/controllers/content-item.js`
+- `schemas/api/services/content-item.js` → `cms/src/api/content-item/services/content-item.js`
+
+The last three matter even though they're one-liners — they're what
+actually registers the REST routes (find/findOne/create/update/delete).
+Dropping in only the schema.json gets the content type recognized by the
+admin panel (Content-Type Builder, Content Manager) but **not** wired up
+as an API — `POST` (create) requests will fail with `405 Method Not
+Allowed` without these.
+
+If your project uses ES modules (check `package.json` for `"type":
+"module"`), swap the `require`/`module.exports` in those three files for:
+
+```js
+import { factories } from '@strapi/strapi';
+export default factories.createCoreRouter('api::content-item.content-item');
+// (createCoreController / createCoreService for the other two files)
+```
 
 Restart Strapi (`npm run develop`) so it picks up the new content type —
 "Content Item" should now show up in the admin panel's Content-Type Builder,
@@ -53,9 +72,20 @@ STRAPI_API_TOKEN=<the token from step 3>
 
 ## 5. Seed the existing Math topics
 
+Run this from the repo root (not from inside the Strapi project folder —
+`seed_strapi.py` lives in this `cms/` folder, which is separate from
+wherever you scaffolded the actual Strapi app).
+
+macOS/Linux/bash:
 ```
-cd cms
-STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=<token> python seed_strapi.py
+STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=<token> python cms/seed_strapi.py
+```
+
+Windows PowerShell:
+```powershell
+$env:STRAPI_URL = "http://localhost:1337"
+$env:STRAPI_API_TOKEN = "<token>"
+python cms/seed_strapi.py
 ```
 
 Entries are created as **drafts** (draftAndPublish is on) — open the Strapi
