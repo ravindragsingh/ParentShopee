@@ -52,7 +52,12 @@ def list_material_catalog(topic: str = None, grade: int = None, db: Session = De
     content itself is authored in Strapi by admins, teachers just pick from
     it and share to their own classes/students."""
     items = strapi_client.list_content(kind="material", grade=grade, search=topic)
-    result = [material_dict(m, **_material_shares_for_teacher(db, user.id, m["id"])) for m in items]
+    result = []
+    for m in items:
+        try:
+            result.append(material_dict(m, **_material_shares_for_teacher(db, user.id, m["id"])))
+        except (KeyError, TypeError):
+            continue  # one malformed CMS entry shouldn't break the catalog for everyone
     return ok(result)
 
 

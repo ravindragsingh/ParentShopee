@@ -12,7 +12,11 @@ function TopicCard({ topic, assignLabel, assignDisabled, assigningTopicId, onAss
       <div style={{ fontSize: '1.6rem', marginBottom: 6 }}>{topic.emoji}</div>
       <div style={{ fontWeight: 700, color: '#1e293b', marginBottom: 4 }}>{topic.title}</div>
       <div style={{ fontSize: '0.78rem', color: '#64748b', marginBottom: 10, lineHeight: 1.4, flex: 1 }}>
-        {topic.explanation.length > 110 ? topic.explanation.slice(0, 110) + '…' : topic.explanation}
+        {(() => {
+          const explanation = topic.explanation || ''
+          if (!explanation) return 'No description yet.'
+          return explanation.length > 110 ? explanation.slice(0, 110) + '…' : explanation
+        })()}
       </div>
       <button
         className="btn btn-primary btn-sm"
@@ -71,7 +75,7 @@ export default function TopicPicker({ assignLabel, assignDisabled = false, assig
     const needle = search.trim().toLowerCase()
     return allTopics.filter(t => {
       if (gradeFilter && String(t.grade) !== gradeFilter) return false
-      if (needle && !(t.title.toLowerCase().includes(needle) || t.explanation.toLowerCase().includes(needle))) return false
+      if (needle && !(t.title.toLowerCase().includes(needle) || (t.explanation || '').toLowerCase().includes(needle))) return false
       return true
     })
   }, [allTopics, search, gradeFilter])

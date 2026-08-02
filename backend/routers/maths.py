@@ -34,7 +34,13 @@ def _resolve_target_kid(db: Session, user: DBUser, kid_id_param: str = None) -> 
 @router.get("/api/maths/topics")
 def list_math_topics(topic: str = None, grade: int = None, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian_or_teacher)):
     topics = strapi_client.list_content(kind="topic", grade=grade, search=topic)
-    return ok([math_topic_dict(t) for t in topics])
+    results = []
+    for t in topics:
+        try:
+            results.append(math_topic_dict(t))
+        except (KeyError, TypeError):
+            continue  # one malformed CMS entry shouldn't break the picker for everyone
+    return ok(results)
 
 
 @router.get("/api/maths")

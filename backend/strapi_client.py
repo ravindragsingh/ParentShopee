@@ -95,17 +95,21 @@ def list_content(kind: str = None, grade: int = None, subject: str = None, searc
             {"explanation": {"$containsi": search}},
             {"description": {"$containsi": search}},
         ]
-    query = _build_query(filters, {"populate": "questions"})
+    # Explicitly request published-only — API tokens with broad access can
+    # otherwise return drafts too, which would let unfinished/test content
+    # leak into the live app the moment an admin saves (not publishes) an entry.
+    query = _build_query(filters, {"populate": "questions", "status": "published"})
     res = _request("GET", f"{CONTENT_ENDPOINT}?{query}")
     return [_normalize_item(item) for item in res.get("data", [])]
 
 
 def get_content(content_id: str) -> dict:
     """Returns a single Content Item as a plain dict, or None if it doesn't
-    exist. A genuinely unreachable/erroring content service still raises
-    (502/503) rather than being silently treated as "not found"."""
+    exist (or isn't published — same reasoning as list_content above). A
+    genuinely unreachable/erroring content service still raises (502/503)
+    rather than being silently treated as "not found"."""
     try:
-        res = _request("GET", f"{CONTENT_ENDPOINT}/{content_id}?populate=questions")
+        res = _request("GET", f"{CONTENT_ENDPOINT}/{content_id}?populate=questions&status=published")
     except HTTPException as exc:
         if exc.status_code == 404:
             return None
