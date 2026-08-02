@@ -12,12 +12,14 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
 
   const menuTabIds = role === 'guardian'
     ? ['admin', 'messages', 'help', 'contact']
+    : role === 'teacher'
+    ? ['messages', 'settings']
     : ['messages', 'help', 'contact', 'settings']
 
   const isMenuTab   = menuTabIds.includes(tab)
-  const accent      = role === 'guardian' ? '#0d9488' : '#059669'
-  const accentBg    = role === 'guardian' ? '#f0fdfa' : '#f0fdf4'
-  const activeClass = role === 'guardian' ? ' active guardian' : ' active kid'
+  const accent      = role === 'guardian' ? '#0d9488' : role === 'teacher' ? '#4f46e5' : '#059669'
+  const accentBg    = role === 'guardian' ? '#f0fdfa' : role === 'teacher' ? '#eef2ff' : '#f0fdf4'
+  const activeClass = role === 'guardian' ? ' active guardian' : role === 'teacher' ? ' active teacher' : ' active kid'
 
   // getBoundingClientRect() is already relative to the visual viewport.
   // We must NOT add visualViewport.offsetTop — that would double-count scroll.
@@ -115,8 +117,8 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
   const items = [
     ...(role === 'guardian' ? [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }] : []),
     { id: 'messages', icon: '💬', label: 'Messages'   },
-    { id: 'help',     icon: '❓', label: 'Help'        },
-    { id: 'contact',  icon: '📩', label: 'Contact Us'  },
+    ...(role !== 'teacher' ? [{ id: 'help',    icon: '❓', label: 'Help'       }] : []),
+    ...(role !== 'teacher' ? [{ id: 'contact', icon: '📩', label: 'Contact Us' }] : []),
     ...(role !== 'guardian' ? [{ id: 'settings', icon: '⚙️', label: 'Settings' }] : []),
     ...(onSwitchProfile ? [{ id: 'switch-profile', icon: '🔄', label: 'Switch Profile' }] : []),
     ...(onLogout ? [{ id: 'logout', icon: '🚪', label: 'Sign Out' }] : []),

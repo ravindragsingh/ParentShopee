@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import AppNavbar from './AppNavbar.jsx'
 import TopicPicker from './TopicPicker.jsx'
+import MessagesTab from './Messages.jsx'
+import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 
 // ─── Home Tab ───────────────────────────────────────────────────────────────
 
@@ -143,6 +145,7 @@ function ClassesTab({ classes, onRefresh, preselectClassId, onViewStudent }) {
   const [roster, setRoster] = useState([])
   const [rosterLoading, setRosterLoading] = useState(false)
   const [approveBusyId, setApproveBusyId] = useState(null)
+  const [removeBusyId, setRemoveBusyId] = useState(null)
 
   const [dueDate, setDueDate] = useState('')
   const [assigningTopicId, setAssigningTopicId] = useState(null)
@@ -218,6 +221,20 @@ function ClassesTab({ classes, onRefresh, preselectClassId, onViewStudent }) {
       alert(err.message)
     } finally {
       setApproveBusyId(null)
+    }
+  }
+
+  async function handleRemoveStudent(kid) {
+    if (!window.confirm(`Remove ${kid.name} from ${selectedClass?.name}? They'll need a new join request to come back.`)) return
+    setRemoveBusyId(kid.id)
+    try {
+      await api.removeStudentFromClass(selectedClassId, kid.id)
+      await onRefresh()
+      loadRoster()
+    } catch (err) {
+      alert(err.message)
+    } finally {
+      setRemoveBusyId(null)
     }
   }
 
@@ -358,14 +375,26 @@ function ClassesTab({ classes, onRefresh, preselectClassId, onViewStudent }) {
                 ) : (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
                     {roster.map(k => (
-                      <button
+                      <span
                         key={k.id}
-                        onClick={() => onViewStudent(k.id)}
-                        title="View activity log"
-                        style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 20, padding: '6px 14px', fontSize: '0.85rem', cursor: 'pointer' }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 20, padding: '4px 6px 4px 14px', fontSize: '0.85rem' }}
                       >
-                        {k.avatar} {k.name}
-                      </button>
+                        <button
+                          onClick={() => onViewStudent(k.id)}
+                          title="View activity log"
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontSize: '0.85rem', color: 'inherit' }}
+                        >
+                          {k.avatar} {k.name}
+                        </button>
+                        <button
+                          onClick={() => handleRemoveStudent(k)}
+                          disabled={removeBusyId === k.id}
+                          title={`Remove ${k.name} from this class`}
+                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', fontSize: '0.9rem', padding: '2px 6px', lineHeight: 1 }}
+                        >
+                          ✕
+                        </button>
+                      </span>
                     ))}
                   </div>
                 )}
@@ -747,6 +776,77 @@ function MaterialsTab({ classes, students }) {
   )
 }
 
+// ─── Settings Tab ───────────────────────────────────────────────────────────
+
+function TeacherSettingsTab() {
+  const { user } = useAuth()
+  const [newPwd, setNewPwd] = useState('')
+  const [confirmPwd, setConfirmPwd] = useState('')
+  const [pwdError, setPwdError] = useState('')
+  const [pwdSuccess, setPwdSuccess] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  async function handleChangePwd(e) {
+    e.preventDefault()
+    setPwdError(''); setPwdSuccess('')
+    const pwCheck = checkPasswordComplexity(newPwd)
+    if (!pwCheck.ok) { setPwdError(pwCheck.message); return }
+    if (newPwd !== confirmPwd) { setPwdError('Passwords do not match.'); return }
+    setSaving(true)
+    try {
+      await api.changeOwnPassword(newPwd)
+      setPwdSuccess('Password updated successfully.')
+      setNewPwd(''); setConfirmPwd('')
+    } catch (err) {
+      setPwdError(err.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div style={{ maxWidth: 500 }}>
+      <h3 style={{ fontWeight: 800, color: '#1e293b', marginBottom: 16 }}>⚙️ Settings</h3>
+
+      <div className="form-card" style={{ marginBottom: 16 }}>
+        <div className="form-title">My Profile</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
+            background: 'linear-gradient(135deg,#eef2ff,#e0e7ff)', border: '2px solid #c7d2fe',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem',
+          }}>🍎</div>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#1e293b' }}>{user.name}</div>
+            <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 2 }}>@{user.username}</div>
+            {user.email && <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 2 }}>📧 {user.email}</div>}
+          </div>
+        </div>
+      </div>
+
+      <div className="form-card">
+        <div className="form-title">Change Password</div>
+        <form onSubmit={handleChangePwd}>
+          {pwdError && <div className="error-msg">{pwdError}</div>}
+          {pwdSuccess && <div className="success-msg">{pwdSuccess}</div>}
+          <div className="form-group" style={{ marginBottom: 12 }}>
+            <label>New Password</label>
+            <input type="password" value={newPwd} onChange={e => setNewPwd(e.target.value)} placeholder="e.g. Sunshine24!" />
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+          </div>
+          <div className="form-group" style={{ marginBottom: 16 }}>
+            <label>Confirm Password</label>
+            <input type="password" value={confirmPwd} onChange={e => setConfirmPwd(e.target.value)} placeholder="Repeat new password" />
+          </div>
+          <button type="submit" className="btn btn-primary" disabled={saving}>
+            {saving ? 'Saving…' : 'Update Password'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
+
 // ─── Teacher Dashboard Shell ────────────────────────────────────────────────
 
 export default function TeacherDashboard() {
@@ -794,9 +894,14 @@ export default function TeacherDashboard() {
 
   return (
     <div className="app-container">
-      <AppNavbar variant="teacher" userName={user.name}>
-        <button className="logout-btn" onClick={logout}>🚪 Sign Out</button>
-      </AppNavbar>
+      <AppNavbar
+        variant="teacher"
+        userName={user.name}
+        onLogout={logout}
+        tab={tab}
+        setTab={setTab}
+        role="teacher"
+      />
 
       <div className="main-content">
         <div className="tabs">
@@ -825,6 +930,8 @@ export default function TeacherDashboard() {
               <StudentsTab students={students} preselectStudentId={preselectStudentId} />
             )}
             {tab === 'materials' && <MaterialsTab classes={classes} students={students} />}
+            {tab === 'messages'  && <MessagesTab />}
+            {tab === 'settings'  && <TeacherSettingsTab />}
           </>
         )}
       </div>

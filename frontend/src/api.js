@@ -161,6 +161,7 @@ export const api = {
   createClass:        (name)               => request('POST',   '/api/classes', { name }),
   getClasses:         ()                   => request('GET',    '/api/classes'),
   getClassRoster:     (classId)            => request('GET',    `/api/classes/${classId}/roster`),
+  removeStudentFromClass: (classId, kidId) => request('DELETE', `/api/classes/${classId}/roster/${kidId}`),
   deleteClass:        (classId)            => request('DELETE', `/api/classes/${classId}`),
   joinClass:          (joinCode, kidId)    => request('POST',   '/api/classes/join', { joinCode, kidId }),
   getMyClassMemberships: ()                => request('GET',    '/api/classes/mine'),

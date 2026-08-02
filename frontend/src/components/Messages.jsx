@@ -109,11 +109,12 @@ export default function MessagesTab() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const isGuardian = user.role === 'guardian'
-  const accentColor = isGuardian ? '#0d9488' : '#059669'
-  const accentLight = isGuardian ? '#f0fdfa' : '#f0fdf4'
-  const accentGrad  = isGuardian
+  const accentColor = user.role === 'guardian' ? '#0d9488' : user.role === 'teacher' ? '#4f46e5' : '#059669'
+  const accentLight = user.role === 'guardian' ? '#f0fdfa' : user.role === 'teacher' ? '#eef2ff' : '#f0fdf4'
+  const accentGrad  = user.role === 'guardian'
     ? 'linear-gradient(135deg, #0f766e, #0d9488)'
+    : user.role === 'teacher'
+    ? 'linear-gradient(135deg, #4338ca, #4f46e5)'
     : 'linear-gradient(135deg, #059669, #0d9488)'
 
   const overLimit = input.length > MAX_CHARS
@@ -169,12 +170,16 @@ export default function MessagesTab() {
         }}>
           <div style={{ padding: '14px 16px 10px', borderBottom: '1px solid #f1f5f9' }}>
             <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>💬 Messages</div>
-            <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 1 }}>Your family</div>
+            <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 1 }}>
+              {user.role === 'teacher' ? 'Parents' : 'Your family'}
+            </div>
           </div>
 
           {loadingContacts && <div className="loading-text" style={{ padding: 20, fontSize: '0.85rem' }}>Loading...</div>}
           {!loadingContacts && contacts.length === 0 && (
-            <div className="empty-text" style={{ padding: 20, fontSize: '0.85rem' }}>No family members yet.</div>
+            <div className="empty-text" style={{ padding: 20, fontSize: '0.85rem' }}>
+              {user.role === 'teacher' ? 'No parent contacts yet — approve a join request first.' : 'No family members yet.'}
+            </div>
           )}
 
           <div style={{ overflowY: 'auto', flex: 1 }}>
@@ -199,7 +204,7 @@ export default function MessagesTab() {
                     )}
                   </div>
                   <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {contact.lastMessage || (contact.role === 'kid' ? 'Kid' : 'Guardian')}
+                    {contact.lastMessage || (contact.role === 'kid' ? 'Kid' : contact.role === 'teacher' ? 'Teacher' : 'Guardian')}
                   </div>
                 </div>
               </button>

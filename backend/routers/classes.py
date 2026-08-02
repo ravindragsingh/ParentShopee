@@ -89,6 +89,20 @@ def get_class_roster(class_id: str, db: Session = Depends(get_db), user: DBUser 
     return ok(roster)
 
 
+@router.delete("/api/classes/{class_id}/roster/{kid_id}")
+def remove_student_from_class(class_id: str, kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
+    _get_teacher_class(db, user.id, class_id)
+    membership = db.query(DBClassMembership).filter(
+        DBClassMembership.class_id == class_id, DBClassMembership.kid_id == kid_id,
+        DBClassMembership.status == "approved",
+    ).first()
+    if not membership:
+        fail("Student not found in this class", 404)
+    db.delete(membership)
+    db.commit()
+    return ok({"removed": True})
+
+
 @router.get("/api/classes/students")
 def list_all_students(db: Session = Depends(get_db), user: DBUser = Depends(require_teacher)):
     classes = db.query(DBClass).filter(DBClass.teacher_id == user.id).all()

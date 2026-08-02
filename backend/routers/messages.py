@@ -8,7 +8,7 @@ from content_filter import check_content
 from database import get_db
 from deps import require_auth
 from helpers import get_family_id, now
-from models import DBMessage, DBUser
+from models import DBClass, DBClassMembership, DBMessage, DBUser
 from responses import fail, ok
 from schemas import MessageBody
 
@@ -25,13 +25,32 @@ def _family_contacts(db: Session, user: DBUser) -> list:
     family_id = get_family_id(user)
     contacts = []
     if user.role == "guardian":
-        contacts += db.query(DBUser).filter(DBUser.guardian_id == family_id, DBUser.role == "kid").all()
+        kids = db.query(DBUser).filter(DBUser.guardian_id == family_id, DBUser.role == "kid").all()
+        contacts += kids
         if user.co_guardian_of:
             p = db.query(DBUser).filter(DBUser.id == user.co_guardian_of).first()
             if p: contacts.append(p)
         else:
             cp = db.query(DBUser).filter(DBUser.co_guardian_of == user.id).first()
             if cp: contacts.append(cp)
+        # Teachers of any class one of my kids has an approved membership in
+        kid_ids = [k.id for k in kids]
+        if kid_ids:
+            class_ids = {m.class_id for m in db.query(DBClassMembership).filter(
+                DBClassMembership.kid_id.in_(kid_ids), DBClassMembership.status == "approved"
+            ).all()}
+            if class_ids:
+                teacher_ids = {c.teacher_id for c in db.query(DBClass).filter(DBClass.id.in_(class_ids)).all()}
+                contacts += db.query(DBUser).filter(DBUser.id.in_(teacher_ids)).all()
+    elif user.role == "teacher":
+        # Guardians of any student with an approved membership in one of my classes
+        class_ids = [c.id for c in db.query(DBClass).filter(DBClass.teacher_id == user.id).all()]
+        if class_ids:
+            guardian_ids = {m.guardian_id for m in db.query(DBClassMembership).filter(
+                DBClassMembership.class_id.in_(class_ids), DBClassMembership.status == "approved"
+            ).all()}
+            if guardian_ids:
+                contacts += db.query(DBUser).filter(DBUser.id.in_(guardian_ids)).all()
     else:
         p = db.query(DBUser).filter(DBUser.id == user.guardian_id).first()
         if p: contacts.append(p)
