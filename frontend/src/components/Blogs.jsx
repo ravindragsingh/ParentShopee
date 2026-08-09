@@ -5,6 +5,144 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const POSTS = [
   {
+    id: 8,
+    slug: 'growing-feelings-ages-2-to-10',
+    title: 'Growing Feelings',
+    subtitle: 'An age-by-age guide for parents and teachers on which feelings kids can learn to name from age 2 to age 10 — and how to help them say it out loud instead of acting it out.',
+    date: 'August 2026',
+    readTime: '7 min read',
+    emoji: '🌈',
+    tags: ['Emotional Intelligence', 'Child Development', 'Parenting', 'Teachers'],
+    content: [
+      {
+        type: 'intro',
+        text: "Feelings arrive long before words do. A two-year-old melting down in the cereal aisle and a ten-year-old going quiet after a tough day at school are doing the same basic thing — feeling something big, without yet knowing how to say it. The gap between feeling something and being able to name it calmly, out loud, is one of the biggest developmental jumps a child makes between age two and age ten.",
+      },
+      {
+        type: 'intro',
+        text: "This guide breaks that journey into four simple stages, with the feelings kids are typically ready to learn at each one — and what parents and teachers can actually do, starting today, to help them say it instead of scream it, hit it, or shut down with it.",
+      },
+      {
+        type: 'h2',
+        text: 'All Feelings Are Okay — Not All Behaviours Are',
+      },
+      {
+        type: 'p',
+        text: "Before the age-by-age guide, one rule sits underneath all of it: every feeling a child has is valid, but not every reaction to it is okay. Anger is never the problem — hitting is. Sadness is never the problem — hiding from everyone for hours is. The goal at every age is the same: help a child recognise what they're feeling, accept that it's allowed, and find a better way to let it out.",
+      },
+      {
+        type: 'h2',
+        text: 'Ages 2–3: The First Feelings',
+      },
+      {
+        type: 'feature',
+        icon: '🧠',
+        title: "Feelings they're ready to name",
+        text: "Toddlers can begin recognising four or five big, obvious feelings — happy, sad, mad, scared, and tired. That's it, and that's enough. At this age, a feeling arrives as a full-body wave before any word exists for it, which is why meltdowns are so common and so normal.",
+      },
+      {
+        type: 'feature',
+        icon: '👪',
+        title: 'How parents can help',
+        text: 'Narrate the feeling in the moment, in a calm voice: "You\'re mad because we have to leave the park." Don\'t try to reason a toddler out of a feeling — just name it, sit with them through it, and offer comfort once the wave passes. A feeling that gets named gets smaller, even for a two-year-old.',
+      },
+      {
+        type: 'feature',
+        icon: '🍎',
+        title: 'How teachers and carers can help',
+        text: 'In nursery or preschool settings, simple picture cards of faces — happy, sad, mad, scared — let toddlers point instead of scream. Mirrors, feelings songs, and a carer who narrates their own face ("I feel excited, look at my big smile!") give toddlers a model to copy long before they can copy it in words.',
+      },
+      {
+        type: 'h2',
+        text: 'Ages 4–5: More Words for Bigger Feelings',
+      },
+      {
+        type: 'feature',
+        icon: '🧠',
+        title: "Feelings they're ready to name",
+        text: "On top of happy, sad, mad, and scared, four and five-year-olds can start telling apart feelings that used to blur together — frustrated versus angry, excited versus happy, shy, worried, proud, and jealous. They're also starting to notice feelings on other people's faces, not just their own.",
+      },
+      {
+        type: 'feature',
+        icon: '👪',
+        title: 'How parents can help',
+        text: 'Keep a feelings chart or a set of feelings cards somewhere visible, and use it on ordinary days too — not just during a meltdown. Ask at dinner, "what\'s one thing that made you feel proud today?" Reading picture books where a character feels something and works through it is one of the most effective tools at this age.',
+      },
+      {
+        type: 'feature',
+        icon: '🍎',
+        title: 'How teachers can help',
+        text: 'A daily "feelings check-in" at morning circle — where each child points to or names how they\'re arriving that day — normalises talking about feelings before anything goes wrong. Role-playing simple scenarios ("what could you say if you feel jealous of a friend\'s turn?") builds the words before the real moment needs them.',
+      },
+      {
+        type: 'h2',
+        text: 'Ages 6–7: Feelings Get More Layered',
+      },
+      {
+        type: 'feature',
+        icon: '🧠',
+        title: "Feelings they're ready to name",
+        text: 'Six and seven-year-olds can grasp more layered feelings — nervous, embarrassed, disappointed, grateful, lonely, and confused — and, importantly, start to understand that two feelings can happen at once, like being excited and nervous about the same school trip.',
+      },
+      {
+        type: 'feature',
+        icon: '👪',
+        title: 'How parents can help',
+        text: 'Validate first, fix second. "That sounds really disappointing" lands better than jumping straight to a solution. Teach one or two calming tools — three deep breaths, counting to ten, squeezing a cushion — and practise them when your child is calm, not mid-meltdown, so the tool is already familiar when it\'s actually needed.',
+      },
+      {
+        type: 'feature',
+        icon: '🍎',
+        title: 'How teachers can help',
+        text: 'A simple feelings journal, even just a few minutes a day, gives children a private way to process something before it turns into a classroom outburst. When conflict happens between classmates, walking both children through "what did you feel, and what did you need?" teaches the vocabulary through real situations, not just lessons.',
+      },
+      {
+        type: 'h2',
+        text: 'Ages 8–10: Feelings About Feelings',
+      },
+      {
+        type: 'feature',
+        icon: '🧠',
+        title: "Feelings they're ready to name",
+        text: "By eight to ten, kids are ready for the more complex, social feelings — guilt, shame, anxiety, overwhelm, empathy, insecurity, and hope. This is also the age they start feeling feelings about their feelings, like being embarrassed that they cried, which needs just as much gentle naming as the original feeling did.",
+      },
+      {
+        type: 'feature',
+        icon: '👪',
+        title: 'How parents can help',
+        text: 'Ask open questions instead of yes/no ones — "what was the hardest part of today?" instead of "was school okay?" Model your own feelings out loud, including the harder ones: "I felt really frustrated in traffic today, so I took some deep breaths." Kids this age copy what they see far more than what they\'re told.',
+      },
+      {
+        type: 'feature',
+        icon: '🍎',
+        title: 'How teachers can help',
+        text: 'Social-emotional learning activities — buddy systems, peer conflict resolution, and open class discussions about tricky feelings like failure or jealousy — give children practice managing feelings among peers, not just with an adult. Praise the attempt to express a feeling well, even an imperfect one, more than whether the feeling itself was "good" or "bad."',
+      },
+      {
+        type: 'h2',
+        text: 'Five Ways to Build Feelings Vocabulary, Every Single Day',
+      },
+      {
+        type: 'steps',
+        items: [
+          "Name your own feelings out loud in front of your child — it's the fastest way they learn the words",
+          "Ask 'what did that feel like?' more often than 'what happened?' — feelings, not just facts",
+          'Keep a feelings chart, cards, or book somewhere visible, and use it on ordinary days, not just hard ones',
+          "Praise the words, not just the calm — \"thank you for telling me you were angry instead of hitting\" matters more than it sounds",
+          'Let feelings pass without rushing to fix them — sometimes being heard is the whole solution a child needs',
+        ],
+      },
+      {
+        type: 'quote',
+        text: "Children aren't born knowing the difference between angry and disappointed, or between nervous and excited — those words have to be given to them, one ordinary day at a time. A child who can say \"I feel embarrassed\" instead of slamming a door has been given something that will serve them for the rest of their life, at school, at home, and in every relationship after that.",
+      },
+      {
+        type: 'hashtags',
+        tags: ['#EmotionalIntelligence', '#ChildDevelopment', '#Parenting101', '#TeacherTips', '#KidsFeelings', '#RewardUrKids'],
+      },
+    ],
+  },
+  {
     id: 7,
     slug: 'how-to-use-reward-ur-kids',
     title: 'How to Use Reward Ur Kids: A Visual Walkthrough',
@@ -531,7 +669,7 @@ const POSTS = [
     ],
   },
   {
-    id: 3,
+    id: 5,
     slug: 'parenting-guidance-ages-5-to-11',
     title: 'The Primary Years: A Guardian\'s Guide to Raising Children Aged 5 to 11',
     subtitle: 'What to expect at each stage, how to build responsibility early, and why these six years are the most important window for shaping lifelong habits.',
@@ -995,6 +1133,14 @@ function renderContent(block, i) {
         <CollapsibleSection key={i} icon={block.icon} title={block.title} defaultOpen={block.defaultOpen !== false}>
           {block.items.map((b, j) => renderContent(b, j))}
         </CollapsibleSection>
+      )
+    case 'hashtags':
+      return (
+        <div key={i} style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 32, paddingTop: 24, borderTop: '1px solid #e2e8f0' }}>
+          {block.tags.map(tag => (
+            <span key={tag} style={{ color: '#0d9488', fontWeight: 700, fontSize: '0.9rem' }}>{tag}</span>
+          ))}
+        </div>
       )
     default:
       return null
