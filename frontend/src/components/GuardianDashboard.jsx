@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { GuardianChoreCard, EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
@@ -1699,7 +1699,11 @@ function KidsTab() {
 export default function GuardianDashboard() {
   const { user, logout, switchProfile } = useAuth()
   const navigate = useNavigate()
-  const [tab, setTab] = useState('chores')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tab = searchParams.get('tab') || 'chores'
+  const setTab = useCallback(next => {
+    setSearchParams(next === 'chores' ? {} : { tab: next })
+  }, [setSearchParams])
   const [kids, setKids] = useState([])
   const [wallets, setWallets] = useState([])
 

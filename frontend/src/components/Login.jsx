@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
@@ -906,7 +906,9 @@ export function ResetPasswordPage() {
 
 export default function Login() {
   const navigate = useNavigate()
-  const [mode, setMode] = useState('login')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const mode = searchParams.get('mode') === 'register' ? 'register' : 'login'
+  const setMode = next => setSearchParams(next === 'register' ? { mode: 'register' } : {})
   const [showHelp, setShowHelp] = useState(false)
   const [showLegal, setShowLegal] = useState(false)
 

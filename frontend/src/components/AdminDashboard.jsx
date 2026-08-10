@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
@@ -472,7 +473,11 @@ function TicketsPanel() {
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth()
-  const [view,          setView]         = useState('families')  // 'families' | 'tickets'
+  const [searchParams, setSearchParams] = useSearchParams()
+  const view = searchParams.get('view') || 'families'  // 'families' | 'tickets'
+  const setView = useCallback(next => {
+    setSearchParams(next === 'families' ? {} : { view: next })
+  }, [setSearchParams])
   const [families,      setFamilies]      = useState([])
   const [loading,       setLoading]       = useState(true)
   const [error,         setError]         = useState('')
