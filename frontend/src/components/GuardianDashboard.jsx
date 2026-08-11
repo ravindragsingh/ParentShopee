@@ -145,8 +145,24 @@ function ChoresTab({ kids }) {
   const [quickError, setQuickError] = useState('')
   const [quickAdding, setQuickAdding] = useState(false)
 
+  // Recurring toggle — the backend only supports a single assignedKidId per
+  // template (unlike one-time chores, which can be created for several kids
+  // at once), so kid selection collapses to single-select while this is on.
+  const [quickRecurring, setQuickRecurring] = useState(false)
+  const [quickRecurrenceType, setQuickRecurrenceType] = useState('daily')
+  const [quickRecurrenceDays, setQuickRecurrenceDays] = useState([])
+  const [quickRecurrenceDom, setQuickRecurrenceDom] = useState('')
+
   function toggleQuickKid(kidId) {
+    if (quickRecurring) {
+      setQuickKidIds(ids => ids[0] === kidId ? [] : [kidId])
+      return
+    }
     setQuickKidIds(ids => ids.includes(kidId) ? ids.filter(i => i !== kidId) : [...ids, kidId])
+  }
+
+  function toggleQuickRecurrenceDay(day) {
+    setQuickRecurrenceDays(days => days.includes(day) ? days.filter(d => d !== day) : [...days, day])
   }
 
   async function handleQuickAdd(e) {
@@ -155,18 +171,39 @@ function ChoresTab({ kids }) {
     if (!quickTitle.trim()) { setQuickError('Title is required.'); return }
     const wordCheck = checkFields(quickTitle)
     if (!wordCheck.ok) { setQuickError(wordCheck.message); return }
+    if (quickRecurring && quickRecurrenceType === 'weekly' && quickRecurrenceDays.length === 0) {
+      setQuickError('Select at least one day for weekly recurrence.'); return
+    }
+    if (quickRecurring && quickRecurrenceType === 'monthly' && !quickRecurrenceDom) {
+      setQuickError('Specify a day of month for monthly recurrence.'); return
+    }
     setQuickAdding(true)
     setQuickError('')
     try {
-      await api.createChore({
-        title: quickTitle.trim(),
-        description: '',
-        points: Number(quickPoints) || 0,
-        assignedKidIds: quickKidIds,
-        dueDate: quickDueDate || null,
-        imageEmoji: quickEmoji || '📋',
-      })
+      if (quickRecurring) {
+        await api.createRecurring({
+          title: quickTitle.trim(),
+          description: '',
+          points: Number(quickPoints) || 0,
+          imageEmoji: quickEmoji || '📋',
+          assignedKidId: quickKidIds[0] || null,
+          recurrenceType: quickRecurrenceType,
+          recurrenceDays: quickRecurrenceType === 'weekly' ? quickRecurrenceDays : [],
+          recurrenceDom: quickRecurrenceType === 'monthly' ? Number(quickRecurrenceDom) : null,
+        })
+        loadRecurring()
+      } else {
+        await api.createChore({
+          title: quickTitle.trim(),
+          description: '',
+          points: Number(quickPoints) || 0,
+          assignedKidIds: quickKidIds,
+          dueDate: quickDueDate || null,
+          imageEmoji: quickEmoji || '📋',
+        })
+      }
       setQuickTitle(''); setQuickEmoji('📋'); setQuickPoints('5'); setQuickKidIds([]); setQuickDueDate('')
+      setQuickRecurring(false); setQuickRecurrenceType('daily'); setQuickRecurrenceDays([]); setQuickRecurrenceDom('')
       loadChores()
       loadLimits()
     } catch (err) {
@@ -320,15 +357,79 @@ function ChoresTab({ kids }) {
                       <label>Points</label>
                       <input type="number" min="0" value={quickPoints} onChange={e => setQuickPoints(e.target.value)} />
                     </div>
-                    <div className="form-group" style={{ flex: '0 0 160px' }}>
-                      <label>Due date <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.78rem' }}>(optional)</span></label>
-                      <input type="date" value={quickDueDate} onChange={e => setQuickDueDate(e.target.value)} />
+                    {!quickRecurring && (
+                      <div className="form-group" style={{ flex: '0 0 160px' }}>
+                        <label>Due date <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.78rem' }}>(optional)</span></label>
+                        <input type="date" value={quickDueDate} onChange={e => setQuickDueDate(e.target.value)} />
+                      </div>
+                    )}
+                    <div className="form-group" style={{ flex: '100%' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+                        <input
+                          type="checkbox"
+                          checked={quickRecurring}
+                          onChange={e => setQuickRecurring(e.target.checked)}
+                          style={{ width: 'auto' }}
+                        />
+                        🔁 Make this a recurring chore
+                      </label>
                     </div>
+                    {quickRecurring && (
+                      <div className="form-group" style={{ flex: '100%' }}>
+                        <label>Repeats</label>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
+                          {['daily', 'weekly', 'monthly'].map(freq => (
+                            <button
+                              key={freq}
+                              type="button"
+                              onClick={() => setQuickRecurrenceType(freq)}
+                              style={{
+                                padding: '5px 14px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', textTransform: 'capitalize',
+                                border: `1.5px solid ${quickRecurrenceType === freq ? '#0d9488' : '#e2e8f0'}`,
+                                background: quickRecurrenceType === freq ? '#f0fdfa' : '#fff',
+                                color: quickRecurrenceType === freq ? '#0d9488' : '#64748b',
+                              }}
+                            >
+                              {freq}
+                            </button>
+                          ))}
+                        </div>
+                        {quickRecurrenceType === 'weekly' && (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((label, i) => (
+                              <button
+                                key={label}
+                                type="button"
+                                onClick={() => toggleQuickRecurrenceDay(i)}
+                                style={{
+                                  padding: '5px 12px', borderRadius: 20, fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+                                  border: `1.5px solid ${quickRecurrenceDays.includes(i) ? '#0d9488' : '#e2e8f0'}`,
+                                  background: quickRecurrenceDays.includes(i) ? '#f0fdfa' : '#fff',
+                                  color: quickRecurrenceDays.includes(i) ? '#0d9488' : '#64748b',
+                                }}
+                              >
+                                {label}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                        {quickRecurrenceType === 'monthly' && (
+                          <input
+                            type="number" min="1" max="31" style={{ maxWidth: 100 }}
+                            placeholder="Day of month"
+                            value={quickRecurrenceDom}
+                            onChange={e => setQuickRecurrenceDom(e.target.value)}
+                          />
+                        )}
+                      </div>
+                    )}
                     <div className="form-group" style={{ flex: '100%' }}>
                       <label>
                         Assign to
                         <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.78rem' }}>
-                          {' '}(leave unselected for "any kid" · pick more than one to create it for each of them)
+                          {' '}{quickRecurring
+                            ? '(leave unselected for "any kid")'
+                            : '(leave unselected for "any kid" · pick more than one to create it for each of them)'}
                         </span>
                       </label>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -350,7 +451,7 @@ function ChoresTab({ kids }) {
                       </div>
                     </div>
                     <button type="submit" className="btn btn-green btn-sm" disabled={quickAdding || kids.length === 0}>
-                      {quickAdding ? 'Adding...' : '+ Add'}
+                      {quickAdding ? 'Adding...' : quickRecurring ? '🔁 Add Recurring Chore' : '+ Add'}
                     </button>
                   </form>
                   <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 6 }}>
