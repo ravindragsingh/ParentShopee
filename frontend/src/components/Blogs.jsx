@@ -5,6 +5,116 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const POSTS = [
   {
+    id: 9,
+    slug: 'why-kids-need-chores-early',
+    title: 'Why Kids Need to Start Doing Chores Early',
+    subtitle: "Toddlers who help around the house grow into capable, confident kids — here's why starting early, even messily, matters more than waiting until they're 'old enough.'",
+    date: 'August 2026',
+    readTime: '6 min read',
+    emoji: '🧹',
+    tags: ['Parenting', 'Child Development', 'Chores', 'Early Childhood'],
+    content: [
+      {
+        type: 'intro',
+        text: "There's a common idea in parenting that chores are something to introduce once a child is \"old enough\" to do them properly — school-age, tidy, capable of following instructions without turning it into a mess. In reality, the opposite is true: the earlier a child starts helping around the house, even messily and imperfectly, the more naturally responsibility becomes part of who they are.",
+      },
+      {
+        type: 'intro',
+        text: "This isn't about getting free labour out of a toddler. It's about a narrow developmental window where children are wired to want to help — and what happens to that instinct depending on whether it's welcomed early or brushed aside until later.",
+      },
+      {
+        type: 'h2',
+        text: "The Toddler 'Helper' Instinct Is Real — and It Doesn't Last Forever",
+      },
+      {
+        type: 'p',
+        text: "Any parent of a two-year-old has seen it: a toddler grabbing for the broom, insisting on carrying their own plate, wanting to \"help\" wipe the table even though it takes three times as long and leaves the table wetter than before. Child development research consistently shows this urge to imitate and contribute peaks remarkably early — long before a child has the coordination to do any of it cleanly.",
+      },
+      {
+        type: 'p',
+        text: "What happens next matters enormously. Every \"you're too little, let me do it\" or \"it's faster if I just do it myself\" teaches a toddler that helping isn't really wanted. By the time parents feel ready to formally assign chores, around age six or seven, that early instinct has often quietly faded — and the enthusiasm that once showed up on its own has to be rebuilt from scratch, usually with far more resistance than it would have taken at two.",
+      },
+      {
+        type: 'h2',
+        text: 'Six Reasons Early Chores Matter More Than They Seem',
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: 'They Build Real Competence, Not Just Confidence',
+        text: "Praise alone tells a child they're loved. A finished task tells them they're capable. A three-year-old who successfully puts their own shoes in the basket has direct, first-hand proof of their own competence — which builds a far sturdier kind of self-esteem than being told \"good job\" for nothing in particular.",
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: 'They Wire In the Effort-Reward Connection Early',
+        text: "Before screens and instant entertainment take hold, small children are unusually open to learning that effort produces outcomes — a tidied shelf, a fed pet, a proud parent. Introduced early, this connection becomes intuitive. Introduced late, after years of things simply being done for them, it has to be taught against the grain.",
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: 'They Prevent the Entitlement Trap',
+        text: "Children who are never asked to contribute quietly absorb a different lesson: that meals, clean clothes, and a tidy home simply appear. Early, small contributions — however minor — interrupt that assumption before it has time to set, and build an early sense that the household runs because everyone, including them, plays a part.",
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: 'They Strengthen Motor Skills and Independence',
+        text: "Pouring, sorting, folding, wiping, and carrying are quietly excellent fine and gross motor practice — the same skills occupational therapists use in early development activities, just dressed up as helping around the house. A toddler sorting laundry by colour is doing real cognitive and physical work, not just being kept busy.",
+      },
+      {
+        type: 'benefit',
+        number: 5,
+        title: 'They Build an Early Identity as "Someone Who Helps"',
+        text: "Identity forms far earlier than most parents expect. A child who grows up folding napkins and feeding the dog doesn't experience chores as an external demand later — helping is simply part of who they already are, because it always has been.",
+      },
+      {
+        type: 'benefit',
+        number: 6,
+        title: 'They Make the School-Age Transition Smoother',
+        text: "Children who start early never experience chores as a sudden new burden dropped on them at seven or eight. For them, it's just an extension of normal life — which means far less pushback, negotiation, and nagging once responsibilities naturally grow heavier with age.",
+      },
+      {
+        type: 'h2',
+        text: 'What This Actually Looks Like, Day to Day',
+      },
+      {
+        type: 'scenario',
+        items: [
+          { time: 'Age 2', text: 'Putting a toy in a basket, throwing away their own napkin, "helping" carry a light, unbreakable item to the table. Slow, imperfect, and worth every extra minute it takes.' },
+          { time: 'Age 4', text: 'Setting out napkins and cutlery, watering a low plant, matching socks from the laundry pile, putting shoes on the shoe rack.' },
+          { time: 'Age 6', text: 'Making their own bed, clearing their own plate, feeding a pet independently, and — crucially — expecting to do these things, because they always have.' },
+        ],
+      },
+      {
+        type: 'p',
+        text: "None of this is about output. A two-year-old's help usually creates more work, not less. The point was never efficiency — it's that the habit and the identity are being built years before anyone needs them to actually save time.",
+      },
+      {
+        type: 'h2',
+        text: 'Starting Early Without a Daily Fight',
+      },
+      {
+        type: 'steps',
+        items: [
+          "Say yes to the mess — a toddler \"helping\" wipe the table is worth the extra minute of cleanup, every time",
+          'Keep early tasks tiny and finishable — one toy in one basket, not "clean your room"',
+          'Do it alongside them at first, not just instructions from across the room',
+          'Praise the effort and the trying, not just a clean result a small child usually can\'t produce yet',
+          'Keep it consistent rather than occasional — a daily small task builds the habit faster than an impressive one-off',
+        ],
+      },
+      {
+        type: 'p',
+        text: "As chores grow from toddler-sized tasks into real responsibilities, a simple points-and-rewards system — the kind Reward Ur Kids is built around — gives that early habit somewhere to grow into, turning \"helping because it's normal\" into a visible, motivating routine the whole family can see.",
+      },
+      {
+        type: 'quote',
+        text: "Nobody expects a two-year-old to do a chore well. That was never the point. The point is that a child who has always helped never has to be taught to start — and that head start, quietly built years before it's ever needed, is worth far more than a perfectly wiped table.",
+      },
+    ],
+  },
+  {
     id: 8,
     slug: 'growing-feelings-ages-2-to-10',
     title: 'Growing Feelings',
@@ -985,6 +1095,15 @@ const POSTS = [
   },
 ]
 
+// The walkthrough post is the best entry point for anyone new to the app,
+// so it always leads the list regardless of where new posts get inserted above.
+const PINNED_SLUG = 'how-to-use-reward-ur-kids'
+const ORDERED_POSTS = [...POSTS].sort((a, b) => {
+  if (a.slug === PINNED_SLUG) return -1
+  if (b.slug === PINNED_SLUG) return 1
+  return 0
+})
+
 // ── Collapsible section (for screenshot-heavy posts) ───────────────────────────
 
 function CollapsibleSection({ icon, title, defaultOpen = true, children }) {
@@ -1237,7 +1356,7 @@ function BlogList() {
       {/* Posts grid */}
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '40px 24px 60px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
-          {POSTS.map(post => (
+          {ORDERED_POSTS.map(post => (
             <article
               key={post.id}
               onClick={() => navigate(`/blog/${post.slug}`)}

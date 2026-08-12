@@ -978,6 +978,8 @@ export default function Login() {
               <button onClick={() => { window.location.href = 'mailto:ravindragsingh@gmail.com' }}>Contact Us</button>
               {' · '}
               <button onClick={() => setShowHelp(true)}>Help</button>
+              {' · '}
+              <a href="https://www.instagram.com/rewardurkids" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
             </div>
           </>
         )}

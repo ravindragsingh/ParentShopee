@@ -957,15 +957,18 @@ body {
   font-size: 0.75rem;
   color: #cbb994;
 }
-.login-footer-links button {
+.login-footer-links button,
+.login-footer-links a {
   background: none;
   border: none;
   color: #a8895c;
   font-size: 0.75rem;
   cursor: pointer;
   padding: 0;
+  text-decoration: none;
 }
-.login-footer-links button:hover { color: #78716c; text-decoration: underline; }
+.login-footer-links button:hover,
+.login-footer-links a:hover { color: #78716c; text-decoration: underline; }
 
 .error-msg {
   background: #fee2e2;
