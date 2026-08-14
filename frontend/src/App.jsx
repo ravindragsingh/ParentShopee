@@ -6,6 +6,7 @@ import GuardianDashboard from './components/GuardianDashboard.jsx'
 import KidDashboard from './components/KidDashboard.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import Blogs from './components/Blogs.jsx'
+import PrivacyPolicyPage from './components/PrivacyPolicyPage.jsx'
 
 function Loading() {
   return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/"           element={<LoginRoute />} />
           <Route path="/blog"       element={<Blogs />} />
           <Route path="/blog/:slug" element={<Blogs />} />
+          <Route path="/privacy"    element={<PrivacyPolicyPage />} />
           <Route path="/activate"       element={<ActivatePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/profiles"  element={<ProfilePickerRoute />} />
