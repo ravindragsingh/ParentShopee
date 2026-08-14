@@ -6,7 +6,64 @@ import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 
-// ── User Agreement Modal ──────────────────────────────────────────────────────
+// ── User Agreement content — shared by the in-app modal and the public
+// /privacy page (needed as a hosted URL for app store submissions) ────────────
+
+export function LegalAgreementSections() {
+  return (
+    <>
+      <Section title="1. About Reward Ur Kids">
+        Reward Ur Kids is a family management app that allows guardians to assign chores to children, award points, and let children redeem those points in a family shop. By creating an account you agree to use the app only for lawful family management purposes.
+      </Section>
+
+      <Section title="2. Eligibility">
+        Account holders (guardians) must be at least 25 years of age. By registering you confirm that the date of birth you provide is accurate. Children added to the family account do not create their own accounts; their profiles are managed entirely by the guardian.
+      </Section>
+
+      <Section title="3. Children's Privacy">
+        We take children's privacy seriously. Children's names, avatars, and point balances are stored solely to operate the app for your family. We do not share, sell, or disclose children's data to third parties. Guardians are responsible for keeping their login credentials secure.
+      </Section>
+
+      <Section title="4. Account Responsibilities">
+        You are responsible for all activity that occurs under your account. Keep your password confidential and notify us immediately if you suspect unauthorised access. You may not share your account with individuals outside your immediate family.
+      </Section>
+
+      <Section title="5. Acceptable Use">
+        You agree not to use Reward Ur Kids to:
+        <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+          <li>Post content that is offensive, hateful, or inappropriate for children</li>
+          <li>Circumvent the age-appropriate content filters built into the app</li>
+          <li>Attempt to gain unauthorised access to other accounts or backend systems</li>
+          <li>Use the app for any commercial or non-personal purpose</li>
+        </ul>
+      </Section>
+
+      <Section title="6. Content Standards">
+        Chore names, shop item names, and messages must use age-appropriate language. The app automatically filters restricted words. Content that bypasses or attempts to bypass these filters may result in account suspension.
+      </Section>
+
+      <Section title="7. Points & Rewards">
+        Points awarded within the app have no monetary value and cannot be exchanged for real money. Guardians retain full discretion over awarding and adjusting points. Reward Ur Kids is not responsible for disputes arising from point adjustments made by guardians.
+      </Section>
+
+      <Section title="8. Data Storage">
+        Your account data (name, email, username, hashed password, and family records) is stored securely on our servers. We do not sell or share your personal data with advertisers. You may request deletion of your account and all associated data by contacting us via the Contact Us form in the app.
+      </Section>
+
+      <Section title="9. Service Availability">
+        We strive for high availability but do not guarantee uninterrupted access. We reserve the right to perform maintenance, updates, or to discontinue the service with reasonable notice.
+      </Section>
+
+      <Section title="10. Changes to This Agreement">
+        We may update this agreement from time to time. Continued use of Reward Ur Kids after changes are posted constitutes acceptance of the revised agreement. We will notify you of significant changes via the email address on your account.
+      </Section>
+
+      <Section title="11. Contact">
+        If you have questions about this agreement, please use the Contact Us feature within the app after logging in, or email us directly at ravindragsingh@gmail.com.
+      </Section>
+    </>
+  )
+}
 
 function UserAgreementModal({ onClose }) {
   return createPortal(
@@ -38,56 +95,7 @@ function UserAgreementModal({ onClose }) {
 
         {/* Scrollable body */}
         <div style={{ overflowY: 'auto', padding: '18px 22px', fontSize: '0.82rem', color: '#334155', lineHeight: 1.65 }}>
-
-          <Section title="1. About Reward Ur Kids">
-            Reward Ur Kids is a family management app that allows guardians to assign chores to children, award points, and let children redeem those points in a family shop. By creating an account you agree to use the app only for lawful family management purposes.
-          </Section>
-
-          <Section title="2. Eligibility">
-            Account holders (guardians) must be at least 25 years of age. By registering you confirm that the date of birth you provide is accurate. Children added to the family account do not create their own accounts; their profiles are managed entirely by the guardian.
-          </Section>
-
-          <Section title="3. Children's Privacy">
-            We take children's privacy seriously. Children's names, avatars, and point balances are stored solely to operate the app for your family. We do not share, sell, or disclose children's data to third parties. Guardians are responsible for keeping their login credentials secure.
-          </Section>
-
-          <Section title="4. Account Responsibilities">
-            You are responsible for all activity that occurs under your account. Keep your password confidential and notify us immediately if you suspect unauthorised access. You may not share your account with individuals outside your immediate family.
-          </Section>
-
-          <Section title="5. Acceptable Use">
-            You agree not to use Reward Ur Kids to:
-            <ul style={{ marginTop: 6, paddingLeft: 18 }}>
-              <li>Post content that is offensive, hateful, or inappropriate for children</li>
-              <li>Circumvent the age-appropriate content filters built into the app</li>
-              <li>Attempt to gain unauthorised access to other accounts or backend systems</li>
-              <li>Use the app for any commercial or non-personal purpose</li>
-            </ul>
-          </Section>
-
-          <Section title="6. Content Standards">
-            Chore names, shop item names, and messages must use age-appropriate language. The app automatically filters restricted words. Content that bypasses or attempts to bypass these filters may result in account suspension.
-          </Section>
-
-          <Section title="7. Points & Rewards">
-            Points awarded within the app have no monetary value and cannot be exchanged for real money. Guardians retain full discretion over awarding and adjusting points. Reward Ur Kids is not responsible for disputes arising from point adjustments made by guardians.
-          </Section>
-
-          <Section title="8. Data Storage">
-            Your account data (name, email, username, hashed password, and family records) is stored securely on our servers. We do not sell or share your personal data with advertisers. You may request deletion of your account and all associated data by contacting us via the Contact Us form in the app.
-          </Section>
-
-          <Section title="9. Service Availability">
-            We strive for high availability but do not guarantee uninterrupted access. We reserve the right to perform maintenance, updates, or to discontinue the service with reasonable notice.
-          </Section>
-
-          <Section title="10. Changes to This Agreement">
-            We may update this agreement from time to time. Continued use of Reward Ur Kids after changes are posted constitutes acceptance of the revised agreement. We will notify you of significant changes via the email address on your account.
-          </Section>
-
-          <Section title="11. Contact">
-            If you have questions about this agreement, please use the Contact Us feature within the app after logging in, or email us directly at ravindragsingh@gmail.com.
-          </Section>
+          <LegalAgreementSections />
         </div>
 
         {/* Footer */}
