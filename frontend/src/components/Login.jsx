@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -474,6 +474,106 @@ function ForgotUsernamePanel({ onShowPasswordRecovery }) {
   )
 }
 
+// ── Google Sign-In ───────────────────────────────────────────────────────────
+
+// Renders Google's own button via the Identity Services script (loaded in
+// index.html). Signing in mints a normal device session exactly like password
+// login, so everything downstream (profile picker, PIN flow) is unaffected.
+// A first-time Google sign-in has no birthdate/gender on file (Google doesn't
+// provide them), so the backend replies with needsProfile instead of a
+// session, and this component asks for just those two fields before finishing.
+function GoogleSignInButton() {
+  const { login } = useAuth()
+  const buttonRef = useRef(null)
+  const [needsProfile, setNeedsProfile] = useState(null) // { credential, email, name } | null
+  const [dateOfBirth, setDateOfBirth] = useState('')
+  const [gender, setGender] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+
+  const handleCredentialResponse = useCallback(async (response) => {
+    setError('')
+    setLoading(true)
+    try {
+      const data = await api.googleLogin(response.credential)
+      if (data.needsProfile) {
+        setNeedsProfile({ credential: response.credential, email: data.email, name: data.name })
+      } else {
+        login(data.user, data.token)
+      }
+    } catch (err) {
+      setError(err.message || 'Google sign-in failed. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }, [login])
+
+  useEffect(() => {
+    if (!clientId || !window.google?.accounts?.id || !buttonRef.current) return
+    window.google.accounts.id.initialize({ client_id: clientId, callback: handleCredentialResponse })
+    window.google.accounts.id.renderButton(buttonRef.current, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
+  }, [clientId, handleCredentialResponse])
+
+  async function handleCompleteProfile(e) {
+    e.preventDefault()
+    setError('')
+    if (!dateOfBirth) { setError('Please enter your date of birth.'); return }
+    if (!gender) { setError('Please select a gender.'); return }
+    setLoading(true)
+    try {
+      const data = await api.googleComplete(needsProfile.credential, dateOfBirth, gender)
+      login(data.user, data.token)
+    } catch (err) {
+      setError(err.message || 'Could not finish creating your account.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (!clientId) return null // Google sign-in not configured on this deployment yet
+
+  if (needsProfile) {
+    return (
+      <div style={{ marginTop: 10, padding: 14, border: '1px solid #e2e8f0', borderRadius: 10, background: '#f8fafc' }}>
+        <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#1e293b', marginBottom: 4 }}>
+          Welcome, {needsProfile.name || needsProfile.email}!
+        </div>
+        <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 12 }}>
+          Just a couple more details to finish your account — guardians must be 25 or older.
+        </div>
+        {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+        <form onSubmit={handleCompleteProfile}>
+          <div className="input-icon-group">
+            <label>Date of birth</label>
+            <input type="date" value={dateOfBirth} onChange={e => setDateOfBirth(e.target.value)} />
+          </div>
+          <div className="input-icon-group">
+            <label>Gender</label>
+            <select value={gender} onChange={e => setGender(e.target.value)}>
+              <option value="">Select...</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button type="submit" className="login-btn" disabled={loading} style={{ marginTop: 8 }}>
+            {loading ? 'Finishing up...' : 'Finish creating account'}
+          </button>
+        </form>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+      <div ref={buttonRef} style={{ display: 'flex', justifyContent: 'center' }} />
+    </div>
+  )
+}
+
 // ── Login form ────────────────────────────────────────────────────────────────
 
 function LoginForm({ onRegister }) {
@@ -626,6 +726,13 @@ function LoginForm({ onRegister }) {
             </button>
           </div>
         </form>
+      )}
+
+      {!recoveryMode && (
+        <>
+          <div className="login-divider">or</div>
+          <GoogleSignInButton />
+        </>
       )}
 
       <div className="login-divider">New here?</div>
@@ -956,14 +1063,13 @@ export default function Login() {
                 <span className="hero-trophy">🏆</span>
               </div>
             </div>
-            <h1 className="brand-wordmark">
-              <span className="brand-reward">Reward</span><span className="brand-ur">Ur</span><span className="brand-kids">Kids</span>
-            </h1>
-            <p className="brand-tagline">Turn chores into rewards kids love.</p>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>
+              <img src="/branding/RewardURKids_Website_Full_Logo.png" alt="Reward Ur Kids — Small Tasks. Big Smiles." style={{ maxWidth: 280, width: '100%', height: 'auto', display: 'block' }} />
+            </div>
           </>
         ) : (
-          <div style={{ textAlign: 'center', fontSize: '1.4rem', fontWeight: 800, marginBottom: 18 }}>
-            🏆 <span className="brand-reward">Reward</span><span className="brand-ur">Ur</span><span className="brand-kids">Kids</span>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 18 }}>
+            <img src="/branding/RewardURKids_Website_Compact_Logo.png" alt="Reward Ur Kids" style={{ maxWidth: 220, width: '100%', height: 'auto', display: 'block' }} />
           </div>
         )}
 

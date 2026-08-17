@@ -12,12 +12,14 @@ from database import get_db
 from deps import require_auth
 from email_utils import send_activation_email, send_reset_email, send_username_email
 from geolocation import get_client_ip, get_location_from_ip, record_login_location
-from helpers import calculate_age, now, safe_user
+from google_auth_utils import verify_google_token
+from helpers import calculate_age, generate_username_from_email, now, safe_user
 from models import DBUser
 from responses import fail, ok
 from schemas import (
     ActivateBody, ChangeOwnPasswordBody, ForgotPasswordBody, ForgotUsernameBody,
-    LoginBody, RegisterBody, ResendActivationBody, ResetPasswordBody, UpdatePinBody,
+    GoogleAuthBody, GoogleCompleteBody, LoginBody, RegisterBody, ResendActivationBody,
+    ResetPasswordBody, UpdatePinBody,
 )
 from security import check_password_complexity, check_pin_complexity
 
@@ -114,6 +116,98 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         "email": user.email,
         "message": "Account created! Check your email for a link to activate your account.",
     }, 201)
+
+
+@router.post("/api/auth/google")
+def google_login(body: GoogleAuthBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    claims = verify_google_token(body.credential)
+    google_id = claims["sub"]
+    email = (claims.get("email") or "").lower().strip()
+
+    user = db.query(DBUser).filter(DBUser.google_id == google_id).first()
+    if not user:
+        # Not linked to an account yet. If this email already registered the
+        # traditional way, don't silently link it -- that's an account-takeover
+        # risk if we get it wrong. Otherwise this is a first-time sign-up, which
+        # still needs the eligibility fields (birthdate, gender) Google can't give us.
+        if db.query(DBUser).filter(DBUser.email == email).first():
+            fail(
+                "An account with this email already exists. Please sign in with your username and password.",
+                409, code="email_exists",
+            )
+        return ok({"needsProfile": True, "email": email, "name": claims.get("name") or ""})
+
+    if user.role == "kid" or user.co_guardian_of:
+        fail(
+            "This account is part of a family — sign in with your family's main account and select your profile.",
+            403, code="use_family_login",
+        )
+    if user.is_suspended == "1":
+        fail("This account has been suspended. Contact support for help.", 403, code="account_suspended")
+
+    user.last_login_at = now()
+    user.last_active_at = user.last_login_at
+    db.commit()
+    db.refresh(user)
+    token = str(uuid4())
+    SESSIONS[token] = user.id
+    background_tasks.add_task(record_login_location, user.id, get_client_ip(request))
+    return ok({"token": token, "user": safe_user(user)})
+
+
+@router.post("/api/auth/google/complete")
+def google_complete(body: GoogleCompleteBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    claims = verify_google_token(body.credential)
+    google_id = claims["sub"]
+    email = (claims.get("email") or "").lower().strip()
+    name = claims.get("name") or email.split("@")[0]
+
+    if db.query(DBUser).filter(DBUser.google_id == google_id).first():
+        fail("This Google account is already linked to an account. Please sign in instead.", 409)
+    if db.query(DBUser).filter(DBUser.email == email).first():
+        fail("An account with this email already exists. Please sign in with your username and password.", 409)
+
+    try:
+        age = calculate_age(body.dateOfBirth)
+    except Exception:
+        fail("Invalid date of birth — use YYYY-MM-DD format")
+    if age < 25:
+        fail("To register as Guardian, you should be 25 years or more.")
+    if body.gender not in ("male", "female", "other"):
+        fail("Gender must be 'male', 'female', or 'other'")
+
+    location = get_location_from_ip(get_client_ip(request))
+    username = generate_username_from_email(db, email)
+    # Every profile in the picker is PIN-gated, including the primary guardian's own —
+    # seed a temporary PIN now so they aren't locked out of their first "continue as
+    # me" pick; the profile picker's migration-notice banner surfaces it to them.
+    temp_pin = f"{random.randint(0, 999999):06d}"
+
+    user = DBUser(
+        id=str(uuid4()),
+        name=name.strip() or email.split("@")[0],
+        username=username,
+        password=str(uuid4()),  # inert placeholder -- this account signs in via Google only
+        google_id=google_id,
+        role="guardian",
+        email=email,
+        date_of_birth=body.dateOfBirth,
+        gender=body.gender,
+        country=location["country"],
+        city=location["city"],
+        is_active="1",  # Google already verified the email -- no activation email needed
+        pin=temp_pin,
+        pin_auto_generated="1",
+        created_at=now(),
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    token = str(uuid4())
+    SESSIONS[token] = user.id
+    background_tasks.add_task(record_login_location, user.id, get_client_ip(request))
+    return ok({"token": token, "user": safe_user(user)}, 201)
 
 
 @router.post("/api/auth/activate")

@@ -65,6 +65,10 @@ export const api = {
     request('POST', '/api/auth/reset-password', { token, password }),
   forgotUsername: (email) =>
     request('POST', '/api/auth/forgot-username', { email }),
+  googleLogin: (credential) =>
+    request('POST', '/api/auth/google', { credential }),
+  googleComplete: (credential, dateOfBirth, gender) =>
+    request('POST', '/api/auth/google/complete', { credential, dateOfBirth, gender }),
 
   // Add-limits
   getLimits: () => request('GET', '/api/limits'),

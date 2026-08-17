@@ -9,6 +9,7 @@ class DBUser(Base):
     name          = Column(String, nullable=False)
     username      = Column(String, unique=True, nullable=False, index=True)
     password      = Column(String, nullable=False)
+    google_id     = Column(String, unique=True, nullable=True, index=True)  # set for guardians who signed up/in via Google
     role          = Column(String, nullable=False)   # guardian | kid
     email         = Column(String, nullable=True)
     date_of_birth = Column(String, nullable=True)

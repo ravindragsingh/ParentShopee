@@ -2,7 +2,6 @@ import HamburgerMenu from './HamburgerMenu.jsx'
 
 export default function AppNavbar({
   variant = 'guardian',
-  title = '🏆 Reward Ur Kids',
   userName,
   avatar,
   onLogout,
@@ -15,8 +14,7 @@ export default function AppNavbar({
   return (
     <nav className={`navbar ${variant}`}>
       <div className="navbar-brand">
-        <span className="navbar-brand-icon">🏆</span>
-        <span className="navbar-brand-text">{title.replace(/^🏆\s*/, '')}</span>
+        <img src="/branding/RewardURKids_Website_Compact_Logo.png" alt="Reward Ur Kids" style={{ height: 32, display: 'block' }} />
       </div>
       <div className="navbar-user">
         {avatar && <span className={variant === 'kid' ? 'kid-avatar lg' : ''}>{avatar}</span>}
