@@ -1063,14 +1063,13 @@ export default function Login() {
                 <span className="hero-trophy">🏆</span>
               </div>
             </div>
-            <h1 className="brand-wordmark">
-              <span className="brand-reward">Reward</span><span className="brand-ur">Ur</span><span className="brand-kids">Kids</span>
-            </h1>
-            <p className="brand-tagline">Turn chores into rewards kids love.</p>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>
+              <img src="/branding/RewardURKids_Website_Full_Logo.png" alt="Reward Ur Kids — Small Tasks. Big Smiles." style={{ maxWidth: 280, width: '100%', height: 'auto', display: 'block' }} />
+            </div>
           </>
         ) : (
-          <div style={{ textAlign: 'center', fontSize: '1.4rem', fontWeight: 800, marginBottom: 18 }}>
-            🏆 <span className="brand-reward">Reward</span><span className="brand-ur">Ur</span><span className="brand-kids">Kids</span>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 18 }}>
+            <img src="/branding/RewardURKids_Website_Compact_Logo.png" alt="Reward Ur Kids" style={{ maxWidth: 220, width: '100%', height: 'auto', display: 'block' }} />
           </div>
         )}
 
