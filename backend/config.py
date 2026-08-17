@@ -38,3 +38,12 @@ LIMIT_EXTRA_SHOP_ITEMS = 10
 
 ACTIVATION_TOKEN_TTL_HOURS = 24
 RESET_TOKEN_TTL_HOURS = 1
+
+# ── Google Sign-In ───────────────────────────────────────────────────────────
+# Public-facing Client ID from Google Cloud Console (OAuth consent screen ->
+# Credentials -> "Web application" client). This value is not secret — it's
+# also embedded in the frontend bundle — but the backend still verifies every
+# token's signature and audience against it before trusting anything.
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+if not GOOGLE_CLIENT_ID:
+    print("[auth] WARNING: GOOGLE_CLIENT_ID env var is not set — Google sign-in will be unavailable")

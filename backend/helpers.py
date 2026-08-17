@@ -1,6 +1,8 @@
+import re
 from datetime import date, datetime, timezone
 from uuid import uuid4
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
@@ -28,6 +30,18 @@ def get_family_owner(db: Session, user: DBUser) -> DBUser:
     """The primary guardian's row — where shared lifetime add-counters live."""
     family_id = user.guardian_id if user.role == "kid" else get_family_id(user)
     return db.query(DBUser).filter(DBUser.id == family_id).first()
+
+def generate_username_from_email(db: Session, email: str) -> str:
+    """First-time Google sign-in has no chosen username — derive a reasonable
+    default from the email's local part so signup stays one-click; the guardian
+    can change it later from Settings same as any other username."""
+    base = re.sub(r'[^a-z0-9]', '', email.split("@")[0].lower()) or "guardian"
+    candidate = base
+    suffix = 0
+    while db.query(DBUser).filter(func.lower(DBUser.username) == candidate).first():
+        suffix += 1
+        candidate = f"{base}{suffix}"
+    return candidate
 
 def generate_inert_credentials() -> tuple:
     """Kid/co-guardian profiles no longer log in with a username+password — they're

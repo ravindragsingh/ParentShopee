@@ -15,6 +15,14 @@ class RegisterBody(BaseModel):
     dateOfBirth: str
     gender: str
 
+class GoogleAuthBody(BaseModel):
+    credential: str   # Google Identity Services ID token (JWT)
+
+class GoogleCompleteBody(BaseModel):
+    credential: str
+    dateOfBirth: str
+    gender: str
+
 class ActivateBody(BaseModel):
     token: str
 
