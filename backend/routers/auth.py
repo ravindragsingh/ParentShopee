@@ -9,11 +9,11 @@ from starlette.requests import Request as StarletteRequest
 
 from config import ACTIVATION_TOKEN_TTL_HOURS, EMAIL_RE, RESET_TOKEN_TTL_HOURS, SESSIONS
 from database import get_db
-from deps import require_auth
+from deps import require_auth, require_guardian
 from email_utils import send_activation_email, send_reset_email, send_username_email
 from geolocation import get_client_ip, get_location_from_ip, record_login_location
 from google_auth_utils import verify_google_token
-from helpers import calculate_age, generate_username_from_email, now, safe_user
+from helpers import calculate_age, delete_family, delete_lone_user, generate_username_from_email, now, safe_user
 from models import DBUser
 from responses import fail, ok
 from schemas import (
@@ -304,3 +304,19 @@ def change_own_pin(body: UpdatePinBody, db: Session = Depends(get_db), user: DBU
     user.pin_locked_until = None
     db.commit()
     return ok({"message": "PIN updated"})
+
+
+@router.delete("/api/auth/account")
+def delete_own_account(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    # Self-service deletion for the account holder who registered (guardian or
+    # co-guardian) -- required by app store policies, not just a nice-to-have.
+    # Kids don't create their own accounts, so they're not offered this; a
+    # guardian removes a kid's profile from the Kids tab instead.
+    if user.co_guardian_of:
+        delete_lone_user(db, user)
+        message = "Your co-guardian access has been removed and your account deleted."
+    else:
+        delete_family(db, user)
+        message = "Your account and all family data have been permanently deleted."
+    db.commit()
+    return ok({"message": message})

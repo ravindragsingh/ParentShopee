@@ -2,11 +2,14 @@ import re
 from datetime import date, datetime, timezone
 from uuid import uuid4
 
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
-from models import DBChore, DBDailyChoreItem, DBRecurringTemplate, DBShopItem, DBShopPurchase, DBSupportTicket, DBUser
+from models import (
+    DBChore, DBDailyChoreItem, DBMessage, DBRecurringTemplate, DBShopItem,
+    DBShopPurchase, DBSupportTicket, DBTransaction, DBUser, DBWallet,
+)
 from responses import fail
 
 
@@ -49,6 +52,33 @@ def generate_inert_credentials() -> tuple:
     stay NOT NULL/unique columns though, so give them harmless, never-shown,
     never-usable placeholder values rather than risking a schema rebuild."""
     return f"profile-{uuid4().hex[:12]}", str(uuid4())
+
+def delete_kid(db: Session, kid: DBUser):
+    db.query(DBWallet).filter(DBWallet.kid_id == kid.id).delete(synchronize_session=False)
+    db.query(DBTransaction).filter(DBTransaction.kid_id == kid.id).delete(synchronize_session=False)
+    db.query(DBMessage).filter(or_(DBMessage.sender_id == kid.id, DBMessage.receiver_id == kid.id)).delete(synchronize_session=False)
+    db.query(DBChore).filter(DBChore.assigned_kid_id == kid.id).update({"assigned_kid_id": None}, synchronize_session=False)
+    db.query(DBChore).filter(DBChore.completed_by_kid_id == kid.id).update({"completed_by_kid_id": None}, synchronize_session=False)
+    db.query(DBRecurringTemplate).filter(DBRecurringTemplate.assigned_kid_id == kid.id).update({"assigned_kid_id": None}, synchronize_session=False)
+    db.delete(kid)
+
+def delete_lone_user(db: Session, u: DBUser):
+    db.query(DBMessage).filter(or_(DBMessage.sender_id == u.id, DBMessage.receiver_id == u.id)).delete(synchronize_session=False)
+    db.delete(u)
+
+def delete_family(db: Session, guardian: DBUser):
+    """Deleting the primary guardian removes the whole family — every kid, the
+    co-guardian (if any), and all chores/recurring templates/shop items they own."""
+    family_id = guardian.id
+    for kid in db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all():
+        delete_kid(db, kid)
+    co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == family_id).first()
+    if co_guardian:
+        delete_lone_user(db, co_guardian)
+    db.query(DBChore).filter(DBChore.family_id == family_id).delete(synchronize_session=False)
+    db.query(DBRecurringTemplate).filter(DBRecurringTemplate.family_id == family_id).delete(synchronize_session=False)
+    db.query(DBShopItem).filter(DBShopItem.family_id == family_id).delete(synchronize_session=False)
+    delete_lone_user(db, guardian)
 
 def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: int, item_label: str) -> DBUser:
     """Raises 400 if adding `extra` more items would exceed the family's lifetime limit."""

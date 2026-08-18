@@ -1132,6 +1132,7 @@ function CoGuardianTab() {
 
 function AdminPanelTab() {
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [newPwd, setNewPwd] = useState('')
   const [confirmPwd, setConfirmPwd] = useState('')
   const [pwdError, setPwdError] = useState('')
@@ -1144,7 +1145,25 @@ function AdminPanelTab() {
   const [pinSuccess, setPinSuccess] = useState('')
   const [savingPin, setSavingPin] = useState(false)
 
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteConfirmText, setDeleteConfirmText] = useState('')
+  const [deleteError, setDeleteError] = useState('')
+  const [deleting, setDeleting] = useState(false)
+
   const isPrimaryGuardian = !user.coGuardianOf
+
+  async function handleDeleteAccount() {
+    setDeleteError('')
+    setDeleting(true)
+    try {
+      await api.deleteOwnAccount()
+      logout()
+      navigate('/')
+    } catch (err) {
+      setDeleteError(err.message)
+      setDeleting(false)
+    }
+  }
 
   async function handleChangePwd(e) {
     e.preventDefault()
@@ -1291,6 +1310,56 @@ function AdminPanelTab() {
         <button className="btn btn-red" onClick={logout} style={{ width: '100%', padding: 12 }}>
           Sign Out
         </button>
+      </div>
+
+      {/* Danger zone — delete account */}
+      <div className="form-card" style={{ maxWidth: 500, border: '1.5px solid #fecaca', background: '#fff5f5' }}>
+        <div className="form-title" style={{ color: '#b91c1c' }}>⚠️ Delete Account</div>
+        {isPrimaryGuardian ? (
+          <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: 14 }}>
+            This permanently deletes your account and your <strong>entire family</strong> — every kid profile, your co-guardian (if any), and all chores, shop items, and history. This cannot be undone.
+          </p>
+        ) : (
+          <p style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: 14 }}>
+            This permanently deletes your co-guardian account. The rest of your family (the primary guardian and kids) stays intact. This cannot be undone.
+          </p>
+        )}
+
+        {!showDeleteConfirm ? (
+          <button
+            className="btn btn-red"
+            style={{ width: '100%', padding: 12 }}
+            onClick={() => { setShowDeleteConfirm(true); setDeleteConfirmText(''); setDeleteError('') }}
+          >
+            Delete My Account
+          </button>
+        ) : (
+          <div>
+            {deleteError && <div className="error-msg">{deleteError}</div>}
+            <div className="form-group" style={{ marginBottom: 12 }}>
+              <label>Type <strong>DELETE</strong> to confirm</label>
+              <input value={deleteConfirmText} onChange={e => setDeleteConfirmText(e.target.value)} placeholder="DELETE" />
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                className="btn btn-outline"
+                style={{ flex: 1 }}
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btn-red"
+                style={{ flex: 1 }}
+                disabled={deleteConfirmText !== 'DELETE' || deleting}
+                onClick={handleDeleteAccount}
+              >
+                {deleting ? 'Deleting…' : 'Permanently Delete'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
