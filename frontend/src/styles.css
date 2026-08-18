@@ -22,6 +22,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .navbar {
@@ -29,6 +30,11 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 24px;
+  /* The colored background extends up under the notch/status bar (native
+     apps only -- env() is 0 on the web) instead of leaving a blank gap. */
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
   color: white;
   box-shadow: 0 3px 12px rgba(0,0,0,0.15);
 }
@@ -84,6 +90,9 @@ body {
 @media (max-width: 640px) {
   .navbar {
     padding: 12px 14px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
   }
 
   .navbar-brand-text {
@@ -632,6 +641,10 @@ body {
   background: linear-gradient(160deg, #fff9ec 0%, #fef3c7 45%, #ffe8cc 100%);
   position: relative;
   overflow: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .login-shell {

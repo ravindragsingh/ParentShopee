@@ -1,5 +1,19 @@
 {
   "appId": "com.rewardurkids.app",
   "appName": "Reward Ur Kids",
-  "webDir": "dist"
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "backgroundColor": "#FFF9EC",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "splashFullScreen": false,
+      "splashImmersive": false
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#FFF9EC"
+    }
+  }
 }

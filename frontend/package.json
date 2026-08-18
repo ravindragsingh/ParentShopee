@@ -12,6 +12,8 @@
     "@capacitor/cli": "^8.5.0",
     "@capacitor/core": "^8.5.0",
     "@capacitor/ios": "^8.5.0",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.3",
     "@vercel/analytics": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

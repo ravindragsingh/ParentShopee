@@ -1,11 +1,14 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LegalAgreementSections } from './Login.jsx'
+import { setStatusBarForLightBg } from '../utils/nativeChrome.js'
 
 // Public, unauthenticated page hosting the same content shown in the in-app
 // User Agreement modal — needed as a standalone URL for app store submissions
 // (Google Play Console and App Store Connect both require a privacy policy URL).
 export default function PrivacyPolicyPage() {
   const navigate = useNavigate()
+  useEffect(() => { setStatusBarForLightBg() }, [])
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>

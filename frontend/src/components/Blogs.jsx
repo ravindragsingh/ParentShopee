@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { setStatusBarForLightBg } from '../utils/nativeChrome.js'
 
 // ── Blog data ─────────────────────────────────────────────────────────────────
 
@@ -1405,6 +1406,7 @@ function BlogList() {
 export default function Blogs() {
   const { slug } = useParams()
   const post = slug ? POSTS.find(p => p.slug === slug) : null
+  useEffect(() => { setStatusBarForLightBg() }, [])
 
   if (slug && !post) {
     // Unknown slug — fall back to listing

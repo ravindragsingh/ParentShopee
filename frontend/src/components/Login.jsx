@@ -1075,9 +1075,18 @@ export default function Login() {
   }
 
   return (
-    <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
+    <div
+      className="login-wrapper"
+      style={{
+        flexDirection: 'column', gap: 0,
+        paddingTop: 'max(24px, env(safe-area-inset-top))',
+        paddingBottom: 'max(24px, env(safe-area-inset-bottom))',
+        paddingLeft: 'max(16px, env(safe-area-inset-left))',
+        paddingRight: 'max(16px, env(safe-area-inset-right))',
+      }}
+    >
       {/* Fixed top-right nav buttons */}
-      <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 999, display: 'flex', gap: 8 }}>
+      <div style={{ position: 'fixed', top: 'max(16px, env(safe-area-inset-top))', right: 'max(16px, env(safe-area-inset-right))', zIndex: 999, display: 'flex', gap: 8 }}>
         <button onClick={() => setShowHelp(true)} style={fixedBtnStyle}>❓ How It Works</button>
         <button onClick={() => navigate('/blog')} style={fixedBtnStyle}>📖 Blog</button>
       </div>
