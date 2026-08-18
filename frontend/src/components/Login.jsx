@@ -629,6 +629,13 @@ function LoginForm({ onRegister }) {
 
   return (
     <>
+      {!recoveryMode && (
+        <>
+          <h1 className="login-title">Welcome back!</h1>
+          <p className="login-subtitle">Sign in to continue your family's journey.</p>
+        </>
+      )}
+
       {showActivationModal && (
         <ActivationNeededModal username={username.trim()} onClose={() => setShowActivationModal(false)} />
       )}
@@ -704,19 +711,12 @@ function LoginForm({ onRegister }) {
             </div>
           </div>
 
-          <div className="login-options-row" style={{ justifyContent: 'center' }}>
+          <div className="login-options-row">
             <label className="remember-me">
               <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} style={{ display: 'none' }} />
               <span className={`checkbox-box${remember ? ' checked' : ''}`}>{remember && '✓'}</span>
               Remember me
             </label>
-          </div>
-
-          <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? 'Signing in...' : <>Sign In <span aria-hidden="true">→</span></>}
-          </button>
-
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 10 }}>
             <button
               type="button"
               className="forgot-link"
@@ -725,6 +725,10 @@ function LoginForm({ onRegister }) {
               Forgot password?
             </button>
           </div>
+
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? 'Signing in...' : <>Sign In <span aria-hidden="true">→</span></>}
+          </button>
         </form>
       )}
 
@@ -732,43 +736,43 @@ function LoginForm({ onRegister }) {
         <>
           <div className="login-divider">or</div>
           <GoogleSignInButton />
+
+          <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: 16 }}>
+            Don't have an account?{' '}
+            <button
+              type="button"
+              onClick={onRegister}
+              style={{ background: 'none', border: 'none', color: '#16a34a', fontWeight: 700, cursor: 'pointer', fontSize: 'inherit', padding: 0 }}
+            >
+              Create one <span aria-hidden="true">→</span>
+            </button>
+          </p>
         </>
       )}
-
-      <div className="login-divider">New here?</div>
-
-      <button type="button" className="login-btn-outline" onClick={onRegister}>
-        Create your free account <span aria-hidden="true">→</span>
-      </button>
     </>
   )
 }
 
-// ── Demo box ──────────────────────────────────────────────────────────────────
+// ── Try demo link ────────────────────────────────────────────────────────────
 
-// Every profile — including the primary guardian's own — is now PIN-gated, so
-// both quick-demos sign in as the family (parent1/pass1) then auto-enter the
-// chosen profile with its seeded demo PIN, in one click.
-const DEMO_ACCOUNTS = {
-  guardian: { label: 'Guardian', avatar: '🧑', username: 'parent1', password: 'pass1', profileId: 'parent1', profileName: 'Mom',   profilePin: '246810' },
-  kid:    { label: 'Kid',    avatar: '🧒', username: 'parent1', password: 'pass1', profileId: 'kid1',    profileName: 'Alice', profilePin: '123456' },
-}
+// Every profile — including the primary guardian's own — is PIN-gated, so the
+// demo signs in as the family (parent1/pass1) then auto-enters the guardian
+// profile with its seeded demo PIN, in one click.
+const DEMO_ACCOUNT = { username: 'parent1', password: 'pass1', profileId: 'parent1', profilePin: '246810' }
 
-function DemoBox() {
+function TryDemoLink() {
   const { login, enterProfile } = useAuth()
   const navigate = useNavigate()
-  const [selected, setSelected] = useState('guardian')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  async function handleLaunch() {
+  async function handleClick() {
     setError('')
     setLoading(true)
     try {
-      const acc = DEMO_ACCOUNTS[selected]
-      const data = await api.login(acc.username, acc.password)
+      const data = await api.login(DEMO_ACCOUNT.username, DEMO_ACCOUNT.password)
       login(data.user, data.token)
-      const profileData = await api.enterProfile(acc.profileId, acc.profilePin)
+      const profileData = await api.enterProfile(DEMO_ACCOUNT.profileId, DEMO_ACCOUNT.profilePin)
       enterProfile(profileData.user, profileData.token)
       navigate('/dashboard')
     } catch (err) {
@@ -779,28 +783,18 @@ function DemoBox() {
   }
 
   return (
-    <div className="demo-box">
-      <div className="demo-box-title">🎮 Try Demo</div>
+    <div style={{ textAlign: 'center', marginTop: 18 }}>
       {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
-      <div className="demo-options">
-        {Object.entries(DEMO_ACCOUNTS).map(([key, acc]) => (
-          <div
-            key={key}
-            className={`demo-option${selected === key ? ' selected' : ''}`}
-            onClick={() => setSelected(key)}
-          >
-            <div className="demo-avatar">{acc.avatar}</div>
-            <div className="demo-option-text">
-              <div className="demo-option-name">{acc.label}</div>
-              <div className="demo-option-cred">
-                {acc.profileName} · PIN {acc.profilePin}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      <button className="launch-demo-btn" onClick={handleLaunch} disabled={loading}>
-        {loading ? 'Launching...' : <>🚀 Launch Demo</>}
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={loading}
+        style={{ background: 'none', border: 'none', cursor: loading ? 'default' : 'pointer', fontSize: '0.9rem', color: '#334155', fontWeight: 600 }}
+      >
+        ⭐ Just exploring?{' '}
+        <span style={{ color: '#7c3aed' }}>
+          {loading ? 'Launching...' : <>Try Demo <span aria-hidden="true">→</span></>}
+        </span>
       </button>
     </div>
   )
@@ -1047,31 +1041,13 @@ export default function Login() {
       {showLegal && <UserAgreementModal onClose={() => setShowLegal(false)} />}
 
       <div className="login-shell">
-        {mode === 'login' ? (
-          <>
-            <div className="login-hero">
-              <span className="hero-decor star">⭐</span>
-              <span className="hero-decor check">✅</span>
-              <span className="hero-decor heart">❤️</span>
-              <span className="hero-decor gift">🎁</span>
-              <span className="hero-decor coin">🪙</span>
-              <div className="hero-family">
-                <span className="hero-guardian left">👨</span>
-                <span className="hero-guardian right">👩</span>
-                <span className="hero-kid left">👦</span>
-                <span className="hero-kid right">👧</span>
-                <span className="hero-trophy">🏆</span>
-              </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>
-              <img src="/branding/RewardURKids_Website_Full_Logo.png" alt="Reward Ur Kids — Small Tasks. Big Smiles." style={{ maxWidth: 280, width: '100%', height: 'auto', display: 'block' }} />
-            </div>
-          </>
-        ) : (
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 18 }}>
-            <img src="/branding/RewardURKids_Website_Compact_Logo.png" alt="Reward Ur Kids" style={{ maxWidth: 220, width: '100%', height: 'auto', display: 'block' }} />
-          </div>
-        )}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 22 }}>
+          <img
+            src={mode === 'login' ? '/branding/RewardURKids_Website_Full_Logo.png' : '/branding/RewardURKids_Website_Compact_Logo.png'}
+            alt="Reward Ur Kids — Small Tasks. Big Smiles."
+            style={{ maxWidth: mode === 'login' ? 280 : 220, width: '100%', height: 'auto', display: 'block' }}
+          />
+        </div>
 
         <div className="login-card">
           {mode === 'login'
@@ -1082,8 +1058,8 @@ export default function Login() {
 
         {mode === 'login' && (
           <>
-            <DemoBox />
-            <div className="login-stars">⭐⭐⭐⭐⭐</div>
+            <TryDemoLink />
+            <hr style={{ border: 'none', borderTop: '1px dashed #e5e7eb', margin: '22px 0 0' }} />
             <div className="login-footer-links">
               <button onClick={() => setShowLegal(true)}>Privacy Policy</button>
               {' · '}
