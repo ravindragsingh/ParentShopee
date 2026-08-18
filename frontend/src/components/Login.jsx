@@ -59,7 +59,7 @@ export function LegalAgreementSections() {
       </Section>
 
       <Section title="11. Contact">
-        If you have questions about this agreement, please use the Contact Us feature within the app after logging in, or email us directly at ravindragsingh@gmail.com.
+        If you have questions about this agreement, please use the Contact Us feature within the app after logging in, or email us directly at rewardurkids@gmail.com.
       </Section>
     </>
   )
@@ -282,6 +282,9 @@ function RegisterForm({ onBack }) {
         </button>
       </form>
 
+      <div className="login-divider">or</div>
+      <GoogleSignInButton />
+
       <p style={{ marginTop: 16, textAlign: 'center', fontSize: '0.85rem' }}>
         Already have an account?{' '}
         <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#0d9488', cursor: 'pointer', fontWeight: 600 }}>
@@ -488,6 +491,8 @@ function GoogleSignInButton() {
   const [needsProfile, setNeedsProfile] = useState(null) // { credential, email, name } | null
   const [dateOfBirth, setDateOfBirth] = useState('')
   const [gender, setGender] = useState('')
+  const [agreed, setAgreed] = useState(false)
+  const [showAgreement, setShowAgreement] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -521,6 +526,7 @@ function GoogleSignInButton() {
     setError('')
     if (!dateOfBirth) { setError('Please enter your date of birth.'); return }
     if (!gender) { setError('Please select a gender.'); return }
+    if (!agreed) { setError('Please agree to the User Agreement to continue.'); return }
     setLoading(true)
     try {
       const data = await api.googleComplete(needsProfile.credential, dateOfBirth, gender)
@@ -537,6 +543,7 @@ function GoogleSignInButton() {
   if (needsProfile) {
     return (
       <div style={{ marginTop: 10, padding: 14, border: '1px solid #e2e8f0', borderRadius: 10, background: '#f8fafc' }}>
+        {showAgreement && <UserAgreementModal onClose={() => setShowAgreement(false)} />}
         <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#1e293b', marginBottom: 4 }}>
           Welcome, {needsProfile.name || needsProfile.email}!
         </div>
@@ -558,7 +565,45 @@ function GoogleSignInButton() {
               <option value="other">Other</option>
             </select>
           </div>
-          <button type="submit" className="login-btn" disabled={loading} style={{ marginTop: 8 }}>
+
+          <div
+            style={{
+              display: 'flex', alignItems: 'flex-start', gap: 8,
+              background: agreed ? '#f0fdfa' : '#fff',
+              border: `1.5px solid ${agreed ? '#2dd4bf' : '#e2e8f0'}`,
+              borderRadius: 10, padding: '10px 12px', marginTop: 10,
+              transition: 'all 0.2s', cursor: 'pointer',
+            }}
+            onClick={() => setAgreed(v => !v)}
+          >
+            <div
+              role="checkbox"
+              aria-checked={agreed}
+              tabIndex={0}
+              onKeyDown={e => (e.key === ' ' || e.key === 'Enter') && setAgreed(v => !v)}
+              style={{
+                flexShrink: 0, width: 18, height: 18, borderRadius: 5, marginTop: 1,
+                border: `2px solid ${agreed ? '#0d9488' : '#cbd5e1'}`,
+                background: agreed ? '#0d9488' : '#fff',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'all 0.15s',
+              }}
+            >
+              {agreed && <span style={{ color: '#fff', fontSize: '0.65rem', fontWeight: 900, lineHeight: 1 }}>✓</span>}
+            </div>
+            <div style={{ fontSize: '0.78rem', color: '#334155', lineHeight: 1.5, userSelect: 'none' }}>
+              I have read and agree to the{' '}
+              <span
+                onClick={e => { e.stopPropagation(); setShowAgreement(true) }}
+                style={{ color: '#0d9488', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }}
+              >
+                User Agreement
+              </span>
+              .
+            </div>
+          </div>
+
+          <button type="submit" className="login-btn" disabled={loading || !agreed} style={{ marginTop: 10, opacity: !agreed ? 0.55 : 1 }}>
             {loading ? 'Finishing up...' : 'Finish creating account'}
           </button>
         </form>
@@ -1065,7 +1110,7 @@ export default function Login() {
               {' · '}
               <button onClick={() => setShowLegal(true)}>Terms of Use</button>
               {' · '}
-              <button onClick={() => { window.location.href = 'mailto:ravindragsingh@gmail.com' }}>Contact Us</button>
+              <button onClick={() => { window.location.href = 'mailto:rewardurkids@gmail.com' }}>Contact Us</button>
               {' · '}
               <button onClick={() => setShowHelp(true)}>Help</button>
               {' · '}

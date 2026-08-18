@@ -4,7 +4,7 @@ import re
 EMAIL_RE = re.compile(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$')
 SESSIONS: dict = {}   # token -> user_id  (in-memory; users re-login after restart)
 
-CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "ravindragsingh@gmail.com")
+CONTACT_EMAIL = os.getenv("CONTACT_EMAIL", "rewardurkids@gmail.com")
 FRONTEND_URL  = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 SMTP_HOST     = os.getenv("SMTP_HOST", "smtp.gmail.com")
