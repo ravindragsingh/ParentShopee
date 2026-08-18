@@ -110,6 +110,7 @@ export const api = {
   // Account
   changeOwnPassword: (password) => request('PUT', '/api/auth/password', { password }),
   updateMyPin:       (pin)      => request('PUT', '/api/auth/pin', { pin }),
+  deleteOwnAccount:  ()         => request('DELETE', '/api/auth/account'),
 
   // Messaging
   getContacts:  ()                       => request('GET',  '/api/messages/contacts'),

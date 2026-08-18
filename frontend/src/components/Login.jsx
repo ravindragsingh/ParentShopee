@@ -47,7 +47,7 @@ export function LegalAgreementSections() {
       </Section>
 
       <Section title="8. Data Storage">
-        Your account data (name, email, username, hashed password, and family records) is stored securely on our servers. We do not sell or share your personal data with advertisers. You may request deletion of your account and all associated data by contacting us via the Contact Us form in the app.
+        Your account data (name, email, username, hashed password, and family records) is stored securely on our servers. We do not sell or share your personal data with advertisers. You may permanently delete your account and all associated data at any time from Admin Panel → Delete Account within the app, or by contacting us via the Contact Us form.
       </Section>
 
       <Section title="9. Service Availability">

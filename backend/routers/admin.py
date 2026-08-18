@@ -1,14 +1,13 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends
-from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from config import EMAIL_RE
 from database import get_db
 from deps import require_admin
-from helpers import chore_dict, now, safe_user, ticket_dict
-from models import DBChore, DBMessage, DBRecurringTemplate, DBShopItem, DBSupportTicket, DBTransaction, DBUser, DBWallet
+from helpers import chore_dict, delete_family, delete_kid, delete_lone_user, now, safe_user, ticket_dict
+from models import DBChore, DBRecurringTemplate, DBSupportTicket, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import AdminChoreUpdate, AdminUserUpdate
 from security import check_password_complexity, check_pin_complexity
@@ -124,33 +123,6 @@ def admin_unsuspend_user(user_id: str, db: Session = Depends(get_db), user: DBUs
     return ok(safe_user(target))
 
 
-def _delete_kid(db: Session, kid: DBUser):
-    db.query(DBWallet).filter(DBWallet.kid_id == kid.id).delete(synchronize_session=False)
-    db.query(DBTransaction).filter(DBTransaction.kid_id == kid.id).delete(synchronize_session=False)
-    db.query(DBMessage).filter(or_(DBMessage.sender_id == kid.id, DBMessage.receiver_id == kid.id)).delete(synchronize_session=False)
-    db.query(DBChore).filter(DBChore.assigned_kid_id == kid.id).update({"assigned_kid_id": None}, synchronize_session=False)
-    db.query(DBChore).filter(DBChore.completed_by_kid_id == kid.id).update({"completed_by_kid_id": None}, synchronize_session=False)
-    db.query(DBRecurringTemplate).filter(DBRecurringTemplate.assigned_kid_id == kid.id).update({"assigned_kid_id": None}, synchronize_session=False)
-    db.delete(kid)
-
-def _delete_lone_user(db: Session, u: DBUser):
-    db.query(DBMessage).filter(or_(DBMessage.sender_id == u.id, DBMessage.receiver_id == u.id)).delete(synchronize_session=False)
-    db.delete(u)
-
-def _delete_family(db: Session, guardian: DBUser):
-    """Deleting the primary guardian removes the whole family — every kid, the
-    co-guardian (if any), and all chores/recurring templates/shop items they own."""
-    family_id = guardian.id
-    for kid in db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all():
-        _delete_kid(db, kid)
-    co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == family_id).first()
-    if co_guardian:
-        _delete_lone_user(db, co_guardian)
-    db.query(DBChore).filter(DBChore.family_id == family_id).delete(synchronize_session=False)
-    db.query(DBRecurringTemplate).filter(DBRecurringTemplate.family_id == family_id).delete(synchronize_session=False)
-    db.query(DBShopItem).filter(DBShopItem.family_id == family_id).delete(synchronize_session=False)
-    _delete_lone_user(db, guardian)
-
 @router.delete("/api/admin/user/{user_id}")
 def admin_delete_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
     target = db.query(DBUser).filter(DBUser.id == user_id).first()
@@ -161,11 +133,11 @@ def admin_delete_user(user_id: str, db: Session = Depends(get_db), user: DBUser 
 
     name, username = target.name, target.username
     if target.role == "kid":
-        _delete_kid(db, target)
+        delete_kid(db, target)
     elif target.co_guardian_of:
-        _delete_lone_user(db, target)
+        delete_lone_user(db, target)
     else:
-        _delete_family(db, target)
+        delete_family(db, target)
 
     db.commit()
     return ok({"message": f"{name} (@{username}) has been deleted."})
