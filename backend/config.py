@@ -47,3 +47,12 @@ RESET_TOKEN_TTL_HOURS = 1
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 if not GOOGLE_CLIENT_ID:
     print("[auth] WARNING: GOOGLE_CLIENT_ID env var is not set — Google sign-in will be unavailable")
+
+# ── Push notifications ───────────────────────────────────────────────────────
+# Full contents of a Firebase service-account JSON key (Project Settings ->
+# Service Accounts -> Generate new private key), pasted as a single env var.
+# Used server-side only, to send pushes via the Firebase Admin SDK -- never
+# exposed to the frontend (unlike GOOGLE_CLIENT_ID above).
+FIREBASE_SERVICE_ACCOUNT_JSON = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
+if not FIREBASE_SERVICE_ACCOUNT_JSON:
+    print("[push] WARNING: FIREBASE_SERVICE_ACCOUNT_JSON env var is not set — push notifications will be unavailable")

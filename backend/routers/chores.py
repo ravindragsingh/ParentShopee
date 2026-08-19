@@ -12,6 +12,7 @@ from database import get_db
 from deps import require_auth, require_kid, require_guardian
 from helpers import chore_dict, check_add_limit, get_family_id, get_family_owner, now, recurring_dict
 from models import DBChore, DBRecurringTemplate, DBTransaction, DBUser, DBWallet
+from push_utils import notify_guardians_of_kid, notify_kid
 from responses import fail, ok
 from sample_items import is_sample_chore
 from schemas import ChoreCreate, ChoreUpdate, RecurringCreate
@@ -148,6 +149,12 @@ def complete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = 
     chore.completed_by_kid_id = user.id
     db.commit()
     db.refresh(chore)
+    notify_guardians_of_kid(
+        db, user,
+        title="🎉 Chore completed!",
+        body=f"{user.name} completed \"{chore.title}\" — tap to review.",
+        data={"type": "chore_completed", "choreId": chore.id},
+    )
     return ok(chore_dict(chore))
 
 
@@ -173,6 +180,12 @@ def approve_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = D
     db.commit()
     db.refresh(chore)
     db.refresh(wallet)
+    notify_kid(
+        db, kid_id,
+        title="✅ Chore approved!",
+        body=f"\"{chore.title}\" was approved — you earned {chore.points:g} pts!",
+        data={"type": "chore_approved", "choreId": chore.id},
+    )
     return ok({"chore": chore_dict(chore), "newBalance": wallet.balance})
 
 

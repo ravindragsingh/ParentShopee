@@ -40,6 +40,7 @@ class DBUser(Base):
     pin_attempts       = Column(Integer, default=0)      # consecutive failed PIN attempts, for lockout
     pin_locked_until   = Column(String, nullable=True)    # ISO timestamp; PIN entry blocked until this passes
     pin_auto_generated = Column(String, default="0")      # "1" = system-generated during migration, guardian hasn't set their own yet
+    push_token         = Column(String, nullable=True)    # FCM token for the device this profile was last active on (native apps only)
 
 
 class DBChore(Base):
