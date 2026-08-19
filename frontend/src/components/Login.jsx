@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { Capacitor } from '@capacitor/core'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
+import { isNativeGoogleSignInAvailable, nativeGoogleSignIn } from '../utils/nativeGoogleAuth.js'
 
 // ── User Agreement content — shared by the in-app modal and the public
 // /privacy page (needed as a hosted URL for app store submissions) ────────────
@@ -497,14 +499,18 @@ function GoogleSignInButton() {
   const [loading, setLoading] = useState(false)
 
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
+  const isNative = Capacitor.isNativePlatform()
+  const nativeAvailable = isNativeGoogleSignInAvailable()
 
-  const handleCredentialResponse = useCallback(async (response) => {
+  // Shared by both paths: the web widget hands back { credential }, the
+  // native plugin hands back a raw ID token string -- both end up here.
+  const handleIdToken = useCallback(async (idToken) => {
     setError('')
     setLoading(true)
     try {
-      const data = await api.googleLogin(response.credential)
+      const data = await api.googleLogin(idToken)
       if (data.needsProfile) {
-        setNeedsProfile({ credential: response.credential, email: data.email, name: data.name })
+        setNeedsProfile({ credential: idToken, email: data.email, name: data.name })
       } else {
         login(data.user, data.token)
       }
@@ -515,11 +521,25 @@ function GoogleSignInButton() {
     }
   }, [login])
 
+  async function handleNativeClick() {
+    setError('')
+    setLoading(true)
+    try {
+      const idToken = await nativeGoogleSignIn()
+      await handleIdToken(idToken)
+    } catch (err) {
+      setError(err.message || 'Google sign-in failed. Please try again.')
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
-    if (!clientId || !window.google?.accounts?.id || !buttonRef.current) return
-    window.google.accounts.id.initialize({ client_id: clientId, callback: handleCredentialResponse })
+    // The web widget can't work inside a native app WebView (Google blocks
+    // it) -- native platforms use the custom button below instead.
+    if (isNative || !clientId || !window.google?.accounts?.id || !buttonRef.current) return
+    window.google.accounts.id.initialize({ client_id: clientId, callback: (response) => handleIdToken(response.credential) })
     window.google.accounts.id.renderButton(buttonRef.current, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
-  }, [clientId, handleCredentialResponse])
+  }, [isNative, clientId, handleIdToken])
 
   async function handleCompleteProfile(e) {
     e.preventDefault()
@@ -538,7 +558,8 @@ function GoogleSignInButton() {
     }
   }
 
-  if (!clientId) return null // Google sign-in not configured on this deployment yet
+  // Not configured for this platform yet -- hide rather than show a button that would fail.
+  if (isNative ? !nativeAvailable : !clientId) return null
 
   if (needsProfile) {
     return (
@@ -607,6 +628,33 @@ function GoogleSignInButton() {
             {loading ? 'Finishing up...' : 'Finish creating account'}
           </button>
         </form>
+      </div>
+    )
+  }
+
+  if (isNative) {
+    return (
+      <div>
+        {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+        <button
+          type="button"
+          onClick={handleNativeClick}
+          disabled={loading}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+            background: '#fff', border: '1px solid #dadce0', borderRadius: 8, padding: '10px 16px',
+            fontSize: '0.92rem', fontWeight: 600, color: '#3c4043', cursor: loading ? 'default' : 'pointer',
+            opacity: loading ? 0.6 : 1,
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+            <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.9c1.7-1.57 2.7-3.87 2.7-6.62z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.8.54-1.83.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.98v2.33A9 9 0 0 0 9 18z"/>
+            <path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.67 9c0-.59.1-1.17.28-1.7V4.97H.98A9 9 0 0 0 0 9c0 1.45.35 2.83.98 4.03l2.97-2.33z"/>
+            <path fill="#EA4335" d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .98 4.97l2.97 2.33C4.66 5.17 6.65 3.58 9 3.58z"/>
+          </svg>
+          {loading ? 'Signing in...' : 'Continue with Google'}
+        </button>
       </div>
     )
   }
