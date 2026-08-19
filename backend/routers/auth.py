@@ -18,8 +18,8 @@ from models import DBUser
 from responses import fail, ok
 from schemas import (
     ActivateBody, ChangeOwnPasswordBody, ForgotPasswordBody, ForgotUsernameBody,
-    GoogleAuthBody, GoogleCompleteBody, LoginBody, RegisterBody, ResendActivationBody,
-    ResetPasswordBody, UpdatePinBody,
+    GoogleAuthBody, GoogleCompleteBody, LoginBody, PushTokenBody, RegisterBody,
+    ResendActivationBody, ResetPasswordBody, UpdatePinBody,
 )
 from security import check_password_complexity, check_pin_complexity
 
@@ -320,3 +320,15 @@ def delete_own_account(db: Session = Depends(get_db), user: DBUser = Depends(req
         message = "Your account and all family data have been permanently deleted."
     db.commit()
     return ok({"message": message})
+
+
+@router.put("/api/auth/push-token")
+def register_push_token(body: PushTokenBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    # A device is shared across profiles (Netflix-style picker), so the token
+    # simply follows whoever is currently active on it -- the previous
+    # profile's stored token just goes stale rather than being explicitly
+    # cleared, which is harmless since it's only ever read to send that
+    # specific user a notification.
+    user.push_token = body.token
+    db.commit()
+    return ok({"message": "Push token registered"})

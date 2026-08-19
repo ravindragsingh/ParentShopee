@@ -98,6 +98,7 @@ def startup():
             ("users",      "pin_locked_until",          "VARCHAR"),
             ("users",      "pin_auto_generated",        "VARCHAR"),
             ("users",      "google_id",                 "VARCHAR"),
+            ("users",      "push_token",                "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
         ]:
             try:

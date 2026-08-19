@@ -50,6 +50,9 @@ class AddKidBody(BaseModel):
 class UpdatePinBody(BaseModel):
     pin: str
 
+class PushTokenBody(BaseModel):
+    token: str
+
 class CoGuardianBody(BaseModel):
     name: str
     pin: str
