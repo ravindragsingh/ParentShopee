@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1093823710496",
+    "project_id": "rewardurkids-dab22",
+    "storage_bucket": "rewardurkids-dab22.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093823710496:android:1634e35f54a64aba058345",
+        "android_client_info": {
+          "package_name": "com.rewardurkids.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeW0aj4T1PwBw2mFKJtuNLcIjoHOeovp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
