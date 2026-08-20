@@ -41,10 +41,12 @@ function ensureInitialized() {
 // Returns the Google ID token (JWT) on success.
 export async function nativeGoogleSignIn() {
   const SocialLogin = await ensureInitialized()
-  const { result } = await SocialLogin.login({
-    provider: 'google',
-    options: { scopes: ['email', 'profile'] },
-  })
+  // Don't pass custom `scopes` here -- the plugin's Android Credential Manager
+  // path rejects any login() call with scopes unless MainActivity is manually
+  // modified to implement ModifiedMainActivityForSocialLoginPlugin. We don't
+  // need to: it already requests email/profile/openid by default, which is
+  // all the ID token needs to carry for our backend to verify it.
+  const { result } = await SocialLogin.login({ provider: 'google', options: {} })
   if (!result?.idToken) {
     throw new Error('Google did not return a sign-in token. Please try again.')
   }
