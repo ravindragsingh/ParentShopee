@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
 import Login, { ActivatePage, ResetPasswordPage } from './components/Login.jsx'
 import ProfilePicker from './components/ProfilePicker.jsx'
@@ -9,6 +9,7 @@ import AdminDashboard from './components/AdminDashboard.jsx'
 import Blogs from './components/Blogs.jsx'
 import PrivacyPolicyPage from './components/PrivacyPolicyPage.jsx'
 import { hideSplashScreen, setStatusBarForBrandBg, setStatusBarForLightBg } from './utils/nativeChrome.js'
+import { addNotificationTapListener, registerForPushNotifications } from './utils/pushNotifications.js'
 
 function Loading() {
   return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
@@ -42,6 +43,14 @@ function DashboardRoute() {
     if (user?.role === 'guardian' || user?.role === 'kid') setStatusBarForBrandBg()
     else setStatusBarForLightBg()
   }, [user?.role])
+  // The push token is device-level (Netflix-style shared device), so it's
+  // re-registered for whichever profile just became active -- that's who
+  // the backend will notify on the next chore completion/approval.
+  useEffect(() => {
+    if (profileEntered && (user?.role === 'guardian' || user?.role === 'kid')) {
+      registerForPushNotifications()
+    }
+  }, [profileEntered, user?.role])
   if (loading) return <Loading />
   if (!user) return <Navigate to="/" replace />
   // Admin has no family/profile concept — every other role must pick a
@@ -53,11 +62,23 @@ function DashboardRoute() {
   return <div className="loading-text">Unknown role: {user.role}</div>
 }
 
+// Tapping a chore push notification (app backgrounded or killed) should just
+// bring the user to their dashboard, where the completed/approved chore is
+// visible -- deep-linking into a specific tab isn't worth the complexity.
+function PushNotificationTapHandler() {
+  const navigate = useNavigate()
+  useEffect(() => {
+    addNotificationTapListener(() => navigate('/dashboard'))
+  }, [navigate])
+  return null
+}
+
 export default function App() {
   useEffect(() => { hideSplashScreen() }, [])
   return (
     <BrowserRouter>
       <AuthProvider>
+        <PushNotificationTapHandler />
         <Routes>
           <Route path="/"           element={<LoginRoute />} />
           <Route path="/blog"       element={<Blogs />} />
