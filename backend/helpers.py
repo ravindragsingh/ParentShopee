@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from config import CONTACT_EMAIL
 from models import (
     DBChore, DBDailyChoreItem, DBMessage, DBRecurringTemplate, DBShopItem,
-    DBShopPurchase, DBSupportTicket, DBTransaction, DBUser, DBWallet,
+    DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
 )
 from responses import fail
 
@@ -139,8 +139,30 @@ def purchase_dict(p: DBShopPurchase) -> dict:
             "itemName": p.item_name, "imageEmoji": p.image_emoji, "cost": p.cost,
             "status": p.status, "createdAt": p.created_at, "resolvedAt": p.resolved_at}
 
-def ticket_dict(t: DBSupportTicket) -> dict:
+def ticket_dict(t: DBSupportTicket, replies: list = None) -> dict:
     return {"id": t.id, "userId": t.user_id, "userName": t.user_name, "username": t.username,
             "userRole": t.user_role, "category": t.category, "subject": t.subject,
             "message": t.message, "status": t.status,
-            "createdAt": t.created_at, "resolvedAt": t.resolved_at}
+            "createdAt": t.created_at, "resolvedAt": t.resolved_at,
+            "replies": [reply_dict(r) for r in replies] if replies is not None else []}
+
+def reply_dict(r: DBSupportTicketReply) -> dict:
+    return {"id": r.id, "ticketId": r.ticket_id, "isAdmin": r.is_admin == "1",
+            "senderName": r.sender_name, "message": r.message, "createdAt": r.created_at}
+
+def get_ticket_replies(db: Session, ticket_id: str) -> list:
+    return db.query(DBSupportTicketReply).filter(
+        DBSupportTicketReply.ticket_id == ticket_id
+    ).order_by(DBSupportTicketReply.created_at.asc()).all()
+
+def get_ticket_notification_email(db: Session, ticket: DBSupportTicket):
+    """The email a reply notification should go to for this ticket's owner --
+    the address the account was actually registered with. Kids and
+    co-guardians don't have their own email, so this resolves up to the
+    primary guardian who created the family's login."""
+    owner = db.query(DBUser).filter(DBUser.id == ticket.user_id).first()
+    if not owner:
+        return None
+    if owner.role == "kid" or owner.co_guardian_of:
+        owner = get_family_owner(db, owner)
+    return owner.email if owner else None

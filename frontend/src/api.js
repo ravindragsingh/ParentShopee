@@ -121,6 +121,8 @@ export const api = {
 
   // Support tickets
   submitContact: (body) => request('POST', '/api/contact', body),
+  getMyTickets:  ()               => request('GET',  '/api/contact/tickets'),
+  replyToTicket: (id, message)    => request('POST', `/api/contact/tickets/${id}/reply`, { message }),
 
   // Co-guardian management
   getCoGuardian:            ()           => request('GET',    '/api/family/co-guardian'),
@@ -166,4 +168,5 @@ export const api = {
   adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),
   adminResolveTicket:      (id)            => request('POST', `/api/admin/tickets/${id}/resolve`),
   adminReopenTicket:       (id)            => request('POST', `/api/admin/tickets/${id}/reopen`),
+  adminReplyTicket:        (id, message)   => request('POST', `/api/admin/tickets/${id}/reply`, { message }),
 }

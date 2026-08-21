@@ -82,6 +82,9 @@ class ContactTicketBody(BaseModel):
     message: str
     screenshot_b64: Optional[str] = None  # base64 data-URL of attached image
 
+class TicketReplyBody(BaseModel):
+    message: str
+
 class MessageBody(BaseModel):
     receiver_id: str
     content: str

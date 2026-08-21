@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 
@@ -13,6 +13,38 @@ const MAX_SCREENSHOT_MB = 2
 const MAX_MSG_CHARS = 1000
 
 export default function ContactUs() {
+  const [tab, setTab] = useState('new')   // 'new' | 'mine'
+
+  return (
+    <div style={{ maxWidth: 640, margin: '0 auto' }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        <button
+          onClick={() => setTab('new')}
+          style={{
+            padding: '7px 16px', borderRadius: 8, border: `1px solid ${tab === 'new' ? '#0d9488' : '#e2e8f0'}`,
+            background: tab === 'new' ? '#f0fdfa' : '#fff', color: tab === 'new' ? '#0d9488' : '#64748b',
+            fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer',
+          }}
+        >
+          📩 New Ticket
+        </button>
+        <button
+          onClick={() => setTab('mine')}
+          style={{
+            padding: '7px 16px', borderRadius: 8, border: `1px solid ${tab === 'mine' ? '#0d9488' : '#e2e8f0'}`,
+            background: tab === 'mine' ? '#f0fdfa' : '#fff', color: tab === 'mine' ? '#0d9488' : '#64748b',
+            fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer',
+          }}
+        >
+          🗂️ My Tickets
+        </button>
+      </div>
+      {tab === 'new' ? <NewTicketForm onSubmitted={() => setTab('mine')} /> : <MyTicketsView />}
+    </div>
+  )
+}
+
+function NewTicketForm({ onSubmitted }) {
   const { user } = useAuth()
   const [category, setCategory]     = useState('Bug Report')
   const [subject, setSubject]       = useState('')
@@ -93,13 +125,22 @@ export default function ContactUs() {
         <div style={{ color: '#64748b', fontSize: '0.9rem', maxWidth: 320 }}>
           Your message has been sent to the support team. We'll get back to you as soon as possible.
         </div>
-        <button
-          className="btn btn-primary"
-          style={{ background: accentGrad, border: 'none', marginTop: 8 }}
-          onClick={() => { setSuccess(false); setSubject(''); setMessage(''); setCategory('Bug Report'); setScreenshot(null) }}
-        >
-          Submit Another
-        </button>
+        <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+          <button
+            className="btn btn-primary"
+            style={{ background: accentGrad, border: 'none' }}
+            onClick={() => { setSuccess(false); setSubject(''); setMessage(''); setCategory('Bug Report'); setScreenshot(null) }}
+          >
+            Submit Another
+          </button>
+          <button
+            className="btn"
+            style={{ background: '#f1f5f9', color: '#475569', border: 'none' }}
+            onClick={onSubmitted}
+          >
+            View My Tickets
+          </button>
+        </div>
       </div>
     )
   }
@@ -244,6 +285,109 @@ export default function ContactUs() {
           {submitting ? 'Sending…' : '📩 Submit Ticket'}
         </button>
       </form>
+    </div>
+  )
+}
+
+// ── My Tickets — thread view of past tickets + support replies ─────────────────
+
+function MyTicketsView() {
+  const [tickets, setTickets] = useState(null)
+  const [error,   setError]   = useState('')
+
+  useEffect(() => { load() }, [])
+
+  async function load() {
+    setError('')
+    try {
+      setTickets(await api.getMyTickets())
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  if (error) return <div className="error-msg">{error}</div>
+  if (tickets === null) return <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>Loading…</div>
+  if (tickets.length === 0) {
+    return <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>You haven't submitted any tickets yet.</div>
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {tickets.map(t => <TicketThreadCard key={t.id} ticket={t} onReplied={load} />)}
+    </div>
+  )
+}
+
+function TicketThreadCard({ ticket: t, onReplied }) {
+  const [replyText, setReplyText] = useState('')
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
+
+  async function sendReply() {
+    if (!replyText.trim()) return
+    setSending(true); setError('')
+    try {
+      await api.replyToTicket(t.id, replyText.trim())
+      setReplyText('')
+      onReplied()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSending(false)
+    }
+  }
+
+  return (
+    <div className="form-card">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 6 }}>
+        <div>
+          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{t.subject}</div>
+          <div style={{ fontSize: '0.76rem', color: '#94a3b8', marginTop: 2 }}>{t.category} · {new Date(t.createdAt).toLocaleString()}</div>
+        </div>
+        <span className={`badge ${t.status === 'open' ? 'open' : 'complete'}`}>{t.status}</span>
+      </div>
+
+      <div style={{ fontSize: '0.85rem', color: '#475569', lineHeight: 1.5, margin: '10px 0', whiteSpace: 'pre-wrap' }}>{t.message}</div>
+
+      {t.replies?.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, borderTop: '1px solid #f1f5f9', paddingTop: 10, marginBottom: 10 }}>
+          {t.replies.map(r => (
+            <div
+              key={r.id}
+              style={{
+                alignSelf: r.isAdmin ? 'flex-start' : 'flex-end', maxWidth: '85%',
+                background: r.isAdmin ? '#f0fdfa' : '#f8fafc',
+                border: `1px solid ${r.isAdmin ? '#99f6e4' : '#e2e8f0'}`,
+                borderRadius: 10, padding: '8px 12px',
+              }}
+            >
+              <div style={{ fontSize: '0.72rem', fontWeight: 700, color: r.isAdmin ? '#0d9488' : '#475569', marginBottom: 2 }}>
+                {r.isAdmin ? 'Support' : 'You'} · {new Date(r.createdAt).toLocaleString()}
+              </div>
+              <div style={{ fontSize: '0.83rem', color: '#334155', whiteSpace: 'pre-wrap' }}>{r.message}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {error && <div className="error-msg" style={{ marginBottom: 8 }}>{error}</div>}
+
+      <textarea
+        value={replyText}
+        onChange={e => setReplyText(e.target.value)}
+        placeholder="Reply to this ticket…"
+        rows={2}
+        style={{ width: '100%', resize: 'vertical', marginBottom: 8, padding: '8px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontFamily: 'inherit' }}
+      />
+      <button
+        onClick={sendReply}
+        disabled={sending || !replyText.trim()}
+        className="btn btn-primary"
+        style={{ padding: '6px 16px', fontSize: '0.82rem' }}
+      >
+        {sending ? 'Sending…' : 'Send Reply'}
+      </button>
     </div>
   )
 }

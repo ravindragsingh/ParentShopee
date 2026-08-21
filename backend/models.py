@@ -156,3 +156,13 @@ class DBSupportTicket(Base):
     status      = Column(String, default="open")   # open | resolved
     created_at  = Column(String, nullable=False)
     resolved_at = Column(String, nullable=True)
+
+
+class DBSupportTicketReply(Base):
+    __tablename__ = "support_ticket_replies"
+    id          = Column(String, primary_key=True)
+    ticket_id   = Column(String, nullable=False, index=True)
+    is_admin    = Column(String, default="0")   # "1" = support team reply, "0" = ticket owner's follow-up
+    sender_name = Column(String, nullable=False)
+    message     = Column(String, nullable=False)
+    created_at  = Column(String, nullable=False)
