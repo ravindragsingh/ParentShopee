@@ -7,6 +7,7 @@ import KidDashboard from './components/KidDashboard.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import Blogs from './components/Blogs.jsx'
 import PrivacyPolicyPage from './components/PrivacyPolicyPage.jsx'
+import TipOfTheDayModal from './components/TipOfTheDayModal.jsx'
 
 function Loading() {
   return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
@@ -38,8 +39,8 @@ function DashboardRoute() {
   // profile (even "continue as me") before reaching its dashboard.
   if (user.role !== 'admin' && !profileEntered) return <Navigate to="/profiles" replace />
   if (user.role === 'admin')  return <AdminDashboard />
-  if (user.role === 'guardian') return <GuardianDashboard />
-  if (user.role === 'kid')    return <KidDashboard />
+  if (user.role === 'guardian') return <><TipOfTheDayModal user={user} /><GuardianDashboard /></>
+  if (user.role === 'kid')    return <><TipOfTheDayModal user={user} /><KidDashboard /></>
   return <div className="loading-text">Unknown role: {user.role}</div>
 }
 
