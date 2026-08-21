@@ -1,3 +1,4 @@
+from uuid import uuid4
 from typing import Optional
 
 from fastapi import APIRouter, Depends
@@ -6,10 +7,14 @@ from sqlalchemy.orm import Session
 from config import EMAIL_RE
 from database import get_db
 from deps import require_admin
-from helpers import chore_dict, delete_family, delete_kid, delete_lone_user, now, safe_user, ticket_dict
-from models import DBChore, DBRecurringTemplate, DBSupportTicket, DBTransaction, DBUser, DBWallet
+from email_utils import send_email
+from helpers import (
+    chore_dict, delete_family, delete_kid, delete_lone_user, get_ticket_notification_email,
+    get_ticket_replies, now, safe_user, ticket_dict,
+)
+from models import DBChore, DBRecurringTemplate, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import AdminChoreUpdate, AdminUserUpdate
+from schemas import AdminChoreUpdate, AdminUserUpdate, TicketReplyBody
 from security import check_password_complexity, check_pin_complexity
 
 router = APIRouter()
@@ -209,7 +214,7 @@ def admin_list_tickets(status: Optional[str] = None, db: Session = Depends(get_d
             fail("status must be 'open' or 'resolved'")
         q = q.filter(DBSupportTicket.status == status)
     tickets = q.order_by(DBSupportTicket.created_at.desc()).limit(200).all()
-    return ok([ticket_dict(t) for t in tickets])
+    return ok([ticket_dict(t, get_ticket_replies(db, t.id)) for t in tickets])
 
 
 @router.post("/api/admin/tickets/{ticket_id}/resolve")
@@ -221,7 +226,7 @@ def admin_resolve_ticket(ticket_id: str, db: Session = Depends(get_db), user: DB
     ticket.resolved_at = now()
     db.commit()
     db.refresh(ticket)
-    return ok(ticket_dict(ticket))
+    return ok(ticket_dict(ticket, get_ticket_replies(db, ticket.id)))
 
 
 @router.post("/api/admin/tickets/{ticket_id}/reopen")
@@ -233,4 +238,32 @@ def admin_reopen_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBU
     ticket.resolved_at = None
     db.commit()
     db.refresh(ticket)
-    return ok(ticket_dict(ticket))
+    return ok(ticket_dict(ticket, get_ticket_replies(db, ticket.id)))
+
+
+@router.post("/api/admin/tickets/{ticket_id}/reply")
+def admin_reply_ticket(ticket_id: str, body: TicketReplyBody, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    if not body.message.strip():
+        fail("Reply message is required")
+    ticket = db.query(DBSupportTicket).filter(DBSupportTicket.id == ticket_id).first()
+    if not ticket:
+        fail("Ticket not found", 404)
+
+    db.add(DBSupportTicketReply(
+        id=str(uuid4()), ticket_id=ticket_id, is_admin="1",
+        sender_name="Reward Ur Kids Support", message=body.message.strip(), created_at=now(),
+    ))
+    db.commit()
+
+    to_addr = get_ticket_notification_email(db, ticket)
+    if to_addr:
+        send_email(
+            to_addr,
+            f"[Reward Ur Kids] Re: {ticket.subject}",
+            f"Hi {ticket.user_name},\n\n"
+            f"Support replied to your ticket \"{ticket.subject}\":\n\n"
+            f"{body.message.strip()}\n\n"
+            f"Sign in and visit Contact Support to view the full conversation or reply.\n",
+        )
+
+    return ok(ticket_dict(ticket, get_ticket_replies(db, ticket_id)))

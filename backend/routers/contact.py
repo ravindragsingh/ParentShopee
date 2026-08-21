@@ -12,10 +12,11 @@ from sqlalchemy.orm import Session
 from config import CONTACT_EMAIL, EMAIL_FROM, SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER
 from database import get_db
 from deps import require_auth
-from helpers import now
-from models import DBSupportTicket, DBUser
+from email_utils import send_email
+from helpers import get_ticket_replies, now, ticket_dict
+from models import DBSupportTicket, DBSupportTicketReply, DBUser
 from responses import fail, ok
-from schemas import ContactTicketBody
+from schemas import ContactTicketBody, TicketReplyBody
 
 router = APIRouter()
 
@@ -84,3 +85,42 @@ def submit_contact(body: ContactTicketBody, db: Session = Depends(get_db), user:
         print(f"[contact ticket — email not configured]\n{body_text}")
 
     return ok({"message": "Your ticket has been submitted. We'll get back to you soon!"})
+
+
+@router.get("/api/contact/tickets")
+def list_my_tickets(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    tickets = db.query(DBSupportTicket).filter(
+        DBSupportTicket.user_id == user.id,
+    ).order_by(DBSupportTicket.created_at.desc()).all()
+    return ok([ticket_dict(t, get_ticket_replies(db, t.id)) for t in tickets])
+
+
+@router.post("/api/contact/tickets/{ticket_id}/reply")
+def reply_to_my_ticket(ticket_id: str, body: TicketReplyBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    if not body.message.strip():
+        fail("Reply message is required")
+    ticket = db.query(DBSupportTicket).filter(
+        DBSupportTicket.id == ticket_id, DBSupportTicket.user_id == user.id,
+    ).first()
+    if not ticket:
+        fail("Ticket not found", 404)
+
+    db.add(DBSupportTicketReply(
+        id=str(uuid4()), ticket_id=ticket_id, is_admin="0",
+        sender_name=user.name, message=body.message.strip(), created_at=now(),
+    ))
+    # A user following up on a ticket the support team already resolved
+    # should reopen it, so it surfaces back in the admin's "open" queue.
+    if ticket.status == "resolved":
+        ticket.status = "open"
+        ticket.resolved_at = None
+    db.commit()
+
+    send_email(
+        CONTACT_EMAIL,
+        f"[Reward Ur Kids] Follow-up: {ticket.subject}",
+        f"{user.name} ({user.username}) followed up on their ticket \"{ticket.subject}\":\n\n"
+        f"{body.message.strip()}\n",
+    )
+
+    return ok(ticket_dict(ticket, get_ticket_replies(db, ticket_id)))
