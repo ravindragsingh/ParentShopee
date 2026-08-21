@@ -1,9 +1,18 @@
+import { useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
+import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 
 // Kid Dashboard only now — the guardian's equivalent lives in GuardianDashboard's
 // Admin Panel tab, which also covers the password/PIN they actually have.
 export default function SettingsPanel() {
   const { user, logout } = useAuth()
+  const [tipsEnabled, setTipsEnabledState] = useState(() => !areTipsDisabled(user.id))
+
+  function handleToggleTips(e) {
+    const enabled = e.target.checked
+    setTipsEnabled(user.id, enabled)
+    setTipsEnabledState(enabled)
+  }
 
   return (
     <div style={{ maxWidth: 500 }}>
@@ -39,6 +48,15 @@ export default function SettingsPanel() {
           Your profile is unlocked with a 6-digit PIN instead of a password. Forgot it? Ask your guardian —
           they can set you a new one from the Kids tab.
         </p>
+      </div>
+
+      {/* Tip of the Day */}
+      <div className="form-card" style={{ marginBottom: 16 }}>
+        <div className="form-title">💡 Tip of the Day</div>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.875rem', color: '#334155', cursor: 'pointer' }}>
+          <input type="checkbox" checked={tipsEnabled} onChange={handleToggleTips} />
+          Show a daily tip when I open my dashboard
+        </label>
       </div>
 
       {/* Sign out */}

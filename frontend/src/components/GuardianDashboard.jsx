@@ -14,6 +14,7 @@ import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/pa
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
 import PasswordField from './PasswordField.jsx'
+import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1151,6 +1152,13 @@ function AdminPanelTab() {
   const [deleteError, setDeleteError] = useState('')
   const [deleting, setDeleting] = useState(false)
 
+  const [tipsEnabled, setTipsEnabledState] = useState(() => !areTipsDisabled(user.id))
+  function handleToggleTips(e) {
+    const enabled = e.target.checked
+    setTipsEnabled(user.id, enabled)
+    setTipsEnabledState(enabled)
+  }
+
   const isPrimaryGuardian = !user.coGuardianOf
 
   async function handleDeleteAccount() {
@@ -1298,6 +1306,15 @@ function AdminPanelTab() {
       {/* Co-guardian management */}
       <div style={{ maxWidth: 500 }}>
         <CoGuardianTab />
+      </div>
+
+      {/* Tip of the Day */}
+      <div className="form-card" style={{ maxWidth: 500 }}>
+        <div className="form-title">💡 Tip of the Day</div>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.875rem', color: '#334155', cursor: 'pointer' }}>
+          <input type="checkbox" checked={tipsEnabled} onChange={handleToggleTips} />
+          Show a daily tip when I open my dashboard
+        </label>
       </div>
 
       {/* Sign out */}
