@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
+import PasswordField from './PasswordField.jsx'
 
 // ── User Agreement content — shared by the in-app modal and the public
 // /privacy page (needed as a hosted URL for app store submissions) ────────────
@@ -231,12 +232,12 @@ function RegisterForm({ onBack }) {
         </div>
         <div className="form-group" style={{ marginBottom: 12 }}>
           <label>Password *</label>
-          <input type="password" value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" />
+          <PasswordField value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" />
           <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
         </div>
         <div className="form-group" style={{ marginBottom: 16 }}>
           <label>Confirm Password *</label>
-          <input type="password" value={form.confirmPassword} onChange={set('confirmPassword')} placeholder="Repeat password" />
+          <PasswordField value={form.confirmPassword} onChange={set('confirmPassword')} placeholder="Repeat password" />
         </div>
 
         {/* User Agreement checkbox */}
@@ -1017,12 +1018,12 @@ export function ResetPasswordPage() {
               <form onSubmit={handleSubmit}>
                 <div className="form-group" style={{ marginBottom: 12 }}>
                   <label>New Password *</label>
-                  <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="e.g. Sunshine24!" />
+                  <PasswordField value={password} onChange={e => setPassword(e.target.value)} placeholder="e.g. Sunshine24!" />
                   <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
                 </div>
                 <div className="form-group" style={{ marginBottom: 16 }}>
                   <label>Confirm Password *</label>
-                  <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repeat password" />
+                  <PasswordField value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repeat password" />
                 </div>
                 <button type="submit" className="login-btn" disabled={loading}>
                   {loading ? 'Resetting...' : 'Reset Password'}

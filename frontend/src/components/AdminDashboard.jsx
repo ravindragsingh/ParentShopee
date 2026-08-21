@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
+import PasswordField from './PasswordField.jsx'
 
 const STATUS_STYLE = {
   open:     { bg: '#f0fdfa', color: '#0d9488' },
@@ -182,7 +183,7 @@ function EditModal({ target, familyKids, onSave, onClose }) {
                     New Password{' '}
                     <span style={{ fontWeight: 400, color: '#94a3b8' }}>(leave blank to keep current)</span>
                   </label>
-                  <input type="password" value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" style={inputStyle} />
+                  <PasswordField value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" style={inputStyle} />
                   {form.password && (
                     <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
                   )}
