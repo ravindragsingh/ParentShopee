@@ -26,15 +26,33 @@ function pickRandomTip(role) {
   return pool[Math.floor(Math.random() * pool.length)]
 }
 
+const disabledKey = userId => `tipsDisabled_${userId}`
+
+// Shared with Settings.jsx / GuardianDashboard's Admin Panel, which expose the
+// "show tips again" toggle -- both read/write through these so there's one
+// source of truth for the opt-out flag.
+export function areTipsDisabled(userId) {
+  return localStorage.getItem(disabledKey(userId)) === '1'
+}
+
+export function setTipsEnabled(userId, enabled) {
+  if (enabled) localStorage.removeItem(disabledKey(userId))
+  else localStorage.setItem(disabledKey(userId), '1')
+}
+
 // Shows a random usage tip once per calendar day, the first time a guardian
 // or kid reaches their dashboard that day -- not on every login, just the
 // first one. Tracked per-profile (not per-device) in localStorage, since a
 // shared device's profiles shouldn't all get suppressed by one kid's tip.
+// A "don't show this again" checkbox lets the user opt out permanently,
+// re-enabled from Settings / Admin Panel.
 export default function TipOfTheDayModal({ user }) {
   const [tip, setTip] = useState(null)
+  const [dontShowAgain, setDontShowAgain] = useState(false)
 
   useEffect(() => {
     if (!user?.id || (user.role !== 'guardian' && user.role !== 'kid')) return
+    if (areTipsDisabled(user.id)) return
     const today = new Date().toISOString().slice(0, 10)
     const key = `tipLastShown_${user.id}`
     if (localStorage.getItem(key) === today) return
@@ -42,11 +60,16 @@ export default function TipOfTheDayModal({ user }) {
     setTip(pickRandomTip(user.role))
   }, [user?.id, user?.role])
 
+  function dismiss() {
+    if (dontShowAgain) setTipsEnabled(user.id, false)
+    setTip(null)
+  }
+
   if (!tip) return null
 
   return createPortal(
     <div
-      onClick={() => setTip(null)}
+      onClick={dismiss}
       style={{
         position: 'fixed', inset: 0, zIndex: 9999,
         background: 'rgba(15,23,42,0.55)',
@@ -70,19 +93,29 @@ export default function TipOfTheDayModal({ user }) {
             💡 Tip of the Day
           </span>
           <button
-            onClick={() => setTip(null)}
+            onClick={dismiss}
             aria-label="Close"
             style={{ background: 'none', border: 'none', color: '#fff', fontSize: '1.2rem', cursor: 'pointer', lineHeight: 1, opacity: 0.85 }}
           >
             ✕
           </button>
         </div>
-        <div style={{ padding: '20px 22px', fontSize: '0.92rem', color: '#334155', lineHeight: 1.6 }}>
+        <div style={{ padding: '20px 22px 8px', fontSize: '0.92rem', color: '#334155', lineHeight: 1.6 }}>
           {tip}
         </div>
-        <div style={{ padding: '0 22px 20px', textAlign: 'right' }}>
+        <div style={{ padding: '10px 22px 0' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem', color: '#64748b', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={dontShowAgain}
+              onChange={e => setDontShowAgain(e.target.checked)}
+            />
+            Don't show tips again
+          </label>
+        </div>
+        <div style={{ padding: '14px 22px 20px', textAlign: 'right' }}>
           <button
-            onClick={() => setTip(null)}
+            onClick={dismiss}
             style={{
               background: 'linear-gradient(135deg,#0f766e,#0d9488)', color: '#fff', border: 'none',
               borderRadius: 8, padding: '9px 22px', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem',
