@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
+import PasswordField from './PasswordField.jsx'
 
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -245,9 +246,8 @@ export default function ProfilePicker() {
                   {recoverError && <div className="error-msg">{recoverError}</div>}
                   <div className="form-group" style={{ marginBottom: 10 }}>
                     <label>Account Password</label>
-                    <input
+                    <PasswordField
                       autoFocus
-                      type="password"
                       value={recoverPassword}
                       onChange={e => setRecoverPassword(e.target.value)}
                       placeholder="Your sign-in password"

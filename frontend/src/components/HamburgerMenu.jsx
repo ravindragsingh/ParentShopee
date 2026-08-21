@@ -150,7 +150,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
           flexDirection: 'column',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '12px 14px', paddingTop: 'max(12px, env(safe-area-inset-top))' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '12px 14px', paddingTop: 'max(12px, var(--sa-inset-top))' }}>
           <button
             type="button"
             onClick={(e) => {
@@ -163,7 +163,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
           </button>
         </div>
 
-        <div style={{ flex: 1, overflowY: 'auto', padding: '4px 0 8px', paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: '4px 0 8px', paddingBottom: 'max(8px, var(--sa-inset-bottom))' }}>
           {items.map((item, i) => (
             <button
               key={item.id}

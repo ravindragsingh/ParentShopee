@@ -4,6 +4,20 @@
   padding: 0;
 }
 
+/* Safe-area insets, combining two sources: iOS's WebView reports
+   env(safe-area-inset-*) correctly on its own. Android's WebView doesn't --
+   it always reports 0 for the status bar even in edge-to-edge mode -- so
+   MainActivity.java measures the real system bar insets natively and writes
+   them into --android-inset-* on <html> instead. Everywhere in this app that
+   needs a safe-area padding should use these --sa*-inset vars, not env()
+   directly, so both platforms are covered. */
+:root {
+  --sa-inset-top:    max(env(safe-area-inset-top),    var(--android-inset-top, 0px));
+  --sa-inset-bottom: max(env(safe-area-inset-bottom), var(--android-inset-bottom, 0px));
+  --sa-inset-left:   max(env(safe-area-inset-left),   var(--android-inset-left, 0px));
+  --sa-inset-right:  max(env(safe-area-inset-right),  var(--android-inset-right, 0px));
+}
+
 @keyframes fadeSlideDown {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -22,7 +36,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--sa-inset-bottom);
 }
 
 .navbar {
@@ -32,9 +46,9 @@ body {
   padding: 12px 24px;
   /* The colored background extends up under the notch/status bar (native
      apps only -- env() is 0 on the web) instead of leaving a blank gap. */
-  padding-top: max(12px, env(safe-area-inset-top));
-  padding-left: max(24px, env(safe-area-inset-left));
-  padding-right: max(24px, env(safe-area-inset-right));
+  padding-top: max(12px, var(--sa-inset-top));
+  padding-left: max(24px, var(--sa-inset-left));
+  padding-right: max(24px, var(--sa-inset-right));
   color: white;
   box-shadow: 0 3px 12px rgba(0,0,0,0.15);
 }
@@ -90,9 +104,9 @@ body {
 @media (max-width: 640px) {
   .navbar {
     padding: 12px 14px;
-    padding-top: max(12px, env(safe-area-inset-top));
-    padding-left: max(14px, env(safe-area-inset-left));
-    padding-right: max(14px, env(safe-area-inset-right));
+    padding-top: max(12px, var(--sa-inset-top));
+    padding-left: max(14px, var(--sa-inset-left));
+    padding-right: max(14px, var(--sa-inset-right));
   }
 
   .navbar-brand-text {
@@ -641,10 +655,10 @@ body {
   background: linear-gradient(160deg, #fff9ec 0%, #fef3c7 45%, #ffe8cc 100%);
   position: relative;
   overflow: hidden;
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  padding-top: var(--sa-inset-top);
+  padding-bottom: var(--sa-inset-bottom);
+  padding-left: var(--sa-inset-left);
+  padding-right: var(--sa-inset-right);
 }
 
 .login-shell {

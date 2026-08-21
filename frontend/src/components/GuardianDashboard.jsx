@@ -13,6 +13,7 @@ import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
+import PasswordField from './PasswordField.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1242,8 +1243,7 @@ function AdminPanelTab() {
               {pwdSuccess && <div className="success-msg">{pwdSuccess}</div>}
               <div className="form-group" style={{ marginBottom: 12 }}>
                 <label>New Password</label>
-                <input
-                  type="password"
+                <PasswordField
                   value={newPwd}
                   onChange={e => setNewPwd(e.target.value)}
                   placeholder="e.g. Sunshine24!"
@@ -1252,8 +1252,7 @@ function AdminPanelTab() {
               </div>
               <div className="form-group" style={{ marginBottom: 16 }}>
                 <label>Confirm Password</label>
-                <input
-                  type="password"
+                <PasswordField
                   value={confirmPwd}
                   onChange={e => setConfirmPwd(e.target.value)}
                   placeholder="Repeat new password"
