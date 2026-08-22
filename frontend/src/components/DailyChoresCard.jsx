@@ -187,7 +187,14 @@ export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
           {isGuardian && (
             <button
               type="button" className="btn btn-outline btn-sm"
-              onClick={e => { e.stopPropagation(); setEditMode(v => !v) }}
+              onClick={e => {
+                e.stopPropagation()
+                setEditMode(v => {
+                  const next = !v
+                  if (next) setExpanded(true)
+                  return next
+                })
+              }}
             >
               {editMode ? 'Done Editing' : '✏️ Edit'}
             </button>
@@ -204,6 +211,55 @@ export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
               Deduct points for chores not completed by end of day
             </label>
           )}
+
+          {isGuardian && editMode && (
+            <div style={{ marginBottom: 16, borderBottom: '1px dashed #cbd5e1', paddingBottom: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
+                <button type="button" className="btn btn-outline btn-sm" onClick={handleRegenerate}>🔄 Reset to suggested list</button>
+              </div>
+
+              {data.items.length < MAX_ITEMS ? (
+                <form onSubmit={handleAdd} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+                  {addError && <div className="error-msg" style={{ flexBasis: '100%' }}>{addError}</div>}
+                  <div className="form-group" style={{ flex: '100%' }}>
+                    <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
+                    <select
+                      value=""
+                      onChange={e => {
+                        const [title, emoji] = e.target.value.split('|')
+                        if (title) applyTemplate(title, emoji)
+                      }}
+                    >
+                      <option value="">— Pick a sample daily chore to pre-fill the form —</option>
+                      {(templates || []).map(band => (
+                        <optgroup key={band.label} label={band.label}>
+                          {band.items.map(s => (
+                            <option key={s.title} value={`${s.title}|${s.imageEmoji}`}>{s.imageEmoji} {s.title}</option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group" style={{ flex: '2 1 160px' }}>
+                    <label>Chore title</label>
+                    <input value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="e.g. Brush teeth" />
+                  </div>
+                  <div className="form-group" style={{ flex: '0 0 64px' }}>
+                    <label>Emoji</label>
+                    <input value={newEmoji} onChange={e => setNewEmoji(e.target.value)} style={{ textAlign: 'center' }} />
+                  </div>
+                  <div className="form-group" style={{ flex: '0 0 72px' }}>
+                    <label>Points</label>
+                    <input type="number" min="0" value={newPoints} onChange={e => setNewPoints(e.target.value)} />
+                  </div>
+                  <button type="submit" className="btn btn-green btn-sm" disabled={adding}>{adding ? 'Adding...' : '+ Add'}</button>
+                </form>
+              ) : (
+                <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Maximum of {MAX_ITEMS} daily chores reached.</div>
+              )}
+            </div>
+          )}
+
           {data.items.length === 0 ? (
             <div className="empty-text">No daily chores yet.{isGuardian && ' Add one below.'}</div>
           ) : (
@@ -256,54 +312,6 @@ export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
                   </div>
                 )
               })}
-            </div>
-          )}
-
-          {isGuardian && editMode && (
-            <div style={{ marginTop: 16, borderTop: '1px dashed #cbd5e1', paddingTop: 14 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-                <button type="button" className="btn btn-outline btn-sm" onClick={handleRegenerate}>🔄 Reset to suggested list</button>
-              </div>
-
-              {data.items.length < MAX_ITEMS ? (
-                <form onSubmit={handleAdd} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-end' }}>
-                  {addError && <div className="error-msg" style={{ flexBasis: '100%' }}>{addError}</div>}
-                  <div className="form-group" style={{ flex: '100%' }}>
-                    <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
-                    <select
-                      value=""
-                      onChange={e => {
-                        const [title, emoji] = e.target.value.split('|')
-                        if (title) applyTemplate(title, emoji)
-                      }}
-                    >
-                      <option value="">— Pick a sample daily chore to pre-fill the form —</option>
-                      {(templates || []).map(band => (
-                        <optgroup key={band.label} label={band.label}>
-                          {band.items.map(s => (
-                            <option key={s.title} value={`${s.title}|${s.imageEmoji}`}>{s.imageEmoji} {s.title}</option>
-                          ))}
-                        </optgroup>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="form-group" style={{ flex: '2 1 160px' }}>
-                    <label>Chore title</label>
-                    <input value={newTitle} onChange={e => setNewTitle(e.target.value)} placeholder="e.g. Brush teeth" />
-                  </div>
-                  <div className="form-group" style={{ flex: '0 0 64px' }}>
-                    <label>Emoji</label>
-                    <input value={newEmoji} onChange={e => setNewEmoji(e.target.value)} style={{ textAlign: 'center' }} />
-                  </div>
-                  <div className="form-group" style={{ flex: '0 0 72px' }}>
-                    <label>Points</label>
-                    <input type="number" min="0" value={newPoints} onChange={e => setNewPoints(e.target.value)} />
-                  </div>
-                  <button type="submit" className="btn btn-green btn-sm" disabled={adding}>{adding ? 'Adding...' : '+ Add'}</button>
-                </form>
-              ) : (
-                <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Maximum of {MAX_ITEMS} daily chores reached.</div>
-              )}
             </div>
           )}
         </div>
