@@ -94,6 +94,7 @@ function GuardianHelp() {
         <Tip emoji="📅" text="Set a due date so the chore auto-expires if it isn't done in time." />
         <Tip emoji="➕" text="The 'Add New Chore' form starts collapsed to keep the page tidy — click its header to expand it." />
         <Tip emoji="🔒" text="You can pick freely from the built-in sample chores at any time. Custom chores you write yourself (one-off or recurring) are capped at 10 per family — a badge on the Add New Chore header shows how many you've used. Need more? Contact support from the ☰ menu." />
+        <Tip emoji="🔔" text="On the mobile app, you'll get a push notification the moment a child completes a chore, so you can review and approve it without having to check back." />
       </Section>
 
       <Section icon="🛍️" title="Running the Shop">
@@ -128,11 +129,15 @@ function GuardianHelp() {
         <Tip emoji="🔑" text="Open the Admin Panel (☰ menu) to change your sign-in password, or your own profile-picker PIN — they're separate secrets, and both live here alongside co-guardian management." />
         <Tip emoji="🔢" text="To change a child's PIN, go to the Kids tab and click '🔑 PIN' next to their name." />
         <Tip emoji="🚪" text="Use 'Sign Out' in the Admin Panel — or the ☰ menu — to log out of the device completely. 'Switch Profile' only leaves your profile, keeping the family signed in." />
+        <Tip emoji="💡" text="The 'Tip of the Day' card in the Admin Panel lets you turn the daily tip popup back on if you'd previously dismissed it with 'Don't show tips again'." />
+        <Tip emoji="⚠️" text="The 'Delete Account' danger zone at the bottom of the Admin Panel permanently deletes your account. As the primary guardian, this deletes your entire family — every kid profile, your co-guardian, and all history. This cannot be undone." />
       </Section>
 
       <Section icon="📩" title="Contact & Support">
         <Tip emoji="📩" text="Found a bug or need help? Use the 'Contact Us' option in the ☰ menu to send a message to the Reward Ur Kids team." />
         <Tip emoji="📎" text="You can attach a screenshot to your message to help us understand the issue faster." />
+        <Tip emoji="🗂️" text="Switch to the 'My Tickets' tab on the Contact Support page to see every ticket you've submitted, read any replies from the support team, and follow up right in the same thread." />
+        <Tip emoji="📧" text="When support replies, you'll get an email at the address your account was registered with, in addition to seeing the reply in My Tickets." />
       </Section>
 
       <Section icon="🔁" title="Recurring Chores">
@@ -190,6 +195,7 @@ function KidHelp() {
         <Tip emoji="🏆" text="Approved chores appear in 'My Completed' — nice work! The points are yours." />
         <Tip emoji="📅" text="Chores with a due date will expire if not done in time — try to finish them early!" />
         <Tip emoji="🔁" text="Some chores are recurring — they show a teal '🔁 Recurring' badge and come back automatically each day, week, or month. Complete them on time to keep earning!" />
+        <Tip emoji="🔔" text="On the mobile app, you'll get a push notification as soon as your guardian approves a chore, so you know right away your points landed." />
       </Section>
 
       <Section icon="🛍️" title="Spending in the Shop">
@@ -217,11 +223,13 @@ function KidHelp() {
         <Tip emoji="🔒" text="Your profile is protected by a 6-digit PIN instead of a password. Forgot it? Ask your guardian — they can set you a new one from the Kids tab." />
         <Tip emoji="🔄" text="Use 'Switch Profile' in the ☰ menu to go back to the profile picker without fully signing out." />
         <Tip emoji="🚪" text="Use 'Sign Out' in the ☰ menu to log out of the device completely." />
+        <Tip emoji="💡" text="If you dismissed the daily tip popup with 'Don't show tips again', you can turn it back on from the Settings tab's 'Tip of the Day' card." />
       </Section>
 
       <Section icon="📩" title="Need Help?">
         <Tip emoji="📩" text="If something isn't working, use 'Contact Us' in the ☰ menu to send a message to the Reward Ur Kids team." />
         <Tip emoji="📎" text="You can attach a screenshot to help explain the problem." />
+        <Tip emoji="🗂️" text="Switch to the 'My Tickets' tab on the Contact Support page to see replies from the support team and write back in the same thread." />
       </Section>
     </div>
   )
@@ -246,7 +254,7 @@ export function HelpTab({ role }) {
 // ── Login-page mini overview (no accordion, just cards) ───────────────────────
 
 export const LOGIN_HELP_CARDS = [
-  { icon: '🔐', title: 'One Login, Many Profiles', text: 'Only the guardian signs in with a username and password. From there, pick a profile — yourself, your co-guardian, or any kid — and unlock it with its own 6-digit PIN, just like Netflix.' },
+  { icon: '🔐', title: 'One Login, Many Profiles', text: 'Only the guardian signs in with a username and password (or Google). From there, pick a profile — yourself, your co-guardian, or any kid — and unlock it with its own 6-digit PIN, just like Netflix.' },
   { icon: '✅', title: 'Create Chores', text: 'Guardians create chores with a points value. Kids see them and complete them in real life.' },
   { icon: '🔁', title: 'Recurring Chores', text: 'Mark a chore as Daily, Weekly, or Monthly. One instance appears on the day it is due — no duplicates. Stop the series any time from the Active Recurring Chores panel.' },
   { icon: '⭐', title: 'Earn Points', text: "Once a guardian approves a chore, the child's wallet is credited automatically." },
