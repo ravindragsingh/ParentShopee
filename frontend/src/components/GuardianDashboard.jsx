@@ -298,7 +298,14 @@ function ChoresTab({ kids }) {
             <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
               <button
                 type="button" className="btn btn-outline btn-sm"
-                onClick={e => { e.stopPropagation(); setOpenChoresEditMode(v => !v) }}
+                onClick={e => {
+                  e.stopPropagation()
+                  setOpenChoresEditMode(v => {
+                    const next = !v
+                    if (next) setOpenChoresExpanded(true)
+                    return next
+                  })
+                }}
               >
                 {openChoresEditMode ? 'Done Editing' : '✏️ Edit'}
               </button>
@@ -307,18 +314,8 @@ function ChoresTab({ kids }) {
           </div>
           {openChoresExpanded && (
             <div style={{ marginTop: 14 }}>
-              {(open.length + pending.length) === 0 ? (
-                <div className="empty-text">No open chores.</div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {[...pending, ...open].map(chore => (
-                    <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" editMode={openChoresEditMode} />
-                  ))}
-                </div>
-              )}
-
               {openChoresEditMode && (
-                <div style={{ marginTop: 16, borderTop: '1px dashed #cbd5e1', paddingTop: 14 }}>
+                <div style={{ marginBottom: 16, borderBottom: '1px dashed #cbd5e1', paddingBottom: 14 }}>
                   {limits && (
                     <div style={{ marginBottom: 10 }}>
                       <span style={{
@@ -459,6 +456,16 @@ function ChoresTab({ kids }) {
                   <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 6 }}>
                     While editing, click a chore's title, points, assignment, or due date above to change it.
                   </div>
+                </div>
+              )}
+
+              {(open.length + pending.length) === 0 ? (
+                <div className="empty-text">No open chores.</div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {[...pending, ...open].map(chore => (
+                    <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" editMode={openChoresEditMode} />
+                  ))}
                 </div>
               )}
             </div>
