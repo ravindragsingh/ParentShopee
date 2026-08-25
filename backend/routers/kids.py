@@ -191,8 +191,9 @@ def get_kid_report(kid_id: str, period: str = "weekly", db: Session = Depends(ge
     ).order_by(DBTransaction.timestamp.desc()).all()
 
     daily_completions = [t for t in txns if t.type == "earned" and t.description.startswith("Daily chore")]
+    spent_txns = [t for t in txns if t.type == "spent"]
     earned_total = sum(t.amount for t in txns if t.type in ("earned", "bonus"))
-    spent_total = sum(t.amount for t in txns if t.type == "spent")
+    spent_total = sum(t.amount for t in spent_txns)
 
     tasks = []
     for c in chores:
@@ -203,6 +204,13 @@ def get_kid_report(kid_id: str, period: str = "weekly", db: Session = Depends(ge
         tasks.append({"title": title, "imageEmoji": "📅", "points": t.amount,
                       "completedAt": t.timestamp, "kind": "daily"})
     tasks.sort(key=lambda x: x["completedAt"], reverse=True)
+
+    # "Bought: <item name>" -> the item name -- same description format the
+    # shop router writes for both immediate and approval-required purchases.
+    purchases = []
+    for t in spent_txns:
+        title = t.description.split(": ", 1)[1] if ": " in t.description else t.description
+        purchases.append({"title": title, "points": t.amount, "purchasedAt": t.timestamp})
 
     wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
 
@@ -216,4 +224,5 @@ def get_kid_report(kid_id: str, period: str = "weekly", db: Session = Depends(ge
         "pointsSpent": spent_total,
         "currentBalance": wallet.balance if wallet else 0,
         "tasks": tasks[:100],
+        "purchases": purchases[:100],
     })

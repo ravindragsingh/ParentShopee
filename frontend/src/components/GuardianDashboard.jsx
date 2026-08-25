@@ -1770,6 +1770,24 @@ function KidsTab() {
                           ))}
                         </div>
                       )}
+
+                      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#64748b', margin: '14px 0 6px' }}>🛍️ Shopping</div>
+                      {reportData.purchases.length === 0 ? (
+                        <div className="empty-text">No purchases in this period.</div>
+                      ) : (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 260, overflowY: 'auto' }}>
+                          {reportData.purchases.map((p, i) => (
+                            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#fff', border: '1px solid #e2e8f0', borderRadius: 8, padding: '6px 10px' }}>
+                              <span style={{ fontSize: '1.1rem' }}>🎁</span>
+                              <span style={{ flex: 1, fontSize: '0.85rem', color: '#334155' }}>{p.title}</span>
+                              <span className="points-badge" style={{ background: '#fee2e2', color: '#dc2626', borderColor: '#fecaca' }}>-{p.points}</span>
+                              <span style={{ fontSize: '0.72rem', color: '#94a3b8', minWidth: 90, textAlign: 'right' }}>
+                                {new Date(p.purchasedAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
