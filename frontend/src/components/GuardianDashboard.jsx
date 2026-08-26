@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
@@ -1927,29 +1928,124 @@ function HomeNavRow({ icon, iconBg, label, onClick }) {
   )
 }
 
-function GuardianHomeScreen({ name, kids, onNavigate }) {
-  const [pendingCount, setPendingCount] = useState(null)
+function kidLookup(kids) {
+  const map = {}
+  kids.forEach(k => { map[k.id] = k })
+  return map
+}
 
-  useEffect(() => {
-    let active = true
+function PendingApprovalsModal({ items, kidsById, onClose, onChanged }) {
+  const [busyKey, setBusyKey] = useState(null)
+  const [error, setError] = useState('')
+
+  async function handle(item, action) {
+    const key = `${item.type}-${item.id}`
+    setBusyKey(key)
+    setError('')
+    try {
+      if (item.type === 'chore') {
+        await (action === 'approve' ? api.approveChore(item.id) : api.rejectChore(item.id))
+      } else if (item.type === 'daily') {
+        await (action === 'approve' ? api.approveDailyChore(item.id) : api.rejectDailyChore(item.id))
+      } else {
+        await (action === 'approve' ? api.approveShopPurchase(item.id) : api.rejectShopPurchase(item.id))
+      }
+      onChanged()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyKey(null)
+    }
+  }
+
+  const TYPE_LABEL = { chore: '✅ Chore', daily: '📅 Daily Chore', shop: '🛍️ Shop Purchase' }
+
+  return createPortal(
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 520, maxHeight: '85vh', display: 'flex', flexDirection: 'column', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}
+      >
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b' }}>⏳ Needs Your Approval</div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+
+        <div style={{ overflowY: 'auto', padding: '14px 20px' }}>
+          {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+          {items.length === 0 ? (
+            <div className="empty-text">All caught up! 🎉</div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {items.map(item => {
+                const kid = kidsById[item.kidId]
+                const key = `${item.type}-${item.id}`
+                const busy = busyKey === key
+                return (
+                  <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '10px 12px', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{item.imageEmoji}</span>
+                    <div style={{ flex: 1, minWidth: 140 }}>
+                      <div style={{ fontWeight: 600, color: '#1e293b', fontSize: '0.88rem' }}>{item.title}</div>
+                      <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                        {TYPE_LABEL[item.type]} · {kid ? `${kid.avatar || ''} ${kid.name}` : 'Unknown kid'} · {item.points} pts
+                      </div>
+                    </div>
+                    <button className="btn btn-green btn-sm" disabled={busy} onClick={() => handle(item, 'approve')}>
+                      {busy ? '…' : '✓ Approve'}
+                    </button>
+                    <button className="btn btn-red btn-sm" disabled={busy} onClick={() => handle(item, 'reject')}>
+                      ✕ Reject
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
+}
+
+function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
+  const [pendingItems, setPendingItems] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const kidsById = kidLookup(kids)
+
+  const loadPending = useCallback(() => {
+    if (!kidsLoaded) return
     Promise.all([
       api.getChores('pending'),
       api.getShopPurchases(),
       Promise.all(kids.map(k => api.getDailyChores(k.id).catch(() => null))),
     ])
       .then(([chores, purchases, dailyResults]) => {
-        if (!active) return
-        const chorePending = Array.isArray(chores) ? chores.length : 0
-        const shopPending = (Array.isArray(purchases) ? purchases : []).filter(p => p.status === 'pending').length
-        const dailyPending = dailyResults.reduce((sum, d) => {
+        const choreItems = (Array.isArray(chores) ? chores : []).map(c => ({
+          type: 'chore', id: c.id, title: c.title, imageEmoji: c.imageEmoji || '📋',
+          points: c.points, kidId: c.completedByKidId || c.assignedKidId,
+        }))
+        const shopItems = (Array.isArray(purchases) ? purchases : [])
+          .filter(p => p.status === 'pending')
+          .map(p => ({ type: 'shop', id: p.id, title: p.itemName, imageEmoji: p.imageEmoji || '🎁', points: p.cost, kidId: p.kidId }))
+        const dailyItems = dailyResults.flatMap(d => {
           const items = Array.isArray(d?.items) ? d.items : []
-          return sum + items.filter(i => i.status === 'pending').length
-        }, 0)
-        setPendingCount(chorePending + shopPending + dailyPending)
+          return items.filter(i => i.status === 'pending').map(i => ({
+            type: 'daily', id: i.id, title: i.title, imageEmoji: i.imageEmoji || '✅',
+            points: i.points, kidId: d.kidId,
+          }))
+        })
+        setPendingItems([...choreItems, ...dailyItems, ...shopItems])
       })
-      .catch(() => { if (active) setPendingCount(0) })
-    return () => { active = false }
-  }, [kids])
+      .catch(() => setPendingItems([]))
+  }, [kids, kidsLoaded])
+
+  useEffect(() => { loadPending() }, [loadPending])
+
+  const pendingCount = pendingItems?.length ?? null
 
   return (
     <div>
@@ -1960,11 +2056,17 @@ function GuardianHomeScreen({ name, kids, onNavigate }) {
         <div style={{ fontSize: '0.92rem', color: '#64748b', marginTop: 3 }}>Here's what's happening with your family today.</div>
       </div>
 
-      <div style={{
-        background: '#fff', borderRadius: 20, padding: '26px 22px',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.06)', textAlign: 'center', marginBottom: 22,
-        border: '1px solid #f1f5f9',
-      }}>
+      <div
+        role={pendingCount > 0 ? 'button' : undefined}
+        tabIndex={pendingCount > 0 ? 0 : undefined}
+        onClick={() => pendingCount > 0 && setModalOpen(true)}
+        onKeyDown={e => pendingCount > 0 && (e.key === 'Enter' || e.key === ' ') && setModalOpen(true)}
+        style={{
+          background: '#fff', borderRadius: 20, padding: '26px 22px',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.06)', textAlign: 'center', marginBottom: 22,
+          border: '1px solid #f1f5f9', cursor: pendingCount > 0 ? 'pointer' : 'default',
+        }}
+      >
         <div style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10 }}>NEEDS YOUR ATTENTION</div>
         {pendingCount === null ? (
           <div style={{ fontSize: '0.9rem', color: '#94a3b8', padding: '14px 0' }}>Loading…</div>
@@ -1976,7 +2078,7 @@ function GuardianHomeScreen({ name, kids, onNavigate }) {
               {pendingCount} <span style={{ fontSize: '1.9rem' }}>⏳</span>
             </div>
             <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: 9 }}>
-              {pendingCount === 1 ? 'item is' : 'items are'} waiting for your approval
+              {pendingCount === 1 ? 'item is' : 'items are'} waiting for your approval — tap to review
             </div>
           </>
         )}
@@ -1987,6 +2089,15 @@ function GuardianHomeScreen({ name, kids, onNavigate }) {
         <HomeNavRow icon="🛍️" iconBg="#fef3c7" label="Shop" onClick={() => onNavigate('shop')} />
         <HomeNavRow icon="👨‍👩‍👧" iconBg="#fce7f3" label="Kids" onClick={() => onNavigate('kids')} />
       </div>
+
+      {modalOpen && (
+        <PendingApprovalsModal
+          items={pendingItems || []}
+          kidsById={kidsById}
+          onClose={() => setModalOpen(false)}
+          onChanged={loadPending}
+        />
+      )}
     </div>
   )
 }
@@ -2002,6 +2113,7 @@ export default function GuardianDashboard() {
     setSearchParams(next === 'home' ? {} : { tab: next })
   }, [setSearchParams])
   const [kids, setKids] = useState([])
+  const [kidsLoaded, setKidsLoaded] = useState(false)
   const [wallets, setWallets] = useState([])
 
   function getKidBalance(kidId) {
@@ -2019,6 +2131,7 @@ export default function GuardianDashboard() {
     api.getKids()
       .then(data => setKids(Array.isArray(data) ? data : []))
       .catch(() => {})
+      .finally(() => setKidsLoaded(true))
     refreshWallets()
   }, [])
 
@@ -2049,7 +2162,7 @@ export default function GuardianDashboard() {
           </div>
         )}
 
-        {tab === 'home' && <GuardianHomeScreen name={user.name} kids={kids} onNavigate={setTab} />}
+        {tab === 'home' && <GuardianHomeScreen name={user.name} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} />}
 
         {tab !== 'home' && kids.length > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: '10px 14px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
