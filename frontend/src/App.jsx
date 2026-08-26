@@ -7,6 +7,7 @@ import KidDashboard from './components/KidDashboard.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import Blogs from './components/Blogs.jsx'
 import PrivacyPolicyPage from './components/PrivacyPolicyPage.jsx'
+import DeleteAccountPage from './components/DeleteAccountPage.jsx'
 import TipOfTheDayModal from './components/TipOfTheDayModal.jsx'
 
 function Loading() {
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/blog"       element={<Blogs />} />
           <Route path="/blog/:slug" element={<Blogs />} />
           <Route path="/privacy"    element={<PrivacyPolicyPage />} />
+          <Route path="/delete-account" element={<DeleteAccountPage />} />
           <Route path="/activate"       element={<ActivatePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/profiles"  element={<ProfilePickerRoute />} />

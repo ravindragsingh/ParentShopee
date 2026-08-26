@@ -110,7 +110,7 @@ export const api = {
   // Account
   changeOwnPassword: (password) => request('PUT', '/api/auth/password', { password }),
   updateMyPin:       (pin)      => request('PUT', '/api/auth/pin', { pin }),
-  deleteOwnAccount:  ()         => request('DELETE', '/api/auth/account'),
+  deleteOwnAccount:  (tokenOverride) => request('DELETE', '/api/auth/account', undefined, tokenOverride),
   registerPushToken: (token)    => request('PUT', '/api/auth/push-token', { token }),
 
   // Messaging
