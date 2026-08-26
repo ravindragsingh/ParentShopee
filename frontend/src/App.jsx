@@ -66,11 +66,22 @@ function DashboardRoute() {
 // Tapping a chore push notification (app backgrounded or killed) should just
 // bring the user to their dashboard, where the completed/approved chore is
 // visible -- deep-linking into a specific tab isn't worth the complexity.
+//
+// Deferred until the user is actually signed in: importing
+// @capacitor-firebase/messaging triggers Firebase's own network
+// initialization (talking to firebaseinstallations.googleapis.com), and
+// doing that unconditionally on every cold launch -- before the login
+// screen even renders -- was found to stall the native bridge badly enough
+// to leave the splash screen stuck forever. There's nothing to listen for
+// before login anyway, since a tapped notification's target route requires
+// being authenticated.
 function PushNotificationTapHandler() {
+  const { user } = useAuth()
   const navigate = useNavigate()
   useEffect(() => {
+    if (!user) return
     addNotificationTapListener(() => navigate('/dashboard'))
-  }, [navigate])
+  }, [navigate, user])
   return null
 }
 
