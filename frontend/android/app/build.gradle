@@ -26,8 +26,8 @@ android {
         // for bugfix-only builds, MAJOR for a first public release / breaking
         // changes. Keep this in sync with frontend/ios/App/App.xcodeproj's
         // CURRENT_PROJECT_VERSION / MARKETING_VERSION.
-        versionCode 2
-        versionName "1.1.0"
+        versionCode 3
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
