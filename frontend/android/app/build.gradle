@@ -7,8 +7,15 @@ android {
         applicationId "com.rewardurkids.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        // versionCode: plain integer, bump by 1 on every build submitted to a
+        // store or handed out for install (Google Play requires it strictly
+        // increasing). versionName: semantic MAJOR.MINOR.PATCH shown to users
+        // -- bump MINOR for a build with new features (like this one), PATCH
+        // for bugfix-only builds, MAJOR for a first public release / breaking
+        // changes. Keep this in sync with frontend/ios/App/App.xcodeproj's
+        // CURRENT_PROJECT_VERSION / MARKETING_VERSION.
+        versionCode 2
+        versionName "1.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
