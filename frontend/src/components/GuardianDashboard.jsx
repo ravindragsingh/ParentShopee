@@ -1927,21 +1927,29 @@ function HomeNavRow({ icon, iconBg, label, onClick }) {
   )
 }
 
-function GuardianHomeScreen({ name, onNavigate }) {
+function GuardianHomeScreen({ name, kids, onNavigate }) {
   const [pendingCount, setPendingCount] = useState(null)
 
   useEffect(() => {
     let active = true
-    Promise.all([api.getChores('pending'), api.getShopPurchases()])
-      .then(([chores, purchases]) => {
+    Promise.all([
+      api.getChores('pending'),
+      api.getShopPurchases(),
+      Promise.all(kids.map(k => api.getDailyChores(k.id).catch(() => null))),
+    ])
+      .then(([chores, purchases, dailyResults]) => {
         if (!active) return
         const chorePending = Array.isArray(chores) ? chores.length : 0
         const shopPending = (Array.isArray(purchases) ? purchases : []).filter(p => p.status === 'pending').length
-        setPendingCount(chorePending + shopPending)
+        const dailyPending = dailyResults.reduce((sum, d) => {
+          const items = Array.isArray(d?.items) ? d.items : []
+          return sum + items.filter(i => i.status === 'pending').length
+        }, 0)
+        setPendingCount(chorePending + shopPending + dailyPending)
       })
       .catch(() => { if (active) setPendingCount(0) })
     return () => { active = false }
-  }, [])
+  }, [kids])
 
   return (
     <div>
@@ -2041,7 +2049,7 @@ export default function GuardianDashboard() {
           </div>
         )}
 
-        {tab === 'home' && <GuardianHomeScreen name={user.name} onNavigate={setTab} />}
+        {tab === 'home' && <GuardianHomeScreen name={user.name} kids={kids} onNavigate={setTab} />}
 
         {tab !== 'home' && kids.length > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: '10px 14px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
