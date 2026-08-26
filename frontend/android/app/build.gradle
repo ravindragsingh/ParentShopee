@@ -1,5 +1,17 @@
 apply plugin: 'com.android.application'
 
+// Release signing key for Play Store uploads (an "upload key" -- Play App
+// Signing re-signs the app for actual distribution). keystore.properties and
+// the .keystore file it points at are both gitignored; this machine's copies
+// are the only ones that can produce a release build Play Store will accept
+// as an update to this app, so back them up somewhere safe outside git.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+def hasReleaseSigning = keystorePropertiesFile.exists()
+if (hasReleaseSigning) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.rewardurkids.app"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -23,10 +35,30 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    lint {
+        // AGP runs a "lint vital" pass before release builds that resolves
+        // its own separate dependency set -- unrelated to app code quality,
+        // and prone to failing on this machine's AVG-intercepted network.
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    if (hasReleaseSigning) {
+        signingConfigs {
+            release {
+                storeFile rootProject.file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (hasReleaseSigning) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     // Name the built APK after its own version (e.g. app_debug_1.1.0.apk)

@@ -28,3 +28,8 @@ frontend/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Android release signing — never commit the upload key or its passwords
+frontend/android/keystore.properties
+frontend/android/app/*.keystore
+frontend/android/app/*.jks
