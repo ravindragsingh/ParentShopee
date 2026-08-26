@@ -29,12 +29,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    // Name the built APK after its own version (e.g. app-debug-1.1.0.apk)
+    // Name the built APK after its own version (e.g. app_debug_1.1.0.apk)
     // instead of the generic app-debug.apk, so a handed-off build is
     // self-identifying and the next one won't silently overwrite it.
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "app-${variant.name}-${variant.versionName}.apk"
+            outputFileName = "app_${variant.name}_${variant.versionName}.apk"
         }
     }
 }
