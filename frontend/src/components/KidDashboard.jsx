@@ -321,31 +321,75 @@ function getGreeting() {
   return                         { text: 'Good Night',     icon: '🌙' }
 }
 
-function MotivationalBanner({ name }) {
+// ─── Home screen ──────────────────────────────────────────────────────────────
+
+// Always-increasing round-number goals so the progress bar has something to
+// aim for even though the app has no explicit savings-goal feature.
+const POINT_MILESTONES = [10, 25, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
+
+function nextMilestone(balance) {
+  return POINT_MILESTONES.find(m => m > balance) ?? (Math.ceil((balance + 100) / 100) * 100)
+}
+
+function HomeNavRow({ icon, iconBg, label, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 14, width: '100%',
+        background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14,
+        padding: '14px 16px', cursor: 'pointer', textAlign: 'left',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+      }}
+    >
+      <span style={{ width: 42, height: 42, borderRadius: 12, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.35rem', flexShrink: 0 }}>
+        {icon}
+      </span>
+      <span style={{ flex: 1, fontWeight: 700, color: '#1e293b', fontSize: '0.98rem' }}>{label}</span>
+      <span style={{ color: '#cbd5e1', fontSize: '1.3rem', lineHeight: 1 }}>›</span>
+    </button>
+  )
+}
+
+function KidHomeScreen({ name, balance, onNavigate }) {
   const [message] = useState(
     () => MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)]
   )
   const greeting = getGreeting()
+  const bal = balance ?? 0
+  const goal = nextMilestone(bal)
+  const progressPct = Math.min(100, Math.round((bal / goal) * 100))
 
   return (
-    <div style={{
-      background: 'linear-gradient(135deg, #f0fdf4, #ecfdf5)',
-      border: '1.5px solid #bbf7d0',
-      borderRadius: 14,
-      padding: '14px 18px',
-      marginBottom: 16,
-      display: 'flex',
-      alignItems: 'flex-start',
-      gap: 14,
-    }}>
-      <span style={{ fontSize: '2rem', lineHeight: 1, flexShrink: 0 }}>{greeting.icon}</span>
-      <div>
-        <div style={{ fontWeight: 700, fontSize: '1rem', color: '#065f46', marginBottom: 3 }}>
-          {greeting.text}, {name}!
+    <div>
+      <div style={{ marginBottom: 18 }}>
+        <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1e293b', display: 'flex', alignItems: 'center', gap: 8 }}>
+          Hi {name}! <span style={{ fontSize: '1.25rem' }}>{greeting.icon}</span>
         </div>
-        <div style={{ fontSize: '0.875rem', color: '#047857', lineHeight: 1.5 }}>
-          {message}
+        <div style={{ fontSize: '0.92rem', color: '#64748b', marginTop: 3 }}>{message}</div>
+      </div>
+
+      <div style={{
+        background: '#fff', borderRadius: 20, padding: '26px 22px',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.06)', textAlign: 'center', marginBottom: 22,
+        border: '1px solid #f1f5f9',
+      }}>
+        <div style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 6 }}>YOUR POINTS</div>
+        <div style={{ fontSize: '2.8rem', fontWeight: 800, color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, lineHeight: 1 }}>
+          {bal} <span style={{ fontSize: '1.9rem' }}>⭐</span>
         </div>
+        <div style={{ height: 9, background: '#f1f5f9', borderRadius: 999, marginTop: 18, overflow: 'hidden' }}>
+          <div style={{ height: '100%', width: `${progressPct}%`, background: 'linear-gradient(90deg,#10b981,#059669)', borderRadius: 999, transition: 'width 0.4s ease' }} />
+        </div>
+        <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: 9 }}>
+          Keep it up! {Math.max(0, goal - bal)} pts to {goal}
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <HomeNavRow icon="📋" iconBg="#dbeafe" label="My Tasks" onClick={() => onNavigate('chores')} />
+        <HomeNavRow icon="🎁" iconBg="#fef3c7" label="My Rewards" onClick={() => onNavigate('shop')} />
+        <HomeNavRow icon="👛" iconBg="#fce7f3" label="My Wallet" onClick={() => onNavigate('wallet')} />
       </div>
     </div>
   )
@@ -357,9 +401,9 @@ export default function KidDashboard() {
   const { user, logout, switchProfile } = useAuth()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const tab = searchParams.get('tab') || 'chores'
+  const tab = searchParams.get('tab') || 'home'
   const setTab = useCallback(next => {
-    setSearchParams(next === 'chores' ? {} : { tab: next })
+    setSearchParams(next === 'home' ? {} : { tab: next })
   }, [setSearchParams])
   const [balance, setBalance] = useState(null)
 
@@ -395,20 +439,21 @@ export default function KidDashboard() {
       </AppNavbar>
 
       <div className="main-content">
-        <div className="tabs">
-          {['chores', 'shop', 'wallet'].map(t => (
-            <button
-              key={t}
-              className={`tab-btn${tab === t ? ' active kid' : ''}`}
-              onClick={() => setTab(t)}
-            >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
-            </button>
-          ))}
-        </div>
+        {tab !== 'home' && (
+          <div className="tabs">
+            {['home', 'chores', 'shop', 'wallet'].map(t => (
+              <button
+                key={t}
+                className={`tab-btn${tab === t ? ' active kid' : ''}`}
+                onClick={() => setTab(t)}
+              >
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
+              </button>
+            ))}
+          </div>
+        )}
 
-        <MotivationalBanner name={user.name} />
-
+        {tab === 'home'     && <KidHomeScreen name={user.name} balance={balance} onNavigate={setTab} />}
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
         {tab === 'wallet'   && <KidWalletView kidId={user.id} />}
