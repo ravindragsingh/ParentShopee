@@ -1905,15 +1905,93 @@ function KidsTab() {
   )
 }
 
+// ─── Home screen ──────────────────────────────────────────────────────────────
+
+function HomeNavRow({ icon, iconBg, label, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 14, width: '100%',
+        background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14,
+        padding: '14px 16px', cursor: 'pointer', textAlign: 'left',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+      }}
+    >
+      <span style={{ width: 42, height: 42, borderRadius: 12, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.35rem', flexShrink: 0 }}>
+        {icon}
+      </span>
+      <span style={{ flex: 1, fontWeight: 700, color: '#1e293b', fontSize: '0.98rem' }}>{label}</span>
+      <span style={{ color: '#cbd5e1', fontSize: '1.3rem', lineHeight: 1 }}>›</span>
+    </button>
+  )
+}
+
+function GuardianHomeScreen({ name, onNavigate }) {
+  const [pendingCount, setPendingCount] = useState(null)
+
+  useEffect(() => {
+    let active = true
+    Promise.all([api.getChores('pending'), api.getShopPurchases()])
+      .then(([chores, purchases]) => {
+        if (!active) return
+        const chorePending = Array.isArray(chores) ? chores.length : 0
+        const shopPending = (Array.isArray(purchases) ? purchases : []).filter(p => p.status === 'pending').length
+        setPendingCount(chorePending + shopPending)
+      })
+      .catch(() => { if (active) setPendingCount(0) })
+    return () => { active = false }
+  }, [])
+
+  return (
+    <div>
+      <div style={{ marginBottom: 18 }}>
+        <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1e293b', display: 'flex', alignItems: 'center', gap: 8 }}>
+          Hi {name}! <span style={{ fontSize: '1.25rem' }}>👋</span>
+        </div>
+        <div style={{ fontSize: '0.92rem', color: '#64748b', marginTop: 3 }}>Here's what's happening with your family today.</div>
+      </div>
+
+      <div style={{
+        background: '#fff', borderRadius: 20, padding: '26px 22px',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.06)', textAlign: 'center', marginBottom: 22,
+        border: '1px solid #f1f5f9',
+      }}>
+        <div style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10 }}>NEEDS YOUR ATTENTION</div>
+        {pendingCount === null ? (
+          <div style={{ fontSize: '0.9rem', color: '#94a3b8', padding: '14px 0' }}>Loading…</div>
+        ) : pendingCount === 0 ? (
+          <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#059669', padding: '6px 0' }}>🎉 All caught up!</div>
+        ) : (
+          <>
+            <div style={{ fontSize: '2.8rem', fontWeight: 800, color: '#ea580c', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, lineHeight: 1 }}>
+              {pendingCount} <span style={{ fontSize: '1.9rem' }}>⏳</span>
+            </div>
+            <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: 9 }}>
+              {pendingCount === 1 ? 'item is' : 'items are'} waiting for your approval
+            </div>
+          </>
+        )}
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <HomeNavRow icon="✅" iconBg="#ccfbf1" label="Chores" onClick={() => onNavigate('chores')} />
+        <HomeNavRow icon="🛍️" iconBg="#fef3c7" label="Shop" onClick={() => onNavigate('shop')} />
+        <HomeNavRow icon="👨‍👩‍👧" iconBg="#fce7f3" label="Kids" onClick={() => onNavigate('kids')} />
+      </div>
+    </div>
+  )
+}
+
 // ─── Guardian Dashboard Shell ──────────────────────────────────────────────────
 
 export default function GuardianDashboard() {
   const { user, logout, switchProfile } = useAuth()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const tab = searchParams.get('tab') || 'chores'
+  const tab = searchParams.get('tab') || 'home'
   const setTab = useCallback(next => {
-    setSearchParams(next === 'chores' ? {} : { tab: next })
+    setSearchParams(next === 'home' ? {} : { tab: next })
   }, [setSearchParams])
   const [kids, setKids] = useState([])
   const [wallets, setWallets] = useState([])
@@ -1949,19 +2027,23 @@ export default function GuardianDashboard() {
       />
 
       <div className="main-content">
-        <div className="tabs">
-          {['chores', 'shop', 'kids'].map(t => (
-            <button
-              key={t}
-              className={`tab-btn${tab === t ? ' active guardian' : ''}`}
-              onClick={() => setTab(t)}
-            >
-              {t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Kids'}
-            </button>
-          ))}
-        </div>
+        {tab !== 'home' && (
+          <div className="tabs">
+            {['home', 'chores', 'shop', 'kids'].map(t => (
+              <button
+                key={t}
+                className={`tab-btn${tab === t ? ' active guardian' : ''}`}
+                onClick={() => setTab(t)}
+              >
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Kids'}
+              </button>
+            ))}
+          </div>
+        )}
 
-        {kids.length > 0 && (
+        {tab === 'home' && <GuardianHomeScreen name={user.name} onNavigate={setTab} />}
+
+        {tab !== 'home' && kids.length > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: '10px 14px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
             <span style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginRight: 2 }}>⭐ Points:</span>
             {kids.map(kid => (
@@ -1981,7 +2063,7 @@ export default function GuardianDashboard() {
           </div>
         )}
 
-        {kids.length === 0 && (
+        {tab !== 'home' && kids.length === 0 && (
           <div style={{
             background: 'linear-gradient(135deg, #f0fdfa, #f0fdf4)',
             border: '1px solid #99f6e4',
