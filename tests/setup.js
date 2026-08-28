@@ -2,7 +2,8 @@
 
 const fetch = require('node-fetch');
 
-const BASE = 'http://localhost:3001/api';
+const PORT = 4055;
+const BASE = `http://127.0.0.1:${PORT}/api`;
 
 /**
  * Log in with the given credentials; returns { token, user }.
@@ -38,4 +39,4 @@ async function api(path, method = 'GET', body = null, token = null) {
   return { status: res.status, body: json };
 }
 
-module.exports = { BASE, login, api };
+module.exports = { PORT, BASE, login, api };
