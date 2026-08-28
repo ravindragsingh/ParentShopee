@@ -2,12 +2,21 @@ import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import MemoryMatchGame from './MemoryMatchGame.jsx'
 import QuickMathGame from './QuickMathGame.jsx'
+import AlphabetHuntGame from './AlphabetHuntGame.jsx'
+import NumberMatchGame from './NumberMatchGame.jsx'
+import SightWordsGame from './SightWordsGame.jsx'
+import WordScrambleGame from './WordScrambleGame.jsx'
+import { ageLabel } from './ageLabel.js'
 
 // Add a new game's slug -> component here to make it playable once it has a
 // matching row in the backend's games catalog (backend/main.py seeds it).
 const GAME_COMPONENTS = {
   'memory-match': MemoryMatchGame,
   'quick-math': QuickMathGame,
+  'alphabet-hunt': AlphabetHuntGame,
+  'number-match': NumberMatchGame,
+  'sight-words': SightWordsGame,
+  'word-scramble': WordScrambleGame,
 }
 
 function GameCard({ game, session, balance, onBuy, onStart, busy }) {
@@ -47,6 +56,7 @@ function GameCard({ game, session, balance, onBuy, onStart, busy }) {
       <div className="shop-name">{game.name}</div>
       {game.description && <div className="shop-desc">{game.description}</div>}
       <div className="shop-cost">{game.cost} pts · {game.durationMinutes} min pass</div>
+      <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{ageLabel(game.minAge, game.maxAge)}</div>
       {footer}
     </div>
   )

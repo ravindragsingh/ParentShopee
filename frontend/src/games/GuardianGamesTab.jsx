@@ -1,11 +1,29 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { api } from '../api.js'
+import { ageLabel } from './ageLabel.js'
+
+const AGE_FILTERS = [
+  { id: 'all', label: 'All games', min: null, max: null },
+  { id: 'young', label: 'Ages 4–6', min: 4, max: 6 },
+  { id: 'older', label: 'Ages 8+', min: 8, max: null },
+]
+
+// True if a game's [minAge, maxAge] range overlaps a filter's range at all --
+// e.g. Memory Match (4, unbounded) matches both the "4–6" and "8+" filters,
+// which is correct: it genuinely suits every age, not just one bucket.
+function overlaps(gameMin, gameMax, filterMin, filterMax) {
+  const gLo = gameMin ?? -Infinity, gHi = gameMax ?? Infinity
+  const fLo = filterMin ?? -Infinity, fHi = filterMax ?? Infinity
+  return gLo <= fHi && fLo <= gHi
+}
 
 export default function GuardianGamesTab() {
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [savingId, setSavingId] = useState(null)
+  const [bulkSaving, setBulkSaving] = useState(false)
+  const [ageFilter, setAgeFilter] = useState('all')
 
   const loadGames = useCallback(async () => {
     setLoading(true)
@@ -22,6 +40,12 @@ export default function GuardianGamesTab() {
 
   useEffect(() => { loadGames() }, [loadGames])
 
+  const activeFilter = AGE_FILTERS.find(f => f.id === ageFilter)
+  const visibleGames = useMemo(
+    () => games.filter(g => overlaps(g.minAge, g.maxAge, activeFilter.min, activeFilter.max)),
+    [games, activeFilter]
+  )
+
   async function handleToggle(game) {
     setSavingId(game.id)
     setError('')
@@ -35,6 +59,22 @@ export default function GuardianGamesTab() {
     }
   }
 
+  async function handleBulkSet(enabled) {
+    setBulkSaving(true)
+    setError('')
+    try {
+      for (const game of visibleGames) {
+        if (game.enabled !== enabled) await api.setGameVisibility(game.id, enabled)
+      }
+      const ids = new Set(visibleGames.map(g => g.id))
+      setGames(gs => gs.map(g => ids.has(g.id) ? { ...g, enabled } : g))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBulkSaving(false)
+    }
+  }
+
   if (loading) return <div className="loading-text">Loading games...</div>
 
   return (
@@ -44,23 +84,46 @@ export default function GuardianGamesTab() {
         🎮 Turn on the games you want your kids to be able to buy with their points. New games start off — nothing shows up for kids until you enable it here.
       </div>
 
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+          {AGE_FILTERS.map(f => (
+            <button
+              key={f.id}
+              className={`btn btn-sm ${ageFilter === f.id ? 'btn-primary' : 'btn-outline'}`}
+              onClick={() => setAgeFilter(f.id)}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: 6 }}>
+          <button className="btn btn-sm btn-green" onClick={() => handleBulkSet(true)} disabled={bulkSaving || visibleGames.length === 0}>
+            {bulkSaving ? 'Saving...' : 'Enable all'}
+          </button>
+          <button className="btn btn-sm btn-outline" onClick={() => handleBulkSet(false)} disabled={bulkSaving || visibleGames.length === 0}>
+            Disable all
+          </button>
+        </div>
+      </div>
+
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
-      {games.length === 0 ? (
-        <div className="empty-text">No games in the catalog yet.</div>
+      {visibleGames.length === 0 ? (
+        <div className="empty-text">No games in this age range.</div>
       ) : (
         <div className="shop-grid">
-          {games.map(game => (
+          {visibleGames.map(game => (
             <div key={game.id} className="shop-item-card">
               <div className="shop-emoji">{game.imageEmoji}</div>
               <div className="shop-name">{game.name}</div>
               {game.description && <div className="shop-desc">{game.description}</div>}
               <div className="shop-cost">{game.cost} pts · {game.durationMinutes} min pass</div>
+              <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{ageLabel(game.minAge, game.maxAge)}</div>
               <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem', color: '#334155', fontWeight: 600, cursor: 'pointer', marginTop: 4 }}>
                 <input
                   type="checkbox"
                   checked={!!game.enabled}
-                  disabled={savingId === game.id}
+                  disabled={savingId === game.id || bulkSaving}
                   onChange={() => handleToggle(game)}
                 />
                 {game.enabled ? 'Visible to kids' : 'Hidden from kids'}

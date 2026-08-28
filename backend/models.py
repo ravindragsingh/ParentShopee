@@ -155,6 +155,8 @@ class DBGame(Base):
     cost             = Column(Float, nullable=False)
     duration_minutes = Column(Integer, nullable=False)
     is_active        = Column(String, default="1")   # "1"/"0"
+    min_age          = Column(Integer, nullable=True)   # NULL = no lower bound
+    max_age          = Column(Integer, nullable=True)   # NULL = no upper bound
 
 
 class DBGameSession(Base):

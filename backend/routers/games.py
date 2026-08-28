@@ -16,7 +16,8 @@ router = APIRouter()
 
 def game_dict(g: DBGame, enabled: bool = None) -> dict:
     d = {"id": g.id, "name": g.name, "description": g.description,
-         "imageEmoji": g.image_emoji, "cost": g.cost, "durationMinutes": g.duration_minutes}
+         "imageEmoji": g.image_emoji, "cost": g.cost, "durationMinutes": g.duration_minutes,
+         "minAge": g.min_age, "maxAge": g.max_age}
     if enabled is not None:
         d["enabled"] = enabled
     return d

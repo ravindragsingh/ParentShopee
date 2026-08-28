@@ -101,6 +101,8 @@ def startup():
             ("users",      "google_id",                 "VARCHAR"),
             ("users",      "push_token",                "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
+            ("games",      "min_age",                 "INTEGER"),
+            ("games",      "max_age",                 "INTEGER"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -182,22 +184,43 @@ def startup():
     finally:
         db.close()
 
-    # Games catalog is global (not per-family) and seeded unconditionally, unlike
-    # seed_db() above which only runs once against a brand-new database -- this
-    # needs to reach every existing production database too, on every startup.
+    # Games catalog is global (not per-family) and kept in sync with this list on
+    # every startup (upsert, not insert-only) -- unlike seed_db() above, which only
+    # runs once against a brand-new database, this needs to reach every existing
+    # production database too, including backfilling fields (like age tags) added
+    # to games that already exist there. Per-family visibility is a separate,
+    # opt-in setting (DBFamilyGameSetting) -- being in this catalog doesn't mean
+    # a family's kids can see it yet.
     from models import DBGame
     db3 = SessionLocal()
     try:
-        for game in [
-            DBGame(id="memory-match", name="Memory Match",
-                   description="Flip cards and find every matching pair before time runs out.",
-                   image_emoji="🧠", cost=15, duration_minutes=20, is_active="1"),
-            DBGame(id="quick-math", name="Quick Math",
-                   description="Solve as many quick math problems as you can before time runs out.",
-                   image_emoji="🧮", cost=12, duration_minutes=15, is_active="1"),
-        ]:
-            if not db3.query(DBGame).filter(DBGame.id == game.id).first():
-                db3.add(game)
+        catalog = [
+            dict(id="memory-match", name="Memory Match",
+                 description="Flip cards and find every matching pair before time runs out.",
+                 image_emoji="🧠", cost=15, duration_minutes=20, min_age=4, max_age=None),
+            dict(id="alphabet-hunt", name="Alphabet Hunt",
+                 description="Find the letter that's called out to practice the ABCs.",
+                 image_emoji="🔤", cost=8, duration_minutes=10, min_age=4, max_age=6),
+            dict(id="number-match", name="Number Match",
+                 description="Count the pictures and tap the matching number.",
+                 image_emoji="🔢", cost=8, duration_minutes=10, min_age=4, max_age=6),
+            dict(id="sight-words", name="Sight Words",
+                 description="Spot common reading words to build early reading skills.",
+                 image_emoji="📖", cost=8, duration_minutes=10, min_age=4, max_age=6),
+            dict(id="quick-math", name="Quick Math",
+                 description="Solve as many quick math problems as you can before time runs out.",
+                 image_emoji="🧮", cost=12, duration_minutes=15, min_age=8, max_age=None),
+            dict(id="word-scramble", name="Word Scramble",
+                 description="Unscramble the mixed-up letters to spell the word.",
+                 image_emoji="🔀", cost=10, duration_minutes=12, min_age=8, max_age=None),
+        ]
+        for fields in catalog:
+            existing = db3.query(DBGame).filter(DBGame.id == fields["id"]).first()
+            if existing:
+                for key, value in fields.items():
+                    setattr(existing, key, value)
+            else:
+                db3.add(DBGame(is_active="1", **fields))
         db3.commit()
     finally:
         db3.close()
