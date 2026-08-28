@@ -213,6 +213,15 @@ def startup():
             dict(id="word-scramble", name="Word Scramble",
                  description="Unscramble the mixed-up letters to spell the word.",
                  image_emoji="🔀", cost=10, duration_minutes=12, min_age=8, max_age=None),
+            dict(id="snake", name="Snake",
+                 description="Guide the snake to eat food and grow as long as you can without crashing.",
+                 image_emoji="🐍", cost=15, duration_minutes=15, min_age=6, max_age=None),
+            dict(id="whack-a-mole", name="Whack-a-Mole",
+                 description="Tap the moles as they pop up before they disappear.",
+                 image_emoji="🐹", cost=10, duration_minutes=10, min_age=4, max_age=None),
+            dict(id="tic-tac-toe", name="Tic-Tac-Toe",
+                 description="Play a classic game of X's and O's against the computer.",
+                 image_emoji="⭕", cost=8, duration_minutes=10, min_age=5, max_age=None),
         ]
         for fields in catalog:
             existing = db3.query(DBGame).filter(DBGame.id == fields["id"]).first()

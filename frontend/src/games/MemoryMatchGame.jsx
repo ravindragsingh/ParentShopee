@@ -1,4 +1,6 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useCallback } from 'react'
+import { useCountdown } from './useCountdown.js'
+import GameHeader from './GameHeader.jsx'
 
 const ICONS = ['🐶', '🐱', '🐰', '🦊', '🐻', '🐼', '🐸', '🦁']
 
@@ -13,13 +15,6 @@ function shuffledDeck() {
   return deck.map((card, i) => ({ ...card, id: i }))
 }
 
-function formatRemaining(ms) {
-  const totalSec = Math.max(0, Math.floor(ms / 1000))
-  const m = Math.floor(totalSec / 60)
-  const s = totalSec % 60
-  return `${m}:${String(s).padStart(2, '0')}`
-}
-
 // Self-contained card-flip game. Purely client-side -- the backend only tracks
 // the game pass purchase and its timer, not moves or score, matching v1's scope.
 export default function MemoryMatchGame({ session, onExit }) {
@@ -28,18 +23,8 @@ export default function MemoryMatchGame({ session, onExit }) {
   const [matched, setMatched] = useState(new Set())
   const [moves, setMoves] = useState(0)
   const [locked, setLocked] = useState(false)
-  const [remainingMs, setRemainingMs] = useState(() => new Date(session.expiresAt) - new Date())
+  const { remainingMs, timeUp } = useCountdown(session.expiresAt)
 
-  const expiresAt = useMemo(() => new Date(session.expiresAt).getTime(), [session.expiresAt])
-
-  useEffect(() => {
-    const tick = () => setRemainingMs(expiresAt - Date.now())
-    tick()
-    const interval = setInterval(tick, 1000)
-    return () => clearInterval(interval)
-  }, [expiresAt])
-
-  const timeUp = remainingMs <= 0
   const won = matched.size === deck.length
 
   const handleFlip = useCallback((card) => {
@@ -63,19 +48,7 @@ export default function MemoryMatchGame({ session, onExit }) {
 
   return (
     <div style={{ maxWidth: 480, margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 8 }}>
-        <button className="btn btn-outline btn-sm" onClick={onExit}>← Back to Games</button>
-        <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Moves: {moves}</span>
-        <span
-          style={{
-            fontSize: '0.85rem', fontWeight: 700, borderRadius: 999, padding: '4px 12px',
-            background: timeUp ? '#fee2e2' : remainingMs < 60000 ? '#fed7aa' : '#ccfbf1',
-            color: timeUp ? '#b91c1c' : remainingMs < 60000 ? '#c2410c' : '#0d9488',
-          }}
-        >
-          ⏱️ {timeUp ? "Time's up" : formatRemaining(remainingMs)}
-        </span>
-      </div>
+      <GameHeader onExit={onExit} status={`Moves: ${moves}`} remainingMs={remainingMs} timeUp={timeUp} />
 
       {won ? (
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>
