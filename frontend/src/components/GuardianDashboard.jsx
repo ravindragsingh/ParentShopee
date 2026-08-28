@@ -1947,6 +1947,8 @@ function PendingApprovalsModal({ items, kidsById, onClose, onChanged }) {
         await (action === 'approve' ? api.approveChore(item.id) : api.rejectChore(item.id))
       } else if (item.type === 'daily') {
         await (action === 'approve' ? api.approveDailyChore(item.id) : api.rejectDailyChore(item.id))
+      } else if (item.type === 'game') {
+        await (action === 'approve' ? api.approveGameSession(item.id) : api.rejectGameSession(item.id))
       } else {
         await (action === 'approve' ? api.approveShopPurchase(item.id) : api.rejectShopPurchase(item.id))
       }
@@ -1958,7 +1960,7 @@ function PendingApprovalsModal({ items, kidsById, onClose, onChanged }) {
     }
   }
 
-  const TYPE_LABEL = { chore: '✅ Chore', daily: '📅 Daily Chore', shop: '🛍️ Shop Purchase' }
+  const TYPE_LABEL = { chore: '✅ Chore', daily: '📅 Daily Chore', shop: '🛍️ Shop Purchase', game: '🎮 Game Pass' }
 
   return createPortal(
     <div
@@ -2021,9 +2023,10 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
     Promise.all([
       api.getChores('pending'),
       api.getShopPurchases(),
+      api.getGameSessions(),
       Promise.all(kids.map(k => api.getDailyChores(k.id).catch(() => null))),
     ])
-      .then(([chores, purchases, dailyResults]) => {
+      .then(([chores, purchases, gameSessions, dailyResults]) => {
         const choreItems = (Array.isArray(chores) ? chores : []).map(c => ({
           type: 'chore', id: c.id, title: c.title, imageEmoji: c.imageEmoji || '📋',
           points: c.points, kidId: c.completedByKidId || c.assignedKidId,
@@ -2031,6 +2034,9 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
         const shopItems = (Array.isArray(purchases) ? purchases : [])
           .filter(p => p.status === 'pending')
           .map(p => ({ type: 'shop', id: p.id, title: p.itemName, imageEmoji: p.imageEmoji || '🎁', points: p.cost, kidId: p.kidId }))
+        const gameItems = (Array.isArray(gameSessions) ? gameSessions : [])
+          .filter(s => s.status === 'pending')
+          .map(s => ({ type: 'game', id: s.id, title: s.gameName, imageEmoji: s.imageEmoji || '🎮', points: s.cost, kidId: s.kidId }))
         const dailyItems = dailyResults.flatMap(d => {
           const items = Array.isArray(d?.items) ? d.items : []
           return items.filter(i => i.status === 'pending').map(i => ({
@@ -2038,7 +2044,7 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
             points: i.points, kidId: d.kidId,
           }))
         })
-        setPendingItems([...choreItems, ...dailyItems, ...shopItems])
+        setPendingItems([...choreItems, ...dailyItems, ...shopItems, ...gameItems])
       })
       .catch(() => setPendingItems([]))
   }, [kids, kidsLoaded])

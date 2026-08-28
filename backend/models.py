@@ -143,6 +143,39 @@ class DBShopPurchase(Base):
     resolved_at = Column(String, nullable=True)
 
 
+class DBGame(Base):
+    """Catalog of first-party mini-games kids can unlock with points. Global for
+    now (not per-family) -- a single small catalog to prove the buy -> approve ->
+    timed-unlock mechanic before building out a per-age-group library."""
+    __tablename__ = "games"
+    id               = Column(String, primary_key=True)   # slug, e.g. "memory-match"
+    name             = Column(String, nullable=False)
+    description      = Column(String, default="")
+    image_emoji      = Column(String, default="🎮")
+    cost             = Column(Float, nullable=False)
+    duration_minutes = Column(Integer, nullable=False)
+    is_active        = Column(String, default="1")   # "1"/"0"
+
+
+class DBGameSession(Base):
+    """One kid's purchased play session for a game. Unlike a shop purchase
+    (consumed instantly), a game pass sits unopened until the kid taps Play --
+    that's when started_at/expires_at are set and the countdown actually begins."""
+    __tablename__ = "game_sessions"
+    id               = Column(String, primary_key=True)
+    kid_id           = Column(String, nullable=False, index=True)
+    game_id          = Column(String, nullable=False)
+    game_name        = Column(String, nullable=False)   # snapshot at purchase time
+    image_emoji      = Column(String, default="🎮")
+    cost             = Column(Float, nullable=False)
+    duration_minutes = Column(Integer, nullable=False)
+    status           = Column(String, default="pending", index=True)  # pending | approved | active | rejected | expired
+    created_at       = Column(String, nullable=False)
+    resolved_at      = Column(String, nullable=True)   # approved/rejected timestamp
+    started_at       = Column(String, nullable=True)   # kid tapped Play
+    expires_at       = Column(String, nullable=True)   # started_at + duration_minutes
+
+
 class DBSupportTicket(Base):
     __tablename__ = "support_tickets"
     id          = Column(String, primary_key=True)

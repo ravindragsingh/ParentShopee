@@ -12,7 +12,7 @@ import models  # noqa: F401 — import ensures all tables are registered on Base
 from database import SessionLocal, engine, Base
 from seed import seed_db
 from models import DBUser
-from routers import admin, auth, chores, contact, daily_chores, family, kids, messages, shop, wallet
+from routers import admin, auth, chores, contact, daily_chores, family, games, kids, messages, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -55,6 +55,7 @@ app.include_router(contact.router)
 app.include_router(messages.router)
 app.include_router(admin.router)
 app.include_router(daily_chores.router)
+app.include_router(games.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -180,6 +181,22 @@ def startup():
         seed_db(db)
     finally:
         db.close()
+
+    # Games catalog is global (not per-family) and seeded unconditionally, unlike
+    # seed_db() above which only runs once against a brand-new database -- this
+    # needs to reach every existing production database too, on every startup.
+    from models import DBGame
+    db3 = SessionLocal()
+    try:
+        if not db3.query(DBGame).filter(DBGame.id == "memory-match").first():
+            db3.add(DBGame(
+                id="memory-match", name="Memory Match",
+                description="Flip cards and find every matching pair before time runs out.",
+                image_emoji="🧠", cost=15, duration_minutes=20, is_active="1",
+            ))
+            db3.commit()
+    finally:
+        db3.close()
 
     # Create/ensure admin user exists
     # Credentials MUST be set via environment variables — no hardcoded fallback for security

@@ -95,6 +95,14 @@ export const api = {
   approveShopPurchase:  (id)             => request('POST', `/api/shop/purchases/${id}/approve`),
   rejectShopPurchase:   (id)             => request('POST', `/api/shop/purchases/${id}/reject`),
 
+  // Games
+  getGames:             ()     => request('GET',  '/api/games'),
+  getGameSessions:      ()     => request('GET',  '/api/games/sessions'),
+  buyGame:              (id)   => request('POST', `/api/games/${id}/buy`),
+  approveGameSession:   (id)   => request('POST', `/api/games/sessions/${id}/approve`),
+  rejectGameSession:    (id)   => request('POST', `/api/games/sessions/${id}/reject`),
+  startGameSession:     (id)   => request('POST', `/api/games/sessions/${id}/start`),
+
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
   getAllWallets: () => request('GET', '/api/wallet'),

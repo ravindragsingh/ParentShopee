@@ -5,6 +5,7 @@ import { api } from '../api.js'
 import { KidChoreCard } from './ChoreCard.jsx'
 import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
+import GamesTab from '../games/GamesTab.jsx'
 import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
 import SettingsPanel from './Settings.jsx'
@@ -200,7 +201,7 @@ function KidChoresTab({ userId, onBalanceChange }) {
 
 // ─── Shop Tab ────────────────────────────────────────────────────────────────
 
-function KidShopTab({ userId }) {
+function KidShopTab({ userId, onBalanceChange }) {
   const [items, setItems] = useState([])
   const [balance, setBalance] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -269,7 +270,7 @@ function KidShopTab({ userId }) {
                 item={item}
                 balance={balance}
                 isPending={pendingItemIds.has(item.id)}
-                onRefresh={loadData}
+                onRefresh={() => { loadData(); onBalanceChange && onBalanceChange() }}
               />
             ))}
         </div>
@@ -389,6 +390,7 @@ function KidHomeScreen({ name, balance, onNavigate }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <HomeNavRow icon="📋" iconBg="#dbeafe" label="My Tasks" onClick={() => onNavigate('chores')} />
         <HomeNavRow icon="🎁" iconBg="#fef3c7" label="My Rewards" onClick={() => onNavigate('shop')} />
+        <HomeNavRow icon="🎮" iconBg="#ede9fe" label="Games" onClick={() => onNavigate('games')} />
         <HomeNavRow icon="👛" iconBg="#fce7f3" label="My Wallet" onClick={() => onNavigate('wallet')} />
       </div>
     </div>
@@ -441,13 +443,13 @@ export default function KidDashboard() {
       <div className="main-content">
         {tab !== 'home' && (
           <div className="tabs">
-            {['home', 'chores', 'shop', 'wallet'].map(t => (
+            {['home', 'chores', 'shop', 'games', 'wallet'].map(t => (
               <button
                 key={t}
                 className={`tab-btn${tab === t ? ' active kid' : ''}`}
                 onClick={() => setTab(t)}
               >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'games' ? 'Games' : 'Wallet'}
               </button>
             ))}
           </div>
@@ -455,7 +457,8 @@ export default function KidDashboard() {
 
         {tab === 'home'     && <KidHomeScreen name={user.name} balance={balance} onNavigate={setTab} />}
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
-        {tab === 'shop'     && <KidShopTab userId={user.id} />}
+        {tab === 'shop'     && <KidShopTab userId={user.id} onBalanceChange={refreshBalance} />}
+        {tab === 'games'    && <GamesTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'wallet'   && <KidWalletView kidId={user.id} />}
         {tab === 'messages' && <MessagesTab />}
         {tab === 'help'     && <HelpTab role="kid" />}
