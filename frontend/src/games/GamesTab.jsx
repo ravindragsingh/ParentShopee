@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import MemoryMatchGame from './MemoryMatchGame.jsx'
+import QuickMathGame from './QuickMathGame.jsx'
 
 // Add a new game's slug -> component here to make it playable once it has a
 // matching row in the backend's games catalog (backend/main.py seeds it).
 const GAME_COMPONENTS = {
   'memory-match': MemoryMatchGame,
+  'quick-math': QuickMathGame,
 }
 
 function GameCard({ game, session, balance, onBuy, onStart, busy }) {
@@ -44,7 +46,7 @@ function GameCard({ game, session, balance, onBuy, onStart, busy }) {
       <div className="shop-emoji">{game.imageEmoji}</div>
       <div className="shop-name">{game.name}</div>
       {game.description && <div className="shop-desc">{game.description}</div>}
-      <div className="shop-cost">{game.durationMinutes} min pass</div>
+      <div className="shop-cost">{game.cost} pts · {game.durationMinutes} min pass</div>
       {footer}
     </div>
   )

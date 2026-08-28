@@ -188,13 +188,17 @@ def startup():
     from models import DBGame
     db3 = SessionLocal()
     try:
-        if not db3.query(DBGame).filter(DBGame.id == "memory-match").first():
-            db3.add(DBGame(
-                id="memory-match", name="Memory Match",
-                description="Flip cards and find every matching pair before time runs out.",
-                image_emoji="🧠", cost=15, duration_minutes=20, is_active="1",
-            ))
-            db3.commit()
+        for game in [
+            DBGame(id="memory-match", name="Memory Match",
+                   description="Flip cards and find every matching pair before time runs out.",
+                   image_emoji="🧠", cost=15, duration_minutes=20, is_active="1"),
+            DBGame(id="quick-math", name="Quick Math",
+                   description="Solve as many quick math problems as you can before time runs out.",
+                   image_emoji="🧮", cost=12, duration_minutes=15, is_active="1"),
+        ]:
+            if not db3.query(DBGame).filter(DBGame.id == game.id).first():
+                db3.add(game)
+        db3.commit()
     finally:
         db3.close()
 

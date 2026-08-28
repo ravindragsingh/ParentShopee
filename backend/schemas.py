@@ -136,6 +136,9 @@ class ShopItemUpdate(BaseModel):
 class ShopSettingsUpdate(BaseModel):
     enabled: bool
 
+class GameVisibilityUpdate(BaseModel):
+    enabled: bool
+
 class DailyChoreItemCreate(BaseModel):
     kidId: str
     title: str

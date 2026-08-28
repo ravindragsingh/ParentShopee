@@ -102,6 +102,7 @@ export const api = {
   approveGameSession:   (id)   => request('POST', `/api/games/sessions/${id}/approve`),
   rejectGameSession:    (id)   => request('POST', `/api/games/sessions/${id}/reject`),
   startGameSession:     (id)   => request('POST', `/api/games/sessions/${id}/start`),
+  setGameVisibility:    (id, enabled) => request('PUT', `/api/games/${id}/visibility`, { enabled }),
 
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),

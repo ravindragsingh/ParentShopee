@@ -7,15 +7,34 @@ from sqlalchemy.orm import Session
 from database import get_db
 from deps import require_auth, require_guardian, require_kid
 from helpers import get_family_id, get_family_owner, now
-from models import DBGame, DBGameSession, DBTransaction, DBUser, DBWallet
+from models import DBFamilyGameSetting, DBGame, DBGameSession, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
+from schemas import GameVisibilityUpdate
 
 router = APIRouter()
 
 
-def game_dict(g: DBGame) -> dict:
-    return {"id": g.id, "name": g.name, "description": g.description,
-            "imageEmoji": g.image_emoji, "cost": g.cost, "durationMinutes": g.duration_minutes}
+def game_dict(g: DBGame, enabled: bool = None) -> dict:
+    d = {"id": g.id, "name": g.name, "description": g.description,
+         "imageEmoji": g.image_emoji, "cost": g.cost, "durationMinutes": g.duration_minutes}
+    if enabled is not None:
+        d["enabled"] = enabled
+    return d
+
+
+def _family_id_for(user: DBUser) -> str:
+    """The family key family_game_settings rows are keyed by -- always the
+    primary guardian's id, whether the caller is that guardian, a co-guardian, or a kid."""
+    if user.role == "kid":
+        return user.guardian_id
+    return get_family_id(user)
+
+
+def _enabled_game_ids(db: Session, family_id: str) -> set:
+    rows = db.query(DBFamilyGameSetting).filter(
+        DBFamilyGameSetting.family_id == family_id, DBFamilyGameSetting.enabled == "1"
+    ).all()
+    return {r.game_id for r in rows}
 
 
 def session_dict(s: DBGameSession) -> dict:
@@ -47,7 +66,31 @@ def _expire_stale_sessions(db: Session, sessions: list) -> None:
 @router.get("/api/games")
 def get_games(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     games = db.query(DBGame).filter(DBGame.is_active == "1").all()
-    return ok([game_dict(g) for g in games])
+    family_id = _family_id_for(user)
+    enabled_ids = _enabled_game_ids(db, family_id)
+    if user.role == "kid":
+        # Kids only see games their guardian has explicitly turned on.
+        return ok([game_dict(g) for g in games if g.id in enabled_ids])
+    # Guardians see the full catalog with each game's current visibility, so
+    # they have something to toggle even for games they haven't enabled yet.
+    return ok([game_dict(g, enabled=g.id in enabled_ids) for g in games])
+
+
+@router.put("/api/games/{game_id}/visibility")
+def set_game_visibility(game_id: str, body: GameVisibilityUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    game = db.query(DBGame).filter(DBGame.id == game_id).first()
+    if not game: fail("Game not found", 404)
+
+    family_id = get_family_id(user)
+    setting = db.query(DBFamilyGameSetting).filter(
+        DBFamilyGameSetting.family_id == family_id, DBFamilyGameSetting.game_id == game_id
+    ).first()
+    if not setting:
+        setting = DBFamilyGameSetting(family_id=family_id, game_id=game_id)
+        db.add(setting)
+    setting.enabled = "1" if body.enabled else "0"
+    db.commit()
+    return ok(game_dict(game, enabled=body.enabled))
 
 
 @router.get("/api/games/sessions")
@@ -70,6 +113,8 @@ def get_game_sessions(db: Session = Depends(get_db), user: DBUser = Depends(requ
 def buy_game(game_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
     game = db.query(DBGame).filter(DBGame.id == game_id, DBGame.is_active == "1").first()
     if not game: fail("Game not found", 404)
+    if game.id not in _enabled_game_ids(db, _family_id_for(user)):
+        fail("This game isn't available yet -- ask your guardian to enable it", 403)
 
     wallet = db.query(DBWallet).filter(DBWallet.kid_id == user.id).first()
     if not wallet:

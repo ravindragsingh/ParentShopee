@@ -176,6 +176,16 @@ class DBGameSession(Base):
     expires_at       = Column(String, nullable=True)   # started_at + duration_minutes
 
 
+class DBFamilyGameSetting(Base):
+    """Per-family visibility for a catalog game. Opt-in: no row (or enabled='0')
+    means hidden from that family's kids, even though the game exists globally --
+    a guardian must explicitly turn a game on before their kids can buy it."""
+    __tablename__ = "family_game_settings"
+    family_id = Column(String, primary_key=True)
+    game_id   = Column(String, primary_key=True)
+    enabled   = Column(String, default="0")   # "1"/"0"
+
+
 class DBSupportTicket(Base):
     __tablename__ = "support_tickets"
     id          = Column(String, primary_key=True)
