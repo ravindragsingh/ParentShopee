@@ -102,8 +102,9 @@ class DBMessage(Base):
 
 class DBWallet(Base):
     __tablename__ = "wallets"
-    kid_id  = Column(String, primary_key=True)
-    balance = Column(Float,  default=0)
+    kid_id          = Column(String, primary_key=True)
+    balance         = Column(Float,  default=0)   # spendable -- only this funds shop/game purchases
+    savings_balance = Column(Float,  default=0)   # set aside by the kid; not spendable until moved back
 
 
 class DBTransaction(Base):

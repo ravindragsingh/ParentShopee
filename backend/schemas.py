@@ -71,6 +71,9 @@ class BonusPointsBody(BaseModel):
 
 class WalletAdjustBody(BaseModel):
     amount: float          # positive = add, negative = deduct
+
+class SavingsTransferBody(BaseModel):
+    amount: float           # always positive; direction is which endpoint you call
     reason: Optional[str] = ""
 
 class BehaviourBody(BaseModel):

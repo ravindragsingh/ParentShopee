@@ -107,6 +107,8 @@ export const api = {
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
   getAllWallets: () => request('GET', '/api/wallet'),
+  depositToSavings: (amount) => request('POST', '/api/wallet/savings/deposit', { amount }),
+  withdrawFromSavings: (amount) => request('POST', '/api/wallet/savings/withdraw', { amount }),
 
   // Users & kids management
   getKids:           ()                    => request('GET',  '/api/users/kids'),
