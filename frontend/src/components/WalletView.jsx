@@ -39,6 +39,27 @@ function TxItem({ tx, i }) {
   )
 }
 
+// One half of the spendable/savings pair — a big friendly circular icon over
+// a bold number, on a soft tinted tile.
+function BalanceTile({ icon, label, amount, iconBg, tileBg }) {
+  return (
+    <div style={{
+      flex: 1, minWidth: 130, textAlign: 'center', borderRadius: 16, padding: '16px 10px',
+      background: tileBg,
+    }}>
+      <div style={{
+        width: 46, height: 46, borderRadius: '50%', margin: '0 auto 8px', background: iconBg,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem',
+        boxShadow: '0 3px 8px rgba(0,0,0,0.12)',
+      }}>
+        {icon}
+      </div>
+      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1e293b', lineHeight: 1.15 }}>{amount}</div>
+      <div style={{ fontSize: '0.72rem', color: '#64748b', fontWeight: 700, letterSpacing: '0.02em', marginTop: 2 }}>{label}</div>
+    </div>
+  )
+}
+
 // Move points between a kid's spendable balance and their savings. Shopping
 // only ever spends `balance` -- savings is just points set aside, not usable
 // for purchases until moved back.
@@ -50,6 +71,9 @@ function SavingsCard({ wallet, onChanged }) {
 
   const savingsBalance = wallet.savingsBalance ?? 0
   const maxAmount = direction === 'save' ? wallet.balance : savingsBalance
+  const quickAmounts = [...new Set(
+    [Math.floor(maxAmount * 0.25), Math.floor(maxAmount * 0.5), maxAmount].filter(v => v > 0)
+  )]
 
   async function handleTransfer(e) {
     e.preventDefault()
@@ -71,47 +95,87 @@ function SavingsCard({ wallet, onChanged }) {
   }
 
   return (
-    <div className="form-card">
-      <div style={{ display: 'flex', gap: 16, marginBottom: 16, flexWrap: 'wrap' }}>
-        <div style={{ flex: 1, minWidth: 120, textAlign: 'center' }}>
-          <div style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700 }}>SPENDABLE</div>
-          <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#059669' }}>{wallet.balance} pts</div>
-        </div>
-        <div style={{ flex: 1, minWidth: 120, textAlign: 'center' }}>
-          <div style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700 }}>🏦 SAVINGS</div>
-          <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#7c3aed' }}>{savingsBalance} pts</div>
-        </div>
+    <div className="form-card" style={{ background: 'linear-gradient(135deg, #f5f3ff, #f0fdfa)', border: '1px solid #ede9fe' }}>
+      <div style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
+        🐷 Your Piggy Bank
       </div>
 
-      <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
-        <button
-          type="button"
-          className={`btn btn-sm ${direction === 'save' ? 'btn-primary' : 'btn-outline'}`}
-          style={{ flex: 1 }}
-          onClick={() => { setDirection('save'); setError('') }}
-        >
-          Move to Savings
-        </button>
-        <button
-          type="button"
-          className={`btn btn-sm ${direction === 'withdraw' ? 'btn-primary' : 'btn-outline'}`}
-          style={{ flex: 1 }}
-          onClick={() => { setDirection('withdraw'); setError('') }}
-        >
-          Move to Wallet
-        </button>
-      </div>
-
-      <form onSubmit={handleTransfer} style={{ display: 'flex', gap: 8 }}>
-        <input
-          type="number" min="1" step="1" value={amount}
-          onChange={e => setAmount(e.target.value)}
-          placeholder={`Up to ${maxAmount} pts`}
-          style={{ flex: 1, padding: '8px 12px', border: '1px solid #cbd5e1', borderRadius: 8, fontSize: '0.9rem' }}
+      <div style={{ display: 'flex', gap: 12, marginBottom: 18, flexWrap: 'wrap' }}>
+        <BalanceTile
+          icon="⭐" label="SPENDABLE" amount={`${wallet.balance} pts`}
+          iconBg="linear-gradient(135deg, #34d399, #059669)" tileBg="rgba(255,255,255,0.7)"
         />
-        <button type="submit" className="btn btn-green btn-sm" disabled={busy || maxAmount <= 0}>
-          {busy ? 'Moving...' : direction === 'save' ? 'Save' : 'Withdraw'}
+        <BalanceTile
+          icon="🐷" label="SAVINGS" amount={`${savingsBalance} pts`}
+          iconBg="linear-gradient(135deg, #c4b5fd, #7c3aed)" tileBg="rgba(255,255,255,0.7)"
+        />
+      </div>
+
+      <div style={{ display: 'flex', gap: 4, marginBottom: 14, background: '#e2e8f0', borderRadius: 12, padding: 4 }}>
+        <button
+          type="button"
+          onClick={() => { setDirection('save'); setAmount(''); setError('') }}
+          style={{
+            flex: 1, padding: '8px 10px', borderRadius: 9, border: 'none', cursor: 'pointer',
+            fontSize: '0.84rem', fontWeight: 700, transition: 'all 0.15s',
+            background: direction === 'save' ? '#fff' : 'transparent',
+            color: direction === 'save' ? '#059669' : '#64748b',
+            boxShadow: direction === 'save' ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
+          }}
+        >
+          ⭐ → 🐷 Save
         </button>
+        <button
+          type="button"
+          onClick={() => { setDirection('withdraw'); setAmount(''); setError('') }}
+          style={{
+            flex: 1, padding: '8px 10px', borderRadius: 9, border: 'none', cursor: 'pointer',
+            fontSize: '0.84rem', fontWeight: 700, transition: 'all 0.15s',
+            background: direction === 'withdraw' ? '#fff' : 'transparent',
+            color: direction === 'withdraw' ? '#7c3aed' : '#64748b',
+            boxShadow: direction === 'withdraw' ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
+          }}
+        >
+          🐷 → ⭐ Withdraw
+        </button>
+      </div>
+
+      <form onSubmit={handleTransfer}>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+          <input
+            type="number" min="1" step="1" value={amount}
+            onChange={e => setAmount(e.target.value)}
+            placeholder={`Up to ${maxAmount} pts`}
+            style={{ flex: 1, padding: '10px 14px', border: '1.5px solid #ddd6fe', borderRadius: 10, fontSize: '0.95rem', background: '#fff' }}
+          />
+          <button
+            type="submit"
+            disabled={busy || maxAmount <= 0}
+            style={{
+              padding: '10px 18px', borderRadius: 10, border: 'none', cursor: busy || maxAmount <= 0 ? 'default' : 'pointer',
+              fontWeight: 700, fontSize: '0.9rem', color: '#fff', whiteSpace: 'nowrap',
+              background: maxAmount <= 0 ? '#cbd5e1' : direction === 'save' ? 'linear-gradient(135deg, #34d399, #059669)' : 'linear-gradient(135deg, #c4b5fd, #7c3aed)',
+            }}
+          >
+            {busy ? 'Moving...' : direction === 'save' ? 'Save it! 🐷' : 'Withdraw ⭐'}
+          </button>
+        </div>
+
+        {quickAmounts.length > 0 && (
+          <div style={{ display: 'flex', gap: 6 }}>
+            {quickAmounts.map(v => (
+              <button
+                type="button" key={v} onClick={() => setAmount(String(v))}
+                style={{
+                  padding: '3px 12px', borderRadius: 999, fontSize: '0.76rem', fontWeight: 700, cursor: 'pointer',
+                  border: '1px solid #ddd6fe', background: '#fff', color: '#7c3aed',
+                }}
+              >
+                {v === maxAmount ? 'All' : v} pts
+              </button>
+            ))}
+          </div>
+        )}
       </form>
       {error && <div className="error-msg" style={{ marginTop: 8 }}>{error}</div>}
       {maxAmount <= 0 && (
