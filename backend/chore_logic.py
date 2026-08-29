@@ -1,5 +1,4 @@
 from datetime import date, datetime, timedelta, timezone
-from typing import List
 from uuid import uuid4
 
 from sqlalchemy import and_
@@ -38,6 +37,21 @@ def get_visible_chores(db: Session, family_id: str = None, cutoff_hours: int = 7
         q = q.filter(DBChore.family_id == family_id)
     return q.all()
 
+def template_matches_date(template: DBRecurringTemplate, target: date) -> bool:
+    if template.recurrence_type == 'daily':
+        return True
+    if template.recurrence_type == 'weekly':
+        try:
+            weekly_days = [int(x) for x in template.recurrence_days.split(',') if x.strip()] if template.recurrence_days else []
+        except Exception:
+            weekly_days = []
+        return target.weekday() in weekly_days
+    if template.recurrence_type == 'monthly':
+        dom = int(template.recurrence_dom) if template.recurrence_dom else 1
+        return target.day == dom
+    return False
+
+
 def generate_instances(db: Session, template: DBRecurringTemplate):
     today = date.today()
     today_str = today.isoformat()
@@ -48,28 +62,12 @@ def generate_instances(db: Session, template: DBRecurringTemplate):
         DBChore.scheduled_date > today_str,
     ).delete(synchronize_session=False)
     db.commit()
-    weekly_days: List[int] = []
-    if template.recurrence_days:
-        try:
-            weekly_days = [int(x) for x in template.recurrence_days.split(',') if x.strip()]
-        except Exception:
-            weekly_days = []
 
     for delta in range(1):  # only today — tomorrow's instance is created when tomorrow arrives
         target = today + timedelta(days=delta)
         date_str = target.isoformat()
 
-        if template.recurrence_type == 'daily':
-            matches = True
-        elif template.recurrence_type == 'weekly':
-            matches = target.weekday() in weekly_days
-        elif template.recurrence_type == 'monthly':
-            dom = int(template.recurrence_dom) if template.recurrence_dom else 1
-            matches = target.day == dom
-        else:
-            matches = False
-
-        if not matches:
+        if not template_matches_date(template, target):
             continue
 
         existing = db.query(DBChore).filter(

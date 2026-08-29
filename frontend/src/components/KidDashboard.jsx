@@ -456,7 +456,7 @@ export default function KidDashboard() {
         {tab === 'home'     && <KidHomeScreen name={user.name} balance={balance} onNavigate={setTab} />}
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
-        {tab === 'wallet'   && <KidWalletView kidId={user.id} />}
+        {tab === 'wallet'   && <KidWalletView kidId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'messages' && <MessagesTab />}
         {tab === 'help'     && <HelpTab role="kid" />}
         {tab === 'contact'  && <ContactUs />}

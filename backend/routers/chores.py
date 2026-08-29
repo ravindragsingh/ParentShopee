@@ -1,11 +1,11 @@
-from datetime import date
+from datetime import date, timedelta
 from typing import List, Optional
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from chore_logic import check_and_expire_chores, generate_instances, get_visible_chores
+from chore_logic import check_and_expire_chores, generate_instances, get_visible_chores, template_matches_date
 from config import CONTACT_EMAIL, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
@@ -51,6 +51,65 @@ def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
     if kidId:
         chores = [c for c in chores if c.assigned_kid_id == kidId or c.completed_by_kid_id == kidId]
     return ok([chore_dict(c) for c in chores])
+
+
+@router.get("/api/chores/calendar")
+def get_chores_calendar(start: str, end: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    try:
+        start_date = date.fromisoformat(start)
+        end_date = date.fromisoformat(end)
+    except ValueError:
+        fail("start and end must be YYYY-MM-DD dates")
+    if end_date < start_date:
+        fail("end must not be before start")
+    if (end_date - start_date).days > 62:
+        fail("Date range too large (max 62 days)")
+
+    check_and_expire_chores(db)
+    fid = get_family_id(user) if user.role == "guardian" else user.guardian_id
+
+    templates = db.query(DBRecurringTemplate).filter(
+        DBRecurringTemplate.family_id == fid,
+        DBRecurringTemplate.is_active == "1",
+    ).all()
+    # Materializes today's occurrence of each template (if not already there) so
+    # today shows a real, completable chore rather than a virtual preview.
+    for t in templates:
+        generate_instances(db, t)
+
+    real_chores = db.query(DBChore).filter(
+        DBChore.family_id == fid,
+        DBChore.due_date >= start,
+        DBChore.due_date <= end,
+    ).all()
+    real_by_template_date = {(c.template_id, c.due_date) for c in real_chores if c.template_id}
+
+    entries = [dict(chore_dict(c), date=c.due_date, isVirtual=False) for c in real_chores]
+
+    # Recurring templates don't get a real DBChore row for future dates until
+    # that day actually arrives (see generate_instances) -- project those future
+    # occurrences as unmaterialized "virtual" entries so the calendar still shows
+    # where a daily/weekly/monthly chore will land, without letting a kid act on
+    # a chore that doesn't exist yet.
+    today = date.today()
+    d = max(start_date, today)  # never project a recurring chore onto a past day --
+    # only today onward; history before today only shows real materialized rows, if any
+    while d <= end_date:
+        date_str = d.isoformat()
+        for t in templates:
+            if (t.id, date_str) in real_by_template_date:
+                continue
+            if template_matches_date(t, d):
+                entries.append({
+                    "id": f"virtual-{t.id}-{date_str}", "date": date_str,
+                    "title": t.title, "description": t.description, "points": t.points,
+                    "imageEmoji": t.image_emoji, "assignedKidId": t.assigned_kid_id,
+                    "status": None, "isVirtual": True, "templateId": t.id,
+                    "recurrenceType": t.recurrence_type,
+                })
+        d += timedelta(days=1)
+
+    return ok(entries)
 
 
 @router.post("/api/chores")
