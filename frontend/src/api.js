@@ -82,7 +82,6 @@ export const api = {
   completeChore: (id) => request('POST', `/api/chores/${id}/complete`),
   approveChore: (id) => request('POST', `/api/chores/${id}/approve`),
   rejectChore: (id) => request('POST', `/api/chores/${id}/reject`),
-  getChoresCalendar: (start, end) => request('GET', `/api/chores/calendar?start=${start}&end=${end}`),
 
   // Shop
   getShopItems: () => request('GET', '/api/shop'),

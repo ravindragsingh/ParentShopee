@@ -7,7 +7,6 @@ import { GuardianChoreCard, EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
 import { DailyChoresCard } from './DailyChoresCard.jsx'
 import { GuardianShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
-import ChoreCalendar from './ChoreCalendar.jsx'
 import MessagesTab from './Messages.jsx'
 import { HelpTab } from './Help.jsx'
 import { checkFields } from '../utils/wordFilter.js'
@@ -2087,7 +2086,6 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <HomeNavRow icon="✅" iconBg="#ccfbf1" label="Chores" onClick={() => onNavigate('chores')} />
-        <HomeNavRow icon="📅" iconBg="#e0f2fe" label="Calendar" onClick={() => onNavigate('calendar')} />
         <HomeNavRow icon="🛍️" iconBg="#fef3c7" label="Shop" onClick={() => onNavigate('shop')} />
         <HomeNavRow icon="👨‍👩‍👧" iconBg="#fce7f3" label="Kids" onClick={() => onNavigate('kids')} />
       </div>
@@ -2152,13 +2150,13 @@ export default function GuardianDashboard() {
       <div className="main-content">
         {tab !== 'home' && (
           <div className="tabs">
-            {['home', 'chores', 'calendar', 'shop', 'kids'].map(t => (
+            {['home', 'chores', 'shop', 'kids'].map(t => (
               <button
                 key={t}
                 className={`tab-btn${tab === t ? ' active guardian' : ''}`}
                 onClick={() => setTab(t)}
               >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'calendar' ? 'Calendar' : t === 'shop' ? 'Shop' : 'Kids'}
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Kids'}
               </button>
             ))}
           </div>
@@ -2224,7 +2222,6 @@ export default function GuardianDashboard() {
         )}
 
         {tab === 'chores'    && <ChoresTab kids={kids} />}
-        {tab === 'calendar'  && <ChoreCalendar kids={kids} />}
         {tab === 'shop'      && <ShopTab kids={kids} />}
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}
