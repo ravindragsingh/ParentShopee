@@ -3,22 +3,31 @@ import { createPortal } from 'react-dom'
 
 const GUARDIAN_TIPS = [
   "Set up recurring chores (daily, weekly, or monthly) once and they'll auto-generate from then on — no need to re-add the same chore every day.",
-  "Turn on Shop Approval (Admin Panel) so a kid's reward purchase needs your OK before their points are spent.",
+  "Turn on Shop Approval from the Shop tab so a kid's reward purchase needs your OK before their points are spent.",
   "Award Bonus Points for good behavior that isn't tied to a specific chore — it's a quick way to encourage extra effort.",
+  "Remove Points works just like Award Bonus, in reverse — use it for a consequence, with a short message explaining why so it's clear in their wallet history.",
+  "Daily Chores has its own setting: 'Deduct points for chores not completed by end of day.' Turn it on if you want an unfinished daily item to cost points, not just miss out on earning them.",
+  "Daily Chores (separate from one-off and recurring chores) is an age-based checklist that resets every day — great for routines like brushing teeth or making the bed.",
   "Add a co-guardian from the Admin Panel so both parents can manage chores and approvals from their own login.",
   "Check each kid's report (Kids tab) to see their earning and spending trends over time, not just their current balance.",
   "A rejected chore goes back to Open so the kid can redo it — deleting a chore removes it for good, so reject instead if it just needs another try.",
   "Message your kids directly from the Messages tab to remind them about a chore or celebrate a win.",
   "Pick a distinct emoji for each chore and shop item — kids recognize icons faster than reading titles.",
+  "Click '👁 View' on a kid's wallet to see their Savings balance alongside their spendable balance — savings are set aside by the kid and can't be spent until they move the points back themselves.",
+  "On the mobile app you'll get a push notification the moment a kid completes a chore, so you can review and approve without having to check back.",
+  "Stuck on something? Use Contact Us from the ☰ menu — you can attach a screenshot, and replies show up both in My Tickets and your email.",
+  "Need to give a kid their PIN or reset a forgotten one? Go to the Kids tab and click '🔑 PIN' next to their name.",
 ]
 
 const KID_TIPS = [
   "Finish chores before their due date — check the due date badge on each chore card so you don't miss out.",
-  "Save up points for a bigger reward instead of spending right away — check the Shop tab to see what's worth waiting for.",
+  "Your Wallet has a Piggy Bank — move points to Savings to set them aside, then move them back to your spendable balance whenever you're ready. Shopping only ever uses your spendable points, not your savings.",
   "Your guardian has to approve a chore before you get your points, so mark it complete as soon as you finish it.",
-  "Check your Wallet tab to see your full points history — everything you've earned and every reward you've bought.",
+  "Check your Wallet tab to see your full points history — everything you've earned, saved, and bought.",
   "Message your guardian if you have a question about a chore — no need to wait until you see them in person.",
-  "Daily chores reset every day, so make checking them first thing part of your routine.",
+  "Daily chores reset every day — some guardians remove points for ones left undone, so try to check them off before the day ends.",
+  "Sort the Shop by points (low → high) to quickly see what you can already afford.",
+  "On the mobile app, you'll get a push notification as soon as your guardian approves a chore, so you know right away your points landed.",
 ]
 
 function pickRandomTip(role) {
