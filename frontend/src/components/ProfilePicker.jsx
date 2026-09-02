@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
-import { DEMO_USERNAME, DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
+import { DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
 
 const MONTH_NAMES = [
@@ -69,9 +69,8 @@ function AddProfileTile({ onClick, disabled }) {
 }
 
 export default function ProfilePicker() {
-  const { enterProfile, logout, deviceUsername } = useAuth()
+  const { enterProfile, logout } = useAuth()
   const navigate = useNavigate()
-  const isDemo = deviceUsername === DEMO_USERNAME
 
   const [profiles, setProfiles] = useState(null)
   const [kidsCount, setKidsCount] = useState(0)
@@ -117,8 +116,11 @@ export default function ProfilePicker() {
     // Profile" actually lock the device instead of leaving one profile open.
     // The public demo family is the one exception: a visitor exploring the
     // demo shouldn't need to know a PIN to look around as a different profile,
-    // so known demo profiles auto-enter silently instead.
-    if (isDemo && DEMO_PROFILE_PINS[profile.id]) {
+    // so known demo profiles auto-enter silently instead. profile.id is safe
+    // to match directly -- these three seeded ids ("parent1"/"kid1"/"kid2")
+    // can never belong to a real family, since every real account's id is a
+    // freshly generated UUID, not a short literal string like this.
+    if (DEMO_PROFILE_PINS[profile.id]) {
       setEntering(true)
       setError('')
       try {
