@@ -153,7 +153,11 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
             db.commit()
             fail(f"Too many incorrect attempts. Try again in {PIN_LOCKOUT_MINUTES} minutes.", 429, code="pin_locked")
         db.commit()
-        fail("Incorrect PIN", 401)
+        # 400, not 401 -- the caller's own device token is perfectly valid here,
+        # only the PIN they typed for this profile was wrong. The frontend treats
+        # any 401 as "your session expired" and force-logs-out the whole device,
+        # which would be wrong for a simple mistyped PIN.
+        fail("Incorrect PIN", 400)
 
     profile.pin_attempts = 0
     profile.pin_locked_until = None
@@ -176,7 +180,9 @@ def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: D
     if user.co_guardian_of:
         fail("Only the primary guardian can recover their PIN this way", 403)
     if body.password != user.password:
-        fail("Incorrect password", 401)
+        # 400, not 401 -- same reasoning as the wrong-PIN case in enter_profile:
+        # this is a mistyped secret, not an invalid/expired device session.
+        fail("Incorrect password", 400)
     check_pin_complexity(body.newPin)
 
     user.pin = body.newPin
