@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { api } from '../api.js'
 import { ageLabel } from './ageLabel.js'
+import { GAME_COMPONENTS } from './gameRegistry.js'
+import Leaderboard from './Leaderboard.jsx'
 
 const AGE_FILTERS = [
   { id: 'all', label: 'All games', min: null, max: null },
@@ -24,6 +26,7 @@ export default function GuardianGamesTab() {
   const [savingId, setSavingId] = useState(null)
   const [bulkSaving, setBulkSaving] = useState(false)
   const [ageFilter, setAgeFilter] = useState('all')
+  const [playingGame, setPlayingGame] = useState(null)
 
   const loadGames = useCallback(async () => {
     setLoading(true)
@@ -75,13 +78,37 @@ export default function GuardianGamesTab() {
     }
   }
 
+  function handlePlay(game) {
+    // Guardians play for free, no purchase/approval/points involved -- just a
+    // straight timed session using the same duration as the kid-facing pass,
+    // so every game component's existing session.expiresAt/timeUp logic works
+    // unchanged. Scores aren't reported (no session id exists to attach one
+    // to) -- this is a preview/for-fun mode, not something that feeds into
+    // the kids' leaderboard.
+    const expiresAt = new Date(Date.now() + game.durationMinutes * 60000).toISOString()
+    setPlayingGame({ ...game, session: { expiresAt } })
+  }
+
+  if (playingGame) {
+    const GameComponent = GAME_COMPONENTS[playingGame.id]
+    if (!GameComponent) {
+      return <div className="error-msg">This game isn't available yet.</div>
+    }
+    return (
+      <div>
+        <Leaderboard gameId={playingGame.id} />
+        <GameComponent session={playingGame.session} onExit={() => setPlayingGame(null)} />
+      </div>
+    )
+  }
+
   if (loading) return <div className="loading-text">Loading games...</div>
 
   return (
     <div>
       <h3 style={{ color: '#334155', margin: '0 0 6px' }}>Games</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 16, color: '#0f766e', fontSize: '0.85rem' }}>
-        🎮 Turn on the games you want your kids to be able to buy with their points. New games start off — nothing shows up for kids until you enable it here.
+        🎮 Turn on the games you want your kids to be able to buy with their points. New games start off — nothing shows up for kids until you enable it here. Click "▶️ Try It" on any game to play it yourself, free — a good way to check it out before deciding whether to enable it.
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
@@ -128,6 +155,9 @@ export default function GuardianGamesTab() {
                 />
                 {game.enabled ? 'Visible to kids' : 'Hidden from kids'}
               </label>
+              <button className="btn btn-sm btn-outline" style={{ marginTop: 6 }} onClick={() => handlePlay(game)}>
+                ▶️ Try It
+              </button>
             </div>
           ))}
         </div>
