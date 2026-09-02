@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
+import { DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
 
 const MONTH_NAMES = [
@@ -109,10 +110,31 @@ export default function ProfilePicker() {
     }
   }
 
-  function handleTileClick(profile) {
+  async function handleTileClick(profile) {
     // Every profile — including the guardian's own — is PIN-gated, so picking
-    // any tile always opens the PIN entry form. This is what makes "Switch
+    // any tile normally opens the PIN entry form; that's what makes "Switch
     // Profile" actually lock the device instead of leaving one profile open.
+    // The public demo family is the one exception: a visitor exploring the
+    // demo shouldn't need to know a PIN to look around as a different profile,
+    // so known demo profiles auto-enter silently instead. profile.id is safe
+    // to match directly -- these three seeded ids ("parent1"/"kid1"/"kid2")
+    // can never belong to a real family, since every real account's id is a
+    // freshly generated UUID, not a short literal string like this.
+    if (DEMO_PROFILE_PINS[profile.id]) {
+      setEntering(true)
+      setError('')
+      try {
+        const data = await api.enterProfile(profile.id, DEMO_PROFILE_PINS[profile.id])
+        enterProfile(data.user, data.token)
+        navigate('/dashboard')
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setEntering(false)
+      }
+      return
+    }
+
     setPinFor(profile.id)
     setPinValue('')
     setPinError('')

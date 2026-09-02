@@ -19,6 +19,15 @@ router = APIRouter()
 PIN_MAX_ATTEMPTS = 5
 PIN_LOCKOUT_MINUTES = 15
 
+# The public "Try Demo" family on the login page -- this id is permanently
+# reserved by the seed script and can never be assigned to a real guardian
+# (self-registration always generates a fresh UUID), so it's safe to give it
+# a standing PIN bypass rather than relying on the frontend's hardcoded demo
+# PINs staying in sync with whatever a kid's actual `pin` column currently
+# holds. That sync kept drifting (someone testing the "Change PIN" flow, a
+# PIN reset, etc.), repeatedly breaking the demo with a false "Incorrect PIN".
+DEMO_FAMILY_ID = "parent1"
+
 
 @router.get("/api/family/co-guardian")
 def get_co_guardian(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
@@ -139,6 +148,15 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
     if not profile:
         fail("Profile not found", 404)
 
+    if family_id == DEMO_FAMILY_ID:
+        profile.pin_attempts = 0
+        profile.pin_locked_until = None
+        db.commit()
+        db.refresh(profile)
+        token = str(uuid4())
+        SESSIONS[token] = profile.id
+        return ok({"token": token, "user": safe_user(profile)})
+
     if profile.pin_locked_until:
         try:
             if datetime.fromisoformat(profile.pin_locked_until) > datetime.now(timezone.utc):
@@ -153,7 +171,11 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
             db.commit()
             fail(f"Too many incorrect attempts. Try again in {PIN_LOCKOUT_MINUTES} minutes.", 429, code="pin_locked")
         db.commit()
-        fail("Incorrect PIN", 401)
+        # 400, not 401 -- the caller's own device token is perfectly valid here,
+        # only the PIN they typed for this profile was wrong. The frontend treats
+        # any 401 as "your session expired" and force-logs-out the whole device,
+        # which would be wrong for a simple mistyped PIN.
+        fail("Incorrect PIN", 400)
 
     profile.pin_attempts = 0
     profile.pin_locked_until = None
@@ -176,7 +198,9 @@ def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: D
     if user.co_guardian_of:
         fail("Only the primary guardian can recover their PIN this way", 403)
     if body.password != user.password:
-        fail("Incorrect password", 401)
+        # 400, not 401 -- same reasoning as the wrong-PIN case in enter_profile:
+        # this is a mistyped secret, not an invalid/expired device session.
+        fail("Incorrect password", 400)
     check_pin_complexity(body.newPin)
 
     user.pin = body.newPin
