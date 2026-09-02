@@ -9,6 +9,11 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
   const [deviceToken, setDeviceToken] = useState(null)
+  // Unlike `user` (which is replaced by whichever profile is currently active,
+  // and cleared entirely by switchProfile), this stays put for the whole
+  // device session -- it's how the profile picker recognizes "this is still
+  // the same family" after switching away from a profile.
+  const [deviceUsername, setDeviceUsername] = useState(null)
   const [profileEntered, setProfileEntered] = useState(false)
   const [loading, setLoading] = useState(true)
   const lastActivityRef = useRef(Date.now())
@@ -17,12 +22,14 @@ export function AuthProvider({ children }) {
     const savedToken = localStorage.getItem('token')
     const savedUser = localStorage.getItem('user')
     const savedDeviceToken = localStorage.getItem('device_token')
+    const savedDeviceUsername = localStorage.getItem('device_username')
     const savedProfileEntered = localStorage.getItem('profile_entered') === '1'
     if (savedToken && savedUser) {
       setToken(savedToken)
       setUser(JSON.parse(savedUser))
     }
     if (savedDeviceToken) setDeviceToken(savedDeviceToken)
+    if (savedDeviceUsername) setDeviceUsername(savedDeviceUsername)
     setProfileEntered(savedProfileEntered)
     setLoading(false)
 
@@ -30,10 +37,12 @@ export function AuthProvider({ children }) {
       setUser(null)
       setToken(null)
       setDeviceToken(null)
+      setDeviceUsername(null)
       setProfileEntered(false)
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       localStorage.removeItem('device_token')
+      localStorage.removeItem('device_username')
       localStorage.removeItem('profile_entered')
       localStorage.setItem('session_expired', '1')
     }
@@ -49,10 +58,12 @@ export function AuthProvider({ children }) {
     setUser(userData)
     setToken(authToken)
     setDeviceToken(authToken)
+    setDeviceUsername(userData.username)
     setProfileEntered(false)
     localStorage.setItem('token', authToken)
     localStorage.setItem('user', JSON.stringify(userData))
     localStorage.setItem('device_token', authToken)
+    localStorage.setItem('device_username', userData.username)
     localStorage.removeItem('profile_entered')
   }
 
@@ -84,10 +95,12 @@ export function AuthProvider({ children }) {
     setUser(null)
     setToken(null)
     setDeviceToken(null)
+    setDeviceUsername(null)
     setProfileEntered(false)
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     localStorage.removeItem('device_token')
+    localStorage.removeItem('device_username')
     localStorage.removeItem('profile_entered')
   }, [])
 
@@ -111,7 +124,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={{
-      user, token, deviceToken, profileEntered, loading,
+      user, token, deviceToken, deviceUsername, profileEntered, loading,
       login, enterProfile, switchProfile, logout,
     }}>
       {children}

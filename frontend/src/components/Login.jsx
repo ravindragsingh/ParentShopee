@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
+import { DEMO_USERNAME, DEMO_PASSWORD, DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
 
 // ── User Agreement content — shared by the in-app modal and the public
@@ -802,10 +803,9 @@ function LoginForm({ onRegister }) {
 // ── Try demo link ────────────────────────────────────────────────────────────
 
 // Every profile — including the primary guardian's own — is PIN-gated, so the
-// demo signs in as the family (parent1/pass1) then auto-enters the guardian
-// profile with its seeded demo PIN, in one click.
-const DEMO_ACCOUNT = { username: 'parent1', password: 'pass1', profileId: 'parent1', profilePin: '246810' }
-
+// demo signs in as the family then auto-enters the guardian profile with its
+// seeded demo PIN, in one click. Switching to a kid profile from here also
+// skips the PIN prompt -- see ProfilePicker's isDemo handling.
 function TryDemoLink() {
   const { login, enterProfile } = useAuth()
   const navigate = useNavigate()
@@ -816,9 +816,9 @@ function TryDemoLink() {
     setError('')
     setLoading(true)
     try {
-      const data = await api.login(DEMO_ACCOUNT.username, DEMO_ACCOUNT.password)
+      const data = await api.login(DEMO_USERNAME, DEMO_PASSWORD)
       login(data.user, data.token)
-      const profileData = await api.enterProfile(DEMO_ACCOUNT.profileId, DEMO_ACCOUNT.profilePin)
+      const profileData = await api.enterProfile(data.user.id, DEMO_PROFILE_PINS[data.user.id])
       enterProfile(profileData.user, profileData.token)
       navigate('/dashboard')
     } catch (err) {
