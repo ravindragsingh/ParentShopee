@@ -103,6 +103,7 @@ def startup():
             ("daily_chore_items", "status",           "VARCHAR"),
             ("games",      "min_age",                 "INTEGER"),
             ("games",      "max_age",                 "INTEGER"),
+            ("game_sessions", "score",                "INTEGER"),
             ("wallets",    "savings_balance",         "FLOAT"),
         ]:
             try:

@@ -1,16 +1,18 @@
 import { useState, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
+import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import GameHeader from './GameHeader.jsx'
 
 // Shared shell for every "show a prompt, tap the right one of 4 choices"
 // game (Quick Math, Alphabet Hunt, Number Match, Sight Words, Word Scramble).
 // `generateRound()` returns { prompt: ReactNode, choices: [{id, label}], correctId }.
-export default function MultipleChoiceGame({ session, onExit, generateRound, timeUpEmoji = '🎉' }) {
+export default function MultipleChoiceGame({ session, onExit, onGameOver, generateRound, timeUpEmoji = '🎉' }) {
   const [round, setRound] = useState(generateRound)
   const [score, setScore] = useState(0)
   const [attempted, setAttempted] = useState(0)
   const [feedback, setFeedback] = useState(null) // { choiceId, correct } | null
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
+  useReportScoreOnGameOver(timeUp, score, onGameOver)
 
   const handleChoice = useCallback((choiceId) => {
     if (timeUp || feedback) return

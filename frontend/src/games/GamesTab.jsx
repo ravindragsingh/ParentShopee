@@ -9,6 +9,7 @@ import WordScrambleGame from './WordScrambleGame.jsx'
 import SnakeGame from './SnakeGame.jsx'
 import WhackAMoleGame from './WhackAMoleGame.jsx'
 import TicTacToeGame from './TicTacToeGame.jsx'
+import Leaderboard from './Leaderboard.jsx'
 import { ageLabel } from './ageLabel.js'
 
 // Add a new game's slug -> component here to make it playable once it has a
@@ -138,12 +139,21 @@ export default function GamesTab({ userId, onBalanceChange }) {
     loadData()
   }
 
+  function handleGameOver(score) {
+    api.reportGameScore(playingSession.id, score).catch(() => {})
+  }
+
   if (playingSession) {
     const GameComponent = GAME_COMPONENTS[playingSession.gameId]
     if (!GameComponent) {
       return <div className="error-msg">This game isn't available yet.</div>
     }
-    return <GameComponent session={playingSession} onExit={handleExit} />
+    return (
+      <div>
+        <Leaderboard gameId={playingSession.gameId} />
+        <GameComponent session={playingSession} onExit={handleExit} onGameOver={handleGameOver} />
+      </div>
+    )
   }
 
   if (loading) return <div className="loading-text">Loading games...</div>

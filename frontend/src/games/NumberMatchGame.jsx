@@ -30,6 +30,6 @@ function generateRound() {
   }
 }
 
-export default function NumberMatchGame({ session, onExit }) {
-  return <MultipleChoiceGame session={session} onExit={onExit} generateRound={generateRound} timeUpEmoji="🔢" />
+export default function NumberMatchGame(props) {
+  return <MultipleChoiceGame {...props} generateRound={generateRound} timeUpEmoji="🔢" />
 }

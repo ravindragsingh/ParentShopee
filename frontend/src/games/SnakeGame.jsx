@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
+import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import GameHeader from './GameHeader.jsx'
 
 const GRID_SIZE = 13
@@ -23,7 +24,7 @@ function randomFood(snake) {
 // (this app also ships as a Capacitor mobile app, so touch controls aren't optional).
 // A crash shows "Game Over" and lets the kid restart the board without ending
 // the purchased pass; only the pass timer running out ends the session for good.
-export default function SnakeGame({ session, onExit }) {
+export default function SnakeGame({ session, onExit, onGameOver }) {
   const [snake, setSnake] = useState(START_SNAKE)
   const [food, setFood] = useState(() => randomFood(START_SNAKE))
   const [score, setScore] = useState(0)
@@ -36,6 +37,7 @@ export default function SnakeGame({ session, onExit }) {
   const snakeRef = useRef(START_SNAKE)
   const scoreRef = useRef(0)
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
+  useReportScoreOnGameOver(timeUp, bestScore, onGameOver)
 
   const setDirection = useCallback((dir) => {
     const cur = dirRef.current

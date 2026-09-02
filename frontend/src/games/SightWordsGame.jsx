@@ -28,6 +28,6 @@ function generateRound() {
   }
 }
 
-export default function SightWordsGame({ session, onExit }) {
-  return <MultipleChoiceGame session={session} onExit={onExit} generateRound={generateRound} timeUpEmoji="📖" />
+export default function SightWordsGame(props) {
+  return <MultipleChoiceGame {...props} generateRound={generateRound} timeUpEmoji="📖" />
 }

@@ -38,6 +38,6 @@ function generateRound() {
   }
 }
 
-export default function WordScrambleGame({ session, onExit }) {
-  return <MultipleChoiceGame session={session} onExit={onExit} generateRound={generateRound} timeUpEmoji="🔀" />
+export default function WordScrambleGame(props) {
+  return <MultipleChoiceGame {...props} generateRound={generateRound} timeUpEmoji="🔀" />
 }

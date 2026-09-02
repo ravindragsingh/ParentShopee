@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
+import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import GameHeader from './GameHeader.jsx'
 
 const ICONS = ['🐶', '🐱', '🐰', '🦊', '🐻', '🐼', '🐸', '🦁']
@@ -17,7 +18,7 @@ function shuffledDeck() {
 
 // Self-contained card-flip game. Purely client-side -- the backend only tracks
 // the game pass purchase and its timer, not moves or score, matching v1's scope.
-export default function MemoryMatchGame({ session, onExit }) {
+export default function MemoryMatchGame({ session, onExit, onGameOver }) {
   const [deck] = useState(shuffledDeck)
   const [flipped, setFlipped] = useState([])
   const [matched, setMatched] = useState(new Set())
@@ -26,6 +27,7 @@ export default function MemoryMatchGame({ session, onExit }) {
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
 
   const won = matched.size === deck.length
+  useReportScoreOnGameOver(won || timeUp, matched.size / 2, onGameOver)
 
   const handleFlip = useCallback((card) => {
     if (timeUp || won || locked || flipped.includes(card.id) || matched.has(card.id)) return

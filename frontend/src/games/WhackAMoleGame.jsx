@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
+import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import GameHeader from './GameHeader.jsx'
 
 const HOLE_COUNT = 9
@@ -10,10 +11,11 @@ function randomHole(exclude) {
   return idx
 }
 
-export default function WhackAMoleGame({ session, onExit }) {
+export default function WhackAMoleGame({ session, onExit, onGameOver }) {
   const [activeIndex, setActiveIndex] = useState(null)
   const [score, setScore] = useState(0)
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
+  useReportScoreOnGameOver(timeUp, score, onGameOver)
   const popTimeoutRef = useRef(null)
   const hideTimeoutRef = useRef(null)
   const activeIndexRef = useRef(null)

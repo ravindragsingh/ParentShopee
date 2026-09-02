@@ -24,6 +24,6 @@ function generateRound() {
   }
 }
 
-export default function AlphabetHuntGame({ session, onExit }) {
-  return <MultipleChoiceGame session={session} onExit={onExit} generateRound={generateRound} timeUpEmoji="🔤" />
+export default function AlphabetHuntGame(props) {
+  return <MultipleChoiceGame {...props} generateRound={generateRound} timeUpEmoji="🔤" />
 }

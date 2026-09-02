@@ -142,6 +142,9 @@ class ShopSettingsUpdate(BaseModel):
 class GameVisibilityUpdate(BaseModel):
     enabled: bool
 
+class GameScoreBody(BaseModel):
+    score: int
+
 class DailyChoreItemCreate(BaseModel):
     kidId: str
     title: str

@@ -177,6 +177,7 @@ class DBGameSession(Base):
     resolved_at      = Column(String, nullable=True)   # approved/rejected timestamp
     started_at       = Column(String, nullable=True)   # kid tapped Play
     expires_at       = Column(String, nullable=True)   # started_at + duration_minutes
+    score            = Column(Integer, nullable=True)  # reported by the game when the pass's play time ends
 
 
 class DBFamilyGameSetting(Base):

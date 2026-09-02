@@ -26,6 +26,6 @@ function generateRound() {
   }
 }
 
-export default function QuickMathGame({ session, onExit }) {
-  return <MultipleChoiceGame session={session} onExit={onExit} generateRound={generateRound} timeUpEmoji="🧮" />
+export default function QuickMathGame(props) {
+  return <MultipleChoiceGame {...props} generateRound={generateRound} timeUpEmoji="🧮" />
 }

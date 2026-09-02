@@ -9,7 +9,7 @@ from deps import require_auth, require_guardian, require_kid
 from helpers import get_family_id, get_family_owner, now
 from models import DBFamilyGameSetting, DBGame, DBGameSession, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import GameVisibilityUpdate
+from schemas import GameScoreBody, GameVisibilityUpdate
 
 router = APIRouter()
 
@@ -42,7 +42,7 @@ def session_dict(s: DBGameSession) -> dict:
     return {"id": s.id, "kidId": s.kid_id, "gameId": s.game_id, "gameName": s.game_name,
             "imageEmoji": s.image_emoji, "cost": s.cost, "durationMinutes": s.duration_minutes,
             "status": s.status, "createdAt": s.created_at, "resolvedAt": s.resolved_at,
-            "startedAt": s.started_at, "expiresAt": s.expires_at}
+            "startedAt": s.started_at, "expiresAt": s.expires_at, "score": s.score}
 
 
 def _expire_stale_sessions(db: Session, sessions: list) -> None:
@@ -205,3 +205,47 @@ def start_game_session(session_id: str, db: Session = Depends(get_db), user: DBU
     db.commit()
     db.refresh(session)
     return ok(session_dict(session))
+
+
+@router.post("/api/games/sessions/{session_id}/score")
+def report_game_score(session_id: str, body: GameScoreBody, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
+    session = db.query(DBGameSession).filter(DBGameSession.id == session_id).first()
+    if not session: fail("Game pass not found", 404)
+    if session.kid_id != user.id: fail("Not your game pass", 403)
+    if body.score < 0: fail("Score cannot be negative")
+
+    session.score = body.score
+    db.commit()
+    db.refresh(session)
+    return ok(session_dict(session))
+
+
+@router.get("/api/games/{game_id}/leaderboard")
+def get_game_leaderboard(game_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    """Top 5 scorers within the caller's own family for this game -- each kid's
+    personal best across every pass they've played, not every individual pass.
+    Family-scoped like everything else in the app; no cross-family visibility."""
+    family_id = _family_id_for(user)
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    if not kids:
+        return ok([])
+    kid_ids = [k.id for k in kids]
+
+    sessions = db.query(DBGameSession).filter(
+        DBGameSession.game_id == game_id,
+        DBGameSession.kid_id.in_(kid_ids),
+        DBGameSession.score.isnot(None),
+    ).all()
+
+    best_by_kid = {}
+    for s in sessions:
+        if s.kid_id not in best_by_kid or s.score > best_by_kid[s.kid_id]:
+            best_by_kid[s.kid_id] = s.score
+
+    kids_by_id = {k.id: k for k in kids}
+    entries = [
+        {"kidId": kid_id, "kidName": kids_by_id[kid_id].name, "kidAvatar": kids_by_id[kid_id].avatar, "score": score}
+        for kid_id, score in best_by_kid.items()
+    ]
+    entries.sort(key=lambda e: e["score"], reverse=True)
+    return ok(entries[:5])

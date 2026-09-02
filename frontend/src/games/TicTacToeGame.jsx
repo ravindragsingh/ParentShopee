@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useCountdown } from './useCountdown.js'
+import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import GameHeader from './GameHeader.jsx'
 
 const LINES = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
@@ -31,12 +32,13 @@ function pickAiMove(board) {
   return edges[Math.floor(Math.random() * edges.length)]
 }
 
-export default function TicTacToeGame({ session, onExit }) {
+export default function TicTacToeGame({ session, onExit, onGameOver }) {
   const [board, setBoard] = useState(EMPTY_BOARD)
   const [winner, setWinner] = useState(null)
   const [aiThinking, setAiThinking] = useState(false)
   const [tally, setTally] = useState({ wins: 0, losses: 0, draws: 0 })
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
+  useReportScoreOnGameOver(timeUp, tally.wins, onGameOver)
 
   useEffect(() => {
     if (!aiThinking || winner) return
