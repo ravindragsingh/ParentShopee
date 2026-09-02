@@ -1048,9 +1048,11 @@ body {
 
 /* ── Mobile responsive ────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .navbar {
-    padding: 10px 14px;
-  }
+  /* .navbar padding itself is NOT redefined here -- the earlier
+     @media (max-width: 640px) .navbar rule already sets it, safe-area-aware.
+     A duplicate `padding: 10px 14px` here used to win the cascade (same
+     specificity, later in the file) and silently clobber that safe-area
+     padding-top, pulling the navbar back up under the status bar/notch. */
 
   .navbar-brand {
     font-size: 1.1rem;
