@@ -19,6 +19,15 @@ router = APIRouter()
 PIN_MAX_ATTEMPTS = 5
 PIN_LOCKOUT_MINUTES = 15
 
+# The public "Try Demo" family on the login page -- this id is permanently
+# reserved by the seed script and can never be assigned to a real guardian
+# (self-registration always generates a fresh UUID), so it's safe to give it
+# a standing PIN bypass rather than relying on the frontend's hardcoded demo
+# PINs staying in sync with whatever a kid's actual `pin` column currently
+# holds. That sync kept drifting (someone testing the "Change PIN" flow, a
+# PIN reset, etc.), repeatedly breaking the demo with a false "Incorrect PIN".
+DEMO_FAMILY_ID = "parent1"
+
 
 @router.get("/api/family/co-guardian")
 def get_co_guardian(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
@@ -138,6 +147,15 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
         ).first()
     if not profile:
         fail("Profile not found", 404)
+
+    if family_id == DEMO_FAMILY_ID:
+        profile.pin_attempts = 0
+        profile.pin_locked_until = None
+        db.commit()
+        db.refresh(profile)
+        token = str(uuid4())
+        SESSIONS[token] = profile.id
+        return ok({"token": token, "user": safe_user(profile)})
 
     if profile.pin_locked_until:
         try:
