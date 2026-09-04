@@ -75,6 +75,26 @@ android {
         variant.outputs.all { output ->
             outputFileName = "app_${variant.name}_${variant.versionName}.apk"
         }
+        // bundleRelease/bundleDebug don't go through variant.outputs (that's
+        // APK-only), so give the AAB the same self-identifying name by
+        // renaming it in place once the bundle task finishes -- otherwise
+        // it's the generic app-release.aab, indistinguishable from any other
+        // version's build and silently overwritten by the next one (the
+        // previous app_release_1.1.1.aab only existed because someone
+        // renamed it by hand after the fact).
+        def bundleTaskName = "bundle${variant.name.capitalize()}"
+        tasks.matching { it.name == bundleTaskName }.configureEach { bundleTask ->
+            bundleTask.doLast {
+                def genericAab = file("$buildDir/outputs/bundle/${variant.name}/app-${variant.name}.aab")
+                if (genericAab.exists()) {
+                    def versionedAab = new File(genericAab.parentFile, "app_${variant.name}_${variant.versionName}.aab")
+                    if (versionedAab.exists()) {
+                        versionedAab.delete()
+                    }
+                    genericAab.renameTo(versionedAab)
+                }
+            }
+        }
     }
 }
 
