@@ -1077,8 +1077,10 @@ export default function Login() {
 
   return (
     <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
-      {/* Fixed top-right nav buttons */}
-      <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 999, display: 'flex', gap: 8 }}>
+      {/* Fixed top-right nav buttons -- offset below the app-download banner
+          (if visible) via its published --app-banner-height variable, so the
+          two don't stack on top of each other. */}
+      <div style={{ position: 'fixed', top: 'calc(16px + var(--app-banner-height, 0px))', right: 16, zIndex: 999, display: 'flex', gap: 8 }}>
         <button onClick={() => setShowHelp(true)} style={fixedBtnStyle}>❓ How It Works</button>
         <button onClick={() => navigate('/blog')} style={fixedBtnStyle}>📖 Blog</button>
       </div>

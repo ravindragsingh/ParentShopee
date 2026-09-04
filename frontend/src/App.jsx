@@ -9,6 +9,7 @@ import Blogs from './components/Blogs.jsx'
 import PrivacyPolicyPage from './components/PrivacyPolicyPage.jsx'
 import DeleteAccountPage from './components/DeleteAccountPage.jsx'
 import TipOfTheDayModal from './components/TipOfTheDayModal.jsx'
+import AppDownloadBanner from './components/AppDownloadBanner.jsx'
 
 function Loading() {
   return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
@@ -49,6 +50,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <AppDownloadBanner />
         <Routes>
           <Route path="/"           element={<LoginRoute />} />
           <Route path="/blog"       element={<Blogs />} />
