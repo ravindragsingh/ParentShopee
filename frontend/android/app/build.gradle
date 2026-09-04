@@ -54,7 +54,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            // R8 code shrinking + obfuscation, off by default in the Capacitor
+            // template. Google Play's App Bundle Explorer flags an
+            // unobfuscated release as below its optimization threshold.
+            // Capacitor's own AARs (capacitor-android, each plugin) ship their
+            // own consumer ProGuard rules, so this doesn't need hand-written
+            // keep rules for the bridge/plugins to keep working.
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             if (hasReleaseSigning) {
                 signingConfig signingConfigs.release
