@@ -10,6 +10,19 @@ function randInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+// Says the word aloud once it's correctly matched -- reinforces the
+// written word with how it actually sounds, which is the whole point of a
+// sight-words drill. Silently does nothing on browsers/WebViews without
+// speech synthesis rather than erroring.
+function speakWord(word) {
+  if (!window.speechSynthesis) return
+  window.speechSynthesis.cancel() // don't stack utterances if answers come in fast
+  const utterance = new SpeechSynthesisUtterance(word)
+  utterance.lang = 'en-US'
+  utterance.rate = 0.85
+  window.speechSynthesis.speak(utterance)
+}
+
 function generateRound() {
   const target = SIGHT_WORDS[randInt(0, SIGHT_WORDS.length - 1)]
   const choices = new Set([target])
@@ -29,5 +42,12 @@ function generateRound() {
 }
 
 export default function SightWordsGame(props) {
-  return <MultipleChoiceGame {...props} generateRound={generateRound} timeUpEmoji="📖" />
+  return (
+    <MultipleChoiceGame
+      {...props}
+      generateRound={generateRound}
+      timeUpEmoji="📖"
+      onCorrect={round => speakWord(round.correctId)}
+    />
+  )
 }

@@ -6,7 +6,9 @@ import GameHeader from './GameHeader.jsx'
 // Shared shell for every "show a prompt, tap the right one of 4 choices"
 // game (Quick Math, Alphabet Hunt, Number Match, Sight Words, Word Scramble).
 // `generateRound()` returns { prompt: ReactNode, choices: [{id, label}], correctId }.
-export default function MultipleChoiceGame({ session, onExit, onGameOver, generateRound, timeUpEmoji = '🎉' }) {
+// `onCorrect(round)` is optional and only fires on a correct pick -- Sight
+// Words uses it to speak the word aloud; the others don't pass it at all.
+export default function MultipleChoiceGame({ session, onExit, onGameOver, generateRound, timeUpEmoji = '🎉', onCorrect }) {
   const [round, setRound] = useState(generateRound)
   const [score, setScore] = useState(0)
   const [attempted, setAttempted] = useState(0)
@@ -19,12 +21,15 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
     const correct = choiceId === round.correctId
     setFeedback({ choiceId, correct })
     setAttempted(n => n + 1)
-    if (correct) setScore(s => s + 1)
+    if (correct) {
+      setScore(s => s + 1)
+      onCorrect?.(round)
+    }
     setTimeout(() => {
       setFeedback(null)
       setRound(generateRound())
     }, correct ? 450 : 900)
-  }, [feedback, round, timeUp, generateRound])
+  }, [feedback, round, timeUp, generateRound, onCorrect])
 
   return (
     <div style={{ maxWidth: 420, margin: '0 auto' }}>
