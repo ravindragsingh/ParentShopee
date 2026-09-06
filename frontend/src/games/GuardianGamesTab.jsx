@@ -152,6 +152,7 @@ export default function GuardianGamesTab() {
                   checked={!!game.enabled}
                   disabled={savingId === game.id || bulkSaving}
                   onChange={() => handleToggle(game)}
+                  style={{ accentColor: game.enabled ? '#059669' : '#dc2626', width: 16, height: 16 }}
                 />
                 {game.enabled ? 'Visible to kids' : 'Hidden from kids'}
               </label>
