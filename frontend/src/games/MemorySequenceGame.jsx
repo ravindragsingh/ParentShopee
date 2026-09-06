@@ -14,6 +14,51 @@ function randomPad() {
   return Math.floor(Math.random() * PADS.length)
 }
 
+// Lazily created on first use (not at module load) -- browsers refuse to run
+// an AudioContext until a real user gesture has happened, and a click inside
+// handleTap counts as one.
+let audioCtx = null
+function getAudioCtx() {
+  if (!audioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext
+    if (!Ctx) return null
+    audioCtx = new Ctx()
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume()
+  return audioCtx
+}
+
+function playTone(freq, durationMs, type, startDelay) {
+  const ctx = getAudioCtx()
+  if (!ctx) return
+  const osc = ctx.createOscillator()
+  const gain = ctx.createGain()
+  osc.type = type
+  osc.frequency.value = freq
+  const start = ctx.currentTime + startDelay
+  const end = start + durationMs / 1000
+  gain.gain.setValueAtTime(0.0001, start)
+  gain.gain.exponentialRampToValueAtTime(0.22, start + 0.02)
+  gain.gain.exponentialRampToValueAtTime(0.0001, end)
+  osc.connect(gain)
+  gain.connect(ctx.destination)
+  osc.start(start)
+  osc.stop(end + 0.02)
+}
+
+// Bright ascending arpeggio for "you repeated the whole pattern correctly".
+function playSuccessSound() {
+  playTone(523.25, 120, 'sine', 0)
+  playTone(659.25, 150, 'sine', 0.1)
+  playTone(783.99, 220, 'sine', 0.2)
+}
+
+// Low descending buzz for "that tap broke the pattern".
+function playErrorSound() {
+  playTone(220, 180, 'square', 0)
+  playTone(164.81, 260, 'square', 0.13)
+}
+
 // Simon-Says style: watch a growing sequence flash, then repeat it by
 // tapping the same pads in order. Getting one wrong doesn't end the pass --
 // same as every other game here, only the countdown does -- it just resets
@@ -22,16 +67,20 @@ function randomPad() {
 export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   const [sequence, setSequence] = useState(() => [randomPad()])
   const [activePad, setActivePad] = useState(null)
+  const [pressedPad, setPressedPad] = useState(null)
   const [phase, setPhase] = useState('showing') // 'showing' | 'input' | 'wrong'
   const [level, setLevel] = useState(0)
   const inputIndexRef = useRef(0)
   const cancelledRef = useRef(false)
+  const pressTimeoutRef = useRef(null)
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
   useReportScoreOnGameOver(timeUp, level, onGameOver)
 
   useEffect(() => {
     if (timeUp) cancelledRef.current = true
   }, [timeUp])
+
+  useEffect(() => () => clearTimeout(pressTimeoutRef.current), [])
 
   const playSequence = useCallback((seq) => {
     setPhase('showing')
@@ -63,8 +112,19 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
 
   function handleTap(padIndex) {
     if (timeUp || phase !== 'input') return
+
+    // Press feedback so a tap always visibly registers, independent of
+    // whether it turns out to be right or wrong -- without this the pad
+    // grid looked completely inert between the "watch" and "result" beats.
+    setPressedPad(padIndex)
+    clearTimeout(pressTimeoutRef.current)
+    pressTimeoutRef.current = setTimeout(() => {
+      if (!cancelledRef.current) setPressedPad(null)
+    }, 180)
+
     const expected = sequence[inputIndexRef.current]
     if (padIndex !== expected) {
+      playErrorSound()
       setPhase('wrong')
       setTimeout(() => {
         if (cancelledRef.current) return
@@ -76,6 +136,7 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     }
     inputIndexRef.current += 1
     if (inputIndexRef.current === sequence.length) {
+      playSuccessSound()
       setLevel(l => Math.max(l, sequence.length))
       const next = [...sequence, randomPad()]
       setTimeout(() => {
@@ -103,20 +164,26 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
             {phase === 'showing' ? 'Watch the pattern...' : phase === 'wrong' ? 'Oops! New pattern starting...' : 'Your turn -- repeat it back'}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
-            {PADS.map((pad, i) => (
-              <button
-                key={i}
-                onClick={() => handleTap(i)}
-                disabled={phase !== 'input'}
-                style={{
-                  aspectRatio: '1', borderRadius: 16, border: 'none',
-                  cursor: phase === 'input' ? 'pointer' : 'default',
-                  background: activePad === i ? pad.lit : pad.color,
-                  boxShadow: activePad === i ? '0 0 0 4px rgba(255,255,255,0.7) inset' : 'none',
-                  transition: 'background 0.15s ease, box-shadow 0.15s ease',
-                }}
-              />
-            ))}
+            {PADS.map((pad, i) => {
+              const isShowingActive = phase === 'showing' && activePad === i
+              const isDimmedByShow = phase === 'showing' && activePad !== null && activePad !== i
+              const isPressed = pressedPad === i
+              return (
+                <button
+                  key={i}
+                  onClick={() => handleTap(i)}
+                  disabled={phase !== 'input'}
+                  style={{
+                    aspectRatio: '1', borderRadius: 16, border: 'none',
+                    cursor: phase === 'input' ? 'pointer' : 'default',
+                    background: isShowingActive ? pad.lit : pad.color,
+                    opacity: isDimmedByShow ? 0.45 : isPressed ? 0.6 : 1,
+                    boxShadow: isShowingActive ? '0 0 0 4px rgba(255,255,255,0.7) inset' : 'none',
+                    transition: 'background 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease',
+                  }}
+                />
+              )
+            })}
           </div>
         </div>
       )}
