@@ -121,7 +121,7 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
 
   return (
     <div style={{ maxWidth: 360, margin: '0 auto' }}>
-      <GameHeader onExit={onExit} gameName={session.gameName} status={`Best: ${level}`} remainingMs={remainingMs} timeUp={timeUp} />
+      <GameHeader onExit={onExit} gameName={session.gameName} status={`Level ${sequence.length} · Best: ${level}`} remainingMs={remainingMs} timeUp={timeUp} />
 
       {timeUp ? (
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>
