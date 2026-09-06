@@ -1755,6 +1755,35 @@ function KidsTab() {
                           <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a' }}>{reportData.currentBalance}</div>
                         </div>
                       </div>
+                      {reportData.weeklySummary && (reportData.weeklySummary.regularChores.length > 0 || reportData.weeklySummary.missedChores.length > 0) && (
+                        <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '12px 14px', marginBottom: 12 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0f766e', marginBottom: 8 }}>🗓️ Last 7 Days at a Glance</div>
+                          {reportData.weeklySummary.regularChores.length > 0 && (
+                            <div style={{ marginBottom: reportData.weeklySummary.missedChores.length > 0 ? 10 : 0 }}>
+                              <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: 4 }}>Doing regularly</div>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                {reportData.weeklySummary.regularChores.map((c, i) => (
+                                  <span key={i} style={{ background: '#ccfbf1', color: '#0d9488', borderRadius: 999, padding: '3px 10px', fontSize: '0.78rem', fontWeight: 600 }}>
+                                    {c.imageEmoji} {c.title} · {c.count}×
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {reportData.weeklySummary.missedChores.length > 0 && (
+                            <div>
+                              <div style={{ fontSize: '0.72rem', color: '#64748b', marginBottom: 4 }}>Missing sometimes</div>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                {reportData.weeklySummary.missedChores.map((c, i) => (
+                                  <span key={i} style={{ background: '#fed7aa', color: '#c2410c', borderRadius: 999, padding: '3px 10px', fontSize: '0.78rem', fontWeight: 600 }}>
+                                    {c.imageEmoji} {c.title} · {c.count}× {c.kind === 'expired' ? '(never done)' : '(rolled over)'}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       {reportData.tasks.length === 0 ? (
                         <div className="empty-text">No completed tasks in this period.</div>
                       ) : (

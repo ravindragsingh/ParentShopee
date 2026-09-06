@@ -12,6 +12,7 @@ import DeleteAccountPage from './components/DeleteAccountPage.jsx'
 import { hideSplashScreen, setStatusBarForBrandBg, setStatusBarForLightBg } from './utils/nativeChrome.js'
 import { addNotificationTapListener, registerForPushNotifications } from './utils/pushNotifications.js'
 import TipOfTheDayModal from './components/TipOfTheDayModal.jsx'
+import AppDownloadBanner from './components/AppDownloadBanner.jsx'
 
 function Loading() {
   return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
@@ -92,6 +93,7 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <PushNotificationTapHandler />
+        <AppDownloadBanner />
         <Routes>
           <Route path="/"           element={<LoginRoute />} />
           <Route path="/blog"       element={<Blogs />} />

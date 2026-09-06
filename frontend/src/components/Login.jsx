@@ -1134,8 +1134,11 @@ export default function Login() {
         paddingRight: 'max(16px, var(--sa-inset-right))',
       }}
     >
-      {/* Fixed top-right nav buttons */}
-      <div style={{ position: 'fixed', top: 'max(16px, var(--sa-inset-top))', right: 'max(16px, var(--sa-inset-right))', zIndex: 999, display: 'flex', gap: 8 }}>
+      {/* Fixed top-right nav buttons -- offset below both the native safe
+          area (status bar) and the web-only app-download banner (if
+          visible, via its published --app-banner-height variable), so
+          none of the three ever stack on top of each other. */}
+      <div style={{ position: 'fixed', top: 'calc(max(16px, var(--sa-inset-top)) + var(--app-banner-height, 0px))', right: 'max(16px, var(--sa-inset-right))', zIndex: 999, display: 'flex', gap: 8 }}>
         <button onClick={() => setShowHelp(true)} style={fixedBtnStyle}>❓ How It Works</button>
         <button onClick={() => navigate('/blog')} style={fixedBtnStyle}>📖 Blog</button>
       </div>
