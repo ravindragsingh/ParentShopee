@@ -133,9 +133,15 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
                     aspectRatio: '1', borderRadius: 16, border: 'none',
                     cursor: phase === 'input' ? 'pointer' : 'default',
                     background: isShowingActive ? pad.lit : pad.color,
-                    opacity: isDimmedByShow ? 0.45 : isPressed ? 0.6 : 1,
+                    // Dimming via opacity fades a saturated color toward the page's
+                    // light background, which lands close to the same pale look as
+                    // the "lit" active color -- the two states became visually
+                    // indistinguishable and it read as every pad dimming together.
+                    // brightness() darkens the color itself instead, so a dimmed
+                    // pad stays clearly its own (darker) hue, never pastel.
+                    filter: isDimmedByShow ? 'brightness(0.45)' : isPressed ? 'brightness(0.7)' : 'none',
                     boxShadow: isShowingActive ? '0 0 0 4px rgba(255,255,255,0.7) inset' : 'none',
-                    transition: 'background 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease',
+                    transition: 'background 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease',
                   }}
                 />
               )
