@@ -225,6 +225,15 @@ def startup():
             dict(id="tic-tac-toe", name="Tic-Tac-Toe",
                  description="Play a classic game of X's and O's against the computer.",
                  image_emoji="⭕", cost=8, duration_minutes=10, min_age=5, max_age=None),
+            dict(id="shape-sort", name="Shape Sort",
+                 description="Name the shape you see as fast as you can.",
+                 image_emoji="🔷", cost=8, duration_minutes=10, min_age=4, max_age=6),
+            dict(id="color-match", name="Color Match",
+                 description="Tap the color the letters are printed in -- not what the word says.",
+                 image_emoji="🎨", cost=8, duration_minutes=10, min_age=6, max_age=None),
+            dict(id="memory-sequence", name="Memory Sequence",
+                 description="Watch the pattern light up, then repeat it back -- how long a sequence can you remember?",
+                 image_emoji="🎵", cost=12, duration_minutes=12, min_age=6, max_age=None),
         ]
         for fields in catalog:
             existing = db3.query(DBGame).filter(DBGame.id == fields["id"]).first()

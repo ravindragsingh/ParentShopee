@@ -7,6 +7,9 @@ import WordScrambleGame from './WordScrambleGame.jsx'
 import SnakeGame from './SnakeGame.jsx'
 import WhackAMoleGame from './WhackAMoleGame.jsx'
 import TicTacToeGame from './TicTacToeGame.jsx'
+import ColorMatchGame from './ColorMatchGame.jsx'
+import ShapeSortGame from './ShapeSortGame.jsx'
+import MemorySequenceGame from './MemorySequenceGame.jsx'
 
 // Add a new game's slug -> component here to make it playable once it has a
 // matching row in the backend's games catalog (backend/main.py seeds it).
@@ -22,4 +25,7 @@ export const GAME_COMPONENTS = {
   'snake': SnakeGame,
   'whack-a-mole': WhackAMoleGame,
   'tic-tac-toe': TicTacToeGame,
+  'color-match': ColorMatchGame,
+  'shape-sort': ShapeSortGame,
+  'memory-sequence': MemorySequenceGame,
 }
