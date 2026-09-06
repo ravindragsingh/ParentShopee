@@ -15,11 +15,21 @@ function randomPad() {
   return Math.floor(Math.random() * PADS.length)
 }
 
+function levelSecondsForLength(length) {
+  return 4 + length * 2.5
+}
+
+function newExpiry(seconds) {
+  return new Date(Date.now() + seconds * 1000).toISOString()
+}
+
 // Simon-Says style: watch a growing sequence flash, then repeat it by
-// tapping the same pads in order. Getting one wrong doesn't end the pass --
-// same as every other game here, only the countdown does -- it just resets
-// to a fresh 1-pad sequence. Score is the longest sequence ever completed,
-// not the current one, since a late mistake shouldn't erase an earlier best.
+// tapping the same pads in order. Getting one wrong, or running out of
+// that attempt's own clock before finishing, resets to a fresh 1-pad
+// sequence -- same as every other game here, only the overall pass
+// countdown ends things for good. Score is the longest sequence ever
+// completed, not the current one, since a late mistake shouldn't erase an
+// earlier best.
 //
 // Finishing a sequence pauses on a "Level complete" card instead of
 // immediately flashing a longer one -- auto-advancing forever made it feel
@@ -32,10 +42,13 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   const [pressedPad, setPressedPad] = useState(null)
   const [phase, setPhase] = useState('showing') // 'showing' | 'input' | 'wrong' | 'level-complete'
   const [level, setLevel] = useState(0)
+  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newExpiry(levelSecondsForLength(1)))
   const inputIndexRef = useRef(0)
   const cancelledRef = useRef(false)
   const pressTimeoutRef = useRef(null)
+  const levelTimeoutHandledRef = useRef(false)
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
+  const { remainingMs: levelRemainingMs, timeUp: levelTimeUp } = useCountdown(levelExpiresAt)
   useReportScoreOnGameOver(timeUp, level, onGameOver)
 
   useEffect(() => {
@@ -50,7 +63,13 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     let i = 0
     function step() {
       if (cancelledRef.current) return
-      if (i >= seq.length) { setActivePad(null); setPhase('input'); return }
+      if (i >= seq.length) {
+        setActivePad(null)
+        setPhase('input')
+        levelTimeoutHandledRef.current = false
+        setLevelExpiresAt(newExpiry(levelSecondsForLength(seq.length)))
+        return
+      }
       setActivePad(seq[i])
       setTimeout(() => {
         if (cancelledRef.current) return
@@ -72,6 +91,27 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const failToLevelOne = useCallback(() => {
+    setPhase('wrong')
+    setTimeout(() => {
+      if (cancelledRef.current) return
+      const fresh = [randomPad()]
+      setSequence(fresh)
+      playSequence(fresh)
+    }, 700)
+  }, [playSequence])
+
+  // Running out of this attempt's own clock before finishing the sequence
+  // fails it, same as tapping the wrong pad. Guarded with a ref rather than
+  // relying on `phase` alone in the dependency array -- setPhase('wrong')
+  // below would otherwise re-run this effect and re-fire it.
+  useEffect(() => {
+    if (timeUp || phase !== 'input' || !levelTimeUp || levelTimeoutHandledRef.current) return
+    levelTimeoutHandledRef.current = true
+    playWrongSound()
+    failToLevelOne()
+  }, [levelTimeUp, timeUp, phase, failToLevelOne])
+
   function handleTap(padIndex) {
     if (timeUp || phase !== 'input') return
 
@@ -87,13 +127,7 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     const expected = sequence[inputIndexRef.current]
     if (padIndex !== expected) {
       playWrongSound()
-      setPhase('wrong')
-      setTimeout(() => {
-        if (cancelledRef.current) return
-        const fresh = [randomPad()]
-        setSequence(fresh)
-        playSequence(fresh)
-      }, 700)
+      failToLevelOne()
       return
     }
     inputIndexRef.current += 1
@@ -118,6 +152,7 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     input: { bg: '#eff6ff', border: '#bfdbfe', color: '#1d4ed8', text: '👆 Your turn -- repeat it back' },
     wrong: { bg: '#fef2f2', border: '#fecaca', color: '#dc2626', text: '❌ Oops! New pattern starting...' },
   }
+  const levelUrgent = phase === 'input' && levelRemainingMs < 3000
 
   return (
     <div style={{ maxWidth: 360, margin: '0 auto' }}>
@@ -143,14 +178,24 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
         </div>
       ) : (
         <div>
-          <div style={{
-            textAlign: 'center', fontSize: '0.95rem', fontWeight: 700, marginBottom: 14,
-            padding: '10px 14px', borderRadius: 10,
-            background: instructionStyles[phase].bg,
-            border: `1px solid ${instructionStyles[phase].border}`,
-            color: instructionStyles[phase].color,
-          }}>
-            {instructionStyles[phase].text}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+            <div style={{
+              flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 700,
+              padding: '10px 14px', borderRadius: 10,
+              background: instructionStyles[phase].bg,
+              border: `1px solid ${instructionStyles[phase].border}`,
+              color: instructionStyles[phase].color,
+            }}>
+              {instructionStyles[phase].text}
+            </div>
+            {phase === 'input' && (
+              <span style={{
+                fontSize: '0.85rem', fontWeight: 700, borderRadius: 999, padding: '4px 12px', flexShrink: 0,
+                background: levelUrgent ? '#fed7aa' : '#f1f5f9', color: levelUrgent ? '#c2410c' : '#64748b',
+              }}>
+                ⏳ {Math.max(0, Math.ceil(levelRemainingMs / 1000))}s
+              </span>
+            )}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
             {PADS.map((pad, i) => {
