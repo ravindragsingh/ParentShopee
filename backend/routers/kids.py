@@ -1,3 +1,4 @@
+from collections import Counter
 from datetime import date, datetime, timedelta, timezone
 from uuid import uuid4
 
@@ -214,6 +215,8 @@ def get_kid_report(kid_id: str, period: str = "weekly", db: Session = Depends(ge
 
     wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
 
+    weekly_summary = _build_weekly_summary(db, kid_id)
+
     return ok({
         "kidId": kid_id,
         "kidName": kid.name,
@@ -225,4 +228,71 @@ def get_kid_report(kid_id: str, period: str = "weekly", db: Session = Depends(ge
         "currentBalance": wallet.balance if wallet else 0,
         "tasks": tasks[:100],
         "purchases": purchases[:100],
+        "weeklySummary": weekly_summary,
     })
+
+
+def _build_weekly_summary(db: Session, kid_id: str) -> dict:
+    """Which chores a kid keeps doing vs. keeps missing, always over the
+    trailing 7 days regardless of the report's own weekly/monthly toggle --
+    a monthly report should still answer "how's this week going", not just
+    "how's this month going".
+
+    "Missed" covers two different mechanisms: a daily chore that rolled over
+    still unchecked (daily_chore_logic.py writes a "Missed daily chore: X"
+    deduction transaction for those), and a one-off chore that passed its due
+    date untouched (chore_logic.py flips it to status="expired"). Both read
+    as the same thing to a guardian -- "assigned but didn't happen" -- so
+    they're merged into one list here.
+    """
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+
+    done_chores = db.query(DBChore).filter(
+        DBChore.status == "complete",
+        DBChore.completed_at.isnot(None),
+        DBChore.completed_at >= cutoff,
+        or_(DBChore.assigned_kid_id == kid_id, DBChore.completed_by_kid_id == kid_id),
+    ).all()
+    week_txns = db.query(DBTransaction).filter(
+        DBTransaction.kid_id == kid_id,
+        DBTransaction.timestamp >= cutoff,
+    ).all()
+    done_daily = [t for t in week_txns if t.type == "earned" and t.description.startswith("Daily chore")]
+    missed_daily = [t for t in week_txns if t.type == "deduct" and t.description.startswith("Missed daily chore:")]
+    expired_chores = db.query(DBChore).filter(
+        DBChore.status == "expired",
+        DBChore.expired_at.isnot(None),
+        DBChore.expired_at >= cutoff,
+        DBChore.assigned_kid_id == kid_id,
+    ).all()
+
+    regular_counts, regular_emoji = Counter(), {}
+    for c in done_chores:
+        regular_counts[c.title] += 1
+        regular_emoji[c.title] = c.image_emoji
+    for t in done_daily:
+        title = t.description.split(": ", 1)[1] if ": " in t.description else t.description
+        regular_counts[title] += 1
+        regular_emoji.setdefault(title, "📅")
+
+    missed_counts, missed_emoji, missed_kind = Counter(), {}, {}
+    for t in missed_daily:
+        title = t.description.split(": ", 1)[1] if ": " in t.description else t.description
+        missed_counts[title] += 1
+        missed_emoji.setdefault(title, "📅")
+        missed_kind[title] = "daily"
+    for c in expired_chores:
+        missed_counts[c.title] += 1
+        missed_emoji.setdefault(c.title, c.image_emoji)
+        missed_kind.setdefault(c.title, "expired")
+
+    return {
+        "regularChores": [
+            {"title": title, "imageEmoji": regular_emoji[title], "count": count}
+            for title, count in regular_counts.most_common(3)
+        ],
+        "missedChores": [
+            {"title": title, "imageEmoji": missed_emoji[title], "count": count, "kind": missed_kind[title]}
+            for title, count in missed_counts.most_common(3)
+        ],
+    }

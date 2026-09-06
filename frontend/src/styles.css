@@ -24,6 +24,66 @@ body {
   flex-direction: column;
 }
 
+.app-download-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #0d9488;
+  color: white;
+}
+
+.app-download-banner-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.app-download-banner-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  flex: 1;
+  min-width: 0;
+}
+
+.app-download-banner-text strong {
+  font-size: 0.9rem;
+}
+
+.app-download-banner-text span {
+  font-size: 0.78rem;
+  color: #ccfbf1;
+}
+
+.app-download-banner-cta {
+  background: white;
+  color: #0d9488;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.app-download-banner-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 6px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.app-download-banner-close:hover {
+  opacity: 1;
+}
+
 .navbar {
   display: flex;
   align-items: center;

@@ -518,9 +518,26 @@ function GoogleSignInButton() {
   }, [login])
 
   useEffect(() => {
-    if (!clientId || !window.google?.accounts?.id || !buttonRef.current) return
-    window.google.accounts.id.initialize({ client_id: clientId, callback: handleCredentialResponse })
-    window.google.accounts.id.renderButton(buttonRef.current, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
+    if (!clientId) return
+    // index.html loads the GSI script with async/defer, so on a first visit
+    // (nothing cached yet) it can still be mid-download when this effect
+    // first runs -- window.google isn't defined yet, the check below used to
+    // just bail out with nothing to retry it, and the button silently never
+    // appeared. A refresh "fixed" it only because the browser's HTTP cache
+    // made the script available fast enough the next time. Poll instead of
+    // assuming it's already there.
+    let cancelled = false
+    function tryRender() {
+      if (cancelled) return
+      if (!window.google?.accounts?.id || !buttonRef.current) {
+        setTimeout(tryRender, 100)
+        return
+      }
+      window.google.accounts.id.initialize({ client_id: clientId, callback: handleCredentialResponse })
+      window.google.accounts.id.renderButton(buttonRef.current, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
+    }
+    tryRender()
+    return () => { cancelled = true }
   }, [clientId, handleCredentialResponse])
 
   async function handleCompleteProfile(e) {
@@ -1077,8 +1094,10 @@ export default function Login() {
 
   return (
     <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
-      {/* Fixed top-right nav buttons */}
-      <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 999, display: 'flex', gap: 8 }}>
+      {/* Fixed top-right nav buttons -- offset below the app-download banner
+          (if visible) via its published --app-banner-height variable, so the
+          two don't stack on top of each other. */}
+      <div style={{ position: 'fixed', top: 'calc(16px + var(--app-banner-height, 0px))', right: 16, zIndex: 999, display: 'flex', gap: 8 }}>
         <button onClick={() => setShowHelp(true)} style={fixedBtnStyle}>❓ How It Works</button>
         <button onClick={() => navigate('/blog')} style={fixedBtnStyle}>📖 Blog</button>
       </div>
