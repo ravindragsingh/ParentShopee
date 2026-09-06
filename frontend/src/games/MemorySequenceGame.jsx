@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
+import { playCorrectSound, playWrongSound } from './gameSounds.js'
 import GameHeader from './GameHeader.jsx'
 
 const PADS = [
@@ -12,51 +13,6 @@ const PADS = [
 
 function randomPad() {
   return Math.floor(Math.random() * PADS.length)
-}
-
-// Lazily created on first use (not at module load) -- browsers refuse to run
-// an AudioContext until a real user gesture has happened, and a click inside
-// handleTap counts as one.
-let audioCtx = null
-function getAudioCtx() {
-  if (!audioCtx) {
-    const Ctx = window.AudioContext || window.webkitAudioContext
-    if (!Ctx) return null
-    audioCtx = new Ctx()
-  }
-  if (audioCtx.state === 'suspended') audioCtx.resume()
-  return audioCtx
-}
-
-function playTone(freq, durationMs, type, startDelay) {
-  const ctx = getAudioCtx()
-  if (!ctx) return
-  const osc = ctx.createOscillator()
-  const gain = ctx.createGain()
-  osc.type = type
-  osc.frequency.value = freq
-  const start = ctx.currentTime + startDelay
-  const end = start + durationMs / 1000
-  gain.gain.setValueAtTime(0.0001, start)
-  gain.gain.exponentialRampToValueAtTime(0.22, start + 0.02)
-  gain.gain.exponentialRampToValueAtTime(0.0001, end)
-  osc.connect(gain)
-  gain.connect(ctx.destination)
-  osc.start(start)
-  osc.stop(end + 0.02)
-}
-
-// Bright ascending arpeggio for "you repeated the whole pattern correctly".
-function playSuccessSound() {
-  playTone(523.25, 120, 'sine', 0)
-  playTone(659.25, 150, 'sine', 0.1)
-  playTone(783.99, 220, 'sine', 0.2)
-}
-
-// Low descending buzz for "that tap broke the pattern".
-function playErrorSound() {
-  playTone(220, 180, 'square', 0)
-  playTone(164.81, 260, 'square', 0.13)
 }
 
 // Simon-Says style: watch a growing sequence flash, then repeat it by
@@ -124,7 +80,7 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
 
     const expected = sequence[inputIndexRef.current]
     if (padIndex !== expected) {
-      playErrorSound()
+      playWrongSound()
       setPhase('wrong')
       setTimeout(() => {
         if (cancelledRef.current) return
@@ -136,7 +92,7 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     }
     inputIndexRef.current += 1
     if (inputIndexRef.current === sequence.length) {
-      playSuccessSound()
+      playCorrectSound()
       setLevel(l => Math.max(l, sequence.length))
       const next = [...sequence, randomPad()]
       setTimeout(() => {

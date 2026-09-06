@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
+import { playCorrectSound, playWrongSound } from './gameSounds.js'
 import GameHeader from './GameHeader.jsx'
 
 // Shared shell for every "show a prompt, tap the right one of 4 choices"
@@ -23,7 +24,10 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
     setAttempted(n => n + 1)
     if (correct) {
       setScore(s => s + 1)
+      playCorrectSound()
       onCorrect?.(round)
+    } else {
+      playWrongSound()
     }
     setTimeout(() => {
       setFeedback(null)

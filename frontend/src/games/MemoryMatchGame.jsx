@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
+import { playCorrectSound, playWrongSound } from './gameSounds.js'
 import GameHeader from './GameHeader.jsx'
 
 const ICONS = ['🐶', '🐱', '🐰', '🦊', '🐻', '🐼', '🐸', '🦁']
@@ -39,9 +40,11 @@ export default function MemoryMatchGame({ session, onExit, onGameOver }) {
       const cardA = deck.find(c => c.id === a)
       const cardB = deck.find(c => c.id === b)
       if (cardA.icon === cardB.icon) {
+        playCorrectSound()
         setMatched(prev => new Set(prev).add(a).add(b))
         setFlipped([])
       } else {
+        playWrongSound()
         setLocked(true)
         setTimeout(() => { setFlipped([]); setLocked(false) }, 700)
       }

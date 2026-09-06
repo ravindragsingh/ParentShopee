@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
+import { playCorrectSound, playWrongSound } from './gameSounds.js'
 import GameHeader from './GameHeader.jsx'
 
 const LINES = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
@@ -50,6 +51,7 @@ export default function TicTacToeGame({ session, onExit, onGameOver }) {
         setBoard(next)
         const result = checkWinner(next)
         if (result) {
+          if (result === 'O') playWrongSound()
           setWinner(result)
           setTally(tl => result === 'O' ? { ...tl, losses: tl.losses + 1 } : { ...tl, draws: tl.draws + 1 })
         }
@@ -66,6 +68,7 @@ export default function TicTacToeGame({ session, onExit, onGameOver }) {
     setBoard(next)
     const result = checkWinner(next)
     if (result) {
+      if (result === 'X') playCorrectSound()
       setWinner(result)
       setTally(tl => result === 'X' ? { ...tl, wins: tl.wins + 1 } : { ...tl, draws: tl.draws + 1 })
     } else {

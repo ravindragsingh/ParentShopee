@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
+import { playCorrectSound, playWrongSound } from './gameSounds.js'
 import GameHeader from './GameHeader.jsx'
 
 const HOLE_COUNT = 9
@@ -46,7 +47,12 @@ export default function WhackAMoleGame({ session, onExit, onGameOver }) {
   }, [timeUp, scheduleNextPop, clearTimers])
 
   function handleWhack(idx) {
-    if (timeUp || idx !== activeIndexRef.current) return
+    if (timeUp) return
+    if (idx !== activeIndexRef.current) {
+      playWrongSound()
+      return
+    }
+    playCorrectSound()
     clearTimeout(hideTimeoutRef.current)
     activeIndexRef.current = null
     setActiveIndex(null)

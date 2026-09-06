@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
+import { playCorrectSound, playWrongSound } from './gameSounds.js'
 import GameHeader from './GameHeader.jsx'
 
 const GRID_SIZE = 13
@@ -65,6 +66,7 @@ export default function SnakeGame({ session, onExit, onGameOver }) {
       const newHead = { x: head.x + dir.x, y: head.y + dir.y }
 
       if (newHead.x < 0 || newHead.x >= GRID_SIZE || newHead.y < 0 || newHead.y >= GRID_SIZE) {
+        playWrongSound()
         setGameOver(true)
         return
       }
@@ -74,6 +76,7 @@ export default function SnakeGame({ session, onExit, onGameOver }) {
       // safe to move into it -- only check the segments that stay put.
       const bodyToCheck = willEat ? prev : prev.slice(0, -1)
       if (bodyToCheck.some(seg => seg.x === newHead.x && seg.y === newHead.y)) {
+        playWrongSound()
         setGameOver(true)
         return
       }
@@ -82,6 +85,7 @@ export default function SnakeGame({ session, onExit, onGameOver }) {
       snakeRef.current = newSnake
       setSnake(newSnake)
       if (willEat) {
+        playCorrectSound()
         const nextScore = scoreRef.current + 1
         scoreRef.current = nextScore
         setScore(nextScore)
