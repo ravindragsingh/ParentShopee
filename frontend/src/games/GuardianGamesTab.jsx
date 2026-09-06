@@ -86,7 +86,7 @@ export default function GuardianGamesTab() {
     // to) -- this is a preview/for-fun mode, not something that feeds into
     // the kids' leaderboard.
     const expiresAt = new Date(Date.now() + game.durationMinutes * 60000).toISOString()
-    setPlayingGame({ ...game, session: { expiresAt } })
+    setPlayingGame({ ...game, session: { expiresAt, gameName: game.name } })
   }
 
   if (playingGame) {

@@ -88,6 +88,7 @@ export default function TicTacToeGame({ session, onExit, onGameOver }) {
     <div style={{ maxWidth: 360, margin: '0 auto' }}>
       <GameHeader
         onExit={onExit}
+        gameName={session.gameName}
         status={`W ${tally.wins} · L ${tally.losses} · D ${tally.draws}`}
         remainingMs={remainingMs}
         timeUp={timeUp}

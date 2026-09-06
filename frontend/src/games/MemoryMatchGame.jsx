@@ -53,7 +53,7 @@ export default function MemoryMatchGame({ session, onExit, onGameOver }) {
 
   return (
     <div style={{ maxWidth: 480, margin: '0 auto' }}>
-      <GameHeader onExit={onExit} status={`Moves: ${moves}`} remainingMs={remainingMs} timeUp={timeUp} />
+      <GameHeader onExit={onExit} gameName={session.gameName} status={`Moves: ${moves}`} remainingMs={remainingMs} timeUp={timeUp} />
 
       {won ? (
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>

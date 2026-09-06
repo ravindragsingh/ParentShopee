@@ -37,7 +37,7 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
 
   return (
     <div style={{ maxWidth: 420, margin: '0 auto' }}>
-      <GameHeader onExit={onExit} status={`Score: ${score} / ${attempted}`} remainingMs={remainingMs} timeUp={timeUp} />
+      <GameHeader onExit={onExit} gameName={session.gameName} status={`Score: ${score} / ${attempted}`} remainingMs={remainingMs} timeUp={timeUp} />
 
       {timeUp ? (
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>

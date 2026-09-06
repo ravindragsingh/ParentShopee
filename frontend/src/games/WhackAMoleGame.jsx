@@ -62,7 +62,7 @@ export default function WhackAMoleGame({ session, onExit, onGameOver }) {
 
   return (
     <div style={{ maxWidth: 380, margin: '0 auto' }}>
-      <GameHeader onExit={onExit} status={`Score: ${score}`} remainingMs={remainingMs} timeUp={timeUp} />
+      <GameHeader onExit={onExit} gameName={session.gameName} status={`Score: ${score}`} remainingMs={remainingMs} timeUp={timeUp} />
 
       {timeUp ? (
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>

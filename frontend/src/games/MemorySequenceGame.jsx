@@ -20,11 +20,17 @@ function randomPad() {
 // same as every other game here, only the countdown does -- it just resets
 // to a fresh 1-pad sequence. Score is the longest sequence ever completed,
 // not the current one, since a late mistake shouldn't erase an earlier best.
+//
+// Finishing a sequence pauses on a "Level complete" card instead of
+// immediately flashing a longer one -- auto-advancing forever made it feel
+// like one continuous, monotonous loop rather than a series of distinct
+// levels with a real sense of progress.
 export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   const [sequence, setSequence] = useState(() => [randomPad()])
+  const [pendingNext, setPendingNext] = useState(null)
   const [activePad, setActivePad] = useState(null)
   const [pressedPad, setPressedPad] = useState(null)
-  const [phase, setPhase] = useState('showing') // 'showing' | 'input' | 'wrong'
+  const [phase, setPhase] = useState('showing') // 'showing' | 'input' | 'wrong' | 'level-complete'
   const [level, setLevel] = useState(0)
   const inputIndexRef = useRef(0)
   const cancelledRef = useRef(false)
@@ -62,7 +68,7 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   useEffect(() => {
     playSequence(sequence)
     // Only ever run for the very first sequence -- every later one is
-    // started explicitly from handleTap, which already has the fresh array.
+    // started explicitly from handleContinue, which already has the fresh array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -94,18 +100,28 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     if (inputIndexRef.current === sequence.length) {
       playCorrectSound()
       setLevel(l => Math.max(l, sequence.length))
-      const next = [...sequence, randomPad()]
-      setTimeout(() => {
-        if (cancelledRef.current) return
-        setSequence(next)
-        playSequence(next)
-      }, 500)
+      setPendingNext([...sequence, randomPad()])
+      setPhase('level-complete')
     }
+  }
+
+  function handleContinue() {
+    if (!pendingNext || cancelledRef.current) return
+    const next = pendingNext
+    setPendingNext(null)
+    setSequence(next)
+    playSequence(next)
+  }
+
+  const instructionStyles = {
+    showing: { bg: '#f0fdfa', border: '#99f6e4', color: '#0d9488', text: '👀 Watch the pattern...' },
+    input: { bg: '#eff6ff', border: '#bfdbfe', color: '#1d4ed8', text: '👆 Your turn -- repeat it back' },
+    wrong: { bg: '#fef2f2', border: '#fecaca', color: '#dc2626', text: '❌ Oops! New pattern starting...' },
   }
 
   return (
     <div style={{ maxWidth: 360, margin: '0 auto' }}>
-      <GameHeader onExit={onExit} status={`Best: ${level}`} remainingMs={remainingMs} timeUp={timeUp} />
+      <GameHeader onExit={onExit} gameName={session.gameName} status={`Best: ${level}`} remainingMs={remainingMs} timeUp={timeUp} />
 
       {timeUp ? (
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>
@@ -114,10 +130,27 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
           <div style={{ fontSize: '0.88rem', color: '#64748b', marginTop: 6 }}>Longest pattern: {level}</div>
           <button className="btn btn-outline" style={{ marginTop: 18 }} onClick={onExit}>Back to Games</button>
         </div>
+      ) : phase === 'level-complete' ? (
+        <div style={{ textAlign: 'center', padding: '34px 20px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 16 }}>
+          <div style={{ fontSize: '2.6rem', marginBottom: 8 }}>🎉</div>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#166534' }}>Level {sequence.length} complete!</div>
+          <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 6 }}>
+            Ready to try a {pendingNext?.length}-step pattern?
+          </div>
+          <button className="btn btn-green" style={{ marginTop: 18 }} onClick={handleContinue}>
+            Continue to Level {pendingNext?.length} →
+          </button>
+        </div>
       ) : (
         <div>
-          <div style={{ textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginBottom: 12, minHeight: 18 }}>
-            {phase === 'showing' ? 'Watch the pattern...' : phase === 'wrong' ? 'Oops! New pattern starting...' : 'Your turn -- repeat it back'}
+          <div style={{
+            textAlign: 'center', fontSize: '0.95rem', fontWeight: 700, marginBottom: 14,
+            padding: '10px 14px', borderRadius: 10,
+            background: instructionStyles[phase].bg,
+            border: `1px solid ${instructionStyles[phase].border}`,
+            color: instructionStyles[phase].color,
+          }}>
+            {instructionStyles[phase].text}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
             {PADS.map((pad, i) => {
