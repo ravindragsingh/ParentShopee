@@ -105,6 +105,8 @@ export const api = {
   setGameVisibility:    (id, enabled) => request('PUT', `/api/games/${id}/visibility`, { enabled }),
   reportGameScore:      (sessionId, score) => request('POST', `/api/games/sessions/${sessionId}/score`, { score }),
   getGameLeaderboard:   (gameId) => request('GET', `/api/games/${gameId}/leaderboard`),
+  getGameProgress:      (gameId) => request('GET', `/api/games/${gameId}/progress`),
+  saveGameProgress:     (gameId, level) => request('PUT', `/api/games/${gameId}/progress`, { level }),
 
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),

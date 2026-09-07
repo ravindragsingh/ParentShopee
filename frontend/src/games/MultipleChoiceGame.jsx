@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { api } from '../api.js'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import { playCorrectSound, playWrongSound } from './gameSounds.js'
@@ -30,19 +31,28 @@ function newLevelExpiry(level) {
 // A level is QUESTIONS_PER_LEVEL rounds in a row, each on its own countdown
 // (which resets between questions): answer correctly before time runs out
 // to move to the next question, and clear all of them to pass the level. A
-// single wrong answer or timeout fails the whole level and drops back to
-// level 1 -- reported score is the highest level ever passed.
+// single wrong answer or timeout fails the level, but not the kid's
+// progress -- it saves server-side and the next attempt (now, or next time
+// they play) resumes at the same level rather than level 1.
 export default function MultipleChoiceGame({ session, onExit, onGameOver, generateRound, timeUpEmoji = '🎉', onCorrect }) {
+  const startLevel = session.startLevel || 1
   const [round, setRound] = useState(generateRound)
-  const [level, setLevel] = useState(1)
-  const [bestLevel, setBestLevel] = useState(0)
+  const [level, setLevel] = useState(startLevel)
+  const [bestLevel, setBestLevel] = useState(Math.max(0, startLevel - 1))
   const [questionIndex, setQuestionIndex] = useState(1)
   const [feedback, setFeedback] = useState(null) // { choiceId, correct } | null
   const [roundResult, setRoundResult] = useState(null) // 'pass' | 'fail' | null
-  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newLevelExpiry(1))
+  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newLevelExpiry(startLevel))
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
   const { remainingMs: levelRemainingMs, timeUp: levelTimeUp } = useCountdown(levelExpiresAt)
   useReportScoreOnGameOver(timeUp, bestLevel, onGameOver)
+
+  // Guardian "Try It" previews have no gameId (they're not a real kid's
+  // session), so progress just isn't saved there -- every preview starts
+  // fresh at level 1.
+  const saveProgress = useCallback((lvl) => {
+    if (session.gameId) api.saveGameProgress(session.gameId, lvl).catch(() => {})
+  }, [session.gameId])
 
   // Running out of the level's own clock without answering fails it, same
   // as picking the wrong choice. `feedback` is deliberately read but not
@@ -56,10 +66,11 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
     const t = setTimeout(() => {
       setFeedback(null)
       setRoundResult('fail')
+      saveProgress(level)
     }, 900)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [levelTimeUp, timeUp, roundResult])
+  }, [levelTimeUp, timeUp, roundResult, level, saveProgress])
 
   const handleChoice = useCallback((choiceId) => {
     if (timeUp || feedback || roundResult) return
@@ -75,6 +86,7 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
       setFeedback(null)
       if (!correct) {
         setRoundResult('fail')
+        saveProgress(level)
       } else if (questionIndex >= QUESTIONS_PER_LEVEL) {
         setRoundResult('pass')
       } else {
@@ -83,7 +95,7 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
         setLevelExpiresAt(newLevelExpiry(level))
       }
     }, correct ? 450 : 900)
-  }, [feedback, roundResult, round, timeUp, onCorrect, questionIndex, level, generateRound])
+  }, [feedback, roundResult, round, timeUp, onCorrect, questionIndex, level, generateRound, saveProgress])
 
   function handleContinue() {
     const nextLevel = level + 1
@@ -93,14 +105,23 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
     setLevelExpiresAt(newLevelExpiry(nextLevel))
     setRound(generateRound())
     setRoundResult(null)
+    saveProgress(nextLevel)
   }
 
   function handleRetry() {
+    setQuestionIndex(1)
+    setLevelExpiresAt(newLevelExpiry(level))
+    setRound(generateRound())
+    setRoundResult(null)
+  }
+
+  function handleRestart() {
     setLevel(1)
     setQuestionIndex(1)
     setLevelExpiresAt(newLevelExpiry(1))
     setRound(generateRound())
     setRoundResult(null)
+    saveProgress(1)
   }
 
   const levelUrgent = levelRemainingMs < 5000
@@ -129,6 +150,7 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
           result="fail" level={level}
           subtext={`Got ${questionIndex - 1} of ${QUESTIONS_PER_LEVEL} questions before missing one.`}
           onRetry={handleRetry}
+          onRestart={handleRestart}
         />
       ) : (
         <div>

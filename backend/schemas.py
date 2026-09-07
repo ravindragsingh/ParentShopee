@@ -145,6 +145,9 @@ class GameVisibilityUpdate(BaseModel):
 class GameScoreBody(BaseModel):
     score: int
 
+class GameProgressUpdate(BaseModel):
+    level: int
+
 class DailyChoreItemCreate(BaseModel):
     kidId: str
     title: str

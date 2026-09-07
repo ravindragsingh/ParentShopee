@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { api } from '../api.js'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import { playCorrectSound, playWrongSound } from './gameSounds.js'
@@ -26,20 +27,29 @@ function randomHole(exclude) {
 }
 
 // Each level has a whack target and its own clock: reach the target to pass
-// and face a higher target next time; running out of the level's time
-// before hitting the target fails it and drops back to level 1's smaller
-// target. Tapping an empty hole just plays a miss sound -- it doesn't end
-// the level on its own, only the clock does.
+// and face a higher target next time. Running out of the level's time
+// before hitting the target fails it but not the kid's progress -- it saves
+// server-side and the next attempt (now, or next time they play) resumes at
+// the same level rather than level 1. Tapping an empty hole just plays a
+// miss sound -- it doesn't end the level on its own, only the clock does.
 export default function WhackAMoleGame({ session, onExit, onGameOver }) {
-  const [level, setLevel] = useState(1)
-  const [bestLevel, setBestLevel] = useState(0)
+  const initialLevel = session.startLevel || 1
+  const [level, setLevel] = useState(initialLevel)
+  const [bestLevel, setBestLevel] = useState(Math.max(0, initialLevel - 1))
   const [activeIndex, setActiveIndex] = useState(null)
   const [score, setScore] = useState(0)
   const [roundResult, setRoundResult] = useState(null) // 'pass' | 'fail' | null
-  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newExpiry(levelSecondsForTarget(targetForLevel(1))))
+  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newExpiry(levelSecondsForTarget(targetForLevel(initialLevel))))
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
   const { remainingMs: levelRemainingMs, timeUp: levelTimeUp } = useCountdown(levelExpiresAt)
   useReportScoreOnGameOver(timeUp, bestLevel, onGameOver)
+
+  // Guardian "Try It" previews have no gameId (they're not a real kid's
+  // session), so progress just isn't saved there -- every preview starts
+  // fresh at level 1.
+  const saveProgress = useCallback((lvl) => {
+    if (session.gameId) api.saveGameProgress(session.gameId, lvl).catch(() => {})
+  }, [session.gameId])
   const popTimeoutRef = useRef(null)
   const hideTimeoutRef = useRef(null)
   const activeIndexRef = useRef(null)
@@ -77,7 +87,8 @@ export default function WhackAMoleGame({ session, onExit, onGameOver }) {
     if (timeUp || roundResult || !levelTimeUp) return
     playWrongSound()
     setRoundResult('fail')
-  }, [levelTimeUp, timeUp, roundResult])
+    saveProgress(level)
+  }, [levelTimeUp, timeUp, roundResult, level, saveProgress])
 
   function handleWhack(idx) {
     if (timeUp || roundResult) return
@@ -112,10 +123,16 @@ export default function WhackAMoleGame({ session, onExit, onGameOver }) {
   function handleContinue() {
     setBestLevel(b => Math.max(b, level))
     startLevel(level + 1)
+    saveProgress(level + 1)
   }
 
   function handleRetry() {
+    startLevel(level)
+  }
+
+  function handleRestart() {
     startLevel(1)
+    saveProgress(1)
   }
 
   const levelUrgent = levelRemainingMs < 8000
@@ -142,6 +159,7 @@ export default function WhackAMoleGame({ session, onExit, onGameOver }) {
           result="fail" level={level}
           subtext={`Got ${score} of ${target} needed.`}
           onRetry={handleRetry}
+          onRestart={handleRestart}
         />
       ) : (
         <>

@@ -104,7 +104,11 @@ export default function GamesTab({ userId, onBalanceChange }) {
       const session = alreadyActive
         ? sessions.find(s => s.id === sessionId)
         : await api.startGameSession(sessionId)
-      setPlayingSession(session)
+      // Resume at the kid's saved level rather than always starting fresh --
+      // a missing/failed fetch just falls back to level 1, same as a kid
+      // who's never played this game before.
+      const progress = await api.getGameProgress(session.gameId).catch(() => null)
+      setPlayingSession({ ...session, startLevel: progress?.level || 1 })
     } catch (err) {
       setError(err.message)
     } finally {

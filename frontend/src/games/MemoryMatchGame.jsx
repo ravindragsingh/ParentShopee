@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { api } from '../api.js'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import { playCorrectSound, playWrongSound } from './gameSounds.js'
@@ -34,22 +35,31 @@ function shuffledDeck(pairs) {
 }
 
 // Each level is its own board: clear every pair before that level's own
-// clock runs out to pass and see a bigger board; running out of time drops
-// back to level 1's smaller board. Reported score is the highest level
-// ever cleared, consistent with every other leveled game here.
+// clock runs out to pass and see a bigger board. Running out of time fails
+// the level but not the kid's progress -- it saves server-side and the
+// next attempt (now, or next time they play) resumes at the same level
+// rather than level 1.
 export default function MemoryMatchGame({ session, onExit, onGameOver }) {
-  const [level, setLevel] = useState(1)
-  const [bestLevel, setBestLevel] = useState(0)
-  const [deck, setDeck] = useState(() => shuffledDeck(pairsForLevel(1)))
+  const initialLevel = session.startLevel || 1
+  const [level, setLevel] = useState(initialLevel)
+  const [bestLevel, setBestLevel] = useState(Math.max(0, initialLevel - 1))
+  const [deck, setDeck] = useState(() => shuffledDeck(pairsForLevel(initialLevel)))
   const [flipped, setFlipped] = useState([])
   const [matched, setMatched] = useState(new Set())
   const [moves, setMoves] = useState(0)
   const [locked, setLocked] = useState(false)
   const [roundResult, setRoundResult] = useState(null) // 'pass' | 'fail' | null
-  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newExpiry(levelSecondsForPairs(pairsForLevel(1))))
+  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newExpiry(levelSecondsForPairs(pairsForLevel(initialLevel))))
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
   const { remainingMs: levelRemainingMs, timeUp: levelTimeUp } = useCountdown(levelExpiresAt)
   useReportScoreOnGameOver(timeUp, bestLevel, onGameOver)
+
+  // Guardian "Try It" previews have no gameId (they're not a real kid's
+  // session), so progress just isn't saved there -- every preview starts
+  // fresh at level 1.
+  const saveProgress = useCallback((lvl) => {
+    if (session.gameId) api.saveGameProgress(session.gameId, lvl).catch(() => {})
+  }, [session.gameId])
 
   const cleared = matched.size === deck.length
 
@@ -65,7 +75,8 @@ export default function MemoryMatchGame({ session, onExit, onGameOver }) {
     if (timeUp || roundResult || cleared || !levelTimeUp) return
     playWrongSound()
     setRoundResult('fail')
-  }, [levelTimeUp, timeUp, roundResult, cleared])
+    saveProgress(level)
+  }, [levelTimeUp, timeUp, roundResult, cleared, level, saveProgress])
 
   const handleFlip = useCallback((card) => {
     if (timeUp || roundResult || locked || flipped.includes(card.id) || matched.has(card.id)) return
@@ -103,10 +114,16 @@ export default function MemoryMatchGame({ session, onExit, onGameOver }) {
   function handleContinue() {
     setBestLevel(b => Math.max(b, level))
     startLevel(level + 1)
+    saveProgress(level + 1)
   }
 
   function handleRetry() {
+    startLevel(level)
+  }
+
+  function handleRestart() {
     startLevel(1)
+    saveProgress(1)
   }
 
   const levelUrgent = levelRemainingMs < 8000
@@ -133,6 +150,7 @@ export default function MemoryMatchGame({ session, onExit, onGameOver }) {
           result="fail" level={level}
           subtext={`Matched ${matched.size / 2} of ${deck.length / 2} pairs before time ran out.`}
           onRetry={handleRetry}
+          onRestart={handleRestart}
         />
       ) : (
         <div>

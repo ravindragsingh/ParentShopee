@@ -190,6 +190,18 @@ class DBFamilyGameSetting(Base):
     enabled   = Column(String, default="0")   # "1"/"0"
 
 
+class DBGameProgress(Base):
+    """A kid's saved resume point for one game -- the level to start at next
+    time they play, so failing a level (or just running out of pass time)
+    doesn't wipe progress back to level 1. Updated on every level pass/fail;
+    only reset to 1 when the kid explicitly chooses to start over."""
+    __tablename__ = "game_progress"
+    kid_id     = Column(String, primary_key=True)
+    game_id    = Column(String, primary_key=True)
+    level      = Column(Integer, nullable=False, default=1)
+    updated_at = Column(String, nullable=False)
+
+
 class DBSupportTicket(Base):
     __tablename__ = "support_tickets"
     id          = Column(String, primary_key=True)

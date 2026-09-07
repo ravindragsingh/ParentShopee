@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { api } from '../api.js'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import { playCorrectSound, playWrongSound } from './gameSounds.js'
 import GameHeader from './GameHeader.jsx'
+import LevelResultCard from './LevelResultCard.jsx'
 
 const PADS = [
   { color: '#dc2626', lit: '#fca5a5' },
@@ -15,6 +17,17 @@ const ROUNDS_PER_LEVEL = 10
 
 function randomPad() {
   return Math.floor(Math.random() * PADS.length)
+}
+
+function randomSequence(length) {
+  return Array.from({ length }, randomPad)
+}
+
+// The pattern length a level's gauntlet starts at -- level 1 is patterns
+// 1-10 steps long, level 2 is 11-20, and so on, so resuming "at level 3"
+// means picking back up at a 21-step pattern, not a 1-step one.
+function startLengthForLevel(level) {
+  return (level - 1) * ROUNDS_PER_LEVEL + 1
 }
 
 function levelSecondsForLength(length) {
@@ -31,19 +44,21 @@ function newExpiry(seconds) {
 // the game -- but a "level" is a real difficulty tier, not a single
 // repeat: it takes ROUNDS_PER_LEVEL successful repeats in a row to clear
 // one, same weight as every other game's per-level question/action count.
-// Missing a pad, or running out of that attempt's own clock, resets all
-// the way back to level 1's fresh 1-pad pattern -- consistent with every
-// other game here failing a level back to the start.
+// Missing a pad, or running out of that attempt's own clock, fails the
+// level but not the kid's progress -- it saves server-side and the next
+// attempt (now, or next time they play) resumes at the same level rather
+// than level 1.
 export default function MemorySequenceGame({ session, onExit, onGameOver }) {
-  const [sequence, setSequence] = useState(() => [randomPad()])
+  const initialLevel = session.startLevel || 1
+  const [sequence, setSequence] = useState(() => randomSequence(startLengthForLevel(initialLevel)))
   const [pendingNext, setPendingNext] = useState(null)
   const [activePad, setActivePad] = useState(null)
   const [pressedPad, setPressedPad] = useState(null)
-  const [phase, setPhase] = useState('showing') // 'showing' | 'input' | 'wrong' | 'level-complete'
-  const [level, setLevel] = useState(1)
-  const [bestLevel, setBestLevel] = useState(0)
+  const [phase, setPhase] = useState('showing') // 'showing' | 'input' | 'wrong' | 'level-complete' | 'level-failed'
+  const [level, setLevel] = useState(initialLevel)
+  const [bestLevel, setBestLevel] = useState(Math.max(0, initialLevel - 1))
   const [roundInLevel, setRoundInLevel] = useState(0) // successful repeats so far this level
-  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newExpiry(levelSecondsForLength(1)))
+  const [levelExpiresAt, setLevelExpiresAt] = useState(() => newExpiry(levelSecondsForLength(startLengthForLevel(initialLevel))))
   const inputIndexRef = useRef(0)
   const cancelledRef = useRef(false)
   const pressTimeoutRef = useRef(null)
@@ -51,6 +66,13 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
   const { remainingMs: levelRemainingMs, timeUp: levelTimeUp } = useCountdown(levelExpiresAt)
   useReportScoreOnGameOver(timeUp, bestLevel, onGameOver)
+
+  // Guardian "Try It" previews have no gameId (they're not a real kid's
+  // session), so progress just isn't saved there -- every preview starts
+  // fresh at level 1.
+  const saveProgress = useCallback((lvl) => {
+    if (session.gameId) api.saveGameProgress(session.gameId, lvl).catch(() => {})
+  }, [session.gameId])
 
   useEffect(() => {
     if (timeUp) cancelledRef.current = true
@@ -88,22 +110,23 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   useEffect(() => {
     playSequence(sequence)
     // Only ever run for the very first sequence -- every later one is
-    // started explicitly from handleContinue/handleTap, which already have
-    // the fresh array.
+    // started explicitly from handleContinue/handleTap/handleRetryLevel,
+    // which already have the fresh array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Fails the level: a brief "Oops" flash, then a pause card (same pattern
+  // as every other game's LevelResultCard) rather than silently restarting
+  // -- a kid should see they failed and choose to retry this level or start
+  // over, not have it happen automatically underneath them.
   const failLevel = useCallback(() => {
     setPhase('wrong')
+    saveProgress(level)
     setTimeout(() => {
       if (cancelledRef.current) return
-      const fresh = [randomPad()]
-      setLevel(1)
-      setRoundInLevel(0)
-      setSequence(fresh)
-      playSequence(fresh)
+      setPhase('level-failed')
     }, 700)
-  }, [playSequence])
+  }, [level, saveProgress])
 
   // Running out of this attempt's own clock before finishing the sequence
   // fails the level, same as tapping the wrong pad. Guarded with a ref
@@ -155,17 +178,39 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   function handleContinue() {
     if (!pendingNext || cancelledRef.current) return
     const next = pendingNext
+    const nextLevel = level + 1
     setPendingNext(null)
-    setLevel(l => l + 1)
+    setLevel(nextLevel)
     setRoundInLevel(0)
     setSequence(next)
     playSequence(next)
+    saveProgress(nextLevel)
+  }
+
+  // Retries the same level -- a fresh pattern at that level's own starting
+  // length, not the 1-step pattern level 1 would start with.
+  function handleRetryLevel() {
+    if (cancelledRef.current) return
+    const fresh = randomSequence(startLengthForLevel(level))
+    setRoundInLevel(0)
+    setSequence(fresh)
+    playSequence(fresh)
+  }
+
+  function handleRestart() {
+    if (cancelledRef.current) return
+    const fresh = randomSequence(1)
+    setLevel(1)
+    setRoundInLevel(0)
+    setSequence(fresh)
+    playSequence(fresh)
+    saveProgress(1)
   }
 
   const instructionStyles = {
     showing: { bg: '#f0fdfa', border: '#99f6e4', color: '#0d9488', text: '👀 Watch the pattern...' },
     input: { bg: '#eff6ff', border: '#bfdbfe', color: '#1d4ed8', text: '👆 Your turn -- repeat it back' },
-    wrong: { bg: '#fef2f2', border: '#fecaca', color: '#dc2626', text: '❌ Oops! New pattern starting...' },
+    wrong: { bg: '#fef2f2', border: '#fecaca', color: '#dc2626', text: '❌ Oops!' },
   }
   const levelUrgent = phase === 'input' && levelRemainingMs < 3000
 
@@ -191,6 +236,13 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
             Continue to Level {level + 1} →
           </button>
         </div>
+      ) : phase === 'level-failed' ? (
+        <LevelResultCard
+          result="fail" level={level}
+          subtext={`Cleared ${roundInLevel} of ${ROUNDS_PER_LEVEL} patterns in this level.`}
+          onRetry={handleRetryLevel}
+          onRestart={handleRestart}
+        />
       ) : (
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>

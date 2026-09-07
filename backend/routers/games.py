@@ -7,9 +7,9 @@ from sqlalchemy.orm import Session
 from database import get_db
 from deps import require_auth, require_guardian, require_kid
 from helpers import get_family_id, get_family_owner, now
-from models import DBFamilyGameSetting, DBGame, DBGameSession, DBTransaction, DBUser, DBWallet
+from models import DBFamilyGameSetting, DBGame, DBGameProgress, DBGameSession, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import GameScoreBody, GameVisibilityUpdate
+from schemas import GameProgressUpdate, GameScoreBody, GameVisibilityUpdate
 
 router = APIRouter()
 
@@ -218,6 +218,29 @@ def report_game_score(session_id: str, body: GameScoreBody, db: Session = Depend
     db.commit()
     db.refresh(session)
     return ok(session_dict(session))
+
+
+@router.get("/api/games/{game_id}/progress")
+def get_game_progress(game_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
+    row = db.query(DBGameProgress).filter(
+        DBGameProgress.kid_id == user.id, DBGameProgress.game_id == game_id
+    ).first()
+    return ok({"level": row.level if row else 1})
+
+
+@router.put("/api/games/{game_id}/progress")
+def save_game_progress(game_id: str, body: GameProgressUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
+    if body.level < 1: fail("Level must be at least 1")
+    row = db.query(DBGameProgress).filter(
+        DBGameProgress.kid_id == user.id, DBGameProgress.game_id == game_id
+    ).first()
+    if not row:
+        row = DBGameProgress(kid_id=user.id, game_id=game_id)
+        db.add(row)
+    row.level = body.level
+    row.updated_at = now()
+    db.commit()
+    return ok({"level": row.level})
 
 
 @router.get("/api/games/{game_id}/leaderboard")

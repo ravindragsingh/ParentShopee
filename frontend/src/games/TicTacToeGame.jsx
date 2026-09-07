@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { api } from '../api.js'
 import { useCountdown } from './useCountdown.js'
 import { useReportScoreOnGameOver } from './useReportScoreOnGameOver.js'
 import { playCorrectSound, playWrongSound } from './gameSounds.js'
@@ -43,11 +44,14 @@ function pickAiMove(board) {
 }
 
 // Each level is one game against the AI, with its own clock: win it to pass
-// and face the next level; losing, drawing, or running out of the level's
-// time mid-game fails it and drops back to level 1.
+// and face the next level. Losing, drawing, or running out of the level's
+// time mid-game fails it but not the kid's progress -- it saves
+// server-side and the next attempt (now, or next time they play) resumes
+// at the same level rather than level 1.
 export default function TicTacToeGame({ session, onExit, onGameOver }) {
-  const [level, setLevel] = useState(1)
-  const [bestLevel, setBestLevel] = useState(0)
+  const initialLevel = session.startLevel || 1
+  const [level, setLevel] = useState(initialLevel)
+  const [bestLevel, setBestLevel] = useState(Math.max(0, initialLevel - 1))
   const [board, setBoard] = useState(EMPTY_BOARD)
   const [winner, setWinner] = useState(null)
   const [aiThinking, setAiThinking] = useState(false)
@@ -57,12 +61,20 @@ export default function TicTacToeGame({ session, onExit, onGameOver }) {
   const { remainingMs: levelRemainingMs, timeUp: levelTimeUp } = useCountdown(levelExpiresAt)
   useReportScoreOnGameOver(timeUp, bestLevel, onGameOver)
 
+  // Guardian "Try It" previews have no gameId (they're not a real kid's
+  // session), so progress just isn't saved there -- every preview starts
+  // fresh at level 1.
+  const saveProgress = useCallback((lvl) => {
+    if (session.gameId) api.saveGameProgress(session.gameId, lvl).catch(() => {})
+  }, [session.gameId])
+
   // Running out of the level's own clock mid-game fails it, same as a loss.
   useEffect(() => {
     if (timeUp || roundResult || winner || !levelTimeUp) return
     playWrongSound()
     setRoundResult('fail')
-  }, [levelTimeUp, timeUp, roundResult, winner])
+    saveProgress(level)
+  }, [levelTimeUp, timeUp, roundResult, winner, level, saveProgress])
 
   useEffect(() => {
     if (!aiThinking || winner || roundResult) return
@@ -78,13 +90,13 @@ export default function TicTacToeGame({ session, onExit, onGameOver }) {
           // winning outright passes it.
           playWrongSound()
           setWinner(result)
-          setTimeout(() => setRoundResult('fail'), 900)
+          setTimeout(() => { setRoundResult('fail'); saveProgress(level) }, 900)
         }
       }
       setAiThinking(false)
     }, 450)
     return () => clearTimeout(t)
-  }, [aiThinking, winner, roundResult, board])
+  }, [aiThinking, winner, roundResult, board, level, saveProgress])
 
   function handleCellClick(i) {
     if (timeUp || roundResult || winner || aiThinking || board[i]) return
@@ -95,7 +107,10 @@ export default function TicTacToeGame({ session, onExit, onGameOver }) {
     if (result) {
       if (result === 'X') playCorrectSound()
       setWinner(result)
-      setTimeout(() => setRoundResult(result === 'X' ? 'pass' : 'fail'), 900)
+      setTimeout(() => {
+        setRoundResult(result === 'X' ? 'pass' : 'fail')
+        if (result !== 'X') saveProgress(level)
+      }, 900)
     } else {
       setAiThinking(true)
     }
@@ -113,10 +128,16 @@ export default function TicTacToeGame({ session, onExit, onGameOver }) {
   function handleContinue() {
     setBestLevel(b => Math.max(b, level))
     startLevel(level + 1)
+    saveProgress(level + 1)
   }
 
   function handleRetry() {
+    startLevel(level)
+  }
+
+  function handleRestart() {
     startLevel(1)
+    saveProgress(1)
   }
 
   const levelUrgent = levelRemainingMs < 8000
@@ -136,7 +157,7 @@ export default function TicTacToeGame({ session, onExit, onGameOver }) {
       ) : roundResult === 'pass' ? (
         <LevelResultCard result="pass" level={level} nextLevel={level + 1} subtext="You win!" onContinue={handleContinue} />
       ) : roundResult === 'fail' ? (
-        <LevelResultCard result="fail" level={level} subtext={resultText || 'Ran out of time.'} onRetry={handleRetry} />
+        <LevelResultCard result="fail" level={level} subtext={resultText || 'Ran out of time.'} onRetry={handleRetry} onRestart={handleRestart} />
       ) : (
         <>
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
