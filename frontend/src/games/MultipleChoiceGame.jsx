@@ -7,7 +7,7 @@ import LevelResultCard from './LevelResultCard.jsx'
 
 const BASE_LEVEL_SECONDS = 15
 const MIN_LEVEL_SECONDS = 6
-const QUESTIONS_PER_LEVEL = 5
+const QUESTIONS_PER_LEVEL = 10
 
 // Time budget per question shrinks slightly each level -- a real, escalating
 // pass/fail challenge without needing every generateRound() to also scale

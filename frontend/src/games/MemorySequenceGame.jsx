@@ -11,6 +11,8 @@ const PADS = [
   { color: '#ca8a04', lit: '#fde047' },
 ]
 
+const ROUNDS_PER_LEVEL = 10
+
 function randomPad() {
   return Math.floor(Math.random() * PADS.length)
 }
@@ -24,24 +26,23 @@ function newExpiry(seconds) {
 }
 
 // Simon-Says style: watch a growing sequence flash, then repeat it by
-// tapping the same pads in order. Getting one wrong, or running out of
-// that attempt's own clock before finishing, resets to a fresh 1-pad
-// sequence -- same as every other game here, only the overall pass
-// countdown ends things for good. Score is the longest sequence ever
-// completed, not the current one, since a late mistake shouldn't erase an
-// earlier best.
-//
-// Finishing a sequence pauses on a "Level complete" card instead of
-// immediately flashing a longer one -- auto-advancing forever made it feel
-// like one continuous, monotonous loop rather than a series of distinct
-// levels with a real sense of progress.
+// tapping the same pads in order. The pattern keeps growing by one pad
+// after every successful repeat -- that escalation is the whole appeal of
+// the game -- but a "level" is a real difficulty tier, not a single
+// repeat: it takes ROUNDS_PER_LEVEL successful repeats in a row to clear
+// one, same weight as every other game's per-level question/action count.
+// Missing a pad, or running out of that attempt's own clock, resets all
+// the way back to level 1's fresh 1-pad pattern -- consistent with every
+// other game here failing a level back to the start.
 export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   const [sequence, setSequence] = useState(() => [randomPad()])
   const [pendingNext, setPendingNext] = useState(null)
   const [activePad, setActivePad] = useState(null)
   const [pressedPad, setPressedPad] = useState(null)
   const [phase, setPhase] = useState('showing') // 'showing' | 'input' | 'wrong' | 'level-complete'
-  const [level, setLevel] = useState(0)
+  const [level, setLevel] = useState(1)
+  const [bestLevel, setBestLevel] = useState(0)
+  const [roundInLevel, setRoundInLevel] = useState(0) // successful repeats so far this level
   const [levelExpiresAt, setLevelExpiresAt] = useState(() => newExpiry(levelSecondsForLength(1)))
   const inputIndexRef = useRef(0)
   const cancelledRef = useRef(false)
@@ -49,7 +50,7 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   const levelTimeoutHandledRef = useRef(false)
   const { remainingMs, timeUp } = useCountdown(session.expiresAt)
   const { remainingMs: levelRemainingMs, timeUp: levelTimeUp } = useCountdown(levelExpiresAt)
-  useReportScoreOnGameOver(timeUp, level, onGameOver)
+  useReportScoreOnGameOver(timeUp, bestLevel, onGameOver)
 
   useEffect(() => {
     if (timeUp) cancelledRef.current = true
@@ -87,30 +88,33 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
   useEffect(() => {
     playSequence(sequence)
     // Only ever run for the very first sequence -- every later one is
-    // started explicitly from handleContinue, which already has the fresh array.
+    // started explicitly from handleContinue/handleTap, which already have
+    // the fresh array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const failToLevelOne = useCallback(() => {
+  const failLevel = useCallback(() => {
     setPhase('wrong')
     setTimeout(() => {
       if (cancelledRef.current) return
       const fresh = [randomPad()]
+      setLevel(1)
+      setRoundInLevel(0)
       setSequence(fresh)
       playSequence(fresh)
     }, 700)
   }, [playSequence])
 
   // Running out of this attempt's own clock before finishing the sequence
-  // fails it, same as tapping the wrong pad. Guarded with a ref rather than
-  // relying on `phase` alone in the dependency array -- setPhase('wrong')
-  // below would otherwise re-run this effect and re-fire it.
+  // fails the level, same as tapping the wrong pad. Guarded with a ref
+  // rather than relying on `phase` alone in the dependency array --
+  // setPhase('wrong') below would otherwise re-run this effect and re-fire it.
   useEffect(() => {
     if (timeUp || phase !== 'input' || !levelTimeUp || levelTimeoutHandledRef.current) return
     levelTimeoutHandledRef.current = true
     playWrongSound()
-    failToLevelOne()
-  }, [levelTimeUp, timeUp, phase, failToLevelOne])
+    failLevel()
+  }, [levelTimeUp, timeUp, phase, failLevel])
 
   function handleTap(padIndex) {
     if (timeUp || phase !== 'input') return
@@ -127,15 +131,24 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     const expected = sequence[inputIndexRef.current]
     if (padIndex !== expected) {
       playWrongSound()
-      failToLevelOne()
+      failLevel()
       return
     }
     inputIndexRef.current += 1
     if (inputIndexRef.current === sequence.length) {
       playCorrectSound()
-      setLevel(l => Math.max(l, sequence.length))
-      setPendingNext([...sequence, randomPad()])
-      setPhase('level-complete')
+      const nextRoundInLevel = roundInLevel + 1
+      const next = [...sequence, randomPad()]
+      if (nextRoundInLevel >= ROUNDS_PER_LEVEL) {
+        setBestLevel(b => Math.max(b, level))
+        setRoundInLevel(nextRoundInLevel)
+        setPendingNext(next)
+        setPhase('level-complete')
+      } else {
+        setRoundInLevel(nextRoundInLevel)
+        setSequence(next)
+        playSequence(next)
+      }
     }
   }
 
@@ -143,6 +156,8 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
     if (!pendingNext || cancelledRef.current) return
     const next = pendingNext
     setPendingNext(null)
+    setLevel(l => l + 1)
+    setRoundInLevel(0)
     setSequence(next)
     playSequence(next)
   }
@@ -156,24 +171,24 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
 
   return (
     <div style={{ maxWidth: 360, margin: '0 auto' }}>
-      <GameHeader onExit={onExit} gameName={session.gameName} status={`Level ${sequence.length} · Best: ${level}`} remainingMs={remainingMs} timeUp={timeUp} />
+      <GameHeader onExit={onExit} gameName={session.gameName} status={`Level ${level} · Best: ${bestLevel}`} remainingMs={remainingMs} timeUp={timeUp} />
 
       {timeUp ? (
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>
           <div style={{ fontSize: '3rem', marginBottom: 10 }}>🎵</div>
           <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1e293b' }}>Time's up!</div>
-          <div style={{ fontSize: '0.88rem', color: '#64748b', marginTop: 6 }}>Longest pattern: {level}</div>
+          <div style={{ fontSize: '0.88rem', color: '#64748b', marginTop: 6 }}>You reached level {bestLevel}.</div>
           <button className="btn btn-outline" style={{ marginTop: 18 }} onClick={onExit}>Back to Games</button>
         </div>
       ) : phase === 'level-complete' ? (
         <div style={{ textAlign: 'center', padding: '34px 20px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 16 }}>
           <div style={{ fontSize: '2.6rem', marginBottom: 8 }}>🎉</div>
-          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#166534' }}>Level {sequence.length} complete!</div>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#166534' }}>Level {level} complete!</div>
           <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: 6 }}>
-            Ready to try a {pendingNext?.length}-step pattern?
+            Cleared {ROUNDS_PER_LEVEL} patterns, up to {sequence.length} steps long.
           </div>
           <button className="btn btn-green" style={{ marginTop: 18 }} onClick={handleContinue}>
-            Continue to Level {pendingNext?.length} →
+            Continue to Level {level + 1} →
           </button>
         </div>
       ) : (
@@ -196,6 +211,9 @@ export default function MemorySequenceGame({ session, onExit, onGameOver }) {
                 ⏳ {Math.max(0, Math.ceil(levelRemainingMs / 1000))}s
               </span>
             )}
+          </div>
+          <div style={{ textAlign: 'center', fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', marginBottom: 10 }}>
+            Pattern {roundInLevel + 1} of {ROUNDS_PER_LEVEL} · {sequence.length} step{sequence.length === 1 ? '' : 's'}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
             {PADS.map((pad, i) => {
