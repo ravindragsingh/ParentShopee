@@ -2123,7 +2123,7 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <HomeNavRow icon="✅" iconBg="#ccfbf1" label="Chores" onClick={() => onNavigate('chores')} />
         <HomeNavRow icon="🛍️" iconBg="#fef3c7" label="Shop" onClick={() => onNavigate('shop')} />
-        <HomeNavRow icon="🎮" iconBg="#ede9fe" label="Games" onClick={() => onNavigate('games')} />
+        <HomeNavRow icon="🎮" iconBg="#ede9fe" label="Memory Games" onClick={() => onNavigate('games')} />
         <HomeNavRow icon="👨‍👩‍👧" iconBg="#fce7f3" label="Kids" onClick={() => onNavigate('kids')} />
       </div>
 
@@ -2193,7 +2193,7 @@ export default function GuardianDashboard() {
                 className={`tab-btn${tab === t ? ' active guardian' : ''}`}
                 onClick={() => setTab(t)}
               >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'games' ? 'Games' : 'Kids'}
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'games' ? 'Memory Games' : 'Kids'}
               </button>
             ))}
           </div>

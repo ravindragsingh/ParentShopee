@@ -106,7 +106,7 @@ export default function GuardianGamesTab() {
 
   return (
     <div>
-      <h3 style={{ color: '#334155', margin: '0 0 6px' }}>Games</h3>
+      <h3 style={{ color: '#334155', margin: '0 0 6px' }}>Memory Games</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 16, color: '#0f766e', fontSize: '0.85rem' }}>
         🎮 Turn on the games you want your kids to be able to buy with their points. New games start off — nothing shows up for kids until you enable it here. Click "▶️ Try It" on any game to play it yourself, free — a good way to check it out before deciding whether to enable it.
       </div>

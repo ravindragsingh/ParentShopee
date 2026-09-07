@@ -216,9 +216,6 @@ def startup():
             dict(id="word-scramble", name="Word Scramble",
                  description="Unscramble the mixed-up letters to spell the word.",
                  image_emoji="🔀", cost=10, duration_minutes=12, min_age=8, max_age=None),
-            dict(id="snake", name="Snake",
-                 description="Guide the snake to eat food and grow as long as you can without crashing.",
-                 image_emoji="🐍", cost=15, duration_minutes=15, min_age=6, max_age=None),
             dict(id="whack-a-mole", name="Whack-a-Mole",
                  description="Tap the moles as they pop up before they disappear.",
                  image_emoji="🐹", cost=10, duration_minutes=10, min_age=4, max_age=None),
@@ -242,6 +239,11 @@ def startup():
                     setattr(existing, key, value)
             else:
                 db3.add(DBGame(is_active="1", **fields))
+        # Soft-delete anything no longer offered (e.g. Snake, removed for
+        # being too hard to steer reliably) rather than deleting the row --
+        # existing DBGameSession/leaderboard rows still reference it by id.
+        active_ids = [c["id"] for c in catalog]
+        db3.query(DBGame).filter(DBGame.id.notin_(active_ids)).update({"is_active": "0"}, synchronize_session=False)
         db3.commit()
     finally:
         db3.close()

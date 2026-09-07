@@ -7,10 +7,11 @@ import LevelResultCard from './LevelResultCard.jsx'
 
 const BASE_LEVEL_SECONDS = 15
 const MIN_LEVEL_SECONDS = 6
+const QUESTIONS_PER_LEVEL = 5
 
-// Time budget shrinks slightly each level -- a real, escalating pass/fail
-// challenge without needing every generateRound() to also scale its own
-// difficulty.
+// Time budget per question shrinks slightly each level -- a real, escalating
+// pass/fail challenge without needing every generateRound() to also scale
+// its own difficulty.
 function levelSeconds(level) {
   return Math.max(MIN_LEVEL_SECONDS, BASE_LEVEL_SECONDS - (level - 1) * 0.5)
 }
@@ -26,15 +27,16 @@ function newLevelExpiry(level) {
 // `onCorrect(round)` is optional and only fires on a correct pick -- Sight
 // Words uses it to speak the word aloud; the others don't pass it at all.
 //
-// Each round is its own timed level: answer correctly before the level
-// clock runs out to pass and see the next one; a wrong answer or running
-// out of time on a level fails it and drops back to level 1 -- reported
-// score is the highest level ever passed, not a running correct-answer
-// tally, consistent with Memory Sequence's leveling.
+// A level is QUESTIONS_PER_LEVEL rounds in a row, each on its own countdown
+// (which resets between questions): answer correctly before time runs out
+// to move to the next question, and clear all of them to pass the level. A
+// single wrong answer or timeout fails the whole level and drops back to
+// level 1 -- reported score is the highest level ever passed.
 export default function MultipleChoiceGame({ session, onExit, onGameOver, generateRound, timeUpEmoji = '🎉', onCorrect }) {
   const [round, setRound] = useState(generateRound)
   const [level, setLevel] = useState(1)
   const [bestLevel, setBestLevel] = useState(0)
+  const [questionIndex, setQuestionIndex] = useState(1)
   const [feedback, setFeedback] = useState(null) // { choiceId, correct } | null
   const [roundResult, setRoundResult] = useState(null) // 'pass' | 'fail' | null
   const [levelExpiresAt, setLevelExpiresAt] = useState(() => newLevelExpiry(1))
@@ -71,14 +73,23 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
     }
     setTimeout(() => {
       setFeedback(null)
-      setRoundResult(correct ? 'pass' : 'fail')
+      if (!correct) {
+        setRoundResult('fail')
+      } else if (questionIndex >= QUESTIONS_PER_LEVEL) {
+        setRoundResult('pass')
+      } else {
+        setQuestionIndex(q => q + 1)
+        setRound(generateRound())
+        setLevelExpiresAt(newLevelExpiry(level))
+      }
     }, correct ? 450 : 900)
-  }, [feedback, roundResult, round, timeUp, onCorrect])
+  }, [feedback, roundResult, round, timeUp, onCorrect, questionIndex, level, generateRound])
 
   function handleContinue() {
     const nextLevel = level + 1
     setBestLevel(b => Math.max(b, level))
     setLevel(nextLevel)
+    setQuestionIndex(1)
     setLevelExpiresAt(newLevelExpiry(nextLevel))
     setRound(generateRound())
     setRoundResult(null)
@@ -86,6 +97,7 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
 
   function handleRetry() {
     setLevel(1)
+    setQuestionIndex(1)
     setLevelExpiresAt(newLevelExpiry(1))
     setRound(generateRound())
     setRoundResult(null)
@@ -107,17 +119,30 @@ export default function MultipleChoiceGame({ session, onExit, onGameOver, genera
           <button className="btn btn-outline" style={{ marginTop: 18 }} onClick={onExit}>Back to Games</button>
         </div>
       ) : roundResult === 'pass' ? (
-        <LevelResultCard result="pass" level={level} nextLevel={level + 1} onContinue={handleContinue} />
+        <LevelResultCard
+          result="pass" level={level} nextLevel={level + 1}
+          subtext={`Answered all ${QUESTIONS_PER_LEVEL} questions correctly.`}
+          onContinue={handleContinue}
+        />
       ) : roundResult === 'fail' ? (
-        <LevelResultCard result="fail" level={level} onRetry={handleRetry} />
+        <LevelResultCard
+          result="fail" level={level}
+          subtext={`Got ${questionIndex - 1} of ${QUESTIONS_PER_LEVEL} questions before missing one.`}
+          onRetry={handleRetry}
+        />
       ) : (
         <div>
-          <div style={{
-            textAlign: 'center', fontSize: '0.85rem', fontWeight: 700, marginBottom: 12,
-            padding: '6px 12px', borderRadius: 999, display: 'inline-block',
-            background: levelUrgent ? '#fed7aa' : '#f1f5f9', color: levelUrgent ? '#c2410c' : '#64748b',
-          }}>
-            ⏳ {Math.max(0, Math.ceil(levelRemainingMs / 1000))}s to answer
+          <div style={{ textAlign: 'center', marginBottom: 12 }}>
+            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#94a3b8', marginBottom: 6 }}>
+              Question {questionIndex} of {QUESTIONS_PER_LEVEL}
+            </div>
+            <div style={{
+              fontSize: '0.85rem', fontWeight: 700, display: 'inline-block',
+              padding: '6px 12px', borderRadius: 999,
+              background: levelUrgent ? '#fed7aa' : '#f1f5f9', color: levelUrgent ? '#c2410c' : '#64748b',
+            }}>
+              ⏳ {Math.max(0, Math.ceil(levelRemainingMs / 1000))}s to answer
+            </div>
           </div>
 
           <div style={{

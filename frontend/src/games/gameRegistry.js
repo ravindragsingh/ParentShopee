@@ -4,7 +4,6 @@ import AlphabetHuntGame from './AlphabetHuntGame.jsx'
 import NumberMatchGame from './NumberMatchGame.jsx'
 import SightWordsGame from './SightWordsGame.jsx'
 import WordScrambleGame from './WordScrambleGame.jsx'
-import SnakeGame from './SnakeGame.jsx'
 import WhackAMoleGame from './WhackAMoleGame.jsx'
 import TicTacToeGame from './TicTacToeGame.jsx'
 import ColorMatchGame from './ColorMatchGame.jsx'
@@ -22,7 +21,6 @@ export const GAME_COMPONENTS = {
   'number-match': NumberMatchGame,
   'sight-words': SightWordsGame,
   'word-scramble': WordScrambleGame,
-  'snake': SnakeGame,
   'whack-a-mole': WhackAMoleGame,
   'tic-tac-toe': TicTacToeGame,
   'color-match': ColorMatchGame,

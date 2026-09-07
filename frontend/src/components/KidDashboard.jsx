@@ -390,7 +390,7 @@ function KidHomeScreen({ name, balance, onNavigate }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <HomeNavRow icon="📋" iconBg="#dbeafe" label="My Tasks" onClick={() => onNavigate('chores')} />
         <HomeNavRow icon="🎁" iconBg="#fef3c7" label="My Rewards" onClick={() => onNavigate('shop')} />
-        <HomeNavRow icon="🎮" iconBg="#ede9fe" label="Games" onClick={() => onNavigate('games')} />
+        <HomeNavRow icon="🎮" iconBg="#ede9fe" label="Memory Games" onClick={() => onNavigate('games')} />
         <HomeNavRow icon="👛" iconBg="#fce7f3" label="My Wallet" onClick={() => onNavigate('wallet')} />
       </div>
     </div>
@@ -449,7 +449,7 @@ export default function KidDashboard() {
                 className={`tab-btn${tab === t ? ' active kid' : ''}`}
                 onClick={() => setTab(t)}
               >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'games' ? 'Games' : 'Wallet'}
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'games' ? 'Memory Games' : 'Wallet'}
               </button>
             ))}
           </div>
