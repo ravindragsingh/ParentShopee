@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from deps import require_auth, require_guardian, require_kid
-from helpers import get_family_id, now
+from helpers import calculate_approx_age, get_family_id, now
 from models import DBFamilyLearningSetting, DBLearningCompletion, DBLearningModule, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import LearningCompleteBody, LearningVisibilityUpdate
@@ -50,12 +50,25 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
     family_id = _family_id_for(user)
     enabled_ids = _enabled_module_ids(db, family_id)
     if user.role == "kid":
+        # Age bands are a guardian-only concept -- a kid sees exactly one
+        # module per topic, whichever age band actually covers them, so the
+        # UI can show "Investing for Kids" as a single thing to do rather
+        # than four age options they'd have to pick between themselves.
         completed_ids = {
             c.module_id for c in db.query(DBLearningCompletion).filter(DBLearningCompletion.kid_id == user.id).all()
         }
-        return ok([module_dict(m, completed=m.id in completed_ids) for m in modules if m.id in enabled_ids])
-    # Guardians see the full catalog with each module's current visibility, so
-    # they have something to toggle even for modules they haven't enabled yet.
+        kid_age = calculate_approx_age(user.birth_month, user.birth_year) if (user.birth_month and user.birth_year) else None
+        if kid_age is None:
+            return ok([])
+        by_topic = {}
+        for m in modules:
+            if m.id not in enabled_ids or not (m.age_min <= kid_age <= m.age_max):
+                continue
+            by_topic[m.topic] = m
+        return ok([module_dict(m, completed=m.id in completed_ids) for m in by_topic.values()])
+    # Guardians see the full catalog with every age band and its current
+    # visibility, so they have something to toggle even for bands they
+    # haven't enabled yet.
     return ok([module_dict(m, enabled=m.id in enabled_ids) for m in modules])
 
 

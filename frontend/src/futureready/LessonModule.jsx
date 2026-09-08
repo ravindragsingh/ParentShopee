@@ -10,7 +10,7 @@ import { LESSON_CONTENT } from './lessonContent.js'
 // across every Future-Ready topic -- which lesson to show comes entirely
 // from `module.id` looked up in LESSON_CONTENT, so a new topic needs no
 // changes here, just a new content file merged into lessonContent.js.
-export default function LessonModule({ module, onExit, onCompleted, previewMode = false }) {
+export default function LessonModule({ module, onExit, onCompleted, previewMode = false, subtitle }) {
   const content = LESSON_CONTENT[module.id]
   const [phase, setPhase] = useState('slides') // 'slides' | 'quiz' | 'result'
   const [slideIndex, setSlideIndex] = useState(0)
@@ -77,7 +77,7 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
     <div style={{ maxWidth: 460, margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <button className="btn btn-outline btn-sm" onClick={onExit}>← Back</button>
-        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b' }}>{module.topicTitle} · {module.title}</span>
+        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b' }}>{subtitle ?? module.topicTitle}</span>
       </div>
 
       {phase === 'slides' && (

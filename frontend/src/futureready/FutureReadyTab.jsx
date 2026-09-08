@@ -1,24 +1,15 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import LessonModule from './LessonModule.jsx'
+import { topicMeta } from './topicMeta.js'
 
-// Groups the flat module list the backend returns into topics, so a second
-// topic under Future-Ready (beyond Investing for Kids) needs no UI changes --
-// it just shows up as another topic card once the backend catalog grows.
-function groupByTopic(modules) {
-  const byTopic = new Map()
-  for (const m of modules) {
-    if (!byTopic.has(m.topic)) byTopic.set(m.topic, { topic: m.topic, title: m.topicTitle, emoji: m.topicEmoji, modules: [] })
-    byTopic.get(m.topic).modules.push(m)
-  }
-  return [...byTopic.values()]
-}
-
+// Age bands are a guardian-only concept -- the backend already resolves
+// each topic down to the one module that matches this kid's own age, so
+// this just renders one tile per topic. No "Ages X-Y" anywhere in here.
 export default function FutureReadyTab({ onBalanceChange }) {
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [openTopic, setOpenTopic] = useState(null)
   const [playingModule, setPlayingModule] = useState(null)
   const [justEarned, setJustEarned] = useState(null)
 
@@ -48,6 +39,7 @@ export default function FutureReadyTab({ onBalanceChange }) {
     return (
       <LessonModule
         module={playingModule}
+        subtitle={playingModule.topicTitle}
         onExit={() => setPlayingModule(null)}
         onCompleted={handleCompleted}
       />
@@ -56,61 +48,66 @@ export default function FutureReadyTab({ onBalanceChange }) {
 
   if (loading) return <div className="loading-text">Loading Future-Ready…</div>
 
-  const topics = groupByTopic(modules)
-
   return (
     <div>
       <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🚀 Future-Ready</h3>
-      <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 16, color: '#0f766e', fontSize: '0.85rem' }}>
+      <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
         Short, fun lessons that build real-world skills. Read through each one, take the quiz, and earn points for what you learn.
       </div>
 
       {justEarned !== null && (
-        <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '10px 14px', marginBottom: 16, color: '#166534', fontSize: '0.9rem', fontWeight: 700 }}>
+        <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#166534', fontSize: '0.9rem', fontWeight: 700 }}>
           🎉 Nice work! You earned {justEarned} points.
         </div>
       )}
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
-      {topics.length === 0 ? (
+      {modules.length === 0 ? (
         <div className="empty-text">Nothing here yet — ask your guardian to turn on a lesson for you.</div>
       ) : (
-        topics.map(topic => (
-          <div key={topic.topic} style={{ marginBottom: 18 }}>
-            <button
-              onClick={() => setOpenTopic(t => t === topic.topic ? null : topic.topic)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 14, width: '100%',
-                background: '#fff', border: '1px solid #e2e8f0', borderRadius: 14,
-                padding: '16px 18px', cursor: 'pointer', textAlign: 'left',
-                boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-              }}
-            >
-              <span style={{ fontSize: '1.6rem' }}>{topic.emoji}</span>
-              <span style={{ flex: 1, fontWeight: 800, color: '#1e293b', fontSize: '1.02rem' }}>{topic.title}</span>
-              <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700 }}>
-                {topic.modules.filter(m => m.completed).length}/{topic.modules.length} done
-              </span>
-              <span style={{ color: '#cbd5e1', fontSize: '1.2rem' }}>{openTopic === topic.topic ? '▲' : '▼'}</span>
-            </button>
-
-            {openTopic === topic.topic && (
-              <div className="shop-grid" style={{ marginTop: 12 }}>
-                {topic.modules.map(m => (
-                  <div key={m.id} className="shop-item-card">
-                    <div className="shop-emoji">{m.completed ? '✅' : '📘'}</div>
-                    <div className="shop-name">{m.title}</div>
-                    <div className="shop-cost">{m.completed ? 'Completed' : `Earn ${m.points} pts`}</div>
-                    <button className="btn btn-sm btn-green" style={{ marginTop: 6 }} onClick={() => setPlayingModule(m)}>
-                      {m.completed ? 'Review' : 'Start ▶️'}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+          {modules.map(m => {
+            const meta = topicMeta(m.topic)
+            return (
+              <button
+                key={m.id}
+                onClick={() => setPlayingModule(m)}
+                style={{
+                  textAlign: 'left', cursor: 'pointer', border: `1px solid ${meta.border}`,
+                  background: meta.bg, borderRadius: 18, padding: '20px 18px',
+                  display: 'flex', flexDirection: 'column', gap: 12,
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.05)', transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 22px rgba(0,0,0,0.1)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.05)' }}
+              >
+                <div style={{
+                  width: 52, height: 52, borderRadius: 16, background: '#fff', border: `1px solid ${meta.border}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.7rem',
+                }}>
+                  {m.topicEmoji}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b', marginBottom: 4 }}>{m.topicTitle}</div>
+                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>{meta.description}</div>
+                </div>
+                <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 6 }}>
+                  <span style={{
+                    fontSize: '0.75rem', fontWeight: 700, borderRadius: 999, padding: '4px 10px',
+                    background: m.completed ? '#dcfce7' : '#fff', color: m.completed ? '#166534' : meta.color,
+                    border: `1px solid ${m.completed ? '#bbf7d0' : meta.border}`,
+                  }}>
+                    {m.completed ? '✅ Completed' : `⭐ Earn ${m.points} pts`}
+                  </span>
+                  <span style={{ fontSize: '0.82rem', fontWeight: 700, color: meta.color }}>
+                    {m.completed ? 'Review →' : 'Start →'}
+                  </span>
+                </div>
+              </button>
+            )
+          })}
+        </div>
       )}
     </div>
   )

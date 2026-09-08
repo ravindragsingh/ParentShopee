@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import LessonModule from './LessonModule.jsx'
+import Toggle from './Toggle.jsx'
+import { topicMeta } from './topicMeta.js'
 
 function groupByTopic(modules) {
   const byTopic = new Map()
@@ -16,6 +18,7 @@ export default function GuardianFutureReadyTab() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [savingId, setSavingId] = useState(null)
+  const [openTopic, setOpenTopic] = useState(null)
   const [previewModule, setPreviewModule] = useState(null)
 
   const loadModules = useCallback(async () => {
@@ -48,9 +51,12 @@ export default function GuardianFutureReadyTab() {
 
   if (previewModule) {
     return (
-      <div>
-        <LessonModule module={previewModule} onExit={() => setPreviewModule(null)} previewMode />
-      </div>
+      <LessonModule
+        module={previewModule}
+        subtitle={`${previewModule.topicTitle} · ${previewModule.title}`}
+        onExit={() => setPreviewModule(null)}
+        previewMode
+      />
     )
   }
 
@@ -61,8 +67,8 @@ export default function GuardianFutureReadyTab() {
   return (
     <div>
       <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🚀 Future-Ready</h3>
-      <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 16, color: '#0f766e', fontSize: '0.85rem' }}>
-        Short, interactive lessons that build real-world skills like investing. Turn on the age-appropriate ones for your kids — nothing shows up for them until you enable it here. Preview any lesson yourself first.
+      <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
+        Short, interactive lessons that build real-world skills. Turn on the age bands you want available, and each kid automatically sees the one that matches their own age — no age picking on their end. Preview any lesson yourself first.
       </div>
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
@@ -70,36 +76,73 @@ export default function GuardianFutureReadyTab() {
       {topics.length === 0 ? (
         <div className="empty-text">No lessons available yet.</div>
       ) : (
-        topics.map(topic => (
-          <div key={topic.topic} style={{ marginBottom: 22 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-              <span style={{ fontSize: '1.4rem' }}>{topic.emoji}</span>
-              <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '1.05rem' }}>{topic.title}</span>
-            </div>
-            <div className="shop-grid">
-              {topic.modules.map(m => (
-                <div key={m.id} className="shop-item-card">
-                  <div className="shop-emoji">📘</div>
-                  <div className="shop-name">{m.title}</div>
-                  <div className="shop-cost">Earns {m.points} pts on completion</div>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem', color: '#334155', fontWeight: 600, cursor: 'pointer', marginTop: 4 }}>
-                    <input
-                      type="checkbox"
-                      checked={!!m.enabled}
-                      disabled={savingId === m.id}
-                      onChange={() => handleToggle(m)}
-                      style={{ accentColor: m.enabled ? '#059669' : '#dc2626', width: 16, height: 16 }}
-                    />
-                    {m.enabled ? 'Visible to kids' : 'Hidden from kids'}
-                  </label>
-                  <button className="btn btn-sm btn-outline" style={{ marginTop: 6 }} onClick={() => setPreviewModule(m)}>
-                    ▶️ Preview
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {topics.map(topic => {
+            const meta = topicMeta(topic.topic)
+            const enabledCount = topic.modules.filter(m => m.enabled).length
+            const isOpen = openTopic === topic.topic
+            return (
+              <div key={topic.topic} style={{ border: `1px solid ${meta.border}`, borderRadius: 16, overflow: 'hidden', background: '#fff' }}>
+                <button
+                  onClick={() => setOpenTopic(t => t === topic.topic ? null : topic.topic)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 14, width: '100%',
+                    background: meta.bg, border: 'none', padding: '14px 18px', cursor: 'pointer', textAlign: 'left',
+                  }}
+                >
+                  <div style={{
+                    width: 44, height: 44, borderRadius: 12, background: '#fff', border: `1px solid ${meta.border}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', flexShrink: 0,
+                  }}>
+                    {topic.emoji}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '1rem' }}>{topic.title}</div>
+                    <div style={{ fontSize: '0.78rem', color: '#64748b' }}>{meta.description}</div>
+                  </div>
+                  <span style={{
+                    fontSize: '0.75rem', fontWeight: 700, borderRadius: 999, padding: '4px 10px', flexShrink: 0,
+                    background: '#fff', color: meta.color, border: `1px solid ${meta.border}`,
+                  }}>
+                    {enabledCount}/{topic.modules.length} on
+                  </span>
+                  <span style={{ color: '#94a3b8', fontSize: '1.1rem', flexShrink: 0 }}>{isOpen ? '▲' : '▼'}</span>
+                </button>
+
+                {isOpen && (
+                  <div style={{ padding: '4px 18px 16px' }}>
+                    {topic.modules.map(m => (
+                      <div
+                        key={m.id}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0',
+                          borderTop: '1px solid #f1f5f9',
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.9rem' }}>{m.title}</div>
+                          <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>Earns {m.points} pts on completion</div>
+                        </div>
+                        <button
+                          className="btn btn-sm btn-outline"
+                          onClick={() => setPreviewModule(m)}
+                        >
+                          ▶️ Preview
+                        </button>
+                        <Toggle
+                          checked={!!m.enabled}
+                          disabled={savingId === m.id}
+                          onChange={() => handleToggle(m)}
+                          color={meta.color}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
       )}
     </div>
   )
