@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
-import InvestingModule from './InvestingModule.jsx'
+import LessonModule from './LessonModule.jsx'
 
 function groupByTopic(modules) {
   const byTopic = new Map()
@@ -49,7 +49,7 @@ export default function GuardianFutureReadyTab() {
   if (previewModule) {
     return (
       <div>
-        <InvestingModule module={previewModule} onExit={() => setPreviewModule(null)} previewMode />
+        <LessonModule module={previewModule} onExit={() => setPreviewModule(null)} previewMode />
       </div>
     )
   }

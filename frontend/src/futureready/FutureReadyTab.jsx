@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
-import InvestingModule from './InvestingModule.jsx'
+import LessonModule from './LessonModule.jsx'
 
 // Groups the flat module list the backend returns into topics, so a second
 // topic under Future-Ready (beyond Investing for Kids) needs no UI changes --
@@ -46,7 +46,7 @@ export default function FutureReadyTab({ onBalanceChange }) {
 
   if (playingModule) {
     return (
-      <InvestingModule
+      <LessonModule
         module={playingModule}
         onExit={() => setPlayingModule(null)}
         onCompleted={handleCompleted}

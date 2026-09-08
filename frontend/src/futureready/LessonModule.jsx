@@ -1,14 +1,17 @@
 import { useState } from 'react'
 import { api } from '../api.js'
-import { INVESTING_CONTENT } from './investingContent.js'
+import { LESSON_CONTENT } from './lessonContent.js'
 
 // Self-paced, untimed: a short deck of slides to read through, then a quiz
 // to check what stuck. Unlike the Games section this isn't a race against a
 // clock -- the goal is understanding, not speed. Kids can retake the quiz as
 // many times as they like, but points are only paid out the first time they
-// pass (server-enforced too, in case of a stale/replayed request).
-export default function InvestingModule({ module, onExit, onCompleted, previewMode = false }) {
-  const content = INVESTING_CONTENT[module.id]
+// pass (server-enforced too, in case of a stale/replayed request). Generic
+// across every Future-Ready topic -- which lesson to show comes entirely
+// from `module.id` looked up in LESSON_CONTENT, so a new topic needs no
+// changes here, just a new content file merged into lessonContent.js.
+export default function LessonModule({ module, onExit, onCompleted, previewMode = false }) {
+  const content = LESSON_CONTENT[module.id]
   const [phase, setPhase] = useState('slides') // 'slides' | 'quiz' | 'result'
   const [slideIndex, setSlideIndex] = useState(0)
   const [quizIndex, setQuizIndex] = useState(0)
