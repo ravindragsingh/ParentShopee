@@ -13,6 +13,40 @@ function groupByTopic(modules) {
   return [...byTopic.values()]
 }
 
+// Editable point value for one age band -- commits on blur or Enter, and
+// only if it actually changed to something valid. Kids' tiles read this
+// same value, so tuning it here is the one place a guardian controls how
+// many points a lesson is worth.
+function PointsEditor({ points, disabled, onSave }) {
+  const [value, setValue] = useState(String(points))
+  useEffect(() => { setValue(String(points)) }, [points])
+
+  function commit() {
+    const num = Number(value)
+    if (!Number.isFinite(num) || num <= 0 || num === points) {
+      setValue(String(points))
+      return
+    }
+    onSave(num)
+  }
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      <input
+        type="number"
+        min="1"
+        value={value}
+        disabled={disabled}
+        onChange={e => setValue(e.target.value)}
+        onBlur={commit}
+        onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur() }}
+        style={{ width: 54, padding: '4px 6px', border: '1px solid #e2e8f0', borderRadius: 6, fontSize: '0.82rem', textAlign: 'right' }}
+      />
+      <span style={{ fontSize: '0.76rem', color: '#94a3b8' }}>pts on completion</span>
+    </div>
+  )
+}
+
 export default function GuardianFutureReadyTab() {
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
@@ -49,6 +83,19 @@ export default function GuardianFutureReadyTab() {
     }
   }
 
+  async function handlePointsChange(module, points) {
+    setSavingId(module.id)
+    setError('')
+    try {
+      await api.setLearningPoints(module.id, points)
+      setModules(ms => ms.map(m => m.id === module.id ? { ...m, points } : m))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSavingId(null)
+    }
+  }
+
   if (previewModule) {
     return (
       <LessonModule
@@ -68,7 +115,7 @@ export default function GuardianFutureReadyTab() {
     <div>
       <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🚀 Future-Ready</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
-        Short, interactive lessons that build real-world skills. Turn on the age bands you want available, and each kid automatically sees the one that matches their own age — no age picking on their end. Preview any lesson yourself first.
+        Short, interactive lessons that build real-world skills. Turn on the age bands you want available and set how many points each one earns — every kid automatically sees the band that matches their own age, with no age picking on their end. Preview any lesson yourself first.
       </div>
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
@@ -116,12 +163,18 @@ export default function GuardianFutureReadyTab() {
                         key={m.id}
                         style={{
                           display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0',
-                          borderTop: '1px solid #f1f5f9',
+                          borderTop: '1px solid #f1f5f9', flexWrap: 'wrap',
                         }}
                       >
-                        <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ minWidth: 90 }}>
                           <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.9rem' }}>{m.title}</div>
-                          <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>Earns {m.points} pts on completion</div>
+                        </div>
+                        <div style={{ flex: 1, minWidth: 160 }}>
+                          <PointsEditor
+                            points={m.points}
+                            disabled={savingId === m.id}
+                            onSave={(pts) => handlePointsChange(m, pts)}
+                          />
                         </div>
                         <button
                           className="btn btn-sm btn-outline"

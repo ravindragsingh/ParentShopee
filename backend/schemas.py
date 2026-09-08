@@ -173,6 +173,9 @@ class AdminChoreUpdate(BaseModel):
 class LearningVisibilityUpdate(BaseModel):
     enabled: bool
 
+class LearningPointsUpdate(BaseModel):
+    points: float
+
 class LearningCompleteBody(BaseModel):
     score: int
     total: int

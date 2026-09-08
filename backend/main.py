@@ -102,6 +102,7 @@ def startup():
             ("users",      "push_token",                "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
             ("wallets",    "savings_balance",         "FLOAT"),
+            ("family_learning_settings", "points_override", "FLOAT"),
         ]:
             try:
                 if "sqlite" in str(engine.url):

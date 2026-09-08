@@ -191,12 +191,17 @@ class DBLearningModule(Base):
 
 
 class DBFamilyLearningSetting(Base):
-    """Per-family visibility for a learning module, mirroring DBFamilyGameSetting --
-    no row (or enabled='0') means hidden from that family's kids."""
+    """Per-family visibility (and optional point override) for a learning
+    module, mirroring DBFamilyGameSetting -- no row (or enabled='0') means
+    hidden from that family's kids. `points_override` is NULL by default,
+    meaning "use the catalog's default points" -- a guardian only needs a
+    row here at all once they've either enabled the module or customized
+    its point value."""
     __tablename__ = "family_learning_settings"
-    family_id = Column(String, primary_key=True)
-    module_id = Column(String, primary_key=True)
-    enabled   = Column(String, default="0")
+    family_id      = Column(String, primary_key=True)
+    module_id      = Column(String, primary_key=True)
+    enabled        = Column(String, default="0")
+    points_override = Column(Float, nullable=True)
 
 
 class DBLearningCompletion(Base):
