@@ -10,6 +10,7 @@ import { HelpTab } from './Help.jsx'
 import SettingsPanel from './Settings.jsx'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
+import FutureReadyTab from '../futureready/FutureReadyTab.jsx'
 
 // ─── Collapsible section header ──────────────────────────────────────────────
 
@@ -389,6 +390,7 @@ function KidHomeScreen({ name, balance, onNavigate }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <HomeNavRow icon="📋" iconBg="#dbeafe" label="My Tasks" onClick={() => onNavigate('chores')} />
         <HomeNavRow icon="🎁" iconBg="#fef3c7" label="My Rewards" onClick={() => onNavigate('shop')} />
+        <HomeNavRow icon="🚀" iconBg="#ede9fe" label="Future-Ready" onClick={() => onNavigate('futureready')} />
         <HomeNavRow icon="👛" iconBg="#fce7f3" label="My Wallet" onClick={() => onNavigate('wallet')} />
       </div>
     </div>
@@ -441,13 +443,13 @@ export default function KidDashboard() {
       <div className="main-content">
         {tab !== 'home' && (
           <div className="tabs">
-            {['home', 'chores', 'shop', 'wallet'].map(t => (
+            {['home', 'chores', 'shop', 'futureready', 'wallet'].map(t => (
               <button
                 key={t}
                 className={`tab-btn${tab === t ? ' active kid' : ''}`}
                 onClick={() => setTab(t)}
               >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Wallet'}
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'futureready' ? 'Future-Ready' : 'Wallet'}
               </button>
             ))}
           </div>
@@ -456,6 +458,7 @@ export default function KidDashboard() {
         {tab === 'home'     && <KidHomeScreen name={user.name} balance={balance} onNavigate={setTab} />}
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
+        {tab === 'futureready' && <FutureReadyTab onBalanceChange={refreshBalance} />}
         {tab === 'wallet'   && <KidWalletView kidId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'messages' && <MessagesTab />}
         {tab === 'help'     && <HelpTab role="kid" />}

@@ -95,6 +95,11 @@ export const api = {
   approveShopPurchase:  (id)             => request('POST', `/api/shop/purchases/${id}/approve`),
   rejectShopPurchase:   (id)             => request('POST', `/api/shop/purchases/${id}/reject`),
 
+  // Future-Ready
+  getFutureReadyModules: () => request('GET', '/api/future-ready'),
+  setLearningVisibility: (moduleId, enabled) => request('PUT', `/api/future-ready/${moduleId}/visibility`, { enabled }),
+  completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),
+
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
   getAllWallets: () => request('GET', '/api/wallet'),

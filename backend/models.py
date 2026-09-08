@@ -167,3 +167,46 @@ class DBSupportTicketReply(Base):
     sender_name = Column(String, nullable=False)
     message     = Column(String, nullable=False)
     created_at  = Column(String, nullable=False)
+
+
+class DBLearningModule(Base):
+    """Catalog of bite-sized interactive lessons under the "Future-Ready" section
+    -- one row per age-group module within a topic (e.g. "Investing for Kids"
+    has four rows, one per age band). Same opt-in pattern as DBGame: a row
+    existing doesn't mean kids can see it, a family setting does."""
+    __tablename__ = "learning_modules"
+    id          = Column(String, primary_key=True)   # slug, e.g. "investing-4-6"
+    section     = Column(String, nullable=False)      # "future-ready"
+    section_title = Column(String, nullable=False)    # "Future-Ready"
+    section_emoji = Column(String, default="🚀")
+    topic       = Column(String, nullable=False)       # "investing-for-kids"
+    topic_title = Column(String, nullable=False)        # "Investing for Kids"
+    topic_emoji = Column(String, default="📈")
+    age_min     = Column(Integer, nullable=False)
+    age_max     = Column(Integer, nullable=False)
+    title       = Column(String, nullable=False)        # "Ages 4-6"
+    points      = Column(Float, nullable=False)
+    order_index = Column(Integer, default=0)
+    is_active   = Column(String, default="1")           # "1"/"0"
+
+
+class DBFamilyLearningSetting(Base):
+    """Per-family visibility for a learning module, mirroring DBFamilyGameSetting --
+    no row (or enabled='0') means hidden from that family's kids."""
+    __tablename__ = "family_learning_settings"
+    family_id = Column(String, primary_key=True)
+    module_id = Column(String, primary_key=True)
+    enabled   = Column(String, default="0")
+
+
+class DBLearningCompletion(Base):
+    """One row per kid per module, created the first time they pass its quiz.
+    Points are awarded once, when this row is created -- retaking the quiz
+    afterwards doesn't pay out again."""
+    __tablename__ = "learning_completions"
+    kid_id          = Column(String, primary_key=True)
+    module_id       = Column(String, primary_key=True)
+    score           = Column(Integer, nullable=False)
+    total           = Column(Integer, nullable=False)
+    points_awarded  = Column(Float, nullable=False)
+    completed_at    = Column(String, nullable=False)

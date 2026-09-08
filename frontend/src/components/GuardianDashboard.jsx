@@ -16,6 +16,7 @@ import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
 import PasswordField from './PasswordField.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
+import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -2116,6 +2117,7 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         <HomeNavRow icon="✅" iconBg="#ccfbf1" label="Chores" onClick={() => onNavigate('chores')} />
         <HomeNavRow icon="🛍️" iconBg="#fef3c7" label="Shop" onClick={() => onNavigate('shop')} />
+        <HomeNavRow icon="🚀" iconBg="#ede9fe" label="Future-Ready" onClick={() => onNavigate('futureready')} />
         <HomeNavRow icon="👨‍👩‍👧" iconBg="#fce7f3" label="Kids" onClick={() => onNavigate('kids')} />
       </div>
 
@@ -2179,13 +2181,13 @@ export default function GuardianDashboard() {
       <div className="main-content">
         {tab !== 'home' && (
           <div className="tabs">
-            {['home', 'chores', 'shop', 'kids'].map(t => (
+            {['home', 'chores', 'shop', 'futureready', 'kids'].map(t => (
               <button
                 key={t}
                 className={`tab-btn${tab === t ? ' active guardian' : ''}`}
                 onClick={() => setTab(t)}
               >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : 'Kids'}
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'futureready' ? 'Future-Ready' : 'Kids'}
               </button>
             ))}
           </div>
@@ -2252,6 +2254,7 @@ export default function GuardianDashboard() {
 
         {tab === 'chores'    && <ChoresTab kids={kids} />}
         {tab === 'shop'      && <ShopTab kids={kids} />}
+        {tab === 'futureready' && <GuardianFutureReadyTab />}
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}
         {tab === 'messages'  && <MessagesTab />}

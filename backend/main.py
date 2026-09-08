@@ -12,7 +12,7 @@ import models  # noqa: F401 — import ensures all tables are registered on Base
 from database import SessionLocal, engine, Base
 from seed import seed_db
 from models import DBUser
-from routers import admin, auth, chores, contact, daily_chores, family, kids, messages, shop, wallet
+from routers import admin, auth, chores, contact, daily_chores, family, future_ready, kids, messages, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -55,6 +55,7 @@ app.include_router(contact.router)
 app.include_router(messages.router)
 app.include_router(admin.router)
 app.include_router(daily_chores.router)
+app.include_router(future_ready.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -210,6 +211,40 @@ def startup():
                 db2.commit()
         finally:
             db2.close()
+
+    # Seed the Future-Ready catalog -- same upsert-plus-soft-deactivate pattern
+    # as the games catalog: every server start syncs the DB rows to this list,
+    # backfilling any field changes on existing rows and deactivating anything
+    # no longer offered (keeping the row so past completions still resolve).
+    from models import DBLearningModule
+    db3 = SessionLocal()
+    try:
+        catalog = [
+            dict(id="investing-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="investing-for-kids", topic_title="Investing for Kids", topic_emoji="📈",
+                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=1),
+            dict(id="investing-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="investing-for-kids", topic_title="Investing for Kids", topic_emoji="📈",
+                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=2),
+            dict(id="investing-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="investing-for-kids", topic_title="Investing for Kids", topic_emoji="📈",
+                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=3),
+            dict(id="investing-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="investing-for-kids", topic_title="Investing for Kids", topic_emoji="📈",
+                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=4),
+        ]
+        for fields in catalog:
+            existing = db3.query(DBLearningModule).filter(DBLearningModule.id == fields["id"]).first()
+            if existing:
+                for key, value in fields.items():
+                    setattr(existing, key, value)
+            else:
+                db3.add(DBLearningModule(is_active="1", **fields))
+        active_ids = [c["id"] for c in catalog]
+        db3.query(DBLearningModule).filter(DBLearningModule.id.notin_(active_ids)).update({"is_active": "0"}, synchronize_session=False)
+        db3.commit()
+    finally:
+        db3.close()
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 
