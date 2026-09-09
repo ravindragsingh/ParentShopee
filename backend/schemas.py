@@ -50,6 +50,10 @@ class AddKidBody(BaseModel):
 class UpdatePinBody(BaseModel):
     pin: str
 
+class UpdateKidBirthdateBody(BaseModel):
+    birthMonth: int   # 1-12
+    birthYear: int
+
 class PushTokenBody(BaseModel):
     token: str
 

@@ -12,7 +12,7 @@ from deps import require_auth, require_guardian
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBChore, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import AddKidBody, BehaviourBody, BonusPointsBody, UpdatePinBody, WalletAdjustBody
+from schemas import AddKidBody, BehaviourBody, BonusPointsBody, UpdateKidBirthdateBody, UpdatePinBody, WalletAdjustBody
 from security import check_pin_complexity
 
 router = APIRouter()
@@ -165,6 +165,29 @@ def update_kid_pin(kid_id: str, body: UpdatePinBody, db: Session = Depends(get_d
     kid.pin_locked_until = None
     db.commit()
     return ok({"message": f"PIN updated for {kid.name}"})
+
+
+@router.put("/api/kids/{kid_id}/birthdate")
+def update_kid_birthdate(kid_id: str, body: UpdateKidBirthdateBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    """Birth month/year are required when a kid is first added, but older
+    accounts (created before that requirement, or via an admin path) can
+    still be missing one -- without it, age-matched content like
+    Future-Ready has no way to know which age band to show that kid."""
+    family_id = get_family_id(user)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
+    if not kid:
+        fail("Child not found or not in your family", 404)
+    if not (1 <= body.birthMonth <= 12):
+        fail("Birth month must be between 1 and 12")
+    current_year = date.today().year
+    if not (current_year - 25 <= body.birthYear <= current_year):
+        fail("Please enter a valid birth year")
+
+    kid.birth_month = body.birthMonth
+    kid.birth_year = body.birthYear
+    db.commit()
+    db.refresh(kid)
+    return ok(safe_user(kid))
 
 
 @router.get("/api/kids/{kid_id}/report")
