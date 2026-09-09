@@ -1423,15 +1423,6 @@ function KidsTab() {
   const [pwdError, setPwdError] = useState('')
   const [savingPwd, setSavingPwd] = useState(false)
 
-  // Change birthday (kids added before it was required, or entered wrong,
-  // have no way to fix it otherwise -- and without it, age-matched content
-  // like Future-Ready can't tell which age band to show them)
-  const [changingBirthdateFor, setChangingBirthdateFor] = useState(null)
-  const [birthMonthEdit, setBirthMonthEdit] = useState('')
-  const [birthYearEdit, setBirthYearEdit] = useState('')
-  const [birthdateError, setBirthdateError] = useState('')
-  const [savingBirthdate, setSavingBirthdate] = useState(false)
-
   // Award bonus / remove points
   const [adjustFor, setAdjustFor] = useState(null)     // kid id
   const [adjustMode, setAdjustMode] = useState(null)   // 'bonus' | 'remove'
@@ -1579,24 +1570,6 @@ function KidsTab() {
     }
   }
 
-  async function handleChangeBirthdate(kid) {
-    setBirthdateError('')
-    if (!birthMonthEdit || !birthYearEdit) {
-      setBirthdateError("Birth month and year are both required.")
-      return
-    }
-    setSavingBirthdate(true)
-    try {
-      await api.updateKidBirthdate(kid.id, Number(birthMonthEdit), Number(birthYearEdit))
-      setChangingBirthdateFor(null); setBirthMonthEdit(''); setBirthYearEdit('')
-      loadData()
-    } catch (err) {
-      setBirthdateError(err.message)
-    } finally {
-      setSavingBirthdate(false)
-    }
-  }
-
   if (loading) return <div className="loading-text">Loading kids...</div>
   if (error) return <div className="error-msg">{error}</div>
 
@@ -1705,24 +1678,9 @@ function KidsTab() {
                     onClick={() => {
                       setChangingPwdFor(changingPwdFor === kid.id ? null : kid.id)
                       setAdjustFor(null); setAdjustMode(null); setReportFor(null); setNewPwd(''); setPwdError('')
-                      setChangingBirthdateFor(null); setBirthdateError('')
                     }}
                   >
                     <span className="btn-label">🔑 {changingPwdFor === kid.id ? 'Cancel' : 'PIN'}</span>
-                    <span className="chevron">›</span>
-                  </button>
-                  <button
-                    className="kid-action-btn outline"
-                    onClick={() => {
-                      const opening = changingBirthdateFor !== kid.id
-                      setChangingBirthdateFor(opening ? kid.id : null)
-                      setBirthMonthEdit(opening ? String(kid.birthMonth || '') : '')
-                      setBirthYearEdit(opening ? String(kid.birthYear || '') : '')
-                      setBirthdateError('')
-                      setAdjustFor(null); setAdjustMode(null); setReportFor(null); setChangingPwdFor(null)
-                    }}
-                  >
-                    <span className="btn-label">🎂 {changingBirthdateFor === kid.id ? 'Cancel' : (kid.age != null ? 'Birthday' : 'Set Birthday')}</span>
                     <span className="chevron">›</span>
                   </button>
                   <button
@@ -1880,35 +1838,6 @@ function KidsTab() {
                     />
                     <button className="btn btn-green btn-sm" onClick={() => handleChangePassword(kid)} disabled={savingPwd}>
                       {savingPwd ? 'Saving...' : 'Save PIN'}
-                    </button>
-                  </div>
-                </div>
-              )}
-              {changingBirthdateFor === kid.id && (
-                <div className="kid-card-panel" onClick={e => e.stopPropagation()} style={{ background: '#f8fafc', borderRadius: 12, padding: '12px 16px' }}>
-                  {birthdateError && <div className="error-msg" style={{ marginBottom: 8 }}>{birthdateError}</div>}
-                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 6 }}>
-                    Used to match age-appropriate content, like Future-Ready lessons, to {kid.name}.
-                  </div>
-                  <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-                    <select
-                      value={birthMonthEdit}
-                      onChange={e => setBirthMonthEdit(e.target.value)}
-                      style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem' }}
-                    >
-                      <option value="">Month</option>
-                      {MONTH_NAMES.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
-                    </select>
-                    <select
-                      value={birthYearEdit}
-                      onChange={e => setBirthYearEdit(e.target.value)}
-                      style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem' }}
-                    >
-                      <option value="">Year</option>
-                      {BIRTH_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
-                    </select>
-                    <button className="btn btn-green btn-sm" onClick={() => handleChangeBirthdate(kid)} disabled={savingBirthdate}>
-                      {savingBirthdate ? 'Saving...' : 'Save Birthday'}
                     </button>
                   </div>
                 </div>

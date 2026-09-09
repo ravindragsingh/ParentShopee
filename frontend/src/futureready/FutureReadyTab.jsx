@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import LessonModule from './LessonModule.jsx'
 import { topicMeta } from './topicMeta.js'
@@ -8,7 +7,6 @@ import { topicMeta } from './topicMeta.js'
 // each topic down to the one module that matches this kid's own age, so
 // this just renders one tile per topic. No "Ages X-Y" anywhere in here.
 export default function FutureReadyTab({ onBalanceChange }) {
-  const { user } = useAuth()
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -66,11 +64,7 @@ export default function FutureReadyTab({ onBalanceChange }) {
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
       {modules.length === 0 ? (
-        <div className="empty-text">
-          {user?.age == null
-            ? "Future-Ready lessons are matched to your age, but your birthday isn't saved yet — ask your guardian to add it from the Kids tab."
-            : 'Nothing here yet — ask your guardian to turn on a lesson for you.'}
-        </div>
+        <div className="empty-text">Nothing here yet — ask your guardian to turn on a lesson for you.</div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
           {modules.map(m => {
