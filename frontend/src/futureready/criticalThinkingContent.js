@@ -11,6 +11,8 @@ export const CRITICAL_THINKING_CONTENT = {
       { emoji: '🛑', title: 'Think before you act', text: "Taking a moment to think before doing something — like before grabbing a toy from a friend — often leads to a better choice." },
       { emoji: '🧩', title: 'Looking for clues', text: "If your shoes are wet, you can think about clues to figure out why — did it rain? Did you step in a puddle?" },
       { emoji: '🙋', title: 'It\'s okay to ask questions', text: "If something doesn't make sense, asking a question is smart — not silly. Good thinkers ask lots of questions." },
+      { emoji: '🧸', title: 'Sorting things into groups', text: "Putting toys into groups — like all the red ones together, or all the round ones together — is a first step toward organized thinking." },
+      { emoji: '🔢', title: 'What comes next?', text: "Looking at a pattern like circle, square, circle, square and figuring out what comes next is a fun way to practice thinking ahead." },
     ],
     quiz: [
       {
@@ -43,6 +45,18 @@ export const CRITICAL_THINKING_CONTENT = {
         correctIndex: 0,
         explanation: 'Asking questions is a sign of a curious, careful thinker.',
       },
+      {
+        question: 'What is a good first step toward organized thinking?',
+        choices: ['Sorting things into groups', 'Mixing everything together randomly'],
+        correctIndex: 0,
+        explanation: 'Grouping similar things together is a simple, useful thinking skill.',
+      },
+      {
+        question: 'In the pattern circle, square, circle, square — what comes next?',
+        choices: ['Circle', 'A triangle'],
+        correctIndex: 0,
+        explanation: 'The pattern repeats circle then square, so a circle comes next.',
+      },
     ],
   },
 
@@ -55,6 +69,8 @@ export const CRITICAL_THINKING_CONTENT = {
       { emoji: '🧭', title: 'Checking with a trusted source', text: "If you're not sure whether something is true, checking with a grown-up, a book, or a trusted website is a smart next step." },
       { emoji: '🔗', title: 'Cause and effect', text: "Thinking about why something happened — the cause — and what happened because of it — the effect — helps you understand the world more clearly." },
       { emoji: '🧠', title: 'Changing your mind', text: "If new information shows your first idea was wrong, a good thinker isn't afraid to change their mind." },
+      { emoji: '🕵️', title: 'Being a detective', text: "A good detective gathers several clues before deciding what happened, instead of guessing after just one clue. Thinking works the same way." },
+      { emoji: '🙋‍♀️', title: 'It\'s okay to disagree', text: "Two people can look at the same thing and see it differently. Disagreeing with a friend — respectfully — doesn't mean the friendship is in trouble." },
     ],
     quiz: [
       {
@@ -93,6 +109,18 @@ export const CRITICAL_THINKING_CONTENT = {
         correctIndex: 0,
         explanation: 'Updating your thinking based on new evidence is a sign of strong critical thinking.',
       },
+      {
+        question: 'What does a good detective do before deciding what happened?',
+        choices: ['Gathers several clues first', 'Guesses after just one clue'],
+        correctIndex: 0,
+        explanation: 'Good thinking, like good detective work, weighs multiple clues before concluding.',
+      },
+      {
+        question: 'Does disagreeing with a friend mean the friendship is in trouble?',
+        choices: ['No, respectful disagreement is normal', 'Yes, friends must always agree on everything'],
+        correctIndex: 0,
+        explanation: 'People can see things differently and still be good friends.',
+      },
     ],
   },
 
@@ -105,6 +133,8 @@ export const CRITICAL_THINKING_CONTENT = {
       { emoji: '⚖️', title: 'Weighing both sides', text: "On a genuinely debatable topic, looking fairly at the strongest arguments on both sides — before forming an opinion — leads to more solid conclusions." },
       { emoji: '🎯', title: 'Defining the real problem', text: "Sometimes what looks like the problem is actually just a symptom of a different, deeper problem. Defining the real issue is the first step to solving it well." },
       { emoji: '🧮', title: 'Checking the source', text: "Who is saying this, and why? A source with something to gain from you believing a claim deserves a closer, more careful look." },
+      { emoji: '🎯', title: 'Setting a goal and checking progress', text: "Deciding what you're aiming for, then regularly checking whether your approach is actually getting you closer, keeps effort from being wasted." },
+      { emoji: '🧮', title: 'Averages can mislead', text: "An average can hide a lot — a class 'average score' of 75% might mean everyone scored near 75%, or it might mean half scored 100% and half scored 50%." },
     ],
     quiz: [
       {
@@ -143,6 +173,18 @@ export const CRITICAL_THINKING_CONTENT = {
         correctIndex: 0,
         explanation: 'Solving the wrong problem — even solving it well — doesn\'t actually help.',
       },
+      {
+        question: 'Why is checking progress toward a goal useful?',
+        choices: ['It keeps effort from being wasted on the wrong approach', 'Checking progress never matters'],
+        correctIndex: 0,
+        explanation: 'Regularly checking progress lets you adjust before too much effort is wasted.',
+      },
+      {
+        question: 'Can an "average" hide important differences in the numbers behind it?',
+        choices: ['Yes, very different sets of numbers can share the same average', 'No, an average always tells the whole story'],
+        correctIndex: 0,
+        explanation: 'Averages can look identical while hiding very different underlying patterns.',
+      },
     ],
   },
 
@@ -156,6 +198,8 @@ export const CRITICAL_THINKING_CONTENT = {
       { emoji: '🔄', title: 'Being willing to update', text: "Genuinely strong thinkers treat their own conclusions as open to revision — new, credible evidence should be able to change a well-reasoned mind." },
       { emoji: '🗣️', title: 'Steelmanning an argument', text: "Instead of attacking the weakest version of an opposing view, a strong thinker engages with the strongest, most reasonable version of it — called 'steelmanning.'" },
       { emoji: '🧭', title: 'Separating feelings from facts', text: "Recognizing when a strong emotional reaction — anger, excitement, fear — might be clouding a decision helps you think more clearly under pressure." },
+      { emoji: '📢', title: 'Recognizing propaganda', text: "Propaganda uses one-sided, emotionally charged messaging to push a viewpoint rather than inform. Learning to notice it helps you separate persuasion from honest information." },
+      { emoji: '🧪', title: 'The scientific method, briefly', text: "Form a question, propose an explanation, test it, and revise based on results — this basic loop underlies careful thinking far beyond just science class." },
     ],
     quiz: [
       {
@@ -199,6 +243,18 @@ export const CRITICAL_THINKING_CONTENT = {
         choices: ['Yes, if credible new evidence supports it', 'No, changing your mind is always a weakness'],
         correctIndex: 0,
         explanation: 'Updating conclusions in light of solid new evidence is a hallmark of strong thinking, not weakness.',
+      },
+      {
+        question: 'What is "propaganda"?',
+        choices: ['One-sided, emotionally charged messaging meant to persuade', 'A neutral, balanced news report'],
+        correctIndex: 0,
+        explanation: 'Propaganda pushes a viewpoint through emotional persuasion rather than balanced information.',
+      },
+      {
+        question: 'What is the basic loop of the scientific method?',
+        choices: ['Question, propose an explanation, test it, revise based on results', 'Guess once and never check again'],
+        correctIndex: 0,
+        explanation: 'This loop of testing and revising ideas underlies careful thinking generally, not just science.',
       },
     ],
   },

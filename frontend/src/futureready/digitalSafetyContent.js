@@ -10,6 +10,8 @@ export const DIGITAL_SAFETY_CONTENT = {
       { emoji: '🎭', title: 'Not everyone is who they say', text: "Someone online might not actually be who their picture or name says they are — that's why grown-ups help keep an eye on things." },
       { emoji: '🖱️', title: 'Ask before you click', text: "Before clicking on a button, a game, or a pop-up you don't recognize, it's smart to ask a grown-up first." },
       { emoji: '⏰', title: 'Screens need breaks too', text: "Taking breaks from screens to play, read, or rest is part of staying healthy and happy." },
+      { emoji: '📷', title: 'Pictures can be shared forever', text: "A picture you post can be saved or shared by others, even ones you didn't expect — so it's smart to only share pictures a grown-up says are okay." },
+      { emoji: '🚪', title: 'Only trusted apps and games', text: "Grown-ups check that an app or game is actually safe before you use it — that's why you should only use ones they've said are okay." },
     ],
     quiz: [
       {
@@ -42,6 +44,18 @@ export const DIGITAL_SAFETY_CONTENT = {
         correctIndex: 0,
         explanation: 'Checking with a grown-up before clicking unfamiliar things is a safe habit.',
       },
+      {
+        question: 'Once you post a picture online, can it be shared by others too?',
+        choices: ['Yes, it can be saved or shared even more than you expect', 'No, only you can ever see it'],
+        correctIndex: 0,
+        explanation: 'Pictures posted online can spread further than you might realize.',
+      },
+      {
+        question: 'Which apps and games should you use?',
+        choices: ['Ones a grown-up has said are okay', 'Any app at all, without asking'],
+        correctIndex: 0,
+        explanation: 'Grown-ups check that an app is safe before you use it.',
+      },
     ],
   },
 
@@ -54,6 +68,8 @@ export const DIGITAL_SAFETY_CONTENT = {
       { emoji: '🚨', title: 'What to do about unkindness', text: "If someone is mean to you online, telling a grown-up and not responding with more meanness is the safest, smartest choice." },
       { emoji: '📥', title: 'Careful with downloads', text: "Not every game, app, or file is safe to download — checking with a grown-up before downloading something new is a good habit." },
       { emoji: '🕵️', title: 'Checking if a link is safe', text: "A message saying 'click here to win a prize!' from someone you don't know is usually a trick, not a real prize." },
+      { emoji: '🎮', title: 'Chatting in online games', text: "Some games let you chat with other players you don't know in real life. Keep personal details out of game chats, just like anywhere else online." },
+      { emoji: '🔔', title: 'In-app purchases need a grown-up', text: "Buying extra coins, skins, or upgrades inside a game usually costs real money — always check with a grown-up before buying anything." },
     ],
     quiz: [
       {
@@ -92,6 +108,18 @@ export const DIGITAL_SAFETY_CONTENT = {
         correctIndex: 0,
         explanation: 'Unexpected "prize" messages from strangers are almost always scams.',
       },
+      {
+        question: 'What should you avoid sharing in an online game chat?',
+        choices: ['Personal details', 'Your favorite game strategy'],
+        correctIndex: 0,
+        explanation: 'Personal details should stay private, even when chatting with other players in a game.',
+      },
+      {
+        question: 'Before buying coins or upgrades in a game, what should you do?',
+        choices: ['Check with a grown-up first', 'Buy it right away without asking'],
+        correctIndex: 0,
+        explanation: 'In-app purchases usually cost real money, so a grown-up should always be involved.',
+      },
     ],
   },
 
@@ -104,6 +132,8 @@ export const DIGITAL_SAFETY_CONTENT = {
       { emoji: '🎭', title: 'Fake accounts and catfishing', text: "Someone online might use a fake photo and name to pretend to be someone they're not — this is sometimes called 'catfishing.'" },
       { emoji: '🔐', title: 'Two-factor authentication', text: "Some accounts offer an extra security step — like a code sent to your phone — on top of your password. It's an easy way to make an account harder to break into." },
       { emoji: '🛑', title: 'When to disengage and report', text: "If an online conversation starts feeling uncomfortable or pressuring, stopping the conversation and reporting or telling a trusted adult is always okay." },
+      { emoji: '📍', title: 'Location sharing risks', text: "Live location sharing can be useful with close family, but sharing it publicly or with people you barely know can reveal exactly where you are, in real time." },
+      { emoji: '🧑‍🤝‍🧑', title: 'Online friends vs. real friends', text: "Someone you've only ever talked to online is different from a friend you actually know in person — it's wise to be more cautious about what you share and trust." },
     ],
     quiz: [
       {
@@ -142,6 +172,18 @@ export const DIGITAL_SAFETY_CONTENT = {
         correctIndex: 0,
         explanation: 'It\'s always okay to disengage and tell a trusted adult if something feels wrong.',
       },
+      {
+        question: 'Why can public live location sharing be risky?',
+        choices: ['It can reveal exactly where you are, in real time, to people you barely know', 'It has no risk in any situation'],
+        correctIndex: 0,
+        explanation: 'Sharing location broadly can expose your real-time whereabouts to strangers.',
+      },
+      {
+        question: 'Should you trust an online-only friend the same as someone you know in person?',
+        choices: ['It\'s wise to be more cautious', 'Yes, trust them exactly the same amount'],
+        correctIndex: 0,
+        explanation: 'Extra caution makes sense with people you\'ve never actually met in person.',
+      },
     ],
   },
 
@@ -155,6 +197,8 @@ export const DIGITAL_SAFETY_CONTENT = {
       { emoji: '🚩', title: 'Recognizing predatory behavior', text: "Adults who push a minor toward secrecy, isolation from friends/family, or private communication are showing classic warning signs — reporting and telling a trusted adult matters." },
       { emoji: '🌐', title: 'Public Wi-Fi risks', text: "Using public Wi-Fi for anything sensitive (like banking) without protection can expose your data to others on the same network." },
       { emoji: '🧾', title: 'Reading privacy policies (a little)', text: "You don't need to read every word, but understanding roughly what data an app collects and how it's used is a genuinely useful digital literacy skill." },
+      { emoji: '🏦', title: 'Protecting financial info online', text: "Only enter card or banking details on sites you trust, with a secure connection (look for https and a lock icon) — never through a link from an unexpected message." },
+      { emoji: '🧠', title: 'Digital wellbeing', text: "Noticing signs of digital burnout — irritability, trouble sleeping, feeling worse after scrolling — and adjusting your habits is part of genuinely responsible tech use." },
     ],
     quiz: [
       {
@@ -198,6 +242,18 @@ export const DIGITAL_SAFETY_CONTENT = {
         choices: ['It helps you know what data is collected and how it\'s used', 'Privacy policies never contain any useful information'],
         correctIndex: 0,
         explanation: 'Even a rough understanding of data practices helps you make informed choices about apps.',
+      },
+      {
+        question: 'Where should you ever enter card or banking details?',
+        choices: ['Only on trusted, secure sites — never from a link in an unexpected message', 'Anywhere that asks, without checking'],
+        correctIndex: 0,
+        explanation: 'Financial information should only go into sites you trust and verified directly, not via surprise links.',
+      },
+      {
+        question: 'What is a sign of possible "digital burnout"?',
+        choices: ['Feeling worse after scrolling, or trouble sleeping', 'Feeling exactly the same as always'],
+        correctIndex: 0,
+        explanation: 'Noticing these signs is the first step toward adjusting unhealthy tech habits.',
       },
     ],
   },

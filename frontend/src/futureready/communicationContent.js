@@ -10,6 +10,8 @@ export const COMMUNICATION_CONTENT = {
       { emoji: '🙋', title: 'Asking for help', text: "If you're stuck or need something, asking for help with your words is a strong, smart thing to do — not something to feel bad about." },
       { emoji: '😊', title: 'Your face says a lot too', text: "A smile, a frown, or wide eyes all send a message, even before you say a single word." },
       { emoji: '⏳', title: 'Taking turns talking', text: "Waiting for your turn to talk — instead of interrupting — helps everyone feel heard in a conversation." },
+      { emoji: '😢', title: 'Naming your feelings', text: "Words like happy, sad, mad, and scared help you tell someone exactly what's going on inside you, instead of just crying or shouting." },
+      { emoji: '🎨', title: 'Showing what you mean', text: "If you can't find the words, pointing, drawing, or acting something out can help someone understand you too." },
     ],
     quiz: [
       {
@@ -42,6 +44,18 @@ export const COMMUNICATION_CONTENT = {
         correctIndex: 0,
         explanation: 'Facial expressions communicate feelings even before you say a word.',
       },
+      {
+        question: 'What are words like "happy" or "sad" used for?',
+        choices: ['Naming your feelings so others understand', 'They have no real use'],
+        correctIndex: 0,
+        explanation: 'Feeling words help you tell someone exactly what\'s going on inside you.',
+      },
+      {
+        question: 'If you can\'t find the words, what else can help you communicate?',
+        choices: ['Pointing, drawing, or acting it out', 'Nothing else can ever help'],
+        correctIndex: 0,
+        explanation: 'Showing what you mean is a great backup when words are hard to find.',
+      },
     ],
   },
 
@@ -54,6 +68,8 @@ export const COMMUNICATION_CONTENT = {
       { emoji: '❓', title: 'Asking clarifying questions', text: "If you don't understand something someone said, asking 'can you explain that again?' is smarter than just pretending to understand." },
       { emoji: '💌', title: 'Written vs. spoken words', text: "Writing a message and saying it out loud can feel very different — a text can sometimes sound different than you meant it to." },
       { emoji: '🤗', title: 'Checking in on feelings', text: "Asking a friend 'are you okay?' when they seem upset shows you're paying attention to more than just what they're saying." },
+      { emoji: '📞', title: 'Talking on the phone', text: "Without seeing someone's face, a phone call relies entirely on your voice and words — speaking clearly and listening closely both matter even more." },
+      { emoji: '🤗', title: 'Comforting a sad friend', text: "Sometimes a friend doesn't need advice right away — just having someone sit with them and say 'that sounds really hard' can mean a lot." },
     ],
     quiz: [
       {
@@ -92,6 +108,18 @@ export const COMMUNICATION_CONTENT = {
         correctIndex: 0,
         explanation: 'Written messages can lose tone easily, which is why misunderstandings happen in texts.',
       },
+      {
+        question: 'Why does speaking clearly matter more on a phone call?',
+        choices: ['You can\'t see the other person\'s face for extra clues', 'It matters less than in person'],
+        correctIndex: 0,
+        explanation: 'Without facial expressions, your voice has to carry the whole message.',
+      },
+      {
+        question: 'What does a sad friend often need most, right away?',
+        choices: ['Someone to listen and say "that sounds hard"', 'A long list of advice immediately'],
+        correctIndex: 0,
+        explanation: 'Being heard and understood often matters more at first than getting advice.',
+      },
     ],
   },
 
@@ -104,6 +132,8 @@ export const COMMUNICATION_CONTENT = {
       { emoji: '👂', title: 'Receiving feedback well', text: "Hearing feedback about something you did isn't the same as being told you're a bad person — separating the two helps you actually improve." },
       { emoji: '🤝', title: 'Resolving a disagreement', text: "Calmly explaining your side, actually listening to theirs, and looking for a solution both people can accept usually works better than arguing to 'win.'" },
       { emoji: '📝', title: 'Written communication skills', text: "A clear, organized message — like a well-written email or message — gets read and understood much more easily than a rushed, jumbled one." },
+      { emoji: '🎤', title: 'Speaking up in a group', text: "Sharing your idea in front of a group takes practice. Preparing what you want to say ahead of time makes it feel much less intimidating." },
+      { emoji: '📧', title: 'Writing a clear message', text: "A short, well-organized message — saying exactly what you need and by when — gets a faster, better response than a vague, rambling one." },
     ],
     quiz: [
       {
@@ -142,6 +172,18 @@ export const COMMUNICATION_CONTENT = {
         correctIndex: 0,
         explanation: 'Genuinely listening and finding common ground resolves disagreements more durably.',
       },
+      {
+        question: 'What makes speaking up in a group feel less intimidating?',
+        choices: ['Preparing what you want to say ahead of time', 'Never thinking about it beforehand'],
+        correctIndex: 0,
+        explanation: 'Preparation builds confidence before speaking in front of others.',
+      },
+      {
+        question: 'What kind of written message gets a faster, better response?',
+        choices: ['Short and clear about exactly what you need', 'Vague and rambling'],
+        correctIndex: 0,
+        explanation: 'Clarity makes it easy for the reader to know exactly what to do.',
+      },
     ],
   },
 
@@ -155,6 +197,8 @@ export const COMMUNICATION_CONTENT = {
       { emoji: '🎧', title: 'Listening for understanding, not rebuttal', text: "Truly listening means trying to understand the other person's point, not just waiting for your turn to argue back." },
       { emoji: '🌍', title: 'Communicating across differences', text: "People from different backgrounds may communicate in different styles — being aware of this helps avoid misreading someone's tone or intent." },
       { emoji: '🧩', title: 'Nonverbal cues under pressure', text: "In a tense conversation, tone of voice and body language often carry as much meaning as the actual words being said." },
+      { emoji: '🌐', title: 'Communicating across cultures online', text: "Humor, directness, and formality norms vary a lot between cultures — a message that reads as friendly in one context can read as blunt or confusing in another." },
+      { emoji: '🧑‍💼', title: 'Introducing yourself professionally', text: "A short, confident self-introduction — your name, what you're interested in, and why you're reaching out — makes a strong first impression in interviews or networking." },
     ],
     quiz: [
       {
@@ -198,6 +242,18 @@ export const COMMUNICATION_CONTENT = {
         choices: ['Communication styles can vary by culture and background', 'Everyone communicates in exactly the same way everywhere'],
         correctIndex: 0,
         explanation: 'Being aware that communication styles vary helps avoid misreading someone\'s intent.',
+      },
+      {
+        question: 'Why can a friendly message sometimes read as blunt to someone from a different culture?',
+        choices: ['Norms around tone and directness vary across cultures', 'Every culture communicates in exactly the same way'],
+        correctIndex: 0,
+        explanation: 'Being mindful of cultural differences in tone helps avoid unintended misunderstandings.',
+      },
+      {
+        question: 'What makes a strong professional self-introduction?',
+        choices: ['Your name, your interest, and why you\'re reaching out, kept short', 'A long, unfocused life story'],
+        correctIndex: 0,
+        explanation: 'A brief, confident introduction makes a stronger first impression than a rambling one.',
       },
     ],
   },

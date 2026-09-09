@@ -11,7 +11,9 @@ export const INVESTING_CONTENT = {
       { emoji: '🐷', title: 'What does "saving" mean?', text: 'Saving means keeping your money safe instead of spending it right away — like putting it in a piggy bank.' },
       { emoji: '🌱', title: 'Money can grow!', text: "If you plant a seed and take care of it, it grows into a big plant. Some ways of saving let your money grow bigger too, just like a seed!" },
       { emoji: '🛒', title: 'What does "spending" mean?', text: "Spending is using your money to get something you want right now, like a toy or an ice cream." },
+      { emoji: '🏪', title: 'What is a store?', text: "A store is a place that sells things for money. You give the store money, and the store gives you what you picked out." },
       { emoji: '🤝', title: 'You can share money too', text: "Sometimes people use money to help others — like buying a gift for a friend, or giving to someone who needs it." },
+      { emoji: '🎁', title: 'Waiting for something special', text: "Sometimes the thing you want costs more than you have right now. Saving up a little at a time until you have enough is worth the wait." },
       { emoji: '⭐', title: 'You get to choose!', text: "Every time you get money, you get to choose what to do with it: save it, spend it, or share it. There's no one right answer — it depends what you want most." },
     ],
     quiz: [
@@ -40,6 +42,18 @@ export const INVESTING_CONTENT = {
         explanation: 'Using money to get something now is called spending.',
       },
       {
+        question: 'What is a store?',
+        choices: ['A place that sells things for money', 'A place where money grows on trees'],
+        correctIndex: 0,
+        explanation: 'A store trades things you want for the money you give it.',
+      },
+      {
+        question: 'If something costs more than you have right now, what can you do?',
+        choices: ['Save up a little at a time until you have enough', 'It\'s impossible to ever get it'],
+        correctIndex: 0,
+        explanation: 'Saving up over time is how you afford things that cost more than you have today.',
+      },
+      {
         question: 'What are three things you can do with money?',
         choices: ['Save it, spend it, or share it', 'Only ever spend it'],
         correctIndex: 0,
@@ -58,6 +72,8 @@ export const INVESTING_CONTENT = {
       { emoji: '⏳', title: 'Patience pays off', text: "Waiting a little longer before buying something — instead of grabbing it right away — often means you can afford something even better later." },
       { emoji: '🏷️', title: 'Comparing prices', text: "Smart shoppers check if the same thing costs less somewhere else before buying it. A few minutes of comparing can save a lot of points or money." },
       { emoji: '🎁', title: 'Setting a savings goal', text: "Picking one specific thing to save for — and figuring out how many weeks of saving it'll take — makes saving feel a lot more real and exciting." },
+      { emoji: '💳', title: 'What is a bank account?', text: "A bank account is like a digital piggy bank — the bank keeps track of exactly how much money you have, and you can check the balance any time." },
+      { emoji: '🔢', title: 'Watching your savings add up', text: "Writing down how much you've saved each week and adding it up is a simple way to actually see your money growing toward a goal." },
     ],
     quiz: [
       {
@@ -102,6 +118,18 @@ export const INVESTING_CONTENT = {
         correctIndex: 0,
         explanation: 'A clear, specific goal makes it much easier to stay motivated while saving.',
       },
+      {
+        question: 'What is a bank account?',
+        choices: ['A way the bank keeps track of exactly how much money you have', 'A type of toy'],
+        correctIndex: 0,
+        explanation: 'A bank account tracks your balance so you always know how much you\'ve saved.',
+      },
+      {
+        question: 'Why is it helpful to write down and add up your savings each week?',
+        choices: ['You can actually see your money growing toward your goal', 'It has no real purpose'],
+        correctIndex: 0,
+        explanation: 'Tracking your savings makes progress toward a goal feel real and motivating.',
+      },
     ],
   },
 
@@ -115,6 +143,8 @@ export const INVESTING_CONTENT = {
       { emoji: '🎯', title: 'Short-term vs. long-term goals', text: "Money you need soon (like next month) is usually better off saved, not invested. Money you won't need for many years has more room to ride out an investment's ups and downs." },
       { emoji: '📉', title: 'What is a "loss"?', text: "Sometimes an investment's value drops for a while — that's a loss on paper. It only becomes a real loss if you sell while it's down instead of waiting for it to recover." },
       { emoji: '🧾', title: 'Investing vs. an allowance', text: "An allowance is money you're simply given. Investing is different — it's money you put to work, hoping it grows into more than you started with." },
+      { emoji: '📅', title: 'Investing a little, regularly', text: "Instead of investing one big amount all at once, some people invest a smaller amount on a regular schedule — like monthly. This is sometimes called dollar-cost averaging, and it smooths out the ups and downs." },
+      { emoji: '🏦', title: 'What is a brokerage account?', text: "A brokerage account is where you actually buy and hold investments like stocks — different from a regular bank account, which just holds cash." },
     ],
     quiz: [
       {
@@ -159,6 +189,18 @@ export const INVESTING_CONTENT = {
         correctIndex: 0,
         explanation: "A drop is just 'on paper' until you actually sell — patience often lets it recover.",
       },
+      {
+        question: 'What is "dollar-cost averaging"?',
+        choices: ['Investing a smaller amount regularly instead of all at once', 'Only ever investing in dollar bills'],
+        correctIndex: 0,
+        explanation: 'Investing smaller amounts on a schedule helps smooth out an investment\'s ups and downs.',
+      },
+      {
+        question: 'What is a brokerage account used for?',
+        choices: ['Actually buying and holding investments like stocks', 'Only storing cash, like a regular bank account'],
+        correctIndex: 0,
+        explanation: 'A brokerage account is specifically where investments are bought and held.',
+      },
     ],
   },
 
@@ -172,6 +214,8 @@ export const INVESTING_CONTENT = {
       { emoji: '🏛️', title: 'Retirement accounts, simplified', text: "Many workplaces offer special accounts (like a 401(k) or an IRA in the US) built for long-term investing, often with tax advantages. They're designed to be left alone for decades." },
       { emoji: '📱', title: 'Getting started today', text: "Modern investing apps and custodial accounts have made it easier than ever for a teenager to start investing small, real amounts with a parent's help." },
       { emoji: '🧮', title: 'The Rule of 72', text: "A quick trick: divide 72 by your investment's yearly growth rate to estimate how many years it takes to double. At 8% growth, that's roughly 72 ÷ 8 = 9 years to double." },
+      { emoji: '🐂', title: 'Bull markets and bear markets', text: "A 'bull market' is a stretch of time when prices are generally rising. A 'bear market' is a stretch when prices are generally falling. Both are completely normal parts of a long investing journey." },
+      { emoji: '🧾', title: 'A brief word on taxes', text: "In many places, profit made from selling an investment can be taxed — often called a capital gains tax. It's a real cost worth knowing about, even though the details vary a lot by country." },
     ],
     quiz: [
       {
@@ -215,6 +259,18 @@ export const INVESTING_CONTENT = {
         choices: ['About 8 years', 'About 50 years'],
         correctIndex: 0,
         explanation: '72 ÷ 9 = 8 — a handy shortcut for estimating doubling time.',
+      },
+      {
+        question: 'What is a "bear market"?',
+        choices: ['A stretch of time when prices are generally falling', 'A market that only sells stuffed animals'],
+        correctIndex: 0,
+        explanation: 'A bear market describes a generally declining stretch of prices — a normal part of investing.',
+      },
+      {
+        question: 'What is a capital gains tax generally applied to?',
+        choices: ['Profit made from selling an investment', 'Every dollar you ever save'],
+        correctIndex: 0,
+        explanation: 'Capital gains tax typically applies to the profit from selling an investment, not savings itself.',
       },
     ],
   },

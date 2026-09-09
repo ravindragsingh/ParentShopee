@@ -11,6 +11,8 @@ export const AI_CONTENT = {
       { emoji: '❤️', title: "AI doesn't have real feelings", text: "Even when AI talks in a friendly voice, it can't really feel happy, sad, or love you the way a person or a pet can." },
       { emoji: '🎨', title: 'AI can help make things', text: "Some AI can help draw a silly picture or make up a story when you ask it to — like a helper for making fun stuff." },
       { emoji: '🙃', title: "AI isn't always right", text: "Sometimes AI gets confused and gives a silly or wrong answer — it's still learning, just like you are!" },
+      { emoji: '🎵', title: 'AI can make music too', text: "Some AI can put sounds together to make a little tune, kind of like how it can help draw a picture." },
+      { emoji: '🚗', title: 'AI shows up in surprising places', text: "AI can help some toy cars drive themselves around a track, or help a game character know where to move next." },
       { emoji: '👨‍👩‍👧', title: 'Ask a grown-up first', text: "If you want to use an AI toy or app, or you're not sure about something it says, always check with a grown-up first." },
     ],
     quiz: [
@@ -44,6 +46,18 @@ export const AI_CONTENT = {
         correctIndex: 0,
         explanation: 'A grown-up can help make sure it\'s safe and okay to use.',
       },
+      {
+        question: 'Can AI help make a little piece of music?',
+        choices: ['Yes, it can put sounds together', 'No, AI can never make sounds'],
+        correctIndex: 0,
+        explanation: 'AI can help create sounds and music, similar to how it can help draw pictures.',
+      },
+      {
+        question: 'Where might AI show up in a toy?',
+        choices: ['Helping a toy car steer itself around a track', 'AI never shows up in any toy'],
+        correctIndex: 0,
+        explanation: 'AI can be built into toys, like helping a toy car or game character move on its own.',
+      },
     ],
   },
 
@@ -56,6 +70,8 @@ export const AI_CONTENT = {
       { emoji: '🧠', title: 'AI vs. your brain', text: 'Your brain can understand feelings, come up with brand-new ideas, and truly care about people. AI is very good at specific tasks, but it doesn\'t understand things the way you do.' },
       { emoji: '🔍', title: 'Being a smart AI user', text: "Just because AI says something doesn't mean it's true. Smart AI users double-check important information instead of believing everything right away." },
       { emoji: '🤖', title: 'Robots vs. AI', text: "A robot is a physical machine. AI is the 'smart' software that can control a robot — or can run inside a phone or computer with no robot body at all." },
+      { emoji: '🌐', title: 'AI helps you search', text: "When you search for something online, AI often helps decide which results are most likely to actually answer your question." },
+      { emoji: '🗳️', title: 'People see AI differently', text: "Some people are really excited about AI and what it can do. Others feel worried about it. Both views are worth listening to — AI is still a new, changing technology." },
     ],
     quiz: [
       {
@@ -94,6 +110,18 @@ export const AI_CONTENT = {
         correctIndex: 0,
         explanation: 'Checking important facts is a great habit, especially with AI answers.',
       },
+      {
+        question: 'What does AI often help with when you search online?',
+        choices: ['Deciding which results best answer your question', 'Nothing — search results are picked at random'],
+        correctIndex: 0,
+        explanation: 'AI helps rank and select search results that are likely to match what you\'re looking for.',
+      },
+      {
+        question: 'Do all people feel the same way about AI?',
+        choices: ['No, some are excited and some are worried', 'Yes, everyone agrees completely'],
+        correctIndex: 0,
+        explanation: 'AI is a new, changing technology, and people reasonably have different views about it.',
+      },
     ],
   },
 
@@ -106,6 +134,8 @@ export const AI_CONTENT = {
       { emoji: '🔒', title: 'AI and privacy', text: 'AI tools often need data to work well. Being thoughtful about what personal information you share with an AI app matters, just like with any app.' },
       { emoji: '🧭', title: 'Fact-checking AI answers', text: 'AI can sound very confident even when it\'s wrong — sometimes called a "hallucination." Always double-check important facts from a trusted source.' },
       { emoji: '🌍', title: "AI's growing role", text: 'AI already helps translate languages, spot diseases in medical scans, and recommend what you watch or read — and its role keeps growing.' },
+      { emoji: '🤝', title: 'AI working with people', text: 'In many fields, AI is a tool that works alongside a person — helping a doctor spot something on a scan faster, for example — rather than fully replacing their judgment.' },
+      { emoji: '🔄', title: 'AI keeps changing', text: 'AI systems get updated and retrained over time, so an AI tool from a year ago might behave quite differently — hopefully better — today.' },
     ],
     quiz: [
       {
@@ -150,6 +180,18 @@ export const AI_CONTENT = {
         correctIndex: 0,
         explanation: 'Translation, medical scan analysis, and recommendations are real, helpful AI uses.',
       },
+      {
+        question: 'In many fields, how does AI typically work alongside people?',
+        choices: ['As a helpful tool, not a full replacement for their judgment', 'By completely taking over every decision'],
+        correctIndex: 0,
+        explanation: 'AI often assists a person\'s work rather than fully replacing their judgment.',
+      },
+      {
+        question: 'Does an AI tool stay exactly the same forever once it\'s released?',
+        choices: ['No, it often gets updated and retrained over time', 'Yes, it never changes at all'],
+        correctIndex: 0,
+        explanation: 'AI systems are commonly updated, so their behavior can change over time.',
+      },
     ],
   },
 
@@ -163,6 +205,8 @@ export const AI_CONTENT = {
       { emoji: '🎓', title: 'Using AI responsibly for school', text: 'AI can be a great study partner for explaining concepts, but relying on it to do your thinking for you weakens the exact skills you\'re in school to build.' },
       { emoji: '🔐', title: 'Data and consent', text: 'Many AI systems are trained on massive datasets pulled from the internet, which raises real questions about consent and ownership that society is still working out.' },
       { emoji: '🚀', title: 'Why understanding AI matters for you', text: 'Whatever career you choose, AI will likely touch it. Understanding the basics now — not just using AI, but roughly how it works and where it fails — is a genuine head start.' },
+      { emoji: '🌍', title: 'AI and energy use', text: 'Training very large AI models takes a significant amount of computing power and electricity — an environmental cost that researchers and companies are actively working to reduce.' },
+      { emoji: '📜', title: 'New rules for AI', text: 'Governments around the world are starting to write laws and regulations about how AI can be built and used — an evolving area, similar to how early internet and privacy laws once developed.' },
     ],
     quiz: [
       {
@@ -212,6 +256,18 @@ export const AI_CONTENT = {
         choices: ['How brain cells connect to each other', 'How electricity flows through a wall socket'],
         correctIndex: 0,
         explanation: 'The "neural" in neural networks nods to this loose inspiration from the brain.',
+      },
+      {
+        question: 'Why does training large AI models raise environmental concerns?',
+        choices: ['It takes significant computing power and electricity', 'AI models are grown from actual trees'],
+        correctIndex: 0,
+        explanation: 'Large-scale AI training has a real energy cost that\'s an active area of research to reduce.',
+      },
+      {
+        question: 'What are governments starting to do about AI?',
+        choices: ['Write laws and regulations about how it can be built and used', 'Nothing at all, anywhere'],
+        correctIndex: 0,
+        explanation: 'AI regulation is an evolving area as governments respond to the technology\'s growth.',
       },
     ],
   },

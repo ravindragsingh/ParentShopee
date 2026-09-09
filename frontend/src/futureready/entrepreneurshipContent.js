@@ -10,6 +10,8 @@ export const ENTREPRENEURSHIP_CONTENT = {
       { emoji: '🙋', title: 'Who is a customer?', text: "A customer is someone who buys what you're selling. Being friendly and helpful makes customers want to come back." },
       { emoji: '🎨', title: 'You can make things too!', text: "Drawing pictures, making bracelets, or baking cookies to share or sell are all little ways of being an entrepreneur — someone who makes and offers things." },
       { emoji: '💪', title: 'It takes effort', text: "Making a lemonade stand work takes real effort — squeezing lemons, making a sign, and standing there smiling at customers!" },
+      { emoji: '🏗️', title: 'Making something to sell', text: "Before you can sell something, you have to make it first — like squeezing the lemons and mixing in sugar and water to actually make the lemonade." },
+      { emoji: '😀', title: 'A happy customer comes back', text: "When a customer really likes what you sold them, they often want to come back and buy from you again." },
     ],
     quiz: [
       {
@@ -42,6 +44,18 @@ export const ENTREPRENEURSHIP_CONTENT = {
         correctIndex: 0,
         explanation: 'From squeezing lemons to making a sign, a lemonade stand takes real effort to run.',
       },
+      {
+        question: 'What has to happen before you can sell something?',
+        choices: ['You have to make it first', 'You can sell it before it exists'],
+        correctIndex: 0,
+        explanation: 'Making the lemonade comes before selling it — you need something real to offer.',
+      },
+      {
+        question: 'What often happens when a customer really likes what you sold them?',
+        choices: ['They want to come back and buy again', 'They never think about it again'],
+        correctIndex: 0,
+        explanation: 'A happy customer is likely to return, which helps a little business keep going.',
+      },
     ],
   },
 
@@ -54,6 +68,8 @@ export const ENTREPRENEURSHIP_CONTENT = {
       { emoji: '📢', title: 'Telling people about it', text: "Even a great product needs people to know it exists! A colorful sign or telling your neighbors is a simple form of marketing." },
       { emoji: '🧾', title: 'Keeping track', text: "Writing down what you spent and what you earned helps you see if your little business is actually making money." },
       { emoji: '🔁', title: 'Trying again if it doesn\'t work', text: "If a business idea doesn't work the first time, entrepreneurs often tweak it and try again instead of giving up." },
+      { emoji: '🎨', title: 'Making your product special', text: "Adding something unique — like a fun flavor of lemonade nobody else has — can make customers pick your stand over anyone else's." },
+      { emoji: '📅', title: 'Planning your day', text: "Deciding when to open your stand, how much lemonade to make, and what supplies you need ahead of time helps the whole day run more smoothly." },
     ],
     quiz: [
       {
@@ -92,6 +108,18 @@ export const ENTREPRENEURSHIP_CONTENT = {
         correctIndex: 0,
         explanation: 'Adjusting and retrying is a normal, healthy part of entrepreneurship.',
       },
+      {
+        question: 'How can making your product special help a business?',
+        choices: ['It can make customers pick you over other sellers', 'It never makes any difference'],
+        correctIndex: 0,
+        explanation: 'Something unique about your product gives customers a reason to choose you.',
+      },
+      {
+        question: 'Why is it helpful to plan your day before opening a stand?',
+        choices: ['It helps the whole day run more smoothly', 'Planning ahead never actually helps'],
+        correctIndex: 0,
+        explanation: 'Knowing what supplies and timing you need ahead of time avoids scrambling later.',
+      },
     ],
   },
 
@@ -104,6 +132,8 @@ export const ENTREPRENEURSHIP_CONTENT = {
       { emoji: '♻️', title: 'Reinvesting in growth', text: "Instead of spending all the profit right away, many entrepreneurs put some of it back into the business — better supplies, a nicer sign, more inventory." },
       { emoji: '🏷️', title: 'Standing out from competitors', text: "If other people sell something similar, a business needs a reason customers should pick them — better quality, price, or service." },
       { emoji: '📣', title: 'Word of mouth', text: "Happy customers telling their friends is one of the most powerful (and free!) ways a small business grows." },
+      { emoji: '🌟', title: 'Building a name people remember', text: "A consistent name, look, or feel for your business — sometimes called a brand — helps customers recognize and trust you again next time." },
+      { emoji: '📱', title: 'Selling online with help', text: "With a parent's help, some young entrepreneurs sell crafts or art through simple online marketplaces, reaching far more people than a stand on the street." },
     ],
     quiz: [
       {
@@ -142,6 +172,18 @@ export const ENTREPRENEURSHIP_CONTENT = {
         correctIndex: 0,
         explanation: 'Word of mouth is free, powerful marketing that comes from satisfied customers.',
       },
+      {
+        question: 'What is a "brand"?',
+        choices: ['A consistent name or look that helps customers recognize a business', 'A random word with no meaning'],
+        correctIndex: 0,
+        explanation: 'A recognizable brand builds trust and makes customers more likely to return.',
+      },
+      {
+        question: 'How might a young entrepreneur reach more customers than a street stand?',
+        choices: ['Selling online with a parent\'s help', 'It\'s impossible to ever reach more people'],
+        correctIndex: 0,
+        explanation: 'Online marketplaces, used with a parent\'s guidance, can reach far more people than a physical stand.',
+      },
     ],
   },
 
@@ -155,6 +197,8 @@ export const ENTREPRENEURSHIP_CONTENT = {
       { emoji: '⚖️', title: 'Ethics in business', text: "Long-term success usually depends on being honest with customers, treating employees fairly, and not cutting corners just to make a quick profit." },
       { emoji: '🎯', title: 'Solving a real problem', text: "The most durable businesses tend to solve a genuine problem for people — not just chase a trend that might fade quickly." },
       { emoji: '🧭', title: 'Resilience and persistence', text: "Markets change, plans fail, and competitors appear. Entrepreneurs who adapt and keep going tend to outlast those who give up at the first setback." },
+      { emoji: '🤲', title: 'Businesses that also help others', text: "Some entrepreneurs build 'social enterprises' — businesses designed to make money while also solving a social or environmental problem, not purely for profit." },
+      { emoji: '📈', title: 'Measuring success beyond money', text: "Revenue matters, but many entrepreneurs also track customer satisfaction, repeat business, and real-world impact as signs their business is genuinely succeeding." },
     ],
     quiz: [
       {
@@ -198,6 +242,18 @@ export const ENTREPRENEURSHIP_CONTENT = {
         choices: ['Solving a genuine, ongoing problem for people', 'Only ever chasing whatever trend is popular right now'],
         correctIndex: 0,
         explanation: 'Businesses solving real, lasting problems tend to outlast those chasing short-lived trends.',
+      },
+      {
+        question: 'What is a "social enterprise"?',
+        choices: ['A business built to make money while also solving a social or environmental problem', 'A business that only exists on social media'],
+        correctIndex: 0,
+        explanation: 'Social enterprises intentionally pursue impact alongside profit.',
+      },
+      {
+        question: 'Besides revenue, what else might an entrepreneur track as a sign of success?',
+        choices: ['Customer satisfaction and real-world impact', 'Nothing else is ever worth tracking'],
+        correctIndex: 0,
+        explanation: 'Many entrepreneurs value signs of genuine success beyond just the money earned.',
       },
     ],
   },

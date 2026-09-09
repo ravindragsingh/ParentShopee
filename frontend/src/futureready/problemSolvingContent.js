@@ -10,6 +10,8 @@ export const PROBLEM_SOLVING_CONTENT = {
       { emoji: '🙋', title: 'Asking for help is smart', text: "If you've tried and tried and still feel stuck, asking a grown-up or a friend for help is a smart next step, not giving up." },
       { emoji: '🪜', title: 'Small steps first', text: "Breaking a big task, like cleaning a messy room, into small steps — like 'pick up the toys first' — makes it feel much less overwhelming." },
       { emoji: '🎉', title: 'Celebrate figuring it out', text: "When you solve a problem — even a small one — it's worth feeling proud! You did real thinking to get there." },
+      { emoji: '🧦', title: 'Sorting and matching', text: "Matching socks into pairs or sorting blocks by color is a fun way to practice noticing what goes together — a real problem-solving skill." },
+      { emoji: '🎯', title: 'One step at a time', text: "You don't have to solve everything at once — just figure out the very next small step, do it, and then figure out the step after that." },
     ],
     quiz: [
       {
@@ -42,6 +44,18 @@ export const PROBLEM_SOLVING_CONTENT = {
         correctIndex: 0,
         explanation: 'Small steps make big tasks feel much more manageable.',
       },
+      {
+        question: 'What skill do you practice by matching socks or sorting blocks by color?',
+        choices: ['Noticing what goes together', 'Nothing useful at all'],
+        correctIndex: 0,
+        explanation: 'Sorting and matching build the same noticing skills used in real problem solving.',
+      },
+      {
+        question: 'When a task feels too big, what can help?',
+        choices: ['Just figuring out the very next small step', 'Trying to finish everything in one go'],
+        correctIndex: 0,
+        explanation: 'Focusing on one step at a time makes a big task feel doable.',
+      },
     ],
   },
 
@@ -54,6 +68,8 @@ export const PROBLEM_SOLVING_CONTENT = {
       { emoji: '🤝', title: 'Solving problems with others', text: "Sometimes two heads really are better than one — working with someone else can surface ideas you wouldn't have thought of alone." },
       { emoji: '⏸️', title: 'Taking a break when stuck', text: "Stepping away from a tricky problem for a few minutes sometimes helps your brain come back to it with a fresh idea." },
       { emoji: '🏆', title: 'Comparing your solutions', text: "When you have more than one possible solution, thinking about which is easiest, fastest, or works best helps you choose wisely." },
+      { emoji: '🔧', title: 'Using tools to help', text: "A ruler, a calculator, or a checklist can make solving a problem much easier — smart problem solvers use the right tool for the job." },
+      { emoji: '👀', title: 'Looking from a new angle', text: "If a problem feels stuck, trying to look at it completely differently — like imagining how someone else would approach it — can reveal a solution you missed." },
     ],
     quiz: [
       {
@@ -92,6 +108,18 @@ export const PROBLEM_SOLVING_CONTENT = {
         correctIndex: 0,
         explanation: 'Stepping away briefly can help your mind approach a problem freshly.',
       },
+      {
+        question: 'How can a tool like a checklist help with problem solving?',
+        choices: ['It makes tackling the problem easier and more organized', 'Tools never actually help'],
+        correctIndex: 0,
+        explanation: 'Using the right tool for the job is a genuinely smart problem-solving move.',
+      },
+      {
+        question: 'What can help when a problem feels completely stuck?',
+        choices: ['Looking at it from a totally new angle', 'Repeating the exact same failed approach again'],
+        correctIndex: 0,
+        explanation: 'A fresh perspective can reveal solutions the original approach missed.',
+      },
     ],
   },
 
@@ -104,6 +132,8 @@ export const PROBLEM_SOLVING_CONTENT = {
       { emoji: '🔄', title: 'Adjusting the plan', text: "A good plan isn't set in stone — if something isn't working partway through, adjusting the plan is smarter than stubbornly sticking with a failing approach." },
       { emoji: '🎯', title: 'Focusing on what you can control', text: "Some parts of a problem are out of your control. Focusing your energy on the parts you can actually influence tends to be far more productive." },
       { emoji: '📊', title: 'Checking if it actually worked', text: "After trying a solution, honestly checking whether it actually solved the problem — not just whether it felt good to try — is an important last step." },
+      { emoji: '🧪', title: 'Testing your solution safely', text: "Before rolling out a solution fully, trying it on a small scale first — like testing one part of a plan — helps catch problems before they get big." },
+      { emoji: '🗂️', title: 'Organizing your approach', text: "Writing down your plan, or listing the steps in order, helps you stay on track and notice quickly if something's been missed." },
     ],
     quiz: [
       {
@@ -142,6 +172,18 @@ export const PROBLEM_SOLVING_CONTENT = {
         correctIndex: 0,
         explanation: 'Checking real results, not just effort, tells you whether the problem is truly solved.',
       },
+      {
+        question: 'Why test a solution on a small scale first?',
+        choices: ['It helps catch problems before they get big', 'Testing small scale never reveals anything useful'],
+        correctIndex: 0,
+        explanation: 'A small test can surface issues before committing to the full solution.',
+      },
+      {
+        question: 'How does writing down your plan help?',
+        choices: ['It helps you stay on track and notice missed steps', 'Writing it down never actually helps'],
+        correctIndex: 0,
+        explanation: 'A written plan makes it easier to follow through and catch gaps.',
+      },
     ],
   },
 
@@ -155,6 +197,8 @@ export const PROBLEM_SOLVING_CONTENT = {
       { emoji: '🧮', title: 'Prioritizing which problem to solve first', text: "When facing multiple problems at once, deciding which one to tackle first — based on urgency and impact — is itself an important problem-solving skill." },
       { emoji: '🤝', title: 'Collaborative problem solving', text: "Complex problems often benefit from multiple perspectives — dividing a big problem among a team can be far more effective than solving it entirely alone." },
       { emoji: '🔁', title: 'Iterating toward a better solution', text: "Instead of expecting a perfect solution on the first try, iterating — improving a working-but-imperfect solution over several rounds — often produces the strongest result." },
+      { emoji: '🎲', title: 'Problems with no perfect answer', text: "Some real problems don't have one clearly best solution — every option involves trade-offs. Choosing the option with the best overall balance is often the most realistic goal." },
+      { emoji: '🧩', title: 'Combining multiple solutions', text: "Sometimes the strongest answer isn't picking just one option, but combining the best parts of several different approaches into one." },
     ],
     quiz: [
       {
@@ -198,6 +242,18 @@ export const PROBLEM_SOLVING_CONTENT = {
         choices: ['Improving a working-but-imperfect solution over several rounds', 'Expecting the very first attempt to be flawless'],
         correctIndex: 0,
         explanation: 'Iteration builds toward a strong solution gradually, rather than all at once.',
+      },
+      {
+        question: 'What is realistic when a problem has no single perfect answer?',
+        choices: ['Choosing the option with the best overall balance of trade-offs', 'Refusing to decide until a perfect option appears'],
+        correctIndex: 0,
+        explanation: 'Many real problems require accepting trade-offs rather than finding a flawless solution.',
+      },
+      {
+        question: 'What can produce a stronger answer than picking just one option?',
+        choices: ['Combining the best parts of several approaches', 'Always rejecting every approach except one'],
+        correctIndex: 0,
+        explanation: 'Blending strong elements from multiple solutions can outperform any single one.',
       },
     ],
   },
