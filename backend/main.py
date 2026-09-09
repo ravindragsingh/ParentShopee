@@ -151,6 +151,13 @@ def startup():
         conn.execute(text("UPDATE users SET pin_attempts=0 WHERE pin_attempts IS NULL"))
         conn.execute(text("UPDATE users SET pin_auto_generated='0' WHERE pin_auto_generated IS NULL"))
         conn.execute(text("UPDATE wallets SET savings_balance=0 WHERE savings_balance IS NULL"))
+        # Demo family sample kids (Alice/Bob) predate birth_month/birth_year
+        # being a required field -- set them explicitly so age-based features
+        # like Future-Ready work out of the box on any existing database,
+        # not just freshly-seeded ones. Six years apart, matching the two
+        # accounts' demo personas.
+        conn.execute(text("UPDATE users SET birth_month=6, birth_year=2020 WHERE id='kid1'"))
+        conn.execute(text("UPDATE users SET birth_month=1, birth_year=2017 WHERE id='kid2'"))
         # Migrate every family-profile account (kids, co-guardian, and now the primary
         # guardian too — every profile in the picker is PIN-gated) onto the PIN model:
         # generate a PIN for anyone who doesn't have one yet, and flag it so the
