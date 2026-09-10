@@ -159,11 +159,13 @@ class DailyChoreSettingsUpdate(BaseModel):
     deductionEnabled: bool
 
 class AdminUserUpdate(BaseModel):
-    name:     Optional[str] = None
-    email:    Optional[str] = None
-    password: Optional[str] = None   # primary guardian accounts only
-    pin:      Optional[str] = None   # kid / co-guardian profiles only
-    avatar:   Optional[str] = None
+    name:       Optional[str] = None
+    email:      Optional[str] = None
+    password:   Optional[str] = None   # primary guardian accounts only
+    pin:        Optional[str] = None   # kid / co-guardian profiles only
+    avatar:     Optional[str] = None
+    birthMonth: Optional[int] = None   # 1-12 -- guardians and kids alike
+    birthYear:  Optional[int] = None
 
 class AdminChoreUpdate(BaseModel):
     title:         Optional[str]   = None

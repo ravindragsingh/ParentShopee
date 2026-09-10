@@ -1,3 +1,4 @@
+from datetime import date
 from uuid import uuid4
 from typing import Optional
 
@@ -99,6 +100,16 @@ def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends
         target.password = body.password
     if body.avatar is not None:
         target.avatar = body.avatar
+    if body.birthMonth is not None or body.birthYear is not None:
+        if body.birthMonth is None or body.birthYear is None:
+            fail("Birth month and year must both be provided together")
+        if not (1 <= body.birthMonth <= 12):
+            fail("Birth month must be between 1 and 12")
+        current_year = date.today().year
+        if not (current_year - 120 <= body.birthYear <= current_year):
+            fail("Please enter a valid birth year")
+        target.birth_month = body.birthMonth
+        target.birth_year = body.birthYear
     db.commit()
     db.refresh(target)
     return ok(safe_user(target))
