@@ -324,6 +324,18 @@ def startup():
             dict(id="leadership-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
                  topic="leadership", topic_title="Leadership", topic_emoji="👑",
                  age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=32),
+            dict(id="negotiation-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
+                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=33),
+            dict(id="negotiation-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
+                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=34),
+            dict(id="negotiation-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
+                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=35),
+            dict(id="negotiation-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
+                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=36),
         ]
         for fields in catalog:
             existing = db3.query(DBLearningModule).filter(DBLearningModule.id == fields["id"]).first()
