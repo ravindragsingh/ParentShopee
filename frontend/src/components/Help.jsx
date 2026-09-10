@@ -105,6 +105,15 @@ function GuardianHelp() {
         <Tip emoji="🔒" text="Sample rewards are unlimited. Custom rewards you write yourself are capped at 10 per family, shown as a badge on the Add Shop Item header. Contact support from the ☰ menu to add more." />
       </Section>
 
+      <Section icon="🚀" title="Future-Ready Lessons">
+        <Tip emoji="🚀" text="The Future-Ready tab has short, interactive lessons on real-world skills — investing, AI, entrepreneurship, critical thinking, communication, digital safety, problem solving, and leadership." />
+        <Tip emoji="🎚️" text="Each topic has 4 age-band versions (4-6, 7-9, 10-13, 13-17). Turn on the bands you want your family to use and set how many points each one awards on a passing quiz." />
+        <Tip emoji="🎯" text="Kids never see the age bands — each child is automatically shown the one lesson per topic that matches their own age, calculated from their birth month and year." />
+        <Tip emoji="👁️" text="Click a topic to preview any lesson yourself before turning it on for your kids." />
+        <Tip emoji="⭐" text="Points are awarded once per lesson, the first time a child passes its quiz. Retaking a completed lesson lets them review it without earning points again." />
+        <Tip emoji="📅" text="No birth month or year set for a child yet? They'll see a note asking you to set it — add it from the Kids tab so Future-Ready knows which version to show them." />
+      </Section>
+
       <Section icon="🎁" title="Award Bonus & Remove Points">
         <Tip emoji="🎁" text="On the Kids page, click 'Award Bonus' or 'Remove Points' on a child's card to adjust their balance for anything outside the chore list — good behaviour, extra effort, or a consequence." />
         <Tip emoji="✅" text="Use the quick-select buttons (5, 10, 15, 20, 50 pts) or type a custom amount." />
@@ -128,6 +137,7 @@ function GuardianHelp() {
       <Section icon="🛡️" title="Admin Panel & Account">
         <Tip emoji="🔑" text="Open the Admin Panel (☰ menu) to change your sign-in password, or your own profile-picker PIN — they're separate secrets, and both live here alongside co-guardian management." />
         <Tip emoji="🔢" text="To change a child's PIN, go to the Kids tab and click '🔑 PIN' next to their name." />
+        <Tip emoji="🎂" text="To set or update a child's birth month and year, go to the Kids tab and click '🎂 Birthday' next to their name. It's used to show them the right Future-Ready lesson for their age." />
         <Tip emoji="🚪" text="Use 'Sign Out' in the Admin Panel — or the ☰ menu — to log out of the device completely. 'Switch Profile' only leaves your profile, keeping the family signed in." />
         <Tip emoji="💡" text="The 'Tip of the Day' card in the Admin Panel lets you turn the daily tip popup back on if you'd previously dismissed it with 'Don't show tips again'." />
         <Tip emoji="⚠️" text="The 'Delete Account' danger zone at the bottom of the Admin Panel permanently deletes your account. As the primary guardian, this deletes your entire family — every kid profile, your co-guardian, and all history. This cannot be undone." />
@@ -205,6 +215,13 @@ function KidHelp() {
         <Tip emoji="💡" text="Can't afford something yet? Keep doing chores — you'll get there!" />
       </Section>
 
+      <Section icon="🚀" title="Future-Ready Lessons">
+        <Tip emoji="🚀" text="The Future-Ready tab has fun, short lessons on things like investing, AI, entrepreneurship, communication, digital safety, and leadership." />
+        <Tip emoji="📖" text="Each lesson is just a few slides — read through them, then take a short quiz at the end." />
+        <Tip emoji="⭐" text="Pass the quiz and you earn points right away, added straight to your Wallet." />
+        <Tip emoji="🔁" text="Already completed a lesson? Click 'Review' to read through it again any time — you just won't earn extra points for it." />
+      </Section>
+
       <Section icon="💰" title="Your Wallet">
         <Tip emoji="💰" text="The Wallet tab shows your current point balance and the last 15 transactions." />
         <Tip emoji="🟢" text="Green entries are points you earned from completing chores." />
@@ -260,6 +277,7 @@ export const LOGIN_HELP_CARDS = [
   { icon: '⭐', title: 'Earn Points', text: "Once a guardian approves a chore, the child's wallet is credited automatically." },
   { icon: '🎁', title: 'Award Bonus & Remove Points', text: "Guardians can award or deduct points any time — not just for completing chores — with a short message explaining why, saved right into the child's wallet history." },
   { icon: '🛍️', title: 'Spend in Shop', text: 'Kids redeem their points for rewards the guardian has set up — screen time, picking dinner, and more.' },
+  { icon: '🚀', title: 'Future-Ready Lessons', text: 'Short, interactive lessons on investing, AI, entrepreneurship, communication, and more — automatically matched to each child\'s age, with points for passing the quiz.' },
   { icon: '💬', title: 'Stay Connected', text: 'Guardians and kids can message each other inside the app. Add a co-guardian from the Admin Panel so both guardians share full family access.' },
 ]
 

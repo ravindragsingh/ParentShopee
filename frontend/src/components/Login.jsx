@@ -15,7 +15,7 @@ export function LegalAgreementSections() {
   return (
     <>
       <Section title="1. About Reward Ur Kids">
-        Reward Ur Kids is a family management app that allows guardians to assign chores to children, award points, and let children redeem those points in a family shop. By creating an account you agree to use the app only for lawful family management purposes.
+        Reward Ur Kids is a family management app that allows guardians to assign chores to children, award points, let children redeem those points in a family shop, and offer age-appropriate Future-Ready lessons on real-world skills. By creating an account you agree to use the app only for lawful family management purposes.
       </Section>
 
       <Section title="2. Eligibility">
@@ -23,7 +23,7 @@ export function LegalAgreementSections() {
       </Section>
 
       <Section title="3. Children's Privacy">
-        We take children's privacy seriously. Children's names, avatars, and point balances are stored solely to operate the app for your family. We do not share, sell, or disclose children's data to third parties. Guardians are responsible for keeping their login credentials secure.
+        We take children's privacy seriously. Children's names, avatars, point balances, and birth month/year (used only to show age-appropriate Future-Ready lessons) are stored solely to operate the app for your family. We do not share, sell, or disclose children's data to third parties. Guardians can add or update a child's birth month and year at any time from the Kids tab, and are responsible for keeping their login credentials secure.
       </Section>
 
       <Section title="4. Account Responsibilities">
