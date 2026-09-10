@@ -105,6 +105,7 @@ export const api = {
   getKids:           ()                    => request('GET',  '/api/users/kids'),
   addKid:            (body)               => request('POST', '/api/kids', body),
   updateKidPin:      (kidId, pin)         => request('PUT',  `/api/kids/${kidId}/pin`, { pin }),
+  updateKidBirthdate: (kidId, birthMonth, birthYear) => request('PUT', `/api/kids/${kidId}/birthdate`, { birthMonth, birthYear }),
   awardBonus:        (kidId, points, reason) => request('POST', `/api/kids/${kidId}/bonus`, { points, reason }),
   adjustWallet:      (kidId, amount, reason) => request('POST', `/api/kids/${kidId}/wallet/adjust`, { amount, reason }),
   getKidReport:      (kidId, period)      => request('GET', `/api/kids/${kidId}/report?period=${period}`),

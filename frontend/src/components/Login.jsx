@@ -538,9 +538,26 @@ function GoogleSignInButton() {
   useEffect(() => {
     // The web widget can't work inside a native app WebView (Google blocks
     // it) -- native platforms use the custom button below instead.
-    if (isNative || !clientId || !window.google?.accounts?.id || !buttonRef.current) return
-    window.google.accounts.id.initialize({ client_id: clientId, callback: (response) => handleIdToken(response.credential) })
-    window.google.accounts.id.renderButton(buttonRef.current, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
+    if (isNative || !clientId) return
+    // index.html loads the GSI script with async/defer, so on a first visit
+    // (nothing cached yet) it can still be mid-download when this effect
+    // first runs -- window.google isn't defined yet, the check below used to
+    // just bail out with nothing to retry it, and the button silently never
+    // appeared. A refresh "fixed" it only because the browser's HTTP cache
+    // made the script available fast enough the next time. Poll instead of
+    // assuming it's already there.
+    let cancelled = false
+    function tryRender() {
+      if (cancelled) return
+      if (!window.google?.accounts?.id || !buttonRef.current) {
+        setTimeout(tryRender, 100)
+        return
+      }
+      window.google.accounts.id.initialize({ client_id: clientId, callback: (response) => handleIdToken(response.credential) })
+      window.google.accounts.id.renderButton(buttonRef.current, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
+    }
+    tryRender()
+    return () => { cancelled = true }
   }, [isNative, clientId, handleIdToken])
 
   async function handleCompleteProfile(e) {

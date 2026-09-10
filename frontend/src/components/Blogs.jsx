@@ -6,6 +6,156 @@ import { setStatusBarForLightBg } from '../utils/nativeChrome.js'
 
 const POSTS = [
   {
+    id: 10,
+    slug: 'why-teaching-kids-to-invest-matters',
+    title: 'Why Teaching Kids to Invest Matters More Than Teaching Them to Save',
+    subtitle: "Saving keeps money safe. Investing makes it grow. Kids who learn the difference early get a head start that's almost impossible to catch up to later.",
+    date: 'September 2026',
+    readTime: '7 min read',
+    emoji: '📈',
+    tags: ['Investing', 'Financial Literacy', 'Parenting', 'Money Skills'],
+    content: [
+      {
+        type: 'intro',
+        text: "Most financial lessons parents pass on stop at the same three words: earn, save, spend. It's a good foundation — but it's also an incomplete one, because it leaves out the single idea that separates people who build real wealth from people who simply avoid running out of money: investing. A piggy bank keeps a dollar safe. It never once makes that dollar grow into two.",
+      },
+      {
+        type: 'intro',
+        text: "Investing rarely comes up with kids because it feels like an adult topic — stocks, markets, risk, things that seem too complicated to hand to a nine-year-old. But the core idea behind investing isn't complicated at all, and the earlier a child understands it, the more powerful it becomes. That's not a metaphor. It's math.",
+      },
+      {
+        type: 'h2',
+        text: 'Saving Teaches Patience. Investing Teaches Growth.',
+      },
+      {
+        type: 'p',
+        text: "Saving is a genuinely valuable habit, and it should come first — a child needs to learn to hold onto money before they're ready to risk any of it. But saving alone has a ceiling. Ten dollars set aside today is still ten dollars a year from now, and twenty years from now, unless it's invested somewhere that lets it grow. Saving protects money. Investing puts it to work.",
+      },
+      {
+        type: 'p',
+        text: "That distinction is the whole lesson, and it's simple enough for a child to grasp the first time it's explained with the right example: a seed planted in a jar stays a seed forever. A seed planted in soil becomes a tree that keeps producing more seeds, year after year, without anyone doing anything further. Money invested behaves the same way.",
+      },
+      {
+        type: 'h2',
+        text: "The One Advantage Kids Have That Adults Would Pay Anything For: Time",
+      },
+      {
+        type: 'p',
+        text: "Compound growth is the mechanism behind almost every investing success story, and it rewards time far more than it rewards the size of the initial amount. A modest sum invested at age ten has decades to double, and double again, before it's ever needed. The exact same amount invested at age thirty has lost a third of those doublings already — permanently, no matter how much gets added later.",
+      },
+      {
+        type: 'p',
+        text: "This is the part most adults only understand with regret: they wish someone had explained compounding to them at twelve instead of thirty-two. A child who grasps it early isn't just learning a fact about money — they're being handed the single biggest lever in personal finance, at the exact moment in life when pulling it costs the least and pays off the most.",
+      },
+      {
+        type: 'h2',
+        text: 'What the Gap Actually Looks Like',
+      },
+      {
+        type: 'scenario',
+        items: [
+          { time: 'The saver', text: 'Starting at age 10, a child puts $20 a month into a jar. By 60, fifty years of steady saving adds up to $12,000 — exactly what was put in, not a cent more, because a jar does not grow money.' },
+          { time: 'The investor', text: 'Starting at the same age, with the same $20 a month, a child instead invests it and leaves it to grow at a realistic long-term market average. By 60, that same $12,000 of contributions has grown into a figure many multiples larger — not because more money went in, but because every dollar had fifty years to compound on its own.' },
+          { time: 'The difference', text: "Nobody worked harder in the second scenario. Nobody saved more aggressively. The entire gap between the two outcomes comes from one decision, made once, as early as possible: let the money grow instead of just holding it still.", },
+        ],
+      },
+      {
+        type: 'p',
+        text: "Markets don't move in a straight line — real investing involves ups, downs, and years that lose value before they recover. Numbers like these are illustrations of long-run averages, not a promise. But the underlying lesson holds regardless of any single year's performance: money that's invested has a chance to grow that money sitting still simply doesn't.",
+      },
+      {
+        type: 'h2',
+        text: 'Six Reasons to Start the Investing Conversation Early',
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: 'Compound Growth Rewards an Early Start More Than a Large One',
+        text: "A child who invests small amounts starting at ten will very likely end up ahead of an adult who invests much larger amounts starting at thirty, purely because of how many extra years of growth stack on top of each other. Starting small and starting early beats starting big and starting late almost every time.",
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: 'It Teaches Kids That Money Can Work Without More Effort',
+        text: "Every other financial lesson revolves around trading time or work for money. Investing introduces a genuinely different idea — that money, once put in the right place, can produce more money on its own, without another chore, another shift, or another hour of effort. That's a mental shift worth having decades before it actually matters.",
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: 'It Builds Real Tolerance for Ups and Downs',
+        text: "An investment's value moves — up some months, down others — and a child who sees that firsthand, in a small low-stakes account, learns not to panic over normal volatility. Adults who never experienced this as kids often sell in a panic the first time the market dips. Kids who grew up watching a balance wobble and recover tend to stay calmer with much higher stakes later.",
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: 'It Reframes Waiting as Growth, Not Loss',
+        text: "A child taught only to save experiences waiting as nothing happening. A child taught to invest experiences waiting as something happening quietly in the background. That reframe — patience as an active, productive choice rather than just delayed gratification — changes how a person relates to long-term goals for the rest of their life.",
+      },
+      {
+        type: 'benefit',
+        number: 5,
+        title: 'It Demystifies the Market Before Fear and Myths Take Hold',
+        text: 'Investing has a reputation for being risky, complicated, or "not for people like us" — reputations that usually form in adulthood, from secondhand stories rather than firsthand understanding. A child introduced to the basics early, in a calm and low-pressure way, grows up seeing investing as a normal tool rather than a mysterious gamble.',
+      },
+      {
+        type: 'benefit',
+        number: 6,
+        title: "It's a Skill Most Schools Still Don't Teach",
+        text: "Formal education covers algebra, essays, and history in detail, but rarely spends real time on how money actually grows. Whatever a child learns about investing before adulthood almost always comes from a parent, or it doesn't come at all until they're already making high-stakes decisions with no foundation underneath them.",
+      },
+      {
+        type: 'h2',
+        text: 'What This Looks Like at Different Ages',
+      },
+      {
+        type: 'feature',
+        icon: '🌱',
+        title: 'Ages 6–8: Planting the Idea',
+        text: "No accounts needed yet. Use physical props — a seed that grows into a plant, a snowball that grows as it rolls — to explain that some things get bigger on their own over time if you leave them alone. Keep it entirely conceptual and completely low-stakes.",
+      },
+      {
+        type: 'feature',
+        icon: '📊',
+        title: 'Ages 9–12: The First Real Numbers',
+        text: "This is the age to introduce a simple compound interest example with real numbers — show them what $50 becomes after five, ten, and twenty years of growth. A custodial investment account, opened and managed by a parent with the child watching, makes the idea concrete instead of hypothetical.",
+      },
+      {
+        type: 'feature',
+        icon: '🏢',
+        title: 'Ages 10–13: Owning a Piece of Something Familiar',
+        text: "Buying a single share of a company a child actually recognises — the maker of a game they play, a brand they wear — turns an abstract concept into something personal. Checking in on it occasionally teaches patience and turns market news into something that finally means something to them.",
+      },
+      {
+        type: 'feature',
+        icon: '🎯',
+        title: 'Teens: Practising With Real Stakes',
+        text: "By the teenage years, a small real investment account with money they've actually earned — even a modest amount — teaches more than any simulator can. Real stakes, however small, make the lessons about patience, risk, and growth land in a way that pretend money never quite manages.",
+      },
+      {
+        type: 'h2',
+        text: 'How to Start Without Overcomplicating It',
+      },
+      {
+        type: 'steps',
+        items: [
+          "Start with a real, physical example of compounding — a snowball, a seed, a savings calculator — before ever mentioning stocks or accounts",
+          'Show, don\'t just tell: pull up a simple compound-growth calculator together and let them type in their own numbers',
+          "Open a custodial investment account once they're old enough to understand what it is, and let them watch it, not just own it",
+          'Let a real dip happen without panicking — a calm reaction from a parent during a downturn teaches more than any lecture about "staying the course"',
+          "Connect it back to habits they already have, like saving points toward a bigger reward instead of spending right away — the patience is the same muscle, just aimed at a bigger goal",
+        ],
+      },
+      {
+        type: 'p',
+        text: "That last point is worth dwelling on. A child who has already practised the basic shape of delayed gratification — skipping a small reward now to afford a bigger one later, the exact loop Reward Ur Kids is built around — already has the emotional muscle investing depends on. They just haven't been told yet that the same patience, aimed at a real account instead of a shop, can grow into something far bigger than any single reward ever could.",
+      },
+      {
+        type: 'quote',
+        text: "Nobody regrets starting to invest too early. Plenty of adults regret starting too late, usually by exactly the number of years nobody explained it to them as a kid. The lesson isn't complicated, and it doesn't require a fortune to teach — it just requires starting the conversation while there are still fifty years ahead instead of twenty.",
+      },
+    ],
+  },
+  {
     id: 9,
     slug: 'why-kids-need-chores-early',
     title: 'Why Kids Need to Start Doing Chores Early',
