@@ -24,6 +24,15 @@ const TXN_STYLE = {
 
 const KID_AVATARS = ['🐶','🐱','🦁','🐯','🦊','🐻','🐼','🐨','🐸','🦄','🐧','🐬','🦋','🐙','🦖','🦒','🐘','🌟','⭐','🌈']
 
+const MONTH_NAMES = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+]
+const ADMIN_CURRENT_YEAR = new Date().getFullYear()
+// Wide enough to cover a guardian or a kid -- unlike the guardian-facing "add
+// child" form, this tool has to fix bad data for any account type.
+const ADMIN_BIRTH_YEAR_OPTIONS = Array.from({ length: 100 }, (_, i) => ADMIN_CURRENT_YEAR - i)
+
 function formatLastLogin(iso) {
   if (!iso) return null
   const d = new Date(iso)
@@ -69,6 +78,8 @@ function EditModal({ target, familyKids, onSave, onClose }) {
     password:      '',
     pin:           '',
     avatar:        d.avatar        || '🐶',
+    birthMonth:    d.birthMonth    || '',
+    birthYear:     d.birthYear     || '',
     // chore fields
     title:         d.title         || '',
     description:   d.description   || '',
@@ -97,11 +108,20 @@ function EditModal({ target, familyKids, onSave, onClose }) {
           const pwCheck = checkPasswordComplexity(form.password)
           if (!pwCheck.ok) { setError(pwCheck.message); setSaving(false); return }
         }
+        if ((form.birthMonth && !form.birthYear) || (!form.birthMonth && form.birthYear)) {
+          setError('Birth month and year must both be set, or both left blank.')
+          setSaving(false)
+          return
+        }
         const body = { name: form.name }
         if (!isProfile && form.email)  body.email    = form.email
         if (!isProfile && form.password) body.password = form.password
         if (isProfile && form.pin)     body.pin      = form.pin
         if (isProfile)                 body.avatar   = form.avatar
+        if (form.birthMonth && form.birthYear) {
+          body.birthMonth = Number(form.birthMonth)
+          body.birthYear  = Number(form.birthYear)
+        }
         await api.adminUpdateUser(d.id, body)
       } else {
         await api.adminUpdateChore(d.id, {
@@ -159,6 +179,24 @@ function EditModal({ target, familyKids, onSave, onClose }) {
               <div style={{ marginBottom: 14 }}>
                 <label style={labelStyle}>Full Name</label>
                 <input value={form.name} onChange={set('name')} style={inputStyle} required />
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <label style={labelStyle}>
+                  Birthday{' '}
+                  <span style={{ fontWeight: 400, color: '#94a3b8' }}>
+                    {d.age != null ? `(currently ~${d.age} yrs)` : '(not set)'}
+                  </span>
+                </label>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <select value={form.birthMonth} onChange={set('birthMonth')} style={{ ...inputStyle, flex: 1.4 }}>
+                    <option value="">Month</option>
+                    {MONTH_NAMES.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+                  </select>
+                  <select value={form.birthYear} onChange={set('birthYear')} style={{ ...inputStyle, flex: 1 }}>
+                    <option value="">Year</option>
+                    {ADMIN_BIRTH_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+                  </select>
+                </div>
               </div>
               {!isProfile && (
                 <div style={{ marginBottom: 14 }}>
