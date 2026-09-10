@@ -312,6 +312,18 @@ def startup():
             dict(id="problem-solving-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
                  topic="problem-solving", topic_title="Problem Solving", topic_emoji="🧩",
                  age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=28),
+            dict(id="leadership-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="leadership", topic_title="Leadership", topic_emoji="👑",
+                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=29),
+            dict(id="leadership-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="leadership", topic_title="Leadership", topic_emoji="👑",
+                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=30),
+            dict(id="leadership-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="leadership", topic_title="Leadership", topic_emoji="👑",
+                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=31),
+            dict(id="leadership-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="leadership", topic_title="Leadership", topic_emoji="👑",
+                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=32),
         ]
         for fields in catalog:
             existing = db3.query(DBLearningModule).filter(DBLearningModule.id == fields["id"]).first()

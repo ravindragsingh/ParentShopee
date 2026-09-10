@@ -10,6 +10,7 @@ const TOPIC_META = {
   'communication': { color: '#2563eb', bg: '#eff6ff', border: '#bfdbfe', description: 'Build skills to express yourself and listen well.' },
   'digital-safety': { color: '#dc2626', bg: '#fef2f2', border: '#fecaca', description: 'Stay safe and smart online.' },
   'problem-solving': { color: '#4f46e5', bg: '#eef2ff', border: '#c7d2fe', description: 'Learn how to tackle tricky challenges.' },
+  'leadership': { color: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0', description: 'Learn how to guide, support, and work well with others.' },
 }
 
 const DEFAULT_META = { color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4', description: '' }
