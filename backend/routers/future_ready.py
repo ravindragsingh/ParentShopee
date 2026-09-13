@@ -86,6 +86,24 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
     ])
 
 
+@router.get("/api/future-ready/{module_id}/content")
+def get_learning_content(module_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+    module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.is_active == "1").first()
+    if not module: fail("Module not found", 404)
+    if not module.content: fail("This lesson isn't ready yet.", 404)
+    if user.role == "kid":
+        # Guardians can preview any module's content before enabling it, but a
+        # kid should only ever be able to fetch content for something their
+        # family has actually turned on -- same rule as /complete enforces.
+        family_id = _family_id_for(user)
+        setting = db.query(DBFamilyLearningSetting).filter(
+            DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == module_id
+        ).first()
+        if not setting or setting.enabled != "1":
+            fail("This isn't available yet -- ask your guardian to enable it", 403)
+    return ok(module.content)
+
+
 def _get_or_create_setting(db: Session, family_id: str, module_id: str) -> DBFamilyLearningSetting:
     setting = db.query(DBFamilyLearningSetting).filter(
         DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == module_id

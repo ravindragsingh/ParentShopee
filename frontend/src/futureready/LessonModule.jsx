@@ -1,6 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { api } from '../api.js'
-import { LESSON_CONTENT } from './lessonContent.js'
 
 // Self-paced, untimed: a short deck of slides to read through, then a quiz
 // to check what stuck. Unlike the Games section this isn't a race against a
@@ -8,10 +7,12 @@ import { LESSON_CONTENT } from './lessonContent.js'
 // many times as they like, but points are only paid out the first time they
 // pass (server-enforced too, in case of a stale/replayed request). Generic
 // across every Future-Ready topic -- which lesson to show comes entirely
-// from `module.id` looked up in LESSON_CONTENT, so a new topic needs no
-// changes here, just a new content file merged into lessonContent.js.
+// from fetching `module.id`'s content from the backend, so a new topic or an
+// edited lesson needs no app changes at all, just a backend redeploy (see
+// backend/routers/future_ready.py and DBLearningModule.content).
 export default function LessonModule({ module, onExit, onCompleted, previewMode = false, subtitle }) {
-  const content = LESSON_CONTENT[module.id]
+  const [content, setContent] = useState(null)
+  const [loadError, setLoadError] = useState('')
   const [phase, setPhase] = useState('slides') // 'slides' | 'quiz' | 'result'
   const [slideIndex, setSlideIndex] = useState(0)
   const [quizIndex, setQuizIndex] = useState(0)
@@ -21,8 +22,19 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
   const [result, setResult] = useState(null) // { passed, alreadyCompleted, pointsAwarded }
   const [error, setError] = useState('')
 
+  useEffect(() => {
+    let cancelled = false
+    api.getLearningContent(module.id)
+      .then(data => { if (!cancelled) setContent(data) })
+      .catch(err => { if (!cancelled) setLoadError(err.message || "This lesson isn't ready yet.") })
+    return () => { cancelled = true }
+  }, [module.id])
+
+  if (loadError) {
+    return <div className="error-msg">{loadError}</div>
+  }
   if (!content) {
-    return <div className="error-msg">This lesson isn't ready yet.</div>
+    return <div style={{ textAlign: 'center', padding: '40px 20px', color: '#94a3b8' }}>Loading lesson…</div>
   }
 
   const score = answers.reduce((s, a, i) => s + (a === content.quiz[i].correctIndex ? 1 : 0), 0)

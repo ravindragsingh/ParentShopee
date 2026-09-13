@@ -97,6 +97,7 @@ export const api = {
 
   // Future-Ready
   getFutureReadyModules: () => request('GET', '/api/future-ready'),
+  getLearningContent: (moduleId) => request('GET', `/api/future-ready/${moduleId}/content`),
   setLearningVisibility: (moduleId, enabled) => request('PUT', `/api/future-ready/${moduleId}/visibility`, { enabled }),
   setLearningPoints: (moduleId, points) => request('PUT', `/api/future-ready/${moduleId}/points`, { points }),
   completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),

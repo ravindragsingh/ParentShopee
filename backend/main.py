@@ -1,3 +1,4 @@
+import json
 import os
 from uuid import uuid4
 
@@ -103,6 +104,7 @@ def startup():
             ("daily_chore_items", "status",           "VARCHAR"),
             ("wallets",    "savings_balance",         "FLOAT"),
             ("family_learning_settings", "points_override", "FLOAT"),
+            ("learning_modules", "content", "JSON"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -337,7 +339,19 @@ def startup():
                  topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
                  age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=36),
         ]
+        # Lesson content (slides + quiz) lives in this JSON file rather than
+        # bundled into the frontend, so editing or adding a lesson is a
+        # backend-only redeploy -- see the Column(JSON) comment on
+        # DBLearningModule.content. Regenerate it with
+        # frontend/scripts/extract-future-ready-content.mjs after authoring.
+        content_path = os.path.join(os.path.dirname(__file__), "future_ready_content.json")
+        try:
+            with open(content_path, encoding="utf-8") as f:
+                content_by_id = json.load(f)
+        except FileNotFoundError:
+            content_by_id = {}
         for fields in catalog:
+            fields = {**fields, "content": content_by_id.get(fields["id"])}
             existing = db3.query(DBLearningModule).filter(DBLearningModule.id == fields["id"]).first()
             if existing:
                 for key, value in fields.items():
