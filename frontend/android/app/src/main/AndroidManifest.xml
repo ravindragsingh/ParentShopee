@@ -22,6 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- Redirect target for the browser-based Google Sign-In flow (see
+                 nativeGoogleAuth.js): Credential Manager's native flow fails
+                 with "[16] Account reauth failed" specifically on Play
+                 Store-signed builds, so Android uses a Custom Tabs + OAuth
+                 redirect flow instead. This scheme is Google's own convention:
+                 com.googleusercontent.apps.(client-id-prefix), tied to the
+                 "4th Android" OAuth client (id 726174787032-qmt7lsnh0p4jgemon6re66eqe6bsielv). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="com.googleusercontent.apps.726174787032-qmt7lsnh0p4jgemon6re66eqe6bsielv"
+                    android:path="/oauth2redirect" />
+            </intent-filter>
+
         </activity>
 
         <provider

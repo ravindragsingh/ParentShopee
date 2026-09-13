@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
-import { isNativeGoogleSignInAvailable, nativeGoogleSignIn } from '../utils/nativeGoogleAuth.js'
+import { consumePendingAndroidGoogleSignIn, isNativeGoogleSignInAvailable, nativeGoogleSignIn } from '../utils/nativeGoogleAuth.js'
 import { DEMO_USERNAME, DEMO_PASSWORD, DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
 
@@ -534,6 +534,26 @@ function GoogleSignInButton() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    // Android's browser-based Google Sign-In backgrounds the app, and Android
+    // can kill that backgrounded process under memory pressure -- when it
+    // does, the redirect back in lands on a freshly-mounted Login screen with
+    // no memory of the in-progress sign-in from handleNativeClick() above.
+    // This picks up that result (written to localStorage by nativeGoogleAuth.js
+    // during the fresh module load) and finishes the sign-in automatically.
+    // Resolves to null immediately on every normal page load where no sign-in
+    // was in progress.
+    if (!isNative) return
+    consumePendingAndroidGoogleSignIn()
+      .then(idToken => {
+        if (idToken) {
+          setLoading(true)
+          return handleIdToken(idToken)
+        }
+      })
+      .catch(err => setError(err.message || 'Google sign-in failed. Please try again.'))
+  }, [isNative, handleIdToken])
 
   useEffect(() => {
     // The web widget can't work inside a native app WebView (Google blocks
