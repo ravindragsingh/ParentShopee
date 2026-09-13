@@ -48,6 +48,12 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 if not GOOGLE_CLIENT_ID:
     print("[auth] WARNING: GOOGLE_CLIENT_ID env var is not set — Google sign-in will be unavailable")
 
+# Android's native sign-in uses a browser-based OAuth redirect flow (see
+# frontend/src/utils/nativeGoogleAuth.js) instead of the Credential Manager
+# flow iOS/web use, so its ID tokens are audienced to this separate "Android"
+# OAuth client rather than GOOGLE_CLIENT_ID above. Both are accepted.
+GOOGLE_ANDROID_CLIENT_ID = os.getenv("GOOGLE_ANDROID_CLIENT_ID")
+
 # ── Push notifications ───────────────────────────────────────────────────────
 # Full contents of a Firebase service-account JSON key (Project Settings ->
 # Service Accounts -> Generate new private key), pasted as a single env var.
