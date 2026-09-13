@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Float, Integer
+from sqlalchemy import Column, String, Float, Integer, JSON
 
 from database import Base
 
@@ -188,6 +188,12 @@ class DBLearningModule(Base):
     points      = Column(Float, nullable=False)
     order_index = Column(Integer, default=0)
     is_active   = Column(String, default="1")           # "1"/"0"
+    content     = Column(JSON, nullable=True)            # {"slides": [...], "quiz": [...]}
+    # ^ served live via GET /api/future-ready/{id}/content instead of being
+    # bundled into the frontend, so a content-only change (new topic, edited
+    # slides/quiz) is just a backend redeploy -- no app rebuild or store
+    # submission, even for the native mobile app. Regenerate from the
+    # authored JS with frontend/scripts/extract-future-ready-content.mjs.
 
 
 class DBFamilyLearningSetting(Base):
