@@ -338,6 +338,18 @@ def startup():
             dict(id="negotiation-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
                  topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
                  age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=36),
+            dict(id="public-speaking-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
+                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=37),
+            dict(id="public-speaking-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
+                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=38),
+            dict(id="public-speaking-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
+                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=39),
+            dict(id="public-speaking-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
+                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=40),
         ]
         # Lesson content (slides + quiz) lives in this JSON file rather than
         # bundled into the frontend, so editing or adding a lesson is a
