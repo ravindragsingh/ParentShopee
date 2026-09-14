@@ -105,8 +105,6 @@ def startup():
             ("wallets",    "savings_balance",         "FLOAT"),
             ("family_learning_settings", "points_override", "FLOAT"),
             ("learning_modules", "content", "JSON"),
-            ("learning_modules", "created_at", "VARCHAR"),
-            ("family_learning_settings", "enabled_kid_ids", "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -143,12 +141,6 @@ def startup():
         conn.execute(text("UPDATE shop_items SET family_id='parent1' WHERE family_id IS NULL"))
         # Back-fill completed_at for existing complete chores (visible for 3 days from now)
         conn.execute(text(f"UPDATE chores SET completed_at='{_ts_now}' WHERE status='complete' AND completed_at IS NULL"))
-        # Public Speaking's rows were inserted (in an earlier deploy) before the
-        # learning_modules.created_at column existed, so without this one-time
-        # backfill it would never show the "New" badge -- every topic added
-        # from this point on gets created_at automatically, in the catalog
-        # loop below, on its first-ever insert.
-        conn.execute(text(f"UPDATE learning_modules SET created_at='{_ts_now}' WHERE topic='public-speaking' AND created_at IS NULL"))
         # Back-fill new counters to 0 for existing users
         conn.execute(text("UPDATE users SET chores_added_count=0 WHERE chores_added_count IS NULL"))
         conn.execute(text("UPDATE users SET shop_items_added_count=0 WHERE shop_items_added_count IS NULL"))
@@ -346,18 +338,6 @@ def startup():
             dict(id="negotiation-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
                  topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
                  age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=36),
-            dict(id="public-speaking-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=37),
-            dict(id="public-speaking-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=38),
-            dict(id="public-speaking-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=39),
-            dict(id="public-speaking-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=40),
         ]
         # Lesson content (slides + quiz) lives in this JSON file rather than
         # bundled into the frontend, so editing or adding a lesson is a
@@ -377,10 +357,7 @@ def startup():
                 for key, value in fields.items():
                     setattr(existing, key, value)
             else:
-                # created_at is only ever set here, on first creation -- a later
-                # catalog re-sync (every server start) must never touch it, or
-                # every module would look "new" again after each deploy.
-                db3.add(DBLearningModule(is_active="1", created_at=_ts_now, **fields))
+                db3.add(DBLearningModule(is_active="1", **fields))
         active_ids = [c["id"] for c in catalog]
         db3.query(DBLearningModule).filter(DBLearningModule.id.notin_(active_ids)).update({"is_active": "0"}, synchronize_session=False)
         db3.commit()
