@@ -211,6 +211,10 @@ class DBFamilyLearningSetting(Base):
     module_id      = Column(String, primary_key=True)
     enabled        = Column(String, default="0")
     points_override = Column(Float, nullable=True)
+    enabled_kid_ids = Column(String, nullable=True)  # CSV of kid ids this module
+    # is restricted to; NULL/empty means "every kid in the family" (the original,
+    # still-default behavior) -- a guardian only narrows this when they want a
+    # topic on for just one child rather than all of them.
 
 
 class DBLearningCompletion(Base):

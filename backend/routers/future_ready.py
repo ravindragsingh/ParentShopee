@@ -54,7 +54,19 @@ def _effective_points(module: DBLearningModule, setting: DBFamilyLearningSetting
     return module.points
 
 
-def module_dict(m: DBLearningModule, points: float, enabled: bool = None, completed: bool = None) -> dict:
+def _kid_allowed(setting: DBFamilyLearningSetting, kid_id: str) -> bool:
+    """Whether this specific kid can see/use a module their family has a
+    setting row for -- enabled at the family level is necessary but not
+    sufficient if the guardian narrowed it down to specific kids."""
+    if not setting or setting.enabled != "1":
+        return False
+    if setting.enabled_kid_ids:
+        return kid_id in setting.enabled_kid_ids.split(",")
+    return True
+
+
+def module_dict(m: DBLearningModule, points: float, enabled: bool = None, completed: bool = None,
+                 enabled_kid_ids: list = None) -> dict:
     d = {
         "id": m.id, "section": m.section, "sectionTitle": m.section_title, "sectionEmoji": m.section_emoji,
         "topic": m.topic, "topicTitle": m.topic_title, "topicEmoji": m.topic_emoji,
@@ -63,6 +75,7 @@ def module_dict(m: DBLearningModule, points: float, enabled: bool = None, comple
     }
     if enabled is not None:
         d["enabled"] = enabled
+        d["enabledKidIds"] = enabled_kid_ids  # None = every kid in the family
     if completed is not None:
         d["completed"] = completed
     return d
@@ -87,7 +100,7 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
         by_topic = {}
         for m in modules:
             setting = settings.get(m.id)
-            if not setting or setting.enabled != "1" or not (m.age_min <= kid_age <= m.age_max):
+            if not _kid_allowed(setting, user.id) or not (m.age_min <= kid_age <= m.age_max):
                 continue
             by_topic[m.topic] = m
         return ok([
@@ -99,7 +112,11 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
     # otherwise the catalog default) -- something to toggle and tune even
     # for bands they haven't enabled yet.
     return ok([
-        module_dict(m, _effective_points(m, settings.get(m.id)), enabled=settings.get(m.id) is not None and settings[m.id].enabled == "1")
+        module_dict(
+            m, _effective_points(m, settings.get(m.id)),
+            enabled=settings.get(m.id) is not None and settings[m.id].enabled == "1",
+            enabled_kid_ids=settings[m.id].enabled_kid_ids.split(",") if (settings.get(m.id) and settings[m.id].enabled_kid_ids) else None,
+        )
         for m in modules
     ])
 
@@ -117,7 +134,7 @@ def get_learning_content(module_id: str, db: Session = Depends(get_db), user: DB
         setting = db.query(DBFamilyLearningSetting).filter(
             DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == module_id
         ).first()
-        if not setting or setting.enabled != "1":
+        if not _kid_allowed(setting, user.id):
             fail("This isn't available yet -- ask your guardian to enable it", 403)
     return ok(module.content)
 
@@ -140,8 +157,12 @@ def set_learning_visibility(module_id: str, body: LearningVisibilityUpdate, db: 
     family_id = get_family_id(user)
     setting = _get_or_create_setting(db, family_id, module_id)
     setting.enabled = "1" if body.enabled else "0"
+    # None/empty kidIds means "every kid in the family" -- stored as NULL so a
+    # kid added later is automatically included, rather than needing the
+    # guardian to come back and add them to a stale explicit list.
+    setting.enabled_kid_ids = ",".join(body.kidIds) if body.kidIds else None
     db.commit()
-    return ok(module_dict(module, _effective_points(module, setting), enabled=body.enabled))
+    return ok(module_dict(module, _effective_points(module, setting), enabled=body.enabled, enabled_kid_ids=body.kidIds or None))
 
 
 @router.put("/api/future-ready/{module_id}/points")
@@ -165,7 +186,7 @@ def complete_learning_module(module_id: str, body: LearningCompleteBody, db: Ses
     setting = db.query(DBFamilyLearningSetting).filter(
         DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == module_id
     ).first()
-    if not setting or setting.enabled != "1":
+    if not _kid_allowed(setting, user.id):
         fail("This isn't available yet -- ask your guardian to enable it", 403)
     if body.total <= 0 or body.score < 0 or body.score > body.total:
         fail("Invalid score")

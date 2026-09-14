@@ -22,6 +22,47 @@ function NewBadge() {
   )
 }
 
+// Per-module "which kids can see this" picker -- only worth showing once
+// there's more than one kid to choose between. `selectedIds === null` means
+// "every kid in the family" (the default, and what a fresh toggle-on uses),
+// so every chip renders checked until a guardian narrows it down.
+function KidPicker({ kids, selectedIds, disabled, onChange }) {
+  const isAll = selectedIds === null
+
+  function toggle(kidId) {
+    const current = isAll ? kids.map(k => k.id) : selectedIds
+    const next = current.includes(kidId) ? current.filter(id => id !== kidId) : [...current, kidId]
+    if (next.length === 0) return  // must stay enabled for at least one kid
+    onChange(next.length === kids.length ? null : next)
+  }
+
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6, width: '100%', marginTop: 2 }}>
+      <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>For:</span>
+      {kids.map(k => {
+        const checked = isAll || selectedIds.includes(k.id)
+        return (
+          <button
+            key={k.id}
+            type="button"
+            disabled={disabled}
+            onClick={() => toggle(k.id)}
+            style={{
+              fontSize: '0.74rem', fontWeight: 600, borderRadius: 999, padding: '3px 10px',
+              border: `1px solid ${checked ? '#0d9488' : '#e2e8f0'}`,
+              background: checked ? '#f0fdfa' : '#fff',
+              color: checked ? '#0f766e' : '#94a3b8',
+              cursor: disabled ? 'default' : 'pointer',
+            }}
+          >
+            {k.avatar} {k.name}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 function groupByTopic(modules) {
   const byTopic = new Map()
   for (const m of modules) {
@@ -68,6 +109,7 @@ function PointsEditor({ points, disabled, onSave }) {
 export default function GuardianFutureReadyTab() {
   const { user } = useAuth()
   const [modules, setModules] = useState([])
+  const [kids, setKids] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [savingId, setSavingId] = useState(null)
@@ -88,13 +130,30 @@ export default function GuardianFutureReadyTab() {
   }, [])
 
   useEffect(() => { loadModules() }, [loadModules])
+  useEffect(() => { api.getKids().then(setKids).catch(() => {}) }, [])
 
   async function handleToggle(module) {
     setSavingId(module.id)
     setError('')
     try {
-      await api.setLearningVisibility(module.id, !module.enabled)
-      setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabled: !m.enabled } : m))
+      const enabled = !module.enabled
+      // Preserve whatever kid restriction was already set -- toggling off and
+      // back on shouldn't silently reset a guardian's earlier "just for Alice" choice.
+      await api.setLearningVisibility(module.id, enabled, module.enabledKidIds ?? null)
+      setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabled } : m))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSavingId(null)
+    }
+  }
+
+  async function handleKidsChange(module, kidIds) {
+    setSavingId(module.id)
+    setError('')
+    try {
+      await api.setLearningVisibility(module.id, true, kidIds)
+      setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabledKidIds: kidIds } : m))
     } catch (err) {
       setError(err.message)
     } finally {
@@ -215,6 +274,14 @@ export default function GuardianFutureReadyTab() {
                           onChange={() => handleToggle(m)}
                           color={meta.color}
                         />
+                        {m.enabled && kids.length > 1 && (
+                          <KidPicker
+                            kids={kids}
+                            selectedIds={m.enabledKidIds ?? null}
+                            disabled={savingId === m.id}
+                            onChange={(kidIds) => handleKidsChange(m, kidIds)}
+                          />
+                        )}
                       </div>
                     ))}
                   </div>
