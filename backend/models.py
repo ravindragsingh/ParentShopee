@@ -192,8 +192,8 @@ class DBLearningModule(Base):
     # ^ served live via GET /api/future-ready/{id}/content instead of being
     # bundled into the frontend, so a content-only change (new topic, edited
     # slides/quiz) is just a backend redeploy -- no app rebuild or store
-    # submission, even for the native mobile app. Regenerate from the
-    # authored JS with frontend/scripts/extract-future-ready-content.mjs.
+    # submission, even for the native mobile app. Hand-authored directly in
+    # backend/future_ready_content/<topic>.json, loaded at startup.
     created_at  = Column(String, nullable=True)  # ISO timestamp, set once when the
     # row is first created (not touched on later catalog re-syncs) -- powers the
     # "New" badge; NULL for rows that predate this column, correctly read as "not new".
