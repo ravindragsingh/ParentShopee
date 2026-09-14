@@ -5,15 +5,15 @@
 export const AI_CONTENT = {
   'ai-4-6': {
     slides: [
-      { emoji: '🤖', title: 'Meet AI!', text: "AI is a computer helper. It can listen to you and talk back — kind of like a friendly robot voice." },
-      { emoji: '🗣️', title: 'Ask it something!', text: "Some speakers and toys can answer your questions or play your favorite song when you ask them out loud." },
-      { emoji: '🧑‍💻', title: 'A person built it', text: "AI doesn't just appear out of nowhere — clever people built it to help us, just like someone built your favorite toy." },
-      { emoji: '❤️', title: "AI doesn't have real feelings", text: "Even when AI talks in a friendly voice, it can't really feel happy, sad, or love you the way a person or a pet can." },
-      { emoji: '🎨', title: 'AI can help make things', text: "Some AI can help draw a silly picture or make up a story when you ask it to — like a helper for making fun stuff." },
-      { emoji: '🙃', title: "AI isn't always right", text: "Sometimes AI gets confused and gives a silly or wrong answer — it's still learning, just like you are!" },
-      { emoji: '🎵', title: 'AI can make music too', text: "Some AI can put sounds together to make a little tune, kind of like how it can help draw a picture." },
-      { emoji: '🚗', title: 'AI shows up in surprising places', text: "AI can help some toy cars drive themselves around a track, or help a game character know where to move next." },
-      { emoji: '👨‍👩‍👧', title: 'Ask a grown-up first', text: "If you want to use an AI toy or app, or you're not sure about something it says, always check with a grown-up first." },
+      { emoji: '🤖', title: 'Meet AI!', text: "AI is a computer helper. It can listen to you and talk back — kind of like a friendly robot voice. For example, you might say \"what's the weather today?\" out loud, and a smart speaker answers you right back, almost like talking to a friend." },
+      { emoji: '🗣️', title: 'Ask it something!', text: "Some speakers and toys can answer your questions or play your favorite song when you ask them out loud. For example, saying \"play my favorite song\" to a smart speaker can make music start playing almost instantly, without anyone pressing a single button." },
+      { emoji: '🧑‍💻', title: 'A person built it', text: "AI doesn't just appear out of nowhere — clever people built it to help us, just like someone built your favorite toy. For example, a team of people spent a long time writing instructions and testing a talking toy robot before it ever ended up on a store shelf." },
+      { emoji: '❤️', title: "AI doesn't have real feelings", text: "Even when AI talks in a friendly voice, it can't really feel happy, sad, or love you the way a person or a pet can. For example, if you tell an AI toy \"I love you,\" it might say something nice back, but it doesn't actually feel love the way your mom, dad, or dog does." },
+      { emoji: '🎨', title: 'AI can help make things', text: "Some AI can help draw a silly picture or make up a story when you ask it to — like a helper for making fun stuff. For example, you could ask an AI to \"draw a purple dinosaur eating pizza,\" and it can create a picture matching exactly that, in just a few seconds." },
+      { emoji: '🙃', title: "AI isn't always right", text: "Sometimes AI gets confused and gives a silly or wrong answer — it's still learning, just like you are! For example, you might ask an AI toy what 2 plus 2 is, and every once in a while it gets mixed up and says the wrong number — just like you might sometimes make a mistake too." },
+      { emoji: '🎵', title: 'AI can make music too', text: "Some AI can put sounds together to make a little tune, kind of like how it can help draw a picture. For example, you could ask an AI to \"make a happy song about a kitten,\" and it could put together a short little tune just for that." },
+      { emoji: '🚗', title: 'AI shows up in surprising places', text: "AI can help some toy cars drive themselves around a track, or help a game character know where to move next. For example, a remote-control car with AI built in might be able to notice a wall coming up and steer around it all by itself, without you pressing any buttons." },
+      { emoji: '👨‍👩‍👧', title: 'Ask a grown-up first', text: "If you want to use an AI toy or app, or you're not sure about something it says, always check with a grown-up first. For example, if an AI toy tells you something confusing or says to do something unusual, checking with a parent before following it is always the safe choice." },
     ],
     quiz: [
       {
@@ -35,7 +35,7 @@ export const AI_CONTENT = {
         explanation: 'People build AI on purpose, the same way people build toys and apps.',
       },
       {
-        question: 'If AI gives a silly or wrong answer, what does that mean?',
+        question: 'If you ask an AI toy what 2 plus 2 is and it says the wrong number, what does that mean?',
         choices: ["It's always right, no matter what", "It's not perfect — it's still learning"],
         correctIndex: 1,
         explanation: 'AI can make mistakes, just like anyone still learning something new.',
@@ -47,8 +47,8 @@ export const AI_CONTENT = {
         explanation: 'A grown-up can help make sure it\'s safe and okay to use.',
       },
       {
-        question: 'Can AI help make a little piece of music?',
-        choices: ['Yes, it can put sounds together', 'No, AI can never make sounds'],
+        question: 'If you ask AI to "make a happy song about a kitten," can it do that?',
+        choices: ['Yes, it can put sounds together to make a little tune', 'No, AI can never make sounds'],
         correctIndex: 0,
         explanation: 'AI can help create sounds and music, similar to how it can help draw pictures.',
       },
@@ -63,15 +63,15 @@ export const AI_CONTENT = {
 
   'ai-7-9': {
     slides: [
-      { emoji: '📚', title: 'AI learns from examples', text: 'Instead of being told exact rules, AI often learns by looking at thousands (or millions!) of examples and finding patterns in them.' },
-      { emoji: '🎮', title: 'Where you already see AI', text: 'Video game characters that react to you, apps that recommend videos you might like, and voice assistants all use AI.' },
-      { emoji: '🧩', title: 'Finding patterns', text: 'If AI sees enough pictures of dogs, it starts noticing patterns — like "dogs usually have four legs and fur" — and uses that to guess.' },
-      { emoji: '❌', title: 'AI can make mistakes', text: "Because AI learns from patterns, it can sometimes get things wrong — especially with something unusual it hasn't seen much before." },
-      { emoji: '🧠', title: 'AI vs. your brain', text: 'Your brain can understand feelings, come up with brand-new ideas, and truly care about people. AI is very good at specific tasks, but it doesn\'t understand things the way you do.' },
-      { emoji: '🔍', title: 'Being a smart AI user', text: "Just because AI says something doesn't mean it's true. Smart AI users double-check important information instead of believing everything right away." },
-      { emoji: '🤖', title: 'Robots vs. AI', text: "A robot is a physical machine. AI is the 'smart' software that can control a robot — or can run inside a phone or computer with no robot body at all." },
-      { emoji: '🌐', title: 'AI helps you search', text: "When you search for something online, AI often helps decide which results are most likely to actually answer your question." },
-      { emoji: '🗳️', title: 'People see AI differently', text: "Some people are really excited about AI and what it can do. Others feel worried about it. Both views are worth listening to — AI is still a new, changing technology." },
+      { emoji: '📚', title: 'AI learns from examples', text: "Instead of being told exact rules, AI often learns by looking at thousands (or millions!) of examples and finding patterns in them. For example, to learn what a cat looks like, an AI might be shown a million different pictures of cats until it starts noticing what they all have in common." },
+      { emoji: '🎮', title: 'Where you already see AI', text: "Video game characters that react to you, apps that recommend videos you might like, and voice assistants all use AI. For example, if you've ever noticed a video app suggesting \"you might also like\" a video right after you finished watching one, that suggestion came from AI noticing a pattern in what you watched." },
+      { emoji: '🧩', title: 'Finding patterns', text: "If AI sees enough pictures of dogs, it starts noticing patterns — like \"dogs usually have four legs and fur\" — and uses that to guess. For example, after seeing thousands of dog photos, an AI might correctly guess that a new, unfamiliar photo is a dog because it has four legs, fur, and floppy ears, matching the pattern it learned." },
+      { emoji: '❌', title: 'AI can make mistakes', text: "Because AI learns from patterns, it can sometimes get things wrong — especially with something unusual it hasn't seen much before. For example, an AI trained mostly on photos of fluffy dogs might mistakenly guess that a fluffy sheep in a photo is also a dog, since it looks similar to the pattern it learned." },
+      { emoji: '🧠', title: 'AI vs. your brain', text: "Your brain can understand feelings, come up with brand-new ideas, and truly care about people. AI is very good at specific tasks, but it doesn't understand things the way you do. For example, an AI can recognize a sad face in a photo, but it doesn't actually feel sad or worry about the person the way a friend would." },
+      { emoji: '🔍', title: 'Being a smart AI user', text: "Just because AI says something doesn't mean it's true. Smart AI users double-check important information instead of believing everything right away. For example, if an AI tells you an animal fact that sounds surprising, checking it in a book or asking a grown-up before repeating it as true is a smart habit." },
+      { emoji: '🤖', title: 'Robots vs. AI', text: "A robot is a physical machine. AI is the 'smart' software that can control a robot — or can run inside a phone or computer with no robot body at all. For example, a voice assistant on a phone is AI with no robot body at all, while a robot vacuum uses AI to decide where to move, inside an actual physical machine." },
+      { emoji: '🌐', title: 'AI helps you search', text: "When you search for something online, AI often helps decide which results are most likely to actually answer your question. For example, if you search \"how tall is a giraffe,\" AI helps pick out the most useful answer from millions of possible web pages, instead of just showing them in a random order." },
+      { emoji: '🗳️', title: 'People see AI differently', text: "Some people are really excited about AI and what it can do. Others feel worried about it. Both views are worth listening to — AI is still a new, changing technology. For example, a scientist might be excited that AI can help discover new medicines, while someone else might worry about AI toys not knowing when to say the right thing." },
     ],
     quiz: [
       {
@@ -127,15 +127,15 @@ export const AI_CONTENT = {
 
   'ai-10-13': {
     slides: [
-      { emoji: '⚙️', title: 'Training data', text: 'AI systems are "trained" on huge amounts of data — text, images, or numbers — that teach the AI the patterns it\'s meant to learn.' },
-      { emoji: '🎲', title: 'Prediction, not real understanding', text: 'Many AI tools, like chatbots, work by predicting the most likely next word or answer based on patterns — not by truly understanding meaning the way a person does.' },
-      { emoji: '⚖️', title: 'AI can be biased', text: 'If the data used to train an AI contains unfair patterns, the AI can repeat those unfair patterns too. This is called bias, and it\'s a real challenge engineers work hard to fix.' },
-      { emoji: '✨', title: 'Generative AI', text: 'Some AI can create brand-new text, images, or music by combining patterns it learned — this is called generative AI, and it powers many chatbots and art generators.' },
-      { emoji: '🔒', title: 'AI and privacy', text: 'AI tools often need data to work well. Being thoughtful about what personal information you share with an AI app matters, just like with any app.' },
-      { emoji: '🧭', title: 'Fact-checking AI answers', text: 'AI can sound very confident even when it\'s wrong — sometimes called a "hallucination." Always double-check important facts from a trusted source.' },
-      { emoji: '🌍', title: "AI's growing role", text: 'AI already helps translate languages, spot diseases in medical scans, and recommend what you watch or read — and its role keeps growing.' },
-      { emoji: '🤝', title: 'AI working with people', text: 'In many fields, AI is a tool that works alongside a person — helping a doctor spot something on a scan faster, for example — rather than fully replacing their judgment.' },
-      { emoji: '🔄', title: 'AI keeps changing', text: 'AI systems get updated and retrained over time, so an AI tool from a year ago might behave quite differently — hopefully better — today.' },
+      { emoji: '⚙️', title: 'Training data', text: "AI systems are \"trained\" on huge amounts of data — text, images, or numbers — that teach the AI the patterns it's meant to learn. For example, a language-translation AI might be trained on millions of sentences that have already been translated by humans, learning from all of those examples how one language maps to another." },
+      { emoji: '🎲', title: 'Prediction, not real understanding', text: "Many AI tools, like chatbots, work by predicting the most likely next word or answer based on patterns — not by truly understanding meaning the way a person does. For example, when you type \"the capital of France is,\" a chatbot predicts \"Paris\" is the most likely next word based on patterns in text it's seen, not because it understands geography the way a person does." },
+      { emoji: '⚖️', title: 'AI can be biased', text: "If the data used to train an AI contains unfair patterns, the AI can repeat those unfair patterns too. This is called bias, and it's a real challenge engineers work hard to fix. For example, an AI trained mostly on photos of one type of job worker might wrongly assume that job is always done by one kind of person, simply because that's what most of its training photos showed." },
+      { emoji: '✨', title: 'Generative AI', text: "Some AI can create brand-new text, images, or music by combining patterns it learned — this is called generative AI, and it powers many chatbots and art generators. For example, typing \"a cat wearing a space suit, painted like a Renaissance portrait\" into an image generator can produce a picture nobody has ever drawn before, built entirely from patterns the AI learned." },
+      { emoji: '🔒', title: 'AI and privacy', text: "AI tools often need data to work well. Being thoughtful about what personal information you share with an AI app matters, just like with any app. For example, telling an AI chatbot your full name, school, and home address isn't necessary to get help with homework, and that kind of detail is best kept private." },
+      { emoji: '🧭', title: 'Fact-checking AI answers', text: "AI can sound very confident even when it's wrong — sometimes called a \"hallucination.\" Always double-check important facts from a trusted source. For example, an AI might confidently state a made-up historical date or invent a fake book title that sounds completely real, so checking a surprising fact against an encyclopedia or trusted website is a smart habit." },
+      { emoji: '🌍', title: "AI's growing role", text: "AI already helps translate languages, spot diseases in medical scans, and recommend what you watch or read — and its role keeps growing. For example, some hospitals use AI to help doctors spot early signs of illness in X-rays faster than checking every scan by hand alone." },
+      { emoji: '🤝', title: 'AI working with people', text: "In many fields, AI is a tool that works alongside a person — helping a doctor spot something on a scan faster, for example — rather than fully replacing their judgment. For example, an AI might flag a spot on a medical scan as \"worth a closer look,\" but a trained doctor still makes the final decision about what it means and what to do next." },
+      { emoji: '🔄', title: 'AI keeps changing', text: "AI systems get updated and retrained over time, so an AI tool from a year ago might behave quite differently — hopefully better — today. For example, an AI chatbot that struggled with math problems a year ago might handle the exact same questions correctly today, after being retrained on more examples." },
     ],
     quiz: [
       {
@@ -145,8 +145,8 @@ export const AI_CONTENT = {
         explanation: 'Training data is what an AI studies to learn the patterns it uses later.',
       },
       {
-        question: 'Do chatbots truly "understand" language the way people do?',
-        choices: ['Yes, exactly the same way', 'No — they mostly predict likely next words based on patterns'],
+        question: 'When a chatbot completes "the capital of France is" with "Paris," is it because it understands geography?',
+        choices: ['Yes, exactly the same way a person does', 'No — it mostly predicts likely next words based on patterns'],
         correctIndex: 1,
         explanation: 'Chatbots are pattern-predictors, not conscious understanders of meaning.',
       },
@@ -163,7 +163,7 @@ export const AI_CONTENT = {
         explanation: 'Generative AI produces brand-new content by combining patterns it learned.',
       },
       {
-        question: 'What is it called when AI confidently states something that\'s false?',
+        question: 'What is it called when AI confidently states something that\'s false, like a made-up historical date?',
         choices: ['A hallucination', 'A firewall'],
         correctIndex: 0,
         explanation: 'A "hallucination" is AI stating something confidently that just isn\'t true.',
@@ -176,7 +176,7 @@ export const AI_CONTENT = {
       },
       {
         question: 'Which is a genuinely helpful real-world use of AI today?',
-        choices: ['Translating languages', 'Doing all your homework so you learn nothing'],
+        choices: ['Helping doctors spot signs of illness in medical scans', 'Doing all your homework so you learn nothing'],
         correctIndex: 0,
         explanation: 'Translation, medical scan analysis, and recommendations are real, helpful AI uses.',
       },
@@ -197,16 +197,16 @@ export const AI_CONTENT = {
 
   'ai-13-17': {
     slides: [
-      { emoji: '🧠', title: 'Neural networks, simplified', text: 'Many modern AI systems are loosely inspired by how brain cells connect — layers of simple math functions combining to recognize very complex patterns.' },
-      { emoji: '💬', title: 'Large language models', text: 'Chatbots you may have used are often "large language models" trained on enormous amounts of text to predict likely, coherent responses.' },
-      { emoji: '⚖️', title: 'Bias and fairness', text: 'Because AI learns from real-world data, it can inherit real-world unfairness, like reflecting stereotypes. Researchers actively study how to detect and reduce this.' },
-      { emoji: '🎭', title: 'Deepfakes and misinformation', text: 'AI can now generate very convincing fake images, video, or audio. Learning to question what you see online is a genuinely important skill now.' },
-      { emoji: '💼', title: 'AI and jobs', text: 'AI is changing many jobs — automating some repetitive tasks while creating new kinds of work. Understanding AI, rather than fearing it, is a real advantage for your future.' },
-      { emoji: '🎓', title: 'Using AI responsibly for school', text: 'AI can be a great study partner for explaining concepts, but relying on it to do your thinking for you weakens the exact skills you\'re in school to build.' },
-      { emoji: '🔐', title: 'Data and consent', text: 'Many AI systems are trained on massive datasets pulled from the internet, which raises real questions about consent and ownership that society is still working out.' },
-      { emoji: '🚀', title: 'Why understanding AI matters for you', text: 'Whatever career you choose, AI will likely touch it. Understanding the basics now — not just using AI, but roughly how it works and where it fails — is a genuine head start.' },
-      { emoji: '🌍', title: 'AI and energy use', text: 'Training very large AI models takes a significant amount of computing power and electricity — an environmental cost that researchers and companies are actively working to reduce.' },
-      { emoji: '📜', title: 'New rules for AI', text: 'Governments around the world are starting to write laws and regulations about how AI can be built and used — an evolving area, similar to how early internet and privacy laws once developed.' },
+      { emoji: '🧠', title: 'Neural networks, simplified', text: "Many modern AI systems are loosely inspired by how brain cells connect — layers of simple math functions combining to recognize very complex patterns. For example, one layer of a neural network might notice simple edges in a photo, the next layer combines edges into shapes like an eye or an ear, and a later layer combines those shapes to recognize an entire face." },
+      { emoji: '💬', title: 'Large language models', text: "Chatbots you may have used are often \"large language models\" trained on enormous amounts of text to predict likely, coherent responses. For example, a large language model trained on huge amounts of internet text, books, and articles can write a coherent paragraph about almost any topic by predicting, word by word, what's most likely to come next." },
+      { emoji: '⚖️', title: 'Bias and fairness', text: "Because AI learns from real-world data, it can inherit real-world unfairness, like reflecting stereotypes. Researchers actively study how to detect and reduce this. For example, a hiring AI trained on a company's past hiring decisions could accidentally learn and repeat past unfair patterns, like favoring one group over another, unless researchers specifically test for and correct that." },
+      { emoji: '🎭', title: 'Deepfakes and misinformation', text: "AI can now generate very convincing fake images, video, or audio. Learning to question what you see online is a genuinely important skill now. For example, a fake video could show a celebrity or politician appearing to say something they never actually said, convincing enough that many viewers wouldn't realize it was generated by AI." },
+      { emoji: '💼', title: 'AI and jobs', text: "AI is changing many jobs — automating some repetitive tasks while creating new kinds of work. Understanding AI, rather than fearing it, is a real advantage for your future. For example, AI can now handle repetitive data entry tasks that used to take a person hours, while at the same time creating entirely new jobs like training and supervising AI systems." },
+      { emoji: '🎓', title: 'Using AI responsibly for school', text: "AI can be a great study partner for explaining concepts, but relying on it to do your thinking for you weakens the exact skills you're in school to build. For example, asking an AI to explain a tricky math concept in a different way, then solving practice problems yourself, builds real understanding — but asking it to just write your entire essay for you does not." },
+      { emoji: '🔐', title: 'Data and consent', text: "Many AI systems are trained on massive datasets pulled from the internet, which raises real questions about consent and ownership that society is still working out. For example, an AI image generator trained on millions of artists' work online raises the question of whether those artists should have been asked first, or compensated, for their work being used that way." },
+      { emoji: '🚀', title: 'Why understanding AI matters for you', text: "Whatever career you choose, AI will likely touch it. Understanding the basics now — not just using AI, but roughly how it works and where it fails — is a genuine head start. For example, a future doctor, lawyer, or artist who understands both the strengths and blind spots of AI tools will likely use them far more effectively than someone who either avoids them entirely or trusts them blindly." },
+      { emoji: '🌍', title: 'AI and energy use', text: "Training very large AI models takes a significant amount of computing power and electricity — an environmental cost that researchers and companies are actively working to reduce. For example, training one very large language model can use as much electricity as hundreds of homes use in a year, which is why more efficient training methods are an active area of research." },
+      { emoji: '📜', title: 'New rules for AI', text: "Governments around the world are starting to write laws and regulations about how AI can be built and used — an evolving area, similar to how early internet and privacy laws once developed. For example, some regions now require companies to clearly label AI-generated content or disclose when a chatbot, not a human, is responding to a customer." },
     ],
     quiz: [
       {

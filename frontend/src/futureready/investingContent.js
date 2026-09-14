@@ -6,15 +6,15 @@
 export const INVESTING_CONTENT = {
   'investing-4-6': {
     slides: [
-      { emoji: '💰', title: 'What is money?', text: "Money is what we use to buy things we want or need — like a snack, a toy, or a book." },
-      { emoji: '💪', title: 'How do you get money?', text: 'People earn money by working or doing helpful jobs — like completing chores!' },
-      { emoji: '🐷', title: 'What does "saving" mean?', text: 'Saving means keeping your money safe instead of spending it right away — like putting it in a piggy bank.' },
-      { emoji: '🌱', title: 'Money can grow!', text: "If you plant a seed and take care of it, it grows into a big plant. Some ways of saving let your money grow bigger too, just like a seed!" },
-      { emoji: '🛒', title: 'What does "spending" mean?', text: "Spending is using your money to get something you want right now, like a toy or an ice cream." },
-      { emoji: '🏪', title: 'What is a store?', text: "A store is a place that sells things for money. You give the store money, and the store gives you what you picked out." },
-      { emoji: '🤝', title: 'You can share money too', text: "Sometimes people use money to help others — like buying a gift for a friend, or giving to someone who needs it." },
-      { emoji: '🎁', title: 'Waiting for something special', text: "Sometimes the thing you want costs more than you have right now. Saving up a little at a time until you have enough is worth the wait." },
-      { emoji: '⭐', title: 'You get to choose!', text: "Every time you get money, you get to choose what to do with it: save it, spend it, or share it. There's no one right answer — it depends what you want most." },
+      { emoji: '💰', title: 'What is money?', text: "Money is what we use to buy things we want or need — like a snack, a toy, or a book. For example, if you want a candy bar at the store, you hand the cashier some money, and they hand you the candy back." },
+      { emoji: '💪', title: 'How do you get money?', text: "People earn money by working or doing helpful jobs — like completing chores! For example, if you help feed the dog or put away your toys every day this week, a grown-up might give you a coin for each job you finished." },
+      { emoji: '🐷', title: 'What does "saving" mean?', text: "Saving means keeping your money safe instead of spending it right away — like putting it in a piggy bank. For example, if you get 2 coins today and drop both into your piggy bank, they'll still be there tomorrow, and the day after that, safe and sound." },
+      { emoji: '🌱', title: 'Money can grow!', text: "If you plant a seed and water it, it slowly grows into a big plant. Saving works a little like that too — if you keep adding one coin every week, your pile of saved coins keeps getting bigger and bigger, even though you're not doing anything fancy, just adding a little at a time." },
+      { emoji: '🛒', title: 'What does "spending" mean?', text: "Spending is using your money to get something you want right now, like a toy or an ice cream. For example, if you have 3 coins and you use all 3 to buy a small toy car at the store, that's spending — you traded your coins for the toy you wanted." },
+      { emoji: '🏪', title: 'What is a store?', text: "A store is a place that sells things for money. For example, when you go to a grocery store with a grown-up, you might pick out an apple, the person at the counter tells you how many coins it costs, and you hand over the coins to take the apple home." },
+      { emoji: '🤝', title: 'You can share money too', text: "Sometimes people use money to help others — like buying a gift for a friend, or giving to someone who needs it. For example, if it's your friend's birthday, you might use some of your saved coins to buy them a small present, or drop a coin in a donation box to help someone who needs food." },
+      { emoji: '🎁', title: 'Waiting for something special', text: "Sometimes the thing you want costs more than you have right now. Saving up a little at a time until you have enough is worth the wait. For example, if a toy costs 10 coins but you only have 4, saving 2 more coins each week means that after just 3 weeks, you'd have enough to buy it!" },
+      { emoji: '⭐', title: 'You get to choose!', text: "Every time you get money, you get to choose what to do with it: save it, spend it, or share it. There's no one right answer — it depends what you want most. For example, if you get 5 coins for your birthday, you might decide to save 2 for later, spend 2 on a treat today, and give 1 to your little brother." },
     ],
     quiz: [
       {
@@ -30,10 +30,10 @@ export const INVESTING_CONTENT = {
         explanation: 'A piggy bank (or a real bank!) keeps your saved money safe.',
       },
       {
-        question: 'If you plant a seed and take care of it, what happens?',
-        choices: ['It grows into a plant', 'It disappears forever'],
+        question: 'If you keep adding one coin to your piggy bank every week, what happens to your pile of savings?',
+        choices: ['It keeps getting bigger', 'It disappears forever'],
         correctIndex: 0,
-        explanation: 'Just like a seed, money that\'s cared for the right way can grow too!',
+        explanation: 'Just like a growing plant, your saved coins add up bit by bit into a bigger pile.',
       },
       {
         question: 'What happens when you use your money to buy a toy?',
@@ -48,10 +48,10 @@ export const INVESTING_CONTENT = {
         explanation: 'A store trades things you want for the money you give it.',
       },
       {
-        question: 'If something costs more than you have right now, what can you do?',
+        question: 'A toy costs 10 coins and you only have 4. What can you do?',
         choices: ['Save up a little at a time until you have enough', 'It\'s impossible to ever get it'],
         correctIndex: 0,
-        explanation: 'Saving up over time is how you afford things that cost more than you have today.',
+        explanation: 'Saving a few more coins each week is exactly how you afford something that costs more than you have today.',
       },
       {
         question: 'What are three things you can do with money?',
@@ -64,16 +64,16 @@ export const INVESTING_CONTENT = {
 
   'investing-7-9': {
     slides: [
-      { emoji: '🏦', title: 'What is a bank?', text: "A bank is a safe place where people keep their money — like a giant, super-secure piggy bank." },
-      { emoji: '🎯', title: 'Saving for a goal', text: 'Instead of spending money the moment you get it, you can save it up for something bigger you really want.' },
-      { emoji: '➕', title: 'What is interest?', text: "Some banks pay you a little extra money just for keeping your savings there. That extra bit is called interest — a small reward for saving." },
-      { emoji: '⚖️', title: 'Wants vs. needs', text: 'A need is something you must have, like food. A want is something nice to have, like a video game. Knowing the difference helps you spend wisely.' },
-      { emoji: '📝', title: 'Making a simple budget', text: 'A budget is just a plan for your money — deciding ahead of time how much you\'ll save, spend, and maybe share, before you actually get it.' },
-      { emoji: '⏳', title: 'Patience pays off', text: "Waiting a little longer before buying something — instead of grabbing it right away — often means you can afford something even better later." },
-      { emoji: '🏷️', title: 'Comparing prices', text: "Smart shoppers check if the same thing costs less somewhere else before buying it. A few minutes of comparing can save a lot of points or money." },
-      { emoji: '🎁', title: 'Setting a savings goal', text: "Picking one specific thing to save for — and figuring out how many weeks of saving it'll take — makes saving feel a lot more real and exciting." },
-      { emoji: '💳', title: 'What is a bank account?', text: "A bank account is like a digital piggy bank — the bank keeps track of exactly how much money you have, and you can check the balance any time." },
-      { emoji: '🔢', title: 'Watching your savings add up', text: "Writing down how much you've saved each week and adding it up is a simple way to actually see your money growing toward a goal." },
+      { emoji: '🏦', title: 'What is a bank?', text: "A bank is a safe place where people keep their money — like a giant, super-secure piggy bank. For example, instead of keeping 50 coins under your bed where they could get lost, a grown-up can put that money in a bank, and the bank keeps a careful record of exactly how much belongs to you." },
+      { emoji: '🎯', title: 'Saving for a goal', text: "Instead of spending money the moment you get it, you can save it up for something bigger you really want. For example, if a new bike costs $60 and you save $5 of your allowance every week, you'd have enough in about 12 weeks — a clear goal makes saving feel worth it." },
+      { emoji: '➕', title: 'What is interest?', text: "Some banks pay you a little extra money just for keeping your savings there. That extra bit is called interest — a small reward for saving. For example, if a bank pays you 5 cents of interest for every $1 you keep saved for a whole year, then $20 saved could turn into $21 without you doing anything extra at all." },
+      { emoji: '⚖️', title: 'Wants vs. needs', text: "A need is something you must have, like food. A want is something nice to have, like a video game. Knowing the difference helps you spend wisely. For example, new shoes when yours are falling apart is a need, but a third pair of sneakers just because you like the color is a want." },
+      { emoji: '📝', title: 'Making a simple budget', text: "A budget is just a plan for your money — deciding ahead of time how much you'll save, spend, and maybe share, before you actually get it. For example, if you get $10 for your birthday, a simple budget might be: $5 into savings, $3 to spend on something fun now, and $2 to share or give to someone else." },
+      { emoji: '⏳', title: 'Patience pays off', text: "Waiting a little longer before buying something — instead of grabbing it right away — often means you can afford something even better later. For example, spending all $8 on a small toy today feels fun, but waiting three more weeks might mean you can afford the bigger toy you actually wanted most." },
+      { emoji: '🏷️', title: 'Comparing prices', text: "Smart shoppers check if the same thing costs less somewhere else before buying it. A few minutes of comparing can save a lot of points or money. For example, if the same toy costs $12 at one store and $9 at another, checking both stores first could save you $3 to spend on something else." },
+      { emoji: '🎁', title: 'Setting a savings goal', text: "Picking one specific thing to save for — and figuring out how many weeks of saving it'll take — makes saving feel a lot more real and exciting. For example, saving $2 a week toward a $16 game means marking off each week on a calendar until, after week 8, you finally have enough." },
+      { emoji: '💳', title: 'What is a bank account?', text: "A bank account is like a digital piggy bank — the bank keeps track of exactly how much money you have, and you can check the balance any time. For example, instead of counting coins yourself, a bank statement might simply say \"balance: $37\" so you always know where you stand." },
+      { emoji: '🔢', title: 'Watching your savings add up', text: "Writing down how much you've saved each week and adding it up is a simple way to actually see your money growing toward a goal. For example, keeping a little chart that goes $2, $4, $6, $8 each week turns saving into something you can watch happen, instead of just hoping it's working." },
     ],
     quiz: [
       {
@@ -95,10 +95,10 @@ export const INVESTING_CONTENT = {
         explanation: "Food is something you must have to live — that's a need, not just a want.",
       },
       {
-        question: "What's a smart way to get something big you really want?",
-        choices: ['Save up for it over time', 'Never think about it'],
+        question: "A bike costs $60 and you save $5 a week. About how many weeks until you can afford it?",
+        choices: ['About 12 weeks', 'It can never be saved for'],
         correctIndex: 0,
-        explanation: 'Saving a little at a time adds up to enough for bigger goals.',
+        explanation: 'Saving $5 a week adds up to $60 after about 12 weeks — a clear goal makes the plan easy to picture.',
       },
       {
         question: "What's it called when you plan out ahead of time how you'll use your money?",
@@ -107,10 +107,10 @@ export const INVESTING_CONTENT = {
         explanation: 'A budget is simply a plan for saving, spending, and sharing your money.',
       },
       {
-        question: 'Why might someone check prices in more than one place before buying?',
+        question: 'The same toy costs $12 at one store and $9 at another. Why check both first?',
         choices: ['To find the same thing for less', 'It never makes a difference'],
         correctIndex: 0,
-        explanation: 'Comparing prices can help you find a better deal and save the rest.',
+        explanation: 'Comparing prices could save you $3 in this example — money you could use for something else.',
       },
       {
         question: 'What can help make a savings goal feel more real?',
@@ -135,16 +135,16 @@ export const INVESTING_CONTENT = {
 
   'investing-10-13': {
     slides: [
-      { emoji: '📈', title: 'What is investing?', text: 'Investing means using your money to buy a small piece of something — like a company — hoping it grows in value over time.' },
-      { emoji: '🏢', title: 'What is a stock?', text: "A stock is a tiny piece of ownership in a company. If the company does well, your tiny piece can become worth more." },
-      { emoji: '🎢', title: 'Risk and reward', text: 'Investments can go up AND down in value. Taking on some risk is part of how investing can lead to bigger rewards over time.' },
-      { emoji: '⏳', title: 'The power of time', text: "The earlier you start investing — even with a small amount — the more time your money has to grow. Time is a young investor's biggest advantage." },
-      { emoji: '💵', title: 'What is compound interest?', text: "Compound interest means you earn money not just on what you put in, but also on the money it already earned before. It's growth building on growth." },
-      { emoji: '🎯', title: 'Short-term vs. long-term goals', text: "Money you need soon (like next month) is usually better off saved, not invested. Money you won't need for many years has more room to ride out an investment's ups and downs." },
-      { emoji: '📉', title: 'What is a "loss"?', text: "Sometimes an investment's value drops for a while — that's a loss on paper. It only becomes a real loss if you sell while it's down instead of waiting for it to recover." },
-      { emoji: '🧾', title: 'Investing vs. an allowance', text: "An allowance is money you're simply given. Investing is different — it's money you put to work, hoping it grows into more than you started with." },
-      { emoji: '📅', title: 'Investing a little, regularly', text: "Instead of investing one big amount all at once, some people invest a smaller amount on a regular schedule — like monthly. This is sometimes called dollar-cost averaging, and it smooths out the ups and downs." },
-      { emoji: '🏦', title: 'What is a brokerage account?', text: "A brokerage account is where you actually buy and hold investments like stocks — different from a regular bank account, which just holds cash." },
+      { emoji: '📈', title: 'What is investing?', text: "Investing means using your money to buy a small piece of something — like a company — hoping it grows in value over time. For example, if you use $50 to buy a small piece of a company that makes sneakers, and more people start buying those sneakers, your $50 piece could grow to be worth $60 or more." },
+      { emoji: '🏢', title: 'What is a stock?', text: "A stock is a tiny piece of ownership in a company. If the company does well, your tiny piece can become worth more. For example, if a company that makes your favorite video game has 1,000 total pieces (stocks) and you own 1 of them, you technically own a tiny 1/1000th sliver of that whole company." },
+      { emoji: '🎢', title: 'Risk and reward', text: "Investments can go up AND down in value. Taking on some risk is part of how investing can lead to bigger rewards over time. For example, $100 invested might grow to $110 in a good year, but it could also drop to $90 in a rough year before recovering later — that up-and-down ride is the risk part of the deal." },
+      { emoji: '⏳', title: 'The power of time', text: "The earlier you start investing — even with a small amount — the more time your money has to grow. Time is a young investor's biggest advantage. For example, $100 invested at age 12 has decades to grow before retirement, while the same $100 invested at age 40 has far less time to do the same job." },
+      { emoji: '💵', title: 'What is compound interest?', text: "Compound interest means you earn money not just on what you put in, but also on the money it already earned before. It's growth building on growth. For example, $100 growing by 10% becomes $110 after year one — then in year two, that 10% growth applies to the full $110, not just your original $100, making $121." },
+      { emoji: '🎯', title: 'Short-term vs. long-term goals', text: "Money you need soon (like next month) is usually better off saved, not invested. Money you won't need for many years has more room to ride out an investment's ups and downs. For example, money for a video game you want to buy next month should stay in simple savings, while money you won't touch for 5+ years has time to recover from any dips." },
+      { emoji: '📉', title: 'What is a "loss"?', text: "Sometimes an investment's value drops for a while — that's a loss on paper. It only becomes a real loss if you sell while it's down instead of waiting for it to recover. For example, if your $100 investment drops to $80 but you leave it alone and it climbs back to $105 a year later, you never actually lost anything — the dip was only temporary." },
+      { emoji: '🧾', title: 'Investing vs. an allowance', text: "An allowance is money you're simply given. Investing is different — it's money you put to work, hoping it grows into more than you started with. For example, a $10 weekly allowance stays $10 no matter what, but $10 invested wisely could grow to be worth $12, $15, or more over several years." },
+      { emoji: '📅', title: 'Investing a little, regularly', text: "Instead of investing one big amount all at once, some people invest a smaller amount on a regular schedule — like monthly. This is sometimes called dollar-cost averaging, and it smooths out the ups and downs. For example, investing $10 every month for a year means some months you buy when prices are higher and some when they're lower, which balances out instead of betting everything on one moment." },
+      { emoji: '🏦', title: 'What is a brokerage account?', text: "A brokerage account is where you actually buy and hold investments like stocks — different from a regular bank account, which just holds cash. For example, a parent might open a custodial brokerage account for a young teen, where the teen can pick which companies to invest small amounts in, with a parent supervising." },
     ],
     quiz: [
       {
@@ -178,10 +178,10 @@ export const INVESTING_CONTENT = {
         explanation: "When a company grows in value, the pieces of it people own — including yours — tend to grow in value too.",
       },
       {
-        question: 'What does "compound interest" mean?',
-        choices: ['You earn money on your original money AND on what it already earned', 'You only ever earn money once'],
+        question: '$100 growing 10% becomes $110. Why does year two\'s 10% growth apply to $110, not $100?',
+        choices: ['Because that\'s compound interest — growth building on top of previous growth', 'Because banks round numbers up randomly'],
         correctIndex: 0,
-        explanation: 'Compounding is growth building on top of previous growth — it speeds up over time.',
+        explanation: 'Compounding means each year\'s growth is calculated on the new, larger total — it speeds up over time.',
       },
       {
         question: 'An investment drops in value for a while, but you leave it alone and it recovers later. Was that a real loss?',
@@ -206,16 +206,16 @@ export const INVESTING_CONTENT = {
 
   'investing-13-17': {
     slides: [
-      { emoji: '🧺', title: "Don't put all your eggs in one basket", text: 'Diversification means spreading your money across many different investments instead of just one, so one bad outcome doesn\'t wipe you out.' },
-      { emoji: '📊', title: 'What is an index fund?', text: 'Instead of picking one company, an index fund lets you own a tiny piece of hundreds of companies at once — an easy way to diversify.' },
-      { emoji: '🔥', title: 'Inflation: the silent thief', text: 'Prices tend to rise over time. Money that just sits still loses buying power. Investing is one way to try to grow money faster than inflation shrinks it.' },
-      { emoji: '🧠', title: 'Long-term thinking beats quick wins', text: 'Investors who stay patient through ups and downs, over years or decades, tend to do far better than those chasing quick trades.' },
-      { emoji: '💳', title: 'Debt works the opposite way', text: "Investing grows money for you over time. Borrowing money (debt) usually costs you extra over time through interest — it's compounding working against you instead of for you." },
-      { emoji: '🏛️', title: 'Retirement accounts, simplified', text: "Many workplaces offer special accounts (like a 401(k) or an IRA in the US) built for long-term investing, often with tax advantages. They're designed to be left alone for decades." },
-      { emoji: '📱', title: 'Getting started today', text: "Modern investing apps and custodial accounts have made it easier than ever for a teenager to start investing small, real amounts with a parent's help." },
-      { emoji: '🧮', title: 'The Rule of 72', text: "A quick trick: divide 72 by your investment's yearly growth rate to estimate how many years it takes to double. At 8% growth, that's roughly 72 ÷ 8 = 9 years to double." },
-      { emoji: '🐂', title: 'Bull markets and bear markets', text: "A 'bull market' is a stretch of time when prices are generally rising. A 'bear market' is a stretch when prices are generally falling. Both are completely normal parts of a long investing journey." },
-      { emoji: '🧾', title: 'A brief word on taxes', text: "In many places, profit made from selling an investment can be taxed — often called a capital gains tax. It's a real cost worth knowing about, even though the details vary a lot by country." },
+      { emoji: '🧺', title: "Don't put all your eggs in one basket", text: "Diversification means spreading your money across many different investments instead of just one, so one bad outcome doesn't wipe you out. For example, investing $500 entirely in one company means you're in trouble if that company struggles, but spreading it across 100 different companies means one bad one barely dents your total." },
+      { emoji: '📊', title: 'What is an index fund?', text: "Instead of picking one company, an index fund lets you own a tiny piece of hundreds of companies at once — an easy way to diversify. For example, a single index fund investment might give you a small stake in 500 of the largest companies in the country, all through one simple purchase instead of researching and buying 500 stocks yourself." },
+      { emoji: '🔥', title: 'Inflation: the silent thief', text: "Prices tend to rise over time. Money that just sits still loses buying power. Investing is one way to try to grow money faster than inflation shrinks it. For example, if a candy bar costs $1 today and prices rise 3% a year, that same candy bar could cost about $1.34 in ten years — meaning $100 sitting in cash quietly buys less and less over time." },
+      { emoji: '🧠', title: 'Long-term thinking beats quick wins', text: "Investors who stay patient through ups and downs, over years or decades, tend to do far better than those chasing quick trades. For example, someone who invested $1,000 and left it alone for 20 years, riding out several rough patches, has historically ended up far ahead of someone who panic-sold every time prices dipped." },
+      { emoji: '💳', title: 'Debt works the opposite way', text: "Investing grows money for you over time. Borrowing money (debt) usually costs you extra over time through interest — it's compounding working against you instead of for you. For example, a $200 credit card balance charging 20% interest a year can balloon if left unpaid, the same way compound growth builds up an investment — just in the wrong direction." },
+      { emoji: '🏛️', title: 'Retirement accounts, simplified', text: "Many workplaces offer special accounts (like a 401(k) or an IRA in the US) built for long-term investing, often with tax advantages. They're designed to be left alone for decades. For example, some employers even match part of what you put in — meaning if you contribute $50, your employer might add another $25 for free, instantly growing your investment." },
+      { emoji: '📱', title: 'Getting started today', text: "Modern investing apps and custodial accounts have made it easier than ever for a teenager to start investing small, real amounts with a parent's help. For example, a 16-year-old could start with just $20 in a custodial brokerage account, buying a small stake in an index fund and adding a bit more each month." },
+      { emoji: '🧮', title: 'The Rule of 72', text: "A quick trick: divide 72 by your investment's yearly growth rate to estimate how many years it takes to double. At 8% growth, that's roughly 72 ÷ 8 = 9 years to double. For example, $500 growing at 8% a year would roughly become $1,000 after about 9 years, and roughly $2,000 after about 18 years." },
+      { emoji: '🐂', title: 'Bull markets and bear markets', text: "A 'bull market' is a stretch of time when prices are generally rising. A 'bear market' is a stretch when prices are generally falling. Both are completely normal parts of a long investing journey. For example, markets have historically gone through both bull and bear stretches many times over the decades, and investors who stayed invested through both tended to come out ahead in the long run." },
+      { emoji: '🧾', title: 'A brief word on taxes', text: "In many places, profit made from selling an investment can be taxed — often called a capital gains tax. It's a real cost worth knowing about, even though the details vary a lot by country. For example, if you bought a stock for $100 and sold it for $150, that $50 profit might be taxed, meaning your actual take-home gain would be a bit less than $50." },
     ],
     quiz: [
       {
@@ -231,10 +231,10 @@ export const INVESTING_CONTENT = {
         explanation: 'Index funds are a simple way to diversify without picking individual companies yourself.',
       },
       {
-        question: 'What is inflation?',
-        choices: ['Prices rising over time, which reduces what your money can buy', 'A type of investment account'],
+        question: 'A candy bar costs $1 today. If prices rise 3% a year, what happens to its price over 10 years?',
+        choices: ['It rises to roughly $1.34, since prices rising over time is inflation', 'It always stays exactly $1'],
         correctIndex: 0,
-        explanation: 'Inflation quietly erodes the value of money that just sits still.',
+        explanation: 'Inflation quietly erodes the value of money that just sits still — the same dollar buys less over time.',
       },
       {
         question: 'True or False: Reacting quickly to every market dip usually leads to better long-term results.',
@@ -249,8 +249,8 @@ export const INVESTING_CONTENT = {
         explanation: 'Starting early gives your money decades more time to compound.',
       },
       {
-        question: 'How is borrowing money (debt) different from investing?',
-        choices: ['Debt usually costs you extra over time instead of growing your money', 'They work exactly the same way'],
+        question: 'A $200 credit card balance at 20% interest grows if unpaid. Why is this the "opposite" of investing?',
+        choices: ['Because compounding is working against you instead of for you', 'Because credit cards use a completely different kind of math'],
         correctIndex: 0,
         explanation: 'Interest on debt compounds against you, while investing aims to compound growth for you.',
       },
@@ -267,10 +267,10 @@ export const INVESTING_CONTENT = {
         explanation: 'A bear market describes a generally declining stretch of prices — a normal part of investing.',
       },
       {
-        question: 'What is a capital gains tax generally applied to?',
-        choices: ['Profit made from selling an investment', 'Every dollar you ever save'],
+        question: 'You buy a stock for $100 and sell it for $150. What might a capital gains tax apply to?',
+        choices: ['The $50 profit you made', 'The full $150 you received'],
         correctIndex: 0,
-        explanation: 'Capital gains tax typically applies to the profit from selling an investment, not savings itself.',
+        explanation: 'Capital gains tax typically applies to the profit from selling an investment, not the whole sale amount.',
       },
     ],
   },
