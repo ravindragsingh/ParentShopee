@@ -105,6 +105,7 @@ def startup():
             ("wallets",    "savings_balance",         "FLOAT"),
             ("family_learning_settings", "points_override", "FLOAT"),
             ("learning_modules", "content", "JSON"),
+            ("learning_modules", "created_at", "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -141,6 +142,12 @@ def startup():
         conn.execute(text("UPDATE shop_items SET family_id='parent1' WHERE family_id IS NULL"))
         # Back-fill completed_at for existing complete chores (visible for 3 days from now)
         conn.execute(text(f"UPDATE chores SET completed_at='{_ts_now}' WHERE status='complete' AND completed_at IS NULL"))
+        # Public Speaking's rows were inserted (in an earlier deploy) before the
+        # learning_modules.created_at column existed, so without this one-time
+        # backfill it would never show the "New" badge -- every topic added
+        # from this point on gets created_at automatically, in the catalog
+        # loop below, on its first-ever insert.
+        conn.execute(text(f"UPDATE learning_modules SET created_at='{_ts_now}' WHERE topic='public-speaking' AND created_at IS NULL"))
         # Back-fill new counters to 0 for existing users
         conn.execute(text("UPDATE users SET chores_added_count=0 WHERE chores_added_count IS NULL"))
         conn.execute(text("UPDATE users SET shop_items_added_count=0 WHERE shop_items_added_count IS NULL"))
@@ -369,7 +376,10 @@ def startup():
                 for key, value in fields.items():
                     setattr(existing, key, value)
             else:
-                db3.add(DBLearningModule(is_active="1", **fields))
+                # created_at is only ever set here, on first creation -- a later
+                # catalog re-sync (every server start) must never touch it, or
+                # every module would look "new" again after each deploy.
+                db3.add(DBLearningModule(is_active="1", created_at=_ts_now, **fields))
         active_ids = [c["id"] for c in catalog]
         db3.query(DBLearningModule).filter(DBLearningModule.id.notin_(active_ids)).update({"is_active": "0"}, synchronize_session=False)
         db3.commit()

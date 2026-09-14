@@ -1,8 +1,26 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
+import { useAuth } from '../context/AuthContext.jsx'
 import LessonModule from './LessonModule.jsx'
 import Toggle from './Toggle.jsx'
+import FutureReadyIntroModal from './FutureReadyIntroModal.jsx'
 import { topicMeta } from './topicMeta.js'
+
+// Small pill shown on a topic or age-band row for a couple weeks after it's
+// added -- `isNew` comes straight from the backend (see future_ready.py's
+// NEW_BADGE_DAYS), so this component doesn't need to know or care how long
+// "new" lasts.
+function NewBadge() {
+  return (
+    <span style={{
+      fontSize: '0.68rem', fontWeight: 800, borderRadius: 999, padding: '2px 8px',
+      background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', flexShrink: 0,
+      textTransform: 'uppercase', letterSpacing: '0.03em',
+    }}>
+      New
+    </span>
+  )
+}
 
 function groupByTopic(modules) {
   const byTopic = new Map()
@@ -48,6 +66,7 @@ function PointsEditor({ points, disabled, onSave }) {
 }
 
 export default function GuardianFutureReadyTab() {
+  const { user } = useAuth()
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -113,6 +132,7 @@ export default function GuardianFutureReadyTab() {
 
   return (
     <div>
+      <FutureReadyIntroModal userId={user?.id} />
       <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🚀 Future-Ready</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
         Short, interactive lessons that build real-world skills. Turn on the age bands you want available and set how many points each one earns — every kid automatically sees the band that matches their own age, with no age picking on their end. Preview any lesson yourself first.
@@ -127,6 +147,7 @@ export default function GuardianFutureReadyTab() {
           {topics.map(topic => {
             const meta = topicMeta(topic.topic)
             const enabledCount = topic.modules.filter(m => m.enabled).length
+            const topicIsNew = topic.modules.some(m => m.isNew)
             const isOpen = openTopic === topic.topic
             return (
               <div key={topic.topic} style={{ border: `1px solid ${meta.border}`, borderRadius: 16, overflow: 'hidden', background: '#fff' }}>
@@ -144,7 +165,10 @@ export default function GuardianFutureReadyTab() {
                     {topic.emoji}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '1rem' }}>{topic.title}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '1rem' }}>{topic.title}</span>
+                      {topicIsNew && <NewBadge />}
+                    </div>
                     <div style={{ fontSize: '0.78rem', color: '#64748b' }}>{meta.description}</div>
                   </div>
                   <span style={{
@@ -167,7 +191,10 @@ export default function GuardianFutureReadyTab() {
                         }}
                       >
                         <div style={{ minWidth: 90 }}>
-                          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.9rem' }}>{m.title}</div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, color: '#1e293b', fontSize: '0.9rem' }}>
+                            {m.title}
+                            {m.isNew && <NewBadge />}
+                          </div>
                         </div>
                         <div style={{ flex: 1, minWidth: 160 }}>
                           <PointsEditor

@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
@@ -16,6 +17,22 @@ router = APIRouter()
 # it's marked complete and points are paid out -- retaking it for a better
 # score is free and unlimited, but a low score just doesn't pay.
 PASS_RATIO = 0.6
+
+# How long a module keeps showing a "New" badge after it's first added to
+# the catalog (see created_at on DBLearningModule).
+NEW_BADGE_DAYS = 14
+
+
+def _is_new(m: DBLearningModule) -> bool:
+    if not m.created_at:
+        return False
+    try:
+        created = datetime.fromisoformat(m.created_at)
+    except ValueError:
+        return False
+    if created.tzinfo is None:
+        created = created.replace(tzinfo=timezone.utc)
+    return (datetime.now(timezone.utc) - created) < timedelta(days=NEW_BADGE_DAYS)
 
 
 def _family_id_for(user: DBUser) -> str:
@@ -42,6 +59,7 @@ def module_dict(m: DBLearningModule, points: float, enabled: bool = None, comple
         "id": m.id, "section": m.section, "sectionTitle": m.section_title, "sectionEmoji": m.section_emoji,
         "topic": m.topic, "topicTitle": m.topic_title, "topicEmoji": m.topic_emoji,
         "ageMin": m.age_min, "ageMax": m.age_max, "title": m.title, "points": points,
+        "isNew": _is_new(m),
     }
     if enabled is not None:
         d["enabled"] = enabled

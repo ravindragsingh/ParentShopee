@@ -194,6 +194,9 @@ class DBLearningModule(Base):
     # slides/quiz) is just a backend redeploy -- no app rebuild or store
     # submission, even for the native mobile app. Regenerate from the
     # authored JS with frontend/scripts/extract-future-ready-content.mjs.
+    created_at  = Column(String, nullable=True)  # ISO timestamp, set once when the
+    # row is first created (not touched on later catalog re-syncs) -- powers the
+    # "New" badge; NULL for rows that predate this column, correctly read as "not new".
 
 
 class DBFamilyLearningSetting(Base):
