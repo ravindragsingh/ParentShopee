@@ -92,6 +92,17 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
         <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b' }}>{subtitle ?? module.topicTitle}</span>
       </div>
 
+      {phase !== 'result' && (
+        <div style={{ textAlign: 'center', marginBottom: 14 }}>
+          <span style={{
+            fontSize: '0.78rem', fontWeight: 700, color: '#0f766e', background: '#f0fdfa',
+            border: '1px solid #99f6e4', borderRadius: 999, padding: '4px 12px',
+          }}>
+            ⭐ Earn {module.points} pts for finishing this
+          </span>
+        </div>
+      )}
+
       {phase === 'slides' && (
         <div>
           <div style={{

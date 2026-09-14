@@ -66,7 +66,7 @@ def _kid_allowed(setting: DBFamilyLearningSetting, kid_id: str) -> bool:
 
 
 def module_dict(m: DBLearningModule, points: float, enabled: bool = None, completed: bool = None,
-                 enabled_kid_ids: list = None) -> dict:
+                 enabled_kid_ids: list = None, completions: list = None) -> dict:
     d = {
         "id": m.id, "section": m.section, "sectionTitle": m.section_title, "sectionEmoji": m.section_emoji,
         "topic": m.topic, "topicTitle": m.topic_title, "topicEmoji": m.topic_emoji,
@@ -76,6 +76,7 @@ def module_dict(m: DBLearningModule, points: float, enabled: bool = None, comple
     if enabled is not None:
         d["enabled"] = enabled
         d["enabledKidIds"] = enabled_kid_ids  # None = every kid in the family
+        d["completions"] = completions or []  # which kids have completed this, for the guardian's "redo" control
     if completed is not None:
         d["completed"] = completed
     return d
@@ -110,12 +111,23 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
     # Guardians see the full catalog with every age band, its current
     # visibility, and its effective point value (their own override if set,
     # otherwise the catalog default) -- something to toggle and tune even
-    # for bands they haven't enabled yet.
+    # for bands they haven't enabled yet. They also see who's already
+    # completed each one, so they can offer a redo.
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    kid_names = {k.id: k.name for k in kids}
+    completions_by_module = {}
+    if kids:
+        for c in db.query(DBLearningCompletion).filter(DBLearningCompletion.kid_id.in_(kid_names.keys())).all():
+            completions_by_module.setdefault(c.module_id, []).append({
+                "kidId": c.kid_id, "kidName": kid_names.get(c.kid_id, "?"),
+                "score": c.score, "total": c.total, "pointsAwarded": c.points_awarded, "completedAt": c.completed_at,
+            })
     return ok([
         module_dict(
             m, _effective_points(m, settings.get(m.id)),
             enabled=settings.get(m.id) is not None and settings[m.id].enabled == "1",
             enabled_kid_ids=settings[m.id].enabled_kid_ids.split(",") if (settings.get(m.id) and settings[m.id].enabled_kid_ids) else None,
+            completions=completions_by_module.get(m.id),
         )
         for m in modules
     ])
@@ -176,6 +188,26 @@ def set_learning_points(module_id: str, body: LearningPointsUpdate, db: Session 
     setting.points_override = body.points
     db.commit()
     return ok(module_dict(module, body.points, enabled=setting.enabled == "1"))
+
+
+@router.delete("/api/future-ready/{module_id}/completion/{kid_id}")
+def reset_learning_completion(module_id: str, kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    """Lets a guardian clear a kid's completion of a module so they can redo
+    it -- the points already earned the first time stay in the kid's
+    wallet; passing again just earns a fresh payout, the same as if they'd
+    never completed it. Doesn't touch enabled/visibility at all."""
+    family_id = get_family_id(user)
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
+    if not kid: fail("Kid not found", 404)
+
+    completion = db.query(DBLearningCompletion).filter(
+        DBLearningCompletion.kid_id == kid_id, DBLearningCompletion.module_id == module_id
+    ).first()
+    if not completion: fail("This kid hasn't completed that module", 404)
+
+    db.delete(completion)
+    db.commit()
+    return ok({"reset": True})
 
 
 @router.post("/api/future-ready/{module_id}/complete")

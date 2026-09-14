@@ -101,6 +101,7 @@ export const api = {
   setLearningVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/future-ready/${moduleId}/visibility`, { enabled, kidIds }),
   setLearningPoints: (moduleId, points) => request('PUT', `/api/future-ready/${moduleId}/points`, { points }),
   completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),
+  resetLearningCompletion: (moduleId, kidId) => request('DELETE', `/api/future-ready/${moduleId}/completion/${kidId}`),
 
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
