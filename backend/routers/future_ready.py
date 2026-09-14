@@ -65,6 +65,17 @@ def _kid_allowed(setting: DBFamilyLearningSetting, kid_id: str) -> bool:
     return True
 
 
+def _age_gap(m: DBLearningModule, kid_age: int) -> int:
+    """0 if the kid's actual age falls within this module's band, otherwise
+    how many years outside it they are. Age bands are just a starting
+    default, not a hard gate -- a guardian can enable a band meant for a
+    different age (e.g. more advanced content for a younger kid), and that
+    explicit choice should win over the automatic age match."""
+    if m.age_min <= kid_age <= m.age_max:
+        return 0
+    return min(abs(kid_age - m.age_min), abs(kid_age - m.age_max))
+
+
 def module_dict(m: DBLearningModule, points: float, enabled: bool = None, completed: bool = None,
                  enabled_kid_ids: list = None, completions: list = None) -> dict:
     d = {
@@ -89,9 +100,14 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
     settings = _family_settings(db, family_id)
     if user.role == "kid":
         # Age bands are a guardian-only concept -- a kid sees exactly one
-        # module per topic, whichever age band actually covers them, so the
-        # UI can show "Investing for Kids" as a single thing to do rather
-        # than four age options they'd have to pick between themselves.
+        # module per topic, so the UI can show "Investing for Kids" as a
+        # single thing to do rather than four age options they'd have to
+        # pick between themselves. Among the bands a guardian has actually
+        # enabled for this kid, prefer whichever one matches their real age
+        # -- but a guardian enabling a band for a different age (deliberately
+        # giving a younger kid more advanced content, say) is a real choice
+        # that should be respected, not silently hidden, so it's the
+        # fallback rather than being filtered out entirely.
         completed_ids = {
             c.module_id for c in db.query(DBLearningCompletion).filter(DBLearningCompletion.kid_id == user.id).all()
         }
@@ -101,9 +117,11 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
         by_topic = {}
         for m in modules:
             setting = settings.get(m.id)
-            if not _kid_allowed(setting, user.id) or not (m.age_min <= kid_age <= m.age_max):
+            if not _kid_allowed(setting, user.id):
                 continue
-            by_topic[m.topic] = m
+            current = by_topic.get(m.topic)
+            if current is None or _age_gap(m, kid_age) < _age_gap(current, kid_age):
+                by_topic[m.topic] = m
         return ok([
             module_dict(m, _effective_points(m, settings.get(m.id)), completed=m.id in completed_ids)
             for m in by_topic.values()
