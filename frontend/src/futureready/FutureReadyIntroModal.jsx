@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-const seenKey = userId => `frIntroSeen_${userId}`
+const dismissedKey = userId => `frIntroDismissed_${userId}`
 
-// Shown once per guardian, the first time they open the Future-Ready tab --
-// explains the enable/disable + points model and nudges toward a sane
-// number of active topics, since a kid facing 10+ options at once tends to
-// just ignore all of them. Same one-time-dismissal shape as
-// TipOfTheDayModal, but simpler: no daily re-trigger, no opt-out toggle,
-// just "Got it" once.
+// Shown every time a guardian opens the Future-Ready tab -- explains the
+// enable/disable + points model and nudges toward a sane number of active
+// topics -- until they check "don't show this again", at which point it
+// stops for good (tracked per-guardian in localStorage, same shape as
+// TipOfTheDayModal's opt-out).
 export default function FutureReadyIntroModal({ userId }) {
   const [visible, setVisible] = useState(false)
+  const [dontShowAgain, setDontShowAgain] = useState(false)
 
   useEffect(() => {
     if (!userId) return
-    if (localStorage.getItem(seenKey(userId)) === '1') return
+    if (localStorage.getItem(dismissedKey(userId)) === '1') return
     setVisible(true)
   }, [userId])
 
   function dismiss() {
-    localStorage.setItem(seenKey(userId), '1')
+    if (dontShowAgain) localStorage.setItem(dismissedKey(userId), '1')
     setVisible(false)
   }
 
@@ -65,6 +65,16 @@ export default function FutureReadyIntroModal({ userId }) {
           <p style={{ margin: 0 }}>
             💡 <strong>A tip:</strong> it's best to not enable more than <strong>5 topics</strong> at once — a shorter, focused list is much more likely to actually get used than a huge one.
           </p>
+        </div>
+        <div style={{ padding: '10px 22px 0' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.82rem', color: '#64748b', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={dontShowAgain}
+              onChange={e => setDontShowAgain(e.target.checked)}
+            />
+            Don't show this again
+          </label>
         </div>
         <div style={{ padding: '14px 22px 20px', textAlign: 'right' }}>
           <button
