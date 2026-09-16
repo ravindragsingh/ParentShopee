@@ -407,6 +407,7 @@ export default function KidDashboard() {
   const setTab = useCallback(next => {
     setSearchParams(next === 'home' ? {} : { tab: next })
   }, [setSearchParams])
+  useEffect(() => { window.scrollTo(0, 0) }, [tab])
   const [balance, setBalance] = useState(null)
 
   useEffect(() => {

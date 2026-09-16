@@ -241,12 +241,13 @@ export default function GuardianFutureReadyTab() {
 
                 {isOpen && (
                   <div style={{ padding: '4px 18px 16px' }}>
-                    {topic.modules.map(m => (
+                    {topic.modules.map((m, idx) => (
                       <div
                         key={m.id}
                         style={{
                           display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0',
-                          borderTop: '1px solid #f1f5f9', flexWrap: 'wrap',
+                          borderTop: idx === 0 ? 'none' : '1px solid #f1f5f9', flexWrap: 'wrap',
+                          justifyContent: 'space-between',
                         }}
                       >
                         <div style={{ minWidth: 90 }}>

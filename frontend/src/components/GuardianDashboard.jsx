@@ -2209,6 +2209,7 @@ export default function GuardianDashboard() {
   const setTab = useCallback(next => {
     setSearchParams(next === 'home' ? {} : { tab: next })
   }, [setSearchParams])
+  useEffect(() => { window.scrollTo(0, 0) }, [tab])
   const [kids, setKids] = useState([])
   const [kidsLoaded, setKidsLoaded] = useState(false)
   const [wallets, setWallets] = useState([])

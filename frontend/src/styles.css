@@ -1132,8 +1132,8 @@ body {
   .tabs::-webkit-scrollbar { display: none; }
 
   .tab-btn {
-    padding: 9px 12px;
-    font-size: 0.82rem;
+    padding: 8px 9px;
+    font-size: 0.78rem;
     white-space: nowrap;
     flex-shrink: 0;
   }

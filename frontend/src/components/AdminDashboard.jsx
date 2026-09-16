@@ -590,6 +590,7 @@ export default function AdminDashboard() {
   const setView = useCallback(next => {
     setSearchParams(next === 'families' ? {} : { view: next })
   }, [setSearchParams])
+  useEffect(() => { window.scrollTo(0, 0) }, [view])
   const [families,      setFamilies]      = useState([])
   const [loading,       setLoading]       = useState(true)
   const [error,         setError]         = useState('')
