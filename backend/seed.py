@@ -8,8 +8,11 @@ from models import DBChore, DBShopItem, DBTransaction, DBUser, DBWallet
 
 
 def seed_db(db: Session):
-    if db.query(DBUser).count() > 0:
-        return   # already seeded
+    # Keyed on the demo username rather than "any users exist" so this stays
+    # idempotent on a production DB that already has real signups but has
+    # never had the public demo family provisioned.
+    if db.query(DBUser).filter(DBUser.username == "parent1").first():
+        return   # demo family already seeded
 
     today = date.today()
 
