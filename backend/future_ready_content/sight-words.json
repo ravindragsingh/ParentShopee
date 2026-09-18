@@ -1,0 +1,96 @@
+{
+  "sight-words-4-6": {
+    "slides": [
+      {
+        "emoji": "👀",
+        "title": "What's a sight word?",
+        "text": "Some words are so common that you learn to know them just by looking at them, instead of sounding them out letter by letter. For example, the word \"the\" shows up in almost every book — instead of sounding out t-h-e every time, your eyes learn to recognize the whole word \"the\" at a glance."
+      },
+      {
+        "emoji": "1️⃣",
+        "title": "Your first sight word: the",
+        "text": "\"The\" is one of the most common words in every book you'll ever read, so it's a great word to learn by sight first. For example, in the sentence \"The dog ran fast,\" spotting \"the\" right away helps you read the rest of the sentence more smoothly."
+      },
+      {
+        "emoji": "🔗",
+        "title": "Joining words: and",
+        "text": "\"And\" is a joining word that connects two things together, like \"cat and dog\" or \"jump and run.\" For example, in the sentence \"I like apples and bananas,\" the word \"and\" tells you two foods are being listed, not just one."
+      },
+      {
+        "emoji": "👉",
+        "title": "Pointing words: is and it",
+        "text": "\"Is\" and \"it\" are tiny words that show up everywhere, so learning to spot them by sight makes reading much smoother. For example, in the sentence \"It is raining,\" both little words are sight words you can recognize instantly instead of sounding out."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Hunting for sight words in books",
+        "text": "Once you know a few sight words, you can go on a hunt for them in any book — pointing at \"the\" or \"and\" every time you spot it. For example, opening any picture book and counting how many times you can find the word \"the\" on one page turns practice into a fun game."
+      },
+      {
+        "emoji": "🙋",
+        "title": "You and can",
+        "text": "\"You\" and \"can\" are two more super common words — \"you\" talks about the person you're talking to, and \"can\" means being able to do something. For example, \"You can do it!\" uses both words together to cheer someone on."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Sight words help you read faster",
+        "text": "The more sight words you know by heart, the less time you spend sounding out words, and the faster and smoother your reading becomes. For example, a page full of words you already know by sight can be read almost as quickly as looking at a picture."
+      },
+      {
+        "emoji": "🌟",
+        "title": "Be proud of every new word",
+        "text": "Every single sight word you learn is one more word you'll never have to sound out again — that's something to feel really proud of. For example, learning just five new sight words this week means five words you'll instantly recognize in every book from now on."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is a sight word?",
+        "choices": ["A word you learn to recognize by looking at it", "A word that has no letters"],
+        "correctIndex": 0,
+        "explanation": "Sight words are common words you learn to recognize instantly, without sounding them out."
+      },
+      {
+        "question": "Which word is one of the most common words in almost every book?",
+        "choices": ["the", "elephant"],
+        "correctIndex": 0,
+        "explanation": "\"The\" appears so often that it's one of the first sight words kids learn."
+      },
+      {
+        "question": "What does the word \"and\" do?",
+        "choices": ["Joins two things together", "Makes a word disappear"],
+        "correctIndex": 0,
+        "explanation": "\"And\" connects two things, like \"cat and dog.\""
+      },
+      {
+        "question": "In \"It is raining,\" which words are sight words?",
+        "choices": ["It and is", "Raining only"],
+        "correctIndex": 0,
+        "explanation": "\"It\" and \"is\" are common sight words you can recognize instantly."
+      },
+      {
+        "question": "What's a fun way to practice sight words?",
+        "choices": ["Hunting for them in a book", "Never opening a book"],
+        "correctIndex": 0,
+        "explanation": "Spotting sight words in real books turns practice into a game."
+      },
+      {
+        "question": "What does the word \"can\" usually mean?",
+        "choices": ["Being able to do something", "A type of fruit"],
+        "correctIndex": 0,
+        "explanation": "\"Can\" means someone is able to do something, like \"You can do it!\""
+      },
+      {
+        "question": "Why do sight words help you read faster?",
+        "choices": ["You don't have to sound them out every time", "They make books shorter"],
+        "correctIndex": 0,
+        "explanation": "Recognizing sight words instantly speeds up your reading a lot."
+      },
+      {
+        "question": "How should you feel about learning a new sight word?",
+        "choices": ["Proud — it's one more word you know by heart", "It doesn't matter at all"],
+        "correctIndex": 0,
+        "explanation": "Every new sight word is real progress worth feeling proud of."
+      }
+    ]
+  }
+}
