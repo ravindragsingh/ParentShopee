@@ -194,9 +194,6 @@ class DBLearningModule(Base):
     # slides/quiz) is just a backend redeploy -- no app rebuild or store
     # submission, even for the native mobile app. Regenerate from the
     # authored JS with frontend/scripts/extract-future-ready-content.mjs.
-    created_at  = Column(String, nullable=True)  # ISO timestamp, set once when the
-    # row is first created (not touched on later catalog re-syncs) -- powers the
-    # "New" badge; NULL for rows that predate this column, correctly read as "not new".
 
 
 class DBFamilyLearningSetting(Base):
@@ -211,10 +208,6 @@ class DBFamilyLearningSetting(Base):
     module_id      = Column(String, primary_key=True)
     enabled        = Column(String, default="0")
     points_override = Column(Float, nullable=True)
-    enabled_kid_ids = Column(String, nullable=True)  # CSV of kid ids this module
-    # is restricted to; NULL/empty means "every kid in the family" (the original,
-    # still-default behavior) -- a guardian only narrows this when they want a
-    # topic on for just one child rather than all of them.
 
 
 class DBLearningCompletion(Base):
