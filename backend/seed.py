@@ -63,3 +63,37 @@ def seed_db(db: Session):
     db.add(DBTransaction(id=str(uuid4()), kid_id="kid3", type="earned", amount=20, description="Earned: Clean the bathroom", timestamp=now()))
 
     db.commit()
+
+
+# The public "try demo" login (parent1/pass1, referenced directly in the
+# login page's own placeholder text and in Help/blog docs) needs to always
+# work for site visitors. Unlike seed_db above -- which only ever runs once,
+# on a genuinely empty database -- this runs on every startup and repairs
+# just these specific accounts' credentials/status if they ever drift (e.g.
+# someone changes the password while poking at a public demo login), without
+# touching any of their chores/shop items/wallet history.
+DEMO_ACCOUNTS = [
+    dict(id="parent1", name="Mom",   username="parent1", password="pass1", role="guardian",
+         email="mom@family.com", date_of_birth="1980-03-10", gender="female", pin="246810", pin_auto_generated="0"),
+    dict(id="parent2", name="Dad",   username="parent2", password="pass2", role="guardian",
+         email="dad@family.com", date_of_birth="1978-07-22", gender="male", pin="864203", pin_auto_generated="0"),
+    dict(id="kid1", name="Alice", username="kid1", password="pass1", role="kid", guardian_id="parent1",
+         avatar="🐱", pin="123456", pin_auto_generated="0", birth_month=6, birth_year=2020),
+    dict(id="kid2", name="Bob",   username="kid2", password="pass1", role="kid", guardian_id="parent1",
+         avatar="🐶", pin="284917", pin_auto_generated="0", birth_month=1, birth_year=2017),
+    dict(id="kid3", name="Charlie", username="kid3", password="pass1", role="kid", guardian_id="parent2",
+         avatar="🦁", pin="573920", pin_auto_generated="0"),
+]
+
+
+def ensure_demo_accounts(db: Session):
+    for fields in DEMO_ACCOUNTS:
+        user = db.query(DBUser).filter(DBUser.id == fields["id"]).first()
+        if user:
+            for key, value in fields.items():
+                setattr(user, key, value)
+            user.is_suspended = "0"
+            user.is_active = "1"
+        else:
+            db.add(DBUser(created_at=now(), is_active="1", **fields))
+    db.commit()
