@@ -2,94 +2,526 @@
   "sight-words-4-6": {
     "slides": [
       {
-        "emoji": "👀",
-        "title": "What's a sight word?",
-        "text": "Some words are so common that you learn to know them just by looking at them, instead of sounding them out letter by letter. For example, the word \"the\" shows up in almost every book — instead of sounding out t-h-e every time, your eyes learn to recognize the whole word \"the\" at a glance."
+        "emoji": "🅰️",
+        "title": "a",
+        "text": "I see a cat."
       },
       {
-        "emoji": "1️⃣",
-        "title": "Your first sight word: the",
-        "text": "\"The\" is one of the most common words in every book you'll ever read, so it's a great word to learn by sight first. For example, in the sentence \"The dog ran fast,\" spotting \"the\" right away helps you read the rest of the sentence more smoothly."
+        "emoji": "➕",
+        "title": "and",
+        "text": "I like cats and dogs."
       },
       {
-        "emoji": "🔗",
-        "title": "Joining words: and",
-        "text": "\"And\" is a joining word that connects two things together, like \"cat and dog\" or \"jump and run.\" For example, in the sentence \"I like apples and bananas,\" the word \"and\" tells you two foods are being listed, not just one."
+        "emoji": "🚶",
+        "title": "away",
+        "text": "The bird flew away."
       },
       {
-        "emoji": "👉",
-        "title": "Pointing words: is and it",
-        "text": "\"Is\" and \"it\" are tiny words that show up everywhere, so learning to spot them by sight makes reading much smoother. For example, in the sentence \"It is raining,\" both little words are sight words you can recognize instantly instead of sounding out."
+        "emoji": "🐘",
+        "title": "big",
+        "text": "The elephant is big."
+      },
+      {
+        "emoji": "🔵",
+        "title": "blue",
+        "text": "The sky is blue."
+      },
+      {
+        "emoji": "💪",
+        "title": "can",
+        "text": "I can jump."
+      },
+      {
+        "emoji": "👋",
+        "title": "come",
+        "text": "Come and play!"
+      },
+      {
+        "emoji": "⬇️",
+        "title": "down",
+        "text": "The ball rolled down."
       },
       {
         "emoji": "🔍",
-        "title": "Hunting for sight words in books",
-        "text": "Once you know a few sight words, you can go on a hunt for them in any book — pointing at \"the\" or \"and\" every time you spot it. For example, opening any picture book and counting how many times you can find the word \"the\" on one page turns practice into a fun game."
+        "title": "find",
+        "text": "Can you find it?"
+      },
+      {
+        "emoji": "🎁",
+        "title": "for",
+        "text": "This gift is for you."
+      },
+      {
+        "emoji": "😂",
+        "title": "funny",
+        "text": "That joke was funny."
+      },
+      {
+        "emoji": "🚦",
+        "title": "go",
+        "text": "Let's go outside."
+      },
+      {
+        "emoji": "🤝",
+        "title": "help",
+        "text": "Can you help me?"
+      },
+      {
+        "emoji": "📍",
+        "title": "here",
+        "text": "Come sit here."
       },
       {
         "emoji": "🙋",
-        "title": "You and can",
-        "text": "\"You\" and \"can\" are two more super common words — \"you\" talks about the person you're talking to, and \"can\" means being able to do something. For example, \"You can do it!\" uses both words together to cheer someone on."
+        "title": "I",
+        "text": "I like to read."
       },
       {
-        "emoji": "🎯",
-        "title": "Sight words help you read faster",
-        "text": "The more sight words you know by heart, the less time you spend sounding out words, and the faster and smoother your reading becomes. For example, a page full of words you already know by sight can be read almost as quickly as looking at a picture."
+        "emoji": "📥",
+        "title": "in",
+        "text": "The cat is in the box."
       },
       {
-        "emoji": "🌟",
-        "title": "Be proud of every new word",
-        "text": "Every single sight word you learn is one more word you'll never have to sound out again — that's something to feel really proud of. For example, learning just five new sight words this week means five words you'll instantly recognize in every book from now on."
+        "emoji": "👉",
+        "title": "is",
+        "text": "The sun is bright."
+      },
+      {
+        "emoji": "👉",
+        "title": "it",
+        "text": "I like it a lot."
+      },
+      {
+        "emoji": "🤸",
+        "title": "jump",
+        "text": "Let's jump high!"
+      },
+      {
+        "emoji": "🤏",
+        "title": "little",
+        "text": "The puppy is little."
+      },
+      {
+        "emoji": "👀",
+        "title": "look",
+        "text": "Look at that!"
+      },
+      {
+        "emoji": "🛠️",
+        "title": "make",
+        "text": "Let's make a tower."
+      },
+      {
+        "emoji": "🙋",
+        "title": "me",
+        "text": "Come with me."
+      },
+      {
+        "emoji": "🎒",
+        "title": "my",
+        "text": "This is my toy."
+      },
+      {
+        "emoji": "🚫",
+        "title": "not",
+        "text": "I am not tired."
+      },
+      {
+        "emoji": "1️⃣",
+        "title": "one",
+        "text": "I have one apple."
+      },
+      {
+        "emoji": "🎾",
+        "title": "play",
+        "text": "Let's play a game."
+      },
+      {
+        "emoji": "🔴",
+        "title": "red",
+        "text": "The apple is red."
+      },
+      {
+        "emoji": "🏃",
+        "title": "run",
+        "text": "Let's run fast!"
+      },
+      {
+        "emoji": "💬",
+        "title": "said",
+        "text": "She said hello."
+      },
+      {
+        "emoji": "👁️",
+        "title": "see",
+        "text": "I can see you."
+      },
+      {
+        "emoji": "📖",
+        "title": "the",
+        "text": "The dog ran fast."
+      },
+      {
+        "emoji": "3️⃣",
+        "title": "three",
+        "text": "I have three balloons."
+      },
+      {
+        "emoji": "➡️",
+        "title": "to",
+        "text": "I want to go home."
+      },
+      {
+        "emoji": "2️⃣",
+        "title": "two",
+        "text": "I have two hands."
+      },
+      {
+        "emoji": "⬆️",
+        "title": "up",
+        "text": "Look up at the sky."
+      },
+      {
+        "emoji": "👨‍👩‍👧",
+        "title": "we",
+        "text": "We are friends."
+      },
+      {
+        "emoji": "❓",
+        "title": "where",
+        "text": "Where is my hat?"
+      },
+      {
+        "emoji": "🟡",
+        "title": "yellow",
+        "text": "The sun is yellow."
+      },
+      {
+        "emoji": "🫵",
+        "title": "you",
+        "text": "I like you."
       }
     ],
     "quiz": [
       {
-        "question": "What is a sight word?",
-        "choices": ["A word you learn to recognize by looking at it", "A word that has no letters"],
-        "correctIndex": 0,
-        "explanation": "Sight words are common words you learn to recognize instantly, without sounding them out."
+        "question": "Tap the word that says \"a\"",
+        "choices": [
+          "a",
+          "you"
+        ],
+        "correctIndex": 0
       },
       {
-        "question": "Which word is one of the most common words in almost every book?",
-        "choices": ["the", "elephant"],
-        "correctIndex": 0,
-        "explanation": "\"The\" appears so often that it's one of the first sight words kids learn."
+        "question": "Tap the word that says \"and\"",
+        "choices": [
+          "and",
+          "the"
+        ],
+        "correctIndex": 0
       },
       {
-        "question": "What does the word \"and\" do?",
-        "choices": ["Joins two things together", "Makes a word disappear"],
-        "correctIndex": 0,
-        "explanation": "\"And\" connects two things, like \"cat and dog.\""
+        "question": "Tap the word that says \"away\"",
+        "choices": [
+          "away",
+          "little"
+        ],
+        "correctIndex": 0
       },
       {
-        "question": "In \"It is raining,\" which words are sight words?",
-        "choices": ["It and is", "Raining only"],
-        "correctIndex": 0,
-        "explanation": "\"It\" and \"is\" are common sight words you can recognize instantly."
+        "question": "Tap the word that says \"big\"",
+        "choices": [
+          "big",
+          "red"
+        ],
+        "correctIndex": 0
       },
       {
-        "question": "What's a fun way to practice sight words?",
-        "choices": ["Hunting for them in a book", "Never opening a book"],
-        "correctIndex": 0,
-        "explanation": "Spotting sight words in real books turns practice into a game."
+        "question": "Tap the word that says \"blue\"",
+        "choices": [
+          "blue",
+          "yellow"
+        ],
+        "correctIndex": 0
       },
       {
-        "question": "What does the word \"can\" usually mean?",
-        "choices": ["Being able to do something", "A type of fruit"],
-        "correctIndex": 0,
-        "explanation": "\"Can\" means someone is able to do something, like \"You can do it!\""
+        "question": "Tap the word that says \"can\"",
+        "choices": [
+          "can",
+          "look"
+        ],
+        "correctIndex": 0
       },
       {
-        "question": "Why do sight words help you read faster?",
-        "choices": ["You don't have to sound them out every time", "They make books shorter"],
-        "correctIndex": 0,
-        "explanation": "Recognizing sight words instantly speeds up your reading a lot."
+        "question": "Tap the word that says \"come\"",
+        "choices": [
+          "come",
+          "play"
+        ],
+        "correctIndex": 0
       },
       {
-        "question": "How should you feel about learning a new sight word?",
-        "choices": ["Proud — it's one more word you know by heart", "It doesn't matter at all"],
-        "correctIndex": 0,
-        "explanation": "Every new sight word is real progress worth feeling proud of."
+        "question": "Tap the word that says \"down\"",
+        "choices": [
+          "down",
+          "up"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"find\"",
+        "choices": [
+          "find",
+          "help"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"for\"",
+        "choices": [
+          "for",
+          "not"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"funny\"",
+        "choices": [
+          "funny",
+          "little"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"go\"",
+        "choices": [
+          "go",
+          "we"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"help\"",
+        "choices": [
+          "help",
+          "find"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"here\"",
+        "choices": [
+          "here",
+          "where"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"I\"",
+        "choices": [
+          "I",
+          "me"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"in\"",
+        "choices": [
+          "in",
+          "it"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"is\"",
+        "choices": [
+          "is",
+          "it"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"it\"",
+        "choices": [
+          "it",
+          "is"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"jump\"",
+        "choices": [
+          "jump",
+          "run"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"little\"",
+        "choices": [
+          "little",
+          "big"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"look\"",
+        "choices": [
+          "look",
+          "see"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"make\"",
+        "choices": [
+          "make",
+          "play"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"me\"",
+        "choices": [
+          "me",
+          "my"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"my\"",
+        "choices": [
+          "my",
+          "me"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"not\"",
+        "choices": [
+          "not",
+          "can"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"one\"",
+        "choices": [
+          "one",
+          "two"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"play\"",
+        "choices": [
+          "play",
+          "run"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"red\"",
+        "choices": [
+          "red",
+          "blue"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"run\"",
+        "choices": [
+          "run",
+          "jump"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"said\"",
+        "choices": [
+          "said",
+          "look"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"see\"",
+        "choices": [
+          "see",
+          "look"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"the\"",
+        "choices": [
+          "the",
+          "a"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"three\"",
+        "choices": [
+          "three",
+          "two"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"to\"",
+        "choices": [
+          "to",
+          "for"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"two\"",
+        "choices": [
+          "two",
+          "three"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"up\"",
+        "choices": [
+          "up",
+          "down"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"we\"",
+        "choices": [
+          "we",
+          "you"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"where\"",
+        "choices": [
+          "where",
+          "here"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"yellow\"",
+        "choices": [
+          "yellow",
+          "red"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"you\"",
+        "choices": [
+          "you",
+          "we"
+        ],
+        "correctIndex": 0
       }
     ]
   }
