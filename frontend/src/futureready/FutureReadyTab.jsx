@@ -3,6 +3,18 @@ import { api } from '../api.js'
 import LessonModule from './LessonModule.jsx'
 import { topicMeta } from './topicMeta.js'
 
+function NewBadge() {
+  return (
+    <span style={{
+      fontSize: '0.68rem', fontWeight: 800, borderRadius: 999, padding: '2px 8px',
+      background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', flexShrink: 0,
+      textTransform: 'uppercase', letterSpacing: '0.03em',
+    }}>
+      New
+    </span>
+  )
+}
+
 // Age bands are a guardian-only concept -- the backend already resolves
 // each topic down to the one module that matches this kid's own age, so
 // this just renders one tile per topic. No "Ages X-Y" anywhere in here.
@@ -89,7 +101,10 @@ export default function FutureReadyTab({ onBalanceChange }) {
                   {m.topicEmoji}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b', marginBottom: 4 }}>{m.topicTitle}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <span style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b' }}>{m.topicTitle}</span>
+                    {m.isNew && <NewBadge />}
+                  </div>
                   <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>{meta.description}</div>
                 </div>
                 <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 6 }}>

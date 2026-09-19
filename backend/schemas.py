@@ -178,6 +178,7 @@ class AdminChoreUpdate(BaseModel):
 
 class LearningVisibilityUpdate(BaseModel):
     enabled: bool
+    kidIds: Optional[List[str]] = None   # None = every kid in the family; otherwise just these
 
 class LearningPointsUpdate(BaseModel):
     points: float
