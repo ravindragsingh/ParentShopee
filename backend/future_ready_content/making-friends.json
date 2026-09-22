@@ -4,42 +4,62 @@
       {
         "emoji": "👋",
         "title": "Saying hello",
-        "text": "A simple \"hi, my name is...\" is often all it takes to start becoming friends with someone new. For example, walking up to a kid at the park and saying \"Hi, I'm Sam, want to play?\" is a brave, simple way to start a new friendship."
+        "text": "Just say hi and tell them your name. That's a great way to start a new friendship."
       },
       {
         "emoji": "🤝",
         "title": "Sharing your toys",
-        "text": "Sharing a toy, even for just a few minutes, shows a new friend that you're kind and fun to play with. For example, letting a new friend take a turn with your favorite toy for a bit, even though it's hard, often makes them want to keep playing with you."
+        "text": "Let your friend play with your toy for a bit. Sharing shows your friend that you are kind."
       },
       {
         "emoji": "🔄",
         "title": "Taking turns",
-        "text": "Taking turns — like on a swing or with a game — helps everyone feel like they got a fair chance to have fun. For example, counting to twenty on the swing and then switching lets both friends enjoy it, instead of one person hogging it the whole time."
+        "text": "Take turns on the swing or in a game. That way, everyone gets a fair chance to play."
       },
       {
         "emoji": "🙋",
         "title": "Asking someone to play",
-        "text": "Asking \"do you want to play?\" is a friendly, simple way to invite someone to be your friend for the day. For example, seeing a kid sitting alone and asking \"want to build a sandcastle with me?\" can turn a lonely afternoon into a fun one for both of you."
+        "text": "Ask a friend, 'Do you want to play?' It's a simple way to start having fun together."
       },
       {
         "emoji": "🤗",
         "title": "Being kind when someone's sad",
-        "text": "If a friend is sad, sitting with them or asking \"are you okay?\" shows you care, even if you don't know exactly what to say. For example, if a friend falls down and scrapes their knee, sitting next to them and asking if they're okay is a kind, caring thing to do."
+        "text": "If a friend is sad, sit next to them. Ask them softly, 'Are you okay right now?'"
       },
       {
         "emoji": "😔",
         "title": "Saying sorry",
-        "text": "If you accidentally hurt a friend's feelings or broke something of theirs, saying \"I'm sorry\" helps fix things between you. For example, if you accidentally knock over a friend's block tower, saying \"I'm sorry, let's build it again together\" helps make things okay."
+        "text": "If you hurt a friend, say you are sorry. Then work together to help make it right."
       },
       {
         "emoji": "➕",
         "title": "Including others",
-        "text": "Inviting someone who's playing alone to join your game is a kind way to make a new friend feel welcome. For example, if you notice someone standing by themselves at recess, asking them to join your game can make their whole day better."
+        "text": "If someone is playing alone, ask them to join. Including them can make their whole day better."
       },
       {
         "emoji": "👂",
         "title": "Being a good listener friend",
-        "text": "A good friend listens when you're talking, not just when it's their turn — that makes people feel important and cared about. For example, if a friend is excited to tell you about their new puppy, looking at them and listening closely, instead of looking away, shows them you really care."
+        "text": "Look at your friend when they are talking. Good listening shows your friend that you care."
+      },
+      {
+        "emoji": "🌟",
+        "title": "What makes a good friend",
+        "text": "A good friend is kind, fair, and helpful. A good friend shares and listens to you."
+      },
+      {
+        "emoji": "🏫",
+        "title": "Meeting friends somewhere new",
+        "text": "At a new school, say hi to someone first. New friends are often easier to find than you think."
+      },
+      {
+        "emoji": "💛",
+        "title": "Giving compliments",
+        "text": "Tell a friend something nice, like 'I like your drawing.' Kind words can make a friend feel really happy."
+      },
+      {
+        "emoji": "🆘",
+        "title": "Helping a friend",
+        "text": "If a friend needs help, go help them. Good friends always take care of each other."
       }
     ],
     "quiz": [
@@ -63,7 +83,7 @@
       },
       {
         "question": "What's a friendly way to invite someone to play?",
-        "choices": ["Asking \"do you want to play?\"", "Ignoring them completely"],
+        "choices": ["Asking 'do you want to play?'", "Ignoring them completely"],
         "correctIndex": 0,
         "explanation": "A simple, friendly invitation can turn into a new friendship."
       },
@@ -74,22 +94,40 @@
         "explanation": "Showing you care, even without perfect words, matters to a sad friend."
       },
       {
-        "question": "What should you do if you accidentally hurt a friend's feelings?",
-        "choices": ["Say \"I'm sorry\"", "Pretend nothing happened"],
+        "question": "What should you do if you hurt a friend?",
+        "choices": ["Say 'I'm sorry'", "Pretend nothing happened"],
         "correctIndex": 0,
         "explanation": "A genuine apology helps repair a friendship after a mistake."
       },
       {
-        "question": "What's a kind way to help someone who's playing alone?",
+        "question": "What's a kind thing to do if someone is playing alone?",
         "choices": ["Invite them to join your game", "Leave them by themselves"],
         "correctIndex": 0,
         "explanation": "Including someone who's alone is a caring way to make a new friend."
       },
       {
         "question": "What makes someone a good listener friend?",
-        "choices": ["Paying attention when a friend is talking, not just waiting for your turn", "Only listening when it's convenient for you"],
+        "choices": ["Paying attention when a friend is talking", "Only listening when it's convenient for you"],
         "correctIndex": 0,
         "explanation": "Real listening means paying attention, which makes friends feel valued."
+      },
+      {
+        "question": "What does a good friend do?",
+        "choices": ["Share and listen to you", "Ignore you and never share"],
+        "correctIndex": 0,
+        "explanation": "Good friends are kind, fair, and helpful to each other."
+      },
+      {
+        "question": "What can you do at a new school?",
+        "choices": ["Say hi to someone first", "Hide and talk to no one"],
+        "correctIndex": 0,
+        "explanation": "Saying hi first is an easy way to meet a new friend."
+      },
+      {
+        "question": "What can kind words do for a friend?",
+        "choices": ["Make them feel happy", "Make them feel bad"],
+        "correctIndex": 0,
+        "explanation": "A kind compliment can brighten a friend's whole day."
       }
     ]
   },
@@ -98,47 +136,67 @@
       {
         "emoji": "🎯",
         "title": "Finding common interests",
-        "text": "Friendships often start around something you both enjoy, like a game, a sport, or a favorite show — noticing what you have in common helps a friendship click. For example, noticing that a classmate also loves the same video game can be the start of a conversation that turns into a real friendship."
+        "text": "Friendships often start with something you both enjoy, like a game, a sport, or a show. Noticing what you have in common can turn a simple conversation into a real friendship."
       },
       {
         "emoji": "👥",
         "title": "Joining a group at recess",
-        "text": "Walking up to a group and asking \"can I play too?\" takes a little courage, but most groups are happy to include someone new. For example, asking a group playing tag \"can I play too?\" instead of just standing nearby and hoping to be noticed, usually gets you included right away."
+        "text": "Walking up to a group and asking 'Can I play too?' takes some courage. Most groups are happy to include someone new, so it's worth asking."
       },
       {
         "emoji": "🏅",
         "title": "Being a good sport",
-        "text": "Whether you win or lose a game, staying friendly and saying \"good game\" afterward makes people want to play with you again. For example, saying \"good game, that was fun\" even after losing shows your friends you care more about having fun together than just winning."
+        "text": "Whether you win or lose, staying friendly and saying 'good game' matters. It shows your friends that you care about having fun, not just winning."
       },
       {
         "emoji": "🤞",
         "title": "Keeping your promises",
-        "text": "If you tell a friend you'll do something, like save them a seat or show up to their game, following through builds real trust between you. For example, promising to save a seat at lunch and actually doing it, even when it's tempting to sit somewhere else, shows a friend they can count on you."
+        "text": "When you tell a friend you'll do something, like saving them a seat, follow through. Keeping your word, even when it's tempting not to, builds real trust."
       },
       {
         "emoji": "⚡",
         "title": "Handling small disagreements",
-        "text": "Friends don't always agree on everything — calmly talking it out usually works out better than staying mad or ending the friendship over something small. For example, if you and a friend disagree about which game to play, suggesting \"let's do yours first, then mine\" solves it without anyone feeling ignored."
+        "text": "Friends don't always agree, but calmly talking it out usually works better than staying mad. If you disagree about a game, try suggesting a fair compromise."
       },
       {
         "emoji": "🤫",
         "title": "Not gossiping about friends",
-        "text": "Talking behind a friend's back, even about something small, can hurt trust badly if it gets back to them — it's usually better to say things directly instead. For example, if something bothers you about a friend, telling them directly (kindly) works out much better than talking about it to other people first."
+        "text": "Talking behind a friend's back can hurt their trust in you if it gets back to them. It's usually better, though harder, to say what's bothering you directly."
       },
       {
         "emoji": "🆕",
         "title": "Welcoming someone new",
-        "text": "Being new at a school or a group is nerve-wracking — going out of your way to say hi to a new kid can mean a lot more than you might think. For example, sitting next to a new student at lunch on their very first day can turn a scary day into a much better one for them."
+        "text": "Being new at a school is nerve-wracking, so going out of your way to say hi really matters. Sitting with a new student at lunch can turn their scary first day around."
       },
       {
         "emoji": "🙏",
         "title": "A sincere apology",
-        "text": "A real apology names what you did wrong and how you'll do better, instead of just a quick \"sorry\" to end the conversation. For example, saying \"I'm sorry I left you out earlier, I should've asked if you wanted to join\" means a lot more than a rushed \"sorry\" while walking away."
+        "text": "A real apology names what you did wrong and how you'll do better next time. That means a lot more than a quick 'sorry' said while walking away."
       },
       {
         "emoji": "💌",
         "title": "Staying friends even when apart",
-        "text": "Friendships can survive being apart, like during summer break, if you make a little effort to stay in touch, like a message or a call. For example, sending a friend a quick message during summer break just to say hi can keep a friendship strong even without seeing each other every day."
+        "text": "Friendships can survive time apart, like summer break, if you make a little effort to stay in touch. A quick message just to say hi can keep a friendship strong."
+      },
+      {
+        "emoji": "😤",
+        "title": "Handling jealousy",
+        "text": "Feeling jealous when a friend does something great is normal, but acting mean about it can hurt the friendship. Noticing the feeling and cheering for them anyway is the stronger choice."
+      },
+      {
+        "emoji": "🧳",
+        "title": "Making friends in a new place",
+        "text": "Moving to a new school or neighborhood can feel scary, but most kids are open to a new friend. Joining a club or team is an easy way to meet people who like the same things."
+      },
+      {
+        "emoji": "➕",
+        "title": "Including someone who's left out",
+        "text": "If you notice someone eating alone or standing by themselves, inviting them over takes just a moment. That small choice can turn a lonely day into a much better one."
+      },
+      {
+        "emoji": "👂",
+        "title": "Being a good listener",
+        "text": "A good listener asks questions and remembers what their friend told them before. Really paying attention, instead of thinking about what to say next, makes a friend feel valued."
       }
     ],
     "quiz": [
@@ -150,13 +208,13 @@
       },
       {
         "question": "What's a good way to join a group at recess?",
-        "choices": ["Ask \"can I play too?\"", "Stand nearby and say nothing"],
+        "choices": ["Ask 'can I play too?'", "Stand nearby and say nothing"],
         "correctIndex": 0,
         "explanation": "Directly asking to join usually works better than silently hoping to be noticed."
       },
       {
         "question": "What does being a good sport look like?",
-        "choices": ["Staying friendly and saying \"good game\" whether you win or lose", "Only being nice when you win"],
+        "choices": ["Staying friendly and saying 'good game' whether you win or lose", "Only being nice when you win"],
         "correctIndex": 0,
         "explanation": "Good sportsmanship makes people want to keep playing with you."
       },
@@ -186,7 +244,7 @@
       },
       {
         "question": "What makes an apology feel sincere?",
-        "choices": ["Naming what you did wrong and how you'll do better", "A rushed \"sorry\" while walking away"],
+        "choices": ["Naming what you did wrong and how you'll do better", "A rushed 'sorry' while walking away"],
         "correctIndex": 0,
         "explanation": "A specific, thoughtful apology means more than a quick, empty one."
       },
@@ -195,6 +253,24 @@
         "choices": ["Making a little effort to stay in touch", "Assuming it'll be fine with zero effort"],
         "correctIndex": 0,
         "explanation": "A small effort to stay in touch helps keep a friendship strong."
+      },
+      {
+        "question": "What's a strong way to handle jealousy toward a friend's success?",
+        "choices": ["Notice the feeling but cheer for them anyway", "Let the jealousy make you mean to them"],
+        "correctIndex": 0,
+        "explanation": "Acknowledging jealousy without acting on it protects the friendship."
+      },
+      {
+        "question": "What's an easy way to meet friends in a new place?",
+        "choices": ["Join a club or team", "Stay home and wait for others to come to you"],
+        "correctIndex": 0,
+        "explanation": "Clubs and teams put you with people who already share your interests."
+      },
+      {
+        "question": "What does a good listener do?",
+        "choices": ["Asks questions and pays close attention", "Thinks about what to say next instead of listening"],
+        "correctIndex": 0,
+        "explanation": "Real listening means focusing on your friend, not on your own turn to talk."
       }
     ]
   },
@@ -233,12 +309,32 @@
       {
         "emoji": "🛡️",
         "title": "Standing up for a friend",
-        "text": "If someone is being unkind to a friend, speaking up — even just saying \"that's not okay\" — shows real loyalty, even when it feels a little scary. For example, telling a group \"that's not cool, leave them alone\" when they're teasing a friend takes courage but can mean everything to the friend being defended."
+        "text": "If someone is being unkind to a friend, speaking up — even just saying 'that's not okay' — shows real loyalty, even when it feels a little scary. For example, telling a group 'that's not cool, leave them alone' when they're teasing a friend takes courage but can mean everything to the friend being defended."
       },
       {
         "emoji": "⚖️",
         "title": "Balancing multiple friend groups",
         "text": "Having friends in different groups — like school, a sports team, and a hobby — is completely normal, and you don't owe any one group all of your time. For example, splitting your weekend between a school friend and a teammate, instead of feeling guilty for not spending all your time with just one group, is a healthy way to have a bigger, more varied social life."
+      },
+      {
+        "emoji": "🧳",
+        "title": "Making new friends after a move",
+        "text": "Starting over at a new school or in a new neighborhood can feel intimidating, but most people are more open to new friends than it seems. For example, joining a club, a team, or even just sitting with a friendly-looking group at lunch during your first week can turn an awkward transition into the start of a real friendship."
+      },
+      {
+        "emoji": "😔",
+        "title": "Saying sorry and meaning it",
+        "text": "A real apology isn't just about avoiding an awkward silence — it means acknowledging what you did, how it affected your friend, and actually changing the behavior going forward. For example, saying 'I'm sorry I canceled last minute again, I'll give you more notice next time' means a lot more than a quick, vague 'my bad.'"
+      },
+      {
+        "emoji": "➕",
+        "title": "Including someone who's often left out",
+        "text": "Noticing that one person keeps getting left off invites or out of group chats, and making a small effort to include them, can mean more than you'd expect. For example, adding someone to a group project or inviting them along even once can change how included they feel for a long time, even if they never say so directly."
+      },
+      {
+        "emoji": "👂",
+        "title": "Being a good listener, not just a good talker",
+        "text": "Really listening means asking follow-up questions and remembering details, instead of just waiting for your turn to talk about yourself. For example, a friend who remembers you had a big test this week and asks how it went, without being reminded, is practicing the kind of listening that makes people feel truly cared about."
       }
     ],
     "quiz": [
@@ -289,6 +385,24 @@
         "choices": ["Yes, and you don't owe any one group all your time", "No, you should only ever have one friend group"],
         "correctIndex": 0,
         "explanation": "Having a varied social life across different groups is healthy and normal."
+      },
+      {
+        "question": "What can help make new friends after moving to a new place?",
+        "choices": ["Joining a club, team, or friendly group", "Waiting alone for people to approach you first"],
+        "correctIndex": 0,
+        "explanation": "Shared activities make it easier to meet people with something in common."
+      },
+      {
+        "question": "What makes an apology mean more than just avoiding awkwardness?",
+        "choices": ["Acknowledging what happened and actually changing your behavior", "Saying 'my bad' quickly and moving on"],
+        "correctIndex": 0,
+        "explanation": "A real apology involves recognizing the impact and following through with change."
+      },
+      {
+        "question": "What does real listening look like?",
+        "choices": ["Asking follow-up questions and remembering details", "Waiting for your turn to talk about yourself"],
+        "correctIndex": 0,
+        "explanation": "Attentive listening, not just hearing, is what makes a friend feel valued."
       }
     ]
   },
@@ -302,7 +416,7 @@
       {
         "emoji": "🚧",
         "title": "Mutual respect and boundaries",
-        "text": "A healthy friendship respects that both people have limits — like needing space sometimes, or not wanting to discuss certain topics — without taking it personally. For example, a friend saying \"I need some space this weekend\" isn't a rejection; respecting that request without guilt-tripping them is part of a mature friendship."
+        "text": "A healthy friendship respects that both people have limits — like needing space sometimes, or not wanting to discuss certain topics — without taking it personally. For example, a friend saying 'I need some space this weekend' isn't a rejection; respecting that request without guilt-tripping them is part of a mature friendship."
       },
       {
         "emoji": "🩹",
@@ -338,6 +452,26 @@
         "emoji": "🤲",
         "title": "Being reliable under pressure",
         "text": "A real test of friendship is whether you show up for someone even when it's inconvenient or a little uncomfortable, not just when it's easy. For example, going to support a friend at a hard event, even though you'd rather be somewhere else that night, is the kind of reliability that real friendships are built on."
+      },
+      {
+        "emoji": "😌",
+        "title": "Handling jealousy without damaging trust",
+        "text": "Feeling a flicker of jealousy when a friend succeeds at something you wanted for yourself is normal — the difference between a healthy friendship and a strained one is often what you do with that feeling. For example, privately acknowledging you feel a little envious, while still congratulating your friend sincerely, keeps the friendship intact instead of letting an unspoken resentment quietly build up."
+      },
+      {
+        "emoji": "👂",
+        "title": "Being present: the power of good listening",
+        "text": "Really listening — putting your phone down, asking questions, and not planning your response while the other person is still talking — is one of the most underrated ways to deepen a friendship. For example, a friend who remembers a hard conversation from weeks ago and checks in about it, unprompted, is showing a kind of attentiveness that most casual friendships never reach."
+      },
+      {
+        "emoji": "🌉",
+        "title": "Including someone who's new or on the outside",
+        "text": "Actively including someone who's new, quiet, or often left on the edge of a group takes a small amount of effort but can change how they experience an entire year. For example, texting someone you don't know well to invite them along, instead of assuming they'll ask to join, is a simple way to make a group feel more open."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Making friends outside your usual circle",
+        "text": "As your interests and identity keep developing through your teen years, some of your best friendships might come from outside your usual friend group — a club, a job, or a shared interest online. For example, a genuine friendship with someone from a completely different social circle can offer a perspective and support that your closer, more similar friends might not."
       }
     ],
     "quiz": [
@@ -394,6 +528,24 @@
         "choices": ["Showing up for someone even when it's inconvenient", "Only being there when it's easy and convenient"],
         "correctIndex": 0,
         "explanation": "Real reliability shows up especially when it's a little costly or inconvenient."
+      },
+      {
+        "question": "What's the healthy way to handle jealousy toward a friend's success?",
+        "choices": ["Acknowledge the feeling privately, but still support them sincerely", "Let the resentment build up silently"],
+        "correctIndex": 0,
+        "explanation": "Naming the feeling privately, while still being supportive, protects the friendship."
+      },
+      {
+        "question": "What does really listening to a friend look like?",
+        "choices": ["Putting your phone down and asking questions instead of planning your reply", "Waiting for your turn to talk about yourself"],
+        "correctIndex": 0,
+        "explanation": "Genuine attentiveness, not just hearing words, deepens trust between friends."
+      },
+      {
+        "question": "Why is it worth making friends outside your usual circle?",
+        "choices": ["It can offer perspectives your closer friends might not", "It's pointless since only your close friends matter"],
+        "correctIndex": 0,
+        "explanation": "Friends from different circles can broaden your perspective and support system."
       }
     ]
   }

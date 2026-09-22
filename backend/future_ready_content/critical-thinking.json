@@ -4,107 +4,163 @@
       {
         "emoji": "❓",
         "title": "Why do we ask \"why\"?",
-        "text": "Asking 'why' helps you understand things better — like why the sky looks blue, or why ice melts in the sun. For example, if you ask \"why does ice melt?\" and learn that warmth turns ice back into water, you'll understand something new every time you see ice cubes melting in a cup."
+        "text": "Asking why helps you learn new things. Ice melts because the sun is warm."
       },
       {
         "emoji": "🔎",
         "title": "Same or different?",
-        "text": "Looking closely at two things and noticing how they're the same or different is a great thinking skill — like comparing two toys. For example, comparing a red rubber ball and a red balloon, you might notice they're both red and round, but one bounces and the other pops — noticing those details is real thinking."
+        "text": "Look closely at two toys to compare them. A ball is round, but a block is square."
       },
       {
         "emoji": "🎭",
         "title": "Real or pretend?",
-        "text": "A cartoon dragon breathing fire is pretend. A real dog barking is real. Telling the difference is an important thinking skill. For example, if you see a talking cat on TV, you can think \"that's pretend, cats can't really talk\" — while a real cat meowing next to you is really happening."
+        "text": "A cartoon dragon that breathes fire is pretend. A real dog barking next to you is real."
       },
       {
         "emoji": "🛑",
         "title": "Think before you act",
-        "text": "Taking a moment to think before doing something — like before grabbing a toy from a friend — often leads to a better choice. For example, instead of grabbing a toy your friend is using, pausing for a second to think \"I could ask if I can play too\" usually leads to a happier outcome for both of you."
+        "text": "Stop and think before you act. It helps you make a better choice."
       },
       {
         "emoji": "🧩",
         "title": "Looking for clues",
-        "text": "If your shoes are wet, you can think about clues to figure out why — did it rain? Did you step in a puddle? For example, if you look outside and see puddles on the ground, that clue helps explain why your shoes got wet during your walk."
+        "text": "Clues can help you solve a mystery. Wet shoes might mean that it rained outside."
       },
       {
         "emoji": "🙋",
         "title": "It's okay to ask questions",
-        "text": "If something doesn't make sense, asking a question is smart — not silly. Good thinkers ask lots of questions. For example, if a teacher explains something and you're not sure you understood, raising your hand and asking \"can you explain that again?\" is exactly what a good thinker does."
+        "text": "It is okay to ask a question when you feel confused. Good thinkers ask lots of questions."
       },
       {
         "emoji": "🧸",
         "title": "Sorting things into groups",
-        "text": "Putting toys into groups — like all the red ones together, or all the round ones together — is a first step toward organized thinking. For example, sorting a pile of mixed toys into \"cars,\" \"animals,\" and \"blocks\" helps you see patterns and find what you're looking for much faster later."
+        "text": "Put your toys into matching groups. All the cars go together, and all the animals go together."
       },
       {
         "emoji": "🔢",
         "title": "What comes next?",
-        "text": "Looking at a pattern like circle, square, circle, square and figuring out what comes next is a fun way to practice thinking ahead. For example, if you see the pattern red, blue, red, blue, red, you can predict the next color should be blue, because that's the pattern repeating."
+        "text": "Look at this pattern: red, blue, red, blue. Can you guess what color comes next?"
+      },
+      {
+        "emoji": "🧐",
+        "title": "Checking with a grown-up",
+        "text": "You are not sure if something is true. Ask a grown-up you trust to help."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Changing your mind",
+        "text": "Sometimes you learn something new. It is okay to change your mind about it."
+      },
+      {
+        "emoji": "🤔",
+        "title": "Guess or really know?",
+        "text": "A guess might turn out to be wrong. Looking closely helps you know for sure."
+      },
+      {
+        "emoji": "🌱",
+        "title": "What made it happen?",
+        "text": "Something always makes things happen. Watering the plant is what made it grow tall."
       }
     ],
     "quiz": [
       {
-        "question": "Why is asking \"why\" a good habit?",
+        "question": "Why do we ask \"why\"?",
         "choices": [
-          "It helps you understand things better",
-          "It never helps at all"
+          "To learn new things",
+          "For no reason at all"
         ],
         "correctIndex": 0,
-        "explanation": "Asking \"why\" is one of the best ways to understand the world around you."
+        "explanation": "Asking why helps you understand things better."
       },
       {
-        "question": "A cartoon dragon breathing fire — is that real or pretend?",
+        "question": "A ball and a block — are they the same shape?",
+        "choices": [
+          "No, one is round and one is square",
+          "Yes, they are exactly the same"
+        ],
+        "correctIndex": 0,
+        "explanation": "Looking closely helps you spot how things are different."
+      },
+      {
+        "question": "A cartoon dragon that breathes fire — is that real or pretend?",
         "choices": [
           "Pretend",
           "Real"
         ],
         "correctIndex": 0,
-        "explanation": "Cartoons show pretend things, even if they look exciting."
+        "explanation": "Cartoons show pretend things, even exciting ones."
       },
       {
-        "question": "A friend is using a toy you want. What can help you make a better choice than just grabbing it?",
+        "question": "What should you do before you act?",
         "choices": [
-          "Thinking for a moment before acting, like asking to play too",
-          "Acting right away without thinking at all"
+          "Stop and think first",
+          "Just do it right away"
         ],
         "correctIndex": 0,
-        "explanation": "A moment of thought before acting often leads to a better decision."
+        "explanation": "Thinking first helps you make a better choice."
       },
       {
-        "question": "You see puddles outside and your shoes are wet. What clue explains this?",
+        "question": "Your shoes are wet. What clue could explain why?",
         "choices": [
-          "Looking for clues, like whether it rained",
-          "There's no way to ever know"
+          "It rained outside",
+          "Shoes always get wet for no reason"
         ],
         "correctIndex": 0,
-        "explanation": "Looking for clues is exactly how good thinkers solve little mysteries."
+        "explanation": "Clues help you figure out what happened."
       },
       {
-        "question": "Is it okay to ask a question when something doesn't make sense?",
+        "question": "Is it okay to ask a question when something feels confusing?",
         "choices": [
-          "Yes, asking questions is smart",
-          "No, you should never ask questions"
+          "Yes, that's smart",
+          "No, never ask questions"
         ],
         "correctIndex": 0,
-        "explanation": "Asking questions is a sign of a curious, careful thinker."
+        "explanation": "Asking questions helps good thinkers learn."
       },
       {
-        "question": "What is a good first step toward organized thinking?",
+        "question": "What is a good way to organize your toys?",
         "choices": [
-          "Sorting things into groups",
-          "Mixing everything together randomly"
+          "Put them into matching groups",
+          "Mix them all together"
         ],
         "correctIndex": 0,
-        "explanation": "Grouping similar things together is a simple, useful thinking skill."
+        "explanation": "Sorting into groups is a first step toward organized thinking."
       },
       {
-        "question": "In the pattern red, blue, red, blue, red — what comes next?",
+        "question": "Red, blue, red, blue, red... what comes next?",
         "choices": [
           "Blue",
           "Green"
         ],
         "correctIndex": 0,
-        "explanation": "The pattern repeats red then blue, so blue comes next."
+        "explanation": "The pattern repeats red then blue."
+      },
+      {
+        "question": "You hear something surprising. What should you do?",
+        "choices": [
+          "Ask a grown-up you trust",
+          "Just believe it right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking with someone you trust helps you know what is true."
+      },
+      {
+        "question": "A guess might be wrong. What helps you know for sure?",
+        "choices": [
+          "Looking closely to check",
+          "Never checking at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking turns a guess into something you really know."
+      },
+      {
+        "question": "You learn something new that shows you were wrong. What should you do?",
+        "choices": [
+          "Change your mind",
+          "Never change your mind"
+        ],
+        "correctIndex": 0,
+        "explanation": "Learning new things can change what you think, and that is okay."
       }
     ]
   },
@@ -113,47 +169,67 @@
       {
         "emoji": "📰",
         "title": "Fact vs. opinion",
-        "text": "A fact is something that's true and can be checked, like 'the sun is hot.' An opinion is what someone thinks or feels, like 'summer is the best season.' For example, \"the movie is 90 minutes long\" is a fact you could check with a clock, while \"the movie was boring\" is just one person's opinion — someone else might feel completely differently."
+        "text": "A fact is something true that you can check, like 'the sun is hot.' An opinion is what someone feels or believes, like 'summer is the best season.'"
       },
       {
         "emoji": "❔",
         "title": "Asking good questions",
-        "text": "Instead of just accepting an answer, good thinkers ask follow-up questions like 'how do you know that?' or 'is there another way to look at this?' For example, if a friend says \"this game is the best one ever,\" asking \"what makes it the best?\" helps you understand their reasoning instead of just taking their word for it."
+        "text": "Good thinkers ask follow-up questions instead of just accepting an answer, like 'how do you know that?' If a friend says a game is the best ever, ask what makes it the best."
       },
       {
         "emoji": "🔀",
         "title": "More than one answer",
-        "text": "Some questions have more than one reasonable answer. Thinking about different possibilities, not just the first idea, leads to better decisions. For example, if you're deciding how to spend a free afternoon, there might be several good options — reading, playing outside, or building something — and thinking through more than one before choosing usually leads to a happier choice."
+        "text": "Some questions have more than one good answer, so it pays to think of a few options. Picking between reading, playing outside, or building something often leads to a better choice."
       },
       {
         "emoji": "🚫",
         "title": "Don't believe everything right away",
-        "text": "Just because something is written down, said out loud, or shown online doesn't automatically make it true. For example, a video claiming \"this trick will make you super strong instantly\" sounds exciting, but just because it's posted online doesn't mean it's actually true."
+        "text": "Something isn't automatically true just because it's written down or posted online. A video claiming a trick will make you \"super strong instantly\" should make you pause and wonder."
       },
       {
         "emoji": "🧭",
         "title": "Checking with a trusted source",
-        "text": "If you're not sure whether something is true, checking with a grown-up, a book, or a trusted website is a smart next step. For example, if a friend tells you a surprising animal fact, like \"elephants can't jump,\" checking it in a nature book or asking a grown-up confirms whether it's actually true."
+        "text": "When you're not sure if something is true, ask a grown-up or check a trusted book. If a friend says elephants can't jump, a nature book can tell you if that's really true."
       },
       {
         "emoji": "🔗",
         "title": "Cause and effect",
-        "text": "Thinking about why something happened — the cause — and what happened because of it — the effect — helps you understand the world more clearly. For example, if you forgot to water a plant (the cause) and it wilted a few days later (the effect), understanding that connection helps you remember to water it next time."
+        "text": "A cause is why something happened, and an effect is what happened because of it. Forgetting to water a plant is the cause, and the plant wilting days later is the effect."
       },
       {
         "emoji": "🧠",
         "title": "Changing your mind",
-        "text": "If new information shows your first idea was wrong, a good thinker isn't afraid to change their mind. For example, if you thought a certain animal was a reptile, but then learn it's actually a mammal, updating what you believe based on the new fact is exactly what a strong thinker does."
+        "text": "A good thinker isn't afraid to change their mind when new information shows their first idea was wrong. Learning an animal is actually a mammal, not a reptile, is a reason to update your belief."
       },
       {
         "emoji": "🕵️",
         "title": "Being a detective",
-        "text": "A good detective gathers several clues before deciding what happened, instead of guessing after just one clue. Thinking works the same way. For example, if a plant is dying, a good detective-thinker would check multiple clues — sunlight, water, soil — instead of assuming it's just one thing after a quick glance."
+        "text": "A good detective checks several clues before deciding what happened, instead of guessing from just one. If a plant is dying, check its sunlight, water, and soil before assuming you know why."
       },
       {
         "emoji": "🙋‍♀️",
         "title": "It's okay to disagree",
-        "text": "Two people can look at the same thing and see it differently. Disagreeing with a friend — respectfully — doesn't mean the friendship is in trouble. For example, you might think a book's ending was happy while your friend thinks it was sad — you can both explain your reasoning and still be great friends."
+        "text": "Two people can look at the same thing and see it differently, and that's normal. You might think a book's ending was happy while your friend thinks it was sad, and you can both still be great friends."
+      },
+      {
+        "emoji": "🧱",
+        "title": "Spotting assumptions",
+        "text": "An assumption is something you believe without checking if it's true. Saying 'he must be fast because he's tall' assumes something about him that might not be true at all."
+      },
+      {
+        "emoji": "🔗➡️",
+        "title": "Correlation isn't causation",
+        "text": "Two things happening at the same time doesn't mean one caused the other. Ice cream sales and sunburns both go up in summer, but ice cream doesn't cause sunburn."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Why is someone telling me this?",
+        "text": "People sometimes share information because it helps them, not just because it's true. An ad for a toy wants you to buy it, so it will only mention the good parts."
+      },
+      {
+        "emoji": "🔬",
+        "title": "One example isn't proof",
+        "text": "One example doesn't prove something is always true, even if it seems convincing. Just because one dog you met was friendly doesn't mean every dog you'll ever meet will be friendly too."
       }
     ],
     "quiz": [
@@ -228,6 +304,33 @@
         ],
         "correctIndex": 0,
         "explanation": "People can see things differently and still be good friends."
+      },
+      {
+        "question": "Saying \"he must be fast because he's tall\" — what is that an example of?",
+        "choices": [
+          "An assumption — believing something without checking",
+          "A proven fact"
+        ],
+        "correctIndex": 0,
+        "explanation": "Assumptions are beliefs that haven't actually been checked."
+      },
+      {
+        "question": "Ice cream sales and sunburns both rise in summer. Does ice cream cause sunburn?",
+        "choices": [
+          "No, they just happen at the same time",
+          "Yes, anything that happens together must be connected"
+        ],
+        "correctIndex": 0,
+        "explanation": "Things happening at the same time doesn't mean one causes the other."
+      },
+      {
+        "question": "An ad for a toy only mentions the good parts. Why?",
+        "choices": [
+          "Because the ad wants you to buy the toy",
+          "Ads always tell the full, balanced truth"
+        ],
+        "correctIndex": 0,
+        "explanation": "It helps to ask why someone is telling you something, and what they might gain from it."
       }
     ]
   },
@@ -277,6 +380,26 @@
         "emoji": "🧮",
         "title": "Averages can mislead",
         "text": "An average can hide a lot — a class 'average score' of 75% might mean everyone scored near 75%, or it might mean half scored 100% and half scored 50%. For example, two classes could both report a 75% average test score, but one class might have every student scoring close to 75%, while the other has half the class acing it and half failing badly — very different situations hidden behind the same number."
+      },
+      {
+        "emoji": "🙋",
+        "title": "Asking better questions",
+        "text": "The quality of your thinking often depends on the quality of your questions — a vague question gets a vague answer. For example, instead of asking \"is this a good school?\" asking \"good at what, and good for whom?\" forces a much more specific, useful answer than the original question ever could."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Updating your view",
+        "text": "Being able to say \"I was wrong\" and change your mind when solid new evidence appears is a strength, not a failure. For example, if you were sure a friend forgot your birthday on purpose, but then learned their phone had been broken all week, updating your opinion based on that new fact is exactly what a careful thinker does."
+      },
+      {
+        "emoji": "📊",
+        "title": "One story isn't the whole story",
+        "text": "A single dramatic story can feel more convincing than a pile of boring statistics, even when the statistics tell the truer story. For example, hearing one scary story about a plane crash can make flying feel dangerous, even though the actual data shows that flying is one of the safest ways to travel."
+      },
+      {
+        "emoji": "👥",
+        "title": "Thinking for yourself in a group",
+        "text": "When everyone around you agrees quickly, it can feel easier to go along with the group than to raise a doubt out loud. For example, if a group project is rushing toward a plan you think has a flaw, speaking up — even briefly — gives the group a chance to catch a mistake before it becomes a real problem."
       }
     ],
     "quiz": [
@@ -351,6 +474,33 @@
         ],
         "correctIndex": 0,
         "explanation": "Averages can look identical while hiding very different underlying patterns."
+      },
+      {
+        "question": "Which question is more useful: \"is this a good school?\" or \"good at what, and for whom?\"",
+        "choices": [
+          "The more specific question — vague questions get vague answers",
+          "They are exactly equally useful"
+        ],
+        "correctIndex": 0,
+        "explanation": "Specific questions tend to produce much more useful answers than vague ones."
+      },
+      {
+        "question": "A dramatic story about a plane crash can make flying feel dangerous, even though data shows flying is very safe. Why?",
+        "choices": [
+          "A vivid story can feel more convincing than statistics, even when it's misleading",
+          "Stories are always more accurate than data"
+        ],
+        "correctIndex": 0,
+        "explanation": "One memorable story can outweigh solid data in how convincing it feels, even when the data is more reliable."
+      },
+      {
+        "question": "A group is rushing toward a plan you think has a flaw. What does independent thinking suggest doing?",
+        "choices": [
+          "Speaking up, even if it feels uncomfortable",
+          "Staying quiet so you don't disrupt the group"
+        ],
+        "correctIndex": 0,
+        "explanation": "Raising a doubt, even briefly, gives a group the chance to catch a mistake early."
       }
     ]
   },
@@ -405,6 +555,26 @@
         "emoji": "🧪",
         "title": "The scientific method, briefly",
         "text": "Form a question, propose an explanation, test it, and revise based on results — this basic loop underlies careful thinking far beyond just science class. For example, if you wonder \"does studying with music help or hurt my focus,\" you could test it by studying with music some days and without on others, then honestly comparing your results — the same basic loop scientists use."
+      },
+      {
+        "emoji": "📏",
+        "title": "Sample size and small numbers",
+        "text": "A pattern based on just a few examples — a 'small sample' — can be pure coincidence rather than a real trend, so bigger samples are generally more trustworthy. For example, if three people from a certain town happen to be tall, that says almost nothing about the town in general, but if a study measures three thousand people from that town, the result actually starts to mean something."
+      },
+      {
+        "emoji": "⏳",
+        "title": "The sunk cost fallacy",
+        "text": "The sunk cost fallacy is the tendency to keep investing time or money in something just because you've already invested so much, even when quitting would clearly be the smarter choice. For example, finishing a boring movie \"because I already sat through an hour of it\" ignores the fact that the hour is gone either way, and the only real question is whether the next hour is worth it."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Burden of proof",
+        "text": "The burden of proof is the idea that whoever makes a claim is responsible for backing it up — not the other way around. For example, if someone claims a supplement cures headaches, it's their job to show real evidence for that, not everyone else's job to prove that it doesn't."
+      },
+      {
+        "emoji": "⚓",
+        "title": "Anchoring bias",
+        "text": "Anchoring bias happens when the first number or piece of information you hear quietly shapes every judgment that comes after it, even if that first piece of information was random or irrelevant. For example, a store listing a jacket's \"original price\" as absurdly high right next to a \"sale price\" makes the sale price feel like a bargain, even if that original price was never real."
       }
     ],
     "quiz": [
@@ -488,6 +658,33 @@
         ],
         "correctIndex": 0,
         "explanation": "This loop of testing and revising ideas underlies careful thinking generally, not just science."
+      },
+      {
+        "question": "Three people from a small town happen to be tall. Does that prove the town is full of tall people?",
+        "choices": [
+          "No — a small sample can just be coincidence",
+          "Yes, any pattern you notice is automatically true"
+        ],
+        "correctIndex": 0,
+        "explanation": "Small samples can look like a real pattern purely by chance; larger samples are more trustworthy."
+      },
+      {
+        "question": "Finishing a boring movie just because you already sat through an hour of it is an example of what?",
+        "choices": [
+          "The sunk cost fallacy",
+          "Steelmanning an argument"
+        ],
+        "correctIndex": 0,
+        "explanation": "The sunk cost fallacy is letting past investment, which can't be recovered either way, drive a present decision."
+      },
+      {
+        "question": "Who does the \"burden of proof\" fall on when someone makes a claim?",
+        "choices": [
+          "The person making the claim",
+          "Everyone else, to disprove it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Whoever makes a claim is responsible for backing it up with evidence."
       }
     ]
   }

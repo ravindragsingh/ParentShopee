@@ -4,42 +4,62 @@
       {
         "emoji": "🧩",
         "title": "What is a problem?",
-        "text": "A problem is something that needs fixing — like a puzzle piece that won't fit, or a tower of blocks that keeps falling down. For example, if your block tower falls over every time you add the fifth block, that's a real problem worth figuring out."
+        "text": "A problem is something that needs fixing. Your block tower falling down is a problem."
       },
       {
         "emoji": "🔄",
         "title": "Try a different way",
-        "text": "If one way doesn't work, trying a different way is exactly what problem solvers do — like turning a puzzle piece around to see if it fits better. For example, if your block tower keeps falling, trying a wider block on the bottom instead of a narrow one is exactly the kind of different approach a problem solver would try."
+        "text": "If one way does not work, try a new way. Use a wide block instead of a thin one."
       },
       {
         "emoji": "😅",
         "title": "Mistakes are okay",
-        "text": "Making a mistake while trying to solve something isn't bad — it's actually a normal part of figuring things out. For example, if your tower falls over three times before you figure out the right way to stack it, those three \"mistakes\" actually taught you something each time about what doesn't work."
+        "text": "It is okay to make mistakes. Your tower fell down three times, and that is okay too."
       },
       {
         "emoji": "🙋",
         "title": "Asking for help is smart",
-        "text": "If you've tried and tried and still feel stuck, asking a grown-up or a friend for help is a smart next step, not giving up. For example, if you've tried five different ways to make your tower stand and it still keeps falling, asking a grown-up \"can you help me figure this out?\" is a smart move, not a failure."
+        "text": "If you feel stuck, ask for help. A grown-up or a friend can help you."
       },
       {
         "emoji": "🪜",
         "title": "Small steps first",
-        "text": "Breaking a big task, like cleaning a messy room, into small steps — like 'pick up the toys first' — makes it feel much less overwhelming. For example, instead of looking at a totally messy room and feeling stuck, doing just one step — \"first, put all the stuffed animals on the bed\" — makes the whole task feel much more doable."
+        "text": "A messy room feels big. Doing one small step at a time makes it easy."
       },
       {
         "emoji": "🎉",
         "title": "Celebrate figuring it out",
-        "text": "When you solve a problem — even a small one — it's worth feeling proud! You did real thinking to get there. For example, when your block tower finally stands tall after all your tries, giving yourself a little cheer is completely fair — you worked through a real problem to get there."
+        "text": "When you solve a problem, feel proud! You worked hard to fix it."
       },
       {
         "emoji": "🧦",
         "title": "Sorting and matching",
-        "text": "Matching socks into pairs or sorting blocks by color is a fun way to practice noticing what goes together — a real problem-solving skill. For example, pulling ten mixed-up socks out of a laundry basket and matching them into five pairs uses the exact same noticing skill you'll use for bigger problems later."
+        "text": "Matching socks into pairs is fun practice. It helps you notice what goes together."
       },
       {
         "emoji": "🎯",
         "title": "One step at a time",
-        "text": "You don't have to solve everything at once — just figure out the very next small step, do it, and then figure out the step after that. For example, if you're trying to build a big block castle, you don't need a plan for the whole thing at once — just figure out the base first, then the walls, then the roof, one step at a time."
+        "text": "You do not have to solve it all at once. Just do the next small step."
+      },
+      {
+        "emoji": "💭",
+        "title": "Think of a few ideas",
+        "text": "Try to think of two or three ideas. Then pick the best one to try."
+      },
+      {
+        "emoji": "🤔",
+        "title": "What did you learn?",
+        "text": "After a mistake, think about what happened. It can help you do better next time."
+      },
+      {
+        "emoji": "💪",
+        "title": "Keep trying",
+        "text": "Do not give up too fast. Try one more time before you stop."
+      },
+      {
+        "emoji": "👀",
+        "title": "Look closely first",
+        "text": "Look closely before you start. Noticing small things can help you solve it."
       }
     ],
     "quiz": [
@@ -47,64 +67,91 @@
         "question": "What is a \"problem\"?",
         "choices": [
           "Something that needs fixing",
-          "Something that never needs any attention"
+          "Something that is already perfect"
         ],
         "correctIndex": 0,
-        "explanation": "A problem is simply something that needs to be figured out or fixed."
+        "explanation": "A problem is something you need to fix."
       },
       {
-        "question": "Your block tower keeps falling with a narrow bottom block. What should you try?",
+        "question": "Your tower keeps falling. What should you try?",
         "choices": [
-          "A different way, like a wider block on the bottom",
-          "Nothing — just stop trying"
+          "A different way",
+          "Nothing at all"
         ],
         "correctIndex": 0,
-        "explanation": "Trying a different approach is exactly what good problem solvers do."
+        "explanation": "Trying a new way can help you solve it."
       },
       {
-        "question": "Is it okay to make mistakes while solving a problem?",
+        "question": "Is it okay to make mistakes?",
         "choices": [
-          "Yes, that's a normal part of figuring things out",
-          "No, mistakes mean you should give up completely"
+          "Yes, mistakes are okay",
+          "No, mistakes are bad"
         ],
         "correctIndex": 0,
-        "explanation": "Mistakes are a normal, healthy part of learning to solve problems."
+        "explanation": "Mistakes help you learn and try again."
       },
       {
-        "question": "You've tried five ways to make your tower stand and it still falls. What's a smart next step?",
+        "question": "You feel stuck. What can you do?",
         "choices": [
-          "Ask a grown-up or friend for help",
-          "Never ask anyone, ever"
+          "Ask for help",
+          "Never ask anyone"
         ],
         "correctIndex": 0,
-        "explanation": "Asking for help when truly stuck is a smart, strong choice."
+        "explanation": "Asking for help is a smart choice."
       },
       {
-        "question": "How can a big, messy room feel less overwhelming to clean?",
+        "question": "How can a messy room feel less big?",
         "choices": [
-          "Breaking it into small steps, like \"stuffed animals first\"",
-          "Trying to do everything all at once"
+          "Do one small step at a time",
+          "Try to do it all at once"
         ],
         "correctIndex": 0,
-        "explanation": "Small steps make big tasks feel much more manageable."
+        "explanation": "Small steps make big jobs feel easier."
       },
       {
-        "question": "What skill do you practice by matching ten mixed socks into five pairs?",
+        "question": "You finally fix your tower. What should you do?",
+        "choices": [
+          "Feel proud of yourself",
+          "Feel nothing at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "It feels good to solve a problem."
+      },
+      {
+        "question": "What do you practice when you match socks?",
         "choices": [
           "Noticing what goes together",
-          "Nothing useful at all"
+          "Nothing useful"
         ],
         "correctIndex": 0,
-        "explanation": "Sorting and matching build the same noticing skills used in real problem solving."
+        "explanation": "Matching things helps you notice patterns."
       },
       {
-        "question": "Building a big block castle feels like too much. What can help?",
+        "question": "Before you try to fix something, what should you do?",
         "choices": [
-          "Just figuring out the very next small step, like the base first",
-          "Trying to finish everything in one go"
+          "Think of a few ideas first",
+          "Pick the very first idea only"
         ],
         "correctIndex": 0,
-        "explanation": "Focusing on one step at a time makes a big task feel doable."
+        "explanation": "Thinking of a few ideas helps you pick a good one."
+      },
+      {
+        "question": "After a mistake, what is a good question to ask?",
+        "choices": [
+          "What can I learn from this?",
+          "Why does this always happen to me?"
+        ],
+        "correctIndex": 0,
+        "explanation": "Thinking about what happened helps you do better next time."
+      },
+      {
+        "question": "Your first try does not work. What should you do?",
+        "choices": [
+          "Try one more time",
+          "Give up right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Trying again is how you solve problems."
       }
     ]
   },
@@ -113,121 +160,168 @@
       {
         "emoji": "🔍",
         "title": "Understanding the real problem",
-        "text": "Before jumping to a solution, it helps to really understand what's going wrong — is it the toy that's broken, or a piece that's just missing? For example, if a toy robot won't walk, checking whether it's actually broken, or just missing a battery, changes whether you need a repair or just a trip to grab new batteries."
+        "text": "Before you try to fix something, figure out what's really wrong. A toy robot might be broken, or it might just need new batteries."
       },
       {
         "emoji": "💡",
         "title": "Brainstorming ideas",
-        "text": "Coming up with several possible solutions — even silly ones — before picking one usually leads to a better final choice than grabbing the very first idea. For example, if you're trying to figure out how to reach a snack on a high shelf, brainstorming a few ideas — a step stool, asking a sibling, or using a broom to nudge it closer — gives you better options than just trying the very first idea that pops into your head."
+        "text": "Coming up with a few ideas before choosing one usually works better than grabbing the first idea. To reach a high snack, you could use a step stool, ask someone, or use a broom."
       },
       {
         "emoji": "🧪",
         "title": "Trial and error",
-        "text": "Trying a solution, seeing if it works, and adjusting if it doesn't is how a lot of real problem solving actually happens. For example, if the step stool doesn't quite reach the shelf, trying a taller stool next, and adjusting again if that's still not enough, is trial and error in action."
+        "text": "Trial and error means trying something, checking if it works, and adjusting when it doesn't. If a step stool isn't tall enough, you try a taller one next."
       },
       {
         "emoji": "📝",
         "title": "Learning from what didn't work",
-        "text": "If a solution doesn't work, figuring out why helps you avoid making the same mistake again next time. For example, if a paper airplane keeps nose-diving right after launch, figuring out that the nose is too heavy helps you fix the next one instead of just folding the exact same design again."
+        "text": "When a solution fails, figuring out why helps you avoid the same mistake later. If a paper airplane keeps nose-diving, a heavy nose is often the reason."
       },
       {
         "emoji": "🤝",
         "title": "Solving problems with others",
-        "text": "Sometimes two heads really are better than one — working with someone else can surface ideas you wouldn't have thought of alone. For example, if you and a friend are stuck on how to build a taller block tower, your friend might notice something about balancing weight that you hadn't thought of on your own."
+        "text": "Working with someone else can bring up ideas you wouldn't think of alone. A friend might notice something about balance that you missed while building a tower."
       },
       {
         "emoji": "⏸️",
         "title": "Taking a break when stuck",
-        "text": "Stepping away from a tricky problem for a few minutes sometimes helps your brain come back to it with a fresh idea. For example, if you've been stuck on a tricky puzzle for 20 minutes, taking a 5-minute break to get a snack often means you'll spot the missing piece almost immediately when you come back."
+        "text": "Stepping away from a tricky problem for a few minutes can help your brain find a fresh idea. After a short break, you often spot things you missed before."
       },
       {
         "emoji": "🏆",
         "title": "Comparing your solutions",
-        "text": "When you have more than one possible solution, thinking about which is easiest, fastest, or works best helps you choose wisely. For example, if you have three possible ways to fix a wobbly table leg, comparing which is fastest, which needs fewer tools, and which will actually last helps you pick the smartest one, not just the first one you thought of."
+        "text": "When you have more than one solution, think about which is fastest, easiest, or works best. Comparing options helps you pick the smartest one, not just the first one you thought of."
       },
       {
         "emoji": "🔧",
         "title": "Using tools to help",
-        "text": "A ruler, a calculator, or a checklist can make solving a problem much easier — smart problem solvers use the right tool for the job. For example, using a ruler to measure exactly how much wood you need, instead of guessing, saves you from cutting a piece the wrong size."
+        "text": "The right tool can make a problem much easier to solve, like a ruler, a calculator, or a checklist. Measuring wood with a ruler instead of guessing keeps you from cutting the wrong size."
       },
       {
         "emoji": "👀",
         "title": "Looking from a new angle",
-        "text": "If a problem feels stuck, trying to look at it completely differently — like imagining how someone else would approach it — can reveal a solution you missed. For example, if you can't figure out how to fit all your toys back in a box, imagining how your organized friend would approach it — maybe sorting by size first — might reveal a solution you hadn't considered."
+        "text": "When a problem feels stuck, try looking at it in a totally different way. Imagining how a very organized friend would sort your toys might reveal an idea you missed."
+      },
+      {
+        "emoji": "🧱",
+        "title": "Breaking it into smaller parts",
+        "text": "A big problem is easier to handle when you split it into smaller parts. Instead of \"clean the whole garage,\" try \"clear one shelf at a time.\""
+      },
+      {
+        "emoji": "❓",
+        "title": "Asking good questions",
+        "text": "Asking the right question can point you straight to a solution. Instead of asking \"why is this broken,\" ask \"what changed right before it broke?\""
+      },
+      {
+        "emoji": "🧫",
+        "title": "Testing your idea first",
+        "text": "Trying a solution on a small scale first can catch problems early. Testing one paper airplane design before making ten of them saves time and paper."
+      },
+      {
+        "emoji": "😤",
+        "title": "Staying calm when frustrated",
+        "text": "Feeling frustrated is normal when a problem is hard to solve. Taking a breath and staying calm helps you think more clearly."
       }
     ],
     "quiz": [
       {
-        "question": "A toy robot won't walk. Why is it important to understand the real problem first?",
+        "question": "A toy robot won't walk. Why figure out the real problem first?",
         "choices": [
-          "So you know if it needs new batteries or an actual repair",
-          "It's better to just guess and skip understanding it"
+          "So you know if it needs batteries or a real repair",
+          "It's better to just guess"
         ],
         "correctIndex": 0,
-        "explanation": "Understanding the actual problem prevents wasted effort on the wrong fix."
+        "explanation": "Understanding the real problem saves you from fixing the wrong thing."
       },
       {
         "question": "What is \"brainstorming\"?",
         "choices": [
-          "Coming up with several possible solutions before picking one",
-          "Picking the very first idea that comes to mind"
+          "Thinking of a few solutions before choosing one",
+          "Picking the very first idea you think of"
         ],
         "correctIndex": 0,
-        "explanation": "Brainstorming multiple ideas usually leads to a better final choice."
+        "explanation": "Brainstorming multiple ideas usually leads to a better choice."
       },
       {
-        "question": "A step stool doesn't quite reach the shelf, so you try a taller one. What is this?",
+        "question": "A step stool doesn't reach, so you try a taller one. What is this called?",
         "choices": [
-          "Trial and error — trying, checking, and adjusting",
-          "Doing the exact same thing forever, even if it fails"
+          "Trial and error",
+          "Doing the same failed thing forever"
         ],
         "correctIndex": 0,
-        "explanation": "Trial and error is trying, checking results, and adjusting as needed."
+        "explanation": "Trial and error means trying, checking, and adjusting."
       },
       {
-        "question": "A paper airplane keeps nose-diving, and you figure out the nose is too heavy. What's helpful about that?",
+        "question": "A paper airplane keeps nose-diving because the nose is too heavy. Why does figuring that out help?",
         "choices": [
-          "Figuring out why helps you avoid the same mistake next time",
-          "Immediately forget about it and never think about it again"
+          "It helps you avoid the same mistake next time",
+          "It's better to forget about it completely"
         ],
         "correctIndex": 0,
-        "explanation": "Understanding why something failed helps you avoid repeating the mistake."
+        "explanation": "Knowing why something failed helps you fix it next time."
       },
       {
-        "question": "Can working with a friend help you solve a block-tower balance problem?",
+        "question": "How can working with a friend help solve a problem?",
         "choices": [
-          "Yes, it can surface ideas you wouldn't think of alone",
-          "No, problems should always be solved completely alone"
+          "It can bring up ideas you wouldn't think of alone",
+          "It never helps at all"
         ],
         "correctIndex": 0,
-        "explanation": "Collaborating often brings in ideas and perspectives you wouldn't have on your own."
+        "explanation": "Other people often notice things you missed."
       },
       {
-        "question": "Why might taking a short break help with a tricky puzzle?",
+        "question": "Why might a short break help with a tricky puzzle?",
         "choices": [
           "Your brain can come back with a fresh idea",
           "Breaks never help with anything"
         ],
         "correctIndex": 0,
-        "explanation": "Stepping away briefly can help your mind approach a problem freshly."
+        "explanation": "Stepping away briefly can help you see the problem freshly."
       },
       {
-        "question": "How can measuring wood with a ruler, instead of guessing, help with a problem?",
+        "question": "You have three ways to fix a wobbly table leg. What should you do?",
         "choices": [
-          "It makes tackling the problem easier and more organized",
+          "Compare which is fastest, easiest, and works best",
+          "Just pick the first idea you had"
+        ],
+        "correctIndex": 0,
+        "explanation": "Comparing options helps you choose the smartest solution."
+      },
+      {
+        "question": "Why measure wood with a ruler instead of guessing?",
+        "choices": [
+          "It helps you avoid cutting the wrong size",
           "Tools never actually help"
         ],
         "correctIndex": 0,
-        "explanation": "Using the right tool for the job is a genuinely smart problem-solving move."
+        "explanation": "Using the right tool makes solving a problem easier."
       },
       {
-        "question": "What can help when a problem, like fitting toys in a box, feels completely stuck?",
+        "question": "How can a huge job like cleaning a garage feel easier?",
         "choices": [
-          "Looking at it from a totally new angle, like sorting by size",
-          "Repeating the exact same failed approach again"
+          "Split it into smaller parts",
+          "Try to do it all in one go"
         ],
         "correctIndex": 0,
-        "explanation": "A fresh perspective can reveal solutions the original approach missed."
+        "explanation": "Smaller parts are much easier to tackle than one giant job."
+      },
+      {
+        "question": "Why test one paper airplane design before making ten?",
+        "choices": [
+          "It catches problems early and saves time",
+          "Testing first is always a waste of time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Small tests reveal problems before you commit to a bigger effort."
+      },
+      {
+        "question": "You feel frustrated because a problem is hard. What helps?",
+        "choices": [
+          "Taking a breath and staying calm",
+          "Getting angrier at the problem"
+        ],
+        "correctIndex": 0,
+        "explanation": "Staying calm helps you think more clearly."
       }
     ]
   },
@@ -277,6 +371,26 @@
         "emoji": "🗂️",
         "title": "Organizing your approach",
         "text": "Writing down your plan, or listing the steps in order, helps you stay on track and notice quickly if something's been missed. For example, writing out \"1) buy supplies, 2) make the product, 3) set up the table, 4) advertise\" as an actual checklist makes it obvious if you forgot a step, instead of only realizing it halfway through."
+      },
+      {
+        "emoji": "💭",
+        "title": "Generating multiple solutions",
+        "text": "Before settling on an approach, it's worth generating several different possible solutions rather than running with the first one that comes to mind. For example, if your school project needs a creative presentation, brainstorming options like a poster, a short video, a model, or a skit — before picking one — usually leads to a stronger final choice than committing to your very first idea."
+      },
+      {
+        "emoji": "🙋",
+        "title": "Help isn't giving up",
+        "text": "Reaching out for help after genuinely trying on your own is a sign of good judgment, not a failure to solve the problem yourself. For example, if you've spent real effort troubleshooting a coding project and you're still stuck, asking a teacher or looking up a forum post written by someone who solved the same issue is a smart, efficient next step."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Reflecting on mistakes",
+        "text": "Looking back at what went wrong after a mistake, and being specific about it, teaches you far more than just feeling bad about it. For example, if a group project fell behind schedule, figuring out exactly where it slipped — was it unclear roles, or a missed deadline — helps you avoid the same slip on the next project."
+      },
+      {
+        "emoji": "⏰",
+        "title": "Managing your time",
+        "text": "Solving a problem well often means managing how much time you spend on each part, instead of getting stuck perfecting one piece while ignoring the rest. For example, if you have a week to prepare for a debate, setting rough time limits for research, practice, and rebuttals keeps you from spending five days on research and only one day practicing."
       }
     ],
     "quiz": [
@@ -351,6 +465,33 @@
         ],
         "correctIndex": 0,
         "explanation": "A written plan makes it easier to follow through and catch gaps."
+      },
+      {
+        "question": "You're picking how to present a school project. What should you do before choosing?",
+        "choices": [
+          "Brainstorm several different options first",
+          "Commit to the very first idea you think of"
+        ],
+        "correctIndex": 0,
+        "explanation": "Generating multiple options first usually leads to a stronger final choice."
+      },
+      {
+        "question": "You're stuck on a coding project after trying hard on your own. What's a smart move?",
+        "choices": [
+          "Ask a teacher or search for help online",
+          "Never ask for help under any circumstances"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking for help after genuinely trying is good judgment, not failure."
+      },
+      {
+        "question": "A group project fell behind schedule. What helps most afterward?",
+        "choices": [
+          "Figuring out specifically where it slipped, like unclear roles",
+          "Just feeling bad about it and moving on"
+        ],
+        "correctIndex": 0,
+        "explanation": "Being specific about what went wrong helps you avoid repeating it."
       }
     ]
   },
@@ -405,6 +546,26 @@
         "emoji": "🧩",
         "title": "Combining multiple solutions",
         "text": "Sometimes the strongest answer isn't picking just one option, but combining the best parts of several different approaches into one. For example, instead of choosing purely between studying alone or in a group, combining both — reviewing material alone first, then discussing tricky parts in a group — often works better than either approach used entirely on its own."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Watching out for your own bias",
+        "text": "Confirmation bias — the tendency to notice evidence that supports what you already believe, while ignoring evidence that doesn't — can quietly steer you toward the wrong solution. For example, if you're convinced a friend group is the reason your grades dropped, you might notice every distracting hangout but overlook the nights you stayed up late for other reasons, missing the real cause."
+      },
+      {
+        "emoji": "🧱",
+        "title": "First-principles thinking",
+        "text": "First-principles thinking means breaking a problem down to its most basic, undeniable facts and building a solution up from there, instead of just copying how it's usually done. For example, instead of assuming a fundraiser has to be a bake sale because that's tradition, first-principles thinking asks what you actually need — attention and small donations — and then considers any way to get those two things."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Communicating your solution",
+        "text": "A good solution can fail simply because it wasn't explained clearly to the people who need to understand or approve it. For example, pitching a new club schedule to a teacher works better when you clearly state the problem, your proposed fix, and why it benefits everyone — not just handing over a vague idea and hoping they fill in the reasoning."
+      },
+      {
+        "emoji": "⚠️",
+        "title": "Weighing the risk before committing",
+        "text": "Before committing fully to a solution, it's worth asking what could go wrong and how bad that would actually be — this is basic risk assessment. For example, before investing your entire savings into a resale side-business, weighing the realistic chance of losing that money against the safer option of starting with just a fraction of it is a genuinely mature problem-solving step."
       }
     ],
     "quiz": [
@@ -488,6 +649,33 @@
         ],
         "correctIndex": 0,
         "explanation": "Blending strong elements from multiple solutions can outperform any single one."
+      },
+      {
+        "question": "You're sure a friend group caused your grades to drop, and you keep noticing evidence that fits that idea while ignoring other explanations. What is this called?",
+        "choices": [
+          "Confirmation bias",
+          "Root cause analysis"
+        ],
+        "correctIndex": 0,
+        "explanation": "Confirmation bias means favoring evidence that fits what you already believe."
+      },
+      {
+        "question": "Instead of assuming a fundraiser must be a bake sale, you ask what you actually need — attention and donations — and consider any way to get them. What is this approach called?",
+        "choices": [
+          "First-principles thinking",
+          "Iterating"
+        ],
+        "correctIndex": 0,
+        "explanation": "First-principles thinking rebuilds a solution from basic facts instead of tradition."
+      },
+      {
+        "question": "Why might a good solution fail even if the idea itself is solid?",
+        "choices": [
+          "It wasn't clearly explained to the people who need to approve it",
+          "Good ideas can never fail for any reason"
+        ],
+        "correctIndex": 0,
+        "explanation": "Clear communication is often as important as the solution itself."
       }
     ]
   }

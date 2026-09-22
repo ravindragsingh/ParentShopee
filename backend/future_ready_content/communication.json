@@ -4,42 +4,62 @@
       {
         "emoji": "🗣️",
         "title": "Use your words",
-        "text": "When you feel happy, sad, or upset, saying it out loud with words helps people understand you better than yelling or crying alone. For example, saying \"I'm sad because my tower fell down\" helps a grown-up understand exactly what happened and how to help, much more than just crying without explaining why."
+        "text": "Tell people how you feel with words. Say 'I'm sad my tower fell' so they can help."
       },
       {
         "emoji": "👂",
         "title": "Listening matters too",
-        "text": "Talking is only half of communicating — really listening when someone else is talking is just as important. For example, if your friend is telling you an exciting story about their weekend, looking at them and really paying attention shows them you care about what they're saying."
+        "text": "Listening is just as important as talking. Look at your friend and hear their story."
       },
       {
         "emoji": "🙏",
         "title": "\"Please\" and \"thank you\"",
-        "text": "Saying please when you ask for something, and thank you when someone helps you, makes people happy to help you again. For example, saying \"can I have a snack, please?\" instead of just demanding one, and saying \"thank you\" afterward, makes a grown-up much more willing to help you again next time."
+        "text": "Say 'please' when you ask for something. Say 'thank you' when someone helps you."
       },
       {
         "emoji": "🙋",
         "title": "Asking for help",
-        "text": "If you're stuck or need something, asking for help with your words is a strong, smart thing to do — not something to feel bad about. For example, if you can't reach a toy on a high shelf, saying \"can you help me reach this, please?\" is much smarter than just standing there upset or trying to climb something dangerous."
+        "text": "Asking for help is smart, not silly. Say 'can you help me, please?' if you're stuck."
       },
       {
         "emoji": "😊",
         "title": "Your face says a lot too",
-        "text": "A smile, a frown, or wide eyes all send a message, even before you say a single word. For example, if you walk into a room smiling, people might guess you're happy about something even before you tell them what happened."
+        "text": "Your face can send a message too. A smile can show you feel happy."
       },
       {
         "emoji": "⏳",
         "title": "Taking turns talking",
-        "text": "Waiting for your turn to talk — instead of interrupting — helps everyone feel heard in a conversation. For example, if two friends are talking and you want to share something, waiting until they finish their sentence before speaking helps everyone feel like they got a fair turn."
+        "text": "Wait for your turn to talk. Don't interrupt when someone else is talking."
       },
       {
         "emoji": "😢",
         "title": "Naming your feelings",
-        "text": "Words like happy, sad, mad, and scared help you tell someone exactly what's going on inside you, instead of just crying or shouting. For example, instead of just crying when a friend takes your toy, saying \"I feel mad because you took my toy without asking\" tells them exactly what's wrong and why."
+        "text": "Words like happy, sad, and mad name your feelings. Say 'I feel mad' so people know why."
       },
       {
         "emoji": "🎨",
         "title": "Showing what you mean",
-        "text": "If you can't find the words, pointing, drawing, or acting something out can help someone understand you too. For example, if you don't know the word for \"the thing that spins on the ceiling,\" pointing up at the fan and moving your finger in a circle can help someone figure out exactly what you mean."
+        "text": "You can show what you mean too. Point at the fan if you don't know its name."
+      },
+      {
+        "emoji": "😔",
+        "title": "Saying sorry",
+        "text": "Say sorry when you hurt someone. Say 'I'm sorry I broke your tower.'"
+      },
+      {
+        "emoji": "🔊",
+        "title": "Your voice has a tone",
+        "text": "Your voice can sound happy or mad. A soft voice feels kinder than a loud one."
+      },
+      {
+        "emoji": "❓",
+        "title": "It's okay to ask questions",
+        "text": "It's okay to say 'I don't understand.' Ask 'what do you mean?' if you're not sure."
+      },
+      {
+        "emoji": "📞",
+        "title": "Talking on the phone",
+        "text": "A phone call is different from talking face to face. Speak clearly so the other person can hear you."
       }
     ],
     "quiz": [
@@ -53,13 +73,13 @@
         "explanation": "Putting feelings into words helps others understand and help you."
       },
       {
-        "question": "Is listening an important part of communicating?",
+        "question": "Is listening as important as talking?",
         "choices": [
-          "Yes, just as important as talking",
+          "Yes, listening matters too",
           "No, only talking matters"
         ],
         "correctIndex": 0,
-        "explanation": "Good communication is a two-way street — listening matters as much as talking."
+        "explanation": "Listening is just as important as talking."
       },
       {
         "question": "When should you say \"please\"?",
@@ -77,10 +97,10 @@
           "Never tell anyone"
         ],
         "correctIndex": 0,
-        "explanation": "Asking for help is a smart, strong choice, not something to be embarrassed about."
+        "explanation": "Asking for help is a smart, strong choice."
       },
       {
-        "question": "Can your face send a message, even without talking?",
+        "question": "Can your face send a message without words?",
         "choices": [
           "Yes, like a smile or a frown",
           "No, only words send messages"
@@ -89,22 +109,49 @@
         "explanation": "Facial expressions communicate feelings even before you say a word."
       },
       {
-        "question": "What are words like \"happy\" or \"sad\" used for?",
+        "question": "What do words like \"happy\" and \"sad\" help you do?",
         "choices": [
-          "Naming your feelings so others understand",
-          "They have no real use"
+          "Name your feelings",
+          "Nothing at all"
         ],
         "correctIndex": 0,
-        "explanation": "Feeling words help you tell someone exactly what's going on inside you."
+        "explanation": "Feeling words help you tell someone what's going on inside you."
       },
       {
-        "question": "You don't know the word for the spinning thing on the ceiling. What else can help you communicate?",
+        "question": "You don't know a word. What else can help you show what you mean?",
         "choices": [
-          "Pointing, drawing, or acting it out",
-          "Nothing else can ever help"
+          "Pointing or drawing",
+          "Nothing can help"
         ],
         "correctIndex": 0,
-        "explanation": "Showing what you mean is a great backup when words are hard to find."
+        "explanation": "Showing what you mean helps when words are hard to find."
+      },
+      {
+        "question": "You broke your friend's toy by accident. What should you say?",
+        "choices": [
+          "I'm sorry",
+          "Nothing at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Saying sorry helps fix a hurt feeling."
+      },
+      {
+        "question": "Which voice sounds kinder?",
+        "choices": [
+          "A soft, calm voice",
+          "A loud, yelling voice"
+        ],
+        "correctIndex": 0,
+        "explanation": "A soft voice feels kinder than a loud one."
+      },
+      {
+        "question": "You don't understand what someone said. What should you do?",
+        "choices": [
+          "Ask 'what do you mean?'",
+          "Just nod and stay confused"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking questions helps you understand better."
       }
     ]
   },
@@ -113,47 +160,67 @@
       {
         "emoji": "👂",
         "title": "What is active listening?",
-        "text": "Active listening means really paying attention — looking at the person, not interrupting, and thinking about what they're saying instead of just waiting for your turn to talk. For example, if a friend is explaining a new game's rules, nodding along and asking a question about a part you didn't understand shows you're really listening, not just waiting to talk about your own idea."
+        "text": "Active listening means paying close attention to the person who is talking. If a friend explains a new game, nod along and ask a question instead of waiting for your turn."
       },
       {
         "emoji": "🙆",
         "title": "Body language basics",
-        "text": "Crossed arms, a big smile, or looking away all send messages without any words — noticing body language helps you understand people better. For example, if a friend says \"I'm fine\" but has crossed arms and won't look at you, their body language might be telling you something their words aren't."
+        "text": "Crossed arms, a big smile, or looking away all send a message without any words. If a friend says 'I'm fine' but won't look at you, their body might be telling you something different."
       },
       {
         "emoji": "🔄",
         "title": "Taking turns in conversation",
-        "text": "A good conversation feels like a back-and-forth game of catch, not one person talking the whole time. For example, if you talk about your weekend for a full five minutes without asking your friend anything about theirs, the conversation stops feeling like catch and starts feeling one-sided."
+        "text": "A good conversation feels like a back-and-forth game of catch, not one person talking the whole time. If you talk about your weekend for five minutes straight, ask your friend about theirs too."
       },
       {
         "emoji": "🙅",
         "title": "Disagreeing politely",
-        "text": "You can disagree with someone without being mean — saying 'I see it differently' is a respectful way to share a different opinion. For example, if a friend says a movie was the best ever and you didn't love it, saying \"I see it differently — I thought the ending was a bit slow\" keeps the conversation friendly instead of turning it into an argument."
+        "text": "You can disagree with someone without being mean about it. If a friend loved a movie you didn't, saying 'I see it differently' keeps things friendly instead of starting an argument."
       },
       {
         "emoji": "❓",
         "title": "Asking clarifying questions",
-        "text": "If you don't understand something someone said, asking 'can you explain that again?' is smarter than just pretending to understand. For example, if a teacher explains a math step quickly and you're lost, asking \"can you show that step again?\" gets you the help you actually need instead of staying confused."
+        "text": "If you don't understand something, it's smarter to ask than to pretend you understood. When a teacher explains a math step too fast, asking 'can you show that again?' gets you real help."
       },
       {
         "emoji": "💌",
         "title": "Written vs. spoken words",
-        "text": "Writing a message and saying it out loud can feel very different — a text can sometimes sound different than you meant it to. For example, texting \"fine\" after a friend asks how you're doing can sound annoyed even if you just meant \"okay\" — saying the same word out loud with a smile would sound completely different."
+        "text": "Writing a message can feel very different from saying the same words out loud. Texting just 'fine' can sound annoyed, even though saying it with a smile would sound totally different."
       },
       {
         "emoji": "🤗",
         "title": "Checking in on feelings",
-        "text": "Asking a friend 'are you okay?' when they seem upset shows you're paying attention to more than just what they're saying. For example, if a friend seems quiet and isn't smiling at lunch, asking \"hey, are you okay?\" shows you noticed something was off, even before they said a word about it."
+        "text": "Asking a friend 'are you okay?' shows you notice more than just their words. If a friend seems quiet at lunch and isn't smiling, checking in shows you care."
       },
       {
         "emoji": "📞",
         "title": "Talking on the phone",
-        "text": "Without seeing someone's face, a phone call relies entirely on your voice and words — speaking clearly and listening closely both matter even more. For example, on a phone call you can't see a confused look on someone's face, so checking \"does that make sense?\" out loud matters more than it would in person."
+        "text": "On a phone call, you can't see the other person's face, so your voice has to do more work. Speaking clearly and asking 'does that make sense?' matters even more than it does in person."
       },
       {
         "emoji": "🤗",
         "title": "Comforting a sad friend",
-        "text": "Sometimes a friend doesn't need advice right away — just having someone sit with them and say 'that sounds really hard' can mean a lot. For example, if a friend's pet is sick and they're upset, simply sitting with them and saying \"that sounds really hard, I'm sorry\" often helps more than immediately jumping in with advice on what to do."
+        "text": "Sometimes a friend doesn't need advice right away, just someone to listen. If a friend's pet is sick, saying 'that sounds really hard' can help more than jumping straight to advice."
+      },
+      {
+        "emoji": "🔊",
+        "title": "Using your tone of voice",
+        "text": "The same words can sound totally different depending on your tone of voice. Saying 'okay' in a flat, annoyed voice feels very different from saying it with a smile."
+      },
+      {
+        "emoji": "🙇",
+        "title": "Saying sorry the right way",
+        "text": "A good apology names what you did and how it might have made someone feel. Saying 'I'm sorry I broke your model, that must have been frustrating' means more than just 'sorry.'"
+      },
+      {
+        "emoji": "🔁",
+        "title": "Giving feedback kindly",
+        "text": "When you tell a friend how to improve something, focus on the specific thing, not the whole person. Saying 'maybe add more color here' helps more than just saying 'this isn't very good.'"
+      },
+      {
+        "emoji": "📱",
+        "title": "Texting vs. talking in person",
+        "text": "A quick text can't show your face or the tone in your voice. Save texts for simple stuff, and save talking in person for things that really matter."
       }
     ],
     "quiz": [
@@ -228,6 +295,33 @@
         ],
         "correctIndex": 0,
         "explanation": "Being heard and understood often matters more at first than getting advice."
+      },
+      {
+        "question": "Which sounds friendlier: saying \"okay\" with a flat voice or saying it with a smile?",
+        "choices": [
+          "Saying it with a smile",
+          "They always sound the same"
+        ],
+        "correctIndex": 0,
+        "explanation": "Tone of voice changes how the same words feel."
+      },
+      {
+        "question": "What makes an apology feel more real?",
+        "choices": [
+          "Naming what happened and how it felt",
+          "Just saying the word \"sorry\" quickly"
+        ],
+        "correctIndex": 0,
+        "explanation": "A good apology shows you understand how your actions affected someone."
+      },
+      {
+        "question": "When should you talk in person instead of texting?",
+        "choices": [
+          "When something really matters",
+          "Never, texting is always better"
+        ],
+        "correctIndex": 0,
+        "explanation": "Texting can't carry tone of voice or facial expressions the way talking in person can."
       }
     ]
   },
@@ -277,6 +371,26 @@
         "emoji": "📧",
         "title": "Writing a clear message",
         "text": "A short, well-organized message — saying exactly what you need and by when — gets a faster, better response than a vague, rambling one. For example, \"Can you send me the group project notes by Thursday? I want to start my part this weekend\" gets a much clearer response than just \"hey, can you send me stuff sometime?\""
+      },
+      {
+        "emoji": "❓",
+        "title": "Asking clarifying questions",
+        "text": "Asking a question when you're confused isn't a weakness — it usually saves everyone time and prevents mistakes later on. For example, saying \"just to make sure, do you want this by Friday or next Friday?\" takes five seconds and can prevent an entire assignment from being turned in on the wrong day."
+      },
+      {
+        "emoji": "🙇",
+        "title": "Apologizing well",
+        "text": "A real apology names what happened and how it affected the other person, instead of a quick, empty \"sorry.\" For example, saying \"I'm sorry I was late and made you wait alone, that wasn't fair to you\" shows you actually understand the impact, while a mumbled \"sorry\" walking past someone often doesn't."
+      },
+      {
+        "emoji": "🔊",
+        "title": "Tone of voice matters as much as words",
+        "text": "The exact same sentence can sound supportive or sarcastic depending on your tone of voice, speed, and volume. For example, saying \"sure, whatever you say\" can sound genuinely agreeable or completely sarcastic, depending only on how it's said — the words themselves don't change at all."
+      },
+      {
+        "emoji": "📲",
+        "title": "Choosing text, call, or in person",
+        "text": "Not every message deserves the same format — quick logistics fit a text, but anything emotional or complicated usually goes better as a call or face-to-face talk. For example, texting \"running 10 min late\" is fine, but resolving a serious argument by text usually leaves too much room for misreading tone."
       }
     ],
     "quiz": [
@@ -351,6 +465,33 @@
         ],
         "correctIndex": 0,
         "explanation": "Clarity makes it easy for the reader to know exactly what to do."
+      },
+      {
+        "question": "Why is asking a clarifying question usually a smart move?",
+        "choices": [
+          "It saves time and prevents mistakes",
+          "It makes you look less smart"
+        ],
+        "correctIndex": 0,
+        "explanation": "A quick question up front is faster than fixing a mistake later."
+      },
+      {
+        "question": "What makes an apology feel real instead of empty?",
+        "choices": [
+          "Naming what happened and how it affected the other person",
+          "Saying the word 'sorry' as fast as possible"
+        ],
+        "correctIndex": 0,
+        "explanation": "A specific apology shows you understand the impact of what happened."
+      },
+      {
+        "question": "Which kind of message usually goes better as a call or in person instead of a text?",
+        "choices": [
+          "Something emotional or complicated",
+          "A quick logistics update like 'running late'"
+        ],
+        "correctIndex": 0,
+        "explanation": "Texts are great for simple facts but can easily be misread when the topic is emotional."
       }
     ]
   },
@@ -399,12 +540,32 @@
       {
         "emoji": "🌐",
         "title": "Communicating across cultures online",
-        "text": "Humor, directness, and formality norms vary a lot between cultures — a message that reads as friendly in one context can read as blunt or confusing in another. For example, a very short, direct message that feels efficient and normal in one culture's messaging style might come across as cold or rude to someone from a culture where messages are typically warmer and more elaborate."
+        "text": "Humor, directness, and how formal a message should be all vary a lot between cultures — a message that reads as friendly in one context can read as blunt or confusing in another. For example, a very short, direct message that feels efficient and normal in one culture's messaging style might come across as cold or rude to someone from a culture where messages are typically warmer and more elaborate."
       },
       {
         "emoji": "🧑‍💼",
         "title": "Introducing yourself professionally",
         "text": "A short, confident self-introduction — your name, what you're interested in, and why you're reaching out — makes a strong first impression in interviews or networking. For example, \"Hi, I'm Jordan, a junior interested in environmental science, and I'm reaching out because I'd love to learn more about your research\" makes a far stronger first impression than a vague, rambling introduction."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Giving and receiving feedback like a pro",
+        "text": "Good feedback is specific and focused on the work, not a vague judgment of the person delivering or receiving it. For example, telling a coworker \"the report's third section repeats the intro, maybe cut it\" is more useful than \"this needs work,\" and receiving similar feedback without getting defensive is just as important a skill."
+      },
+      {
+        "emoji": "🙇",
+        "title": "Apologizing without over-explaining",
+        "text": "A strong apology takes responsibility clearly and briefly, without piling on excuses that shift the blame elsewhere. For example, \"I'm sorry I missed the deadline, I should have asked for help sooner\" lands better than a long explanation of everything that went wrong that week."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Reading the room",
+        "text": "The same joke or comment can land differently depending on the mood of the room, so paying attention to context matters as much as what you actually say. For example, a sarcastic joke that gets laughs at a casual hangout might fall flat or seem rude during a serious team meeting."
+      },
+      {
+        "emoji": "📢",
+        "title": "Delivering difficult news",
+        "text": "Sharing bad news clearly and with empathy — without burying it in vague language — respects the other person more than softening it so much it's confusing. For example, saying \"I won't be able to finish this by Friday, I need two more days\" is more respectful than a vague message that leaves someone guessing until the deadline passes."
       }
     ],
     "quiz": [
@@ -488,6 +649,33 @@
         ],
         "correctIndex": 0,
         "explanation": "A brief, confident introduction makes a stronger first impression than a rambling one."
+      },
+      {
+        "question": "What makes feedback most useful?",
+        "choices": [
+          "Being specific about the work, not the person",
+          "Being vague so it doesn't hurt feelings"
+        ],
+        "correctIndex": 0,
+        "explanation": "Specific, work-focused feedback is easier to act on than a vague judgment."
+      },
+      {
+        "question": "Which apology is stronger: a brief, direct one or a long list of excuses?",
+        "choices": [
+          "A brief, direct one that takes responsibility",
+          "A long explanation of everything that went wrong"
+        ],
+        "correctIndex": 0,
+        "explanation": "Taking responsibility clearly, without piling on excuses, lands better than over-explaining."
+      },
+      {
+        "question": "Why does \"reading the room\" matter in communication?",
+        "choices": [
+          "The same words can land differently depending on the setting",
+          "Context never changes how a comment is received"
+        ],
+        "correctIndex": 0,
+        "explanation": "Paying attention to mood and setting helps you judge what will land well."
       }
     ]
   }

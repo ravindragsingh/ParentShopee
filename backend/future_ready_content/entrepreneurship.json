@@ -4,42 +4,62 @@
       {
         "emoji": "🍋",
         "title": "What is a lemonade stand?",
-        "text": "A lemonade stand is a tiny business — you make something (lemonade!) and sell it to people who want to buy it. For example, on a hot day you might set up a little table outside with a pitcher of lemonade and a sign, and neighbors walking by can stop and buy a cup."
+        "text": "A lemonade stand is a tiny business you run. You make lemonade and sell it on hot days."
       },
       {
         "emoji": "🤝",
         "title": "What is trading?",
-        "text": "Trading means giving someone something they want, and getting something you want back — like a coin for a cup of lemonade. For example, your neighbor gives you a coin, and you give them a cold cup of lemonade in return — both of you end up happy with the trade."
+        "text": "Trading means giving something and getting something back. You give lemonade, and get a coin back."
       },
       {
         "emoji": "💡",
         "title": "Where ideas come from",
-        "text": "A business often starts with a simple idea — like noticing people get thirsty and thinking, 'I could sell them a cold drink!' For example, if you notice people walking their dogs past your house every morning looking tired and hot, that's exactly the kind of noticing that could turn into a lemonade stand idea."
+        "text": "Big ideas start with noticing what people need. You see thirsty people, so you sell cold drinks."
       },
       {
         "emoji": "🙋",
         "title": "Who is a customer?",
-        "text": "A customer is someone who buys what you're selling. Being friendly and helpful makes customers want to come back. For example, if you smile and say \"thank you, have a great day!\" to everyone who buys lemonade, they're much more likely to stop by your stand again next time."
+        "text": "A customer is someone who buys from you. Being kind makes customers want to come back."
       },
       {
         "emoji": "🎨",
         "title": "You can make things too!",
-        "text": "Drawing pictures, making bracelets, or baking cookies to share or sell are all little ways of being an entrepreneur — someone who makes and offers things. For example, if you make friendship bracelets and a few classmates want to trade a small toy or a coin for one, you're already being a little entrepreneur."
+        "text": "Making things to sell makes you an entrepreneur. You could make bracelets, drawings, or yummy cookies."
       },
       {
         "emoji": "💪",
         "title": "It takes effort",
-        "text": "Making a lemonade stand work takes real effort — squeezing lemons, making a sign, and standing there smiling at customers! For example, before you sell a single cup, you might spend 20 minutes squeezing lemons, another 10 minutes making a colorful sign, and then stand outside for an hour waiting for customers to come by."
+        "text": "Running a lemonade stand takes real work. You squeeze lemons and make a sign too."
       },
       {
         "emoji": "🏗️",
         "title": "Making something to sell",
-        "text": "Before you can sell something, you have to make it first — like squeezing the lemons and mixing in sugar and water to actually make the lemonade. For example, you can't sell a single cup of lemonade until you've actually squeezed the lemons, added sugar and water, and stirred it all together first."
+        "text": "You must make lemonade before you sell it. First mix lemons, sugar, and cold water."
       },
       {
         "emoji": "😀",
         "title": "A happy customer comes back",
-        "text": "When a customer really likes what you sold them, they often want to come back and buy from you again. For example, if your neighbor loves your lemonade so much that they tell you \"that was the best lemonade I've ever had,\" chances are they'll stop by again the next time you open your stand."
+        "text": "Happy customers often come back to buy more. Your neighbor loved it, so she came back."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Picking a fair price",
+        "text": "A fair price is not too high or low. One dollar for a cold cup feels fair."
+      },
+      {
+        "emoji": "📣",
+        "title": "Telling people about your stand",
+        "text": "You can tell people your stand is open. A big colorful sign helps people notice you."
+      },
+      {
+        "emoji": "🐷",
+        "title": "Saving up for supplies",
+        "text": "You can save coins to buy more lemons. Saving a little each day adds up fast."
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Teamwork with a friend",
+        "text": "Two friends can run a stand together. One friend pours the cups, and one collects coins."
       }
     ],
     "quiz": [
@@ -62,13 +82,13 @@
         "explanation": "Customers are the people who buy from your business."
       },
       {
-        "question": "A neighbor gives you a coin and you give them a cup of lemonade. What just happened?",
+        "question": "You give lemonade, and get a coin. What just happened?",
         "choices": [
-          "You traded — you both gave something and got something back",
+          "You traded — you both gave and got something",
           "Nothing happened at all"
         ],
         "correctIndex": 0,
-        "explanation": "Trading is a fair exchange — giving something, getting something back."
+        "explanation": "Trading is a fair swap — giving something, getting something back."
       },
       {
         "question": "Where do business ideas often come from?",
@@ -89,22 +109,49 @@
         "explanation": "From squeezing lemons to making a sign, a lemonade stand takes real effort to run."
       },
       {
-        "question": "What has to happen before you can sell a cup of lemonade?",
+        "question": "What must you do before selling lemonade?",
         "choices": [
-          "You have to make it first, by squeezing lemons and mixing it",
+          "Make it first, with lemons, sugar, and water",
           "You can sell it before it exists"
         ],
         "correctIndex": 0,
         "explanation": "Making the lemonade comes before selling it — you need something real to offer."
       },
       {
-        "question": "What often happens when a customer really likes what you sold them?",
+        "question": "What happens when a customer loves your lemonade?",
         "choices": [
-          "They want to come back and buy again",
+          "They often come back to buy more",
           "They never think about it again"
         ],
         "correctIndex": 0,
         "explanation": "A happy customer is likely to return, which helps a little business keep going."
+      },
+      {
+        "question": "What makes a price fair?",
+        "choices": [
+          "Not too high and not too low",
+          "As high as you can possibly charge"
+        ],
+        "correctIndex": 0,
+        "explanation": "A fair price feels okay to both you and the customer buying from you."
+      },
+      {
+        "question": "Why make a big sign for your stand?",
+        "choices": [
+          "So people notice your stand and stop by",
+          "To keep the sun off your lemonade"
+        ],
+        "correctIndex": 0,
+        "explanation": "Telling people your stand is open helps more customers find you."
+      },
+      {
+        "question": "Two friends run a lemonade stand. What's a good way to work together?",
+        "choices": [
+          "Share the jobs, like pouring cups and collecting coins",
+          "One friend does nothing at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Splitting up the jobs makes running a stand easier for both friends."
       }
     ]
   },
@@ -113,47 +160,67 @@
       {
         "emoji": "🔍",
         "title": "Spotting a problem to solve",
-        "text": "Good business ideas often start by spotting a problem — like 'nobody sells cold water at the park' — and figuring out how to fix it. For example, if you notice that kids playing soccer at the park have nowhere nearby to buy a cold drink on a hot day, that gap is exactly the kind of problem a small business could solve."
+        "text": "Good business ideas often start when you notice a problem, like no cold drinks at the park. That kind of gap, noticed on a hot day, could become your very own business idea."
       },
       {
         "emoji": "💰",
         "title": "Cost vs. price",
-        "text": "Cost is what it takes to make something (like lemons and sugar). Price is what you charge someone to buy it. The difference is your profit. For example, if a cup of lemonade costs you 20 cents to make (lemons, sugar, and a cup) and you sell it for $1, your profit on that one cup is 80 cents."
+        "text": "Cost is what it takes to make something, and price is what you charge to sell it. If lemonade costs 20 cents to make and sells for a dollar, your profit is 80 cents."
       },
       {
         "emoji": "📋",
         "title": "A simple plan",
-        "text": "Before starting, it helps to plan: what will you sell, how much will it cost to make, and how much will you charge? For example, a simple plan might say: \"I'll sell lemonade, it costs 20 cents a cup to make, and I'll charge $1 a cup\" — writing that down before you start avoids confusion later."
+        "text": "Before starting, it helps to plan what you'll sell, what it costs, and what you'll charge. Writing down a plan, like charging a dollar for 20-cent lemonade, avoids confusion later."
       },
       {
         "emoji": "😊",
         "title": "Good customer service",
-        "text": "Being friendly, honest, and helpful makes people want to buy from you again — and tell their friends about you too. For example, if a customer asks for less sugar in their lemonade and you happily make it exactly how they like it, they're likely to become a repeat customer and mention your stand to others."
+        "text": "Being friendly, honest, and helpful makes people want to buy from you again. When a customer asks for less sugar and you happily make it their way, they often return."
       },
       {
         "emoji": "📢",
         "title": "Telling people about it",
-        "text": "Even a great product needs people to know it exists! A colorful sign or telling your neighbors is a simple form of marketing. For example, making a bright poster that says \"Cold Lemonade — $1!\" and putting it where people walking by can see it is a simple way to let people know your stand exists."
+        "text": "Even a great product needs people to know it exists, which is called marketing. A bright poster that says \"Cold Lemonade, $1!\" lets passing neighbors know your stand is open."
       },
       {
         "emoji": "🧾",
         "title": "Keeping track",
-        "text": "Writing down what you spent and what you earned helps you see if your little business is actually making money. For example, if you write down \"spent $4 on lemons and sugar, earned $12 selling cups,\" you can quickly see you made an $8 profit for the day."
+        "text": "Writing down what you spend and earn helps you see if your business is really working. If you spent $4 on supplies and earned $12, you made an $8 profit."
       },
       {
         "emoji": "🔁",
         "title": "Trying again if it doesn't work",
-        "text": "If a business idea doesn't work the first time, entrepreneurs often tweak it and try again instead of giving up. For example, if nobody stopped at your lemonade stand on a cloudy day, you might try moving to a sunnier spot or adding a fun new flavor next time instead of giving up on the idea completely."
+        "text": "When a business idea doesn't work at first, entrepreneurs usually adjust it instead of quitting. If nobody stopped by on a cloudy day, you might try a sunnier spot next time."
       },
       {
         "emoji": "🎨",
         "title": "Making your product special",
-        "text": "Adding something unique — like a fun flavor of lemonade nobody else has — can make customers pick your stand over anyone else's. For example, adding a splash of strawberry or mint to your lemonade, something the other kids' stands down the street don't offer, could be exactly why customers choose your stand."
+        "text": "Adding something unique, like a flavor nobody else has, can make customers choose your stand. A splash of strawberry or mint, something other stands don't offer, could set you apart."
       },
       {
         "emoji": "📅",
         "title": "Planning your day",
-        "text": "Deciding when to open your stand, how much lemonade to make, and what supplies you need ahead of time helps the whole day run more smoothly. For example, deciding the night before to open from 2-4pm, make one full pitcher, and bring 20 cups means you won't be scrambling to figure things out once customers start showing up."
+        "text": "Deciding when to open and how much to make ahead of time helps your day run smoothly. Planning to open from 2 to 4pm with 20 cups ready means you won't scramble later."
+      },
+      {
+        "emoji": "😕",
+        "title": "Handling an unhappy customer",
+        "text": "Sometimes a customer isn't happy, maybe your lemonade seemed too sour for their taste. Listening calmly and offering a new cup, or their money back, keeps their trust."
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Splitting jobs with a partner",
+        "text": "Running a business with a friend works best when you split up the jobs. One person could make the lemonade while the other greets customers and handles the money."
+      },
+      {
+        "emoji": "🐷",
+        "title": "Saving up for a goal",
+        "text": "Saving some of your profit each week can help you buy something bigger later on. If you save $2 every week, you'll have $20 saved after ten weeks."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Checking what others charge",
+        "text": "Before setting your price, it helps to check what other nearby sellers are charging. Charging close to their price, or a little less, can help customers choose you."
       }
     ],
     "quiz": [
@@ -228,6 +295,33 @@
         ],
         "correctIndex": 0,
         "explanation": "Knowing what supplies and timing you need ahead of time avoids scrambling later."
+      },
+      {
+        "question": "A customer says your lemonade is too sour. What should you do?",
+        "choices": [
+          "Listen calmly and offer a new cup or their money back",
+          "Ignore them and walk away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Handling complaints calmly and fairly helps keep a customer's trust."
+      },
+      {
+        "question": "You and a friend run a stand together. What's a smart way to split the work?",
+        "choices": [
+          "One makes lemonade while the other handles customers and money",
+          "Both do the exact same job at the exact same time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Splitting up different jobs usually makes a small team more efficient."
+      },
+      {
+        "question": "If you save $2 every week, how much will you have after 10 weeks?",
+        "choices": [
+          "$20",
+          "$2"
+        ],
+        "correctIndex": 0,
+        "explanation": "Saving a little bit regularly adds up over time: $2 x 10 weeks = $20."
       }
     ]
   },
@@ -277,6 +371,26 @@
         "emoji": "📱",
         "title": "Selling online with help",
         "text": "With a parent's help, some young entrepreneurs sell crafts or art through simple online marketplaces, reaching far more people than a stand on the street. For example, a 12-year-old who makes custom drawings might, with a parent's account and supervision, list a few pieces online and reach buyers far beyond just their own neighborhood."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Pricing fairly",
+        "text": "Setting a fair price means charging enough to cover your costs and time, without charging so much that customers walk away. For example, if a bracelet costs $3 in materials to make, pricing it at $8 covers your costs and effort while still feeling fair to someone buying a handmade gift."
+      },
+      {
+        "emoji": "😕",
+        "title": "Handling a dissatisfied customer",
+        "text": "How you respond when a customer is unhappy can matter more than the original mistake — a calm, fair fix often turns a complaint into loyalty. For example, if a customer says their custom mug arrived cracked, offering a free replacement instead of arguing about it usually keeps them as a customer instead of losing them for good."
+      },
+      {
+        "emoji": "📢",
+        "title": "Marketing on a budget",
+        "text": "You don't need to spend much money to market a small business — social media posts, flyers, and word of mouth can all work well for free or cheap. For example, posting a few photos of your bracelets on a family member's social media account, tagged with your prices, can reach dozens of potential customers without spending a single dollar."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Teamwork and clear agreements",
+        "text": "When you run a business with a partner, agreeing early on who does what and how profits get split helps avoid arguments later. For example, two friends running a dog-walking business might agree in writing that one handles scheduling and the other handles the actual walks, splitting profits evenly between them."
       }
     ],
     "quiz": [
@@ -351,6 +465,33 @@
         ],
         "correctIndex": 0,
         "explanation": "Online marketplaces, used with a parent's guidance, can reach far more people than a physical stand."
+      },
+      {
+        "question": "A bracelet costs $3 in materials. Why might you price it at $8, not $20?",
+        "choices": [
+          "It covers your costs and effort while still feeling fair to buyers",
+          "Higher prices are always better no matter what"
+        ],
+        "correctIndex": 0,
+        "explanation": "A fair price balances covering your costs with what a customer is willing to pay."
+      },
+      {
+        "question": "A customer's mug arrives cracked. What response is most likely to keep them as a customer?",
+        "choices": [
+          "A calm, fair fix, like a free replacement",
+          "Arguing that it's not your fault"
+        ],
+        "correctIndex": 0,
+        "explanation": "Handling complaints calmly and fairly often turns an unhappy customer into a loyal one."
+      },
+      {
+        "question": "Why should business partners agree early on how profits will be split?",
+        "choices": [
+          "It helps avoid arguments and confusion later",
+          "Profit splits never need to be discussed"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear, upfront agreement keeps a partnership running smoothly as the business grows."
       }
     ]
   },
@@ -405,6 +546,26 @@
         "emoji": "📈",
         "title": "Measuring success beyond money",
         "text": "Revenue matters, but many entrepreneurs also track customer satisfaction, repeat business, and real-world impact as signs their business is genuinely succeeding. For example, a business that earns a modest profit but has 90% of customers coming back again and again is arguably in a stronger position than one earning more but constantly losing and replacing one-time customers."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Pricing strategies",
+        "text": "Businesses generally price in one of two ways: cost-plus pricing, where you add a markup on top of what something costs to make, or value-based pricing, where you charge based on how much a customer believes it's worth. For example, a $5 material cost with a $10 markup gives a cost-plus price of $15, while a designer bag might sell for $200 largely because customers value the brand, not just the materials."
+      },
+      {
+        "emoji": "😕",
+        "title": "Handling complaints and protecting your reputation",
+        "text": "A single public complaint, especially online, can influence far more potential customers than just the one person who made it, so how a business responds matters enormously. For example, a business that quickly and openly resolves a customer's shipping complaint often earns more trust from onlookers than a business that has never had a complaint at all."
+      },
+      {
+        "emoji": "📢",
+        "title": "Customer acquisition and marketing spend",
+        "text": "Customer acquisition cost is how much money a business spends, on average, to gain one new customer through advertising, and it needs to stay lower than what that customer is expected to spend over time. For example, spending $20 on ads to gain a customer who only ever buys $15 worth of products is a losing strategy, even if the ads technically \"worked.\""
+      },
+      {
+        "emoji": "🤝",
+        "title": "Splitting equity among co-founders",
+        "text": "When multiple people start a company together, they typically divide ownership — called equity — based on factors like who contributed the original idea, how much money each person invested, and how much ongoing work each will do. For example, two co-founders might split equity 50/50 if they contribute equally, or 70/30 if one invested significantly more money or works full-time while the other stays part-time."
       }
     ],
     "quiz": [
@@ -488,6 +649,33 @@
         ],
         "correctIndex": 0,
         "explanation": "Many entrepreneurs value signs of genuine success beyond just the money earned."
+      },
+      {
+        "question": "What's the difference between cost-plus and value-based pricing?",
+        "choices": [
+          "Cost-plus adds a markup to cost; value-based charges based on perceived worth",
+          "They are exactly the same thing"
+        ],
+        "correctIndex": 0,
+        "explanation": "The two strategies anchor a price to different things: your cost, or the customer's perceived value."
+      },
+      {
+        "question": "Why does responding well to a public complaint matter so much?",
+        "choices": [
+          "It's visible to many potential customers, not just the one who complained",
+          "Public complaints never affect other customers"
+        ],
+        "correctIndex": 0,
+        "explanation": "Onlookers judge a business by how it handles problems, not just whether problems happen."
+      },
+      {
+        "question": "A business spends $20 to gain a customer who only spends $15. What's the problem?",
+        "choices": [
+          "The cost of acquiring that customer is higher than what they spend",
+          "There is no problem at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "If customer acquisition cost exceeds what a customer spends, that growth actually loses money."
       }
     ]
   }

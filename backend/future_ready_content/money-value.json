@@ -4,92 +4,130 @@
       {
         "emoji": "💰",
         "title": "What is money?",
-        "text": "Money is something people use to trade for things they need or want, like toys, food, or a bike. For example, instead of trading a toy car for a loaf of bread, people use money so anyone can buy exactly what they want from anyone else."
+        "text": "Money is used to buy things you need. You can trade money for a toy or a snack."
       },
       {
         "emoji": "🛠️",
         "title": "Money usually comes from work",
-        "text": "Most money doesn't just appear — grown-ups earn it by doing work, like a job, and kids can sometimes earn it by doing chores. For example, doing a chore like feeding the pet or tidying your room can earn you points or money, just like a grown-up earns money at their job."
+        "text": "Most money comes from work, like a job. Kids can earn money too, by doing chores."
       },
       {
         "emoji": "🆚",
         "title": "Needs vs. wants",
-        "text": "A need is something you must have to be okay, like food or a coat in winter — a want is something nice to have but not required, like a new toy. For example, a winter coat is a need because you'll be cold without it, but a new video game is a want because you'd be fine without it."
+        "text": "A need is something you must have, like food. A want is something nice to have, like a toy."
       },
       {
         "emoji": "🐷",
         "title": "Saving in a piggy bank",
-        "text": "Saving means putting money away instead of spending it right away, so you'll have more later for something bigger. For example, putting a coin in a piggy bank every week can add up to enough for a toy you couldn't afford with just one week's money."
+        "text": "Saving means keeping money instead of spending it. You can save coins in a piggy bank."
       },
       {
         "emoji": "⏳",
         "title": "Waiting to buy something",
-        "text": "Sometimes the thing you want costs more than you have right now, so waiting and saving a little at a time gets you there. For example, if a toy costs 10 points and you only have 4, waiting and earning a few more points each week eventually gets you the whole way there."
+        "text": "Sometimes you do not have enough money yet. Waiting and saving a little more can get you there."
       },
       {
         "emoji": "🤔",
         "title": "You can't buy everything",
-        "text": "Because money is limited, choosing to buy one thing usually means not buying something else — that's called making a choice. For example, if you have enough for either a small toy or a treat, picking one means the other has to wait for another day."
+        "text": "You cannot buy every single thing you want. Picking one thing means waiting for another."
       },
       {
         "emoji": "💪",
         "title": "Earning money feels good",
-        "text": "Money you earn yourself, like from doing chores, often feels extra special because you know you worked for it. For example, buying something with points you earned from your own chores can feel even more exciting than getting it as a surprise gift."
+        "text": "Money you earn yourself can feel extra special. You worked hard, so you earned it."
       },
       {
         "emoji": "🎁",
         "title": "Sharing and giving",
-        "text": "Money can also be used to help others, like giving a coin to a friend who's a little short, or picking out a gift for someone you love. For example, choosing to spend some of your saved-up money on a small gift for a family member's birthday is a kind way to use money."
+        "text": "You can use money to help other people. Giving someone a gift shows that you care."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Comparing prices",
+        "text": "The same toy can cost different amounts. Checking two stores first can save you money."
+      },
+      {
+        "emoji": "💵",
+        "title": "Getting an allowance",
+        "text": "Some kids get a little money each week. This regular money is called an allowance."
+      },
+      {
+        "emoji": "🔢",
+        "title": "Counting your money",
+        "text": "You can count your coins to see how much you have. Counting first helps you know what you can buy."
+      },
+      {
+        "emoji": "🔒",
+        "title": "Keeping your money safe",
+        "text": "Keeping your money safe means not losing it. A piggy bank or a wallet is a safe place for it."
       }
     ],
     "quiz": [
       {
         "question": "What is money used for?",
-        "choices": ["Trading for things people need or want", "It has no real use"],
+        "choices": ["Buying things you need or want", "It has no real use"],
         "correctIndex": 0,
-        "explanation": "Money lets people trade for things instead of swapping items directly."
+        "explanation": "Money lets you trade for toys, food, and other things."
       },
       {
         "question": "Where does most money come from?",
-        "choices": ["Doing work, like a job or chores", "It just appears out of nowhere"],
+        "choices": ["Work, like a job or chores", "It just appears with no reason"],
         "correctIndex": 0,
-        "explanation": "People usually earn money by working, and kids can earn it through chores."
+        "explanation": "People earn money by working, and kids can earn it through chores."
       },
       {
-        "question": "Which is an example of a need, not a want?",
-        "choices": ["A winter coat to stay warm", "A new video game"],
+        "question": "Which one is a need, not a want?",
+        "choices": ["Food to eat", "A new toy"],
         "correctIndex": 0,
-        "explanation": "Needs are things you must have, like a coat in winter; wants are nice extras."
+        "explanation": "A need is something you must have, like food."
       },
       {
         "question": "What does saving money mean?",
-        "choices": ["Putting money away instead of spending it right away", "Spending every coin the moment you get it"],
+        "choices": ["Keeping money instead of spending it right away", "Spending every coin the moment you get it"],
         "correctIndex": 0,
-        "explanation": "Saving means holding onto money now so you have more later."
+        "explanation": "Saving means keeping money now so you have more later."
       },
       {
-        "question": "If a toy costs more than you have, what can help?",
-        "choices": ["Waiting and earning a little more over time", "Giving up on ever getting it"],
+        "question": "What can help if a toy costs more than you have?",
+        "choices": ["Waiting and saving a little more", "Giving up on ever getting it"],
         "correctIndex": 0,
-        "explanation": "Saving a bit at a time can eventually add up to enough."
+        "explanation": "Saving a little at a time can add up."
       },
       {
         "question": "Why can't you buy everything you want?",
-        "choices": ["Money is limited, so buying one thing means not buying another", "There's always unlimited money for everything"],
+        "choices": ["You only have a limited amount of money", "Money never runs out"],
         "correctIndex": 0,
-        "explanation": "Because money is limited, choosing one thing usually means waiting on something else."
+        "explanation": "Buying one thing can mean waiting on another."
       },
       {
-        "question": "Why might money you earned yourself feel extra special?",
-        "choices": ["Because you know you worked for it", "Earned money isn't any different from other money"],
+        "question": "Why can earned money feel extra special?",
+        "choices": ["Because you worked hard for it", "Earned money feels just like any other money"],
         "correctIndex": 0,
-        "explanation": "Money earned through your own effort often feels more rewarding."
+        "explanation": "Working for your money can make it feel extra good."
       },
       {
-        "question": "What's one kind way to use money?",
-        "choices": ["Sharing it, like buying a gift for someone you love", "Never using it to help anyone"],
+        "question": "What is one kind way to use money?",
+        "choices": ["Giving a gift to someone you love", "Never sharing it with anyone"],
         "correctIndex": 0,
-        "explanation": "Money can be used to help or delight other people too."
+        "explanation": "Money can help or delight other people too."
+      },
+      {
+        "question": "Why check prices at two different stores?",
+        "choices": ["The same toy can cost less somewhere else", "Prices are always exactly the same everywhere"],
+        "correctIndex": 0,
+        "explanation": "Checking prices first can help you spend less."
+      },
+      {
+        "question": "What is an allowance?",
+        "choices": ["A little money you get regularly", "A type of toy"],
+        "correctIndex": 0,
+        "explanation": "An allowance is money you might get each week."
+      },
+      {
+        "question": "Why count your money?",
+        "choices": ["To know how much you have", "Counting money is not useful"],
+        "correctIndex": 0,
+        "explanation": "Counting helps you know what you can buy."
       }
     ]
   },
@@ -98,42 +136,62 @@
       {
         "emoji": "💵",
         "title": "What is an allowance?",
-        "text": "An allowance is money a kid might get regularly, like weekly, sometimes for doing chores and sometimes just as practice managing money. For example, getting a small allowance every Saturday and deciding yourself whether to spend or save it is a way to practice real money decisions early."
+        "text": "An allowance is money a kid gets regularly, like every week, sometimes for chores and sometimes just for practice. Deciding yourself whether to spend or save it teaches real money skills early."
       },
       {
         "emoji": "📝",
         "title": "Making a simple budget",
-        "text": "A budget is a plan for your money — deciding ahead of time how much you'll save and how much you'll spend. For example, if you get 20 points a week, deciding to save 10 and spend 10 is a simple budget that helps you reach a savings goal without spending everything right away."
+        "text": "A budget is a plan for your money, deciding ahead how much to save and how much to spend. If you get 20 points a week, saving 10 and spending 10 is a simple budget."
       },
       {
         "emoji": "🏷️",
         "title": "Comparing prices",
-        "text": "The same kind of item can cost different amounts in different places, so checking before buying can help your money go further. For example, if one store sells a toy for 15 points and another sells the exact same toy for 12 points, comparing first saves you 3 points to spend on something else."
+        "text": "The same item can cost different amounts at different stores, so checking first can help your money go further. Comparing prices before buying might save you a few extra points to spend later."
       },
       {
         "emoji": "🎯",
         "title": "Setting a savings goal",
-        "text": "Picking something specific to save up for — and figuring out how much and how long it'll take — makes saving feel more exciting than just saving with no goal. For example, if you want a 40-point toy and save 10 points a week, you can figure out it'll take 4 weeks to get there."
+        "text": "Picking something specific to save for makes saving feel more exciting than saving with no goal at all. If a toy costs 40 points and you save 10 a week, you'll reach it in 4 weeks."
       },
       {
         "emoji": "🆚",
         "title": "Needs, wants, and tradeoffs",
-        "text": "Even wants can compete with each other — choosing one want over another is called a tradeoff, and thinking it through helps you choose well. For example, if you have 20 points, choosing between a toy and a movie ticket means picking the one you'll be happiest with, since you can't have both right now."
+        "text": "Even wants can compete with each other, and choosing one over another is called a tradeoff. If you have 20 points, picking a toy or a movie ticket means you can't have both right now."
       },
       {
         "emoji": "🤝",
         "title": "Borrowing and lending",
-        "text": "Borrowing means using someone else's money now and paying it back later — it can help in a pinch, but it means you owe them until it's repaid. For example, if a sibling lends you 5 points to reach a purchase, agreeing on when you'll pay it back keeps things fair between you."
+        "text": "Borrowing means using someone else's money now and paying it back later, which means you owe them until it's repaid. Agreeing on when you'll pay a sibling back keeps things fair between you."
       },
       {
         "emoji": "😬",
         "title": "Spending too fast",
-        "text": "Spending all your money right away can feel fun in the moment, but it can mean having nothing left when something better comes along. For example, spending every point right after payday can leave you without any points left when a friend invites you to a special group reward later that same week."
+        "text": "Spending all your money right away can feel fun, but it can leave you with nothing when something better comes along. Spending every point on payday might mean missing out on a fun reward later that week."
       },
       {
         "emoji": "📒",
         "title": "Keeping track of your money",
-        "text": "Writing down or remembering how much you have, earn, and spend helps you make smarter choices instead of guessing. For example, keeping a simple list of what you've earned and spent each week can help you notice you're saving less than you thought."
+        "text": "Writing down how much you earn and spend helps you make smarter choices instead of guessing. Keeping a simple list each week can show you when you're saving less than you thought."
+      },
+      {
+        "emoji": "🤲",
+        "title": "Giving and sharing",
+        "text": "Money isn't just for buying things — you can also give some away to help others. Donating a few points to a friend in need feels good and builds a caring habit."
+      },
+      {
+        "emoji": "📈",
+        "title": "Prices can change over time",
+        "text": "The cost of things doesn't always stay the same, because prices can go up as time passes. A snack that cost 5 points last year might cost 6 points now."
+      },
+      {
+        "emoji": "🧹",
+        "title": "Different chores, different pay",
+        "text": "Bigger or harder chores are usually worth more points than quick, easy ones. Cleaning the whole garage might earn more than wiping a table, because it takes more effort."
+      },
+      {
+        "emoji": "✂️",
+        "title": "Splitting your allowance three ways",
+        "text": "You can split your allowance three ways: spend some, save some, and give some. Splitting it up helps you enjoy money now while still planning for later."
       }
     ],
     "quiz": [
@@ -184,6 +242,24 @@
         "choices": ["It helps you make smarter choices instead of guessing", "Tracking money is a waste of time"],
         "correctIndex": 0,
         "explanation": "Keeping track helps you notice patterns and plan better."
+      },
+      {
+        "question": "Why might you give some of your money away?",
+        "choices": ["It can help others and feels good", "Money should never be shared with anyone"],
+        "correctIndex": 0,
+        "explanation": "Giving builds a caring habit and can help someone in need."
+      },
+      {
+        "question": "Why do prices sometimes go up over time?",
+        "choices": ["The cost of things doesn't always stay the same", "Prices are locked forever and never change"],
+        "correctIndex": 0,
+        "explanation": "Prices can rise as time passes, so things may cost more later."
+      },
+      {
+        "question": "What does splitting your allowance three ways mean?",
+        "choices": ["Some to spend, some to save, some to give", "Spending every point the moment you get it"],
+        "correctIndex": 0,
+        "explanation": "Splitting your money helps you enjoy some now while planning ahead."
       }
     ]
   },
@@ -228,6 +304,26 @@
         "emoji": "🙏",
         "title": "Money and gratitude",
         "text": "Being thankful for what you have, instead of always wanting more, tends to make people happier with their money than chasing the next purchase. For example, someone who appreciates the bike they already have tends to feel more satisfied than someone who's already thinking about the next thing to buy the moment they get something new."
+      },
+      {
+        "emoji": "🧮",
+        "title": "Comparing cost per unit",
+        "text": "When two items look similar, comparing the price per unit — like per ounce or per item — shows which one is actually the better deal. For example, a 10-pack of pencils for $2 costs less per pencil than a 4-pack for $1, even though the 4-pack has a smaller price tag."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Not every 'sale' is a real deal",
+        "text": "Stores sometimes raise a price right before marking it 'on sale,' so a discount doesn't always mean you're actually saving money. For example, a $30 item marked down to $25 after being raised from $20 isn't really a bargain, even though the sign says 40% off."
+      },
+      {
+        "emoji": "🎗️",
+        "title": "Giving reflects what you value",
+        "text": "Choosing to donate part of your money to a cause says something about what matters to you, the same way your spending choices do. For example, someone who cares about animals might set aside a few dollars each month for an animal shelter instead of spending it all on themselves."
+      },
+      {
+        "emoji": "🧾",
+        "title": "Reviewing where your money goes",
+        "text": "Looking back at what you actually spent money on over a month often reveals patterns you didn't notice while spending. For example, checking your spending log might show you spent more on snacks than you realized, which is useful information for planning next month better."
       }
     ],
     "quiz": [
@@ -278,6 +374,24 @@
         "choices": ["Appreciating what you have tends to bring more satisfaction than chasing more", "Gratitude has nothing to do with money"],
         "correctIndex": 0,
         "explanation": "Being thankful for what you have tends to increase satisfaction with money."
+      },
+      {
+        "question": "What does comparing the price per unit help you find?",
+        "choices": ["Which option is actually the better deal", "It never matters what size you buy"],
+        "correctIndex": 0,
+        "explanation": "Comparing cost per unit reveals the true better value, not just the sticker price."
+      },
+      {
+        "question": "Why isn't every discount a real deal?",
+        "choices": ["Some prices are raised before being marked down", "Sale prices are always the lowest possible price"],
+        "correctIndex": 0,
+        "explanation": "A markup-then-markdown can make a 'sale' look bigger than it really is."
+      },
+      {
+        "question": "What can reviewing your past spending reveal?",
+        "choices": ["Patterns you didn't notice while spending", "Nothing useful — spending logs are pointless"],
+        "correctIndex": 0,
+        "explanation": "A spending review often shows habits that are easy to miss in the moment."
       }
     ]
   },
@@ -327,6 +441,26 @@
         "emoji": "🌱",
         "title": "Thinking in decades, not days",
         "text": "Money decisions made consistently over years — saving a little regularly, avoiding debt, spending thoughtfully — tend to matter far more than any single purchase. For example, someone who saves a small, steady amount every month for years often ends up with more than someone who saves in occasional bursts and spends the rest, even if both earned similar amounts overall."
+      },
+      {
+        "emoji": "💹",
+        "title": "Starting to save early pays off",
+        "text": "Money left in a savings account can earn a small amount of interest over time, and starting even a few years earlier gives that interest more time to build up. For example, saving the same amount starting at 16 instead of 26 gives your money roughly a decade of extra time to grow, even at the exact same savings rate."
+      },
+      {
+        "emoji": "💼",
+        "title": "Net pay vs. gross pay",
+        "text": "Gross pay is the total amount a job pays before anything is taken out, while net pay is what actually lands in your account after taxes and other deductions. For example, a job that pays $15 an hour might only put about $12 an hour into your account once taxes are subtracted."
+      },
+      {
+        "emoji": "🛒",
+        "title": "The real cost of a cheap purchase",
+        "text": "A cheaper item that breaks quickly and needs replacing can end up costing more over time than a pricier item that lasts, which is sometimes called the total cost of ownership. For example, buying a $10 pair of shoes twice a year can cost more over two years than one $35 pair that lasts the whole time."
+      },
+      {
+        "emoji": "📲",
+        "title": "Buy now, pay later has real costs",
+        "text": "\"Buy now, pay later\" plans let you get something today and pay for it in smaller pieces, but missing a payment can add fees or hurt your credit. For example, splitting a $200 purchase into four payments feels easier in the moment, but forgetting even one payment can turn a good deal into an expensive mistake."
       }
     ],
     "quiz": [
@@ -383,6 +517,24 @@
         "choices": ["Consistent choices made over years", "A single purchase decides everything"],
         "correctIndex": 0,
         "explanation": "Sustained habits over time tend to matter far more than any one decision."
+      },
+      {
+        "question": "Why does starting to save early help?",
+        "choices": ["Interest has more time to build up", "Starting early makes no real difference"],
+        "correctIndex": 0,
+        "explanation": "The earlier money starts earning interest, the more time it has to grow."
+      },
+      {
+        "question": "What's the difference between gross pay and net pay?",
+        "choices": ["Net pay is what's left after taxes and deductions", "They always mean the exact same amount"],
+        "correctIndex": 0,
+        "explanation": "Gross pay is the full amount before deductions; net pay is what you actually receive."
+      },
+      {
+        "question": "What is the \"total cost of ownership\"?",
+        "choices": ["The full cost of a purchase over time, including replacements", "Only the price tag on the day you buy it"],
+        "correctIndex": 0,
+        "explanation": "A cheap item that wears out fast can cost more overall than a durable one."
       }
     ]
   }

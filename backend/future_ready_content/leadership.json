@@ -2,130 +2,202 @@
   "leadership-4-6": {
     "slides": [
       {
-        "emoji": "👑",
-        "title": "What is a leader?",
-        "text": "A leader is someone who helps a group work together and get things done — like leading a game, or showing a friend how to do something. For example, if you're playing tag and you're the one explaining the rules so everyone knows how to play, you're being a leader in that moment."
+        "emoji": "\ud83d\udc51",
+        "title": "What Is a Leader?",
+        "text": "A leader helps a group get things done. Showing a friend a game's rules is one way to lead."
       },
       {
-        "emoji": "🤝",
-        "title": "Taking turns",
-        "text": "Everyone gets a turn to lead sometimes — like picking the game, or going first — and everyone gets a turn to follow too. For example, if you pick the game today, letting a friend pick tomorrow means everyone gets a fair turn at being the leader."
+        "emoji": "\ud83e\udd1d",
+        "title": "Taking Turns",
+        "text": "Everyone gets a turn to be the leader. Everyone also gets a turn to follow the leader."
       },
       {
-        "emoji": "🧩",
-        "title": "Working together",
-        "text": "A big job, like building a huge block tower, goes faster and is more fun when everyone helps with a part of it. For example, if one friend collects the blocks, another stacks them, and you decide where to put each piece, the tower gets built much faster than if just one person tried to do it all alone."
+        "emoji": "\ud83e\udde9",
+        "title": "Working Together",
+        "text": "A big job is easier with many hands. Friends can each build one part of a tower."
       },
       {
-        "emoji": "🙋",
-        "title": "Helping without being asked",
-        "text": "Noticing something that needs doing — like picking up a dropped toy — and just doing it is a small way of leading. For example, if you notice a friend's crayons scattered on the floor and pick them up without being asked, that's real leadership, even though nobody told you to do it."
+        "emoji": "\ud83d\ude4b",
+        "title": "Helping Without Being Asked",
+        "text": "Good leaders help even when no one asks. Picking up a dropped toy is a kind, helpful act."
       },
       {
-        "emoji": "😊",
-        "title": "Being a good sport",
-        "text": "Whether you win or lose a game, being kind and saying \"good game\" is something a good leader does. For example, if you lose a board game, saying \"good game, that was fun!\" instead of getting upset shows the kind of good sportsmanship a leader models for others."
+        "emoji": "\ud83d\ude0a",
+        "title": "Being a Good Sport",
+        "text": "A good leader plays fair and stays kind. Saying \"good game\" is kind, even if you lose."
       },
       {
-        "emoji": "🗣️",
-        "title": "Saying sorry",
-        "text": "A good leader admits when they made a mistake and says sorry, instead of blaming someone else. For example, if you accidentally knock over your friend's tower while playing, saying \"sorry, I didn't mean to, let's rebuild it together\" instead of blaming them for standing there is what a good leader does."
+        "emoji": "\ud83d\udde3\ufe0f",
+        "title": "Saying Sorry",
+        "text": "Good leaders say sorry when they make a mistake. Saying sorry helps friends trust you more."
       },
       {
-        "emoji": "⭐",
-        "title": "Cheering others on",
-        "text": "Clapping and cheering for a friend who's trying something hard helps them feel brave and supported. For example, if a friend is nervously trying to ride a bike without training wheels for the first time, cheering \"you can do it!\" helps them feel braver about trying."
+        "emoji": "\u2b50",
+        "title": "Cheering Others On",
+        "text": "Cheering for a friend helps them feel brave. Clapping for someone trying something hard is kind."
+      },
+      {
+        "emoji": "\ud83c\udf1f",
+        "title": "Leading by Example",
+        "text": "A good leader shows how, not just tells. Cleaning up first makes friends want to help too."
+      },
+      {
+        "emoji": "\ud83d\udc42",
+        "title": "Listening to Friends",
+        "text": "A good leader listens to what friends say. Listening helps you learn what your friends like."
+      },
+      {
+        "emoji": "\ud83c\udf81",
+        "title": "Sharing Credit",
+        "text": "A good leader says, \"we did it together.\" Sharing credit makes the whole team feel proud."
+      },
+      {
+        "emoji": "\ud83d\uddf3\ufe0f",
+        "title": "Making a Fair Choice",
+        "text": "A good leader helps the group choose fairly. Taking turns picking is one fair way to choose."
+      },
+      {
+        "emoji": "\ud83c\udf08",
+        "title": "Welcoming a New Friend",
+        "text": "A good leader helps new friends feel welcome. Saying \"come play with us\" makes someone happy."
       }
     ],
     "quiz": [
       {
-        "question": "What is a leader?",
+        "question": "What does a leader do?",
         "choices": [
-          "Someone who helps a group work together",
-          "Someone who always plays alone"
+          "Helps a group get things done",
+          "Plays alone all the time"
         ],
         "correctIndex": 0,
-        "explanation": "A leader helps a group get things done together."
+        "explanation": "A leader helps a group work together."
       },
       {
-        "question": "Should everyone get a turn to lead?",
+        "question": "Should you get a turn to lead?",
         "choices": [
           "Yes, everyone gets a turn",
-          "No, only one person ever leads"
+          "No, only one person leads"
         ],
         "correctIndex": 0,
-        "explanation": "Taking turns leading and following is fair for everyone in the group."
+        "explanation": "Taking turns to lead and follow is fair."
       },
       {
-        "question": "One friend collects blocks, another stacks them, you decide placement. What makes the tower go faster?",
+        "question": "Is a big job easier with many hands?",
         "choices": [
-          "Everyone helping with a part of it",
-          "Only one person doing all of it"
+          "Yes, it is easier",
+          "No, one person should do it alone"
         ],
         "correctIndex": 0,
-        "explanation": "Working together on a big job makes it faster and more fun."
+        "explanation": "Working together makes a big job easier and faster."
       },
       {
-        "question": "You accidentally knock over a friend's tower. What should a good leader do?",
+        "question": "You knock over a friend's tower by accident. What should you say?",
         "choices": [
-          "Say sorry",
-          "Blame someone else"
+          "Sorry",
+          "It was not me"
         ],
         "correctIndex": 0,
-        "explanation": "Admitting a mistake and saying sorry is part of being a good leader."
+        "explanation": "Good leaders say sorry when they make a mistake."
       },
       {
-        "question": "A friend is nervously trying to ride a bike without training wheels. What can you do?",
+        "question": "A friend is trying something hard. What can you do?",
         "choices": [
           "Cheer them on",
-          "Ignore them"
+          "Walk away"
         ],
         "correctIndex": 0,
-        "explanation": "Cheering for a friend helps them feel brave and supported."
+        "explanation": "Cheering for a friend helps them feel brave."
+      },
+      {
+        "question": "A leader cleans up first. What happens next?",
+        "choices": [
+          "Friends want to help too",
+          "Friends walk away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Leading by example helps others want to join in."
+      },
+      {
+        "question": "A friend tells you their idea. What should a good leader do?",
+        "choices": [
+          "Listen to it",
+          "Ignore it"
+        ],
+        "correctIndex": 0,
+        "explanation": "A good leader listens to what friends say."
+      },
+      {
+        "question": "Your team wins. What does a good leader say?",
+        "choices": [
+          "We did it together",
+          "I did it all myself"
+        ],
+        "correctIndex": 0,
+        "explanation": "Sharing credit makes the whole team feel proud."
       }
     ]
   },
   "leadership-7-9": {
     "slides": [
       {
-        "emoji": "👂",
-        "title": "Listening to everyone's ideas",
-        "text": "A good leader asks what others think, not just shares their own idea. For example, if your group is deciding what game to play at recess, asking \"what does everyone else want to play?\" instead of just announcing your own choice is what a good leader does."
+        "emoji": "\ud83d\udc42",
+        "title": "Listening to Everyone's Ideas",
+        "text": "A good leader asks what other people think instead of only sharing their own idea. When your group picks a recess game, asking everyone what they want shows real leadership."
       },
       {
-        "emoji": "📋",
-        "title": "Giving out jobs",
-        "text": "Splitting a group project into smaller jobs, and letting each person pick or be given one, is called delegation. For example, on a group poster project, one person could draw the pictures, another could write the words, and a third could color it in — splitting up the work is delegation."
+        "emoji": "\ud83d\udccb",
+        "title": "Giving Out Jobs",
+        "text": "Splitting a group project into smaller jobs and letting each person handle one is called delegation. On a poster project, one person might draw, another might write, and a third might color it in."
       },
       {
-        "emoji": "✅",
-        "title": "Taking responsibility",
-        "text": "If you agreed to do a job, following through on it — even when it's not fun — is a big part of being trusted. For example, if you agreed to bring the markers for a group art project, actually remembering to bring them — even on a day you'd rather sleep in late — is what builds your teammates' trust in you."
+        "emoji": "\u2705",
+        "title": "Taking Responsibility",
+        "text": "If you agree to do a job, finishing it even when it is not fun builds real trust. Bringing the markers you promised, even on a day you'd rather relax, shows you can be counted on."
       },
       {
-        "emoji": "🤝",
-        "title": "Solving a disagreement",
-        "text": "When two people in a group disagree, a good leader helps both sides say what they think and find something everyone can accept. For example, if two teammates disagree about which color to paint the group project, a good leader might ask each to explain their reason, then suggest a compromise like using both colors."
+        "emoji": "\ud83e\udd1d",
+        "title": "Solving a Disagreement",
+        "text": "When two people in a group disagree, a good leader lets both sides explain their thinking. Suggesting a compromise, like using both colors two teammates wanted, often helps everyone feel heard."
       },
       {
-        "emoji": "🌟",
-        "title": "Leading by example",
-        "text": "Doing the right thing yourself — like helping clean up — often gets others to help too, more than just telling them to. For example, if you start cleaning up the classroom without being asked, other kids often start pitching in too, way more than if you just told them \"you should clean up.\""
+        "emoji": "\ud83c\udf1f",
+        "title": "Leading by Example",
+        "text": "Doing the right thing yourself, like helping clean up, often gets others to join in too. Starting to tidy the classroom without being asked usually works better than just telling classmates to do it."
       },
       {
-        "emoji": "🙋",
-        "title": "Speaking up for someone",
-        "text": "If someone in the group is being left out or unheard, a good leader helps make sure they get a chance to speak. For example, if a quiet group member hasn't gotten a chance to share their idea during a project discussion, saying \"let's hear what they think too\" is a real act of leadership."
+        "emoji": "\ud83d\ude4b",
+        "title": "Speaking Up for Someone",
+        "text": "When someone in the group is being left out, a good leader helps them get a chance to speak. Saying \"let's hear what they think too\" is a small but real act of leadership."
       },
       {
-        "emoji": "🎯",
-        "title": "Setting a group goal",
-        "text": "Deciding together what the group is trying to achieve makes it much easier to know if everyone's efforts are working. For example, if your group agrees the goal is \"finish the poster by Friday with at least three facts on it,\" everyone knows exactly what they're working toward, instead of guessing."
+        "emoji": "\ud83c\udfaf",
+        "title": "Setting a Group Goal",
+        "text": "Deciding together what the group is trying to achieve makes it easier to know if things are working. Agreeing the goal is \"finish the poster by Friday\" gives everyone something clear to aim for."
       },
       {
-        "emoji": "💪",
-        "title": "Encouraging a teammate",
-        "text": "Noticing when someone on your team is struggling and offering to help, or just cheering them on, is real leadership. For example, if a teammate is struggling to finish their part of a project, offering \"do you want help with that part?\" instead of ignoring their struggle is exactly the kind of support a good leader gives."
+        "emoji": "\ud83d\udcaa",
+        "title": "Encouraging a Teammate",
+        "text": "Noticing when someone on your team is struggling and offering to help is real leadership. Asking \"do you want help with that part?\" shows you care about the whole team's success."
+      },
+      {
+        "emoji": "\ud83d\ude4c",
+        "title": "Giving Credit to Others",
+        "text": "A good leader points out what teammates did well instead of keeping the praise for themselves. Saying \"Maya's idea made this project great\" makes the whole team want to keep contributing."
+      },
+      {
+        "emoji": "\ud83e\udded",
+        "title": "Making a Group Decision Fairly",
+        "text": "When a group cannot agree, a good leader might suggest a vote so everyone gets a say. A fair decision usually feels better to the team, even to people whose idea was not picked."
+      },
+      {
+        "emoji": "\ud83d\ude47",
+        "title": "Admitting a Mistake as a Leader",
+        "text": "A good leader owns up when their own choice caused a problem for the group. Saying \"I picked the wrong plan, let's fix it together\" earns more respect than hiding the mistake."
+      },
+      {
+        "emoji": "\ud83d\udd25",
+        "title": "Motivating Others",
+        "text": "A good leader notices small wins and points them out to keep the team's energy up. Saying \"we already finished two parts, we've got this\" can help tired teammates keep going."
       }
     ],
     "quiz": [
@@ -182,45 +254,97 @@
         ],
         "correctIndex": 0,
         "explanation": "A good leader notices when someone is unheard and helps include them."
+      },
+      {
+        "question": "A teammate's idea made the project great. What should a good leader say?",
+        "choices": [
+          "Point out that it was their idea",
+          "Let people think it was the leader's idea"
+        ],
+        "correctIndex": 0,
+        "explanation": "Giving credit to others makes the whole team want to keep contributing."
+      },
+      {
+        "question": "A group can't agree on a plan. What can help everyone feel it was fair?",
+        "choices": [
+          "Taking a vote so everyone gets a say",
+          "The leader just picking their favorite"
+        ],
+        "correctIndex": 0,
+        "explanation": "A vote usually feels fairer, even to people whose idea wasn't picked."
+      },
+      {
+        "question": "A leader's own plan caused a problem for the group. What should they do?",
+        "choices": [
+          "Own up to the mistake and help fix it",
+          "Hide it and hope no one notices"
+        ],
+        "correctIndex": 0,
+        "explanation": "Admitting a mistake as a leader earns more respect than hiding it."
       }
     ]
   },
   "leadership-10-13": {
     "slides": [
       {
-        "emoji": "🧩",
+        "emoji": "\ud83e\udde9",
         "title": "Matching jobs to strengths",
         "text": "A good leader notices what each person is good at and hands out jobs that fit, instead of assigning randomly. For example, on a group science project, giving the research job to someone who loves reading, the presentation to someone who enjoys public speaking, and the data charts to someone good at math sets everyone up to actually succeed."
       },
       {
-        "emoji": "📣",
+        "emoji": "\ud83d\udce3",
         "title": "Giving feedback kindly",
         "text": "Telling a teammate what could improve, specifically and kindly, helps them grow instead of just feeling criticized. For example, saying \"your section is great, maybe just add one more example to make it clearer\" helps a teammate improve, while just saying \"this part is weak\" leaves them with nothing useful to act on."
       },
       {
-        "emoji": "✅",
+        "emoji": "\u2705",
         "title": "Being accountable",
         "text": "When something goes wrong on a team, a good leader looks at what they could have done differently, not just who else to blame. For example, if your group misses a deadline, a good leader asks \"what could I have communicated better?\" instead of immediately pointing fingers at whoever finished last."
       },
       {
-        "emoji": "⚖️",
+        "emoji": "\u2696\ufe0f",
         "title": "Fair conflict resolution",
         "text": "Listening to both sides of a disagreement fully, before deciding anything, is what makes a resolution feel fair to everyone. For example, if two teammates disagree about how to split credit for a project, hearing both people's full explanation before suggesting a solution makes the eventual decision feel much fairer to both."
       },
       {
-        "emoji": "🤲",
+        "emoji": "\ud83e\udd32",
         "title": "Sharing credit",
         "text": "A good leader makes sure the whole team gets recognized for a success, not just themselves. For example, if your group project gets praised by a teacher, saying \"we all worked hard on this together\" instead of taking all the credit yourself is what earns real respect from your teammates."
       },
       {
-        "emoji": "🙏",
+        "emoji": "\ud83d\ude4f",
         "title": "Staying humble",
         "text": "Being willing to admit you don't have all the answers, and asking for help, actually builds more respect than pretending to know everything. For example, if you're leading a project and genuinely don't know how to solve a technical problem, admitting \"I'm not sure, does anyone have an idea?\" earns more respect than bluffing your way through and getting it wrong."
       },
       {
-        "emoji": "🔑",
+        "emoji": "\ud83d\udd11",
         "title": "Earning trust over time",
-        "text": "Trust is built slowly, through many small kept promises, and can be lost quickly by breaking just one. For example, consistently showing up on time and finishing your part of group work, week after week, slowly builds real trust — but missing one important deadline right before a big presentation can undo a lot of that trust quickly."
+        "text": "Trust is built slowly, through many small kept promises, and can be lost quickly by breaking just one. For example, consistently showing up on time and finishing your part of group work, week after week, slowly builds real trust \u2014 but missing one important deadline right before a big presentation can undo a lot of that trust quickly."
+      },
+      {
+        "emoji": "\ud83d\udeb6",
+        "title": "Leading by example",
+        "text": "A leader who does the hard, unglamorous work themselves earns more buy-in than one who only assigns it to others. For example, a team captain who shows up early to set up equipment, instead of just telling teammates to do it, makes everyone more willing to pitch in without being asked."
+      },
+      {
+        "emoji": "\ud83d\udc42",
+        "title": "Listening actively",
+        "text": "Really listening means asking follow-up questions and repeating back what you heard, not just waiting for your turn to talk. For example, asking a teammate \"so you're worried we won't finish in time, is that right?\" shows you were actually listening, not just planning what to say next."
+      },
+      {
+        "emoji": "\ud83d\udd25",
+        "title": "Motivating a team",
+        "text": "A good leader notices what actually matters to each teammate and connects the work to it, instead of using the same pep talk for everyone. For example, reminding a teammate who loves art that their design skills are the reason the project looks great can motivate them more than a generic \"good job, keep going.\""
+      },
+      {
+        "emoji": "\ud83c\udfaf",
+        "title": "Setting a clear vision",
+        "text": "A leader who can explain exactly what success looks like gives the team something real to aim for, instead of vague effort. For example, saying \"we want every judge to remember our project by name\" gives a team a clearer target than just saying \"let's do our best.\""
+      },
+      {
+        "emoji": "\ud83c\udf0a",
+        "title": "Handling setbacks",
+        "text": "How a leader reacts right after something goes wrong often decides whether the team panics or keeps working. For example, if a project's code crashes the night before a deadline, a leader who calmly says \"let's figure out the fix together\" keeps the team focused instead of scared."
       }
     ],
     "quiz": [
@@ -236,7 +360,7 @@
       {
         "question": "Which is more helpful: \"this part is weak\" or \"great section, maybe add one more example\"?",
         "choices": [
-          "\"great section, maybe add one more example\" — specific and kind",
+          "\"great section, maybe add one more example\" \u2014 specific and kind",
           "Being vague and harsh"
         ],
         "correctIndex": 0,
@@ -277,50 +401,102 @@
         ],
         "correctIndex": 0,
         "explanation": "Trust accumulates gradually through consistent, kept promises."
+      },
+      {
+        "question": "A team captain shows up early to set up equipment instead of just assigning it. What does this show?",
+        "choices": [
+          "Leading by example earns more buy-in",
+          "Leaders should never do hands-on work"
+        ],
+        "correctIndex": 0,
+        "explanation": "Doing the hard work yourself often earns more willingness from others than just assigning it."
+      },
+      {
+        "question": "Asking a teammate \"so you're worried we won't finish, is that right?\" is an example of what?",
+        "choices": [
+          "Listening actively",
+          "Waiting for your turn to talk"
+        ],
+        "correctIndex": 0,
+        "explanation": "Active listening means checking that you understood, not just waiting to speak."
+      },
+      {
+        "question": "Saying \"we want every judge to remember our project by name\" instead of \"let's do our best\" is an example of what?",
+        "choices": [
+          "Setting a clear vision",
+          "Giving vague instructions"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear vision gives the team something specific and real to aim for."
       }
     ]
   },
   "leadership-13-17": {
     "slides": [
       {
-        "emoji": "🎭",
+        "emoji": "\ud83c\udfad",
         "title": "Different leadership styles",
-        "text": "Some leaders direct closely, others coach, others mostly get out of the way — the best style often depends on the team and the situation, not one fixed approach. For example, a brand-new team member might need close, direct guidance at first, while an experienced teammate often does better with a leader who mostly steps back and trusts their judgment."
+        "text": "Some leaders direct closely, others coach, others mostly get out of the way \u2014 the best style often depends on the team and the situation, not one fixed approach. For example, a brand-new team member might need close, direct guidance at first, while an experienced teammate often does better with a leader who mostly steps back and trusts their judgment."
       },
       {
-        "emoji": "🤝",
+        "emoji": "\ud83e\udd1d",
         "title": "Servant leadership",
         "text": "This style puts the team's needs first, asking \"how can I help you succeed?\" rather than \"how can you help me look good?\" For example, a club president practicing servant leadership might spend their time helping members get resources they need for their own projects, rather than mainly focusing on projects that make the president look good."
       },
       {
-        "emoji": "🧵",
+        "emoji": "\ud83e\uddf5",
         "title": "Delegation vs. micromanaging",
-        "text": "Genuine delegation means trusting someone with real ownership of a task, not just assigning it and then controlling every detail anyway. For example, delegating the social media for a club event means letting that person actually make creative decisions, rather than assigning it to them and then rewriting every post yourself anyway."
+        "text": "Genuine delegation means trusting someone with real ownership of a task, instead of micromanaging \u2014 assigning the job but then controlling every detail anyway. For example, delegating the social media for a club event means letting that person actually make creative decisions, rather than assigning it to them and then rewriting every post yourself, which is really micromanaging in disguise."
       },
       {
-        "emoji": "🧭",
+        "emoji": "\ud83e\udded",
         "title": "Leading through team conflict",
         "text": "A strong leader acts as a fair facilitator during conflict, not a judge picking sides, helping the team find its own resolution. For example, if two club members clash over how to run an event, a strong leader might guide a conversation where both explain their view and propose their own compromise, rather than the leader simply declaring a winner."
       },
       {
-        "emoji": "🧠",
+        "emoji": "\ud83e\udde0",
         "title": "Emotional intelligence in leadership",
-        "text": "Noticing how team members are feeling, not just what they're doing, often prevents problems before they even start. For example, noticing a normally engaged teammate has become unusually quiet in meetings, and checking in privately, can catch a brewing problem — burnout, a personal issue, a disagreement — before it affects the whole team's work."
+        "text": "Noticing how team members are feeling, not just what they're doing, often prevents problems before they even start. For example, noticing a normally engaged teammate has become unusually quiet in meetings, and checking in privately, can catch a brewing problem \u2014 burnout, a personal issue, a disagreement \u2014 before it affects the whole team's work."
       },
       {
-        "emoji": "⚖️",
+        "emoji": "\u2696\ufe0f",
         "title": "Leading with integrity",
         "text": "Making the same ethical choice whether or not anyone's watching is what actually earns long-term respect from a team. For example, giving honest credit for an idea even when nobody would have noticed if you'd taken it for yourself is exactly the kind of consistent integrity that earns lasting trust."
       },
       {
-        "emoji": "📉",
+        "emoji": "\ud83d\udcc9",
         "title": "Leading through failure",
-        "text": "How a leader responds when something goes wrong — calmly, constructively — often matters more to a team than the failure itself. For example, if a club event flops due to poor turnout, a leader who calmly says \"let's figure out what we can learn from this for next time\" builds far more team confidence than one who panics or assigns blame."
+        "text": "How a leader responds when something goes wrong \u2014 calmly, constructively \u2014 often matters more to a team than the failure itself. For example, if a club event flops due to poor turnout, a leader who calmly says \"let's figure out what we can learn from this for next time\" builds far more team confidence than one who panics or assigns blame."
       },
       {
-        "emoji": "🌱",
+        "emoji": "\ud83c\udf31",
         "title": "Growing future leaders",
-        "text": "A strong leader doesn't just lead — they deliberately help other team members develop leadership skills of their own. For example, a graduating club president who spends their last few months specifically mentoring a younger member to take over — teaching them how to run meetings and handle conflicts — leaves the club stronger than one who never prepared anyone to follow them."
+        "text": "A strong leader doesn't just lead \u2014 they deliberately help other team members develop leadership skills of their own. For example, a graduating club president who spends their last few months specifically mentoring a younger member to take over \u2014 teaching them how to run meetings and handle conflicts \u2014 leaves the club stronger than one who never prepared anyone to follow them."
+      },
+      {
+        "emoji": "\ud83d\udeb6",
+        "title": "Leading by example",
+        "text": "Teams take their real cues from what a leader does, not just what they say \u2014 showing up prepared and doing unglamorous work yourself sets the standard everyone else follows. For example, a team captain who stays late to help clean up gear, without being asked, sends a stronger message about effort than any speech about hard work ever could."
+      },
+      {
+        "emoji": "\ud83d\udde3\ufe0f",
+        "title": "Creating space to be heard",
+        "text": "A leader who actively invites disagreement, and doesn't punish people for raising concerns, builds what's sometimes called psychological safety \u2014 a team where people feel safe speaking up. For example, asking \"does anyone see a problem with this plan?\" and genuinely welcoming the answer, even if it's critical, makes a team far more likely to catch mistakes early."
+      },
+      {
+        "emoji": "\ud83d\ude4c",
+        "title": "Giving credit publicly and specifically",
+        "text": "Naming exactly who did what well, and doing it where others can hear, builds far more trust than a vague \"great job, team.\" For example, saying \"Priya's research is the reason our argument held up under questioning\" in front of the whole group recognizes a specific contribution in a way generic praise never does."
+      },
+      {
+        "emoji": "\ud83e\ude9e",
+        "title": "Owning mistakes publicly",
+        "text": "A leader who admits their own errors openly, instead of quietly fixing them or shifting blame, gives the whole team permission to be honest about mistakes too. For example, telling a team \"I misjudged how long this would take, that's on me, here's the new plan\" models the same honesty a leader expects from everyone else."
+      },
+      {
+        "emoji": "\ud83d\udd26",
+        "title": "Motivating through meaning, not just rewards",
+        "text": "People tend to stay engaged longer when they understand why their work matters, not just what reward they'll get for finishing it. For example, explaining to a volunteer that the fundraiser they're organizing will directly pay for a younger team's uniforms tends to motivate them more deeply than simply promising a pizza party."
       }
     ],
     "quiz": [
@@ -343,7 +519,7 @@
         "explanation": "Servant leadership puts the team's success ahead of the leader's own image."
       },
       {
-        "question": "Delegating social media but then rewriting every post yourself — what's actually happening?",
+        "question": "Delegating social media but then rewriting every post yourself \u2014 what's actually happening?",
         "choices": [
           "Micromanaging, not genuine delegation",
           "True delegation with real ownership"
@@ -372,7 +548,7 @@
       {
         "question": "Giving honest credit for an idea even when nobody would have noticed otherwise. What does this show?",
         "choices": [
-          "Leading with integrity — the same choice whether or not anyone's watching",
+          "Leading with integrity \u2014 the same choice whether or not anyone's watching",
           "Only acting ethically when being observed"
         ],
         "correctIndex": 0,
@@ -386,6 +562,33 @@
         ],
         "correctIndex": 0,
         "explanation": "Growing future leaders is itself a mark of strong, generous leadership."
+      },
+      {
+        "question": "A team captain stays late to help clean up gear without being asked. What does this demonstrate?",
+        "choices": [
+          "Leading by example",
+          "Delegating unpleasant tasks to others"
+        ],
+        "correctIndex": 0,
+        "explanation": "Teams take cues from what a leader actually does, not just what they say."
+      },
+      {
+        "question": "A leader asks \"does anyone see a problem with this plan?\" and welcomes critical answers. What is this building?",
+        "choices": [
+          "Psychological safety \u2014 a team that feels safe speaking up",
+          "A team that avoids raising concerns"
+        ],
+        "correctIndex": 0,
+        "explanation": "Inviting disagreement without punishing it helps a team catch mistakes early."
+      },
+      {
+        "question": "A leader says \"I misjudged how long this would take, that's on me.\" What does this model for the team?",
+        "choices": [
+          "That it's safe to be honest about mistakes",
+          "That mistakes should be hidden or blamed on others"
+        ],
+        "correctIndex": 0,
+        "explanation": "Owning mistakes publicly gives the whole team permission to be honest too."
       }
     ]
   }
