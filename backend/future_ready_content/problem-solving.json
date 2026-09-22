@@ -1,5 +1,5 @@
 {
-  "problem-solving-4-6": {
+  "problem-solving-4-6-p1": {
     "slides": [
       {
         "emoji": "🧩",
@@ -32,34 +32,24 @@
         "text": "When you solve a problem, feel proud! You worked hard to fix it."
       },
       {
-        "emoji": "🧦",
-        "title": "Sorting and matching",
-        "text": "Matching socks into pairs is fun practice. It helps you notice what goes together."
+        "emoji": "🧸",
+        "title": "A broken toy",
+        "text": "A toy can break. You can try to fix it, or ask a grown-up to help you."
       },
       {
-        "emoji": "🎯",
-        "title": "One step at a time",
-        "text": "You do not have to solve it all at once. Just do the next small step."
+        "emoji": "😮‍💨",
+        "title": "Take a breath",
+        "text": "Feeling upset is okay. Take a deep breath, then try again."
       },
       {
-        "emoji": "💭",
-        "title": "Think of a few ideas",
-        "text": "Try to think of two or three ideas. Then pick the best one to try."
+        "emoji": "🐢",
+        "title": "Going slow helps",
+        "text": "Going slow can help you. Rushing can cause more mistakes."
       },
       {
-        "emoji": "🤔",
-        "title": "What did you learn?",
-        "text": "After a mistake, think about what happened. It can help you do better next time."
-      },
-      {
-        "emoji": "💪",
-        "title": "Keep trying",
-        "text": "Do not give up too fast. Try one more time before you stop."
-      },
-      {
-        "emoji": "👀",
-        "title": "Look closely first",
-        "text": "Look closely before you start. Noticing small things can help you solve it."
+        "emoji": "⭐",
+        "title": "Practice makes it easier",
+        "text": "The more you practice, the easier it gets. Tying your shoes gets easier every time you try."
       }
     ],
     "quiz": [
@@ -111,12 +101,104 @@
       {
         "question": "You finally fix your tower. What should you do?",
         "choices": [
-          "Feel proud of yourself",
-          "Feel nothing at all"
+          "Feel nothing at all",
+          "Feel proud of yourself"
         ],
-        "correctIndex": 0,
+        "correctIndex": 1,
         "explanation": "It feels good to solve a problem."
       },
+      {
+        "question": "Your toy breaks. What can you do?",
+        "choices": [
+          "Try to fix it or ask for help",
+          "Throw it away right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "You can try to fix a broken toy, or ask a grown-up to help."
+      },
+      {
+        "question": "You feel upset about a problem. What should you do first?",
+        "choices": [
+          "Yell and stomp",
+          "Take a deep breath"
+        ],
+        "correctIndex": 1,
+        "explanation": "Taking a breath helps you feel calm before you try again."
+      },
+      {
+        "question": "Why can going slow help you?",
+        "choices": [
+          "It helps you make fewer mistakes",
+          "It always wastes time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Going slow helps you be careful and avoid mistakes."
+      },
+      {
+        "question": "Why does practice help with problems?",
+        "choices": [
+          "Practice never changes anything",
+          "It makes problems easier over time"
+        ],
+        "correctIndex": 1,
+        "explanation": "The more you practice something, the easier it becomes."
+      }
+    ]
+  },
+  "problem-solving-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "🧦",
+        "title": "Sorting and matching",
+        "text": "Matching socks into pairs is fun practice. It helps you notice what goes together."
+      },
+      {
+        "emoji": "🎯",
+        "title": "One step at a time",
+        "text": "You do not have to solve it all at once. Just do the next small step."
+      },
+      {
+        "emoji": "💭",
+        "title": "Think of a few ideas",
+        "text": "Try to think of two or three ideas. Then pick the best one to try."
+      },
+      {
+        "emoji": "🤔",
+        "title": "What did you learn?",
+        "text": "After a mistake, think about what happened. It can help you do better next time."
+      },
+      {
+        "emoji": "💪",
+        "title": "Keep trying",
+        "text": "Do not give up too fast. Try one more time before you stop."
+      },
+      {
+        "emoji": "👀",
+        "title": "Look closely first",
+        "text": "Look closely before you start. Noticing small things can help you solve it."
+      },
+      {
+        "emoji": "🐾",
+        "title": "Follow the clues",
+        "text": "Clues help you solve problems. If your snack is missing, look for crumbs to find out who took it."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Think before you act",
+        "text": "Thinking first helps. Before you grab a tool, think about what you need it for."
+      },
+      {
+        "emoji": "🎈",
+        "title": "Ask \"why\"",
+        "text": "Asking why helps you understand. Why did the balloon pop? Maybe it touched something sharp."
+      },
+      {
+        "emoji": "🧸",
+        "title": "Toy cleanup sort",
+        "text": "Putting toys into groups, like cars together and blocks together, makes cleanup faster."
+      }
+    ],
+    "quiz": [
       {
         "question": "What do you practice when you match socks?",
         "choices": [
@@ -129,10 +211,10 @@
       {
         "question": "Before you try to fix something, what should you do?",
         "choices": [
-          "Think of a few ideas first",
-          "Pick the very first idea only"
+          "Pick the very first idea only",
+          "Think of a few ideas first"
         ],
-        "correctIndex": 0,
+        "correctIndex": 1,
         "explanation": "Thinking of a few ideas helps you pick a good one."
       },
       {
@@ -152,55 +234,69 @@
         ],
         "correctIndex": 0,
         "explanation": "Trying again is how you solve problems."
+      },
+      {
+        "question": "You cannot find your favorite toy. What should you do first?",
+        "choices": [
+          "Look closely for small clues",
+          "Give up looking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Looking closely helps you notice things that can lead you to the answer."
+      },
+      {
+        "question": "Your snack is missing. What can crumbs on the floor help you do?",
+        "choices": [
+          "Find out who took it",
+          "Nothing, crumbs do not help"
+        ],
+        "correctIndex": 0,
+        "explanation": "Crumbs are a clue that can help you solve the mystery."
+      },
+      {
+        "question": "Before you grab a tool, what should you do?",
+        "choices": [
+          "Grab any tool without thinking",
+          "Think about what you need it for"
+        ],
+        "correctIndex": 1,
+        "explanation": "Thinking first helps you pick the right tool."
+      },
+      {
+        "question": "A balloon pops. What is a good question to ask?",
+        "choices": [
+          "Why did that happen?",
+          "Nothing, just walk away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking why helps you understand what happened."
+      },
+      {
+        "question": "How can you clean up toys faster?",
+        "choices": [
+          "Put similar toys into groups",
+          "Throw them all in one big pile"
+        ],
+        "correctIndex": 0,
+        "explanation": "Sorting toys into groups makes cleanup quicker and easier."
+      },
+      {
+        "question": "You do not have to solve a big job all at once. What should you do?",
+        "choices": [
+          "Do the next small step",
+          "Try to finish everything right now"
+        ],
+        "correctIndex": 0,
+        "explanation": "Taking one small step at a time makes a big job easier."
       }
     ]
   },
-  "problem-solving-7-9": {
+  "problem-solving-7-9-p1": {
     "slides": [
       {
         "emoji": "🔍",
         "title": "Understanding the real problem",
         "text": "Before you try to fix something, figure out what's really wrong. A toy robot might be broken, or it might just need new batteries."
-      },
-      {
-        "emoji": "💡",
-        "title": "Brainstorming ideas",
-        "text": "Coming up with a few ideas before choosing one usually works better than grabbing the first idea. To reach a high snack, you could use a step stool, ask someone, or use a broom."
-      },
-      {
-        "emoji": "🧪",
-        "title": "Trial and error",
-        "text": "Trial and error means trying something, checking if it works, and adjusting when it doesn't. If a step stool isn't tall enough, you try a taller one next."
-      },
-      {
-        "emoji": "📝",
-        "title": "Learning from what didn't work",
-        "text": "When a solution fails, figuring out why helps you avoid the same mistake later. If a paper airplane keeps nose-diving, a heavy nose is often the reason."
-      },
-      {
-        "emoji": "🤝",
-        "title": "Solving problems with others",
-        "text": "Working with someone else can bring up ideas you wouldn't think of alone. A friend might notice something about balance that you missed while building a tower."
-      },
-      {
-        "emoji": "⏸️",
-        "title": "Taking a break when stuck",
-        "text": "Stepping away from a tricky problem for a few minutes can help your brain find a fresh idea. After a short break, you often spot things you missed before."
-      },
-      {
-        "emoji": "🏆",
-        "title": "Comparing your solutions",
-        "text": "When you have more than one solution, think about which is fastest, easiest, or works best. Comparing options helps you pick the smartest one, not just the first one you thought of."
-      },
-      {
-        "emoji": "🔧",
-        "title": "Using tools to help",
-        "text": "The right tool can make a problem much easier to solve, like a ruler, a calculator, or a checklist. Measuring wood with a ruler instead of guessing keeps you from cutting the wrong size."
-      },
-      {
-        "emoji": "👀",
-        "title": "Looking from a new angle",
-        "text": "When a problem feels stuck, try looking at it in a totally different way. Imagining how a very organized friend would sort your toys might reveal an idea you missed."
       },
       {
         "emoji": "🧱",
@@ -213,14 +309,39 @@
         "text": "Asking the right question can point you straight to a solution. Instead of asking \"why is this broken,\" ask \"what changed right before it broke?\""
       },
       {
-        "emoji": "🧫",
-        "title": "Testing your idea first",
-        "text": "Trying a solution on a small scale first can catch problems early. Testing one paper airplane design before making ten of them saves time and paper."
+        "emoji": "💡",
+        "title": "Brainstorming ideas",
+        "text": "Coming up with a few ideas before choosing one usually works better than grabbing the first idea. To reach a high snack, you could use a step stool, ask someone, or use a broom."
       },
       {
-        "emoji": "😤",
-        "title": "Staying calm when frustrated",
-        "text": "Feeling frustrated is normal when a problem is hard to solve. Taking a breath and staying calm helps you think more clearly."
+        "emoji": "👀",
+        "title": "Looking from a new angle",
+        "text": "When a problem feels stuck, try looking at it in a totally different way. Imagining how a very organized friend would sort your toys might reveal an idea you missed."
+      },
+      {
+        "emoji": "🔧",
+        "title": "Using tools to help",
+        "text": "The right tool can make a problem much easier to solve, like a ruler, a calculator, or a checklist. Measuring wood with a ruler instead of guessing keeps you from cutting the wrong size."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Naming the problem out loud",
+        "text": "Saying or writing down the problem clearly helps you focus on fixing it. \"My science poster looks messy\" is a lot clearer than just feeling frustrated and not knowing why."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Picturing the goal",
+        "text": "Imagining exactly what \"finished\" looks like helps you know which ideas actually move you closer to it. Picture the finished blanket fort before you start grabbing pillows and chairs."
+      },
+      {
+        "emoji": "🔎",
+        "title": "Checking your assumptions",
+        "text": "Sometimes we assume we already know why something's wrong, but checking first can save a lot of wasted effort. A bike chain that slips might not need a whole new chain — check if it's just loose first."
+      },
+      {
+        "emoji": "🧩",
+        "title": "One clue at a time",
+        "text": "Solving a mystery problem, like why the Wi-Fi keeps disconnecting, often means checking one possible cause at a time instead of guessing randomly."
       }
     ],
     "quiz": [
@@ -234,6 +355,24 @@
         "explanation": "Understanding the real problem saves you from fixing the wrong thing."
       },
       {
+        "question": "How can a huge job like cleaning a garage feel easier?",
+        "choices": [
+          "Split it into smaller parts",
+          "Try to do it all in one go"
+        ],
+        "correctIndex": 0,
+        "explanation": "Smaller parts are much easier to tackle than one giant job."
+      },
+      {
+        "question": "Instead of asking \"why is this broken,\" what's a better question to ask?",
+        "choices": [
+          "Nothing, one question is as good as another",
+          "What changed right before it broke?"
+        ],
+        "correctIndex": 1,
+        "explanation": "A sharper question often points you straight toward the answer."
+      },
+      {
         "question": "What is \"brainstorming\"?",
         "choices": [
           "Thinking of a few solutions before choosing one",
@@ -242,6 +381,116 @@
         "correctIndex": 0,
         "explanation": "Brainstorming multiple ideas usually leads to a better choice."
       },
+      {
+        "question": "Your toy sorting is stuck. What might help?",
+        "choices": [
+          "Refusing to think about it any differently",
+          "Imagining how someone very organized would do it"
+        ],
+        "correctIndex": 1,
+        "explanation": "Looking at a problem from a new angle can reveal ideas you'd otherwise miss."
+      },
+      {
+        "question": "Why measure wood with a ruler instead of guessing?",
+        "choices": [
+          "It helps you avoid cutting the wrong size",
+          "Tools never actually help"
+        ],
+        "correctIndex": 0,
+        "explanation": "Using the right tool makes solving a problem easier."
+      },
+      {
+        "question": "Why is \"my science poster looks messy\" more useful than just feeling frustrated?",
+        "choices": [
+          "It clearly names what actually needs fixing",
+          "Feelings and problems are exactly the same thing"
+        ],
+        "correctIndex": 0,
+        "explanation": "Naming a problem clearly helps you focus your effort on fixing it."
+      },
+      {
+        "question": "Before building a blanket fort, why picture the finished fort first?",
+        "choices": [
+          "It helps you know which steps actually move you toward it",
+          "Picturing things never actually helps you plan"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear picture of the goal helps you choose the right next steps."
+      },
+      {
+        "question": "A bike chain keeps slipping. What should you check before buying a new chain?",
+        "choices": [
+          "Nothing, just replace it right away",
+          "Whether the chain is simply loose"
+        ],
+        "correctIndex": 1,
+        "explanation": "Checking your assumption first can save you time and money."
+      },
+      {
+        "question": "Your Wi-Fi keeps disconnecting for an unknown reason. What's a smart approach?",
+        "choices": [
+          "Check one possible cause at a time",
+          "Guess randomly and hope something works"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking one cause at a time is more reliable than random guessing."
+      }
+    ]
+  },
+  "problem-solving-7-9-p2": {
+    "slides": [
+      {
+        "emoji": "🧪",
+        "title": "Trial and error",
+        "text": "Trial and error means trying something, checking if it works, and adjusting when it doesn't. If a step stool isn't tall enough, you try a taller one next."
+      },
+      {
+        "emoji": "📝",
+        "title": "Learning from what didn't work",
+        "text": "When a solution fails, figuring out why helps you avoid the same mistake later. If a paper airplane keeps nose-diving, a heavy nose is often the reason."
+      },
+      {
+        "emoji": "🧫",
+        "title": "Testing your idea first",
+        "text": "Trying a solution on a small scale first can catch problems early. Testing one paper airplane design before making ten of them saves time and paper."
+      },
+      {
+        "emoji": "🏆",
+        "title": "Comparing your solutions",
+        "text": "When you have more than one solution, think about which is fastest, easiest, or works best. Comparing options helps you pick the smartest one, not just the first one you thought of."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Solving problems with others",
+        "text": "Working with someone else can bring up ideas you wouldn't think of alone. A friend might notice something about balance that you missed while building a tower."
+      },
+      {
+        "emoji": "⏸️",
+        "title": "Taking a break when stuck",
+        "text": "Stepping away from a tricky problem for a few minutes can help your brain find a fresh idea. After a short break, you often spot things you missed before."
+      },
+      {
+        "emoji": "😤",
+        "title": "Staying calm when frustrated",
+        "text": "Feeling frustrated is normal when a problem is hard to solve. Taking a breath and staying calm helps you think more clearly."
+      },
+      {
+        "emoji": "💫",
+        "title": "Bouncing back from a setback",
+        "text": "Treating a setback as one data point, not the end of the story, keeps you moving forward. Losing the first round of a game can just mean learning the other player's strategy for next time."
+      },
+      {
+        "emoji": "✅",
+        "title": "Knowing when \"good enough\" is good enough",
+        "text": "Not every solution has to be perfect. A tent that's a little crooked but still keeps out the rain is a perfectly fine solution for one night of camping."
+      },
+      {
+        "emoji": "📋",
+        "title": "Checking in halfway",
+        "text": "Partway through a long project, like a big Lego build, stopping to check if you're still on the right track can save you from redoing work later."
+      }
+    ],
+    "quiz": [
       {
         "question": "A step stool doesn't reach, so you try a taller one. What is this called?",
         "choices": [
@@ -259,6 +508,24 @@
         ],
         "correctIndex": 0,
         "explanation": "Knowing why something failed helps you fix it next time."
+      },
+      {
+        "question": "Why test one paper airplane design before making ten?",
+        "choices": [
+          "It catches problems early and saves time",
+          "Testing first is always a waste of time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Small tests reveal problems before you commit to a bigger effort."
+      },
+      {
+        "question": "You have three ways to fix a wobbly table leg. What should you do?",
+        "choices": [
+          "Just pick the first idea you had",
+          "Compare which is fastest, easiest, and works best"
+        ],
+        "correctIndex": 1,
+        "explanation": "Comparing options helps you choose the smartest solution."
       },
       {
         "question": "How can working with a friend help solve a problem?",
@@ -279,53 +546,44 @@
         "explanation": "Stepping away briefly can help you see the problem freshly."
       },
       {
-        "question": "You have three ways to fix a wobbly table leg. What should you do?",
-        "choices": [
-          "Compare which is fastest, easiest, and works best",
-          "Just pick the first idea you had"
-        ],
-        "correctIndex": 0,
-        "explanation": "Comparing options helps you choose the smartest solution."
-      },
-      {
-        "question": "Why measure wood with a ruler instead of guessing?",
-        "choices": [
-          "It helps you avoid cutting the wrong size",
-          "Tools never actually help"
-        ],
-        "correctIndex": 0,
-        "explanation": "Using the right tool makes solving a problem easier."
-      },
-      {
-        "question": "How can a huge job like cleaning a garage feel easier?",
-        "choices": [
-          "Split it into smaller parts",
-          "Try to do it all in one go"
-        ],
-        "correctIndex": 0,
-        "explanation": "Smaller parts are much easier to tackle than one giant job."
-      },
-      {
-        "question": "Why test one paper airplane design before making ten?",
-        "choices": [
-          "It catches problems early and saves time",
-          "Testing first is always a waste of time"
-        ],
-        "correctIndex": 0,
-        "explanation": "Small tests reveal problems before you commit to a bigger effort."
-      },
-      {
         "question": "You feel frustrated because a problem is hard. What helps?",
         "choices": [
-          "Taking a breath and staying calm",
-          "Getting angrier at the problem"
+          "Getting angrier at the problem",
+          "Taking a breath and staying calm"
+        ],
+        "correctIndex": 1,
+        "explanation": "Staying calm helps you think more clearly."
+      },
+      {
+        "question": "You lose the first round of a game. What's the most useful way to think about it?",
+        "choices": [
+          "As a chance to learn the other player's strategy",
+          "As proof you should quit the game"
         ],
         "correctIndex": 0,
-        "explanation": "Staying calm helps you think more clearly."
+        "explanation": "Treating a setback as useful information keeps you moving forward instead of giving up."
+      },
+      {
+        "question": "Your camping tent is a little crooked but keeps out the rain. What should you do?",
+        "choices": [
+          "Accept it — it's a good enough solution for one night",
+          "Refuse to camp until it's perfectly straight"
+        ],
+        "correctIndex": 0,
+        "explanation": "Not every solution needs to be perfect to be good enough."
+      },
+      {
+        "question": "Partway through a big Lego build, why pause to check your progress?",
+        "choices": [
+          "It can save you from redoing work later",
+          "Checking partway through never matters"
+        ],
+        "correctIndex": 0,
+        "explanation": "A halfway check can catch a mistake before it gets much bigger."
       }
     ]
   },
-  "problem-solving-10-13": {
+  "problem-solving-10-13-p1": {
     "slides": [
       {
         "emoji": "🧱",
@@ -343,31 +601,6 @@
         "text": "Once you've picked a solution, mapping out the order of steps needed to actually do it makes the plan far more likely to succeed. For example, if you decide to organize a class fundraiser, mapping out the order — get permission first, then plan the activity, then advertise it, then run it — keeps you from accidentally skipping something important like getting permission."
       },
       {
-        "emoji": "💪",
-        "title": "Sticking with it through frustration",
-        "text": "Problem solving often gets frustrating before it gets easier. Pushing through that middle, frustrating part is often exactly what separates success from giving up. For example, learning a new skateboard trick often involves falling repeatedly and feeling frustrated right before you finally land it — that frustrating middle stretch is completely normal, not a sign to quit."
-      },
-      {
-        "emoji": "🔄",
-        "title": "Adjusting the plan",
-        "text": "A good plan isn't set in stone — if something isn't working partway through, adjusting the plan is smarter than stubbornly sticking with a failing approach. For example, if your plan to raise money by selling baked goods isn't attracting buyers, switching to selling something else, or changing your location, is smarter than stubbornly sticking with a plan that clearly isn't working."
-      },
-      {
-        "emoji": "🎯",
-        "title": "Focusing on what you can control",
-        "text": "Some parts of a problem are out of your control. Focusing your energy on the parts you can actually influence tends to be far more productive. For example, you can't control whether it rains on the day of your outdoor event, but you can control having a backup indoor plan ready — focusing your energy there is far more useful than worrying about the weather."
-      },
-      {
-        "emoji": "📊",
-        "title": "Checking if it actually worked",
-        "text": "After trying a solution, honestly checking whether it actually solved the problem — not just whether it felt good to try — is an important last step. For example, if your new study method felt productive but your next test score didn't actually improve, honestly noticing that mismatch matters more than how the studying felt in the moment."
-      },
-      {
-        "emoji": "🧪",
-        "title": "Testing your solution safely",
-        "text": "Before rolling out a solution fully, trying it on a small scale first — like testing one part of a plan — helps catch problems before they get big. For example, before committing to selling 100 friendship bracelets at a big school fair, testing the idea by selling just 5 to classmates first can reveal pricing or design problems while the stakes are still small."
-      },
-      {
         "emoji": "🗂️",
         "title": "Organizing your approach",
         "text": "Writing down your plan, or listing the steps in order, helps you stay on track and notice quickly if something's been missed. For example, writing out \"1) buy supplies, 2) make the product, 3) set up the table, 4) advertise\" as an actual checklist makes it obvious if you forgot a step, instead of only realizing it halfway through."
@@ -378,19 +611,29 @@
         "text": "Before settling on an approach, it's worth generating several different possible solutions rather than running with the first one that comes to mind. For example, if your school project needs a creative presentation, brainstorming options like a poster, a short video, a model, or a skit — before picking one — usually leads to a stronger final choice than committing to your very first idea."
       },
       {
-        "emoji": "🙋",
-        "title": "Help isn't giving up",
-        "text": "Reaching out for help after genuinely trying on your own is a sign of good judgment, not a failure to solve the problem yourself. For example, if you've spent real effort troubleshooting a coding project and you're still stuck, asking a teacher or looking up a forum post written by someone who solved the same issue is a smart, efficient next step."
+        "emoji": "🗓️",
+        "title": "Setting a realistic deadline",
+        "text": "When planning the steps of a project, giving each step a rough deadline instead of a vague \"someday\" keeps a big task, like a science fair board, from turning into a last-minute scramble. For example, giving yourself Monday for research, Wednesday for the write-up, and Friday for the display keeps the whole project from piling up the night before it's due."
       },
       {
-        "emoji": "🔍",
-        "title": "Reflecting on mistakes",
-        "text": "Looking back at what went wrong after a mistake, and being specific about it, teaches you far more than just feeling bad about it. For example, if a group project fell behind schedule, figuring out exactly where it slipped — was it unclear roles, or a missed deadline — helps you avoid the same slip on the next project."
+        "emoji": "📋",
+        "title": "Must-haves vs. nice-to-haves",
+        "text": "When time is limited, separating what a solution absolutely needs from what would just be a nice bonus helps you spend your effort wisely. For example, for a class presentation, clearly explaining the topic is a must-have, while fancy slide animations are a nice-to-have that can wait if time runs short."
       },
       {
-        "emoji": "⏰",
-        "title": "Managing your time",
-        "text": "Solving a problem well often means managing how much time you spend on each part, instead of getting stuck perfecting one piece while ignoring the rest. For example, if you have a week to prepare for a debate, setting rough time limits for research, practice, and rebuttals keeps you from spending five days on research and only one day practicing."
+        "emoji": "🔀",
+        "title": "Choosing the right order",
+        "text": "Some steps have to happen before others, and planning the correct order prevents wasted, redo-it-all work. For example, you can't reasonably decorate a cake before you bake it — figuring out the right order first saves you from starting over."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Setting a clear goal before planning",
+        "text": "Before mapping out steps, it helps to state exactly what \"done\" looks like, since a fuzzy goal makes it hard to plan clear steps toward it. For example, \"raise $50 for the animal shelter\" gives you a clear target to plan around, while \"do a fundraiser\" leaves you guessing what success even means."
+      },
+      {
+        "emoji": "🗳️",
+        "title": "Getting a second opinion on your plan",
+        "text": "Before starting, showing your plan to someone else can catch a problem you missed, since it's easy to overlook gaps in your own plan. For example, a friend might notice your group project plan doesn't account for a teammate being absent one day, something you hadn't thought to plan around."
       }
     ],
     "quiz": [
@@ -412,6 +655,134 @@
         "correctIndex": 0,
         "explanation": "Comparing the upsides and downsides of options leads to better-informed choices."
       },
+      {
+        "question": "You decide to organize a class fundraiser. What should you do right after picking that solution?",
+        "choices": [
+          "Just start advertising with no plan",
+          "Map out the order of steps, like getting permission first"
+        ],
+        "correctIndex": 1,
+        "explanation": "Mapping out the right order of steps keeps you from skipping something important."
+      },
+      {
+        "question": "How does writing \"1) buy supplies, 2) make the product, 3) set up, 4) advertise\" as a checklist help?",
+        "choices": [
+          "It helps you stay on track and notice missed steps",
+          "Writing it down never actually helps"
+        ],
+        "correctIndex": 0,
+        "explanation": "A written plan makes it easier to follow through and catch gaps."
+      },
+      {
+        "question": "You're picking how to present a school project. What should you do before choosing?",
+        "choices": [
+          "Brainstorm several different options first",
+          "Commit to the very first idea you think of"
+        ],
+        "correctIndex": 0,
+        "explanation": "Generating multiple options first usually leads to a stronger final choice."
+      },
+      {
+        "question": "Why give each step of a science fair project its own rough deadline instead of a vague \"someday\"?",
+        "choices": [
+          "Deadlines only add unnecessary pressure",
+          "It keeps the project from becoming a last-minute scramble"
+        ],
+        "correctIndex": 1,
+        "explanation": "Rough deadlines for each step spread the work out instead of letting it pile up."
+      },
+      {
+        "question": "For a class presentation, why is clearly explaining the topic a \"must-have\" while fancy slide animations are a \"nice-to-have\"?",
+        "choices": [
+          "Animations always matter more than explaining the topic clearly",
+          "It helps you spend limited time on what actually matters most"
+        ],
+        "correctIndex": 1,
+        "explanation": "Separating essentials from extras helps you use limited time wisely."
+      },
+      {
+        "question": "Why can't you reasonably decorate a cake before you bake it?",
+        "choices": [
+          "Some steps have to happen before others in the right order",
+          "Order never actually matters when solving a problem"
+        ],
+        "correctIndex": 0,
+        "explanation": "Planning the correct order of steps prevents wasted, redo-it-all work."
+      },
+      {
+        "question": "Why is \"raise $50 for the animal shelter\" a better goal than \"do a fundraiser\"?",
+        "choices": [
+          "It's vague on purpose, which is always better",
+          "It gives you a clear target to plan concrete steps around"
+        ],
+        "correctIndex": 1,
+        "explanation": "A specific goal makes it much easier to plan clear steps toward it."
+      },
+      {
+        "question": "Why show your group project plan to a friend before starting?",
+        "choices": [
+          "They might catch a gap you overlooked, like a teammate's absence",
+          "Other people's opinions are never useful before starting"
+        ],
+        "correctIndex": 0,
+        "explanation": "A second opinion can catch a problem you missed on your own."
+      }
+    ]
+  },
+  "problem-solving-10-13-p2": {
+    "slides": [
+      {
+        "emoji": "💪",
+        "title": "Sticking with it through frustration",
+        "text": "Problem solving often gets frustrating before it gets easier. Pushing through that middle, frustrating part is often exactly what separates success from giving up. For example, learning a new skateboard trick often involves falling repeatedly and feeling frustrated right before you finally land it — that frustrating middle stretch is completely normal, not a sign to quit."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Adjusting the plan",
+        "text": "A good plan isn't set in stone — if something isn't working partway through, adjusting the plan is smarter than stubbornly sticking with a failing approach. For example, if your plan to raise money by selling baked goods isn't attracting buyers, switching to selling something else, or changing your location, is smarter than stubbornly sticking with a plan that clearly isn't working."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Focusing on what you can control",
+        "text": "Some parts of a problem are out of your control. Focusing your energy on the parts you can actually influence tends to be far more productive. For example, you can't control whether it rains on the day of your outdoor event, but you can control having a backup indoor plan ready — focusing your energy there is far more useful than worrying about the weather."
+      },
+      {
+        "emoji": "🧪",
+        "title": "Testing your solution safely",
+        "text": "Before rolling out a solution fully, trying it on a small scale first — like testing one part of a plan — helps catch problems before they get big. For example, before committing to selling 100 friendship bracelets at a big school fair, testing the idea by selling just 5 to classmates first can reveal pricing or design problems while the stakes are still small."
+      },
+      {
+        "emoji": "🔋",
+        "title": "Pacing yourself on a long problem",
+        "text": "Big problems that stretch over days or weeks, like training for a tryout, go better when you pace your effort evenly instead of burning out in the first two days. For example, spreading practice across the two weeks leading up to a tryout works better than cramming every drill into the first weekend and having nothing left by the actual tryout."
+      },
+      {
+        "emoji": "🚧",
+        "title": "Recognizing when you're truly stuck",
+        "text": "There's a difference between a task simply being hard and an approach genuinely not working at all, and noticing which one you're in tells you whether to push harder or change direction completely. For example, struggling to memorize lines for a play is normal and just needs more practice, but reciting them the exact same way for a week with zero improvement might mean trying a different memorization method instead."
+      },
+      {
+        "emoji": "🛠️",
+        "title": "Making a backup plan",
+        "text": "Before an important moment, like a class debate, having a backup plan ready for something going wrong keeps one small hiccup from derailing the whole thing. For example, if your debate partner might be absent that day, preparing to cover both sides yourself means one absence doesn't sink the whole plan."
+      },
+      {
+        "emoji": "🧯",
+        "title": "Managing frustration in the moment",
+        "text": "When frustration spikes in the middle of a task, pausing instead of forcing the same failing move harder usually solves it faster. For example, yanking harder on a stuck bike lock rarely helps, but pausing to recheck the combination often reveals a simple mistake, like one wrong number."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Noticing small wins along the way",
+        "text": "Long problems can feel discouraging if you only judge yourself by the final result, so noticing small pieces of progress along the way helps keep you motivated. For example, finally landing one new dance move correctly, even before mastering the whole routine, is real progress worth noticing."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Knowing when to change your entire approach",
+        "text": "Sometimes a small tweak isn't enough, and the smarter move is scrapping the current approach and starting fresh rather than patching something fundamentally flawed. For example, if a group project's poster layout is confusing no matter how it's tweaked, redesigning the whole layout from scratch can be faster than endlessly patching a flawed one."
+      }
+    ],
+    "quiz": [
       {
         "question": "Learning a new skateboard trick involves falling repeatedly right before landing it. Why does frustration often show up during problem solving?",
         "choices": [
@@ -440,15 +811,6 @@
         "explanation": "Directing effort toward controllable factors tends to be far more effective."
       },
       {
-        "question": "A new study method felt productive, but your test score didn't improve. What should you honestly check?",
-        "choices": [
-          "Whether it actually solved the real problem",
-          "Only whether it felt fun to try"
-        ],
-        "correctIndex": 0,
-        "explanation": "Checking real results, not just effort, tells you whether the problem is truly solved."
-      },
-      {
         "question": "Why test selling 5 bracelets to classmates before committing to 100 at a big fair?",
         "choices": [
           "It helps catch problems before they get big",
@@ -458,22 +820,123 @@
         "explanation": "A small test can surface issues before committing to the full solution."
       },
       {
-        "question": "How does writing \"1) buy supplies, 2) make the product, 3) set up, 4) advertise\" as a checklist help?",
+        "question": "Why spread tryout practice evenly across two weeks instead of cramming it all into the first weekend?",
         "choices": [
-          "It helps you stay on track and notice missed steps",
-          "Writing it down never actually helps"
+          "Cramming everything early always works better",
+          "It keeps you from burning out before the actual tryout"
         ],
-        "correctIndex": 0,
-        "explanation": "A written plan makes it easier to follow through and catch gaps."
+        "correctIndex": 1,
+        "explanation": "Pacing your effort across a long problem keeps you from running out of energy too early."
       },
       {
-        "question": "You're picking how to present a school project. What should you do before choosing?",
+        "question": "You've recited play lines the exact same way for a week with zero improvement. What might that mean?",
         "choices": [
-          "Brainstorm several different options first",
-          "Commit to the very first idea you think of"
+          "It might be worth trying a different memorization method",
+          "It definitely just needs a little more of the exact same practice"
         ],
         "correctIndex": 0,
-        "explanation": "Generating multiple options first usually leads to a stronger final choice."
+        "explanation": "No improvement despite real effort can be a sign to change your approach, not just repeat it."
+      },
+      {
+        "question": "Your debate partner might be absent on debate day. What's a smart move beforehand?",
+        "choices": [
+          "Assume it won't happen and make no backup plan",
+          "Prepare to cover both sides yourself just in case"
+        ],
+        "correctIndex": 1,
+        "explanation": "A backup plan keeps one hiccup from derailing something important."
+      },
+      {
+        "question": "A bike lock is stuck. What usually helps more than yanking on it harder?",
+        "choices": [
+          "Pausing to recheck the combination",
+          "Pulling even harder until it gives up"
+        ],
+        "correctIndex": 0,
+        "explanation": "Pausing and rechecking often reveals a simple mistake that force won't fix."
+      },
+      {
+        "question": "Why notice finally landing one new dance move, even before mastering the whole routine?",
+        "choices": [
+          "Small wins along the way help keep you motivated",
+          "Only the fully finished result ever counts as progress"
+        ],
+        "correctIndex": 0,
+        "explanation": "Recognizing small pieces of progress keeps you motivated through a long problem."
+      },
+      {
+        "question": "A group project's poster layout stays confusing no matter how it's tweaked. What's the smarter move?",
+        "choices": [
+          "Keep patching the same flawed layout forever",
+          "Redesign the whole layout from scratch"
+        ],
+        "correctIndex": 1,
+        "explanation": "Sometimes starting fresh is faster than endlessly patching something fundamentally flawed."
+      }
+    ]
+  },
+  "problem-solving-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "📊",
+        "title": "Checking if it actually worked",
+        "text": "After trying a solution, honestly checking whether it actually solved the problem — not just whether it felt good to try — is an important last step. For example, if your new study method felt productive but your next test score didn't actually improve, honestly noticing that mismatch matters more than how the studying felt in the moment."
+      },
+      {
+        "emoji": "🙋",
+        "title": "Help isn't giving up",
+        "text": "Reaching out for help after genuinely trying on your own is a sign of good judgment, not a failure to solve the problem yourself. For example, if you've spent real effort troubleshooting a coding project and you're still stuck, asking a teacher or looking up a forum post written by someone who solved the same issue is a smart, efficient next step."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Reflecting on mistakes",
+        "text": "Looking back at what went wrong after a mistake, and being specific about it, teaches you far more than just feeling bad about it. For example, if a group project fell behind schedule, figuring out exactly where it slipped — was it unclear roles, or a missed deadline — helps you avoid the same slip on the next project."
+      },
+      {
+        "emoji": "⏰",
+        "title": "Managing your time",
+        "text": "Solving a problem well often means managing how much time you spend on each part, instead of getting stuck perfecting one piece while ignoring the rest. For example, if you have a week to prepare for a debate, setting rough time limits for research, practice, and rebuttals keeps you from spending five days on research and only one day practicing."
+      },
+      {
+        "emoji": "📈",
+        "title": "Measuring success the right way",
+        "text": "Deciding upfront what \"success\" will look like makes it much easier to honestly judge afterward whether a solution actually worked. For example, deciding before a school clean-up event that success means \"at least 20 bags of trash collected\" gives you an honest way to measure it afterward, instead of just guessing based on how the day felt."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Trying again with a change",
+        "text": "If a first attempt falls short, trying again with one specific, intentional change is far more useful than simply repeating the exact same approach and hoping for a different result. For example, if a lemonade stand made little money on a slow street corner, moving to a busier corner next time is a specific change worth testing, rather than just setting up in the same spot again."
+      },
+      {
+        "emoji": "🗒️",
+        "title": "Keeping a simple problem-solving journal",
+        "text": "Jotting a quick note about what worked and what didn't right after solving something builds a habit of noticing patterns over time. For example, writing \"starting my homework right after school works better than after dinner\" after just a few tries can turn into a genuinely useful personal rule."
+      },
+      {
+        "emoji": "🎓",
+        "title": "Turning a mistake into a rule for next time",
+        "text": "Turning a specific mistake into a concrete rule makes the lesson much more likely to actually stick than just feeling bad about it. For example, after forgetting to charge a laptop before a presentation, the rule \"charge devices the night before, every time\" is far more useful than simply resolving to \"be more careful.\""
+      },
+      {
+        "emoji": "🌱",
+        "title": "Separating effort from outcome",
+        "text": "Sometimes you do everything right and still don't get the result you wanted, and recognizing that your effort was genuinely solid, separate from the outcome, matters. For example, trying out for a team with real preparation and still not making the roster doesn't mean the preparation was wasted — the outcome and the effort are two different things."
+      },
+      {
+        "emoji": "⏳",
+        "title": "Time-boxing a tricky task",
+        "text": "Giving yourself a set amount of time for one part of a problem, instead of an open-ended amount, keeps you from spending your whole time budget in a single place. For example, setting a firm 20-minute limit for research on a report keeps you from accidentally spending three hours there and having no time left to actually write it."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A new study method felt productive, but your test score didn't improve. What should you honestly check?",
+        "choices": [
+          "Whether it actually solved the real problem",
+          "Only whether it felt fun to try"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking real results, not just effort, tells you whether the problem is truly solved."
       },
       {
         "question": "You're stuck on a coding project after trying hard on your own. What's a smart move?",
@@ -492,10 +955,73 @@
         ],
         "correctIndex": 0,
         "explanation": "Being specific about what went wrong helps you avoid repeating it."
+      },
+      {
+        "question": "You have a week to prepare for a debate. Why set rough time limits for research, practice, and rebuttals?",
+        "choices": [
+          "Time limits only get in the way of good preparation",
+          "It keeps you from spending all your time on just one part"
+        ],
+        "correctIndex": 1,
+        "explanation": "Managing time across all the parts of a problem keeps any one piece from eating the whole schedule."
+      },
+      {
+        "question": "Why decide before a school clean-up event that success means \"at least 20 bags of trash collected\"?",
+        "choices": [
+          "It gives you an honest way to measure success afterward",
+          "Deciding this in advance ruins the event"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear measure of success set in advance makes honest evaluation possible later."
+      },
+      {
+        "question": "A lemonade stand made little money on a slow street corner. What's the smarter next move?",
+        "choices": [
+          "Set up in the exact same spot again and hope for better luck",
+          "Move to a busier corner as a specific, intentional change"
+        ],
+        "correctIndex": 1,
+        "explanation": "Trying again with one specific change is more useful than repeating the same approach."
+      },
+      {
+        "question": "Why jot down a quick note like \"homework right after school works better than after dinner\"?",
+        "choices": [
+          "It builds a habit of noticing useful patterns over time",
+          "Writing notes like this never actually helps"
+        ],
+        "correctIndex": 0,
+        "explanation": "A simple problem-solving journal helps you spot patterns you'd otherwise forget."
+      },
+      {
+        "question": "After forgetting to charge a laptop before a presentation, which is more useful?",
+        "choices": [
+          "Just resolving to \"be more careful\" next time",
+          "Making a concrete rule: \"charge devices the night before, every time\""
+        ],
+        "correctIndex": 1,
+        "explanation": "A specific rule is far more likely to actually change your behavior than a vague resolution."
+      },
+      {
+        "question": "You prepare well for a tryout but still don't make the team. What's true here?",
+        "choices": [
+          "The preparation was completely wasted",
+          "The effort was solid even though the outcome wasn't what you wanted"
+        ],
+        "correctIndex": 1,
+        "explanation": "Effort and outcome are separate — good effort doesn't guarantee a specific result."
+      },
+      {
+        "question": "Why set a firm 20-minute limit for research on a report?",
+        "choices": [
+          "It keeps research from eating all the time meant for writing",
+          "Time limits on research are never actually useful"
+        ],
+        "correctIndex": 0,
+        "explanation": "Time-boxing one part of a task protects time for the other parts that also need it."
       }
     ]
   },
-  "problem-solving-13-17": {
+  "problem-solving-13-17-p1": {
     "slides": [
       {
         "emoji": "🧭",
@@ -508,19 +1034,9 @@
         "text": "Instead of treating symptoms, root cause analysis asks 'why' repeatedly until you reach the actual underlying cause of a problem, not just its surface effects. For example, if you keep missing assignment deadlines, asking \"why?\" repeatedly might go: forgetting the due date → not writing it down → not having a consistent planner system — revealing that the real fix is a planning system, not just \"trying harder to remember.\""
       },
       {
-        "emoji": "🎨",
-        "title": "Creative and lateral thinking",
-        "text": "Sometimes the best solution comes from approaching a problem sideways — questioning assumptions or combining unrelated ideas — rather than the most obvious direct approach. For example, if a school club is struggling to attract new members through the usual sign-up sheet, borrowing a completely different idea — like a fun demo event from an unrelated club that worked well — might solve it better than just posting more flyers."
-      },
-      {
         "emoji": "📐",
         "title": "Deciding under real constraints",
         "text": "Real-world problems often come with limits — time, money, resources. Good problem solving works within those constraints instead of ignoring them. For example, planning a class fundraiser with only $20 of seed money and two weeks of prep time means the solution has to realistically fit those limits, not assume unlimited time and budget."
-      },
-      {
-        "emoji": "📉",
-        "title": "Treating failure as data",
-        "text": "A failed attempt isn't just a setback — it's information about what doesn't work, which narrows down what might work next. For example, if your first attempt at a part-time job application gets rejected, treating that as data — maybe your resume needs work, or you should apply to more places — is more useful than treating it as proof you're not employable."
       },
       {
         "emoji": "🧮",
@@ -528,44 +1044,34 @@
         "text": "When facing multiple problems at once, deciding which one to tackle first — based on urgency and impact — is itself an important problem-solving skill. For example, if you're behind on a homework assignment due tomorrow and also want to reorganize your room, tackling the urgent, high-impact homework first is the smarter priority, even if reorganizing feels more appealing right now."
       },
       {
-        "emoji": "🤝",
-        "title": "Collaborative problem solving",
-        "text": "Complex problems often benefit from multiple perspectives — dividing a big problem among a team can be far more effective than solving it entirely alone. For example, organizing a school event alone means one person handling logistics, marketing, and budget — but splitting those three areas among three people, each focusing on their strength, usually produces a much better result."
-      },
-      {
-        "emoji": "🔁",
-        "title": "Iterating toward a better solution",
-        "text": "Instead of expecting a perfect solution on the first try, iterating — improving a working-but-imperfect solution over several rounds — often produces the strongest result. For example, a first draft of a presentation might be rough, but reviewing and improving it two or three times — tightening the argument, fixing the slides — usually produces something far stronger than expecting perfection on the very first attempt."
-      },
-      {
-        "emoji": "🎲",
-        "title": "Problems with no perfect answer",
-        "text": "Some real problems don't have one clearly best solution — every option involves trade-offs. Choosing the option with the best overall balance is often the most realistic goal. For example, choosing between two part-time job offers might mean one pays more but has worse hours, while the other pays less but fits your schedule better — there's no perfect answer, just the best overall balance for your situation."
-      },
-      {
-        "emoji": "🧩",
-        "title": "Combining multiple solutions",
-        "text": "Sometimes the strongest answer isn't picking just one option, but combining the best parts of several different approaches into one. For example, instead of choosing purely between studying alone or in a group, combining both — reviewing material alone first, then discussing tricky parts in a group — often works better than either approach used entirely on its own."
-      },
-      {
-        "emoji": "🧠",
-        "title": "Watching out for your own bias",
-        "text": "Confirmation bias — the tendency to notice evidence that supports what you already believe, while ignoring evidence that doesn't — can quietly steer you toward the wrong solution. For example, if you're convinced a friend group is the reason your grades dropped, you might notice every distracting hangout but overlook the nights you stayed up late for other reasons, missing the real cause."
-      },
-      {
         "emoji": "🧱",
         "title": "First-principles thinking",
         "text": "First-principles thinking means breaking a problem down to its most basic, undeniable facts and building a solution up from there, instead of just copying how it's usually done. For example, instead of assuming a fundraiser has to be a bake sale because that's tradition, first-principles thinking asks what you actually need — attention and small donations — and then considers any way to get those two things."
       },
       {
-        "emoji": "🗣️",
-        "title": "Communicating your solution",
-        "text": "A good solution can fail simply because it wasn't explained clearly to the people who need to understand or approve it. For example, pitching a new club schedule to a teacher works better when you clearly state the problem, your proposed fix, and why it benefits everyone — not just handing over a vague idea and hoping they fill in the reasoning."
+        "emoji": "🧪",
+        "title": "The \"5 Whys\" technique",
+        "text": "A structured way to perform root cause analysis is asking \"why\" five times in a row, since the fifth answer is often far closer to the true root cause than the first. For example, \"why did I fail the quiz?\" leads to \"didn't study enough,\" then \"why?\" leads to \"started too late,\" then \"why?\" leads to \"no fixed study time\" — eventually revealing a scheduling problem, not a knowledge problem."
       },
       {
-        "emoji": "⚠️",
-        "title": "Weighing the risk before committing",
-        "text": "Before committing fully to a solution, it's worth asking what could go wrong and how bad that would actually be — this is basic risk assessment. For example, before investing your entire savings into a resale side-business, weighing the realistic chance of losing that money against the safer option of starting with just a fraction of it is a genuinely mature problem-solving step."
+        "emoji": "🎯",
+        "title": "Defining success before you start",
+        "text": "Deciding in advance exactly what a successful outcome looks like prevents quietly redefining \"success\" after the fact just to feel like you won. For example, deciding \"improve my mile time by 30 seconds\" before a training block begins gives you an honest, fixed way to judge the results later, rather than adjusting the bar afterward."
+      },
+      {
+        "emoji": "📏",
+        "title": "Scoping the problem correctly",
+        "text": "A problem defined too broadly, like \"fix my grades,\" is hard to act on, while one defined too narrowly, like \"get one extra point on Tuesday's quiz,\" misses the bigger picture — good scoping finds a useful middle ground. For example, \"raise my math grade this semester\" is specific enough to plan around, without being so narrow that it misses the actual goal."
+      },
+      {
+        "emoji": "🧱",
+        "title": "Distinguishing symptoms from causes",
+        "text": "A symptom is the visible effect, while the cause is what's actually producing it underneath, and treating only the symptom never fixes the real problem. For example, a phone that runs slowly is a symptom — restarting it daily treats the symptom, but clearing out the too-many background apps causing it addresses the actual cause."
+      },
+      {
+        "emoji": "🗂️",
+        "title": "Sequencing dependent problems",
+        "text": "Some problems must be solved before others even become solvable, so figuring out the right order matters as much as solving each piece. For example, it's not realistic to plan a road-trip budget before deciding on the route, since the route itself determines gas and lodging costs."
       }
     ],
     "quiz": [
@@ -588,15 +1094,6 @@
         "explanation": "Root cause analysis digs past symptoms to the actual source of a problem."
       },
       {
-        "question": "A club borrows an idea from an unrelated club to attract new members, instead of just posting more flyers. What does this show?",
-        "choices": [
-          "Lateral thinking — approaching a problem sideways",
-          "Only ever using the most obvious, direct approach"
-        ],
-        "correctIndex": 0,
-        "explanation": "Lateral thinking looks for less obvious angles that a direct approach might miss."
-      },
-      {
         "question": "Why should real-world constraints (like a $20 budget and two weeks) be part of a fundraiser plan?",
         "choices": [
           "Good solutions have to work within real limits",
@@ -604,15 +1101,6 @@
         ],
         "correctIndex": 0,
         "explanation": "Practical solutions account for the actual constraints they operate within."
-      },
-      {
-        "question": "A job application gets rejected. How should that be treated?",
-        "choices": [
-          "As data that narrows down what might work next",
-          "As proof that you're unemployable"
-        ],
-        "correctIndex": 0,
-        "explanation": "Failed attempts carry useful information, even though they didn't solve the problem outright."
       },
       {
         "question": "Homework is due tomorrow and your room could also use reorganizing. What helps decide which to tackle first?",
@@ -624,6 +1112,134 @@
         "explanation": "Prioritizing by urgency and impact focuses effort where it matters most."
       },
       {
+        "question": "Instead of assuming a fundraiser must be a bake sale, you ask what you actually need — attention and donations — and consider any way to get them. What is this approach called?",
+        "choices": [
+          "First-principles thinking",
+          "Iterating"
+        ],
+        "correctIndex": 0,
+        "explanation": "First-principles thinking rebuilds a solution from basic facts instead of tradition."
+      },
+      {
+        "question": "Asking \"why did I fail the quiz\" five times in a row eventually reveals a scheduling problem instead of a knowledge problem. What is this technique called?",
+        "choices": [
+          "The \"5 Whys\" technique",
+          "First-principles thinking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Repeatedly asking why pushes past the surface answer toward the true root cause."
+      },
+      {
+        "question": "Why decide \"improve my mile time by 30 seconds\" before training even begins?",
+        "choices": [
+          "It's more motivating to leave the goal undefined",
+          "It prevents quietly redefining success after the fact"
+        ],
+        "correctIndex": 1,
+        "explanation": "A fixed definition of success set in advance makes for an honest evaluation later."
+      },
+      {
+        "question": "Why is \"raise my math grade this semester\" better scoped than either \"fix my grades\" or \"get one extra point Tuesday\"?",
+        "choices": [
+          "It finds a useful middle ground between too broad and too narrow",
+          "Extremely broad or extremely narrow problems are always easiest to solve"
+        ],
+        "correctIndex": 0,
+        "explanation": "Good scoping avoids problems that are either too vague to act on or too small to matter."
+      },
+      {
+        "question": "A slow phone is restarted daily instead of having its background apps cleared out. What's the difference here?",
+        "choices": [
+          "Restarting treats the symptom; clearing apps addresses the actual cause",
+          "Restarting and clearing apps address the exact same thing"
+        ],
+        "correctIndex": 0,
+        "explanation": "A symptom is the visible effect, while the cause is what's actually producing it."
+      },
+      {
+        "question": "Why decide on a road-trip route before planning its budget?",
+        "choices": [
+          "The route determines costs like gas and lodging, so it must be decided first",
+          "Budgets and routes are always completely unrelated"
+        ],
+        "correctIndex": 0,
+        "explanation": "Some problems depend on others being solved first, so sequencing matters."
+      }
+    ]
+  },
+  "problem-solving-13-17-p2": {
+    "slides": [
+      {
+        "emoji": "🎨",
+        "title": "Creative and lateral thinking",
+        "text": "Sometimes the best solution comes from approaching a problem sideways — questioning assumptions or combining unrelated ideas — rather than the most obvious direct approach. For example, if a school club is struggling to attract new members through the usual sign-up sheet, borrowing a completely different idea — like a fun demo event from an unrelated club that worked well — might solve it better than just posting more flyers."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Collaborative problem solving",
+        "text": "Complex problems often benefit from multiple perspectives — dividing a big problem among a team can be far more effective than solving it entirely alone. For example, organizing a school event alone means one person handling logistics, marketing, and budget — but splitting those three areas among three people, each focusing on their strength, usually produces a much better result."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Iterating toward a better solution",
+        "text": "Instead of expecting a perfect solution on the first try, iterating — improving a working-but-imperfect solution over several rounds — often produces the strongest result. For example, a first draft of a presentation might be rough, but reviewing and improving it two or three times — tightening the argument, fixing the slides — usually produces something far stronger than expecting perfection on the very first attempt."
+      },
+      {
+        "emoji": "🧩",
+        "title": "Combining multiple solutions",
+        "text": "Sometimes the strongest answer isn't picking just one option, but combining the best parts of several different approaches into one. For example, instead of choosing purely between studying alone or in a group, combining both — reviewing material alone first, then discussing tricky parts in a group — often works better than either approach used entirely on its own."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Communicating your solution",
+        "text": "A good solution can fail simply because it wasn't explained clearly to the people who need to understand or approve it. For example, pitching a new club schedule to a teacher works better when you clearly state the problem, your proposed fix, and why it benefits everyone — not just handing over a vague idea and hoping they fill in the reasoning."
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Dividing roles by strength, not fairness",
+        "text": "When splitting a group problem, assigning tasks based on who's strongest at each part, rather than splitting everything evenly, usually produces a better final result, even if the split looks uneven on paper. For example, letting the strongest writer handle the script and the strongest designer handle the visuals produces a stronger group project than insisting everyone do a little of everything."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Building on someone else's idea",
+        "text": "In group problem-solving, improving a teammate's half-formed idea often works better than scrapping it for a completely different one — refining tends to beat restarting. For example, if a teammate suggests a rough theme for a fundraiser, sharpening that idea together usually gets further than arguing for an entirely separate concept from scratch."
+      },
+      {
+        "emoji": "🧩",
+        "title": "Borrowing solutions from unrelated fields",
+        "text": "Lateral thinking often means noticing that a solution from a completely different area applies here too, not just staring harder at the problem itself. For example, using a restaurant's \"text you when your table's ready\" idea to manage sign-ups for a crowded school club meeting solves a scheduling problem by borrowing from an unrelated industry."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Explaining the \"why,\" not just the \"what\"",
+        "text": "When pitching a solution to someone with the power to approve it, like a teacher or a parent, explaining the reasoning behind the choice is usually more persuasive than just stating the plan itself. For example, explaining why a later club meeting time fits more students' schedules is more convincing than simply asking for the time to be changed."
+      },
+      {
+        "emoji": "🔂",
+        "title": "Getting feedback before the final version",
+        "text": "Sharing an early draft of a solution and asking specifically what's confusing or weak produces better results than polishing alone in isolation and hoping it lands. For example, showing a rough draft of a presentation to a friend and asking \"what part is confusing?\" catches problems that are hard to see after staring at your own work for hours."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A club borrows an idea from an unrelated club to attract new members, instead of just posting more flyers. What does this show?",
+        "choices": [
+          "Lateral thinking — approaching a problem sideways",
+          "Only ever using the most obvious, direct approach"
+        ],
+        "correctIndex": 0,
+        "explanation": "Lateral thinking looks for less obvious angles that a direct approach might miss."
+      },
+      {
+        "question": "Organizing a school event alone means handling logistics, marketing, and budget all yourself. What usually produces a better result?",
+        "choices": [
+          "Splitting those three areas among three people, each using their strength",
+          "Insisting one person handle everything alone"
+        ],
+        "correctIndex": 0,
+        "explanation": "Dividing a complex problem among a team often works better than solving it entirely alone."
+      },
+      {
         "question": "A rough presentation draft is improved over two or three rounds instead of expected to be perfect immediately. What is this called?",
         "choices": [
           "Iterating — improving a working-but-imperfect solution over rounds",
@@ -631,15 +1247,6 @@
         ],
         "correctIndex": 0,
         "explanation": "Iteration builds toward a strong solution gradually, rather than all at once."
-      },
-      {
-        "question": "Two job offers each have trade-offs (better pay vs. better hours). What is realistic here?",
-        "choices": [
-          "Choosing the option with the best overall balance of trade-offs",
-          "Refusing to decide until a perfect option appears"
-        ],
-        "correctIndex": 0,
-        "explanation": "Many real problems require accepting trade-offs rather than finding a flawless solution."
       },
       {
         "question": "Studying alone first, then discussing tricky parts in a group, combines two approaches. What can this produce?",
@@ -651,6 +1258,134 @@
         "explanation": "Blending strong elements from multiple solutions can outperform any single one."
       },
       {
+        "question": "Why might a good solution fail even if the idea itself is solid?",
+        "choices": [
+          "It wasn't clearly explained to the people who need to approve it",
+          "Good ideas can never fail for any reason"
+        ],
+        "correctIndex": 0,
+        "explanation": "Clear communication is often as important as the solution itself."
+      },
+      {
+        "question": "Why let the strongest writer handle the script and the strongest designer handle the visuals, instead of splitting every task evenly?",
+        "choices": [
+          "It usually produces a better final result even if the split looks uneven",
+          "Every task should always be split perfectly evenly no matter what"
+        ],
+        "correctIndex": 0,
+        "explanation": "Assigning roles by strength tends to produce a stronger outcome than strict fairness."
+      },
+      {
+        "question": "A teammate suggests a rough fundraiser theme. What usually works better than proposing a totally different idea?",
+        "choices": [
+          "Scrapping it immediately for something unrelated",
+          "Sharpening and building on that half-formed idea together"
+        ],
+        "correctIndex": 1,
+        "explanation": "Refining an existing idea often gets further than restarting from scratch."
+      },
+      {
+        "question": "Using a restaurant's \"text you when your table's ready\" idea to manage sign-ups for a crowded club meeting is an example of what?",
+        "choices": [
+          "Borrowing a solution from a completely unrelated field",
+          "Sticking strictly to solutions already used in that same field"
+        ],
+        "correctIndex": 0,
+        "explanation": "Lateral thinking often means noticing a solution from elsewhere applies here too."
+      },
+      {
+        "question": "When pitching a later club meeting time to a teacher, what's usually more persuasive than just stating the request?",
+        "choices": [
+          "Explaining why it fits more students' schedules",
+          "Leaving out the reasoning and just stating the plan"
+        ],
+        "correctIndex": 0,
+        "explanation": "Explaining the reasoning behind a solution tends to be more convincing than the request alone."
+      },
+      {
+        "question": "Why show a rough draft to a friend and ask \"what part is confusing?\" before finishing it?",
+        "choices": [
+          "It catches problems that are hard to see after staring at your own work for hours",
+          "Feedback on an unfinished draft is always a waste of time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Early feedback often reveals weak spots you can no longer see in your own work."
+      }
+    ]
+  },
+  "problem-solving-13-17-p3": {
+    "slides": [
+      {
+        "emoji": "📉",
+        "title": "Treating failure as data",
+        "text": "A failed attempt isn't just a setback — it's information about what doesn't work, which narrows down what might work next. For example, if your first attempt at a part-time job application gets rejected, treating that as data — maybe your resume needs work, or you should apply to more places — is more useful than treating it as proof you're not employable."
+      },
+      {
+        "emoji": "🎲",
+        "title": "Problems with no perfect answer",
+        "text": "Some real problems don't have one clearly best solution — every option involves trade-offs. Choosing the option with the best overall balance is often the most realistic goal. For example, choosing between two part-time job offers might mean one pays more but has worse hours, while the other pays less but fits your schedule better — there's no perfect answer, just the best overall balance for your situation."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Watching out for your own bias",
+        "text": "Confirmation bias — the tendency to notice evidence that supports what you already believe, while ignoring evidence that doesn't — can quietly steer you toward the wrong solution. For example, if you're convinced a friend group is the reason your grades dropped, you might notice every distracting hangout but overlook the nights you stayed up late for other reasons, missing the real cause."
+      },
+      {
+        "emoji": "⚠️",
+        "title": "Weighing the risk before committing",
+        "text": "Before committing fully to a solution, it's worth asking what could go wrong and how bad that would actually be — this is basic risk assessment. For example, before investing your entire savings into a resale side-business, weighing the realistic chance of losing that money against the safer option of starting with just a fraction of it is a genuinely mature problem-solving step."
+      },
+      {
+        "emoji": "🎭",
+        "title": "Sunk cost fallacy",
+        "text": "Continuing to pour time or money into a failing plan just because a lot has already been invested in it is called the sunk cost fallacy — a rational decision should weigh what happens next, not what's already spent. For example, finishing a club project that clearly isn't working just because months were already put into it can waste even more time than cutting losses and stopping now."
+      },
+      {
+        "emoji": "🧊",
+        "title": "Cooling off before a big decision",
+        "text": "For a decision with real consequences, deliberately waiting a day before finalizing it can prevent an emotional, in-the-moment choice that gets regretted later. For example, waiting until the next day to decide whether to quit a team, instead of deciding right after a frustrating loss, usually leads to a clearer-headed choice."
+      },
+      {
+        "emoji": "🎲",
+        "title": "Estimating probability, not just possibility",
+        "text": "Almost anything is technically \"possible,\" but good risk assessment asks how likely something actually is, not just whether it could theoretically happen. For example, worrying equally about a common risk, like forgetting a permission slip, and a rare one, like a citywide event cancellation, leads to spending energy in the wrong place."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Anchoring bias",
+        "text": "The first number or idea encountered tends to unfairly influence judgment of everything that comes after it, even when that first piece of information wasn't especially reliable. For example, assuming a certain price is fair for a used bike just because the first listing seen happened to be expensive can lead to overpaying later without realizing it."
+      },
+      {
+        "emoji": "🪞",
+        "title": "Checking your own blind spots",
+        "text": "Because it's genuinely hard to spot your own biases, asking someone with a different perspective to review a big decision can reveal a blind spot that would otherwise go unnoticed. For example, a friend outside a friend group's dynamics might notice a plan is unfair to one member in a way the friend group itself completely missed."
+      },
+      {
+        "emoji": "🌐",
+        "title": "Considering second-order effects",
+        "text": "Beyond the immediate result, a good solution also considers what happens next because of it, not just whether it solves the first problem. For example, a strict new team rule might solve one immediate problem but cause several teammates to quit — a second-order effect worth predicting before the rule is put in place."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A job application gets rejected. How should that be treated?",
+        "choices": [
+          "As data that narrows down what might work next",
+          "As proof that you're unemployable"
+        ],
+        "correctIndex": 0,
+        "explanation": "Failed attempts carry useful information, even though they didn't solve the problem outright."
+      },
+      {
+        "question": "Two job offers each have trade-offs (better pay vs. better hours). What is realistic here?",
+        "choices": [
+          "Choosing the option with the best overall balance of trade-offs",
+          "Refusing to decide until a perfect option appears"
+        ],
+        "correctIndex": 0,
+        "explanation": "Many real problems require accepting trade-offs rather than finding a flawless solution."
+      },
+      {
         "question": "You're sure a friend group caused your grades to drop, and you keep noticing evidence that fits that idea while ignoring other explanations. What is this called?",
         "choices": [
           "Confirmation bias",
@@ -660,22 +1395,67 @@
         "explanation": "Confirmation bias means favoring evidence that fits what you already believe."
       },
       {
-        "question": "Instead of assuming a fundraiser must be a bake sale, you ask what you actually need — attention and donations — and consider any way to get them. What is this approach called?",
+        "question": "Before investing your entire savings into a resale side-business, what is the mature problem-solving step?",
         "choices": [
-          "First-principles thinking",
-          "Iterating"
+          "Weighing the realistic chance of loss against starting with just a fraction of the money",
+          "Investing everything at once without considering what could go wrong"
         ],
         "correctIndex": 0,
-        "explanation": "First-principles thinking rebuilds a solution from basic facts instead of tradition."
+        "explanation": "Weighing risk before committing fully is a key part of good decision-making."
       },
       {
-        "question": "Why might a good solution fail even if the idea itself is solid?",
+        "question": "A club project clearly isn't working, but months have already gone into it. What is it called to keep going anyway just because of that past investment?",
         "choices": [
-          "It wasn't clearly explained to the people who need to approve it",
-          "Good ideas can never fail for any reason"
+          "The sunk cost fallacy",
+          "Root cause analysis"
         ],
         "correctIndex": 0,
-        "explanation": "Clear communication is often as important as the solution itself."
+        "explanation": "The sunk cost fallacy is letting past investment, rather than future outcomes, drive a decision."
+      },
+      {
+        "question": "Why wait a day before deciding whether to quit a team, instead of deciding right after a frustrating loss?",
+        "choices": [
+          "Waiting can prevent an emotional decision that gets regretted later",
+          "Decisions made immediately after strong emotions are always the clearest"
+        ],
+        "correctIndex": 0,
+        "explanation": "Cooling off before a big decision helps avoid a choice driven purely by the moment's emotion."
+      },
+      {
+        "question": "Why is worrying equally about a common risk and a rare one a mistake?",
+        "choices": [
+          "Good risk assessment estimates how likely something actually is, not just whether it's possible",
+          "Every possible risk deserves exactly equal amounts of worry"
+        ],
+        "correctIndex": 0,
+        "explanation": "Estimating actual likelihood, not just theoretical possibility, leads to better risk decisions."
+      },
+      {
+        "question": "Seeing an expensive first bike listing makes every other price seem reasonable by comparison. What is this called?",
+        "choices": [
+          "Anchoring bias",
+          "Sunk cost fallacy"
+        ],
+        "correctIndex": 0,
+        "explanation": "Anchoring bias is letting the first piece of information unfairly shape later judgments."
+      },
+      {
+        "question": "Why might a friend outside a friend group notice a plan is unfair to one member when the group itself missed it?",
+        "choices": [
+          "An outside perspective can reveal a blind spot you can't see on your own",
+          "People inside a situation always see it more clearly than outsiders"
+        ],
+        "correctIndex": 0,
+        "explanation": "Getting an outside perspective can catch a bias or blind spot that's hard to see from the inside."
+      },
+      {
+        "question": "A strict new team rule solves one problem but causes several teammates to quit. What is this an example of?",
+        "choices": [
+          "A second-order effect worth predicting in advance",
+          "Something that could never have been predicted"
+        ],
+        "correctIndex": 0,
+        "explanation": "Good solutions consider what happens next because of them, not just the immediate fix."
       }
     ]
   }

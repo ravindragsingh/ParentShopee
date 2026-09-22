@@ -1,5 +1,5 @@
 {
-  "money-value-4-6": {
+  "money-value-4-6-p1": {
     "slides": [
       {
         "emoji": "💰",
@@ -11,6 +11,102 @@
         "title": "Money usually comes from work",
         "text": "Most money comes from work, like a job. Kids can earn money too, by doing chores."
       },
+      {
+        "emoji": "🧹",
+        "title": "Doing chores to earn money",
+        "text": "Chores are jobs you do at home, like sweeping or feeding a pet. Doing chores is one way kids can earn money."
+      },
+      {
+        "emoji": "🧺",
+        "title": "Some chores pay more than others",
+        "text": "A big chore, like cleaning a whole room, can pay more than a small chore, like putting away one toy. Bigger jobs often earn more money."
+      },
+      {
+        "emoji": "💵",
+        "title": "Getting an allowance",
+        "text": "Some kids get a little money each week. This regular money is called an allowance."
+      },
+      {
+        "emoji": "🔢",
+        "title": "Counting your money",
+        "text": "You can count your coins to see how much you have. Counting first helps you know what you can buy."
+      },
+      {
+        "emoji": "💪",
+        "title": "Earning money feels good",
+        "text": "Money you earn yourself can feel extra special. You worked hard, so you earned it."
+      },
+      {
+        "emoji": "🔒",
+        "title": "Keeping your money safe",
+        "text": "Keeping your money safe means not losing it. A piggy bank or a wallet is a safe place for it."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is money used for?",
+        "choices": ["Buying things you need or want", "It has no real use"],
+        "correctIndex": 0,
+        "explanation": "Money lets you trade for toys, food, and other things."
+      },
+      {
+        "question": "Where does most money come from?",
+        "choices": ["Work, like a job or chores", "It just appears with no reason"],
+        "correctIndex": 0,
+        "explanation": "People earn money by working, and kids can earn it through chores."
+      },
+      {
+        "question": "What is a chore?",
+        "choices": ["A job you do, like sweeping or feeding a pet", "A kind of candy"],
+        "correctIndex": 0,
+        "explanation": "Chores are jobs you can do at home to help out and earn money."
+      },
+      {
+        "question": "Which chore would likely pay more?",
+        "choices": ["Cleaning a whole room", "Putting away one toy"],
+        "correctIndex": 0,
+        "explanation": "Bigger chores that take more work usually pay more."
+      },
+      {
+        "question": "What is an allowance?",
+        "choices": ["A little money you get regularly", "A type of toy"],
+        "correctIndex": 0,
+        "explanation": "An allowance is money you might get each week."
+      },
+      {
+        "question": "Why count your money?",
+        "choices": ["To know how much you have", "Counting money is not useful"],
+        "correctIndex": 0,
+        "explanation": "Counting helps you know what you can buy."
+      },
+      {
+        "question": "Why can earned money feel extra special?",
+        "choices": ["Because you worked hard for it", "Earned money feels just like any other money"],
+        "correctIndex": 0,
+        "explanation": "Working for your money can make it feel extra good."
+      },
+      {
+        "question": "Where is a safe place to keep your money?",
+        "choices": ["A piggy bank or a wallet", "Anywhere on the floor"],
+        "correctIndex": 0,
+        "explanation": "A piggy bank or wallet keeps your money from getting lost."
+      },
+      {
+        "question": "Why is it good to keep your money safe?",
+        "choices": ["So you don't lose it before you can use it", "Because money is not important"],
+        "correctIndex": 0,
+        "explanation": "Keeping money safe means it's still there when you need it."
+      },
+      {
+        "question": "What can you do before you spend your allowance?",
+        "choices": ["Count it to see how much you have", "Just guess and hope it's enough"],
+        "correctIndex": 0,
+        "explanation": "Counting first helps you know exactly what you can buy."
+      }
+    ]
+  },
+  "money-value-4-6-p2": {
+    "slides": [
       {
         "emoji": "🆚",
         "title": "Needs vs. wants",
@@ -32,9 +128,9 @@
         "text": "You cannot buy every single thing you want. Picking one thing means waiting for another."
       },
       {
-        "emoji": "💪",
-        "title": "Earning money feels good",
-        "text": "Money you earn yourself can feel extra special. You worked hard, so you earned it."
+        "emoji": "🏷️",
+        "title": "Comparing prices",
+        "text": "The same toy can cost different amounts. Checking two stores first can save you money."
       },
       {
         "emoji": "🎁",
@@ -42,39 +138,22 @@
         "text": "You can use money to help other people. Giving someone a gift shows that you care."
       },
       {
-        "emoji": "🏷️",
-        "title": "Comparing prices",
-        "text": "The same toy can cost different amounts. Checking two stores first can save you money."
+        "emoji": "🛒",
+        "title": "Choosing at the store",
+        "text": "At the store, you might only have enough for one thing. Picking your favorite is part of shopping."
       },
       {
-        "emoji": "💵",
-        "title": "Getting an allowance",
-        "text": "Some kids get a little money each week. This regular money is called an allowance."
+        "emoji": "🍬",
+        "title": "A small treat or a bigger toy",
+        "text": "A small treat costs a little and is gone fast. A bigger toy costs more but can last a long time."
       },
       {
-        "emoji": "🔢",
-        "title": "Counting your money",
-        "text": "You can count your coins to see how much you have. Counting first helps you know what you can buy."
-      },
-      {
-        "emoji": "🔒",
-        "title": "Keeping your money safe",
-        "text": "Keeping your money safe means not losing it. A piggy bank or a wallet is a safe place for it."
+        "emoji": "❓",
+        "title": "Ask yourself: need or want?",
+        "text": "Before you buy something, ask if you need it or just want it. This helps you pick what matters most."
       }
     ],
     "quiz": [
-      {
-        "question": "What is money used for?",
-        "choices": ["Buying things you need or want", "It has no real use"],
-        "correctIndex": 0,
-        "explanation": "Money lets you trade for toys, food, and other things."
-      },
-      {
-        "question": "Where does most money come from?",
-        "choices": ["Work, like a job or chores", "It just appears with no reason"],
-        "correctIndex": 0,
-        "explanation": "People earn money by working, and kids can earn it through chores."
-      },
       {
         "question": "Which one is a need, not a want?",
         "choices": ["Food to eat", "A new toy"],
@@ -100,10 +179,10 @@
         "explanation": "Buying one thing can mean waiting on another."
       },
       {
-        "question": "Why can earned money feel extra special?",
-        "choices": ["Because you worked hard for it", "Earned money feels just like any other money"],
+        "question": "Why check prices at two different stores?",
+        "choices": ["The same toy can cost less somewhere else", "Prices are always exactly the same everywhere"],
         "correctIndex": 0,
-        "explanation": "Working for your money can make it feel extra good."
+        "explanation": "Checking prices first can help you spend less."
       },
       {
         "question": "What is one kind way to use money?",
@@ -112,26 +191,32 @@
         "explanation": "Money can help or delight other people too."
       },
       {
-        "question": "Why check prices at two different stores?",
-        "choices": ["The same toy can cost less somewhere else", "Prices are always exactly the same everywhere"],
+        "question": "At the store, why might you pick just one thing?",
+        "choices": ["You might only have enough money for one", "Stores only allow one item per visit"],
         "correctIndex": 0,
-        "explanation": "Checking prices first can help you spend less."
+        "explanation": "When you have a little money, picking your favorite is part of shopping."
       },
       {
-        "question": "What is an allowance?",
-        "choices": ["A little money you get regularly", "A type of toy"],
+        "question": "What is true about a small treat?",
+        "choices": ["It costs a little and is gone fast", "It always costs more than a toy"],
         "correctIndex": 0,
-        "explanation": "An allowance is money you might get each week."
+        "explanation": "Treats are usually cheap but don't last very long."
       },
       {
-        "question": "Why count your money?",
-        "choices": ["To know how much you have", "Counting money is not useful"],
+        "question": "What should you ask before buying something?",
+        "choices": ["Do I need it, or do I just want it?", "How fast can I buy it?"],
         "correctIndex": 0,
-        "explanation": "Counting helps you know what you can buy."
+        "explanation": "Asking need or want helps you choose what matters most."
+      },
+      {
+        "question": "Why is picking a bigger toy over a small treat sometimes a good choice?",
+        "choices": ["The toy can last a long time", "The toy always costs less"],
+        "correctIndex": 0,
+        "explanation": "A bigger toy might cost more, but it can be fun for much longer."
       }
     ]
   },
-  "money-value-7-9": {
+  "money-value-7-9-p1": {
     "slides": [
       {
         "emoji": "💵",
@@ -144,14 +229,110 @@
         "text": "A budget is a plan for your money, deciding ahead how much to save and how much to spend. If you get 20 points a week, saving 10 and spending 10 is a simple budget."
       },
       {
-        "emoji": "🏷️",
-        "title": "Comparing prices",
-        "text": "The same item can cost different amounts at different stores, so checking first can help your money go further. Comparing prices before buying might save you a few extra points to spend later."
+        "emoji": "🧹",
+        "title": "Different chores, different pay",
+        "text": "Bigger or harder chores are usually worth more points than quick, easy ones. Cleaning the whole garage might earn more than wiping a table, because it takes more effort."
+      },
+      {
+        "emoji": "✂️",
+        "title": "Splitting your allowance three ways",
+        "text": "You can split your allowance three ways: spend some, save some, and give some. Splitting it up helps you enjoy money now while still planning for later."
+      },
+      {
+        "emoji": "📒",
+        "title": "Keeping track of your money",
+        "text": "Writing down how much you earn and spend helps you make smarter choices instead of guessing. Keeping a simple list each week can show you when you're saving less than you thought."
       },
       {
         "emoji": "🎯",
         "title": "Setting a savings goal",
         "text": "Picking something specific to save for makes saving feel more exciting than saving with no goal at all. If a toy costs 40 points and you save 10 a week, you'll reach it in 4 weeks."
+      },
+      {
+        "emoji": "💰",
+        "title": "Bonus pay for extra effort",
+        "text": "Some chores might have bonus points if you do them especially well or fast. Bonus pay rewards going above and beyond what was asked."
+      },
+      {
+        "emoji": "📅",
+        "title": "Planning your week's money",
+        "text": "Before you spend your allowance, think about the whole week ahead. Planning ahead helps you avoid running out of points early in the week."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Small goals build big habits",
+        "text": "Saving for a small goal today builds a habit that helps with bigger goals later. Little goals are good practice for the bigger ones down the road."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is an allowance?",
+        "choices": ["Money a kid might get regularly to practice managing", "A type of toy"],
+        "correctIndex": 0,
+        "explanation": "An allowance is regular money meant to help kids practice money decisions."
+      },
+      {
+        "question": "What is a budget?",
+        "choices": ["A plan for how much you'll save and spend", "A place to keep candy"],
+        "correctIndex": 0,
+        "explanation": "A budget is simply a plan for your money."
+      },
+      {
+        "question": "What does setting a savings goal help with?",
+        "choices": ["Making saving feel more exciting and figuring out a timeline", "It makes no difference at all"],
+        "correctIndex": 0,
+        "explanation": "A specific goal makes saving feel more purposeful and trackable."
+      },
+      {
+        "question": "Why keep track of what you earn and spend?",
+        "choices": ["It helps you make smarter choices instead of guessing", "Tracking money is a waste of time"],
+        "correctIndex": 0,
+        "explanation": "Keeping track helps you notice patterns and plan better."
+      },
+      {
+        "question": "What does splitting your allowance three ways mean?",
+        "choices": ["Some to spend, some to save, some to give", "Spending every point the moment you get it"],
+        "correctIndex": 0,
+        "explanation": "Splitting your money helps you enjoy some now while planning ahead."
+      },
+      {
+        "question": "Do harder chores usually pay the same as easy ones?",
+        "choices": ["No, harder chores often pay more", "Yes, every chore pays exactly the same"],
+        "correctIndex": 0,
+        "explanation": "Bigger or harder chores are usually worth more points than quick, easy ones."
+      },
+      {
+        "question": "What is bonus pay?",
+        "choices": ["Extra money for doing something especially well", "Money you never actually receive"],
+        "correctIndex": 0,
+        "explanation": "Bonus pay rewards going above and beyond what was asked."
+      },
+      {
+        "question": "Why plan your money for the whole week?",
+        "choices": ["It helps you avoid running out early", "Planning makes no difference to how far money goes"],
+        "correctIndex": 0,
+        "explanation": "Thinking ahead about the whole week helps your money last."
+      },
+      {
+        "question": "Why start with a small savings goal?",
+        "choices": ["It builds a habit that helps with bigger goals later", "Small goals are pointless to set"],
+        "correctIndex": 0,
+        "explanation": "Practicing with a small goal builds skills for bigger ones."
+      },
+      {
+        "question": "What usually determines how much a chore is worth?",
+        "choices": ["How much time and effort it takes", "The color of the chore chart"],
+        "correctIndex": 0,
+        "explanation": "Chores that take more time or effort are usually worth more."
+      }
+    ]
+  },
+  "money-value-7-9-p2": {
+    "slides": [
+      {
+        "emoji": "🏷️",
+        "title": "Comparing prices",
+        "text": "The same item can cost different amounts at different stores, so checking first can help your money go further. Comparing prices before buying might save you a few extra points to spend later."
       },
       {
         "emoji": "🆚",
@@ -169,11 +350,6 @@
         "text": "Spending all your money right away can feel fun, but it can leave you with nothing when something better comes along. Spending every point on payday might mean missing out on a fun reward later that week."
       },
       {
-        "emoji": "📒",
-        "title": "Keeping track of your money",
-        "text": "Writing down how much you earn and spend helps you make smarter choices instead of guessing. Keeping a simple list each week can show you when you're saving less than you thought."
-      },
-      {
         "emoji": "🤲",
         "title": "Giving and sharing",
         "text": "Money isn't just for buying things — you can also give some away to help others. Donating a few points to a friend in need feels good and builds a caring habit."
@@ -184,40 +360,27 @@
         "text": "The cost of things doesn't always stay the same, because prices can go up as time passes. A snack that cost 5 points last year might cost 6 points now."
       },
       {
-        "emoji": "🧹",
-        "title": "Different chores, different pay",
-        "text": "Bigger or harder chores are usually worth more points than quick, easy ones. Cleaning the whole garage might earn more than wiping a table, because it takes more effort."
+        "emoji": "🛍️",
+        "title": "Bigger packs can be a better deal",
+        "text": "A big bag of chips might cost more than a small bag, but cost less for each chip inside. Checking the size can help you spend smarter."
       },
       {
-        "emoji": "✂️",
-        "title": "Splitting your allowance three ways",
-        "text": "You can split your allowance three ways: spend some, save some, and give some. Splitting it up helps you enjoy money now while still planning for later."
+        "emoji": "🤝",
+        "title": "Splitting a cost with a friend",
+        "text": "If a toy costs more than you have, you and a friend might each pay half. Splitting a cost is sometimes called going in together."
+      },
+      {
+        "emoji": "⏸️",
+        "title": "Pause before a big purchase",
+        "text": "Before spending a lot of your money, take a breath and think it over. A short pause can stop a choice you might end up regretting."
       }
     ],
     "quiz": [
-      {
-        "question": "What is an allowance?",
-        "choices": ["Money a kid might get regularly to practice managing", "A type of toy"],
-        "correctIndex": 0,
-        "explanation": "An allowance is regular money meant to help kids practice money decisions."
-      },
-      {
-        "question": "What is a budget?",
-        "choices": ["A plan for how much you'll save and spend", "A place to keep candy"],
-        "correctIndex": 0,
-        "explanation": "A budget is simply a plan for your money."
-      },
       {
         "question": "Why compare prices before buying?",
         "choices": ["The same item can cost different amounts in different places", "Prices are always exactly the same everywhere"],
         "correctIndex": 0,
         "explanation": "Comparing prices can help your money go further."
-      },
-      {
-        "question": "What does setting a savings goal help with?",
-        "choices": ["Making saving feel more exciting and figuring out a timeline", "It makes no difference at all"],
-        "correctIndex": 0,
-        "explanation": "A specific goal makes saving feel more purposeful and trackable."
       },
       {
         "question": "What is a tradeoff?",
@@ -238,12 +401,6 @@
         "explanation": "Spending everything immediately can leave you without options later."
       },
       {
-        "question": "Why keep track of what you earn and spend?",
-        "choices": ["It helps you make smarter choices instead of guessing", "Tracking money is a waste of time"],
-        "correctIndex": 0,
-        "explanation": "Keeping track helps you notice patterns and plan better."
-      },
-      {
         "question": "Why might you give some of your money away?",
         "choices": ["It can help others and feels good", "Money should never be shared with anyone"],
         "correctIndex": 0,
@@ -256,20 +413,144 @@
         "explanation": "Prices can rise as time passes, so things may cost more later."
       },
       {
-        "question": "What does splitting your allowance three ways mean?",
-        "choices": ["Some to spend, some to save, some to give", "Spending every point the moment you get it"],
+        "question": "Why might a bigger bag of chips be a smarter buy?",
+        "choices": ["It can cost less for each chip inside", "Big bags are always more expensive per chip"],
         "correctIndex": 0,
-        "explanation": "Splitting your money helps you enjoy some now while planning ahead."
+        "explanation": "A bigger size sometimes lowers the cost for each item inside."
+      },
+      {
+        "question": "What does it mean to split a cost with a friend?",
+        "choices": ["Each person pays part of the price", "One person pays for everything"],
+        "correctIndex": 0,
+        "explanation": "Splitting a cost means sharing the price between two or more people."
+      },
+      {
+        "question": "Why pause before a big purchase?",
+        "choices": ["It gives you time to think it over", "Pausing always makes things more expensive"],
+        "correctIndex": 0,
+        "explanation": "A short pause can help you avoid a choice you might regret."
+      },
+      {
+        "question": "If a toy costs more than your allowance this week, what's a smart choice?",
+        "choices": ["Wait, save more, or split the cost with someone", "Buy it anyway even without enough money"],
+        "correctIndex": 0,
+        "explanation": "Waiting, saving, or splitting a cost are all smart ways to handle it."
       }
     ]
   },
-  "money-value-10-13": {
+  "money-value-10-13-p1": {
     "slides": [
       {
         "emoji": "⚖️",
         "title": "Price vs. value",
         "text": "The price of something is what it costs, but its value is how much it's actually worth to you — sometimes a cheaper item is worth more to you than an expensive one. For example, a $5 book you'll read ten times might be worth more to you than a $20 toy you'll only play with once."
       },
+      {
+        "emoji": "🧮",
+        "title": "Comparing cost per unit",
+        "text": "When two items look similar, comparing the price per unit — like per ounce or per item — shows which one is actually the better deal. For example, a 10-pack of pencils for $2 costs less per pencil than a 4-pack for $1, even though the 4-pack has a smaller price tag."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Not every 'sale' is a real deal",
+        "text": "Stores sometimes raise a price right before marking it 'on sale,' so a discount doesn't always mean you're actually saving money. For example, a $30 item marked down to $25 after being raised from $20 isn't really a bargain, even though the sign says 40% off."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Reading the fine print",
+        "text": "Sometimes a good deal has hidden costs, like an extra fee or a shorter return window — checking the details before buying avoids surprises. For example, a toy that looks cheaper online might cost more once shipping is added, so checking the full price before deciding avoids a surprise later."
+      },
+      {
+        "emoji": "🏪",
+        "title": "Store brand vs. name brand",
+        "text": "A store's own brand often costs less than a famous name brand, even when the product inside is nearly identical. Trying the cheaper option first can save money without losing much quality."
+      },
+      {
+        "emoji": "📦",
+        "title": "Bulk buying can pay off",
+        "text": "Buying a bigger size or a multi-pack often lowers the price for each item, but only if you'll actually use it all before it goes bad or gets old. Buying in bulk is only a good deal if nothing goes to waste."
+      },
+      {
+        "emoji": "🧾",
+        "title": "Reading a receipt closely",
+        "text": "A receipt lists every item and fee from a purchase, and checking it can reveal a mistake or a charge you didn't expect. Comparing the receipt to what you actually meant to buy is a useful habit."
+      },
+      {
+        "emoji": "💳",
+        "title": "Extra fees can sneak into a price",
+        "text": "A shipping fee, service charge, or processing fee can make an item cost more than its listed price. Adding up the true total before buying avoids a surprise at checkout."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Return and exchange policies",
+        "text": "Knowing whether you can return or exchange something before you buy it protects you if it turns out to be the wrong choice. A store with a generous return policy makes trying something new feel less risky."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What's the difference between price and value?",
+        "choices": ["Price is the cost, value is how much it's worth to you", "They always mean exactly the same thing"],
+        "correctIndex": 0,
+        "explanation": "Something's price and its true value to you aren't always the same."
+      },
+      {
+        "question": "What does comparing the price per unit help you find?",
+        "choices": ["Which option is actually the better deal", "It never matters what size you buy"],
+        "correctIndex": 0,
+        "explanation": "Comparing cost per unit reveals the true better value, not just the sticker price."
+      },
+      {
+        "question": "Why isn't every discount a real deal?",
+        "choices": ["Some prices are raised before being marked down", "Sale prices are always the lowest possible price"],
+        "correctIndex": 0,
+        "explanation": "A markup-then-markdown can make a 'sale' look bigger than it really is."
+      },
+      {
+        "question": "Why check the fine print before a purchase?",
+        "choices": ["Hidden costs like fees can make a deal less good than it looks", "The fine print never matters"],
+        "correctIndex": 0,
+        "explanation": "Hidden details can change whether a deal is actually a good one."
+      },
+      {
+        "question": "Why might a store brand be a smart choice?",
+        "choices": ["It often costs less for a nearly identical product", "Store brands are always lower quality"],
+        "correctIndex": 0,
+        "explanation": "Store brands frequently offer similar quality to name brands for less money."
+      },
+      {
+        "question": "When is buying in bulk actually a good deal?",
+        "choices": ["Only if you'll use it all before it spoils or goes to waste", "Buying in bulk is always the best choice no matter what"],
+        "correctIndex": 0,
+        "explanation": "A lower per-item price only helps if the extra amount doesn't go to waste."
+      },
+      {
+        "question": "Why check your receipt after a purchase?",
+        "choices": ["It can reveal a mistake or an unexpected charge", "Receipts never contain useful information"],
+        "correctIndex": 0,
+        "explanation": "Reviewing a receipt is a simple way to catch billing mistakes."
+      },
+      {
+        "question": "What can make an item cost more than its listed price?",
+        "choices": ["Extra fees like shipping or service charges", "Extra fees are illegal and never happen"],
+        "correctIndex": 0,
+        "explanation": "Fees added at checkout can raise the true cost above the sticker price."
+      },
+      {
+        "question": "Why is it useful to know a store's return policy before buying?",
+        "choices": ["It protects you if the item turns out to be the wrong choice", "Return policies never matter once you've paid"],
+        "correctIndex": 0,
+        "explanation": "Knowing you can return something reduces the risk of trying it."
+      },
+      {
+        "question": "What's a smart habit when comparing two similar products?",
+        "choices": ["Check the price per unit and read the fine print", "Just grab whichever one is closest on the shelf"],
+        "correctIndex": 0,
+        "explanation": "Comparing unit price and details helps you find the actual better value."
+      }
+    ]
+  },
+  "money-value-10-13-p2": {
+    "slides": [
       {
         "emoji": "🔁",
         "title": "Opportunity cost",
@@ -291,48 +572,32 @@
         "text": "People usually get paid for doing something useful for someone else — the more value you provide, the more you can reasonably earn. For example, mowing a neighbor's entire yard is worth more than just picking up a few sticks, because it solves a bigger problem for them."
       },
       {
-        "emoji": "🏆",
-        "title": "Long-term vs. short-term goals",
-        "text": "A short-term goal might take a few weeks to reach, while a long-term goal — like saving for something big — might take months, and both need different plans. For example, saving 20 points for a small toy might take two weeks, while saving 200 points for a bike might take most of a year, and that longer goal needs more patience and planning."
+        "emoji": "⏱️",
+        "title": "Time is a kind of opportunity cost too",
+        "text": "Choosing to spend an hour on one activity means you can't spend that same hour on something else, just like money. Thinking about both time and money helps you make better choices."
       },
       {
-        "emoji": "🔍",
-        "title": "Reading the fine print",
-        "text": "Sometimes a good deal has hidden costs, like an extra fee or a shorter return window — checking the details before buying avoids surprises. For example, a toy that looks cheaper online might cost more once shipping is added, so checking the full price before deciding avoids a surprise later."
+        "emoji": "🎮",
+        "title": "The subscription trap",
+        "text": "A monthly subscription can feel small, but if you stop using it and forget to cancel, you're paying for something you don't even want anymore. Checking your subscriptions regularly avoids wasting money on habit alone."
       },
       {
-        "emoji": "🙏",
-        "title": "Money and gratitude",
-        "text": "Being thankful for what you have, instead of always wanting more, tends to make people happier with their money than chasing the next purchase. For example, someone who appreciates the bike they already have tends to feel more satisfied than someone who's already thinking about the next thing to buy the moment they get something new."
+        "emoji": "🧑‍🔧",
+        "title": "Turning a skill into income",
+        "text": "A skill you're already good at, like drawing, tutoring, or fixing things, can sometimes be turned into a way to earn money. Thinking about what you're good at can reveal new ways to earn."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Negotiating a fair price for a job",
+        "text": "When you offer to do a job for someone, like walking their dog, it's reasonable to talk about fair pay before you start, not after. Agreeing on pay ahead of time avoids confusion later."
       },
       {
         "emoji": "🧮",
-        "title": "Comparing cost per unit",
-        "text": "When two items look similar, comparing the price per unit — like per ounce or per item — shows which one is actually the better deal. For example, a 10-pack of pencils for $2 costs less per pencil than a 4-pack for $1, even though the 4-pack has a smaller price tag."
-      },
-      {
-        "emoji": "🏷️",
-        "title": "Not every 'sale' is a real deal",
-        "text": "Stores sometimes raise a price right before marking it 'on sale,' so a discount doesn't always mean you're actually saving money. For example, a $30 item marked down to $25 after being raised from $20 isn't really a bargain, even though the sign says 40% off."
-      },
-      {
-        "emoji": "🎗️",
-        "title": "Giving reflects what you value",
-        "text": "Choosing to donate part of your money to a cause says something about what matters to you, the same way your spending choices do. For example, someone who cares about animals might set aside a few dollars each month for an animal shelter instead of spending it all on themselves."
-      },
-      {
-        "emoji": "🧾",
-        "title": "Reviewing where your money goes",
-        "text": "Looking back at what you actually spent money on over a month often reveals patterns you didn't notice while spending. For example, checking your spending log might show you spent more on snacks than you realized, which is useful information for planning next month better."
+        "title": "Weighing a big purchase against small ones",
+        "text": "Spending a little bit often on small things can add up to more than one bigger purchase you'd actually value more. Comparing many small buys to one big one can change your decision."
       }
     ],
     "quiz": [
-      {
-        "question": "What's the difference between price and value?",
-        "choices": ["Price is the cost, value is how much it's worth to you", "They always mean exactly the same thing"],
-        "correctIndex": 0,
-        "explanation": "Something's price and its true value to you aren't always the same."
-      },
       {
         "question": "What is opportunity cost?",
         "choices": ["What you give up by choosing to spend money one way instead of another", "A type of coupon"],
@@ -358,16 +623,97 @@
         "explanation": "Pay is usually connected to the value or usefulness of the work done."
       },
       {
+        "question": "Is time a kind of opportunity cost too?",
+        "choices": ["Yes, choosing one activity means giving up another", "No, only money can be an opportunity cost"],
+        "correctIndex": 0,
+        "explanation": "Time works the same way as money — spending it on one thing means giving up another."
+      },
+      {
+        "question": "Why review your subscriptions regularly?",
+        "choices": ["You might be paying for something you don't use anymore", "Subscriptions always cancel themselves automatically"],
+        "correctIndex": 0,
+        "explanation": "Forgotten subscriptions quietly keep charging even after you stop using them."
+      },
+      {
+        "question": "What's one way to think about earning money from a skill?",
+        "choices": ["Consider turning something you're good at into paid work", "Skills have nothing to do with earning money"],
+        "correctIndex": 0,
+        "explanation": "A skill you're already good at can sometimes become a way to earn."
+      },
+      {
+        "question": "When is the best time to agree on pay for a job?",
+        "choices": ["Before you start the job", "After you've already finished it"],
+        "correctIndex": 0,
+        "explanation": "Agreeing on pay ahead of time avoids confusion later."
+      },
+      {
+        "question": "What can happen if you spend a little often on small things?",
+        "choices": ["It can add up to more than a bigger purchase you'd value more", "Small purchases never add up to anything"],
+        "correctIndex": 0,
+        "explanation": "Frequent small purchases can quietly outweigh a bigger, more valued purchase."
+      },
+      {
+        "question": "What do opportunity cost and budgeting into categories have in common?",
+        "choices": ["Both help you make thoughtful choices about limited money", "They are unrelated ideas with nothing in common"],
+        "correctIndex": 0,
+        "explanation": "Both concepts are tools for making better decisions with limited money."
+      }
+    ]
+  },
+  "money-value-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "🏆",
+        "title": "Long-term vs. short-term goals",
+        "text": "A short-term goal might take a few weeks to reach, while a long-term goal — like saving for something big — might take months, and both need different plans. For example, saving 20 points for a small toy might take two weeks, while saving 200 points for a bike might take most of a year, and that longer goal needs more patience and planning."
+      },
+      {
+        "emoji": "🙏",
+        "title": "Money and gratitude",
+        "text": "Being thankful for what you have, instead of always wanting more, tends to make people happier with their money than chasing the next purchase. For example, someone who appreciates the bike they already have tends to feel more satisfied than someone who's already thinking about the next thing to buy the moment they get something new."
+      },
+      {
+        "emoji": "🎗️",
+        "title": "Giving reflects what you value",
+        "text": "Choosing to donate part of your money to a cause says something about what matters to you, the same way your spending choices do. For example, someone who cares about animals might set aside a few dollars each month for an animal shelter instead of spending it all on themselves."
+      },
+      {
+        "emoji": "🧾",
+        "title": "Reviewing where your money goes",
+        "text": "Looking back at what you actually spent money on over a month often reveals patterns you didn't notice while spending. For example, checking your spending log might show you spent more on snacks than you realized, which is useful information for planning next month better."
+      },
+      {
+        "emoji": "🗺️",
+        "title": "Making a plan to reach a goal",
+        "text": "A goal is more reachable when it's broken into steps, like saving a set amount each week until you reach the total. Breaking a big goal into smaller steps makes it feel less overwhelming."
+      },
+      {
+        "emoji": "📉",
+        "title": "What derails savings goals",
+        "text": "Small unplanned purchases are one of the most common reasons a savings goal takes longer than expected. Noticing your own spending patterns helps you protect a goal you actually care about."
+      },
+      {
+        "emoji": "🎉",
+        "title": "Celebrating progress along the way",
+        "text": "Noticing progress toward a goal, not just the finish line, can help you stay motivated when saving takes a while. Celebrating being halfway there can keep a long goal feeling worth it."
+      },
+      {
+        "emoji": "🌍",
+        "title": "Where your giving goes",
+        "text": "Money given to a cause, like a shelter or a food bank, is usually used to directly help the people or animals it supports. Understanding where a donation goes can make giving feel more meaningful."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Revisiting your goals over time",
+        "text": "A goal you set months ago might not matter as much to you now, and it's okay to change it. Checking in on your goals occasionally keeps your saving pointed at something you still actually want."
+      }
+    ],
+    "quiz": [
+      {
         "question": "Why do long-term goals need different planning than short-term goals?",
         "choices": ["They take longer and need more patience and planning", "They need no planning at all"],
         "correctIndex": 0,
         "explanation": "Bigger, longer goals typically require more sustained effort and planning."
-      },
-      {
-        "question": "Why check the fine print before a purchase?",
-        "choices": ["Hidden costs like fees can make a deal less good than it looks", "The fine print never matters"],
-        "correctIndex": 0,
-        "explanation": "Hidden details can change whether a deal is actually a good one."
       },
       {
         "question": "How does gratitude relate to money?",
@@ -376,26 +722,56 @@
         "explanation": "Being thankful for what you have tends to increase satisfaction with money."
       },
       {
-        "question": "What does comparing the price per unit help you find?",
-        "choices": ["Which option is actually the better deal", "It never matters what size you buy"],
-        "correctIndex": 0,
-        "explanation": "Comparing cost per unit reveals the true better value, not just the sticker price."
-      },
-      {
-        "question": "Why isn't every discount a real deal?",
-        "choices": ["Some prices are raised before being marked down", "Sale prices are always the lowest possible price"],
-        "correctIndex": 0,
-        "explanation": "A markup-then-markdown can make a 'sale' look bigger than it really is."
-      },
-      {
         "question": "What can reviewing your past spending reveal?",
         "choices": ["Patterns you didn't notice while spending", "Nothing useful — spending logs are pointless"],
         "correctIndex": 0,
         "explanation": "A spending review often shows habits that are easy to miss in the moment."
+      },
+      {
+        "question": "What can your giving choices reveal?",
+        "choices": ["What causes or things matter to you", "Giving reveals nothing about a person"],
+        "correctIndex": 0,
+        "explanation": "How you choose to give, like how you spend, reflects what you value."
+      },
+      {
+        "question": "Why break a big goal into smaller steps?",
+        "choices": ["It makes the goal feel less overwhelming and easier to track", "Breaking goals into steps makes them harder to reach"],
+        "correctIndex": 0,
+        "explanation": "Smaller steps make a big goal feel manageable and easier to track."
+      },
+      {
+        "question": "What commonly derails a savings goal?",
+        "choices": ["Small unplanned purchases adding up", "Goals are never derailed once you set them"],
+        "correctIndex": 0,
+        "explanation": "Unplanned small purchases are a common reason savings goals slip."
+      },
+      {
+        "question": "Why notice progress toward a goal, not just the finish line?",
+        "choices": ["It helps you stay motivated during a long goal", "Progress along the way doesn't matter at all"],
+        "correctIndex": 0,
+        "explanation": "Recognizing progress helps keep motivation up during a long-term goal."
+      },
+      {
+        "question": "Why is it useful to know where a donation goes?",
+        "choices": ["It can make giving feel more meaningful and intentional", "It's better to never think about where money goes"],
+        "correctIndex": 0,
+        "explanation": "Understanding the impact of a donation can make giving feel more purposeful."
+      },
+      {
+        "question": "Is it okay to change a savings goal you set months ago?",
+        "choices": ["Yes, goals can change as what matters to you changes", "No, a goal can never be changed once it's set"],
+        "correctIndex": 0,
+        "explanation": "Revisiting goals keeps your saving pointed at something you still want."
+      },
+      {
+        "question": "What do gratitude and reviewing your spending have in common?",
+        "choices": ["Both help you feel more satisfied and in control of your money", "They have no connection to each other"],
+        "correctIndex": 0,
+        "explanation": "Both practices build awareness and satisfaction around money decisions."
       }
     ]
   },
-  "money-value-13-17": {
+  "money-value-13-17-p1": {
     "slides": [
       {
         "emoji": "🎓",
@@ -403,15 +779,222 @@
         "text": "The more valuable your skills are to others, the more you can typically earn — which is why learning and practicing skills pays off over time, not just in school. For example, someone who learns to code, design, or fix things well often has more ways to earn money than someone with the same amount of free time but fewer developed skills."
       },
       {
-        "emoji": "💳",
-        "title": "Credit and debt basics",
-        "text": "Credit means borrowing money now with a promise to pay it back, often with extra cost added called interest — debt is money you currently owe. For example, buying something on a credit card and not paying it off right away means you'll likely owe more than the original price, because of the added interest."
+        "emoji": "💼",
+        "title": "Net pay vs. gross pay",
+        "text": "Gross pay is the total amount a job pays before anything is taken out, while net pay is what actually lands in your account after taxes and other deductions. For example, a job that pays $15 an hour might only put about $12 an hour into your account once taxes are subtracted."
       },
       {
         "emoji": "🧾",
         "title": "Where taxes come from",
         "text": "A portion of money earned or spent often goes to taxes, which pay for shared things like roads, schools, and public services. For example, part of the price on a receipt at a store is usually sales tax, which goes toward things the whole community uses."
       },
+      {
+        "emoji": "🏗️",
+        "title": "Pay yourself first",
+        "text": "\"Paying yourself first\" means saving a portion of any money you earn right away, before you spend on anything else, instead of hoping there's something left over. For example, deciding to save 20% of any money earned the moment you get it, before spending on anything, makes saving automatic instead of an afterthought."
+      },
+      {
+        "emoji": "💼",
+        "title": "Different jobs pay different wages",
+        "text": "Pay often reflects supply and demand: jobs that require rare skills or involve more risk or responsibility tend to pay more than jobs anyone can do with little training. Understanding this can guide which skills are worth developing."
+      },
+      {
+        "emoji": "🧑‍💻",
+        "title": "Side hustles and freelance work",
+        "text": "Beyond a traditional job, some people earn money through freelance work or a side hustle, like tutoring, selling crafts, or doing freelance design, often on a flexible schedule. A side hustle can supplement income or help build a skill into something bigger."
+      },
+      {
+        "emoji": "📄",
+        "title": "Understanding a pay stub",
+        "text": "A pay stub lists gross pay, each deduction like taxes, and the final net pay, giving a full picture of where earned money actually goes. Reading a pay stub carefully is a basic but important financial literacy skill."
+      },
+      {
+        "emoji": "🏦",
+        "title": "Automating your savings",
+        "text": "Setting up an automatic transfer to a savings account each time you're paid removes the temptation to spend that money first. Automating pay-yourself-first turns a good intention into a habit that doesn't rely on willpower."
+      },
+      {
+        "emoji": "🎓",
+        "title": "Investing in your own earning potential",
+        "text": "Spending time or money on a certification, class, or new skill can be a form of investing in yourself, since it can increase what you're able to earn later. Not all valuable investments are purely financial."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "How does developing valuable skills affect earning potential?",
+        "choices": ["More valuable skills typically lead to more ways to earn", "Skills have no connection to earning money"],
+        "correctIndex": 0,
+        "explanation": "Skills that are useful to others tend to open up more earning opportunities."
+      },
+      {
+        "question": "What's the difference between gross pay and net pay?",
+        "choices": ["Net pay is what's left after taxes and deductions", "They always mean the exact same amount"],
+        "correctIndex": 0,
+        "explanation": "Gross pay is the full amount before deductions; net pay is what you actually receive."
+      },
+      {
+        "question": "What do taxes generally pay for?",
+        "choices": ["Shared things like roads, schools, and public services", "They disappear and pay for nothing"],
+        "correctIndex": 0,
+        "explanation": "Taxes fund shared community resources and services."
+      },
+      {
+        "question": "What does \"pay yourself first\" mean?",
+        "choices": ["Saving a portion of money right away, before spending on anything else", "Spending everything first and saving whatever happens to be left"],
+        "correctIndex": 0,
+        "explanation": "Paying yourself first makes saving automatic rather than an afterthought."
+      },
+      {
+        "question": "Why do some jobs pay more than others?",
+        "choices": ["They may require rarer skills or more risk and responsibility", "All jobs are required by law to pay the same"],
+        "correctIndex": 0,
+        "explanation": "Pay often reflects how rare the skill is and how much risk or responsibility the job carries."
+      },
+      {
+        "question": "What is a 'side hustle'?",
+        "choices": ["Extra income earned outside a traditional job, like freelance work", "A type of tax that only adults pay"],
+        "correctIndex": 0,
+        "explanation": "A side hustle is extra income earned outside a regular job, often on a flexible schedule."
+      },
+      {
+        "question": "What does a pay stub show?",
+        "choices": ["Gross pay, deductions, and final net pay", "Only how many hours you worked, nothing else"],
+        "correctIndex": 0,
+        "explanation": "A pay stub gives a full picture of gross pay, deductions, and net pay."
+      },
+      {
+        "question": "Why automate a transfer to savings each payday?",
+        "choices": ["It removes the temptation to spend that money first", "Automatic transfers are riskier than doing it manually"],
+        "correctIndex": 0,
+        "explanation": "Automating savings turns a good intention into a reliable habit."
+      },
+      {
+        "question": "How can learning a new skill be a kind of investment?",
+        "choices": ["It can increase what you're able to earn later", "Skills have no effect on future earning"],
+        "correctIndex": 0,
+        "explanation": "Investing time or money in a skill can pay off through higher future earnings."
+      },
+      {
+        "question": "What connects taxes and net pay?",
+        "choices": ["Taxes are one of the deductions that turn gross pay into net pay", "Taxes and net pay are completely unrelated"],
+        "correctIndex": 0,
+        "explanation": "Taxes are deducted from gross pay, which is part of what produces net pay."
+      }
+    ]
+  },
+  "money-value-13-17-p2": {
+    "slides": [
+      {
+        "emoji": "💳",
+        "title": "Credit and debt basics",
+        "text": "Credit means borrowing money now with a promise to pay it back, often with extra cost added called interest — debt is money you currently owe. For example, buying something on a credit card and not paying it off right away means you'll likely owe more than the original price, because of the added interest."
+      },
+      {
+        "emoji": "📲",
+        "title": "Buy now, pay later has real costs",
+        "text": "\"Buy now, pay later\" plans let you get something today and pay for it in smaller pieces, but missing a payment can add fees or hurt your credit. For example, splitting a $200 purchase into four payments feels easier in the moment, but forgetting even one payment can turn a good deal into an expensive mistake."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Watching out for recurring costs",
+        "text": "Small subscriptions or repeating costs can quietly add up to a lot over a year, even if each one feels small by itself. For example, a few small monthly subscriptions that each feel affordable on their own can add up to a genuinely large amount by the end of the year if you never review them."
+      },
+      {
+        "emoji": "👥",
+        "title": "Peer pressure and spending",
+        "text": "Spending money to keep up with friends or trends can add up fast — it helps to ask whether you actually want something, or just feel like you should have it. For example, buying the newest version of something just because friends have it, even though your current one works fine, is a spending trap worth noticing."
+      },
+      {
+        "emoji": "📊",
+        "title": "Credit scores, briefly",
+        "text": "A credit score is a number that reflects how reliably someone has repaid borrowed money in the past, and lenders use it to decide who to lend to and at what cost. Building good credit habits early, like paying on time, can matter for years."
+      },
+      {
+        "emoji": "💸",
+        "title": "Interest works both ways",
+        "text": "Interest can work for you when you save, slowly adding to your balance, or against you when you borrow, slowly adding to what you owe. The same idea can help or hurt you depending on which side of it you're on."
+      },
+      {
+        "emoji": "🚩",
+        "title": "Warning signs of a bad deal",
+        "text": "Pressure to decide immediately, a deal that seems too good to be true, or a plan that's confusing on purpose are all warning signs worth taking seriously. Slowing down is one of the best defenses against a bad financial decision."
+      },
+      {
+        "emoji": "🛍️",
+        "title": "Lifestyle inflation",
+        "text": "As income grows, spending often grows right along with it, a pattern called lifestyle inflation, which can quietly prevent someone from ever saving more even while earning more. Noticing this pattern early can help you avoid it."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Marketing is designed to influence you",
+        "text": "Ads and social media are often built specifically to make a product feel necessary or urgent, even when it isn't. Recognizing marketing tactics can help you separate a real need from a manufactured one."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is credit?",
+        "choices": ["Borrowing money now with a promise to pay it back, often with interest", "Money you'll never have to repay"],
+        "correctIndex": 0,
+        "explanation": "Credit involves borrowing with the expectation of repayment, usually plus interest."
+      },
+      {
+        "question": "What's a real risk of 'buy now, pay later' plans?",
+        "choices": ["Missing a payment can add fees or hurt your credit", "There is no risk at all, it's always free"],
+        "correctIndex": 0,
+        "explanation": "Missed payments on these plans can lead to fees or credit damage."
+      },
+      {
+        "question": "Why review recurring subscriptions?",
+        "choices": ["Small repeating costs can quietly add up to a lot over a year", "Subscriptions never add up to anything meaningful"],
+        "correctIndex": 0,
+        "explanation": "Multiple small recurring costs can become a large total unnoticed."
+      },
+      {
+        "question": "What's a smart question to ask about peer-pressured spending?",
+        "choices": ["Do I actually want this, or do I just feel like I should have it?", "There's no need to think about it, just buy it"],
+        "correctIndex": 0,
+        "explanation": "Pausing to check your real motivation helps avoid spending traps."
+      },
+      {
+        "question": "What does a credit score reflect?",
+        "choices": ["How reliably someone has repaid borrowed money in the past", "How much cash someone currently has in their wallet"],
+        "correctIndex": 0,
+        "explanation": "A credit score reflects a history of repaying borrowed money reliably."
+      },
+      {
+        "question": "How can interest work in your favor?",
+        "choices": ["It can slowly add to your balance when you save", "Interest only ever works against you"],
+        "correctIndex": 0,
+        "explanation": "Saved money can earn interest, growing your balance over time."
+      },
+      {
+        "question": "What's a warning sign of a bad deal?",
+        "choices": ["Pressure to decide immediately", "A calm offer with plenty of time to think it over"],
+        "correctIndex": 0,
+        "explanation": "Urgency and pressure are common tactics used in less trustworthy deals."
+      },
+      {
+        "question": "What is lifestyle inflation?",
+        "choices": ["Spending growing right along with income as it rises", "Prices dropping every time someone gets a raise"],
+        "correctIndex": 0,
+        "explanation": "Lifestyle inflation is spending more as you earn more, which can prevent extra saving."
+      },
+      {
+        "question": "Why is it useful to recognize marketing tactics?",
+        "choices": ["It helps you tell a real need from a manufactured one", "Marketing never affects anyone's decisions"],
+        "correctIndex": 0,
+        "explanation": "Recognizing marketing tactics helps you make more intentional spending choices."
+      },
+      {
+        "question": "What do credit and 'buy now, pay later' plans have in common?",
+        "choices": ["Both involve paying later, sometimes with extra cost or risk", "Neither one ever involves any risk"],
+        "correctIndex": 0,
+        "explanation": "Both let you get something now while paying later, which carries potential costs or risks."
+      }
+    ]
+  },
+  "money-value-13-17-p3": {
+    "slides": [
       {
         "emoji": "📈",
         "title": "Prices change over time (inflation)",
@@ -421,21 +1004,6 @@
         "emoji": "🚨",
         "title": "Emergency funds",
         "text": "An emergency fund is money set aside just for unexpected problems, like a sudden expense, so you're not caught without options. For example, having some savings set aside means an unexpected cost, like a broken phone screen, doesn't completely derail your other plans."
-      },
-      {
-        "emoji": "🏗️",
-        "title": "Pay yourself first",
-        "text": "\"Paying yourself first\" means saving a portion of any money you earn right away, before you spend on anything else, instead of hoping there's something left over. For example, deciding to save 20% of any money earned the moment you get it, before spending on anything, makes saving automatic instead of an afterthought."
-      },
-      {
-        "emoji": "👥",
-        "title": "Peer pressure and spending",
-        "text": "Spending money to keep up with friends or trends can add up fast — it helps to ask whether you actually want something, or just feel like you should have it. For example, buying the newest version of something just because friends have it, even though your current one works fine, is a spending trap worth noticing."
-      },
-      {
-        "emoji": "🔄",
-        "title": "Watching out for recurring costs",
-        "text": "Small subscriptions or repeating costs can quietly add up to a lot over a year, even if each one feels small by itself. For example, a few small monthly subscriptions that each feel affordable on their own can add up to a genuinely large amount by the end of the year if you never review them."
       },
       {
         "emoji": "🌱",
@@ -448,40 +1016,32 @@
         "text": "Money left in a savings account can earn a small amount of interest over time, and starting even a few years earlier gives that interest more time to build up. For example, saving the same amount starting at 16 instead of 26 gives your money roughly a decade of extra time to grow, even at the exact same savings rate."
       },
       {
-        "emoji": "💼",
-        "title": "Net pay vs. gross pay",
-        "text": "Gross pay is the total amount a job pays before anything is taken out, while net pay is what actually lands in your account after taxes and other deductions. For example, a job that pays $15 an hour might only put about $12 an hour into your account once taxes are subtracted."
-      },
-      {
         "emoji": "🛒",
         "title": "The real cost of a cheap purchase",
         "text": "A cheaper item that breaks quickly and needs replacing can end up costing more over time than a pricier item that lasts, which is sometimes called the total cost of ownership. For example, buying a $10 pair of shoes twice a year can cost more over two years than one $35 pair that lasts the whole time."
       },
       {
-        "emoji": "📲",
-        "title": "Buy now, pay later has real costs",
-        "text": "\"Buy now, pay later\" plans let you get something today and pay for it in smaller pieces, but missing a payment can add fees or hurt your credit. For example, splitting a $200 purchase into four payments feels easier in the moment, but forgetting even one payment can turn a good deal into an expensive mistake."
+        "emoji": "📈",
+        "title": "Compound interest, the short version",
+        "text": "When saved money earns interest, and that interest starts earning its own interest too, growth can speed up over time — this snowball effect is called compound interest. The earlier money is saved, the longer compound interest has to work."
+      },
+      {
+        "emoji": "🏥",
+        "title": "Insurance as a long-term safety net",
+        "text": "Insurance means paying a smaller, regular amount now so a much larger unexpected cost, like a medical bill or car accident, doesn't fall entirely on you later. It's a long-term way of protecting against a costly surprise."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Setting a financial direction, not just a budget",
+        "text": "A budget manages this month's money, but a financial direction is about where you want to be in five or ten years, and the two should work together. Long-term thinking shapes the smaller decisions made along the way."
+      },
+      {
+        "emoji": "🌱",
+        "title": "Small habits compound too",
+        "text": "Just as money can compound, so can habits — a small, consistent saving habit practiced for years tends to outperform occasional bursts of effort. Long-term financial success is often more about consistency than intensity."
       }
     ],
     "quiz": [
-      {
-        "question": "How does developing valuable skills affect earning potential?",
-        "choices": ["More valuable skills typically lead to more ways to earn", "Skills have no connection to earning money"],
-        "correctIndex": 0,
-        "explanation": "Skills that are useful to others tend to open up more earning opportunities."
-      },
-      {
-        "question": "What is credit?",
-        "choices": ["Borrowing money now with a promise to pay it back, often with interest", "Money you'll never have to repay"],
-        "correctIndex": 0,
-        "explanation": "Credit involves borrowing with the expectation of repayment, usually plus interest."
-      },
-      {
-        "question": "What do taxes generally pay for?",
-        "choices": ["Shared things like roads, schools, and public services", "They disappear and pay for nothing"],
-        "correctIndex": 0,
-        "explanation": "Taxes fund shared community resources and services."
-      },
       {
         "question": "What is inflation?",
         "choices": ["Prices tending to rise over time, so money buys a bit less later", "Money that magically grows on its own every year"],
@@ -493,24 +1053,6 @@
         "choices": ["Unexpected expenses, so you're not caught without options", "Buying whatever you want on a whim"],
         "correctIndex": 0,
         "explanation": "An emergency fund is set aside specifically for unplanned costs."
-      },
-      {
-        "question": "What does \"pay yourself first\" mean?",
-        "choices": ["Saving a portion of money right away, before spending on anything else", "Spending everything first and saving whatever happens to be left"],
-        "correctIndex": 0,
-        "explanation": "Paying yourself first makes saving automatic rather than an afterthought."
-      },
-      {
-        "question": "What's a smart question to ask about peer-pressured spending?",
-        "choices": ["Do I actually want this, or do I just feel like I should have it?", "There's no need to think about it, just buy it"],
-        "correctIndex": 0,
-        "explanation": "Pausing to check your real motivation helps avoid spending traps."
-      },
-      {
-        "question": "Why review recurring subscriptions?",
-        "choices": ["Small repeating costs can quietly add up to a lot over a year", "Subscriptions never add up to anything meaningful"],
-        "correctIndex": 0,
-        "explanation": "Multiple small recurring costs can become a large total unnoticed."
       },
       {
         "question": "What matters more for long-term money habits — one purchase, or consistent choices over years?",
@@ -525,16 +1067,40 @@
         "explanation": "The earlier money starts earning interest, the more time it has to grow."
       },
       {
-        "question": "What's the difference between gross pay and net pay?",
-        "choices": ["Net pay is what's left after taxes and deductions", "They always mean the exact same amount"],
-        "correctIndex": 0,
-        "explanation": "Gross pay is the full amount before deductions; net pay is what you actually receive."
-      },
-      {
         "question": "What is the \"total cost of ownership\"?",
         "choices": ["The full cost of a purchase over time, including replacements", "Only the price tag on the day you buy it"],
         "correctIndex": 0,
         "explanation": "A cheap item that wears out fast can cost more overall than a durable one."
+      },
+      {
+        "question": "What is compound interest?",
+        "choices": ["Interest earning its own interest over time, speeding up growth", "Interest that never changes no matter how long you wait"],
+        "correctIndex": 0,
+        "explanation": "Compound interest is a snowball effect where interest itself earns more interest."
+      },
+      {
+        "question": "What does insurance protect against?",
+        "choices": ["A much larger unexpected cost falling entirely on you", "It guarantees you'll never have any expenses again"],
+        "correctIndex": 0,
+        "explanation": "Insurance spreads risk so a large unexpected cost doesn't fall entirely on you."
+      },
+      {
+        "question": "What's the difference between a budget and a financial direction?",
+        "choices": ["A budget covers this month; a direction covers years ahead", "They mean exactly the same thing"],
+        "correctIndex": 0,
+        "explanation": "A budget is short-term money management; a financial direction is a longer-term goal."
+      },
+      {
+        "question": "What tends to outperform occasional bursts of saving?",
+        "choices": ["A small, consistent saving habit practiced over years", "Saving nothing until a random burst of motivation"],
+        "correctIndex": 0,
+        "explanation": "Consistency over time tends to beat occasional large efforts."
+      },
+      {
+        "question": "What do compound interest and starting to save early have in common?",
+        "choices": ["Starting early gives compound interest more time to work", "They are unrelated financial ideas"],
+        "correctIndex": 0,
+        "explanation": "Starting early gives compound interest the maximum amount of time to grow."
       }
     ]
   }

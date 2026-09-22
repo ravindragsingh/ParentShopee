@@ -1,5 +1,5 @@
 {
-  "public-speaking-4-6": {
+  "public-speaking-4-6-p1": {
     "slides": [
       {
         "emoji": "🎤",
@@ -27,24 +27,14 @@
         "text": "Smile while you talk to your friends. A smile helps you look happy and calm."
       },
       {
-        "emoji": "📖",
-        "title": "Telling a story",
-        "text": "A good story has a start, a middle, and an end. First we saw lions, then we fed giraffes, then we got ice cream."
+        "emoji": "🙌",
+        "title": "Using your hands",
+        "text": "You can use your hands while you talk. Hold your hands far apart to show something big, like a fish you caught."
       },
       {
-        "emoji": "⭐",
-        "title": "Picking something you know",
-        "text": "Talk about something you know and like. It is easier to talk about things you love."
-      },
-      {
-        "emoji": "🗂️",
-        "title": "Using a picture card",
-        "text": "You can hold a small card with a picture on it. It helps you remember what to say next."
-      },
-      {
-        "emoji": "🐌",
-        "title": "Speak a little slow",
-        "text": "Talk a little slower than feels normal. This helps your listeners hear every word."
+        "emoji": "😳",
+        "title": "It's okay to feel shy",
+        "text": "Lots of kids feel shy before they talk to a group. Feeling shy does not mean you will do a bad job."
       },
       {
         "emoji": "🌬️",
@@ -52,14 +42,9 @@
         "text": "If you feel nervous, take one slow breath. It can help you feel calm."
       },
       {
-        "emoji": "🔁",
-        "title": "Practice helps",
-        "text": "Say your words out loud before the big day. Practicing makes it easier when it's time for real."
-      },
-      {
-        "emoji": "❓",
-        "title": "Answering questions",
-        "text": "After you talk, people may ask you questions. Listen well, then answer as best you can."
+        "emoji": "🐢",
+        "title": "Speak a little slow",
+        "text": "Talk a little slower than feels normal. This helps your listeners hear every word."
       }
     ],
     "quiz": [
@@ -82,15 +67,6 @@
         "explanation": "Looking at your listeners helps them feel like you're really talking to them."
       },
       {
-        "question": "Telling about a zoo trip: \"first we saw lions, then fed giraffes, then got ice cream.\" What are the three parts of a story?",
-        "choices": [
-          "A beginning, a middle, and an end",
-          "Just a beginning"
-        ],
-        "correctIndex": 0,
-        "explanation": "A good story has a beginning, a middle, and an end."
-      },
-      {
         "question": "What can help if you feel nervous before talking?",
         "choices": [
           "Taking a slow, deep breath",
@@ -98,6 +74,129 @@
         ],
         "correctIndex": 0,
         "explanation": "A slow, deep breath can help you feel calmer before you speak."
+      },
+      {
+        "question": "Should you talk very fast when you feel nervous?",
+        "choices": [
+          "No, talk a little slower",
+          "Yes, talk as fast as you can"
+        ],
+        "correctIndex": 0,
+        "explanation": "Talking a little slower helps people hear and understand your words."
+      },
+      {
+        "question": "Why should you use a loud, clear voice when you talk to a group?",
+        "choices": [
+          "So people far away can hear you",
+          "So people cannot hear you at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "A loud, clear voice makes sure everyone in the room, even far away, can hear you."
+      },
+      {
+        "question": "How should you stand when you talk to a group?",
+        "choices": [
+          "Standing up straight",
+          "Slouching down low"
+        ],
+        "correctIndex": 0,
+        "explanation": "Standing up straight helps people pay attention to you."
+      },
+      {
+        "question": "What can a smile help you do while you talk?",
+        "choices": [
+          "Look happy and calm",
+          "Look angry"
+        ],
+        "correctIndex": 0,
+        "explanation": "A smile helps you look happy and calm while you speak."
+      },
+      {
+        "question": "What can you do with your hands while you talk?",
+        "choices": [
+          "Use them to show what you mean, like how big something is",
+          "Hide them in your pockets the whole time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Simple hand movements can help show what you mean, like how big a fish was."
+      },
+      {
+        "question": "Is it okay to feel a little shy before talking to a group?",
+        "choices": [
+          "Yes, lots of kids feel shy",
+          "No, only bad speakers feel shy"
+        ],
+        "correctIndex": 0,
+        "explanation": "Feeling shy is normal and does not mean you will do a bad job."
+      },
+      {
+        "question": "Sam talks about his pet turtle to his class. Is that public speaking?",
+        "choices": [
+          "Yes, talking to a group is public speaking",
+          "No, it only counts if it's on TV"
+        ],
+        "correctIndex": 0,
+        "explanation": "Talking to any group, even your own class, is public speaking."
+      }
+    ]
+  },
+  "public-speaking-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "📖",
+        "title": "Telling a story",
+        "text": "A good story has a start, a middle, and an end. First we saw lions, then we fed giraffes, then we got ice cream."
+      },
+      {
+        "emoji": "⭐",
+        "title": "Picking something you know",
+        "text": "Talk about something you know and like. It is easier to talk about things you love."
+      },
+      {
+        "emoji": "🗂️",
+        "title": "Using a picture card",
+        "text": "You can hold a small card with a picture on it. It helps you remember what to say next."
+      },
+      {
+        "emoji": "👪",
+        "title": "Practicing with your family",
+        "text": "Try saying your talk to a grown-up at home first. They can listen and clap for you."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Practice helps",
+        "text": "Say your words out loud before the big day. Practicing makes it easier when it's time for real."
+      },
+      {
+        "emoji": "🙋",
+        "title": "Show and tell time",
+        "text": "At show and tell, hold up your item so everyone can see it. Then tell one thing you like about it."
+      },
+      {
+        "emoji": "🎂",
+        "title": "A birthday toast",
+        "text": "A toast is a short, happy speech. You might say, \"Happy birthday! I hope your day is full of fun.\""
+      },
+      {
+        "emoji": "🏁",
+        "title": "Finishing strong",
+        "text": "End your talk with a clear last sentence, like \"That is my pet dog.\" Then people know you are done."
+      },
+      {
+        "emoji": "❓",
+        "title": "Answering questions",
+        "text": "After you talk, people may ask you questions. Listen well, then answer as best you can."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Telling about a zoo trip: \"first we saw lions, then fed giraffes, then got ice cream.\" What are the three parts of a story?",
+        "choices": [
+          "A beginning, a middle, and an end",
+          "Just a beginning"
+        ],
+        "correctIndex": 0,
+        "explanation": "A good story has a beginning, a middle, and an end."
       },
       {
         "question": "Why is practicing your words out loud before the big day helpful?",
@@ -118,15 +217,6 @@
         "explanation": "A small picture card can remind you what to say next."
       },
       {
-        "question": "Should you talk very fast when you feel nervous?",
-        "choices": [
-          "No, talk a little slower",
-          "Yes, talk as fast as you can"
-        ],
-        "correctIndex": 0,
-        "explanation": "Talking a little slower helps people hear and understand your words."
-      },
-      {
         "question": "What should you do if someone asks you a question after you talk?",
         "choices": [
           "Listen and answer as best you can",
@@ -134,15 +224,74 @@
         ],
         "correctIndex": 0,
         "explanation": "Listening and answering questions politely is part of good public speaking."
+      },
+      {
+        "question": "Why is it easier to talk about something you know and love, like your favorite toy?",
+        "choices": [
+          "Because it is easier to talk about things you love",
+          "Because it is always boring"
+        ],
+        "correctIndex": 0,
+        "explanation": "Talking about something you love gives you more to say."
+      },
+      {
+        "question": "Who can you practice your talk with before the big day?",
+        "choices": [
+          "A grown-up at home",
+          "No one, you should never practice"
+        ],
+        "correctIndex": 0,
+        "explanation": "Practicing in front of a grown-up at home helps you get ready."
+      },
+      {
+        "question": "At show and tell, what should you do with your item?",
+        "choices": [
+          "Hold it up so everyone can see it",
+          "Hide it behind your back"
+        ],
+        "correctIndex": 0,
+        "explanation": "Holding your item up lets everyone see what you're talking about."
+      },
+      {
+        "question": "What is a toast?",
+        "choices": [
+          "A short, happy speech, like wishing someone a happy birthday",
+          "A piece of burnt bread only"
+        ],
+        "correctIndex": 0,
+        "explanation": "A toast is a short, happy speech, often said at a celebration."
+      },
+      {
+        "question": "Why is it good to end your talk with a clear last sentence?",
+        "choices": [
+          "So people know you are done",
+          "So people get confused"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear last sentence tells everyone your talk is finished."
+      },
+      {
+        "question": "Mia wants to tell her class about her trip to the beach. What is the first thing she should think about?",
+        "choices": [
+          "What happened first, next, and last",
+          "Nothing, she should just start talking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Thinking about the order of events helps make a clear story."
       }
     ]
   },
-  "public-speaking-7-9": {
+  "public-speaking-7-9-p1": {
     "slides": [
       {
         "emoji": "📖",
         "title": "What makes a good story",
         "text": "A good story has a clear beginning, middle, and end. The middle should have something surprising, like a raccoon sneaking into your tent, so people want to keep listening."
+      },
+      {
+        "emoji": "🎁",
+        "title": "Picking a topic you care about",
+        "text": "A talk is easier to prepare and more fun to give when it's about something you actually care about. If you love skateboarding, you'll naturally have more to say about it than a topic you picked at random."
       },
       {
         "emoji": "🗣️",
@@ -159,6 +308,122 @@
         "title": "Using cue cards",
         "text": "A cue card has just a few key words to remind you what comes next. Reading every single word off a card can make your talk sound stiff."
       },
+      {
+        "emoji": "🎬",
+        "title": "Starting with a hook",
+        "text": "A hook is an opening line that grabs attention right away, like a question or a surprising fact. Starting with \"Have you ever wondered how bees make honey?\" pulls listeners in faster than \"Today I will talk about bees.\""
+      },
+      {
+        "emoji": "🕰️",
+        "title": "Timing your practice runs",
+        "text": "Saying your talk out loud while checking a clock tells you if it's too long or too short. If your talk runs way over the time you were given, you'll know to shorten it before the real day."
+      },
+      {
+        "emoji": "😅",
+        "title": "It's normal to feel nervous",
+        "text": "Almost everyone feels a little nervous before speaking to a group, even people who do it every day. That nervous feeling doesn't mean something is wrong."
+      },
+      {
+        "emoji": "🤔",
+        "title": "Checking they understand",
+        "text": "Asking \"does that make sense?\" partway through gives listeners a chance to ask a question. This helps most when you're explaining something tricky, like the rules of a new game."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A camping story includes a raccoon sneaking into the tent. What makes a story interesting to listen to?",
+        "choices": [
+          "Something happens in the middle that makes people curious",
+          "Nothing happens at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "An interesting middle part makes listeners want to know what happens next."
+      },
+      {
+        "question": "A sentence sounds fine in your head but turns out to be a mouthful when spoken. Why practice out loud instead of just in your head?",
+        "choices": [
+          "It catches tricky parts before the real thing",
+          "It doesn't help at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Saying words out loud feels different and reveals parts that need more practice."
+      },
+      {
+        "question": "Even a teacher who presents daily might feel a few butterflies before a big one. Is it normal to feel nervous before speaking?",
+        "choices": [
+          "Yes, almost everyone does",
+          "No, only beginners do"
+        ],
+        "correctIndex": 0,
+        "explanation": "Even experienced speakers often feel nervous beforehand."
+      },
+      {
+        "question": "Why might reading every single word off a cue card make a talk sound stiff?",
+        "choices": [
+          "A cue card should only have a few key words, not a full script",
+          "Cue cards are against the rules"
+        ],
+        "correctIndex": 0,
+        "explanation": "Cue cards work best as quick reminders, not something you read word for word."
+      },
+      {
+        "question": "Why is a talk easier to prepare when it's about something you actually care about?",
+        "choices": [
+          "You'll naturally have more to say about it",
+          "It makes the talk shorter automatically"
+        ],
+        "correctIndex": 0,
+        "explanation": "Caring about a topic gives you more real things to say about it."
+      },
+      {
+        "question": "Instead of only practicing alone, who else can you practice in front of?",
+        "choices": [
+          "A family member",
+          "No one at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Practicing in front of a family member helps build confidence before the real day."
+      },
+      {
+        "question": "Which opening line is a better \"hook\" to grab attention?",
+        "choices": [
+          "\"Have you ever wondered how bees make honey?\"",
+          "\"Today I will talk about bees.\""
+        ],
+        "correctIndex": 0,
+        "explanation": "A question or surprising fact pulls listeners in faster than a flat announcement."
+      },
+      {
+        "question": "If your practice talk runs way longer than the time you were given, what should you do?",
+        "choices": [
+          "Shorten it before the real day",
+          "Nothing, just talk faster on the real day"
+        ],
+        "correctIndex": 0,
+        "explanation": "Timing your practice runs lets you fix a too-long talk ahead of time."
+      },
+      {
+        "question": "Why might you ask \"does that make sense?\" partway through a talk about a new game's rules?",
+        "choices": [
+          "To give listeners a chance to ask a question",
+          "Because it is a rule you must follow"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking in helps listeners understand tricky explanations."
+      },
+      {
+        "question": "Priya is getting ready to give a class talk about her favorite hobby. What are two things she should do before the big day?",
+        "choices": [
+          "Pick a topic she cares about and practice out loud",
+          "Pick a topic at random and never practice"
+        ],
+        "correctIndex": 0,
+        "explanation": "Caring about the topic and practicing out loud both make the talk go better."
+      }
+    ]
+  },
+  "public-speaking-7-9-p2": {
+    "slides": [
       {
         "emoji": "🐢",
         "title": "Slow down",
@@ -185,14 +450,9 @@
         "text": "In a big room, speak louder than feels normal so people in the back can hear you. It's okay to check in by asking if everyone can hear."
       },
       {
-        "emoji": "😅",
-        "title": "It's normal to feel nervous",
-        "text": "Almost everyone feels a little nervous before speaking to a group, even people who do it every day. That nervous feeling doesn't mean something is wrong."
-      },
-      {
-        "emoji": "🤔",
-        "title": "Checking they understand",
-        "text": "Asking \"does that make sense?\" partway through gives listeners a chance to ask a question. This helps most when you're explaining something tricky, like the rules of a new game."
+        "emoji": "😄",
+        "title": "Sounding friendly",
+        "text": "A warm, friendly tone of voice makes your audience want to keep listening. Reading your talk in a flat, bored voice makes even an interesting topic feel dull."
       },
       {
         "emoji": "❓",
@@ -203,27 +463,19 @@
         "emoji": "💡",
         "title": "What is a \"pitch\"?",
         "text": "A pitch is explaining an idea quickly and saying why it's a good one. Saying \"let's play tag because everyone can join\" is a mini pitch."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Pitching to your team",
+        "text": "A good pitch to your team explains the idea and one clear reason it helps everyone. Saying \"let's split into pairs so we finish the project faster\" gives your team a reason to agree."
+      },
+      {
+        "emoji": "🏆",
+        "title": "Ending with a strong close",
+        "text": "A strong closing line, like a quick summary or a thank you, tells your audience the talk is over. Trailing off with \"um, that's it I guess\" makes even a good talk end weakly."
       }
     ],
     "quiz": [
-      {
-        "question": "A camping story includes a raccoon sneaking into the tent. What makes a story interesting to listen to?",
-        "choices": [
-          "Something happens in the middle that makes people curious",
-          "Nothing happens at all"
-        ],
-        "correctIndex": 0,
-        "explanation": "An interesting middle part makes listeners want to know what happens next."
-      },
-      {
-        "question": "A sentence sounds fine in your head but turns out to be a mouthful when spoken. Why practice out loud instead of just in your head?",
-        "choices": [
-          "It catches tricky parts before the real thing",
-          "It doesn't help at all"
-        ],
-        "correctIndex": 0,
-        "explanation": "Saying words out loud feels different and reveals parts that need more practice."
-      },
       {
         "question": "When nervous, you feel like you're talking at a normal speed. What are nervous speakers often actually doing?",
         "choices": [
@@ -243,15 +495,6 @@
         "explanation": "Spreading eye contact around the room helps the whole audience feel included."
       },
       {
-        "question": "Even a teacher who presents daily might feel a few butterflies before a big one. Is it normal to feel nervous before speaking?",
-        "choices": [
-          "Yes, almost everyone does",
-          "No, only beginners do"
-        ],
-        "correctIndex": 0,
-        "explanation": "Even experienced speakers often feel nervous beforehand."
-      },
-      {
         "question": "Saying \"let's play tag because everyone can join and it needs no equipment\" — what is this an example of?",
         "choices": [
           "A pitch — explaining an idea quickly and why it's good",
@@ -259,15 +502,6 @@
         ],
         "correctIndex": 0,
         "explanation": "A pitch is a quick, convincing explanation of an idea."
-      },
-      {
-        "question": "Why might reading every single word off a cue card make a talk sound stiff?",
-        "choices": [
-          "A cue card should only have a few key words, not a full script",
-          "Cue cards are against the rules"
-        ],
-        "correctIndex": 0,
-        "explanation": "Cue cards work best as quick reminders, not something you read word for word."
       },
       {
         "question": "In a big room, how loud should you speak?",
@@ -286,10 +520,55 @@
         ],
         "correctIndex": 0,
         "explanation": "Pacing means slowing down for important parts instead of rushing through everything."
+      },
+      {
+        "question": "Holding your hands apart to show how big a fish you caught — what is this an example of?",
+        "choices": [
+          "Using a hand gesture to help explain your idea",
+          "A rule you must always follow"
+        ],
+        "correctIndex": 0,
+        "explanation": "Simple hand gestures can help explain your idea without extra words."
+      },
+      {
+        "question": "After your talk, a classmate asks a question you don't expect. What's okay to do?",
+        "choices": [
+          "Pause and think for a second before answering",
+          "Refuse to answer at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Taking a moment to think leads to a better, more confident answer."
+      },
+      {
+        "question": "Why does a warm, friendly tone of voice help your talk?",
+        "choices": [
+          "It makes your audience want to keep listening",
+          "It makes your talk shorter"
+        ],
+        "correctIndex": 0,
+        "explanation": "A friendly tone keeps listeners engaged, while a flat tone makes even good topics feel dull."
+      },
+      {
+        "question": "Saying \"let's split into pairs so we finish the project faster\" to your team — what makes this pitch work well?",
+        "choices": [
+          "It gives one clear reason that helps everyone",
+          "It uses the most words possible"
+        ],
+        "correctIndex": 0,
+        "explanation": "A good pitch gives a clear reason the idea helps the listener."
+      },
+      {
+        "question": "Trailing off with \"um, that's it I guess\" versus a clear thank you — why does a strong closing line matter?",
+        "choices": [
+          "It tells your audience the talk is over, on a confident note",
+          "Endings never matter in a talk"
+        ],
+        "correctIndex": 0,
+        "explanation": "A strong closing line leaves a much better final impression than trailing off."
       }
     ]
   },
-  "public-speaking-10-13": {
+  "public-speaking-10-13-p1": {
     "slides": [
       {
         "emoji": "🎯",
@@ -307,49 +586,34 @@
         "text": "Using a few key-word notes to jog your memory usually sounds more natural than memorizing every word, which can make you freeze if you forget a line. For example, a notecard with just \"intro → 3 facts → conclusion\" as reminders lets you speak naturally in your own words, unlike memorizing an exact script where forgetting one word can throw you off completely."
       },
       {
-        "emoji": "😰",
-        "title": "Managing nervousness",
-        "text": "Deep breathing, practicing enough times that it feels familiar, and reminding yourself \"it's okay to be a little nervous\" all genuinely help calm nerves. For example, practicing your presentation out loud five separate times over a few days — not just once the night before — makes the material feel familiar enough that your nerves calm down noticeably by the actual day."
-      },
-      {
-        "emoji": "💡",
-        "title": "Pitching persuasively",
-        "text": "A persuasive pitch doesn't just explain what an idea is — it explains why the listener should care, in terms that matter to them specifically. For example, pitching a class fundraiser idea to your principal works better if you explain how it benefits the whole school (new playground equipment) rather than just how fun it'll be for your specific class."
-      },
-      {
-        "emoji": "🖼️",
-        "title": "Keeping visual aids simple",
-        "text": "A slide or poster with too many words competes with you for attention — a few key words or a picture support what you're saying instead of repeating it. For example, a slide with just a bold headline and one photo, while you explain the details out loud, keeps the audience's attention on you — a slide crammed with paragraphs of text pulls their focus away to reading instead of listening."
-      },
-      {
-        "emoji": "❓",
-        "title": "Handling questions",
-        "text": "It's okay to pause and think before answering a question, or to say \"that's a great question, let me think\" instead of rushing an answer. For example, if a classmate asks a tough question you didn't expect during your presentation, pausing for a few seconds to actually think through a good answer looks far more confident than blurting out the first half-formed thought that comes to mind."
-      },
-      {
         "emoji": "⏱️",
         "title": "Pacing your time",
         "text": "Practicing with a timer helps you learn whether your presentation is too long, too short, or just right, so you're not rushing through your ending or running out of things to say. For example, if you practice a five-minute presentation and it actually takes eight minutes, you'll know ahead of time to trim a section, instead of realizing it mid-presentation when you notice the teacher checking the clock."
       },
       {
-        "emoji": "📢",
-        "title": "Projecting your voice",
-        "text": "Projecting means speaking from your diaphragm so your voice carries across a room without you needing to shout or strain your throat. For example, standing up straight and taking a breath from your belly before a key sentence lets you say it with real volume and energy, instead of a strained, quiet voice that trails off by the end of the room."
+        "emoji": "🎪",
+        "title": "Choosing your main point",
+        "text": "Before you write anything, decide on the one big idea you want your audience to remember, and build everything else around supporting it. A presentation that tries to cover five unrelated ideas usually leaves an audience remembering none of them, while one built around a single clear point tends to stick."
       },
       {
-        "emoji": "⏸️",
-        "title": "Using pauses on purpose",
-        "text": "A short pause right before or after an important point gives your audience a moment to actually absorb what you just said, instead of rushing straight into the next idea. For example, pausing for a full two seconds after stating your main argument, rather than immediately jumping to your next point, signals to the audience that what you just said matters and deserves a moment to sink in."
+        "emoji": "🗺️",
+        "title": "Outlining before you write",
+        "text": "Sketching a simple outline — opening, two or three main points, closing — before writing full sentences keeps your presentation organized from the start. Jumping straight into writing without an outline often leads to a presentation that wanders and repeats itself."
       },
       {
-        "emoji": "🔧",
-        "title": "When something goes wrong",
-        "text": "Technical problems, like a slide that won't load or a microphone that cuts out, happen to almost every speaker eventually, and staying calm matters more than the problem itself. For example, if your slideshow freezes in the middle of a presentation, calmly saying \"give me just a second\" while you fix it looks far more professional than panicking or apologizing repeatedly in front of the group."
+        "emoji": "🏫",
+        "title": "Example: planning a class presentation",
+        "text": "Say you're assigned a presentation on a historical event. A strong plan might be: hook with a surprising fact, explain what happened and why it mattered, then close with why it still matters today — one clear line from start to finish."
       },
       {
-        "emoji": "🔄",
-        "title": "Getting feedback on a practice run",
-        "text": "Practicing in front of a friend or family member and asking what was confusing or hard to follow catches problems you can't notice by practicing alone. For example, a friend might tell you that you rushed through your third point, or that a certain slide didn't make sense, letting you fix it before the real presentation instead of during it."
+        "emoji": "🖊️",
+        "title": "Writing a strong opening line",
+        "text": "Your first line sets the tone for the whole presentation, so a surprising fact, a short question, or a quick story works better than \"today I'm going to talk about...\". For example, opening with \"In 1969, a 26-year-old engineer helped land a spacecraft on the moon\" pulls people in more than announcing your topic flatly."
+      },
+      {
+        "emoji": "🔚",
+        "title": "Writing a strong closing line",
+        "text": "Your closing line is often what people remember most, so ending with a clear takeaway or a callback to your opening works better than just trailing off. Ending with \"and that's why this event still matters today\" leaves a stronger final impression than \"okay, that's basically it.\""
       }
     ],
     "quiz": [
@@ -381,13 +645,145 @@
         "explanation": "Notes let you speak naturally without the risk of freezing over a forgotten exact word."
       },
       {
-        "question": "Pitching a fundraiser to your principal by explaining school-wide benefits, not just class fun. What makes a pitch persuasive?",
+        "question": "You practice a five-minute talk and it actually takes eight minutes. Why is timing yourself with a practice run useful?",
         "choices": [
-          "Explaining why the listener should care, in terms that matter to them",
-          "Using as many words as possible"
+          "It shows whether your presentation is too long before the real thing",
+          "Timing never matters for a presentation"
         ],
         "correctIndex": 0,
-        "explanation": "A persuasive pitch connects the idea to what the specific listener cares about."
+        "explanation": "Practicing with a timer lets you trim your presentation ahead of time instead of rushing at the end."
+      },
+      {
+        "question": "A presentation tries to cover five unrelated ideas instead of building around one. Why decide on a single main point before you write?",
+        "choices": [
+          "An audience tends to remember one clear point better than five scattered ones",
+          "Audiences always prefer more ideas packed in"
+        ],
+        "correctIndex": 0,
+        "explanation": "A single clear main point is far more likely to stick with your audience."
+      },
+      {
+        "question": "Why sketch a simple outline before writing full sentences?",
+        "choices": [
+          "It keeps your presentation organized instead of wandering",
+          "Outlines are only for teachers, not students"
+        ],
+        "correctIndex": 0,
+        "explanation": "An outline keeps your ideas organized before you fill in the details."
+      },
+      {
+        "question": "For a history presentation, which plan is stronger: a hook, explanation, and a closing link to today — or just listing facts in random order?",
+        "choices": [
+          "Hook, explanation, then a closing link to today",
+          "Listing facts in whatever order you remember them"
+        ],
+        "correctIndex": 0,
+        "explanation": "A planned structure is much easier for an audience to follow than random facts."
+      },
+      {
+        "question": "Which is a stronger opening line for a presentation?",
+        "choices": [
+          "\"In 1969, a 26-year-old engineer helped land a spacecraft on the moon.\"",
+          "\"Today I'm going to talk about the moon landing.\""
+        ],
+        "correctIndex": 0,
+        "explanation": "A surprising fact grabs attention better than flatly announcing your topic."
+      },
+      {
+        "question": "Why does a strong, clear closing line matter?",
+        "choices": [
+          "It's often what the audience remembers most",
+          "Closing lines never affect how a presentation is remembered"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear closing line leaves a lasting final impression on your audience."
+      },
+      {
+        "question": "You're planning a presentation and decide on your main point before outlining or writing. Why plan in this order?",
+        "choices": [
+          "Everything else can be built to support that one main idea",
+          "The order you plan in never matters"
+        ],
+        "correctIndex": 0,
+        "explanation": "Choosing your main point first gives everything else a clear purpose."
+      }
+    ]
+  },
+  "public-speaking-10-13-p2": {
+    "slides": [
+      {
+        "emoji": "😰",
+        "title": "Managing nervousness",
+        "text": "Deep breathing, practicing enough times that it feels familiar, and reminding yourself \"it's okay to be a little nervous\" all genuinely help calm nerves. For example, practicing your presentation out loud five separate times over a few days — not just once the night before — makes the material feel familiar enough that your nerves calm down noticeably by the actual day."
+      },
+      {
+        "emoji": "📢",
+        "title": "Projecting your voice",
+        "text": "Projecting means speaking from your diaphragm so your voice carries across a room without you needing to shout or strain your throat. For example, standing up straight and taking a breath from your belly before a key sentence lets you say it with real volume and energy, instead of a strained, quiet voice that trails off by the end of the room."
+      },
+      {
+        "emoji": "⏸️",
+        "title": "Using pauses on purpose",
+        "text": "A short pause right before or after an important point gives your audience a moment to actually absorb what you just said, instead of rushing straight into the next idea. For example, pausing for a full two seconds after stating your main argument, rather than immediately jumping to your next point, signals to the audience that what you just said matters and deserves a moment to sink in."
+      },
+      {
+        "emoji": "🖼️",
+        "title": "Keeping visual aids simple",
+        "text": "A slide or poster with too many words competes with you for attention — a few key words or a picture support what you're saying instead of repeating it. For example, a slide with just a bold headline and one photo, while you explain the details out loud, keeps the audience's attention on you — a slide crammed with paragraphs of text pulls their focus away to reading instead of listening."
+      },
+      {
+        "emoji": "🎶",
+        "title": "Varying your tone",
+        "text": "Speaking in one flat tone the whole time makes even interesting information sound boring, while raising and lowering your pitch on key words keeps people listening. For example, saying your presentation's most surprising fact with more energy in your voice makes it land harder than saying it in the exact same tone as everything else."
+      },
+      {
+        "emoji": "🧍",
+        "title": "Body language basics",
+        "text": "Standing with your weight evenly balanced and your hands relaxed at your sides between gestures reads as confident, while crossed arms or constant fidgeting can distract your audience. For example, rocking back and forth or clicking a pen the whole time pulls attention away from what you're saying, even if your words are great."
+      },
+      {
+        "emoji": "🙌",
+        "title": "Purposeful gestures",
+        "text": "A gesture that matches your words — like counting on your fingers while listing three points — reinforces your message, while random hand-waving doesn't add anything. For example, holding up one finger for each point as you say \"first... second... third...\" helps your audience track your structure visually, not just by ear."
+      },
+      {
+        "emoji": "🚶",
+        "title": "Moving with purpose",
+        "text": "Taking a deliberate step when you shift to a new point can signal a transition, but pacing back and forth nervously the whole time is distracting. For example, stepping slightly to one side right as you say \"now, let's look at the second reason\" gives your movement a purpose instead of looking like nervous energy."
+      },
+      {
+        "emoji": "😬",
+        "title": "Filler words and how to reduce them",
+        "text": "Words like \"um,\" \"like,\" and \"you know\" sneak in when you're unsure what to say next, and a short pause works better than a filler word to buy yourself thinking time. For example, pausing silently for a second while you gather your next thought sounds far more confident than filling that same second with \"um, so, like.\""
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Practicing your presentation five separate times over a few days, instead of once the night before — why does this help with nervousness?",
+        "choices": [
+          "The material feels familiar enough that nerves calm down",
+          "Practicing more than once actually makes you more nervous"
+        ],
+        "correctIndex": 0,
+        "explanation": "Repeated practice over several days makes the material familiar, which calms nerves."
+      },
+      {
+        "question": "What does \"projecting\" your voice mean?",
+        "choices": [
+          "Speaking from your diaphragm so your voice carries without straining",
+          "Shouting as loud as you possibly can"
+        ],
+        "correctIndex": 0,
+        "explanation": "Projecting means using your diaphragm to carry your voice, not straining your throat."
+      },
+      {
+        "question": "Pausing for two full seconds right after your main argument instead of rushing on — what does this do?",
+        "choices": [
+          "Gives the audience a moment to absorb what you said",
+          "Confuses the audience for no reason"
+        ],
+        "correctIndex": 0,
+        "explanation": "A purposeful pause signals that an important point deserves a moment to sink in."
       },
       {
         "question": "A slide crammed with paragraphs of text vs. one with a headline and a photo. What's a risk of too many words on a slide?",
@@ -399,6 +795,120 @@
         "explanation": "A busy slide can pull attention away from the speaker instead of supporting them."
       },
       {
+        "question": "Saying your most surprising fact in the exact same flat tone as everything else — what's the effect of varying your tone instead?",
+        "choices": [
+          "It keeps people listening and makes key points land harder",
+          "Varying your tone always confuses listeners"
+        ],
+        "correctIndex": 0,
+        "explanation": "Raising and lowering your pitch on key words keeps an audience engaged."
+      },
+      {
+        "question": "Rocking back and forth or clicking a pen throughout a presentation — what effect does this have?",
+        "choices": [
+          "It distracts the audience from what you're saying",
+          "It always makes a presentation more engaging"
+        ],
+        "correctIndex": 0,
+        "explanation": "Fidgeting pulls attention away from your message, even if your words are strong."
+      },
+      {
+        "question": "Holding up one finger for each point while saying \"first... second... third...\" — why does this help?",
+        "choices": [
+          "It helps the audience track your structure visually",
+          "Gestures never add anything to a presentation"
+        ],
+        "correctIndex": 0,
+        "explanation": "A gesture that matches your words reinforces your structure for the audience."
+      },
+      {
+        "question": "Stepping to one side exactly when you move to your second reason, versus pacing back and forth the whole talk — what's the difference?",
+        "choices": [
+          "One movement has a purpose, the other looks like nervous energy",
+          "There's no difference between the two"
+        ],
+        "correctIndex": 0,
+        "explanation": "Deliberate movement signals a transition; nervous pacing is just distracting."
+      },
+      {
+        "question": "Instead of saying \"um, so, like\" while thinking of what to say next, what works better?",
+        "choices": [
+          "A short silent pause",
+          "Talking even faster to fill the silence"
+        ],
+        "correctIndex": 0,
+        "explanation": "A brief silent pause sounds more confident than filling the gap with filler words."
+      },
+      {
+        "question": "Standing with your weight evenly balanced and your hands relaxed at your sides between gestures. What does this convey to an audience?",
+        "choices": [
+          "A sense of confidence",
+          "Nervousness and distraction"
+        ],
+        "correctIndex": 0,
+        "explanation": "Balanced, relaxed body language reads as confident, unlike crossed arms or fidgeting."
+      }
+    ]
+  },
+  "public-speaking-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "💡",
+        "title": "Pitching persuasively",
+        "text": "A persuasive pitch doesn't just explain what an idea is — it explains why the listener should care, in terms that matter to them specifically. For example, pitching a class fundraiser idea to your principal works better if you explain how it benefits the whole school (new playground equipment) rather than just how fun it'll be for your specific class."
+      },
+      {
+        "emoji": "❓",
+        "title": "Handling questions",
+        "text": "It's okay to pause and think before answering a question, or to say \"that's a great question, let me think\" instead of rushing an answer. For example, if a classmate asks a tough question you didn't expect during your presentation, pausing for a few seconds to actually think through a good answer looks far more confident than blurting out the first half-formed thought that comes to mind."
+      },
+      {
+        "emoji": "🔧",
+        "title": "When something goes wrong",
+        "text": "Technical problems, like a slide that won't load or a microphone that cuts out, happen to almost every speaker eventually, and staying calm matters more than the problem itself. For example, if your slideshow freezes in the middle of a presentation, calmly saying \"give me just a second\" while you fix it looks far more professional than panicking or apologizing repeatedly in front of the group."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Getting feedback on a practice run",
+        "text": "Practicing in front of a friend or family member and asking what was confusing or hard to follow catches problems you can't notice by practicing alone. For example, a friend might tell you that you rushed through your third point, or that a certain slide didn't make sense, letting you fix it before the real presentation instead of during it."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Reading audience reactions",
+        "text": "Glancing at your audience while you talk — noticing confused faces or people losing interest — lets you adjust on the spot, like slowing down or adding a quick example. For example, if you notice several classmates look lost after a tricky explanation, pausing to say it a simpler way keeps the whole room following along."
+      },
+      {
+        "emoji": "🥤",
+        "title": "Example: pitching a fundraiser idea",
+        "text": "Imagine pitching a bake sale to raise money for new soccer nets. A strong pitch names the problem (the nets are torn), the solution (a bake sale), and the benefit to everyone (the whole team gets to play safely) — not just \"it would be fun.\""
+      },
+      {
+        "emoji": "🙋",
+        "title": "Taking a question you don't know the answer to",
+        "text": "If you genuinely don't know the answer to a question, saying so honestly — \"I'm not sure, but I can find out\" — works better than guessing and getting it wrong. Admitting you don't know something small rarely hurts your credibility; confidently stating something false usually does."
+      },
+      {
+        "emoji": "🎉",
+        "title": "Ending on a strong note",
+        "text": "Closing with a callback to your opening, a clear takeaway, or a genuine thank you leaves your audience with a better final impression than just stopping abruptly. For example, if you opened with a question, answering it clearly in your closing line ties the whole presentation together."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Learning from how it went",
+        "text": "After a presentation, thinking honestly about what went well and what you'd change next time turns each presentation into practice for the next one. For example, noticing that you spoke too fast during your introduction this time means you can specifically practice slowing down at the start next time."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Pitching a fundraiser to your principal by explaining school-wide benefits, not just class fun. What makes a pitch persuasive?",
+        "choices": [
+          "Explaining why the listener should care, in terms that matter to them",
+          "Using as many words as possible"
+        ],
+        "correctIndex": 0,
+        "explanation": "A persuasive pitch connects the idea to what the specific listener cares about."
+      },
+      {
         "question": "A classmate asks a tough, unexpected question during your presentation. What's okay to do?",
         "choices": [
           "Pause and think before answering",
@@ -406,15 +916,6 @@
         ],
         "correctIndex": 0,
         "explanation": "Taking a moment to think leads to a better answer than rushing."
-      },
-      {
-        "question": "You practice a five-minute talk and it actually takes eight minutes. Why is timing yourself with a practice run useful?",
-        "choices": [
-          "It shows whether your presentation is too long before the real thing",
-          "Timing never matters for a presentation"
-        ],
-        "correctIndex": 0,
-        "explanation": "Practicing with a timer lets you trim your presentation ahead of time instead of rushing at the end."
       },
       {
         "question": "Your slideshow freezes in the middle of your presentation. What's the best way to handle an unexpected technical problem?",
@@ -433,16 +934,65 @@
         ],
         "correctIndex": 0,
         "explanation": "Another person can point out confusing or rushed parts you can't easily notice by yourself."
+      },
+      {
+        "question": "You notice several classmates look lost after a tricky explanation. What should you do?",
+        "choices": [
+          "Pause and explain it a simpler way",
+          "Ignore it and keep going at the same pace"
+        ],
+        "correctIndex": 0,
+        "explanation": "Reading audience reactions lets you adjust on the spot, like simplifying an explanation."
+      },
+      {
+        "question": "A strong fundraiser pitch names the problem, the solution, and the benefit to everyone — not just \"it would be fun.\" Why?",
+        "choices": [
+          "It gives listeners real reasons to care, not just a vague feeling",
+          "Pitches should never explain the problem"
+        ],
+        "correctIndex": 0,
+        "explanation": "Naming the problem, solution, and benefit gives listeners concrete reasons to agree."
+      },
+      {
+        "question": "You genuinely don't know the answer to a question during your presentation. What's the best response?",
+        "choices": [
+          "Honestly say \"I'm not sure, but I can find out\"",
+          "Confidently guess even if you might be wrong"
+        ],
+        "correctIndex": 0,
+        "explanation": "Admitting you don't know something rarely hurts your credibility as much as a wrong guess."
+      },
+      {
+        "question": "Answering the question you opened with, as your closing line — why does this work well?",
+        "choices": [
+          "It ties the whole presentation together",
+          "Callbacks to the opening always confuse an audience"
+        ],
+        "correctIndex": 0,
+        "explanation": "A callback to your opening gives your presentation a satisfying, connected ending."
+      },
+      {
+        "question": "After a presentation, noticing you spoke too fast during your introduction. Why is this reflection useful?",
+        "choices": [
+          "It lets you specifically practice that part before next time",
+          "Thinking about past presentations never helps"
+        ],
+        "correctIndex": 0,
+        "explanation": "Honest reflection turns each presentation into practice for the next one."
+      },
+      {
+        "question": "During Q&A, a classmate asks a fair but tough question you didn't expect. What's the confident response?",
+        "choices": [
+          "Pause, think it through, then give a real answer",
+          "Pretend you didn't hear the question"
+        ],
+        "correctIndex": 0,
+        "explanation": "Pausing to think through a real answer looks far more confident than avoiding the question."
       }
     ]
   },
-  "public-speaking-13-17": {
+  "public-speaking-13-17-p1": {
     "slides": [
-      {
-        "emoji": "👂",
-        "title": "Reading the room",
-        "text": "Reading the room means noticing whether your audience looks confused, bored, or engaged while you're speaking, and adjusting on the spot. For example, if several people look lost right after you use a technical term, pausing to explain it simply in the moment keeps the whole room with you, instead of losing them for the rest of the talk."
-      },
       {
         "emoji": "🛗",
         "title": "The elevator pitch",
@@ -479,51 +1029,17 @@
         "text": "A story with a real setup, a genuine conflict, and a resolution sticks with an audience far longer than a list of facts. For example, opening a speech about recycling with one piece of trash's actual journey, rather than just saying \"recycling is important,\" is far more likely to stick in people's memory."
       },
       {
-        "emoji": "😮‍💨",
-        "title": "Owning your nerves on stage",
-        "text": "Even experienced speakers get nervous right before going on stage, and hiding it usually takes more energy than simply accepting it and starting anyway. For example, taking one slow breath backstage and reminding yourself \"a little nervous energy is normal\" puts that energy to use, instead of trying to suppress it completely."
-      },
-      {
-        "emoji": "🛡️",
-        "title": "Handling pushback gracefully",
-        "text": "Responding to a tough or even hostile question calmly, without getting defensive, usually earns more respect than winning the argument would. For example, calmly acknowledging someone's challenge and responding with your reasoning, instead of getting dismissive, earns more respect from the room than \"winning\" the exchange."
-      },
-      {
-        "emoji": "🎭",
-        "title": "Body language and vocal variety",
-        "text": "Varying your pace, volume, and pauses, instead of speaking in one flat tone, keeps an audience's attention and emphasizes your key points. For example, slowing down and pausing right before your speech's most important sentence makes that point land much harder than saying it in a flat, even tone."
-      },
-      {
-        "emoji": "⏳",
-        "title": "Adapting to your time limit",
-        "text": "A strict time limit forces you to decide which points truly matter and cut the rest, which usually makes a speech stronger, not weaker. For example, if you're given only three minutes instead of five, cutting your weakest example rather than rushing through all of them keeps your strongest points clear."
-      },
-      {
-        "emoji": "💪",
-        "title": "Overcoming stage fright",
-        "text": "Thorough preparation is the most reliable cure for stage fright — confidence usually comes from knowing your material cold, not a personality trait. For example, someone who looks naturally confident on stage has often just practiced their material so many times that stage fright has little room left to take hold."
-      },
-      {
         "emoji": "📣",
         "title": "The call to action",
         "text": "A call to action is the specific thing you want your audience to actually do after hearing your speech, not just think about. For example, ending a speech about recycling with \"starting tomorrow, bring one reusable bag to school\" gives listeners something concrete to act on, instead of just a vague, feel-good idea."
       },
       {
-        "emoji": "💻",
-        "title": "Presenting virtually vs. in person",
-        "text": "Virtual presentations lose most body language cues, so speaking with more vocal energy and checking in verbally matters even more. For example, in person you can glance around and notice confused faces, but on a video call you usually can't, which is why asking \"does that make sense?\" out loud becomes far more important."
+        "emoji": "🎓",
+        "title": "Example: a debate opening statement",
+        "text": "A strong debate opening might combine all three tools: citing a real statistic (logos), sharing why the issue affects a classmate personally (pathos), and mentioning that you researched both sides (ethos) — before stating your position clearly in one sentence."
       }
     ],
     "quiz": [
-      {
-        "question": "Several audience members look confused after a technical term, and you pause to explain it simply right there. What does \"reading the room\" let a speaker do?",
-        "choices": [
-          "Adjust in real time based on audience reactions",
-          "Ignore the audience completely"
-        ],
-        "correctIndex": 0,
-        "explanation": "Noticing audience reactions lets a speaker adapt, like slowing down or adding an example."
-      },
       {
         "question": "Condensing a semester-long project into a 30-second summary of the question, findings, and importance. What is an \"elevator pitch\"?",
         "choices": [
@@ -552,33 +1068,6 @@
         "explanation": "A structured story tends to be far more memorable than a plain list of facts."
       },
       {
-        "question": "Someone aggressively challenges your conclusion, and you calmly acknowledge their point before responding. What usually earns more respect?",
-        "choices": [
-          "Responding calmly without getting defensive",
-          "Getting defensive and arguing back"
-        ],
-        "correctIndex": 0,
-        "explanation": "A calm, non-defensive response tends to earn more respect than winning an argument."
-      },
-      {
-        "question": "Slowing down and pausing right before your speech's most important sentence. What does varying your pace, volume, and pauses do for a speech?",
-        "choices": [
-          "Keeps attention and emphasizes key points",
-          "Confuses the audience for no reason"
-        ],
-        "correctIndex": 0,
-        "explanation": "Vocal variety keeps an audience engaged and highlights what matters most."
-      },
-      {
-        "question": "Someone who seems naturally confident on stage has usually practiced the material extensively. What is the most reliable cure for stage fright?",
-        "choices": [
-          "Thorough preparation",
-          "Just being naturally confident"
-        ],
-        "correctIndex": 0,
-        "explanation": "Confidence usually comes from knowing your material well, not an innate trait."
-      },
-      {
         "question": "A speech says \"we need more funding, more staff, and more time\" instead of listing two or five things. What is the \"rule of three\"?",
         "choices": [
           "Grouping ideas into sets of three because audiences remember them well",
@@ -604,6 +1093,324 @@
         ],
         "correctIndex": 0,
         "explanation": "A call to action gives listeners something concrete to do after your speech, not just a feeling."
+      },
+      {
+        "question": "Mentioning that you interviewed three actual teachers before arguing for a longer lunch period. What rhetorical tool is this an example of?",
+        "choices": [
+          "Ethos — building credibility",
+          "Pathos — building emotion"
+        ],
+        "correctIndex": 0,
+        "explanation": "Citing real research or expertise builds ethos, the audience's trust in you."
+      },
+      {
+        "question": "Opening a recycling speech with one specific piece of trash's actual journey, instead of a plain fact. What rhetorical tool is this?",
+        "choices": [
+          "Pathos — appealing to emotion",
+          "Logos — appealing to logic"
+        ],
+        "correctIndex": 0,
+        "explanation": "A vivid story that makes an audience feel something is an appeal to pathos."
+      },
+      {
+        "question": "Backing up a school policy argument with real attendance numbers. What rhetorical tool is this?",
+        "choices": [
+          "Logos — appealing to logic",
+          "Ethos — appealing to credibility"
+        ],
+        "correctIndex": 0,
+        "explanation": "Facts, data, and reasoning are appeals to logos."
+      },
+      {
+        "question": "A debate opening cites a statistic, shares a personal story, and mentions research on both sides, before stating a clear position. What is this combining?",
+        "choices": [
+          "Logos, pathos, and ethos together",
+          "Only a call to action"
+        ],
+        "correctIndex": 0,
+        "explanation": "This opening blends logic, emotion, and credibility, which the strongest speeches often do."
+      }
+    ]
+  },
+  "public-speaking-13-17-p2": {
+    "slides": [
+      {
+        "emoji": "👂",
+        "title": "Reading the room",
+        "text": "Reading the room means noticing whether your audience looks confused, bored, or engaged while you're speaking, and adjusting on the spot. For example, if several people look lost right after you use a technical term, pausing to explain it simply in the moment keeps the whole room with you, instead of losing them for the rest of the talk."
+      },
+      {
+        "emoji": "🎭",
+        "title": "Body language and vocal variety",
+        "text": "Varying your pace, volume, and pauses, instead of speaking in one flat tone, keeps an audience's attention and emphasizes your key points. For example, slowing down and pausing right before your speech's most important sentence makes that point land much harder than saying it in a flat, even tone."
+      },
+      {
+        "emoji": "💻",
+        "title": "Presenting virtually vs. in person",
+        "text": "Virtual presentations lose most body language cues, so speaking with more vocal energy and checking in verbally matters even more. For example, in person you can glance around and notice confused faces, but on a video call you usually can't, which is why asking \"does that make sense?\" out loud becomes far more important."
+      },
+      {
+        "emoji": "⏳",
+        "title": "Adapting to your time limit",
+        "text": "A strict time limit forces you to decide which points truly matter and cut the rest, which usually makes a speech stronger, not weaker. For example, if you're given only three minutes instead of five, cutting your weakest example rather than rushing through all of them keeps your strongest points clear."
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Audience analysis",
+        "text": "Before writing a word, ask what your specific audience already knows and what they actually care about, since the same topic needs a different approach for different groups. For example, pitching a school policy change to students works differently than pitching the same change to the school board, even though the core idea stays the same."
+      },
+      {
+        "emoji": "🌐",
+        "title": "Reading the setting",
+        "text": "A formal assembly, a classroom presentation, and a casual club meeting call for different levels of formality in your language and delivery. For example, opening with a joke might land well at a casual club meeting but feel out of place during a formal school assembly."
+      },
+      {
+        "emoji": "🎤",
+        "title": "Microphone and space awareness",
+        "text": "Speaking into a microphone requires less volume but more control, since holding it too close causes distortion and turning your head away drops your volume suddenly. Practicing with the actual microphone or in the actual room beforehand, when possible, prevents surprises on the day."
+      },
+      {
+        "emoji": "💬",
+        "title": "Reading which questions need short answers",
+        "text": "Some audience questions want a quick, direct answer, while others are really asking you to explain your reasoning at length — misreading which one you're facing can make you seem either dismissive or long-winded. Listening for whether a question asks \"what\" (usually short) or \"why\" (usually needs more) is a useful starting guide."
+      },
+      {
+        "emoji": "🧊",
+        "title": "Breaking the ice",
+        "text": "A brief, genuine moment of connection at the start — a relevant question, a quick relatable comment — makes an audience more receptive to everything that follows. Starting a speech about phone use by asking \"who checked their phone in the last five minutes?\" builds instant rapport before you make your actual point."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Several audience members look confused after a technical term, and you pause to explain it simply right there. What does \"reading the room\" let a speaker do?",
+        "choices": [
+          "Adjust in real time based on audience reactions",
+          "Ignore the audience completely"
+        ],
+        "correctIndex": 0,
+        "explanation": "Noticing audience reactions lets a speaker adapt, like slowing down or adding an example."
+      },
+      {
+        "question": "Slowing down and pausing right before your speech's most important sentence. What does varying your pace, volume, and pauses do for a speech?",
+        "choices": [
+          "Keeps attention and emphasizes key points",
+          "Confuses the audience for no reason"
+        ],
+        "correctIndex": 0,
+        "explanation": "Vocal variety keeps an audience engaged and highlights what matters most."
+      },
+      {
+        "question": "On a video call, you usually can't see confused faces the way you can in person. Why does this make verbal check-ins like \"does that make sense?\" more important?",
+        "choices": [
+          "You lose most visual cues, so you need another way to check understanding",
+          "Video calls make check-ins pointless"
+        ],
+        "correctIndex": 0,
+        "explanation": "Without visual cues, asking out loud becomes the main way to check understanding."
+      },
+      {
+        "question": "Given only three minutes instead of five, what's the stronger choice?",
+        "choices": [
+          "Cut your weakest example and keep your strongest points clear",
+          "Rush through all your examples at high speed"
+        ],
+        "correctIndex": 0,
+        "explanation": "A time limit forces you to cut weaker material rather than rush everything."
+      },
+      {
+        "question": "Pitching a school policy change to students vs. to the school board. Why might the approach differ even though the core idea stays the same?",
+        "choices": [
+          "Different audiences already know different things and care about different angles",
+          "The core idea should always change with the audience too"
+        ],
+        "correctIndex": 0,
+        "explanation": "Audience analysis means adjusting your approach, not your core message, for each group."
+      },
+      {
+        "question": "Opening with a joke lands well at a casual club meeting but may feel out of place at a formal assembly. What does this show?",
+        "choices": [
+          "Formality of the setting should shape your delivery choices",
+          "Jokes should never be used in any speech"
+        ],
+        "correctIndex": 0,
+        "explanation": "Reading the setting means matching your tone and delivery to how formal the event is."
+      },
+      {
+        "question": "Why practice with the actual microphone or in the actual room beforehand when possible?",
+        "choices": [
+          "It prevents surprises like distortion or sudden volume drops on the real day",
+          "Microphones behave the same everywhere, so practice doesn't matter"
+        ],
+        "correctIndex": 0,
+        "explanation": "Practicing with the real equipment and space avoids surprises during the actual talk."
+      },
+      {
+        "question": "A question starting with \"what\" versus one starting with \"why\" — which is a useful guide for how long your answer should be?",
+        "choices": [
+          "\"What\" questions are usually shorter, \"why\" questions usually need more explanation",
+          "All questions need exactly the same length of answer"
+        ],
+        "correctIndex": 0,
+        "explanation": "Listening for the type of question helps you judge how long an answer should be."
+      },
+      {
+        "question": "Asking \"who checked their phone in the last five minutes?\" at the start of a speech about phone use. What does this do?",
+        "choices": [
+          "Builds instant rapport with the audience before the main point",
+          "Distracts the audience from the topic entirely"
+        ],
+        "correctIndex": 0,
+        "explanation": "A brief, relevant moment of connection at the start makes the audience more receptive."
+      },
+      {
+        "question": "Several audience members look confused right after you use a technical term. What's the best move?",
+        "choices": [
+          "Pause and explain the term simply, right in the moment",
+          "Keep going at the same pace and hope they catch up"
+        ],
+        "correctIndex": 0,
+        "explanation": "Adjusting on the spot keeps the whole room following along with you."
+      }
+    ]
+  },
+  "public-speaking-13-17-p3": {
+    "slides": [
+      {
+        "emoji": "😮‍💨",
+        "title": "Owning your nerves on stage",
+        "text": "Even experienced speakers get nervous right before going on stage, and hiding it usually takes more energy than simply accepting it and starting anyway. For example, taking one slow breath backstage and reminding yourself \"a little nervous energy is normal\" puts that energy to use, instead of trying to suppress it completely."
+      },
+      {
+        "emoji": "🛡️",
+        "title": "Handling pushback gracefully",
+        "text": "Responding to a tough or even hostile question calmly, without getting defensive, usually earns more respect than winning the argument would. For example, calmly acknowledging someone's challenge and responding with your reasoning, instead of getting dismissive, earns more respect from the room than \"winning\" the exchange."
+      },
+      {
+        "emoji": "💪",
+        "title": "Overcoming stage fright",
+        "text": "Thorough preparation is the most reliable cure for stage fright — confidence usually comes from knowing your material cold, not a personality trait. For example, someone who looks naturally confident on stage has often just practiced their material so many times that stage fright has little room left to take hold."
+      },
+      {
+        "emoji": "🎙️",
+        "title": "Example: \"tell me about yourself\"",
+        "text": "A job or club interview's open-ended \"tell me about yourself\" is really asking for a short, structured pitch — a quick present, past, and future arc — not your entire life story. For example, \"I'm currently editing the yearbook, I got into it through photography club last year, and I want to keep building skills in design\" is far stronger than rambling through unrelated details."
+      },
+      {
+        "emoji": "🥂",
+        "title": "Example: a toast",
+        "text": "A good toast is short, specific, and genuine — one real memory or quality about the person, not a list of generic compliments. For example, \"She's the friend who drove two hours just to bring me soup when I was sick\" says more than \"she's such a great friend\" ever could."
+      },
+      {
+        "emoji": "⚡",
+        "title": "Impromptu speaking",
+        "text": "When asked to speak with no preparation, quickly picking one clear point and one supporting example — instead of trying to say everything — keeps you from rambling. A simple structure like \"here's my point, here's why, here's an example\" works even with only seconds to think."
+      },
+      {
+        "emoji": "🧑‍⚖️",
+        "title": "Example: a debate rebuttal",
+        "text": "A strong rebuttal directly addresses the opponent's actual point before making your own, rather than ignoring it and repeating your original argument. For example, saying \"my opponent claims X, but that overlooks Y\" shows you engaged with their argument instead of just talking past it."
+      },
+      {
+        "emoji": "🫂",
+        "title": "Recovering from a mistake",
+        "text": "Losing your place or misspeaking happens to nearly every speaker, and briefly acknowledging it and moving on works far better than freezing or over-apologizing. For example, calmly saying \"let me back up for a second\" and continuing looks far more composed than stopping the whole speech to apologize repeatedly."
+      },
+      {
+        "emoji": "🏅",
+        "title": "Building the habit over time",
+        "text": "Public speaking skill builds the same way any skill does — through repeated practice across different situations, not through one natural talent that some people have and others don't. Someone who speaks confidently at seventeen has usually spoken in front of people dozens of times before, not been born that way."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Someone aggressively challenges your conclusion, and you calmly acknowledge their point before responding. What usually earns more respect?",
+        "choices": [
+          "Responding calmly without getting defensive",
+          "Getting defensive and arguing back"
+        ],
+        "correctIndex": 0,
+        "explanation": "A calm, non-defensive response tends to earn more respect than winning an argument."
+      },
+      {
+        "question": "Someone who seems naturally confident on stage has usually practiced the material extensively. What is the most reliable cure for stage fright?",
+        "choices": [
+          "Thorough preparation",
+          "Just being naturally confident"
+        ],
+        "correctIndex": 0,
+        "explanation": "Confidence usually comes from knowing your material well, not an innate trait."
+      },
+      {
+        "question": "Taking one slow breath backstage and reminding yourself \"a little nervous energy is normal,\" instead of trying to hide it completely. What does this do?",
+        "choices": [
+          "Puts nervous energy to use instead of suppressing it",
+          "Makes the nervousness disappear completely"
+        ],
+        "correctIndex": 0,
+        "explanation": "Accepting nervous energy and channeling it takes less effort than trying to hide it."
+      },
+      {
+        "question": "In an interview, \"tell me about yourself\" is really asking for what?",
+        "choices": [
+          "A short, structured pitch about your present, past, and future",
+          "Your entire life story from birth"
+        ],
+        "correctIndex": 0,
+        "explanation": "This open-ended question wants a brief, structured pitch, not a full life history."
+      },
+      {
+        "question": "\"She's the friend who drove two hours just to bring me soup\" vs. \"she's such a great friend.\" Why is the first a better toast line?",
+        "choices": [
+          "It's specific and genuine, not a generic compliment",
+          "It's shorter, and length is all that matters in a toast"
+        ],
+        "correctIndex": 0,
+        "explanation": "A specific, real memory says more than a vague, generic compliment."
+      },
+      {
+        "question": "Asked to speak with no preparation, what structure helps you avoid rambling?",
+        "choices": [
+          "One clear point, one reason, one example",
+          "Trying to mention everything you can think of"
+        ],
+        "correctIndex": 0,
+        "explanation": "A simple point-reason-example structure works even with only seconds to prepare."
+      },
+      {
+        "question": "Saying \"my opponent claims X, but that overlooks Y\" in a debate. What does a strong rebuttal do?",
+        "choices": [
+          "Directly addresses the opponent's actual point before responding",
+          "Ignores the opponent's point and repeats your own argument"
+        ],
+        "correctIndex": 0,
+        "explanation": "A strong rebuttal engages directly with the other side's point instead of talking past it."
+      },
+      {
+        "question": "You lose your place mid-speech. What works better than freezing or over-apologizing?",
+        "choices": [
+          "Calmly saying \"let me back up for a second\" and continuing",
+          "Stopping the whole speech to apologize repeatedly"
+        ],
+        "correctIndex": 0,
+        "explanation": "A brief, calm acknowledgment looks far more composed than repeated apologies."
+      },
+      {
+        "question": "Someone who speaks confidently at seventeen usually got there how?",
+        "choices": [
+          "Through repeated practice in front of people over time",
+          "By being born naturally talented at speaking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Public speaking is a skill built through repeated practice, not an inborn trait."
+      },
+      {
+        "question": "During Q&A, someone challenges your argument in a hostile tone. What response earns more respect than winning the argument would?",
+        "choices": [
+          "Responding calmly and acknowledging their point before reasoning back",
+          "Getting defensive and raising your voice back"
+        ],
+        "correctIndex": 0,
+        "explanation": "Staying calm and non-defensive under pushback tends to earn more respect from the room."
       }
     ]
   }

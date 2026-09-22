@@ -1,5 +1,5 @@
 {
-  "entrepreneurship-4-6": {
+  "entrepreneurship-4-6-p1": {
     "slides": [
       {
         "emoji": "🍋",
@@ -7,19 +7,9 @@
         "text": "A lemonade stand is a tiny business you run. You make lemonade and sell it on hot days."
       },
       {
-        "emoji": "🤝",
-        "title": "What is trading?",
-        "text": "Trading means giving something and getting something back. You give lemonade, and get a coin back."
-      },
-      {
         "emoji": "💡",
         "title": "Where ideas come from",
         "text": "Big ideas start with noticing what people need. You see thirsty people, so you sell cold drinks."
-      },
-      {
-        "emoji": "🙋",
-        "title": "Who is a customer?",
-        "text": "A customer is someone who buys from you. Being kind makes customers want to come back."
       },
       {
         "emoji": "🎨",
@@ -37,29 +27,19 @@
         "text": "You must make lemonade before you sell it. First mix lemons, sugar, and cold water."
       },
       {
+        "emoji": "🤝",
+        "title": "What is trading?",
+        "text": "Trading means giving something and getting something back. You give lemonade, and get a coin back."
+      },
+      {
+        "emoji": "🙋",
+        "title": "Who is a customer?",
+        "text": "A customer is someone who buys from you. Being kind makes customers want to come back."
+      },
+      {
         "emoji": "😀",
         "title": "A happy customer comes back",
         "text": "Happy customers often come back to buy more. Your neighbor loved it, so she came back."
-      },
-      {
-        "emoji": "🏷️",
-        "title": "Picking a fair price",
-        "text": "A fair price is not too high or low. One dollar for a cold cup feels fair."
-      },
-      {
-        "emoji": "📣",
-        "title": "Telling people about your stand",
-        "text": "You can tell people your stand is open. A big colorful sign helps people notice you."
-      },
-      {
-        "emoji": "🐷",
-        "title": "Saving up for supplies",
-        "text": "You can save coins to buy more lemons. Saving a little each day adds up fast."
-      },
-      {
-        "emoji": "🧑‍🤝‍🧑",
-        "title": "Teamwork with a friend",
-        "text": "Two friends can run a stand together. One friend pours the cups, and one collects coins."
       }
     ],
     "quiz": [
@@ -127,6 +107,84 @@
         "explanation": "A happy customer is likely to return, which helps a little business keep going."
       },
       {
+        "question": "You notice kids at the park are very thirsty on a hot day. What's a good idea?",
+        "choices": [
+          "Start a lemonade stand for them",
+          "Sell them mittens"
+        ],
+        "correctIndex": 0,
+        "explanation": "Good ideas come from noticing what people need, like cold drinks on a hot day."
+      },
+      {
+        "question": "What is one thing you could make to sell, besides lemonade?",
+        "choices": [
+          "Bracelets, drawings, or cookies",
+          "A cloud"
+        ],
+        "correctIndex": 0,
+        "explanation": "Making things like bracelets, drawings, or cookies can also turn you into an entrepreneur."
+      },
+      {
+        "question": "Can kids have good business ideas, or only grown-ups?",
+        "choices": [
+          "Kids can have great ideas too",
+          "Only grown-ups can have ideas"
+        ],
+        "correctIndex": 0,
+        "explanation": "Anyone, including kids, can notice a need and think of a good idea."
+      }
+    ]
+  },
+  "entrepreneurship-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "🏷️",
+        "title": "Picking a fair price",
+        "text": "A fair price is not too high or low. One dollar for a cold cup feels fair."
+      },
+      {
+        "emoji": "📣",
+        "title": "Telling people about your stand",
+        "text": "You can tell people your stand is open. A big colorful sign helps people notice you."
+      },
+      {
+        "emoji": "🪙",
+        "title": "Counting your coins",
+        "text": "At the end of the day, count all your coins. Counting helps you know how much you earned."
+      },
+      {
+        "emoji": "🐷",
+        "title": "Saving up for supplies",
+        "text": "You can save coins to buy more lemons. Saving a little each day adds up fast."
+      },
+      {
+        "emoji": "💰",
+        "title": "Saving some, spending some",
+        "text": "You can save some coins and spend some too. Saving a little each time helps you reach a goal."
+      },
+      {
+        "emoji": "💯",
+        "title": "Being honest",
+        "text": "Always tell the truth about your lemonade. If it is a little warm, say so."
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Teamwork with a friend",
+        "text": "Two friends can run a stand together. One friend pours the cups, and one collects coins."
+      },
+      {
+        "emoji": "☁️",
+        "title": "A slow day happens sometimes",
+        "text": "Some days not many people stop by. That is okay, you can try again tomorrow."
+      },
+      {
+        "emoji": "🧹",
+        "title": "Cleaning up your stand",
+        "text": "After selling, clean up your table and cups. A tidy spot makes neighbors happy too."
+      }
+    ],
+    "quiz": [
+      {
         "question": "What makes a price fair?",
         "choices": [
           "Not too high and not too low",
@@ -152,10 +210,73 @@
         ],
         "correctIndex": 0,
         "explanation": "Splitting up the jobs makes running a stand easier for both friends."
+      },
+      {
+        "question": "Why count your coins at the end of the day?",
+        "choices": [
+          "To know how much you earned",
+          "To build a tall tower"
+        ],
+        "correctIndex": 0,
+        "explanation": "Counting your coins helps you see how much money your stand made."
+      },
+      {
+        "question": "What's a good idea to do with your earnings?",
+        "choices": [
+          "Save some and spend some",
+          "Hide them and forget about them"
+        ],
+        "correctIndex": 0,
+        "explanation": "Saving part of what you earn helps you reach bigger goals later."
+      },
+      {
+        "question": "Your lemonade is a little warm today. What should you tell a customer?",
+        "choices": [
+          "The truth, that it's a bit warm",
+          "Nothing, just sell it anyway"
+        ],
+        "correctIndex": 0,
+        "explanation": "Being honest with customers helps them trust you."
+      },
+      {
+        "question": "No one stops by your stand today. What should you do?",
+        "choices": [
+          "Try again another day",
+          "Give up on your stand forever"
+        ],
+        "correctIndex": 0,
+        "explanation": "A slow day is normal. You can try again another day."
+      },
+      {
+        "question": "Why clean up your stand after selling?",
+        "choices": [
+          "It makes the spot tidy for your neighbors",
+          "It makes the lemonade taste better"
+        ],
+        "correctIndex": 0,
+        "explanation": "Cleaning up shows respect for the space you used."
+      },
+      {
+        "question": "If you save $1 today and $1 tomorrow, how much have you saved?",
+        "choices": [
+          "$2",
+          "$1"
+        ],
+        "correctIndex": 0,
+        "explanation": "Saving a little at a time adds up: $1 + $1 = $2."
+      },
+      {
+        "question": "What helps a customer trust you?",
+        "choices": [
+          "Being honest with them",
+          "Never talking to them"
+        ],
+        "correctIndex": 0,
+        "explanation": "Honesty helps customers feel like they can trust your little business."
       }
     ]
   },
-  "entrepreneurship-7-9": {
+  "entrepreneurship-7-9-p1": {
     "slides": [
       {
         "emoji": "🔍",
@@ -173,24 +294,9 @@
         "text": "Before starting, it helps to plan what you'll sell, what it costs, and what you'll charge. Writing down a plan, like charging a dollar for 20-cent lemonade, avoids confusion later."
       },
       {
-        "emoji": "😊",
-        "title": "Good customer service",
-        "text": "Being friendly, honest, and helpful makes people want to buy from you again. When a customer asks for less sugar and you happily make it their way, they often return."
-      },
-      {
-        "emoji": "📢",
-        "title": "Telling people about it",
-        "text": "Even a great product needs people to know it exists, which is called marketing. A bright poster that says \"Cold Lemonade, $1!\" lets passing neighbors know your stand is open."
-      },
-      {
-        "emoji": "🧾",
-        "title": "Keeping track",
-        "text": "Writing down what you spend and earn helps you see if your business is really working. If you spent $4 on supplies and earned $12, you made an $8 profit."
-      },
-      {
-        "emoji": "🔁",
-        "title": "Trying again if it doesn't work",
-        "text": "When a business idea doesn't work at first, entrepreneurs usually adjust it instead of quitting. If nobody stopped by on a cloudy day, you might try a sunnier spot next time."
+        "emoji": "✍️",
+        "title": "Giving your business a name",
+        "text": "A fun, memorable name helps people remember your stand and tell their friends about it. Calling your stand \"Sam's Sunny Lemonade\" sticks in people's minds much better than having no name at all."
       },
       {
         "emoji": "🎨",
@@ -198,34 +304,24 @@
         "text": "Adding something unique, like a flavor nobody else has, can make customers choose your stand. A splash of strawberry or mint, something other stands don't offer, could set you apart."
       },
       {
-        "emoji": "📅",
-        "title": "Planning your day",
-        "text": "Deciding when to open and how much to make ahead of time helps your day run smoothly. Planning to open from 2 to 4pm with 20 cups ready means you won't scramble later."
-      },
-      {
-        "emoji": "😕",
-        "title": "Handling an unhappy customer",
-        "text": "Sometimes a customer isn't happy, maybe your lemonade seemed too sour for their taste. Listening calmly and offering a new cup, or their money back, keeps their trust."
-      },
-      {
-        "emoji": "🧑‍🤝‍🧑",
-        "title": "Splitting jobs with a partner",
-        "text": "Running a business with a friend works best when you split up the jobs. One person could make the lemonade while the other greets customers and handles the money."
-      },
-      {
-        "emoji": "🐷",
-        "title": "Saving up for a goal",
-        "text": "Saving some of your profit each week can help you buy something bigger later on. If you save $2 every week, you'll have $20 saved after ten weeks."
-      },
-      {
         "emoji": "🏷️",
         "title": "Checking what others charge",
         "text": "Before setting your price, it helps to check what other nearby sellers are charging. Charging close to their price, or a little less, can help customers choose you."
+      },
+      {
+        "emoji": "📍",
+        "title": "Picking a good spot",
+        "text": "Where you set up your stand matters just as much as what you're selling. A spot near a park entrance or a busy sidewalk, where lots of people walk by, will get far more customers than a hidden corner of your yard."
+      },
+      {
+        "emoji": "📅",
+        "title": "Planning your day",
+        "text": "Deciding when to open and how much to make ahead of time helps your day run smoothly. Planning to open from 2 to 4pm with 20 cups ready means you won't scramble later."
       }
     ],
     "quiz": [
       {
-        "question": "What does it mean to \"spot a problem\" for a business idea?",
+        "question": "What does \"spot a problem\" mean for a business idea?",
         "choices": [
           "Noticing something people need that isn't available",
           "Finding a hole in your sock"
@@ -251,6 +347,120 @@
         "correctIndex": 0,
         "explanation": "A simple plan helps you think through what you'll sell, what it costs, and what to charge."
       },
+      {
+        "question": "How can adding a unique flavor to your lemonade help your business?",
+        "choices": [
+          "It can make customers pick you over other sellers",
+          "It never makes any difference"
+        ],
+        "correctIndex": 0,
+        "explanation": "Something unique about your product gives customers a reason to choose you."
+      },
+      {
+        "question": "Why is it helpful to plan your day before opening a stand?",
+        "choices": [
+          "It helps the whole day run more smoothly",
+          "Planning ahead never actually helps"
+        ],
+        "correctIndex": 0,
+        "explanation": "Knowing what supplies and timing you need ahead of time avoids scrambling later."
+      },
+      {
+        "question": "Why check what other nearby stands charge before setting your own price?",
+        "choices": [
+          "It helps you set a price customers will actually choose",
+          "It doesn't matter at all what others charge"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking nearby prices helps you set a price that feels fair and competitive."
+      },
+      {
+        "question": "Why give your stand a fun, memorable name?",
+        "choices": [
+          "It helps people remember and recognize your stand",
+          "Names don't matter for a lemonade stand"
+        ],
+        "correctIndex": 0,
+        "explanation": "A memorable name helps people remember you and tell their friends."
+      },
+      {
+        "question": "Why does where you set up your stand matter?",
+        "choices": [
+          "A busy spot means more people can see and buy",
+          "Location never makes any difference"
+        ],
+        "correctIndex": 0,
+        "explanation": "A busy, visible location naturally brings you more potential customers."
+      },
+      {
+        "question": "Lemonade costs 30 cents to make and sells for 75 cents. What's the profit?",
+        "choices": [
+          "45 cents",
+          "105 cents"
+        ],
+        "correctIndex": 0,
+        "explanation": "Profit is price minus cost: 75 cents - 30 cents = 45 cents."
+      },
+      {
+        "question": "What should a simple business plan include?",
+        "choices": [
+          "What you'll sell, what it costs, and what you'll charge",
+          "Just your name and nothing else"
+        ],
+        "correctIndex": 0,
+        "explanation": "A simple plan covers the basics: your product, its cost, and its price."
+      }
+    ]
+  },
+  "entrepreneurship-7-9-p2": {
+    "slides": [
+      {
+        "emoji": "😊",
+        "title": "Good customer service",
+        "text": "Being friendly, honest, and helpful makes people want to buy from you again. When a customer asks for less sugar and you happily make it their way, they often return."
+      },
+      {
+        "emoji": "📢",
+        "title": "Telling people about it",
+        "text": "Even a great product needs people to know it exists, which is called marketing. A bright poster that says \"Cold Lemonade, $1!\" lets passing neighbors know your stand is open."
+      },
+      {
+        "emoji": "🧾",
+        "title": "Keeping track",
+        "text": "Writing down what you spend and earn helps you see if your business is really working. If you spent $4 on supplies and earned $12, you made an $8 profit."
+      },
+      {
+        "emoji": "👨‍👩‍👧",
+        "title": "Getting help from a grown-up",
+        "text": "Many young entrepreneurs ask a parent or grown-up for help with things like buying supplies or handling money safely. Asking your mom to drive you to buy more lemons, or having her hold onto your earnings, is a smart, normal part of running a kid business."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Trying again if it doesn't work",
+        "text": "When a business idea doesn't work at first, entrepreneurs usually adjust it instead of quitting. If nobody stopped by on a cloudy day, you might try a sunnier spot next time."
+      },
+      {
+        "emoji": "😕",
+        "title": "Handling an unhappy customer",
+        "text": "Sometimes a customer isn't happy, maybe your lemonade seemed too sour for their taste. Listening calmly and offering a new cup, or their money back, keeps their trust."
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Splitting jobs with a partner",
+        "text": "Running a business with a friend works best when you split up the jobs. One person could make the lemonade while the other greets customers and handles the money."
+      },
+      {
+        "emoji": "🐷",
+        "title": "Saving up for a goal",
+        "text": "Saving some of your profit each week can help you buy something bigger later on. If you save $2 every week, you'll have $20 saved after ten weeks."
+      },
+      {
+        "emoji": "🎉",
+        "title": "Celebrating your progress",
+        "text": "After a great week of sales, it's worth pausing to celebrate what you accomplished, not just rushing to the next thing. Treating yourself to something small after reaching a savings goal helps you feel proud of the work you put in."
+      }
+    ],
+    "quiz": [
       {
         "question": "Why does good customer service matter?",
         "choices": [
@@ -279,24 +489,6 @@
         "explanation": "Adjusting and retrying is a normal, healthy part of entrepreneurship."
       },
       {
-        "question": "How can adding a unique flavor to your lemonade help your business?",
-        "choices": [
-          "It can make customers pick you over other sellers",
-          "It never makes any difference"
-        ],
-        "correctIndex": 0,
-        "explanation": "Something unique about your product gives customers a reason to choose you."
-      },
-      {
-        "question": "Why is it helpful to plan your day before opening a stand?",
-        "choices": [
-          "It helps the whole day run more smoothly",
-          "Planning ahead never actually helps"
-        ],
-        "correctIndex": 0,
-        "explanation": "Knowing what supplies and timing you need ahead of time avoids scrambling later."
-      },
-      {
         "question": "A customer says your lemonade is too sour. What should you do?",
         "choices": [
           "Listen calmly and offer a new cup or their money back",
@@ -315,32 +507,58 @@
         "explanation": "Splitting up different jobs usually makes a small team more efficient."
       },
       {
-        "question": "If you save $2 every week, how much will you have after 10 weeks?",
+        "question": "You spent $4 on supplies and earned $12. What was your profit?",
         "choices": [
-          "$20",
-          "$2"
+          "$8",
+          "$16"
         ],
         "correctIndex": 0,
-        "explanation": "Saving a little bit regularly adds up over time: $2 x 10 weeks = $20."
+        "explanation": "Profit is what you earned minus what you spent: $12 - $4 = $8."
+      },
+      {
+        "question": "Why is it smart to ask a grown-up for help with your business?",
+        "choices": [
+          "They can help with things like buying supplies or handling money safely",
+          "Grown-ups should never be involved in a kid's business"
+        ],
+        "correctIndex": 0,
+        "explanation": "Getting a trusted grown-up's help with supplies or money is a normal, smart part of running a young business."
+      },
+      {
+        "question": "After a great week of sales, what's a good thing to do?",
+        "choices": [
+          "Celebrate your progress and feel proud",
+          "Ignore it completely and feel nothing"
+        ],
+        "correctIndex": 0,
+        "explanation": "Celebrating progress helps you notice and appreciate the work you put in."
+      },
+      {
+        "question": "Why keep track of what you spend and earn?",
+        "choices": [
+          "It helps you see if your business is really working",
+          "Numbers don't matter for a lemonade stand"
+        ],
+        "correctIndex": 0,
+        "explanation": "Writing down your spending and earnings shows you clearly whether your business is doing well."
+      },
+      {
+        "question": "You and a friend keep arguing about whose turn it is to pour cups. What might help?",
+        "choices": [
+          "Agreeing ahead of time who does which job",
+          "Never talking about it and hoping it fixes itself"
+        ],
+        "correctIndex": 0,
+        "explanation": "Deciding roles ahead of time, like splitting jobs, helps avoid confusion and arguments."
       }
     ]
   },
-  "entrepreneurship-10-13": {
+  "entrepreneurship-10-13-p1": {
     "slides": [
-      {
-        "emoji": "📊",
-        "title": "Profit and loss",
-        "text": "If you earn more than you spend, that's a profit. If you spend more than you earn, that's a loss. Tracking both helps a business survive. For example, if your dog-walking side business earns $60 in a month but spent $75 on flyers, leashes, and treats, that month was actually a $15 loss, even though $60 sounds like good money."
-      },
       {
         "emoji": "🎯",
         "title": "Knowing your customer",
         "text": "Successful businesses understand who they're selling to — what that person likes, needs, and is willing to pay for. For example, if you're selling handmade bookmarks, knowing that your customers are mostly classmates who love a specific book series could help you design bookmarks featuring those characters, which they'd be far more excited to buy."
-      },
-      {
-        "emoji": "🧑‍🤝‍🧑",
-        "title": "Teamwork in business",
-        "text": "Many businesses run better with a team — different people handling different jobs, like making the product, selling it, and managing money. For example, if you and a friend start a dog-walking business together, one of you could focus on finding new customers while the other tracks the schedule and money — splitting the work makes it easier to grow."
       },
       {
         "emoji": "🎲",
@@ -348,9 +566,135 @@
         "text": "Starting a business always involves some risk — it might not work. Smart entrepreneurs take risks they can afford, not risks that could ruin them. For example, spending $10 of your own savings to try selling friendship bracelets at a school fair is a smart, affordable risk — spending your entire year's savings on the same idea would not be."
       },
       {
-        "emoji": "♻️",
-        "title": "Reinvesting in growth",
-        "text": "Instead of spending all the profit right away, many entrepreneurs put some of it back into the business — better supplies, a nicer sign, more inventory. For example, if your bracelet business earns $20 profit one week, using $10 of it to buy more beads and string for next week (instead of spending it all on yourself) helps the business keep growing."
+        "emoji": "💡",
+        "title": "Finding a business idea",
+        "text": "Most solid business ideas start the same way — by noticing a problem or an annoying gap in what's available. For example, noticing that kids at your school have nowhere nearby to buy a cold snack after practice could turn into a snack-selling business, simply because you spotted a real, everyday need."
+      },
+      {
+        "emoji": "🧪",
+        "title": "Testing your idea small before going big",
+        "text": "Before investing a lot of time or money, smart entrepreneurs try a small version of their idea first to see if people actually want it. For example, making and selling just 10 candles to friends and family before ordering hundreds of dollars of supplies lets you learn what works with very little risk."
+      },
+      {
+        "emoji": "💵",
+        "title": "Estimating startup costs",
+        "text": "Startup costs are the money you need to spend before your business earns anything at all, like ingredients, containers, or a sign. For example, a cookie business might need $15 for flour, sugar, and butter, plus $5 for bags and labels, meaning you'd need $20 just to get started."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Needs vs. wants",
+        "text": "A need is something people can't easily do without, while a want is something nice to have but not essential — and businesses solving real needs often last longer. For example, a tutoring business helping students pass math class solves a genuine need, while a business selling a trendy toy might fade once the trend does."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Writing a simple pitch",
+        "text": "A pitch is a short, clear explanation of your business idea that you could tell someone in under a minute. For example, \"I make custom phone cases for $12 each, designed exactly how a customer wants them\" tells a potential customer or helper exactly what you do and why it matters."
+      },
+      {
+        "emoji": "🏁",
+        "title": "Setting a goal for your first month",
+        "text": "Having a clear, specific goal — like earning $50 in your first month — gives you something concrete to work toward and a way to measure whether your business is on track. For example, if you're only halfway to your goal by week three, that's a signal to try something new, like a better sign or a new selling spot."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Why does it help to understand your customer?",
+        "choices": [
+          "So you can offer what they actually want and can afford",
+          "It doesn't matter who buys your product"
+        ],
+        "correctIndex": 0,
+        "explanation": "Knowing your customer helps you shape a product or service they'll actually want."
+      },
+      {
+        "question": "Which is a \"smart risk\" for a young entrepreneur?",
+        "choices": [
+          "Spending $10 of savings to try selling bracelets at a fair",
+          "Spending your entire year of savings on one untested idea"
+        ],
+        "correctIndex": 0,
+        "explanation": "Smart entrepreneurs weigh risks carefully instead of risking everything blindly."
+      },
+      {
+        "question": "What's a smart way to find a business idea?",
+        "choices": [
+          "Notice a problem or need people have",
+          "Randomly pick anything with no thought"
+        ],
+        "correctIndex": 0,
+        "explanation": "Many strong business ideas start by noticing a real problem or need."
+      },
+      {
+        "question": "Before launching a big version of your idea, why test it small first?",
+        "choices": [
+          "It lets you learn and fix problems while risking less money",
+          "Testing small is a waste of time and should be skipped"
+        ],
+        "correctIndex": 0,
+        "explanation": "Testing small lets you learn what works before committing a lot of money or time."
+      },
+      {
+        "question": "What are \"startup costs\"?",
+        "choices": [
+          "The money needed to get a business going before it earns anything",
+          "Money a business earns after several successful years"
+        ],
+        "correctIndex": 0,
+        "explanation": "Startup costs are the upfront expenses required before a business can start selling."
+      },
+      {
+        "question": "Which is an example of solving a genuine need rather than a passing want?",
+        "choices": [
+          "Tutoring students who are struggling in math",
+          "Selling a trendy toy just because it's popular this month"
+        ],
+        "correctIndex": 0,
+        "explanation": "Businesses solving ongoing, genuine needs tend to be more dependable than ones riding a passing trend."
+      },
+      {
+        "question": "Why is it useful to write a simple pitch for your business idea?",
+        "choices": [
+          "It helps you clearly explain your idea to customers or helpers",
+          "Pitches are only useful for huge, established companies"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear, short pitch helps you explain your idea quickly and convincingly to anyone."
+      },
+      {
+        "question": "Why set a specific goal, like earning $50, for your first month?",
+        "choices": [
+          "It gives you something concrete to work toward and measure",
+          "Goals only matter for adult businesses, not kid ones"
+        ],
+        "correctIndex": 0,
+        "explanation": "A specific goal lets you track whether your business is actually on track."
+      },
+      {
+        "question": "Your customers are mostly classmates who love a certain book series. What might you do?",
+        "choices": [
+          "Design products, like bookmarks, featuring those characters",
+          "Ignore their interests and sell something unrelated"
+        ],
+        "correctIndex": 0,
+        "explanation": "Knowing your customer well helps you design something they're actually excited to buy."
+      },
+      {
+        "question": "You're starting a dog-walking business. Which of these is a startup cost?",
+        "choices": [
+          "A leash or bags you need to buy before your first walk",
+          "Money you'll earn after three months of walking dogs"
+        ],
+        "correctIndex": 0,
+        "explanation": "Startup costs are upfront expenses, like supplies, needed before the business can even begin."
+      }
+    ]
+  },
+  "entrepreneurship-10-13-p2": {
+    "slides": [
+      {
+        "emoji": "🏷️",
+        "title": "Pricing fairly",
+        "text": "Setting a fair price means charging enough to cover your costs and time, without charging so much that customers walk away. For example, if a bracelet costs $3 in materials to make, pricing it at $8 covers your costs and effort while still feeling fair to someone buying a handmade gift."
       },
       {
         "emoji": "🏷️",
@@ -373,63 +717,22 @@
         "text": "With a parent's help, some young entrepreneurs sell crafts or art through simple online marketplaces, reaching far more people than a stand on the street. For example, a 12-year-old who makes custom drawings might, with a parent's account and supervision, list a few pieces online and reach buyers far beyond just their own neighborhood."
       },
       {
-        "emoji": "🏷️",
-        "title": "Pricing fairly",
-        "text": "Setting a fair price means charging enough to cover your costs and time, without charging so much that customers walk away. For example, if a bracelet costs $3 in materials to make, pricing it at $8 covers your costs and effort while still feeling fair to someone buying a handmade gift."
-      },
-      {
-        "emoji": "😕",
-        "title": "Handling a dissatisfied customer",
-        "text": "How you respond when a customer is unhappy can matter more than the original mistake — a calm, fair fix often turns a complaint into loyalty. For example, if a customer says their custom mug arrived cracked, offering a free replacement instead of arguing about it usually keeps them as a customer instead of losing them for good."
-      },
-      {
         "emoji": "📢",
         "title": "Marketing on a budget",
         "text": "You don't need to spend much money to market a small business — social media posts, flyers, and word of mouth can all work well for free or cheap. For example, posting a few photos of your bracelets on a family member's social media account, tagged with your prices, can reach dozens of potential customers without spending a single dollar."
       },
       {
-        "emoji": "🤝",
-        "title": "Teamwork and clear agreements",
-        "text": "When you run a business with a partner, agreeing early on who does what and how profits get split helps avoid arguments later. For example, two friends running a dog-walking business might agree in writing that one handles scheduling and the other handles the actual walks, splitting profits evenly between them."
+        "emoji": "🎁",
+        "title": "Bundling and discounts",
+        "text": "Bundling means selling several items together for one combined price, often at a small discount compared to buying each separately. For example, offering three bracelets for $10 instead of $4 each encourages customers to buy more at once, while still feeling like a good deal for them."
+      },
+      {
+        "emoji": "👂",
+        "title": "Listening to customer feedback to improve",
+        "text": "Customers often give hints about how to improve your product, even when they don't realize they're doing it. For example, if several customers mention they wish your bracelets came in brighter colors, trying out a few brighter designs next batch could meaningfully boost your sales."
       }
     ],
     "quiz": [
-      {
-        "question": "A dog-walking business earns $60 in a month but spends $75. Was that month a profit or a loss?",
-        "choices": [
-          "A loss, since it spent more than it earned",
-          "A profit, since $60 sounds like a lot of money"
-        ],
-        "correctIndex": 0,
-        "explanation": "A loss happens when costs are higher than what the business earns, even if the earnings sound decent on their own."
-      },
-      {
-        "question": "Why does it help to understand your customer?",
-        "choices": [
-          "So you can offer what they actually want and can afford",
-          "It doesn't matter who buys your product"
-        ],
-        "correctIndex": 0,
-        "explanation": "Knowing your customer helps you shape a product or service they'll actually want."
-      },
-      {
-        "question": "What does \"reinvesting\" mean?",
-        "choices": [
-          "Putting some profit back into growing the business",
-          "Spending every bit of profit immediately"
-        ],
-        "correctIndex": 0,
-        "explanation": "Reinvesting profit helps a business grow bigger and stronger over time."
-      },
-      {
-        "question": "Which is a \"smart risk\" for a young entrepreneur?",
-        "choices": [
-          "Spending $10 of savings to try selling bracelets at a fair",
-          "Spending your entire year of savings on one untested idea"
-        ],
-        "correctIndex": 0,
-        "explanation": "Smart entrepreneurs weigh risks carefully instead of risking everything blindly."
-      },
       {
         "question": "Three kids at school all sell friendship bracelets. Why might a business need to \"stand out\"?",
         "choices": [
@@ -476,6 +779,115 @@
         "explanation": "A fair price balances covering your costs with what a customer is willing to pay."
       },
       {
+        "question": "What does \"bundling\" mean, like offering three bracelets for $10 instead of $4 each?",
+        "choices": [
+          "Selling items together for one combined, often discounted, price",
+          "Refusing to ever offer any kind of discount"
+        ],
+        "correctIndex": 0,
+        "explanation": "Bundling combines items into one deal, which can encourage customers to buy more at once."
+      },
+      {
+        "question": "Several customers mention they wish your bracelets came in brighter colors. What should you consider?",
+        "choices": [
+          "Trying out their feedback to improve your product",
+          "Ignoring all customer suggestions completely"
+        ],
+        "correctIndex": 0,
+        "explanation": "Customer feedback is valuable, free information about how to improve what you're selling."
+      },
+      {
+        "question": "Why might a business offer a discount for buying in bulk?",
+        "choices": [
+          "It encourages customers to buy more at once",
+          "Discounts always lose money with no real benefit"
+        ],
+        "correctIndex": 0,
+        "explanation": "A well-planned discount can boost total sales even though each item earns slightly less."
+      },
+      {
+        "question": "What's one downside of NOT having a consistent, recognizable brand?",
+        "choices": [
+          "Customers might not recognize or remember your business",
+          "There are no downsides to skipping a brand at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Without a consistent brand, customers have a harder time recognizing and returning to you."
+      },
+      {
+        "question": "What's a safe way for a young entrepreneur to sell products online?",
+        "choices": [
+          "Using a parent's account with their supervision",
+          "Setting up accounts secretly without telling any adult"
+        ],
+        "correctIndex": 0,
+        "explanation": "Selling online safely as a young entrepreneur usually involves a parent's account and supervision."
+      }
+    ]
+  },
+  "entrepreneurship-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "📊",
+        "title": "Profit and loss",
+        "text": "If you earn more than you spend, that's a profit. If you spend more than you earn, that's a loss. Tracking both helps a business survive. For example, if your dog-walking side business earns $60 in a month but spent $75 on flyers, leashes, and treats, that month was actually a $15 loss, even though $60 sounds like good money."
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Teamwork in business",
+        "text": "Many businesses run better with a team — different people handling different jobs, like making the product, selling it, and managing money. For example, if you and a friend start a dog-walking business together, one of you could focus on finding new customers while the other tracks the schedule and money — splitting the work makes it easier to grow."
+      },
+      {
+        "emoji": "♻️",
+        "title": "Reinvesting in growth",
+        "text": "Instead of spending all the profit right away, many entrepreneurs put some of it back into the business — better supplies, a nicer sign, more inventory. For example, if your bracelet business earns $20 profit one week, using $10 of it to buy more beads and string for next week (instead of spending it all on yourself) helps the business keep growing."
+      },
+      {
+        "emoji": "😕",
+        "title": "Handling a dissatisfied customer",
+        "text": "How you respond when a customer is unhappy can matter more than the original mistake — a calm, fair fix often turns a complaint into loyalty. For example, if a customer says their custom mug arrived cracked, offering a free replacement instead of arguing about it usually keeps them as a customer instead of losing them for good."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Teamwork and clear agreements",
+        "text": "When you run a business with a partner, agreeing early on who does what and how profits get split helps avoid arguments later. For example, two friends running a dog-walking business might agree in writing that one handles scheduling and the other handles the actual walks, splitting profits evenly between them."
+      },
+      {
+        "emoji": "📒",
+        "title": "Creating a simple budget",
+        "text": "A budget is a simple plan for how much money you expect to spend and how much you hope to earn or save over a certain time, like a month. For example, budgeting $20 for supplies and hoping to earn $50 in sales this month helps you know right away if you're on track or falling behind."
+      },
+      {
+        "emoji": "📉",
+        "title": "When sales slow down",
+        "text": "Almost every business hits a slow stretch at some point, and how you respond matters more than the slowdown itself. For example, if candle sales drop for two weeks straight, checking whether your price, location, or scent selection needs adjusting is more productive than simply hoping things improve on their own."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Learning from a mistake",
+        "text": "Mistakes are one of the fastest ways to learn what actually works in a business, as long as you pay attention to what went wrong. For example, running out of cups halfway through a busy Saturday teaches you to buy extra supplies next time, turning a frustrating afternoon into a useful lesson."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A dog-walking business earns $60 in a month but spends $75. Was that month a profit or a loss?",
+        "choices": [
+          "A loss, since it spent more than it earned",
+          "A profit, since $60 sounds like a lot of money"
+        ],
+        "correctIndex": 0,
+        "explanation": "A loss happens when costs are higher than what the business earns, even if the earnings sound decent on their own."
+      },
+      {
+        "question": "What does \"reinvesting\" mean?",
+        "choices": [
+          "Putting some profit back into growing the business",
+          "Spending every bit of profit immediately"
+        ],
+        "correctIndex": 0,
+        "explanation": "Reinvesting profit helps a business grow bigger and stronger over time."
+      },
+      {
         "question": "A customer's mug arrives cracked. What response is most likely to keep them as a customer?",
         "choices": [
           "A calm, fair fix, like a free replacement",
@@ -492,10 +904,64 @@
         ],
         "correctIndex": 0,
         "explanation": "A clear, upfront agreement keeps a partnership running smoothly as the business grows."
+      },
+      {
+        "question": "What is a simple budget?",
+        "choices": [
+          "A plan for how much you'll spend, earn, and save",
+          "A list of your favorite snacks to buy"
+        ],
+        "correctIndex": 0,
+        "explanation": "A budget is a plan that helps you track expected spending and earning over time."
+      },
+      {
+        "question": "Sales have been slow for two weeks. What's a smart response?",
+        "choices": [
+          "Look at what might be wrong and try adjusting, like price or location",
+          "Immediately shut the business down for good"
+        ],
+        "correctIndex": 0,
+        "explanation": "A slow stretch is usually a signal to investigate and adjust, not a reason to quit entirely."
+      },
+      {
+        "question": "You ran out of cups halfway through a busy Saturday. What should you do differently next time?",
+        "choices": [
+          "Buy more cups ahead of time based on what you learned",
+          "Pretend it never happened and change nothing"
+        ],
+        "correctIndex": 0,
+        "explanation": "Learning from a mistake, like running short on supplies, helps you plan better next time."
+      },
+      {
+        "question": "A candle business earns $100 and spends $130 on wax and wicks one month. Was that a profit or a loss?",
+        "choices": [
+          "A loss, since it spent more than it earned",
+          "A profit, since $100 sounds like good money"
+        ],
+        "correctIndex": 0,
+        "explanation": "A loss happens whenever spending is higher than earnings, regardless of how big the earnings sound alone."
+      },
+      {
+        "question": "Two partners disagree about how to split profits. What could have prevented this argument?",
+        "choices": [
+          "Agreeing on the split before starting the business",
+          "There's no way to ever prevent this kind of disagreement"
+        ],
+        "correctIndex": 0,
+        "explanation": "Clear, upfront agreements about profit splits help partnerships avoid conflict later."
+      },
+      {
+        "question": "Instead of spending all $30 of profit on candy, what's an example of reinvesting?",
+        "choices": [
+          "Using some of it to buy more supplies for next time",
+          "Spending every single cent of it immediately"
+        ],
+        "correctIndex": 0,
+        "explanation": "Reinvesting means putting some profit back into the business so it can keep growing."
       }
     ]
   },
-  "entrepreneurship-13-17": {
+  "entrepreneurship-13-17-p1": {
     "slides": [
       {
         "emoji": "📝",
@@ -518,54 +984,24 @@
         "text": "Scaling means growing a business to serve many more customers without everything becoming proportionally more expensive or difficult to manage. For example, a tutoring business that only earns more by adding more of the tutor's own hours doesn't scale well, but selling a recorded video course that hundreds of students can buy without extra work per student scales much better."
       },
       {
-        "emoji": "⚠️",
-        "title": "Failure is part of the process",
-        "text": "Many successful entrepreneurs failed at a first (or second, or third) attempt. Learning from what went wrong is often what makes the next attempt succeed. For example, a teen's first attempt at selling custom phone cases online might flop due to poor photos and unclear pricing — but applying those exact lessons to a second attempt often leads to real success."
-      },
-      {
-        "emoji": "⚖️",
-        "title": "Ethics in business",
-        "text": "Long-term success usually depends on being honest with customers, treating employees fairly, and not cutting corners just to make a quick profit. For example, honestly describing a product's condition, even when a vague description might sell it faster, builds the kind of trust that keeps customers coming back for years."
-      },
-      {
         "emoji": "🎯",
-        "title": "Solving a real problem",
-        "text": "The most durable businesses tend to solve a genuine problem for people — not just chase a trend that might fade quickly. For example, a tutoring business solving a real, ongoing need (students struggling with math) tends to last far longer than a business built around a fad that's popular for a few months and then forgotten."
+        "title": "Finding your target market",
+        "text": "A target market is the specific group of people most likely to actually want and pay for what you're offering, rather than the entire population. For example, a business selling custom study planners is far better off targeting stressed high school juniors and seniors preparing for exams than trying to market to literally everyone."
       },
       {
-        "emoji": "🧭",
-        "title": "Resilience and persistence",
-        "text": "Markets change, plans fail, and competitors appear. Entrepreneurs who adapt and keep going tend to outlast those who give up at the first setback. For example, if a new competitor undercuts your prices, adapting by improving your service or finding a new customer niche is more likely to succeed than simply giving up."
+        "emoji": "💎",
+        "title": "Crafting a value proposition",
+        "text": "A value proposition is a clear, specific statement of why a customer should choose your product over any alternative, including doing nothing at all. For example, \"Custom tutoring scheduled around your exact sports practice times\" gives a busy student-athlete a concrete reason to choose you over a generic tutoring center."
       },
       {
-        "emoji": "🤲",
-        "title": "Businesses that also help others",
-        "text": "Some entrepreneurs build 'social enterprises' — businesses designed to make money while also solving a social or environmental problem, not purely for profit. For example, a teen-run business that sells reusable water bottles and donates a portion of every sale to a clean-water charity is pursuing both profit and positive impact at the same time."
+        "emoji": "🔬",
+        "title": "Market research basics",
+        "text": "Market research means gathering real information about what potential customers want, need, and are willing to pay, instead of just guessing. For example, sending a short survey to 30 classmates before launching a snack business can reveal that most would pay $2 for a granola bar, but not $5, saving you from mispricing later."
       },
       {
-        "emoji": "📈",
-        "title": "Measuring success beyond money",
-        "text": "Revenue matters, but many entrepreneurs also track customer satisfaction, repeat business, and real-world impact as signs their business is genuinely succeeding. For example, a business that earns a modest profit but has 90% of customers coming back again and again is arguably in a stronger position than one earning more but constantly losing and replacing one-time customers."
-      },
-      {
-        "emoji": "🏷️",
-        "title": "Pricing strategies",
-        "text": "Businesses generally price in one of two ways: cost-plus pricing, where you add a markup on top of what something costs to make, or value-based pricing, where you charge based on how much a customer believes it's worth. For example, a $5 material cost with a $10 markup gives a cost-plus price of $15, while a designer bag might sell for $200 largely because customers value the brand, not just the materials."
-      },
-      {
-        "emoji": "😕",
-        "title": "Handling complaints and protecting your reputation",
-        "text": "A single public complaint, especially online, can influence far more potential customers than just the one person who made it, so how a business responds matters enormously. For example, a business that quickly and openly resolves a customer's shipping complaint often earns more trust from onlookers than a business that has never had a complaint at all."
-      },
-      {
-        "emoji": "📢",
-        "title": "Customer acquisition and marketing spend",
-        "text": "Customer acquisition cost is how much money a business spends, on average, to gain one new customer through advertising, and it needs to stay lower than what that customer is expected to spend over time. For example, spending $20 on ads to gain a customer who only ever buys $15 worth of products is a losing strategy, even if the ads technically \"worked.\""
-      },
-      {
-        "emoji": "🤝",
-        "title": "Splitting equity among co-founders",
-        "text": "When multiple people start a company together, they typically divide ownership — called equity — based on factors like who contributed the original idea, how much money each person invested, and how much ongoing work each will do. For example, two co-founders might split equity 50/50 if they contribute equally, or 70/30 if one invested significantly more money or works full-time while the other stays part-time."
+        "emoji": "🏢",
+        "title": "Choosing a business structure",
+        "text": "Even a simple teen business can be organized differently: a sole proprietorship has one owner who's fully responsible, while a partnership splits ownership, responsibility, and profit between two or more people. For example, a solo Etsy shop selling stickers is a sole proprietorship, while two friends co-running a tutoring service together would typically operate as a partnership."
       }
     ],
     "quiz": [
@@ -606,6 +1042,247 @@
         "explanation": "Scaling is about growing efficiently, not just growing bigger at any cost."
       },
       {
+        "question": "What is a \"target market\"?",
+        "choices": [
+          "The specific group of people most likely to want your product",
+          "Every single person in the world, treated equally"
+        ],
+        "correctIndex": 0,
+        "explanation": "A target market narrows your focus to the people most likely to actually buy from you."
+      },
+      {
+        "question": "What is a value proposition?",
+        "choices": [
+          "A clear statement of why customers should choose your product over alternatives",
+          "A legal document required to open a bank account"
+        ],
+        "correctIndex": 0,
+        "explanation": "A value proposition explains, concretely, why a customer should pick you instead of another option."
+      },
+      {
+        "question": "Why do businesses conduct market research before launching?",
+        "choices": [
+          "To learn what potential customers actually want and will pay for",
+          "Because it's legally required before selling anything at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Market research replaces guessing with real information about customer wants and willingness to pay."
+      },
+      {
+        "question": "What's the key difference between a sole proprietorship and a partnership?",
+        "choices": [
+          "A sole proprietorship has one owner; a partnership has two or more",
+          "They are legally identical in every way"
+        ],
+        "correctIndex": 0,
+        "explanation": "The number of owners, and how responsibility and profit are shared, is the core difference between the two."
+      },
+      {
+        "question": "A teen uses $200 of personal savings to launch a t-shirt business instead of taking a loan. What's an advantage of this approach?",
+        "choices": [
+          "They don't owe anyone money or interest if the business struggles",
+          "There is no real advantage to using personal savings"
+        ],
+        "correctIndex": 0,
+        "explanation": "Using personal savings avoids the risk of owing money or interest if the business doesn't succeed."
+      },
+      {
+        "question": "Which business idea would likely scale more easily?",
+        "choices": [
+          "A print-on-demand online store",
+          "A one-person car detailing service that requires being there in person"
+        ],
+        "correctIndex": 0,
+        "explanation": "A model that doesn't require the founder's direct time for every sale scales more easily than one that does."
+      }
+    ]
+  },
+  "entrepreneurship-13-17-p2": {
+    "slides": [
+      {
+        "emoji": "🏷️",
+        "title": "Pricing strategies",
+        "text": "Businesses generally price in one of two ways: cost-plus pricing, where you add a markup on top of what something costs to make, or value-based pricing, where you charge based on how much a customer believes it's worth. For example, a $5 material cost with a $10 markup gives a cost-plus price of $15, while a designer bag might sell for $200 largely because customers value the brand, not just the materials."
+      },
+      {
+        "emoji": "📢",
+        "title": "Customer acquisition and marketing spend",
+        "text": "Customer acquisition cost is how much money a business spends, on average, to gain one new customer through advertising, and it needs to stay lower than what that customer is expected to spend over time. For example, spending $20 on ads to gain a customer who only ever buys $15 worth of products is a losing strategy, even if the ads technically \"worked.\""
+      },
+      {
+        "emoji": "📈",
+        "title": "Measuring success beyond money",
+        "text": "Revenue matters, but many entrepreneurs also track customer satisfaction, repeat business, and real-world impact as signs their business is genuinely succeeding. For example, a business that earns a modest profit but has 90% of customers coming back again and again is arguably in a stronger position than one earning more but constantly losing and replacing one-time customers."
+      },
+      {
+        "emoji": "⚔️",
+        "title": "Competitive advantage",
+        "text": "A competitive advantage is whatever makes a business genuinely better or different from its rivals — often price, quality, convenience, or service. For example, a teen lawn-care business that guarantees same-day service, when every competitor takes a week to respond, has built a clear competitive advantage without needing to be the cheapest option."
+      },
+      {
+        "emoji": "📱",
+        "title": "Digital marketing basics",
+        "text": "Digital marketing means promoting a business online, through channels like social media, that often cost far less than traditional advertising. For example, posting short before-and-after videos of a car-detailing job can reach hundreds of potential local customers for free, something a printed flyer campaign could never do at that price."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Customer lifetime value",
+        "text": "Customer lifetime value is the total amount a business expects a single customer to spend over their entire relationship with it, not just on one purchase. For example, a customer who books a $30 haircut every six weeks for two years is worth roughly $520 in lifetime value, far more than the $30 their first visit alone suggests."
+      },
+      {
+        "emoji": "🎗️",
+        "title": "Building loyalty and retention",
+        "text": "Retention means keeping the customers you already have coming back, which is usually cheaper than constantly finding new ones. For example, offering a simple reward, like a free car wash after every ten paid washes, gives existing customers a reason to keep returning instead of trying a competitor."
+      },
+      {
+        "emoji": "🧪",
+        "title": "Simple experiments (A/B testing)",
+        "text": "A/B testing means trying two versions of something, like two different ad photos or prices, to see which one performs better with real customers. For example, posting one ad with a photo of the product alone and another with it in use, then comparing which gets more responses, lets you improve with evidence instead of guesswork."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Besides revenue, what else might an entrepreneur track as a sign of success?",
+        "choices": [
+          "Customer satisfaction and real-world impact",
+          "Nothing else is ever worth tracking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Many entrepreneurs value signs of genuine success beyond just the money earned."
+      },
+      {
+        "question": "What's the difference between cost-plus and value-based pricing?",
+        "choices": [
+          "Cost-plus adds a markup to cost; value-based charges based on perceived worth",
+          "They are exactly the same thing"
+        ],
+        "correctIndex": 0,
+        "explanation": "The two strategies anchor a price to different things: your cost, or the customer's perceived value."
+      },
+      {
+        "question": "A business spends $20 to gain a customer who only spends $15. What's the problem?",
+        "choices": [
+          "The cost of acquiring that customer is higher than what they spend",
+          "There is no problem at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "If customer acquisition cost exceeds what a customer spends, that growth actually loses money."
+      },
+      {
+        "question": "What is a \"competitive advantage\"?",
+        "choices": [
+          "Something that makes a business genuinely better or different than rivals",
+          "A random, meaningless name given to any business"
+        ],
+        "correctIndex": 0,
+        "explanation": "A competitive advantage is a real, specific reason customers might choose one business over another."
+      },
+      {
+        "question": "Which is an example of low-cost digital marketing for a teen business?",
+        "choices": [
+          "Posting product photos and videos on social media",
+          "Buying a national television advertising campaign"
+        ],
+        "correctIndex": 0,
+        "explanation": "Digital marketing, like social media posts, typically costs far less than traditional mass advertising."
+      },
+      {
+        "question": "What is \"customer lifetime value\"?",
+        "choices": [
+          "The total amount a customer is expected to spend over their whole relationship with a business",
+          "The price of a single item sold to them one time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Lifetime value looks at a customer's total expected spending over time, not just one transaction."
+      },
+      {
+        "question": "Why might a business offer a loyalty reward, like \"buy 9 washes, get the 10th free\"?",
+        "choices": [
+          "It encourages customers to keep returning instead of trying a competitor",
+          "Loyalty programs have no real effect on customer behavior"
+        ],
+        "correctIndex": 0,
+        "explanation": "Loyalty rewards give existing customers a concrete incentive to keep coming back."
+      },
+      {
+        "question": "A business tries two different ad photos to see which gets more clicks. What is this called?",
+        "choices": [
+          "A/B testing, a simple experiment to see what works better",
+          "Cheating, since only one ad should ever be used at a time"
+        ],
+        "correctIndex": 0,
+        "explanation": "A/B testing is a standard, honest way to make marketing decisions based on real evidence."
+      },
+      {
+        "question": "A business has slightly lower revenue but 90% repeat customers, versus a rival with higher revenue but only 20% repeat customers. Which is often a sign of a healthier long-term business?",
+        "choices": [
+          "Often the one with more repeat customers, reflecting lasting satisfaction",
+          "Whichever business made more money this month, automatically and always"
+        ],
+        "correctIndex": 0,
+        "explanation": "High repeat-customer rates often signal durable satisfaction, which matters as much as short-term revenue."
+      },
+      {
+        "question": "A business spends $8 in ads to gain a customer who spends $50 over the next year. Is this a good outcome?",
+        "choices": [
+          "Yes, the customer's value is much higher than the cost to acquire them",
+          "No, spending any money at all on ads is always a mistake"
+        ],
+        "correctIndex": 0,
+        "explanation": "When a customer's value far exceeds the cost of acquiring them, that spending is working well."
+      }
+    ]
+  },
+  "entrepreneurship-13-17-p3": {
+    "slides": [
+      {
+        "emoji": "⚠️",
+        "title": "Failure is part of the process",
+        "text": "Many successful entrepreneurs failed at a first (or second, or third) attempt. Learning from what went wrong is often what makes the next attempt succeed. For example, a teen's first attempt at selling custom phone cases online might flop due to poor photos and unclear pricing — but applying those exact lessons to a second attempt often leads to real success."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Ethics in business",
+        "text": "Long-term success usually depends on being honest with customers, treating employees fairly, and not cutting corners just to make a quick profit. For example, honestly describing a product's condition, even when a vague description might sell it faster, builds the kind of trust that keeps customers coming back for years."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Solving a real problem",
+        "text": "The most durable businesses tend to solve a genuine problem for people — not just chase a trend that might fade quickly. For example, a tutoring business solving a real, ongoing need (students struggling with math) tends to last far longer than a business built around a fad that's popular for a few months and then forgotten."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Resilience and persistence",
+        "text": "Markets change, plans fail, and competitors appear. Entrepreneurs who adapt and keep going tend to outlast those who give up at the first setback. For example, if a new competitor undercuts your prices, adapting by improving your service or finding a new customer niche is more likely to succeed than simply giving up."
+      },
+      {
+        "emoji": "🤲",
+        "title": "Businesses that also help others",
+        "text": "Some entrepreneurs build 'social enterprises' — businesses designed to make money while also solving a social or environmental problem, not purely for profit. For example, a teen-run business that sells reusable water bottles and donates a portion of every sale to a clean-water charity is pursuing both profit and positive impact at the same time."
+      },
+      {
+        "emoji": "😕",
+        "title": "Handling complaints and protecting your reputation",
+        "text": "A single public complaint, especially online, can influence far more potential customers than just the one person who made it, so how a business responds matters enormously. For example, a business that quickly and openly resolves a customer's shipping complaint often earns more trust from onlookers than a business that has never had a complaint at all."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Splitting equity among co-founders",
+        "text": "When multiple people start a company together, they typically divide ownership — called equity — based on factors like who contributed the original idea, how much money each person invested, and how much ongoing work each will do. For example, two co-founders might split equity 50/50 if they contribute equally, or 70/30 if one invested significantly more money or works full-time while the other stays part-time."
+      },
+      {
+        "emoji": "🌐",
+        "title": "Building a personal brand as a young entrepreneur",
+        "text": "A personal brand is the consistent impression you leave through how you present yourself and your work over time, both online and in person. For example, a teen who consistently posts high-quality photos of their baking under the same name and style becomes recognizable and trusted, which can open doors well beyond that one business."
+      },
+      {
+        "emoji": "🧑‍🏫",
+        "title": "Networking and mentorship",
+        "text": "A mentor is someone with more experience who can offer guidance, feedback, and warnings about mistakes they've already made themselves. For example, a local shop owner willing to spend twenty minutes answering a teen entrepreneur's questions about pricing can save that teen from repeating costly mistakes the shop owner already learned the hard way."
+      }
+    ],
+    "quiz": [
+      {
         "question": "Why do many successful entrepreneurs talk openly about past failures?",
         "choices": [
           "Learning from what went wrong often shapes what succeeds next",
@@ -642,24 +1319,6 @@
         "explanation": "Social enterprises intentionally pursue impact alongside profit."
       },
       {
-        "question": "Besides revenue, what else might an entrepreneur track as a sign of success?",
-        "choices": [
-          "Customer satisfaction and real-world impact",
-          "Nothing else is ever worth tracking"
-        ],
-        "correctIndex": 0,
-        "explanation": "Many entrepreneurs value signs of genuine success beyond just the money earned."
-      },
-      {
-        "question": "What's the difference between cost-plus and value-based pricing?",
-        "choices": [
-          "Cost-plus adds a markup to cost; value-based charges based on perceived worth",
-          "They are exactly the same thing"
-        ],
-        "correctIndex": 0,
-        "explanation": "The two strategies anchor a price to different things: your cost, or the customer's perceived value."
-      },
-      {
         "question": "Why does responding well to a public complaint matter so much?",
         "choices": [
           "It's visible to many potential customers, not just the one who complained",
@@ -669,13 +1328,49 @@
         "explanation": "Onlookers judge a business by how it handles problems, not just whether problems happen."
       },
       {
-        "question": "A business spends $20 to gain a customer who only spends $15. What's the problem?",
+        "question": "A competitor undercuts your prices significantly. What's a resilient response?",
         "choices": [
-          "The cost of acquiring that customer is higher than what they spend",
-          "There is no problem at all"
+          "Adapt, like improving service or finding a new customer niche",
+          "Quit the business immediately without trying anything else"
         ],
         "correctIndex": 0,
-        "explanation": "If customer acquisition cost exceeds what a customer spends, that growth actually loses money."
+        "explanation": "Resilient entrepreneurs adapt to setbacks rather than giving up at the first sign of trouble."
+      },
+      {
+        "question": "Two co-founders split equity 70/30 instead of evenly. What might explain this?",
+        "choices": [
+          "One invested more money or works full-time while the other works part-time",
+          "Equity splits are always completely random, with no real reasoning"
+        ],
+        "correctIndex": 0,
+        "explanation": "Equity splits usually reflect differences in contribution, like money invested or time committed."
+      },
+      {
+        "question": "Why might a young entrepreneur build a personal brand, like a consistent social media presence?",
+        "choices": [
+          "It helps people recognize, trust, and follow their work over time",
+          "Personal brands have no real effect on a business's success"
+        ],
+        "correctIndex": 0,
+        "explanation": "A consistent, recognizable presence helps build the trust that keeps customers and opportunities coming."
+      },
+      {
+        "question": "Why is finding a mentor valuable for a young entrepreneur?",
+        "choices": [
+          "A mentor can share experience and help avoid common mistakes",
+          "Mentors are only useful for adult business owners, never teens"
+        ],
+        "correctIndex": 0,
+        "explanation": "An experienced mentor can help a young entrepreneur avoid costly mistakes they've already learned from."
+      },
+      {
+        "question": "A business could quietly hide a small product flaw to sell faster, or disclose it honestly. Which builds a more lasting business?",
+        "choices": [
+          "Disclosing it honestly, since that builds trust",
+          "Hiding it, since sales matter more than trust"
+        ],
+        "correctIndex": 0,
+        "explanation": "Honesty tends to build the long-term trust that keeps a business's reputation, and its customers, intact."
       }
     ]
   }

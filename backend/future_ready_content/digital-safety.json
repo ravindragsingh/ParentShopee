@@ -1,45 +1,10 @@
 {
-  "digital-safety-4-6": {
+  "digital-safety-4-6-p1": {
     "slides": [
       {
         "emoji": "🔒",
         "title": "Some things stay private",
         "text": "Your name, address, and phone number are private. Never type them into a game or app."
-      },
-      {
-        "emoji": "👨‍👩‍👧",
-        "title": "Always with a grown-up",
-        "text": "Use screens with a grown-up close by. They can help if something goes wrong."
-      },
-      {
-        "emoji": "😟",
-        "title": "If something feels weird",
-        "text": "Some things on a screen can feel scary or strange. Tell a grown-up right away."
-      },
-      {
-        "emoji": "🎭",
-        "title": "Not everyone is who they say",
-        "text": "Not everyone online is really who they seem. Always tell a grown-up about new people."
-      },
-      {
-        "emoji": "🖱️",
-        "title": "Ask before you click",
-        "text": "Do not click buttons or pop-ups you do not know. Ask a grown-up first."
-      },
-      {
-        "emoji": "⏰",
-        "title": "Screens need breaks too",
-        "text": "Take breaks from screens to play and rest. Your eyes and body need it too."
-      },
-      {
-        "emoji": "📷",
-        "title": "Pictures can be shared forever",
-        "text": "A picture you share can be seen by many people. Ask a grown-up before you share one."
-      },
-      {
-        "emoji": "🚪",
-        "title": "Only trusted apps and games",
-        "text": "Grown-ups pick apps and games that are safe. Always ask before you try a new one."
       },
       {
         "emoji": "🔑",
@@ -52,14 +17,34 @@
         "text": "Do not tell people online where you live or play. That is only for family to know."
       },
       {
+        "emoji": "👨‍👩‍👧",
+        "title": "Always with a grown-up",
+        "text": "Use screens with a grown-up close by. They can help if something goes wrong."
+      },
+      {
         "emoji": "📤",
         "title": "Ask before you post",
         "text": "Ask a grown-up before you post anything. They know what is safe to share."
       },
       {
-        "emoji": "💰",
-        "title": "Games that ask for money",
-        "text": "Some games ask you to pay for coins or toys. Always ask a grown-up before you buy."
+        "emoji": "📷",
+        "title": "Pictures can be shared forever",
+        "text": "A picture you share can be seen by many people. Ask a grown-up before you share one."
+      },
+      {
+        "emoji": "🎂",
+        "title": "Your birthday is private too",
+        "text": "Your birthday and school name are private too. Only tell family and friends you know in real life."
+      },
+      {
+        "emoji": "📹",
+        "title": "Video calls need a grown-up too",
+        "text": "Video chatting is fun. A grown-up should always know who you are talking to."
+      },
+      {
+        "emoji": "🧸",
+        "title": "Your own secret code",
+        "text": "A password is like a secret code for your things. Keep it safe with your grown-up."
       }
     ],
     "quiz": [
@@ -81,6 +66,129 @@
         "correctIndex": 0,
         "explanation": "Having a grown-up nearby helps keep you safe while using devices."
       },
+      {
+        "question": "Once you post a picture online, can it be shared by others too?",
+        "choices": [
+          "Yes, it can be saved or shared even more than you expect",
+          "No, only you can ever see it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Pictures posted online can spread further than you might realize."
+      },
+      {
+        "question": "Should you share your password with someone you don't know?",
+        "choices": [
+          "No, keep it secret",
+          "Yes, if they ask nicely"
+        ],
+        "correctIndex": 0,
+        "explanation": "A password is a secret, just for you and your family."
+      },
+      {
+        "question": "Is it okay to tell people online exactly where you live?",
+        "choices": [
+          "No, that stays with your family",
+          "Yes, that's fine to share"
+        ],
+        "correctIndex": 0,
+        "explanation": "Where you live is private information, just like your name and address."
+      },
+      {
+        "question": "Should you ask a grown-up before posting a photo or video?",
+        "choices": [
+          "Yes, always ask first",
+          "No, just post anything"
+        ],
+        "correctIndex": 0,
+        "explanation": "A grown-up can help you decide what is safe to share."
+      },
+      {
+        "question": "Is your birthday okay to tell everyone online?",
+        "choices": [
+          "Yes, tell everyone",
+          "No, that's private too"
+        ],
+        "correctIndex": 1,
+        "explanation": "Your birthday is a personal detail that should stay private, just like your name."
+      },
+      {
+        "question": "You want to video chat with someone. What should you do?",
+        "choices": [
+          "Make sure a grown-up knows first",
+          "Just start chatting alone"
+        ],
+        "correctIndex": 0,
+        "explanation": "A grown-up should always know who you are talking to on video calls."
+      },
+      {
+        "question": "What is a password like?",
+        "choices": [
+          "A secret code just for you and your family",
+          "Something to tell all your friends"
+        ],
+        "correctIndex": 0,
+        "explanation": "A password is a secret, just like a special code that keeps your things safe."
+      },
+      {
+        "question": "You take a photo of your friend. Before sharing it, what should you do?",
+        "choices": [
+          "Ask a grown-up and your friend first",
+          "Share it right away with everyone"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking first with a grown-up and your friend is the safe, kind thing to do."
+      }
+    ]
+  },
+  "digital-safety-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "😟",
+        "title": "If something feels weird",
+        "text": "Some things on a screen can feel scary or strange. Tell a grown-up right away."
+      },
+      {
+        "emoji": "🎭",
+        "title": "Not everyone is who they say",
+        "text": "Not everyone online is really who they seem. Always tell a grown-up about new people."
+      },
+      {
+        "emoji": "🖱️",
+        "title": "Ask before you click",
+        "text": "Do not click buttons or pop-ups you do not know. Ask a grown-up first."
+      },
+      {
+        "emoji": "🚪",
+        "title": "Only trusted apps and games",
+        "text": "Grown-ups pick apps and games that are safe. Always ask before you try a new one."
+      },
+      {
+        "emoji": "💰",
+        "title": "Games that ask for money",
+        "text": "Some games ask you to pay for coins or toys. Always ask a grown-up before you buy."
+      },
+      {
+        "emoji": "⏰",
+        "title": "Screens need breaks too",
+        "text": "Take breaks from screens to play and rest. Your eyes and body need it too."
+      },
+      {
+        "emoji": "🙅",
+        "title": "It's okay to say no",
+        "text": "If a game or app asks you to do something that feels wrong, it's okay to say no and tell a grown-up."
+      },
+      {
+        "emoji": "📢",
+        "title": "Loud noises and flashing lights",
+        "text": "Some ads are big, loud, and flashy to grab your attention. You never have to click on them."
+      },
+      {
+        "emoji": "🧑‍💻",
+        "title": "Grown-ups help pick safe shows too",
+        "text": "Just like games and apps, grown-ups help choose safe videos and shows for you to watch."
+      }
+    ],
+    "quiz": [
       {
         "question": "A video suddenly shows something scary. What should you do?",
         "choices": [
@@ -109,15 +217,6 @@
         "explanation": "Checking with a grown-up before clicking unfamiliar things is a safe habit."
       },
       {
-        "question": "Once you post a picture online, can it be shared by others too?",
-        "choices": [
-          "Yes, it can be saved or shared even more than you expect",
-          "No, only you can ever see it"
-        ],
-        "correctIndex": 0,
-        "explanation": "Pictures posted online can spread further than you might realize."
-      },
-      {
         "question": "A friend tells you about a new game. What should you do before downloading it?",
         "choices": [
           "Check with a grown-up first",
@@ -127,24 +226,6 @@
         "explanation": "Grown-ups check that an app is safe before you use it."
       },
       {
-        "question": "Should you share your password with someone you don't know?",
-        "choices": [
-          "No, keep it secret",
-          "Yes, if they ask nicely"
-        ],
-        "correctIndex": 0,
-        "explanation": "A password is a secret, just for you and your family."
-      },
-      {
-        "question": "Is it okay to tell people online exactly where you live?",
-        "choices": [
-          "No, that stays with your family",
-          "Yes, that's fine to share"
-        ],
-        "correctIndex": 0,
-        "explanation": "Where you live is private information, just like your name and address."
-      },
-      {
         "question": "A game asks you to buy coins with money. What should you do?",
         "choices": [
           "Ask a grown-up first",
@@ -152,10 +233,55 @@
         ],
         "correctIndex": 0,
         "explanation": "Buying things in games uses real money, so a grown-up should always help decide."
+      },
+      {
+        "question": "You've been on a screen a long time and your eyes feel tired. What should you do?",
+        "choices": [
+          "Keep playing without stopping",
+          "Take a break"
+        ],
+        "correctIndex": 1,
+        "explanation": "Taking breaks from screens helps rest your eyes and your body."
+      },
+      {
+        "question": "A game asks you to do something that feels wrong. What should you do?",
+        "choices": [
+          "Say no and tell a grown-up",
+          "Do it anyway to keep playing"
+        ],
+        "correctIndex": 0,
+        "explanation": "It is always okay to say no and tell a grown-up if something feels wrong."
+      },
+      {
+        "question": "An ad flashes big and loud saying \"click now!\" What should you do?",
+        "choices": [
+          "You never have to click it",
+          "You must click it right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Flashy, loud ads are trying to grab your attention — you never have to click them."
+      },
+      {
+        "question": "Who helps pick safe shows and videos for you to watch?",
+        "choices": [
+          "A grown-up",
+          "Nobody, you pick anything"
+        ],
+        "correctIndex": 0,
+        "explanation": "Just like games and apps, grown-ups help choose shows that are safe for you."
+      },
+      {
+        "question": "You click a pop-up by accident. What should you do next?",
+        "choices": [
+          "Tell a grown-up what happened",
+          "Keep clicking around to see what happens"
+        ],
+        "correctIndex": 0,
+        "explanation": "Telling a grown-up right away is always the safe thing to do, even after an accident."
       }
     ]
   },
-  "digital-safety-7-9": {
+  "digital-safety-7-9-p1": {
     "slides": [
       {
         "emoji": "🔑",
@@ -167,6 +293,137 @@
         "title": "Privacy settings",
         "text": "Many apps let you choose who can see what you post, like photos or messages. Setting your account so only friends you know can see it keeps strangers from watching you."
       },
+      {
+        "emoji": "📍",
+        "title": "Keep your location private",
+        "text": "Sharing exactly where you are, like your school or park, can tell strangers too much. Turn off location sharing in apps unless a grown-up says it is okay to use."
+      },
+      {
+        "emoji": "📸",
+        "title": "What's okay to post",
+        "text": "Before posting a photo or comment, think about who might see it, now or later. If you are not sure a post is okay, asking a grown-up first is always a smart move."
+      },
+      {
+        "emoji": "🔒",
+        "title": "Keeping accounts safe",
+        "text": "On a shared computer or tablet, always log out of your account when you are done. Leaving an account logged in lets the next person use it, or even change your info."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Changing passwords when needed",
+        "text": "If you think someone else might know your password, tell a grown-up so you can change it together. Changing a password after something feels off is a smart habit, not an overreaction."
+      },
+      {
+        "emoji": "👤",
+        "title": "What a private account means",
+        "text": "A private account means only approved followers can see your posts, unlike a public account that anyone can find. Choosing private settings with a grown-up's help is one of the easiest ways to control who sees your life online."
+      },
+      {
+        "emoji": "🧩",
+        "title": "Usernames don't have to reveal much",
+        "text": "A username like \"SoccerStar2013\" can hint at your birth year, while something like \"BlueFalcon99\" reveals much less. Picking a username that doesn't give away personal clues is a small choice that adds up."
+      },
+      {
+        "emoji": "🔓",
+        "title": "What to do if an account gets hacked",
+        "text": "If you suddenly can't log in, or friends say you're posting strange things, your account might be hacked. Telling a grown-up right away helps get it back under control quickly."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Which is a stronger password: \"password123\" or \"BlueTiger$7Jump\"?",
+        "choices": [
+          "\"BlueTiger$7Jump,\" since it's harder to guess",
+          "\"password123,\" since it's easier to remember"
+        ],
+        "correctIndex": 0,
+        "explanation": "Simple, guessable passwords are weak and easy for others to break into."
+      },
+      {
+        "question": "What do privacy settings let you control?",
+        "choices": [
+          "Who can see what you post",
+          "How fast your device charges"
+        ],
+        "correctIndex": 0,
+        "explanation": "Privacy settings control the audience for what you share."
+      },
+      {
+        "question": "Should you share your exact location with people you don't know well?",
+        "choices": [
+          "No, keep that private",
+          "Yes, it's fine to share with anyone"
+        ],
+        "correctIndex": 0,
+        "explanation": "Keeping your exact location private protects you from people you don't know well."
+      },
+      {
+        "question": "You use a shared computer at school. What should you do when you're done?",
+        "choices": [
+          "Log out of your account",
+          "Leave it logged in for the next person"
+        ],
+        "correctIndex": 0,
+        "explanation": "Logging out keeps your account and information safe on devices other people use."
+      },
+      {
+        "question": "Before posting a photo or comment, what's a smart first step?",
+        "choices": [
+          "Think about who might see it, or ask a grown-up",
+          "Post it immediately without thinking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Thinking ahead about who might see a post helps you decide if it's really okay to share."
+      },
+      {
+        "question": "You think someone else might know your password. What should you do?",
+        "choices": [
+          "Tell a grown-up so you can change it",
+          "Do nothing and hope it's fine"
+        ],
+        "correctIndex": 0,
+        "explanation": "Changing a password after something feels off is a smart, simple safety habit."
+      },
+      {
+        "question": "What does a private account setting do?",
+        "choices": [
+          "It lets anyone in the world see your posts",
+          "Only approved followers can see your posts"
+        ],
+        "correctIndex": 1,
+        "explanation": "A private account limits your posts to people you've approved, unlike a public one."
+      },
+      {
+        "question": "Which username reveals less personal information: \"SoccerStar2013\" or \"BlueFalcon99\"?",
+        "choices": [
+          "\"BlueFalcon99\"",
+          "\"SoccerStar2013\", since it mentions a sport"
+        ],
+        "correctIndex": 0,
+        "explanation": "Usernames that hint at a birth year or personal detail reveal more than a generic one."
+      },
+      {
+        "question": "Friends say you're posting strange messages you didn't write. What might this mean?",
+        "choices": [
+          "Your account might be hacked",
+          "Nothing, that's completely normal"
+        ],
+        "correctIndex": 0,
+        "explanation": "Strange activity you don't recognize is a sign an account may be hacked."
+      },
+      {
+        "question": "A friend asks for your game account password so they can log in for you. What should you do?",
+        "choices": [
+          "Say no, passwords stay private",
+          "Share it since they're your friend"
+        ],
+        "correctIndex": 0,
+        "explanation": "Passwords should stay private, even from friends."
+      }
+    ]
+  },
+  "digital-safety-7-9-p2": {
+    "slides": [
       {
         "emoji": "🚫",
         "title": "Stranger danger applies online too",
@@ -208,40 +465,12 @@
         "text": "Spending too much time on screens can crowd out sleep, friends, and things you enjoy. Noticing when a game or show is taking over your day is an important habit to build."
       },
       {
-        "emoji": "📍",
-        "title": "Keep your location private",
-        "text": "Sharing exactly where you are, like your school or park, can tell strangers too much. Turn off location sharing in apps unless a grown-up says it is okay to use."
-      },
-      {
-        "emoji": "📸",
-        "title": "What's okay to post",
-        "text": "Before posting a photo or comment, think about who might see it, now or later. If you are not sure a post is okay, asking a grown-up first is always a smart move."
-      },
-      {
-        "emoji": "🔒",
-        "title": "Keeping accounts safe",
-        "text": "On a shared computer or tablet, always log out of your account when you are done. Leaving an account logged in lets the next person use it, or even change your info."
+        "emoji": "🎥",
+        "title": "Livestreams and video chats with strangers",
+        "text": "Some apps let you livestream or video chat with people you've never met. Keep your camera and personal details limited to people you actually know, and loop in a grown-up for anything new."
       }
     ],
     "quiz": [
-      {
-        "question": "Which is a stronger password: \"password123\" or \"BlueTiger$7Jump\"?",
-        "choices": [
-          "\"BlueTiger$7Jump,\" since it's harder to guess",
-          "\"password123,\" since it's easier to remember"
-        ],
-        "correctIndex": 0,
-        "explanation": "Simple, guessable passwords are weak and easy for others to break into."
-      },
-      {
-        "question": "What do privacy settings let you control?",
-        "choices": [
-          "Who can see what you post",
-          "How fast your device charges"
-        ],
-        "correctIndex": 0,
-        "explanation": "Privacy settings control the audience for what you share."
-      },
       {
         "question": "A stranger in a game chat asks what school you go to. Should you answer?",
         "choices": [
@@ -250,6 +479,15 @@
         ],
         "correctIndex": 0,
         "explanation": "Stranger caution applies online exactly as it does in person."
+      },
+      {
+        "question": "Typing something mean online but not saying it in person — does it still hurt?",
+        "choices": [
+          "No, it doesn't count if it's online",
+          "Yes, mean words hurt the same online"
+        ],
+        "correctIndex": 1,
+        "explanation": "Mean comments hurt just as much online as they do in person."
       },
       {
         "question": "Someone leaves a rude comment on your post. What's the safest response?",
@@ -306,26 +544,26 @@
         "explanation": "Too much screen time can crowd out sleep, friends, and other things you enjoy."
       },
       {
-        "question": "Should you share your exact location with people you don't know well?",
+        "question": "An app lets you video chat with people you've never met. What should you do?",
         "choices": [
-          "No, keep that private",
-          "Yes, it's fine to share with anyone"
+          "Keep it to people you know and involve a grown-up for anything new",
+          "Video chat with anyone who asks"
         ],
         "correctIndex": 0,
-        "explanation": "Keeping your exact location private protects you from people you don't know well."
+        "explanation": "Cameras and video chats should stay limited to people you actually know, with a grown-up in the loop."
       },
       {
-        "question": "You use a shared computer at school. What should you do when you're done?",
+        "question": "A text message from an unknown number says \"You won! Click this link fast!\" What's the safest move?",
         "choices": [
-          "Log out of your account",
-          "Leave it logged in for the next person"
+          "Don't click it — treat it as a trick",
+          "Click it quickly before the offer ends"
         ],
         "correctIndex": 0,
-        "explanation": "Logging out keeps your account and information safe on devices other people use."
+        "explanation": "Urgent, unexpected \"prize\" links from unknown senders are a common scam trick."
       }
     ]
   },
-  "digital-safety-10-13": {
+  "digital-safety-10-13-p1": {
     "slides": [
       {
         "emoji": "🎣",
@@ -333,44 +571,9 @@
         "text": "Phishing is a trick where a fake message pretends to be from someone trustworthy (like a game company) to try to steal your password or personal information. For example, an email that looks like it's from a game company saying \"your account will be deleted, click here to verify your password\" is a classic phishing attempt designed to steal your login."
       },
       {
-        "emoji": "📸",
-        "title": "Oversharing online",
-        "text": "Posting your location, school name, or daily schedule can reveal more about you to strangers than you might realize. For example, a post saying \"at soccer practice every Tuesday at 4pm at Central Park\" tells any stranger exactly where to find you at a specific, predictable time — far more than most people would say out loud to someone they don't know."
-      },
-      {
-        "emoji": "👣",
-        "title": "Your digital footprint",
-        "text": "Everything you post, like, or comment online adds up over time into a 'digital footprint' — a trail that can be seen by others, even years later. For example, comments and photos posted at age 12 can still be found by someone searching your name years later, which is why it's worth thinking about before posting."
-      },
-      {
-        "emoji": "⏱️",
-        "title": "Balancing screen time",
-        "text": "Noticing when screen time is crowding out sleep, friends, or activities you enjoy is an important digital safety and wellbeing skill. For example, if staying up late scrolling means you're too tired to enjoy soccer practice the next day, that's a sign screen time might need rebalancing."
-      },
-      {
-        "emoji": "🎭",
-        "title": "Fake accounts and catfishing",
-        "text": "Someone online might use a fake photo and name to pretend to be someone they're not — this is sometimes called 'catfishing.' For example, an account claiming to be a 13-year-old with a cute profile photo could actually belong to a much older adult using a stolen or fake picture — which is why meeting an online-only friend in person always needs a trusted adult involved."
-      },
-      {
         "emoji": "🔐",
         "title": "Two-factor authentication",
         "text": "Some accounts offer an extra security step — like a code sent to your phone — on top of your password. It's an easy way to make an account harder to break into. For example, even if someone guessed or stole your password, two-factor authentication means they'd also need the one-time code sent to your phone, which they wouldn't have."
-      },
-      {
-        "emoji": "🛑",
-        "title": "When to disengage and report",
-        "text": "If an online conversation starts feeling uncomfortable or pressuring, stopping the conversation and reporting or telling a trusted adult is always okay. For example, if someone online keeps pushing you to share a photo or secret you don't want to share, ending the conversation and telling a trusted adult right away is the right call, no matter what they said to try to stop you."
-      },
-      {
-        "emoji": "📍",
-        "title": "Location sharing risks",
-        "text": "Live location sharing can be useful with close family, but sharing it publicly or with people you barely know can reveal exactly where you are, in real time. For example, sharing your live location with a parent so they know you got to a friend's house safely makes sense, but sharing that same live location publicly means literally anyone could see exactly where you are right now."
-      },
-      {
-        "emoji": "🧑‍🤝‍🧑",
-        "title": "Online friends vs. real friends",
-        "text": "Someone you've only ever talked to online is different from a friend you actually know in person — it's wise to be more cautious about what you share and trust. For example, an online gaming friend you've chatted with for months might seem trustworthy, but since you've never actually met them in person, it makes sense to be more careful about what personal details you share with them."
       },
       {
         "emoji": "🔑",
@@ -388,9 +591,29 @@
         "text": "Apps and games often make it easy to spend real money on upgrades, subscriptions, or loot boxes, sometimes without it feeling like real spending. For example, a game that offers a \"free trial\" subscription can quietly start charging a card automatically after a week unless someone cancels it first, which is why checking the terms with a grown-up matters."
       },
       {
-        "emoji": "💬",
-        "title": "Group chats and screenshots",
-        "text": "Anything sent in a group chat can be screenshotted and shared far beyond the people it was meant for, even if it felt private at the time. For example, a joke or complaint sent to one friend in a group chat could be screenshotted and shared with people who were never meant to see it, which is worth remembering before hitting send."
+        "emoji": "🧾",
+        "title": "Reading the fine print on 'free trials'",
+        "text": "Many subscriptions offer a free trial that automatically turns into a paid charge unless you cancel before it ends. For example, a game pass advertised as 'free for 7 days' might quietly charge a linked card every month afterward unless someone actively cancels it."
+      },
+      {
+        "emoji": "🕵️‍♂️",
+        "title": "Verifying before you trust a message",
+        "text": "If a message claims to be from a company or a friend, checking through a separate, trusted channel confirms whether it's real. For example, if a 'friend' texts asking to borrow money urgently, calling them directly (not replying to the same message) can confirm whether it's really them or a hacked account."
+      },
+      {
+        "emoji": "🔓",
+        "title": "What to do if you already clicked",
+        "text": "Clicking a suspicious link doesn't mean you're doomed — telling a trusted adult quickly and changing your password can limit the damage. For example, if you realize seconds after clicking that a link looked fake, changing your password right away and telling a parent is far more useful than staying quiet out of embarrassment."
+      },
+      {
+        "emoji": "🎮",
+        "title": "Scams inside games, not just messages",
+        "text": "Scams don't only arrive by text or email — they also show up as fake trade offers, 'free skins' links, or impersonators pretending to be game staff. For example, a player claiming to be a 'moderator' who asks you to log in through a link they send is never actually part of the real game's staff."
+      },
+      {
+        "emoji": "🔗",
+        "title": "Spotting a fake web address",
+        "text": "Scam websites often use addresses that look almost right, like 'arnazon.com' instead of 'amazon.com,' hoping you won't notice the difference. For example, checking the web address carefully before entering a password is a quick habit that catches many fake login pages."
       }
     ],
     "quiz": [
@@ -404,23 +627,137 @@
         "explanation": "Phishing scams disguise themselves as trustworthy to trick people into giving up information."
       },
       {
-        "question": "What is a \"digital footprint\"?",
+        "question": "What does two-factor authentication add to an account?",
         "choices": [
-          "The trail your posts, likes, and comments leave over time",
-          "A picture of your actual foot"
+          "An extra security step beyond just a password",
+          "Nothing useful at all"
         ],
         "correctIndex": 0,
-        "explanation": "Your digital footprint is the lasting online trail your activity creates."
+        "explanation": "Two-factor authentication adds a second layer of protection to your accounts."
       },
       {
-        "question": "A post says \"at soccer practice every Tuesday at 4pm at Central Park.\" Why might that be risky?",
+        "question": "Why is using a different password for every account safer than reusing one?",
         "choices": [
-          "It can reveal more to strangers than intended",
-          "It has no effect on your safety at all"
+          "One leak won't affect your other accounts",
+          "It makes passwords easier to guess"
         ],
         "correctIndex": 0,
-        "explanation": "Sharing location or routine details can unintentionally reveal a lot to strangers."
+        "explanation": "Using different passwords for each account means one stolen password can't unlock everything else."
       },
+      {
+        "question": "A message says \"enter your login to get free V-bucks.\" What is this?",
+        "choices": [
+          "A scam trying to steal your password",
+          "A legitimate reward from the game company"
+        ],
+        "correctIndex": 0,
+        "explanation": "Real companies never ask for your login information in exchange for free rewards."
+      },
+      {
+        "question": "A 'free trial' subscription auto-renews unless you act. What should you do if you don't want to keep paying?",
+        "choices": [
+          "Cancel it before the trial period ends",
+          "Ignore it — trials never charge you"
+        ],
+        "correctIndex": 0,
+        "explanation": "Free trials often turn into real charges automatically unless you cancel first."
+      },
+      {
+        "question": "A text claiming to be from a friend urgently asks to borrow money. What's the safest move?",
+        "choices": [
+          "Contact them a different, trusted way to confirm it's really them",
+          "Send the money right away since they said it's urgent"
+        ],
+        "correctIndex": 0,
+        "explanation": "Verifying through a separate channel confirms whether a message is really from who it claims."
+      },
+      {
+        "question": "You realize you just clicked a suspicious link. What should you do?",
+        "choices": [
+          "Say nothing and hope nothing happens",
+          "Tell a trusted adult and change your password"
+        ],
+        "correctIndex": 1,
+        "explanation": "Acting quickly by telling a trusted adult and changing your password limits the damage."
+      },
+      {
+        "question": "Someone in a game claims to be a 'moderator' and sends a login link. What is this most likely?",
+        "choices": [
+          "A scam — real staff don't ask this way",
+          "A normal part of the game"
+        ],
+        "correctIndex": 0,
+        "explanation": "Real game staff never need to ask you to log in through a link they send you."
+      },
+      {
+        "question": "A game offers 'buy now, decide later' one-click purchases saved to a card. Why is this worth extra caution?",
+        "choices": [
+          "It can make spending real money feel less real",
+          "It has no relation to real money at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "In-app purchases spend real money, even when the process feels quick and effortless."
+      },
+      {
+        "question": "An email link goes to 'arnazon.com' instead of 'amazon.com'. What does this small difference suggest?",
+        "choices": [
+          "It's likely a fake, phishing website",
+          "It's just a normal typo that means nothing"
+        ],
+        "correctIndex": 0,
+        "explanation": "Scam websites often use addresses that look almost right to trick people who don't look closely."
+      }
+    ]
+  },
+  "digital-safety-10-13-p2": {
+    "slides": [
+      {
+        "emoji": "🎭",
+        "title": "Fake accounts and catfishing",
+        "text": "Someone online might use a fake photo and name to pretend to be someone they're not — this is sometimes called 'catfishing.' For example, an account claiming to be a 13-year-old with a cute profile photo could actually belong to a much older adult using a stolen or fake picture — which is why meeting an online-only friend in person always needs a trusted adult involved."
+      },
+      {
+        "emoji": "🛑",
+        "title": "When to disengage and report",
+        "text": "If an online conversation starts feeling uncomfortable or pressuring, stopping the conversation and reporting or telling a trusted adult is always okay. For example, if someone online keeps pushing you to share a photo or secret you don't want to share, ending the conversation and telling a trusted adult right away is the right call, no matter what they said to try to stop you."
+      },
+      {
+        "emoji": "📍",
+        "title": "Location sharing risks",
+        "text": "Live location sharing can be useful with close family, but sharing it publicly or with people you barely know can reveal exactly where you are, in real time. For example, sharing your live location with a parent so they know you got to a friend's house safely makes sense, but sharing that same live location publicly means literally anyone could see exactly where you are right now."
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Online friends vs. real friends",
+        "text": "Someone you've only ever talked to online is different from a friend you actually know in person — it's wise to be more cautious about what you share and trust. For example, an online gaming friend you've chatted with for months might seem trustworthy, but since you've never actually met them in person, it makes sense to be more careful about what personal details you share with them."
+      },
+      {
+        "emoji": "🚩",
+        "title": "Warning signs in online friendships",
+        "text": "An online contact who asks you to keep the friendship secret from your parents, or who gets upset when you don't reply instantly, is showing warning signs worth paying attention to. For example, someone who says 'don't tell your parents about our chats' is using a tactic real friends and trustworthy adults never need to use."
+      },
+      {
+        "emoji": "🖼️",
+        "title": "Profile pictures can be stolen",
+        "text": "A profile photo can be copied from someone else's real account and reused to create a fake, convincing profile. For example, running a suspicious profile picture through a reverse image search can sometimes reveal it actually belongs to someone else entirely."
+      },
+      {
+        "emoji": "🎁",
+        "title": "Gifts and favors with strings attached",
+        "text": "Someone online offering gifts, game currency, or special attention may be trying to build trust before asking for something in return. For example, a stranger who generously gifts rare in-game items before asking for personal photos or information is following a well-known manipulation pattern."
+      },
+      {
+        "emoji": "👪",
+        "title": "Why trusted adults, not secrecy, keep you safest",
+        "text": "Keeping a trusted adult in the loop about online relationships isn't about losing privacy — it's about having backup if something feels wrong. For example, telling a parent 'I made a new friend in this game' before anything feels off means they already have context if something does go wrong later."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Trusting your gut feeling",
+        "text": "If an interaction online feels off, even if you can't explain exactly why, that instinct is worth listening to and acting on. For example, feeling uneasy about a conversation's turn, even without a specific 'red flag,' is a good enough reason to step back and tell someone."
+      }
+    ],
+    "quiz": [
       {
         "question": "An account claims to be a 13-year-old but might actually be a much older adult using a fake photo. What is this called?",
         "choices": [
@@ -429,15 +766,6 @@
         ],
         "correctIndex": 0,
         "explanation": "Catfishing is using a fake identity to deceive someone online."
-      },
-      {
-        "question": "What does two-factor authentication add to an account?",
-        "choices": [
-          "An extra security step beyond just a password",
-          "Nothing useful at all"
-        ],
-        "correctIndex": 0,
-        "explanation": "Two-factor authentication adds a second layer of protection to your accounts."
       },
       {
         "question": "Someone online keeps pressuring you to share a photo you don't want to share. What should you do?",
@@ -467,22 +795,127 @@
         "explanation": "Extra caution makes sense with people you've never actually met in person."
       },
       {
-        "question": "Why is using a different password for every account safer than reusing one?",
+        "question": "An online contact says \"don't tell your parents about our chats.\" What does this suggest?",
         "choices": [
-          "One leak won't affect your other accounts",
-          "It makes passwords easier to guess"
+          "A warning sign worth paying attention to",
+          "A completely normal request from a friend"
         ],
         "correctIndex": 0,
-        "explanation": "Using different passwords for each account means one stolen password can't unlock everything else."
+        "explanation": "Encouraging secrecy from parents is a recognized warning sign."
       },
       {
-        "question": "A message says \"enter your login to get free V-bucks.\" What is this?",
+        "question": "What can a reverse image search sometimes reveal about a suspicious profile picture?",
         "choices": [
-          "A scam trying to steal your password",
-          "A legitimate reward from the game company"
+          "That it was actually copied from someone else's real account",
+          "Nothing useful — image searches don't work that way"
         ],
         "correctIndex": 0,
-        "explanation": "Real companies never ask for your login information in exchange for free rewards."
+        "explanation": "Reverse image searches can uncover when a profile photo was stolen from someone else."
+      },
+      {
+        "question": "A stranger online gives you rare, generous gifts before asking for personal photos. What is this pattern?",
+        "choices": [
+          "A well-known manipulation tactic to build trust first",
+          "Just a kind, generous stranger with no motive"
+        ],
+        "correctIndex": 0,
+        "explanation": "Gifts before a request are a recognized tactic for building trust before asking for something back."
+      },
+      {
+        "question": "Why does telling a trusted adult about a new online friend help, even if nothing seems wrong yet?",
+        "choices": [
+          "It only matters after something bad happens",
+          "They already have context if something goes wrong later"
+        ],
+        "correctIndex": 1,
+        "explanation": "Keeping a trusted adult in the loop early means they already have context if something goes wrong."
+      },
+      {
+        "question": "You feel uneasy about a conversation but can't explain exactly why. What should you do?",
+        "choices": [
+          "Trust that feeling and step back or tell someone",
+          "Ignore it since you can't name a specific reason"
+        ],
+        "correctIndex": 0,
+        "explanation": "A gut feeling that something is off is worth listening to, even without a specific reason."
+      },
+      {
+        "question": "Someone's profile claims one age but their photos and writing style seem to suggest otherwise. What should you consider?",
+        "choices": [
+          "The profile might not be what it claims to be",
+          "Profiles are always exactly as they describe themselves"
+        ],
+        "correctIndex": 0,
+        "explanation": "Mismatched details can be a sign a profile isn't genuine."
+      }
+    ]
+  },
+  "digital-safety-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "📸",
+        "title": "Oversharing online",
+        "text": "Posting your location, school name, or daily schedule can reveal more about you to strangers than you might realize. For example, a post saying \"at soccer practice every Tuesday at 4pm at Central Park\" tells any stranger exactly where to find you at a specific, predictable time — far more than most people would say out loud to someone they don't know."
+      },
+      {
+        "emoji": "👣",
+        "title": "Your digital footprint",
+        "text": "Everything you post, like, or comment online adds up over time into a 'digital footprint' — a trail that can be seen by others, even years later. For example, comments and photos posted at age 12 can still be found by someone searching your name years later, which is why it's worth thinking about before posting."
+      },
+      {
+        "emoji": "💬",
+        "title": "Group chats and screenshots",
+        "text": "Anything sent in a group chat can be screenshotted and shared far beyond the people it was meant for, even if it felt private at the time. For example, a joke or complaint sent to one friend in a group chat could be screenshotted and shared with people who were never meant to see it, which is worth remembering before hitting send."
+      },
+      {
+        "emoji": "⏱️",
+        "title": "Balancing screen time",
+        "text": "Noticing when screen time is crowding out sleep, friends, or activities you enjoy is an important digital safety and wellbeing skill. For example, if staying up late scrolling means you're too tired to enjoy soccer practice the next day, that's a sign screen time might need rebalancing."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Anyone can search your name",
+        "text": "Typing your own name into a search engine occasionally, sometimes called a 'self-search,' shows you what strangers, teachers, or future coaches might already find. For example, discovering an old public post you forgot about is a useful nudge to check your privacy settings or delete it."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Tags and check-ins add up too",
+        "text": "Being tagged in a friend's post, or checking in at a location, can share information about you even when you didn't post anything yourself. For example, a friend tagging you at a specific restaurant reveals where you are, even if your own account is completely private."
+      },
+      {
+        "emoji": "🗑️",
+        "title": "Deleting doesn't always mean gone",
+        "text": "Deleting a post removes it from your profile, but people may have already seen, saved, or screenshotted it before it was deleted. For example, a post deleted five minutes after posting can still exist as a screenshot on someone else's phone."
+      },
+      {
+        "emoji": "⏳",
+        "title": "Noticing screen time patterns, not just totals",
+        "text": "Paying attention to when and why you reach for a screen, like out of boredom or after an upsetting moment, reveals more than just counting total hours. For example, noticing you always open an app right after feeling left out is useful information about the habit, not just the time spent."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Setting your own healthy limits",
+        "text": "Deciding in advance on limits, like no phones at the dinner table or an hour before bed, makes healthy screen habits easier to stick to in the moment. For example, agreeing on a charging spot outside the bedroom overnight is a simple rule that helps sleep without needing willpower every night."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is a \"digital footprint\"?",
+        "choices": [
+          "The trail your posts, likes, and comments leave over time",
+          "A picture of your actual foot"
+        ],
+        "correctIndex": 0,
+        "explanation": "Your digital footprint is the lasting online trail your activity creates."
+      },
+      {
+        "question": "A post says \"at soccer practice every Tuesday at 4pm at Central Park.\" Why might that be risky?",
+        "choices": [
+          "It can reveal more to strangers than intended",
+          "It has no effect on your safety at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Sharing location or routine details can unintentionally reveal a lot to strangers."
       },
       {
         "question": "Can something sent in a \"private\" group chat still be shared with others?",
@@ -492,16 +925,74 @@
         ],
         "correctIndex": 0,
         "explanation": "Even messages meant to feel private can be screenshotted and shared beyond the original chat."
+      },
+      {
+        "question": "What does occasionally searching your own name online help you notice?",
+        "choices": [
+          "What strangers or future coaches might already find about you",
+          "Nothing useful — self-searching has no purpose"
+        ],
+        "correctIndex": 0,
+        "explanation": "A self-search shows you what your digital footprint actually looks like to others."
+      },
+      {
+        "question": "A friend tags you at a restaurant even though your own account is private. What happens?",
+        "choices": [
+          "Your location info can still be shared through their tag",
+          "Nothing — private accounts block all tags completely"
+        ],
+        "correctIndex": 0,
+        "explanation": "Tags and check-ins from others can reveal information even when your own account is private."
+      },
+      {
+        "question": "You delete a post five minutes after posting it. Is it definitely gone for good?",
+        "choices": [
+          "Not necessarily — someone may have already screenshotted it",
+          "Yes, deleting always removes every trace instantly"
+        ],
+        "correctIndex": 0,
+        "explanation": "Deleting removes a post from your profile, but others may have already saved or shared it."
+      },
+      {
+        "question": "Noticing you always open an app right after feeling left out is an example of what?",
+        "choices": [
+          "Something that has nothing to do with screen habits",
+          "Paying attention to screen time patterns, not just totals"
+        ],
+        "correctIndex": 1,
+        "explanation": "Noticing when and why you reach for a screen reveals more than counting total hours."
+      },
+      {
+        "question": "Setting a rule like \"no phones at the dinner table\" in advance helps because...",
+        "choices": [
+          "It removes the need for willpower in the moment",
+          "Rules made in advance never actually help"
+        ],
+        "correctIndex": 0,
+        "explanation": "Deciding limits ahead of time makes healthy habits easier to stick to in the moment."
+      },
+      {
+        "question": "A public post says \"home alone until 6pm today.\" Why is this risky?",
+        "choices": [
+          "It reveals when your home might be empty, to anyone who sees it",
+          "It has no real-world risk at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Posts that reveal a schedule can tell strangers more than intended, including when you're not home."
+      },
+      {
+        "question": "Posting your daily school pickup time and location publicly is risky mainly because...",
+        "choices": [
+          "It reveals a predictable pattern of where you'll be",
+          "Predictable patterns online are never a concern"
+        ],
+        "correctIndex": 0,
+        "explanation": "Sharing predictable routines can tell strangers exactly where to find you at a certain time."
       }
     ]
   },
-  "digital-safety-13-17": {
+  "digital-safety-13-17-p1": {
     "slides": [
-      {
-        "emoji": "🔐",
-        "title": "Password managers",
-        "text": "A password manager securely stores unique, complex passwords for every account, so you don't have to reuse the same weak password everywhere. For example, instead of using the same password for your email, social media, and school account (so one leak compromises everything), a password manager can generate and remember a different strong password for each one."
-      },
       {
         "emoji": "🎭",
         "title": "Social engineering",
@@ -513,29 +1004,9 @@
         "text": "AI can now generate convincing fake images, video, and audio. Verifying a surprising claim through a second, trusted source is more important than ever. For example, a video appearing to show a public figure saying something shocking should be checked against a reliable news source before you believe or share it, since AI-generated fakes can look and sound remarkably real."
       },
       {
-        "emoji": "📇",
-        "title": "Your long-term digital footprint",
-        "text": "Posts made as a teenager can resurface years later — to college admissions, employers, or anyone who searches your name. For example, a joke posted at 15 that seemed harmless at the time could resurface during a college application review or a job background check years later, in a very different context."
-      },
-      {
-        "emoji": "📵",
-        "title": "Healthy social media habits",
-        "text": "Curating your feed, muting accounts that hurt your mood, and taking intentional breaks are all legitimate ways to protect your mental health online. For example, muting or unfollowing accounts that consistently make you feel worse about yourself after scrolling is a genuinely healthy, proactive choice, not something to feel guilty about."
-      },
-      {
-        "emoji": "🚩",
-        "title": "Recognizing predatory behavior",
-        "text": "Adults who push a minor toward secrecy, isolation from friends/family, or private communication are showing classic warning signs — reporting and telling a trusted adult matters. For example, an adult online who says \"let's keep this conversation between just us\" or discourages you from telling a parent is showing a well-documented warning sign that should be reported immediately."
-      },
-      {
         "emoji": "🌐",
         "title": "Public Wi-Fi risks",
         "text": "Using public Wi-Fi for anything sensitive (like banking) without protection can expose your data to others on the same network. For example, logging into a banking app while connected to free coffee-shop Wi-Fi could let someone else on that same network potentially intercept your information, unlike using your phone's own secure cellular data."
-      },
-      {
-        "emoji": "🧾",
-        "title": "Reading privacy policies (a little)",
-        "text": "You don't need to read every word, but understanding roughly what data an app collects and how it's used is a genuinely useful digital literacy skill. For example, noticing that an app's privacy policy says it shares your location data with advertisers might change whether you're comfortable granting it that permission."
       },
       {
         "emoji": "🏦",
@@ -543,41 +1014,32 @@
         "text": "Only enter card or banking details on sites you trust, with a secure connection (look for https and a lock icon) — never through a link from an unexpected message. For example, a text saying \"your package couldn't be delivered, click here and enter your card info to reschedule\" is a common scam pattern — legitimate delivery issues don't require your card details through a random text link."
       },
       {
-        "emoji": "🧠",
-        "title": "Digital wellbeing",
-        "text": "Noticing signs of digital burnout — irritability, trouble sleeping, feeling worse after scrolling — and adjusting your habits is part of genuinely responsible tech use. For example, if you notice you feel consistently more anxious or tired after an hour of scrolling before bed, that's real, useful information worth acting on, not something to ignore."
-      },
-      {
-        "emoji": "📍",
-        "title": "Location metadata in photos",
-        "text": "Photos taken on a phone often secretly store the exact location where they were taken, hidden inside the file itself as 'metadata.' For example, posting a photo taken at home, without realizing that many platforms or viewers can extract that embedded location data, could reveal exactly where you live to anyone who knows how to look for it."
-      },
-      {
         "emoji": "💼",
         "title": "Recognizing scams aimed at teens",
         "text": "Scammers specifically target teens with fake job offers, \"easy money\" schemes, or online relationships that eventually ask for money or personal information. For example, a message offering \"$500 a week for easy online work, just pay a small starter fee\" is a classic scam pattern, since legitimate jobs never require paying money upfront to get hired."
       },
       {
-        "emoji": "🌀",
-        "title": "How apps are designed to keep you scrolling",
-        "text": "Many apps use techniques like endless scrolling, push notifications, and reward-like features on purpose, to keep you engaged for as long as possible. For example, noticing that turning off non-essential notifications or setting app time limits actually helps you feel more in control, rather than powerless, is a sign the design was working on you before."
-      },
-      {
         "emoji": "🕳️",
         "title": "Checking if your data has been breached",
         "text": "When a company's data is stolen in a breach, your email, password, or other details can end up exposed online without you knowing. For example, using a reputable breach-check tool to see if an old account's password was exposed, then changing that password everywhere it was reused, is a smart, proactive habit."
+      },
+      {
+        "emoji": "🎣",
+        "title": "Spear phishing: when scams get personal",
+        "text": "Unlike generic scam emails, 'spear phishing' uses real details about you — like your school, job, or a friend's name — to seem more convincing. For example, an email that references your actual part-time employer by name before asking you to 'confirm your payroll info' is a targeted attempt, not a random guess."
+      },
+      {
+        "emoji": "💳",
+        "title": "Recognizing a fake checkout page",
+        "text": "Scam shopping sites often mimic real brands closely, but small details — a slightly wrong URL, no https padlock, or prices far below normal — are giveaways. For example, a 'limited time' sneaker site selling a $180 shoe for $19.99 with only cryptocurrency accepted as payment fits a well-known scam pattern."
+      },
+      {
+        "emoji": "🔔",
+        "title": "What to do after falling for a scam",
+        "text": "If you realize you've been scammed, acting quickly — telling a trusted adult, contacting your bank if money was involved, and changing passwords — limits the damage far more than staying silent out of embarrassment. For example, reporting a fraudulent charge within hours gives a bank a much better chance of reversing it than waiting weeks."
       }
     ],
     "quiz": [
-      {
-        "question": "Why is reusing the same password across email, social media, and school accounts risky?",
-        "choices": [
-          "One leak could compromise all of them at once",
-          "It makes each account more secure"
-        ],
-        "correctIndex": 0,
-        "explanation": "Password managers let you use strong, unique passwords everywhere without memorizing them all."
-      },
       {
         "question": "A message says \"your account will be locked in 10 minutes unless you verify now.\" What tactic is this?",
         "choices": [
@@ -597,24 +1059,6 @@
         "explanation": "Deepfakes can be highly convincing, making verification through trusted sources important."
       },
       {
-        "question": "Why does a long-term digital footprint matter for teenagers?",
-        "choices": [
-          "Old posts can resurface years later to colleges or employers",
-          "Nothing posted online ever matters again"
-        ],
-        "correctIndex": 0,
-        "explanation": "What's posted now can be found and judged much later by people who matter to your future."
-      },
-      {
-        "question": "An adult online says \"let's keep this conversation between just us.\" What is this a sign of?",
-        "choices": [
-          "A recognized warning sign of predatory behavior",
-          "Being polite and never asking personal questions"
-        ],
-        "correctIndex": 0,
-        "explanation": "Encouraging secrecy or isolation is a recognized red flag worth reporting."
-      },
-      {
         "question": "Why is logging into a banking app on free coffee-shop Wi-Fi risky?",
         "choices": [
           "Others on the same network could potentially access your data",
@@ -622,15 +1066,6 @@
         ],
         "correctIndex": 0,
         "explanation": "Unsecured public networks can expose sensitive data to others sharing the connection."
-      },
-      {
-        "question": "Why is it useful to roughly understand an app's privacy policy?",
-        "choices": [
-          "It helps you know what data is collected and how it's used",
-          "Privacy policies never contain any useful information"
-        ],
-        "correctIndex": 0,
-        "explanation": "Even a rough understanding of data practices helps you make informed choices about apps."
       },
       {
         "question": "A text says \"your package couldn't be delivered, click here and enter your card info.\" What should you do?",
@@ -642,13 +1077,136 @@
         "explanation": "Financial information should only go into sites you trust and verified directly, not via surprise links."
       },
       {
-        "question": "What is a sign of possible \"digital burnout\"?",
+        "question": "A message offers \"$500 a week for easy work\" if you pay a small fee first. What is this?",
         "choices": [
-          "Feeling worse after scrolling, or trouble sleeping",
-          "Feeling exactly the same as always"
+          "A likely scam — real jobs don't charge you to get hired",
+          "A normal, trustworthy job offer"
         ],
         "correctIndex": 0,
-        "explanation": "Noticing these signs is the first step toward adjusting unhealthy tech habits."
+        "explanation": "Legitimate employers pay you — they never charge you money to get hired."
+      },
+      {
+        "question": "An email references your actual part-time job by name before asking you to confirm payroll details. What makes this more dangerous than a generic scam email?",
+        "choices": [
+          "It uses real details about you to seem convincing (spear phishing)",
+          "Nothing — personal details always mean a message is safe"
+        ],
+        "correctIndex": 0,
+        "explanation": "Spear phishing uses real, specific details to seem more trustworthy than a generic scam attempt."
+      },
+      {
+        "question": "A shopping site sells $180 sneakers for $19.99 and only accepts cryptocurrency. What does this suggest?",
+        "choices": [
+          "A likely scam site, not a real deal",
+          "A trustworthy, generous sale"
+        ],
+        "correctIndex": 0,
+        "explanation": "Unrealistic prices and unusual payment demands are classic signs of a fake shopping site."
+      },
+      {
+        "question": "You realize you've just been scammed out of money. What should you do first?",
+        "choices": [
+          "Stay quiet out of embarrassment",
+          "Tell a trusted adult and contact your bank quickly"
+        ],
+        "correctIndex": 1,
+        "explanation": "Acting quickly by telling a trusted adult and your bank gives the best chance of limiting the damage."
+      },
+      {
+        "question": "Why does checking if your data has been breached matter, even if nothing seems wrong?",
+        "choices": [
+          "A password could be exposed and reused elsewhere without you knowing",
+          "Data breaches never actually affect regular people"
+        ],
+        "correctIndex": 0,
+        "explanation": "Breached data can expose passwords that are still in use elsewhere, without any obvious warning sign."
+      },
+      {
+        "question": "What's a quick way to check if a shopping website might be fake?",
+        "choices": [
+          "Look for a mismatched URL, missing https padlock, or unrealistic prices",
+          "Trust it automatically if the logo looks right"
+        ],
+        "correctIndex": 0,
+        "explanation": "Small details like the URL, padlock icon, and pricing can reveal a fake shopping site."
+      }
+    ]
+  },
+  "digital-safety-13-17-p2": {
+    "slides": [
+      {
+        "emoji": "🔐",
+        "title": "Password managers",
+        "text": "A password manager securely stores unique, complex passwords for every account, so you don't have to reuse the same weak password everywhere. For example, instead of using the same password for your email, social media, and school account (so one leak compromises everything), a password manager can generate and remember a different strong password for each one."
+      },
+      {
+        "emoji": "🧾",
+        "title": "Reading privacy policies (a little)",
+        "text": "You don't need to read every word, but understanding roughly what data an app collects and how it's used is a genuinely useful digital literacy skill. For example, noticing that an app's privacy policy says it shares your location data with advertisers might change whether you're comfortable granting it that permission."
+      },
+      {
+        "emoji": "🚩",
+        "title": "Recognizing predatory behavior",
+        "text": "Adults who push a minor toward secrecy, isolation from friends/family, or private communication are showing classic warning signs — reporting and telling a trusted adult matters. For example, an adult online who says \"let's keep this conversation between just us\" or discourages you from telling a parent is showing a well-documented warning sign that should be reported immediately."
+      },
+      {
+        "emoji": "📍",
+        "title": "Location metadata in photos",
+        "text": "Photos taken on a phone often secretly store the exact location where they were taken, hidden inside the file itself as 'metadata.' For example, posting a photo taken at home, without realizing that many platforms or viewers can extract that embedded location data, could reveal exactly where you live to anyone who knows how to look for it."
+      },
+      {
+        "emoji": "🔑",
+        "title": "Passphrases: long beats complicated",
+        "text": "A long string of random words, like 'correct-horse-battery-staple,' can actually be harder to crack than a short complex password, while being easier to remember. For example, security experts increasingly recommend passphrases of four or more unrelated words over short passwords stuffed with symbols that are hard to remember and often reused."
+      },
+      {
+        "emoji": "🧑‍⚖️",
+        "title": "Grooming tactics, named clearly",
+        "text": "Predatory adults often follow a recognizable pattern: excessive flattery, gradually normalizing inappropriate topics, and testing boundaries with small requests before bigger ones. For example, an adult who starts with compliments, then slowly shifts to secretive or sexual topics over weeks, is following a well-documented grooming pattern — and it's never the target's fault."
+      },
+      {
+        "emoji": "📵",
+        "title": "It's never too late to tell someone",
+        "text": "Even if an uncomfortable online relationship has been going on for a while, or you feel like you 'let it happen,' telling a trusted adult is always the right move, at any point. For example, a teen who shared photos months ago and feels it's 'too late' to say anything still deserves support, not judgment, for speaking up now."
+      },
+      {
+        "emoji": "🗺️",
+        "title": "Metadata beyond just photos",
+        "text": "Location metadata isn't limited to photos — check-ins, timestamps on posts, and even background details in a video can reveal where you are. For example, a video posted from a recognizable street sign or storefront can reveal your location just as clearly as GPS data embedded in a photo file."
+      },
+      {
+        "emoji": "🧑‍💻",
+        "title": "What privacy settings can't fix",
+        "text": "Strong privacy settings limit who sees your content, but they don't stop a trusted follower from screenshotting and sharing it elsewhere. For example, even a fully private, followers-only account can't guarantee a post never leaves that circle once someone else has seen it."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Why is reusing the same password across email, social media, and school accounts risky?",
+        "choices": [
+          "One leak could compromise all of them at once",
+          "It makes each account more secure"
+        ],
+        "correctIndex": 0,
+        "explanation": "Password managers let you use strong, unique passwords everywhere without memorizing them all."
+      },
+      {
+        "question": "Why is it useful to roughly understand an app's privacy policy?",
+        "choices": [
+          "It helps you know what data is collected and how it's used",
+          "Privacy policies never contain any useful information"
+        ],
+        "correctIndex": 0,
+        "explanation": "Even a rough understanding of data practices helps you make informed choices about apps."
+      },
+      {
+        "question": "An adult online says \"let's keep this conversation between just us.\" What is this a sign of?",
+        "choices": [
+          "A recognized warning sign of predatory behavior",
+          "Being polite and never asking personal questions"
+        ],
+        "correctIndex": 0,
+        "explanation": "Encouraging secrecy or isolation is a recognized red flag worth reporting."
       },
       {
         "question": "Why can a photo posted online reveal where you live, even if you didn't say so?",
@@ -660,13 +1218,127 @@
         "explanation": "Photos can carry hidden location metadata that reveals more than what's visible in the picture itself."
       },
       {
-        "question": "A message offers \"$500 a week for easy work\" if you pay a small fee first. What is this?",
+        "question": "Why can a passphrase like 'correct-horse-battery-staple' be both stronger and easier to remember than a short complex password?",
         "choices": [
-          "A likely scam — real jobs don't charge you to get hired",
-          "A normal, trustworthy job offer"
+          "Its length makes it harder to crack, while being memorable",
+          "Long passwords are always weaker than short ones"
         ],
         "correctIndex": 0,
-        "explanation": "Legitimate employers pay you — they never charge you money to get hired."
+        "explanation": "A long string of unrelated words is genuinely harder to crack while being easier to recall."
+      },
+      {
+        "question": "An adult online starts with heavy flattery, then slowly shifts toward secretive topics over weeks. What is this pattern called?",
+        "choices": [
+          "Grooming — a recognized, documented pattern",
+          "A completely normal way friendships form"
+        ],
+        "correctIndex": 0,
+        "explanation": "Gradually shifting from flattery to secrecy is a well-documented grooming tactic."
+      },
+      {
+        "question": "A teen feels like it's \"too late\" to tell anyone about an uncomfortable online relationship that's been going on for months. Is it?",
+        "choices": [
+          "Yes, once time has passed there's no point",
+          "No — it's never too late to tell a trusted adult"
+        ],
+        "correctIndex": 1,
+        "explanation": "It's always the right time to tell a trusted adult, no matter how much time has passed."
+      },
+      {
+        "question": "Besides GPS data in photos, what else can reveal your location?",
+        "choices": [
+          "Check-ins, timestamps, or recognizable details in a video background",
+          "Nothing else ever reveals location information"
+        ],
+        "correctIndex": 0,
+        "explanation": "Location can leak through check-ins, timestamps, and visible details, not just photo metadata."
+      },
+      {
+        "question": "Can a fully private, followers-only account guarantee a post never leaves that circle?",
+        "choices": [
+          "No — a follower could still screenshot and share it",
+          "Yes, private accounts are completely leak-proof"
+        ],
+        "correctIndex": 0,
+        "explanation": "Privacy settings limit who sees content initially but can't stop a follower from sharing it further."
+      },
+      {
+        "question": "A new online contact makes a small inappropriate request, and when you push back, they apologize but try again differently later. What does this suggest?",
+        "choices": [
+          "They may be testing boundaries, a known grooming tactic",
+          "It's a one-time misunderstanding that means nothing"
+        ],
+        "correctIndex": 0,
+        "explanation": "Repeatedly testing boundaries after pushback is a recognized manipulation pattern worth reporting."
+      }
+    ]
+  },
+  "digital-safety-13-17-p3": {
+    "slides": [
+      {
+        "emoji": "📇",
+        "title": "Your long-term digital footprint",
+        "text": "Posts made as a teenager can resurface years later — to college admissions, employers, or anyone who searches your name. For example, a joke posted at 15 that seemed harmless at the time could resurface during a college application review or a job background check years later, in a very different context."
+      },
+      {
+        "emoji": "📵",
+        "title": "Healthy social media habits",
+        "text": "Curating your feed, muting accounts that hurt your mood, and taking intentional breaks are all legitimate ways to protect your mental health online. For example, muting or unfollowing accounts that consistently make you feel worse about yourself after scrolling is a genuinely healthy, proactive choice, not something to feel guilty about."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Digital wellbeing",
+        "text": "Noticing signs of digital burnout — irritability, trouble sleeping, feeling worse after scrolling — and adjusting your habits is part of genuinely responsible tech use. For example, if you notice you feel consistently more anxious or tired after an hour of scrolling before bed, that's real, useful information worth acting on, not something to ignore."
+      },
+      {
+        "emoji": "🌀",
+        "title": "How apps are designed to keep you scrolling",
+        "text": "Many apps use techniques like endless scrolling, push notifications, and reward-like features on purpose, to keep you engaged for as long as possible. For example, noticing that turning off non-essential notifications or setting app time limits actually helps you feel more in control, rather than powerless, is a sign the design was working on you before."
+      },
+      {
+        "emoji": "🎓",
+        "title": "College admissions and employer searches",
+        "text": "Many college admissions offices and employers now routinely look up applicants' public social media before making decisions. For example, an admissions officer finding a pattern of publicly posted offensive jokes can factor into a decision, even if the posts were 'just jokes' at the time."
+      },
+      {
+        "emoji": "🧹",
+        "title": "Doing a privacy checkup",
+        "text": "Periodically reviewing old posts, tagged photos, and privacy settings across your accounts helps you control what your digital footprint actually shows. For example, setting a yearly reminder to review and delete old posts that no longer reflect who you are is a practical habit, not paranoia."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Comparing your life to a highlight reel",
+        "text": "What people post online is usually a curated highlight reel, not the full picture of their life — comparing your everyday reality to it can distort how you feel. For example, remembering that a friend's seemingly perfect vacation photos leave out the boring or stressful parts of the trip can make scrolling feel less discouraging."
+      },
+      {
+        "emoji": "🔕",
+        "title": "Turning off what's designed to hook you",
+        "text": "Features like autoplay, infinite scroll, and streaks are intentionally built to keep you engaged longer than you might choose on your own. For example, turning off autoplay or setting an app timer isn't a sign of weak willpower — it's working around a design built by teams whose job is to maximize your time in-app."
+      },
+      {
+        "emoji": "🌙",
+        "title": "Screens and sleep",
+        "text": "Using screens right before bed, especially bright ones, can make it harder to fall asleep and lower sleep quality, even if you don't notice it immediately. For example, swapping late-night scrolling for a wind-down routine without a screen can measurably improve how rested you feel the next day."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Why does a long-term digital footprint matter for teenagers?",
+        "choices": [
+          "Old posts can resurface years later to colleges or employers",
+          "Nothing posted online ever matters again"
+        ],
+        "correctIndex": 0,
+        "explanation": "What's posted now can be found and judged much later by people who matter to your future."
+      },
+      {
+        "question": "What is a sign of possible \"digital burnout\"?",
+        "choices": [
+          "Feeling worse after scrolling, or trouble sleeping",
+          "Feeling exactly the same as always"
+        ],
+        "correctIndex": 0,
+        "explanation": "Noticing these signs is the first step toward adjusting unhealthy tech habits."
       },
       {
         "question": "Why might an app use endless scrolling and constant notifications?",
@@ -676,6 +1348,69 @@
         ],
         "correctIndex": 0,
         "explanation": "Many apps are intentionally designed to maximize how long you stay engaged."
+      },
+      {
+        "question": "Why do many college admissions offices and employers look up applicants' social media?",
+        "choices": [
+          "Public posts can factor into their decisions",
+          "They are legally forbidden from ever looking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Public social media activity is now a routine part of many admissions and hiring reviews."
+      },
+      {
+        "question": "What's the benefit of periodically reviewing old posts and privacy settings?",
+        "choices": [
+          "It helps you control what your digital footprint actually shows",
+          "Old posts automatically disappear on their own after enough time"
+        ],
+        "correctIndex": 0,
+        "explanation": "A periodic privacy checkup helps you manage what your digital footprint reveals about you."
+      },
+      {
+        "question": "Why can comparing your life to what people post online be misleading?",
+        "choices": [
+          "Posts are usually a curated highlight reel, not the full picture",
+          "Everything people post online is always the complete, honest truth"
+        ],
+        "correctIndex": 0,
+        "explanation": "Online posts typically show only the best moments, not the full, ordinary reality of someone's life."
+      },
+      {
+        "question": "Features like autoplay and infinite scroll are designed to...",
+        "choices": [
+          "Keep you engaged and using the app longer",
+          "Help you use the app less overall"
+        ],
+        "correctIndex": 0,
+        "explanation": "These features are intentionally built to maximize how long you stay engaged."
+      },
+      {
+        "question": "Is turning off autoplay or setting an app timer a sign of weak willpower?",
+        "choices": [
+          "Yes, people with strong willpower never need those tools",
+          "No — it's working around an intentional design choice"
+        ],
+        "correctIndex": 1,
+        "explanation": "These tools counteract deliberately engineered features, not a lack of willpower."
+      },
+      {
+        "question": "How can screens right before bed affect sleep?",
+        "choices": [
+          "They can make it harder to fall asleep and lower sleep quality",
+          "They have no effect on sleep at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Screen use before bed, especially bright screens, can interfere with falling asleep and sleep quality."
+      },
+      {
+        "question": "Muting or unfollowing an account that consistently makes you feel worse after scrolling is...",
+        "choices": [
+          "A legitimate, healthy choice for your mental health",
+          "Something to feel guilty about doing"
+        ],
+        "correctIndex": 0,
+        "explanation": "Curating your feed to protect your mood is a genuinely healthy, proactive habit."
       }
     ]
   }

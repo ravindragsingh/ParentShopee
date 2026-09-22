@@ -1,5 +1,5 @@
 {
-  "ai-4-6": {
+  "ai-4-6-p1": {
     "slides": [
       {
         "emoji": "🤖",
@@ -7,14 +7,19 @@
         "text": "AI is a computer helper. It can listen to you and talk back."
       },
       {
-        "emoji": "🗣️",
-        "title": "Ask it something!",
-        "text": "Some toys and speakers can hear you. Ask one to play your favorite song!"
-      },
-      {
         "emoji": "🧑‍💻",
         "title": "A person built it",
         "text": "People build AI, just like toys. Smart workers make it step by step."
+      },
+      {
+        "emoji": "🧠",
+        "title": "How AI learns",
+        "text": "AI learns by looking at many pictures. Then it can guess what they are."
+      },
+      {
+        "emoji": "🙃",
+        "title": "AI isn't always right",
+        "text": "AI can get mixed up sometimes. It is still learning, just like you."
       },
       {
         "emoji": "❤️",
@@ -27,14 +32,90 @@
         "text": "AI can draw a silly picture for you. Just ask, and it makes one!"
       },
       {
-        "emoji": "🙃",
-        "title": "AI isn't always right",
-        "text": "AI can get mixed up sometimes. It is still learning, just like you."
-      },
-      {
         "emoji": "🎵",
         "title": "AI can make music too",
         "text": "AI can make a short, happy song. Just ask for a fun tune!"
+      },
+      {
+        "emoji": "❓",
+        "title": "AI can answer questions",
+        "text": "You can ask AI why the sky is blue. It will try to tell you!"
+      },
+      {
+        "emoji": "🏋️",
+        "title": "AI gets better with practice",
+        "text": "AI learns best after lots of tries. Just like you get better at things too!"
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is AI?",
+        "choices": ["A kind of animal", "A computer helper that can listen and talk"],
+        "correctIndex": 1,
+        "explanation": "AI is a computer helper, not a living creature."
+      },
+      {
+        "question": "Can AI feel happy or sad, like you can?",
+        "choices": ["No, it can't really feel things", "Yes, exactly like a person"],
+        "correctIndex": 0,
+        "explanation": "AI can sound friendly, but it doesn't truly feel emotions."
+      },
+      {
+        "question": "Who makes AI?",
+        "choices": ["People who build it", "It just appears by itself"],
+        "correctIndex": 0,
+        "explanation": "People build AI on purpose, the same way people build toys."
+      },
+      {
+        "question": "Does AI ever make mistakes?",
+        "choices": ["Yes, it is still learning", "No, it is always right"],
+        "correctIndex": 0,
+        "explanation": "AI can get things wrong sometimes, just like anyone still learning."
+      },
+      {
+        "question": "Can AI help make a song?",
+        "choices": ["Yes, it can make a fun tune", "No, AI can never make sounds"],
+        "correctIndex": 0,
+        "explanation": "AI can help create music, just like it can help draw pictures."
+      },
+      {
+        "question": "How does AI learn what a cat looks like?",
+        "choices": ["By looking at lots of pictures", "By magic"],
+        "correctIndex": 0,
+        "explanation": "AI learns by studying many examples, like pictures of cats."
+      },
+      {
+        "question": "Can AI help draw a picture for you?",
+        "choices": ["Yes, if you ask it", "No, AI can never draw"],
+        "correctIndex": 0,
+        "explanation": "AI can make silly pictures for you when you ask."
+      },
+      {
+        "question": "Can you ask AI a question, like why the sky is blue?",
+        "choices": ["Yes, and it will try to answer", "No, AI cannot answer questions"],
+        "correctIndex": 0,
+        "explanation": "AI can try to answer questions you ask it, just like a helper."
+      },
+      {
+        "question": "How does AI get better at things?",
+        "choices": ["By practicing, just like you", "It is born knowing everything"],
+        "correctIndex": 0,
+        "explanation": "AI needs lots of practice and tries to get better, just like you do."
+      },
+      {
+        "question": "Is AI a living animal, like a cat or dog?",
+        "choices": ["No, it's a computer helper", "Yes, it's a kind of animal"],
+        "correctIndex": 0,
+        "explanation": "AI is not alive — it's a computer helper that people built."
+      }
+    ]
+  },
+  "ai-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "🗣️",
+        "title": "Ask it something!",
+        "text": "Some toys and speakers can hear you. Ask one to play your favorite song!"
       },
       {
         "emoji": "🚗",
@@ -42,19 +123,14 @@
         "text": "AI can help toy cars drive by themselves. It can help games move too."
       },
       {
-        "emoji": "👨‍👩‍👧",
-        "title": "Ask a grown-up first",
-        "text": "Always ask a grown-up before you use AI. They help keep you safe."
-      },
-      {
         "emoji": "📱",
         "title": "AI in your apps",
         "text": "AI is inside some apps on a phone. It can help you find a video."
       },
       {
-        "emoji": "🧠",
-        "title": "How AI learns",
-        "text": "AI learns by looking at many pictures. Then it can guess what they are."
+        "emoji": "👨‍👩‍👧",
+        "title": "Ask a grown-up first",
+        "text": "Always ask a grown-up before you use AI. They help keep you safe."
       },
       {
         "emoji": "🔒",
@@ -65,112 +141,92 @@
         "emoji": "👩‍🔬",
         "title": "People who work with AI",
         "text": "Some grown-ups build AI for their job. That is fun, important work."
+      },
+      {
+        "emoji": "🏠",
+        "title": "AI helpers around your home",
+        "text": "Some AI helpers can turn on lights when you talk. Just say the words, and they listen!"
+      },
+      {
+        "emoji": "🛑",
+        "title": "Smart helpers still need rules",
+        "text": "Even smart AI must follow rules grown-ups set. That keeps everyone safe and happy."
+      },
+      {
+        "emoji": "🎮",
+        "title": "AI in playful games",
+        "text": "Some games use AI to be your teammate. It can help characters move and play with you."
       }
     ],
     "quiz": [
       {
-        "question": "What is AI?",
-        "choices": [
-          "A kind of animal",
-          "A computer helper that can listen and talk"
-        ],
-        "correctIndex": 1,
-        "explanation": "AI is a computer helper, not a living creature."
-      },
-      {
-        "question": "Can AI feel happy or sad, like you can?",
-        "choices": [
-          "No, it can't really feel things",
-          "Yes, exactly like a person"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI can sound friendly, but it doesn't truly feel emotions."
-      },
-      {
-        "question": "Who makes AI?",
-        "choices": [
-          "People who build it",
-          "It just appears by itself"
-        ],
-        "correctIndex": 0,
-        "explanation": "People build AI on purpose, the same way people build toys."
-      },
-      {
-        "question": "Does AI ever make mistakes?",
-        "choices": [
-          "Yes, it is still learning",
-          "No, it is always right"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI can get things wrong sometimes, just like anyone still learning."
-      },
-      {
         "question": "What should you do before using an AI toy?",
-        "choices": [
-          "Ask a grown-up first",
-          "Just use it alone"
-        ],
+        "choices": ["Ask a grown-up first", "Just use it alone"],
         "correctIndex": 0,
         "explanation": "A grown-up can help make sure it's safe to use."
       },
       {
-        "question": "Can AI help make a song?",
-        "choices": [
-          "Yes, it can make a fun tune",
-          "No, AI can never make sounds"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI can help create music, just like it can help draw pictures."
-      },
-      {
         "question": "Can AI help a toy car drive by itself?",
-        "choices": [
-          "Yes, AI can help it steer",
-          "No, cars can never use AI"
-        ],
+        "choices": ["Yes, AI can help it steer", "No, cars can never use AI"],
         "correctIndex": 0,
         "explanation": "AI can be built into toys, helping them move on their own."
       },
       {
         "question": "Do some apps on a phone use AI?",
-        "choices": [
-          "Yes, some apps use AI",
-          "No, phones never use AI"
-        ],
+        "choices": ["Yes, some apps use AI", "No, phones never use AI"],
         "correctIndex": 0,
         "explanation": "AI is often built into apps to help you, like finding a video."
       },
       {
-        "question": "How does AI learn what a cat looks like?",
-        "choices": [
-          "By looking at lots of pictures",
-          "By magic"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI learns by studying many examples, like pictures of cats."
-      },
-      {
         "question": "Should you tell an AI your home address?",
-        "choices": [
-          "No, keep that private",
-          "Yes, always tell it"
-        ],
+        "choices": ["No, keep that private", "Yes, always tell it"],
         "correctIndex": 0,
         "explanation": "It's best to keep private information like your address just for family."
+      },
+      {
+        "question": "Can you ask a toy or speaker to play your favorite song?",
+        "choices": ["Yes, some can hear and play music", "No, toys can never hear you"],
+        "correctIndex": 0,
+        "explanation": "Some toys and speakers use AI to listen and play songs for you."
+      },
+      {
+        "question": "Do grown-ups have jobs building AI?",
+        "choices": ["Yes, that is real, important work", "No, AI just appears with no jobs"],
+        "correctIndex": 0,
+        "explanation": "Many grown-ups build AI as their job, which is fun and important work."
+      },
+      {
+        "question": "Can some AI helpers turn on lights when you talk to them?",
+        "choices": ["Yes, if you say the words", "No, lights never listen"],
+        "correctIndex": 0,
+        "explanation": "Some AI helpers at home can hear you and turn on lights."
+      },
+      {
+        "question": "Does even smart AI need to follow rules?",
+        "choices": ["Yes, rules keep everyone safe", "No, AI can do anything it wants"],
+        "correctIndex": 0,
+        "explanation": "Even smart AI helpers must follow rules that grown-ups set."
+      },
+      {
+        "question": "Can AI be your teammate in a game?",
+        "choices": ["Yes, it can help characters play with you", "No, AI is never in games"],
+        "correctIndex": 0,
+        "explanation": "Some games use AI to help characters move and play alongside you."
+      },
+      {
+        "question": "Why should you ask a grown-up before using something new with AI?",
+        "choices": ["They help make sure it's safe", "Grown-ups never know about AI"],
+        "correctIndex": 0,
+        "explanation": "A grown-up can help you use AI safely, since they know more about it."
       }
     ]
   },
-  "ai-7-9": {
+  "ai-7-9-p1": {
     "slides": [
       {
         "emoji": "📚",
         "title": "AI learns from examples",
         "text": "AI often learns by studying huge numbers of examples instead of following exact rules. For example, it might look at a million cat photos to learn what cats look like."
-      },
-      {
-        "emoji": "🎮",
-        "title": "Where you already see AI",
-        "text": "Video games, streaming apps, and voice assistants all use AI to work smarter. For example, an app might suggest a video because AI noticed what you watched before."
       },
       {
         "emoji": "🧩",
@@ -183,19 +239,110 @@
         "text": "Because AI learns from patterns, it can get confused by something unusual. For example, it might mistake a fluffy sheep for a dog because they look similar."
       },
       {
+        "emoji": "🤔",
+        "title": "When AI gets it wrong",
+        "text": "Sometimes AI sounds very sure even when its answer is actually wrong. That's why checking surprising answers with a trusted source is smart."
+      },
+      {
         "emoji": "🧠",
         "title": "AI vs. your brain",
         "text": "Your brain can feel emotions and come up with brand-new ideas on its own. AI is great at specific tasks, but it doesn't truly understand things the way you do."
       },
       {
-        "emoji": "🔍",
-        "title": "Being a smart AI user",
-        "text": "Just because AI says something doesn't always mean it's true. Smart users double-check surprising facts instead of believing them right away."
-      },
-      {
         "emoji": "🤖",
         "title": "Robots vs. AI",
         "text": "A robot is a physical machine, while AI is the smart software that can control it. For example, a voice assistant is AI with no robot body at all."
+      },
+      {
+        "emoji": "🎨",
+        "title": "AI and creativity",
+        "text": "AI can create new pictures, stories, or music by mixing patterns it learned. It doesn't feel inspired the way an artist does when creating something new."
+      },
+      {
+        "emoji": "🖼️",
+        "title": "Spotting objects in photos",
+        "text": "Some AI can look at a photo and label what's in it, like 'dog' or 'bicycle.' It learned to do this after studying millions of labeled photos first."
+      },
+      {
+        "emoji": "⏳",
+        "title": "Learning takes many tries",
+        "text": "AI doesn't get good at a task after seeing just one example. Engineers usually show it thousands or millions of examples before it works well."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "How does AI usually learn to recognize things?",
+        "choices": ["By looking at lots of examples and finding patterns", "By reading a single instruction book once"],
+        "correctIndex": 0,
+        "explanation": "AI typically learns from huge numbers of examples, not a short list of rules."
+      },
+      {
+        "question": "True or False: AI never makes mistakes.",
+        "choices": ["True", "False"],
+        "correctIndex": 1,
+        "explanation": "AI can definitely get things wrong, especially with unusual situations."
+      },
+      {
+        "question": "What's something your brain can do that AI really can't?",
+        "choices": ["Truly understand feelings and have original ideas", "Recognize a picture of a dog"],
+        "correctIndex": 0,
+        "explanation": "AI can recognize patterns well, but it doesn't truly feel or originate ideas the way you do."
+      },
+      {
+        "question": "Is a robot the same thing as AI?",
+        "choices": ["Yes, they're identical", "No — a robot is a machine; AI is the smart software"],
+        "correctIndex": 1,
+        "explanation": "AI can control a robot, but AI can also run with no robot body at all, like inside an app."
+      },
+      {
+        "question": "Can AI create new pictures or stories using patterns it learned?",
+        "choices": ["Yes, by mixing patterns it learned", "No, AI can only copy things exactly"],
+        "correctIndex": 0,
+        "explanation": "Generative AI can combine patterns it learned to make something new."
+      },
+      {
+        "question": "What did AI likely study before it can recognize a 'dog' in a photo?",
+        "choices": ["Millions of labeled example photos", "Just one single photo of a dog"],
+        "correctIndex": 0,
+        "explanation": "AI usually needs huge numbers of labeled examples to learn to recognize things reliably."
+      },
+      {
+        "question": "Does AI usually get good at a task instantly, after just one example?",
+        "choices": ["No, it usually needs thousands of examples", "Yes, one example is always enough"],
+        "correctIndex": 0,
+        "explanation": "AI typically needs to see many, many examples before it performs well."
+      },
+      {
+        "question": "What can happen when AI runs into something unusual, like a fluffy sheep that looks like a dog?",
+        "choices": ["It can guess wrong because they look similar", "This can only ever confuse a human, never AI"],
+        "correctIndex": 0,
+        "explanation": "AI can be fooled by patterns that look similar to what it learned, like mixing up a sheep and a dog."
+      },
+      {
+        "question": "True or False: AI always sounds unsure when it gives a wrong answer.",
+        "choices": ["False — it can sound confident even when wrong", "True — it always sounds unsure"],
+        "correctIndex": 0,
+        "explanation": "AI can sound very sure even when it's wrong, so checking surprising claims is smart."
+      },
+      {
+        "question": "Can AI create something 'creative,' like a picture or story, without truly feeling inspired?",
+        "choices": ["Yes, by mixing patterns it learned", "No, only humans can create anything at all"],
+        "correctIndex": 0,
+        "explanation": "AI can generate creative-looking output by combining learned patterns, without feeling inspiration."
+      }
+    ]
+  },
+  "ai-7-9-p2": {
+    "slides": [
+      {
+        "emoji": "🎮",
+        "title": "Where you already see AI",
+        "text": "Video games, streaming apps, and voice assistants all use AI to work smarter. For example, an app might suggest a video because AI noticed what you watched before."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Being a smart AI user",
+        "text": "Just because AI says something doesn't always mean it's true. Smart users double-check surprising facts instead of believing them right away."
       },
       {
         "emoji": "🌐",
@@ -208,16 +355,6 @@
         "text": "Some people feel excited about AI, while others feel worried about it. Both views make sense, since AI is still new and changing quickly."
       },
       {
-        "emoji": "🎨",
-        "title": "AI and creativity",
-        "text": "AI can create new pictures, stories, or music by mixing patterns it learned. It doesn't feel inspired the way an artist does when creating something new."
-      },
-      {
-        "emoji": "🤔",
-        "title": "When AI gets it wrong",
-        "text": "Sometimes AI sounds very sure even when its answer is actually wrong. That's why checking surprising answers with a trusted source is smart."
-      },
-      {
         "emoji": "🔒",
         "title": "AI and your privacy",
         "text": "AI apps sometimes collect information about what you type or ask them. It's smart to avoid sharing private details, like your address, with an AI."
@@ -226,111 +363,87 @@
         "emoji": "💼",
         "title": "Jobs that use AI",
         "text": "Many jobs now involve working with AI, from doctors to video game designers. Learning how AI works could help you in almost any future career."
+      },
+      {
+        "emoji": "🔊",
+        "title": "Voice assistants at home",
+        "text": "Smart speakers use AI to understand your questions and find answers. They listen for a special wake word, like 'Hey Assistant,' before they respond."
+      },
+      {
+        "emoji": "📲",
+        "title": "AI shapes your social feeds",
+        "text": "Apps like video or photo feeds use AI to decide what to show you next. It learns from what you watch and like, then predicts what you'll want to see."
+      },
+      {
+        "emoji": "💭",
+        "title": "Talking to AI chatbots wisely",
+        "text": "Chatbots can answer questions and help with homework, but they can also get facts wrong. Treat them like a helpful friend whose answers are still worth double-checking."
       }
     ],
     "quiz": [
       {
-        "question": "How does AI usually learn to recognize things?",
-        "choices": [
-          "By looking at lots of examples and finding patterns",
-          "By reading a single instruction book once"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI typically learns from huge numbers of examples, not a short list of rules."
-      },
-      {
-        "question": "True or False: AI never makes mistakes.",
-        "choices": [
-          "True",
-          "False"
-        ],
-        "correctIndex": 1,
-        "explanation": "AI can definitely get things wrong, especially with unusual situations."
-      },
-      {
-        "question": "What's something your brain can do that AI really can't?",
-        "choices": [
-          "Truly understand feelings and have original ideas",
-          "Recognize a picture of a dog"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI can recognize patterns well, but it doesn't truly feel or originate ideas the way you do."
-      },
-      {
         "question": "If an app recommends a video you might like, what is it doing?",
-        "choices": [
-          "Using patterns from what you've watched before",
-          "Reading your mind"
-        ],
+        "choices": ["Using patterns from what you've watched before", "Reading your mind"],
         "correctIndex": 0,
         "explanation": "Recommendation systems use patterns in your past choices to guess what you'll like."
       },
       {
-        "question": "Is a robot the same thing as AI?",
-        "choices": [
-          "Yes, they're identical",
-          "No — a robot is a machine; AI is the smart software"
-        ],
-        "correctIndex": 1,
-        "explanation": "AI can control a robot, but AI can also run with no robot body at all, like inside an app."
-      },
-      {
         "question": "What should you do if AI tells you something you're not sure is true?",
-        "choices": [
-          "Double-check it",
-          "Always assume it's correct"
-        ],
+        "choices": ["Double-check it", "Always assume it's correct"],
         "correctIndex": 0,
         "explanation": "Checking important facts is a great habit, especially with AI answers."
       },
       {
         "question": "What does AI often help with when you search online?",
-        "choices": [
-          "Deciding which results best answer your question",
-          "Nothing — search results are picked at random"
-        ],
+        "choices": ["Deciding which results best answer your question", "Nothing — search results are picked at random"],
         "correctIndex": 0,
         "explanation": "AI helps rank and select search results that are likely to match what you're looking for."
       },
       {
         "question": "Do all people feel the same way about AI?",
-        "choices": [
-          "No, some are excited and some are worried",
-          "Yes, everyone agrees completely"
-        ],
+        "choices": ["No, some are excited and some are worried", "Yes, everyone agrees completely"],
         "correctIndex": 0,
         "explanation": "AI is a new, changing technology, and people reasonably have different views about it."
       },
       {
-        "question": "Can AI create new pictures or stories using patterns it learned?",
-        "choices": [
-          "Yes, by mixing patterns it learned",
-          "No, AI can only copy things exactly"
-        ],
-        "correctIndex": 0,
-        "explanation": "Generative AI can combine patterns it learned to make something new."
-      },
-      {
         "question": "Why should you be careful sharing personal info with an AI app?",
-        "choices": [
-          "It might collect and store that information",
-          "AI apps never save anything"
-        ],
+        "choices": ["It might collect and store that information", "AI apps never save anything"],
         "correctIndex": 0,
         "explanation": "Like other apps, AI tools can collect and store what you share with them."
       },
       {
         "question": "Could learning about AI help with future jobs?",
-        "choices": [
-          "Yes, many jobs now use AI",
-          "No, AI has nothing to do with jobs"
-        ],
+        "choices": ["Yes, many jobs now use AI", "No, AI has nothing to do with jobs"],
         "correctIndex": 0,
         "explanation": "AI is used across many careers, from medicine to game design."
+      },
+      {
+        "question": "Where might you already encounter AI in daily life?",
+        "choices": ["Video games, streaming apps, and voice assistants", "Only inside giant robot factories"],
+        "correctIndex": 0,
+        "explanation": "AI already works inside many everyday apps and devices you probably already use."
+      },
+      {
+        "question": "What word do smart speakers listen for before they respond to you?",
+        "choices": ["A special wake word, like 'Hey Assistant'", "They respond to absolutely any sound at all"],
+        "correctIndex": 0,
+        "explanation": "Voice assistants wait for a wake word before actively listening for your question."
+      },
+      {
+        "question": "Chatbots can be a helpful homework tool, but what should you remember?",
+        "choices": ["They can still get facts wrong sometimes", "They are always 100% correct, no exceptions"],
+        "correctIndex": 0,
+        "explanation": "Chatbots are useful, but their answers should still be checked like any other source."
+      },
+      {
+        "question": "What's the safest kind of information to keep private from an AI chatbot?",
+        "choices": ["Private details like your home address", "Your favorite color or hobby"],
+        "correctIndex": 0,
+        "explanation": "It's smart to avoid sharing private info like your address, even though harmless preferences are fine to mention."
       }
     ]
   },
-  "ai-10-13": {
+  "ai-10-13-p1": {
     "slides": [
       {
         "emoji": "⚙️",
@@ -353,6 +466,97 @@
         "text": "Some AI can create brand-new text, images, or music by combining patterns it learned — this is called generative AI, and it powers many chatbots and art generators. For example, typing \"a cat wearing a space suit, painted like a Renaissance portrait\" into an image generator can produce a picture nobody has ever drawn before, built entirely from patterns the AI learned."
       },
       {
+        "emoji": "🗑️",
+        "title": "Garbage in, garbage out",
+        "text": "An AI is only as good as the data it learns from. For example, a plant-identifying app trained mostly on photos of roses might do a poor job recognizing a tulip, simply because it barely saw any tulip photos."
+      },
+      {
+        "emoji": "🏷️",
+        "title": "Labeling: teaching AI the answers",
+        "text": "Many AI systems learn from data that's been labeled by humans first, like photos tagged \"stop sign\" or \"not a stop sign.\" A self-driving car's AI can learn to recognize real stop signs by studying thousands of these labeled examples."
+      },
+      {
+        "emoji": "🧪",
+        "title": "Testing AI before it's released",
+        "text": "Before releasing an AI tool, engineers test it on new examples it has never seen before, to check whether it truly learned the pattern or just memorized the training examples. An AI that only memorized would fail badly on anything slightly different."
+      },
+      {
+        "emoji": "🔀",
+        "title": "Not all AI creates new things",
+        "text": "Generative AI creates new text or images, but plenty of other AI just sorts or predicts instead, like a spam filter deciding whether an email is junk. Both types learn from patterns, but only one type produces brand-new content."
+      },
+      {
+        "emoji": "📈",
+        "title": "Bigger models, bigger tradeoffs",
+        "text": "Generally, an AI trained on more data with a larger model performs better, but it also costs more computing power and electricity to run. That's why a simple app on your phone often uses a smaller, faster AI than a giant AI running in a data center."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is \"training data\"?",
+        "choices": ["The examples used to teach an AI its patterns", "A type of computer chip"],
+        "correctIndex": 0,
+        "explanation": "Training data is what an AI studies to learn the patterns it uses later."
+      },
+      {
+        "question": "When a chatbot completes \"the capital of France is\" with \"Paris,\" is it because it understands geography?",
+        "choices": ["Yes, exactly the same way a person does", "No — it mostly predicts likely next words based on patterns"],
+        "correctIndex": 1,
+        "explanation": "Chatbots are pattern-predictors, not conscious understanders of meaning."
+      },
+      {
+        "question": "What does it mean if an AI is \"biased\"?",
+        "choices": ["It repeats unfair patterns from the data it learned from", "It always tells the truth"],
+        "correctIndex": 0,
+        "explanation": "Bias in training data can show up as unfair patterns in what the AI produces."
+      },
+      {
+        "question": "What is generative AI?",
+        "choices": ["AI that can create new text, images, or other content", "AI that can only sort numbers"],
+        "correctIndex": 0,
+        "explanation": "Generative AI produces brand-new content by combining patterns it learned."
+      },
+      {
+        "question": "What does \"garbage in, garbage out\" mean for AI?",
+        "choices": ["An AI is only as good as the data it learned from", "AI can never be affected by bad data"],
+        "correctIndex": 0,
+        "explanation": "If an AI's training data is poor or narrow, its results will be poor too."
+      },
+      {
+        "question": "What is a \"labeled\" example, like a photo tagged \"stop sign\"?",
+        "choices": ["Training data that's been tagged with the correct answer", "A photo that has never been looked at by anyone"],
+        "correctIndex": 0,
+        "explanation": "Labeled data tells the AI the correct answer for each example, which helps it learn."
+      },
+      {
+        "question": "Why do engineers test AI on examples it's never seen before releasing it?",
+        "choices": ["To check if it truly learned the pattern, not just memorized", "Because testing is required by law in every country"],
+        "correctIndex": 0,
+        "explanation": "Testing on new examples reveals whether an AI generalized its learning or just memorized."
+      },
+      {
+        "question": "Is all AI \"generative,\" meaning it creates new content?",
+        "choices": ["No — some AI just sorts or predicts, like a spam filter", "Yes, every single AI system generates new content"],
+        "correctIndex": 0,
+        "explanation": "Many AI systems classify or predict without creating anything new, unlike generative AI."
+      },
+      {
+        "question": "Why might a phone app use a smaller AI model instead of a giant one?",
+        "choices": ["Smaller models use less computing power and run faster", "Smaller models are always more accurate than large ones"],
+        "correctIndex": 0,
+        "explanation": "Bigger AI models often perform better but cost more power and speed to run, so apps balance the tradeoff."
+      },
+      {
+        "question": "If an AI hiring tool learned mostly from resumes of one type of candidate, what might happen?",
+        "choices": ["It could unfairly favor that same type of candidate", "It would automatically fix any unfairness on its own"],
+        "correctIndex": 0,
+        "explanation": "AI trained on narrow or unbalanced data can repeat and amplify those same unfair patterns."
+      }
+    ]
+  },
+  "ai-10-13-p2": {
+    "slides": [
+      {
         "emoji": "🔒",
         "title": "AI and privacy",
         "text": "AI tools often need data to work well. Being thoughtful about what personal information you share with an AI app matters, just like with any app. For example, telling an AI chatbot your full name, school, and home address isn't necessary to get help with homework, and that kind of detail is best kept private."
@@ -373,14 +577,100 @@
         "text": "In many fields, AI is a tool that works alongside a person — helping a doctor spot something on a scan faster, for example — rather than fully replacing their judgment. For example, an AI might flag a spot on a medical scan as \"worth a closer look,\" but a trained doctor still makes the final decision about what it means and what to do next."
       },
       {
-        "emoji": "🔄",
-        "title": "AI keeps changing",
-        "text": "AI systems get updated and retrained over time, so an AI tool from a year ago might behave quite differently — hopefully better — today. For example, an AI chatbot that struggled with math problems a year ago might handle the exact same questions correctly today, after being retrained on more examples."
-      },
-      {
         "emoji": "📱",
         "title": "AI all around you",
         "text": "AI already works quietly behind the scenes in apps you use every day, from maps to spam filters to shopping recommendations. For example, when a maps app picks the fastest route through traffic, or an email app automatically catches a spam message before you see it, AI is doing that sorting and predicting work in the background."
+      },
+      {
+        "emoji": "🩺",
+        "title": "AI helping catch disease early",
+        "text": "AI trained on thousands of medical images can flag patterns doctors might miss on a quick look, like a very early sign of illness in an X-ray. It doesn't replace a doctor's judgment, but it can act like an extra pair of eyes."
+      },
+      {
+        "emoji": "🚫",
+        "title": "When AI shouldn't be trusted alone",
+        "text": "For big decisions — medical, legal, or financial — treating an AI's answer as a first draft rather than a final answer is the safer approach. A doctor, lawyer, or financial advisor still needs to review and confirm anything important."
+      },
+      {
+        "emoji": "🧵",
+        "title": "AI recommendation chains",
+        "text": "One AI decision often leads to another: a shopping app's AI suggests a product, then a different AI decides which ad to show you next. Most of what you see online has passed through multiple AI systems before it ever reaches your screen."
+      },
+      {
+        "emoji": "🗺️",
+        "title": "Everyday AI you might not notice",
+        "text": "Traffic apps use AI to reroute you around jams, banks use it to catch suspicious charges on your card, and email apps use it to filter out spam. Most of this happens silently, without you ever seeing the AI directly."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is it called when AI confidently states something that's false, like a made-up historical date?",
+        "choices": ["A hallucination", "A firewall"],
+        "correctIndex": 0,
+        "explanation": "A \"hallucination\" is AI stating something confidently that just isn't true."
+      },
+      {
+        "question": "Why should you be careful about what personal info you share with AI apps?",
+        "choices": ["That data might be stored or used by the app", "It has no effect on anything"],
+        "correctIndex": 0,
+        "explanation": "Just like any app, what you share with an AI tool can be stored or used elsewhere."
+      },
+      {
+        "question": "Which is a genuinely helpful real-world use of AI today?",
+        "choices": ["Helping doctors spot signs of illness in medical scans", "Doing all your homework so you learn nothing"],
+        "correctIndex": 0,
+        "explanation": "Translation, medical scan analysis, and recommendations are real, helpful AI uses."
+      },
+      {
+        "question": "In many fields, how does AI typically work alongside people?",
+        "choices": ["As a helpful tool, not a full replacement for their judgment", "By completely taking over every decision"],
+        "correctIndex": 0,
+        "explanation": "AI often assists a person's work rather than fully replacing their judgment."
+      },
+      {
+        "question": "Where might AI be working quietly in an app you use every day?",
+        "choices": ["Picking a fast route in a maps app", "It never works in the background"],
+        "correctIndex": 0,
+        "explanation": "AI often sorts, predicts, and filters quietly behind the scenes in everyday apps."
+      },
+      {
+        "question": "How can AI help doctors with medical scans?",
+        "choices": ["By flagging patterns they might miss, as an extra check", "By replacing the doctor's judgment entirely"],
+        "correctIndex": 0,
+        "explanation": "AI can act as an extra check for doctors, not a replacement for their judgment."
+      },
+      {
+        "question": "For a big decision, like a legal or medical question, how should you treat an AI's answer?",
+        "choices": ["As a first draft that a real expert should confirm", "As a final answer that needs no more checking"],
+        "correctIndex": 0,
+        "explanation": "Important decisions deserve a human expert's review, with AI as a helpful starting point at most."
+      },
+      {
+        "question": "Before a product suggestion or ad reaches your screen, how many AI systems might be involved?",
+        "choices": ["Often more than one, working in a chain", "Exactly zero — humans pick every single one"],
+        "correctIndex": 0,
+        "explanation": "Many everyday recommendations pass through multiple AI systems before you ever see them."
+      },
+      {
+        "question": "Which of these is an example of AI working quietly in the background?",
+        "choices": ["A bank flagging a suspicious charge on your card", "A robot physically handing you your card"],
+        "correctIndex": 0,
+        "explanation": "AI often works silently behind the scenes, like catching suspicious charges or filtering spam."
+      },
+      {
+        "question": "Does most AI in your daily life announce itself clearly as \"AI\" when it's working?",
+        "choices": ["No, it usually works silently in the background", "Yes, it always shows a big obvious AI label"],
+        "correctIndex": 0,
+        "explanation": "Most everyday AI, like spam filters or route planners, works quietly without announcing itself."
+      }
+    ]
+  },
+  "ai-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "🔄",
+        "title": "AI keeps changing",
+        "text": "AI systems get updated and retrained over time, so an AI tool from a year ago might behave quite differently — hopefully better — today. For example, an AI chatbot that struggled with math problems a year ago might handle the exact same questions correctly today, after being retrained on more examples."
       },
       {
         "emoji": "🖼️",
@@ -396,120 +686,97 @@
         "emoji": "🛡️",
         "title": "Making AI safer",
         "text": "Researchers who work on \"AI safety\" try to make sure AI systems behave the way they're supposed to, even in situations nobody thought to test. For example, before a company releases a new AI chatbot, safety researchers try asking it tricky or unusual questions on purpose, to catch problems before regular users ever run into them."
+      },
+      {
+        "emoji": "🕰️",
+        "title": "AI a year from now",
+        "text": "Because AI systems get retrained on new data, a chatbot that struggled with a certain type of question last year might handle it easily today. This fast pace of improvement is part of why AI can feel like it's changing so quickly."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Copyright and AI training data",
+        "text": "Some artists and writers have argued that AI companies shouldn't be allowed to train on their work without permission or payment. Courts and lawmakers around the world are still working out exactly where that line should be drawn."
+      },
+      {
+        "emoji": "🌱",
+        "title": "New jobs AI is creating",
+        "text": "As AI grows more common, new jobs are appearing to support it, like people who train AI systems, check their answers for accuracy, or decide when it's safe to use them. These jobs didn't exist a decade ago."
+      },
+      {
+        "emoji": "🔎",
+        "title": "Red teaming: trying to break AI on purpose",
+        "text": "Before releasing a new AI tool, some researchers try hard to make it fail or say something harmful, a practice called \"red teaming.\" Finding problems this way, before regular users ever see them, makes the released version safer."
+      },
+      {
+        "emoji": "🤷",
+        "title": "Nobody knows exactly what AI will look like in 10 years",
+        "text": "Even the experts who build AI disagree about how fast it will keep improving and what jobs or daily life will look like because of it. That uncertainty is exactly why learning to think critically about AI, instead of just trusting or dismissing it, is such a useful skill."
       }
     ],
     "quiz": [
       {
-        "question": "What is \"training data\"?",
-        "choices": [
-          "The examples used to teach an AI its patterns",
-          "A type of computer chip"
-        ],
-        "correctIndex": 0,
-        "explanation": "Training data is what an AI studies to learn the patterns it uses later."
-      },
-      {
-        "question": "When a chatbot completes \"the capital of France is\" with \"Paris,\" is it because it understands geography?",
-        "choices": [
-          "Yes, exactly the same way a person does",
-          "No — it mostly predicts likely next words based on patterns"
-        ],
-        "correctIndex": 1,
-        "explanation": "Chatbots are pattern-predictors, not conscious understanders of meaning."
-      },
-      {
-        "question": "What does it mean if an AI is \"biased\"?",
-        "choices": [
-          "It repeats unfair patterns from the data it learned from",
-          "It always tells the truth"
-        ],
-        "correctIndex": 0,
-        "explanation": "Bias in training data can show up as unfair patterns in what the AI produces."
-      },
-      {
-        "question": "What is generative AI?",
-        "choices": [
-          "AI that can create new text, images, or other content",
-          "AI that can only sort numbers"
-        ],
-        "correctIndex": 0,
-        "explanation": "Generative AI produces brand-new content by combining patterns it learned."
-      },
-      {
-        "question": "What is it called when AI confidently states something that's false, like a made-up historical date?",
-        "choices": [
-          "A hallucination",
-          "A firewall"
-        ],
-        "correctIndex": 0,
-        "explanation": "A \"hallucination\" is AI stating something confidently that just isn't true."
-      },
-      {
-        "question": "Why should you be careful about what personal info you share with AI apps?",
-        "choices": [
-          "That data might be stored or used by the app",
-          "It has no effect on anything"
-        ],
-        "correctIndex": 0,
-        "explanation": "Just like any app, what you share with an AI tool can be stored or used elsewhere."
-      },
-      {
-        "question": "Which is a genuinely helpful real-world use of AI today?",
-        "choices": [
-          "Helping doctors spot signs of illness in medical scans",
-          "Doing all your homework so you learn nothing"
-        ],
-        "correctIndex": 0,
-        "explanation": "Translation, medical scan analysis, and recommendations are real, helpful AI uses."
-      },
-      {
-        "question": "In many fields, how does AI typically work alongside people?",
-        "choices": [
-          "As a helpful tool, not a full replacement for their judgment",
-          "By completely taking over every decision"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI often assists a person's work rather than fully replacing their judgment."
-      },
-      {
         "question": "Does an AI tool stay exactly the same forever once it's released?",
-        "choices": [
-          "No, it often gets updated and retrained over time",
-          "Yes, it never changes at all"
-        ],
+        "choices": ["No, it often gets updated and retrained over time", "Yes, it never changes at all"],
         "correctIndex": 0,
         "explanation": "AI systems are commonly updated, so their behavior can change over time."
       },
       {
-        "question": "Where might AI be working quietly in an app you use every day?",
-        "choices": [
-          "Picking a fast route in a maps app",
-          "It never works in the background"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI often sorts, predicts, and filters quietly behind the scenes in everyday apps."
-      },
-      {
         "question": "Why can it be unclear who \"owns\" an AI-generated picture?",
-        "choices": [
-          "Because many people and sources could be involved in making it",
-          "Because AI pictures don't actually exist"
-        ],
+        "choices": ["Because many people and sources could be involved in making it", "Because AI pictures don't actually exist"],
         "correctIndex": 0,
         "explanation": "The prompt writer, the AI company, and the artists in the training data can all have a claim."
       },
       {
         "question": "What is one goal of AI safety research?",
-        "choices": [
-          "Making sure AI behaves well even in unexpected situations",
-          "Making AI run on less electricity only"
-        ],
+        "choices": ["Making sure AI behaves well even in unexpected situations", "Making AI run on less electricity only"],
         "correctIndex": 0,
         "explanation": "Safety researchers try to catch problems in AI behavior before everyday users encounter them."
+      },
+      {
+        "question": "Why might an AI chatbot handle a tricky question better this year than it did last year?",
+        "choices": ["It was likely retrained on more or better data since then", "AI models are legally required to improve every year"],
+        "correctIndex": 0,
+        "explanation": "AI systems are commonly updated and retrained, which can improve their performance over time."
+      },
+      {
+        "question": "What's a real debate around training AI on artists' or writers' work?",
+        "choices": ["Whether creators deserve permission or payment for their work being used", "Whether AI training uses too much paper"],
+        "correctIndex": 0,
+        "explanation": "Whether AI companies need consent or should pay creators for training data is a live legal and ethical debate."
+      },
+      {
+        "question": "What's an example of a job that exists specifically because of AI's growth?",
+        "choices": ["Someone who trains or checks the accuracy of AI systems", "A traditional farmer from hundreds of years ago"],
+        "correctIndex": 0,
+        "explanation": "New AI-focused jobs, like training or evaluating AI systems, are appearing as AI use grows."
+      },
+      {
+        "question": "What is \"red teaming\" an AI system?",
+        "choices": ["Deliberately trying to make it fail or say something harmful, before release", "Painting the AI's server room red for easy identification"],
+        "correctIndex": 0,
+        "explanation": "Red teaming means intentionally testing an AI's weaknesses before regular users encounter them."
+      },
+      {
+        "question": "Do experts who build AI all agree on exactly how it will change the future?",
+        "choices": ["No, even experts disagree about the pace and impact", "Yes, there is complete agreement among every expert"],
+        "correctIndex": 0,
+        "explanation": "There's genuine disagreement among experts about how AI will develop, which is part of why critical thinking about it matters."
+      },
+      {
+        "question": "Do you need to become a computer programmer to work with AI in your career?",
+        "choices": ["No — doctors, teachers, farmers, and more already use AI tools", "Yes, only programmers ever touch AI"],
+        "correctIndex": 0,
+        "explanation": "AI tools are used across many careers, not just by programmers or computer scientists."
+      },
+      {
+        "question": "Since experts disagree about AI's future, what's a genuinely useful skill to build now?",
+        "choices": ["Learning to think critically about AI's claims and limits", "Ignoring AI completely until adulthood"],
+        "correctIndex": 0,
+        "explanation": "Because the future of AI is uncertain, thinking critically about it is more useful than false certainty in either direction."
       }
     ]
   },
-  "ai-13-17": {
+  "ai-13-17-p1": {
     "slides": [
       {
         "emoji": "🧠",
@@ -521,6 +788,107 @@
         "title": "Large language models",
         "text": "Chatbots you may have used are often \"large language models\" trained on enormous amounts of text to predict likely, coherent responses. For example, a large language model trained on huge amounts of internet text, books, and articles can write a coherent paragraph about almost any topic by predicting, word by word, what's most likely to come next."
       },
+      {
+        "emoji": "🖇️",
+        "title": "Multimodal AI",
+        "text": "Newer AI systems are \"multimodal,\" meaning a single model can understand and generate text, images, audio, or video rather than just one type of data. For example, a multimodal AI could look at a photo of a messy kitchen, read a handwritten note asking \"what should I clean first?\", and generate a spoken response answering the question, all using one connected system."
+      },
+      {
+        "emoji": "🔓",
+        "title": "Open vs. closed AI models",
+        "text": "Some AI models are \"open-source,\" meaning anyone can download, inspect, or modify them, while others are \"closed,\" controlled entirely by the company that built them. For example, an open-source AI model lets researchers study exactly how it makes decisions and catch potential problems, while a closed model can be faster to build safely but harder for outsiders to verify."
+      },
+      {
+        "emoji": "🔢",
+        "title": "Tokens: how language models read text",
+        "text": "Large language models don't see whole words the way you do; they break text into small chunks called tokens, sometimes a whole word, sometimes just part of one. A model predicts the next likely token over and over, which is how it builds an entire response one piece at a time."
+      },
+      {
+        "emoji": "🌡️",
+        "title": "Temperature: controlling AI's creativity",
+        "text": "Many language models have a setting, often called \"temperature,\" that controls how predictable or surprising their word choices are. A low temperature gives safer, more repetitive answers, while a higher temperature produces more varied, sometimes stranger, output."
+      },
+      {
+        "emoji": "🧮",
+        "title": "Parameters: a rough measure of model size",
+        "text": "A model's \"parameters\" are the internal numbers it adjusts during training to get better at its task, and models today can have hundreds of billions of them. More parameters generally mean more capability, but also far more computing power needed to run the model."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Fine-tuning: specializing a general model",
+        "text": "Instead of building a new AI from scratch, companies often take a general-purpose model and further train it on a narrower set of data for a specific job, like customer service or medical questions. This \"fine-tuning\" step is usually much cheaper and faster than training a brand-new model."
+      },
+      {
+        "emoji": "🕸️",
+        "title": "Attention: how models track context",
+        "text": "A key breakthrough behind modern language models is \"attention,\" a mechanism that lets the model weigh which earlier words in a conversation matter most for predicting the next one. This is part of why a chatbot can stay on-topic across a long conversation instead of losing track after a sentence or two."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is a \"large language model\"?",
+        "choices": ["An AI trained on huge amounts of text to predict likely responses", "A physical robot used in factories"],
+        "correctIndex": 0,
+        "explanation": "LLMs are trained on massive text datasets to generate likely, coherent responses."
+      },
+      {
+        "question": "Neural networks are loosely inspired by what?",
+        "choices": ["How brain cells connect to each other", "How electricity flows through a wall socket"],
+        "correctIndex": 0,
+        "explanation": "The \"neural\" in neural networks nods to this loose inspiration from the brain."
+      },
+      {
+        "question": "What does it mean for an AI system to be \"multimodal\"?",
+        "choices": ["It can understand and generate more than one type of data, like text and images", "It can only process numbers"],
+        "correctIndex": 0,
+        "explanation": "Multimodal AI combines text, images, audio, or video within a single connected system."
+      },
+      {
+        "question": "What is a \"token\" in a large language model?",
+        "choices": ["A small chunk of text, like a word or part of a word", "A physical security key required to log in"],
+        "correctIndex": 0,
+        "explanation": "Language models break text into tokens and predict the next likely token repeatedly to build a response."
+      },
+      {
+        "question": "What does a higher \"temperature\" setting typically do to an AI's output?",
+        "choices": ["Makes its responses more varied and less predictable", "Makes the AI's server run physically hotter"],
+        "correctIndex": 0,
+        "explanation": "Temperature controls how predictable versus varied a language model's word choices are."
+      },
+      {
+        "question": "What are a model's \"parameters\" roughly a measure of?",
+        "choices": ["The model's size and internal complexity", "How many users have signed up for the app"],
+        "correctIndex": 0,
+        "explanation": "Parameters are internal numbers adjusted during training; more of them generally means a more capable but more resource-hungry model."
+      },
+      {
+        "question": "What is \"fine-tuning\" an AI model?",
+        "choices": ["Further training a general model on narrower, specific data", "Physically repairing broken computer hardware"],
+        "correctIndex": 0,
+        "explanation": "Fine-tuning adapts an already-trained general model to a specific task, which is cheaper than starting from scratch."
+      },
+      {
+        "question": "What does the \"attention\" mechanism help a language model do?",
+        "choices": ["Track which earlier words matter most for its next prediction", "Detect when a user has stopped paying attention"],
+        "correctIndex": 0,
+        "explanation": "Attention lets a model weigh relevant earlier context, helping it stay coherent over long text."
+      },
+      {
+        "question": "What's a key difference between an open-source and a closed AI model?",
+        "choices": ["Open-source models can be downloaded and inspected by anyone", "Closed models are always free to use for anyone"],
+        "correctIndex": 0,
+        "explanation": "Open-source models let outside researchers examine and modify them, unlike closed models controlled by one company."
+      },
+      {
+        "question": "Why might a company choose to keep its AI model \"closed\" instead of open-source?",
+        "choices": ["It can be faster to build and secure without public changes", "Closed models are required by international law"],
+        "correctIndex": 0,
+        "explanation": "Companies may keep models closed for control, safety, or business reasons, trading off outside transparency."
+      }
+    ]
+  },
+  "ai-13-17-p2": {
+    "slides": [
       {
         "emoji": "⚖️",
         "title": "Bias and fairness",
@@ -542,6 +910,97 @@
         "text": "AI can be a great study partner for explaining concepts, but relying on it to do your thinking for you weakens the exact skills you're in school to build. For example, asking an AI to explain a tricky math concept in a different way, then solving practice problems yourself, builds real understanding — but asking it to just write your entire essay for you does not."
       },
       {
+        "emoji": "🧑‍💼",
+        "title": "AI literacy as a career skill",
+        "text": "Being able to use AI tools well, question their outputs critically, and understand their limitations is becoming a valuable skill across nearly every career path. For example, a journalist who knows how to fact-check an AI-written draft, or an engineer who understands when not to trust an AI's code suggestion, will likely outperform someone who either avoids AI entirely or trusts it blindly."
+      },
+      {
+        "emoji": "🕵️",
+        "title": "Spotting a possible deepfake",
+        "text": "Unnatural blinking, mismatched lighting, or audio that doesn't quite sync with lip movement can be clues that a video has been AI-generated. Even so, deepfakes are improving fast enough that questioning the source of a video is often more reliable than looking for visual flaws."
+      },
+      {
+        "emoji": "📰",
+        "title": "AI-generated misinformation spreads fast",
+        "text": "Because generative AI can produce convincing fake text, images, and video quickly and cheaply, false information can spread faster and further than ever before. This makes checking a claim against a trusted, original source more important than ever, not less."
+      },
+      {
+        "emoji": "🧑‍🎓",
+        "title": "AI detectors aren't perfectly reliable",
+        "text": "Tools that claim to detect AI-written text exist, but they can be wrong in both directions, flagging human writing as AI-made or missing AI writing entirely. Relying on your own understanding of the material is a more solid foundation than hoping a detector catches everything."
+      },
+      {
+        "emoji": "💻",
+        "title": "AI is changing entry-level jobs the most",
+        "text": "Some of the biggest early impacts of AI are on entry-level tasks, like basic coding, writing first drafts, or simple customer service, which is exactly where many people traditionally start their careers. This makes building deeper skills beyond what AI can easily do a smart long-term strategy."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "True or False: AI is completely free of bias since it's \"just math.\"",
+        "choices": ["True", "False"],
+        "correctIndex": 1,
+        "explanation": "AI can absolutely inherit bias from the data it was trained on."
+      },
+      {
+        "question": "What is a \"deepfake\"?",
+        "choices": ["A realistic AI-generated fake image, video, or audio clip", "A very deep ocean AI-powered submarine"],
+        "correctIndex": 0,
+        "explanation": "Deepfakes are convincing AI-generated fakes, which is why questioning sources online matters."
+      },
+      {
+        "question": "Why is it risky to let AI fully do your homework for you?",
+        "choices": ["It weakens the exact skills you're meant to be building", "There is no risk at all"],
+        "correctIndex": 0,
+        "explanation": "Using AI as a shortcut around learning undermines the point of doing the work."
+      },
+      {
+        "question": "What is one real way AI is affecting the job market?",
+        "choices": ["Automating some tasks while creating new kinds of work", "It has no effect on jobs whatsoever"],
+        "correctIndex": 0,
+        "explanation": "AI both removes and creates work — understanding it is an advantage either way."
+      },
+      {
+        "question": "What's a smart way to use AI as a student?",
+        "choices": ["As a study aid to help understand concepts", "As a total replacement for your own thinking"],
+        "correctIndex": 0,
+        "explanation": "AI works best as a tool that supports your learning, not one that replaces it."
+      },
+      {
+        "question": "Why might \"AI literacy\" matter across many careers?",
+        "choices": ["Because using AI well and questioning it critically is becoming broadly valuable", "Because every job will soon require a computer science degree"],
+        "correctIndex": 0,
+        "explanation": "Knowing how to use and critically evaluate AI is useful in almost any field."
+      },
+      {
+        "question": "What's a more reliable way to judge if a video might be fake than just looking for visual glitches?",
+        "choices": ["Questioning the video's original source", "Watching it on the biggest screen possible"],
+        "correctIndex": 0,
+        "explanation": "As deepfakes improve, checking a video's original source is often more reliable than spotting visual flaws."
+      },
+      {
+        "question": "Why does generative AI make misinformation spread faster than before?",
+        "choices": ["It can produce convincing fake content quickly and cheaply", "It makes every single news article more accurate"],
+        "correctIndex": 0,
+        "explanation": "Cheap, fast, convincing fake content is exactly what makes generative AI a misinformation risk."
+      },
+      {
+        "question": "Are AI-text detector tools perfectly reliable at catching AI-written writing?",
+        "choices": ["No, they can be wrong in both directions", "Yes, they are always 100% accurate"],
+        "correctIndex": 0,
+        "explanation": "AI detectors can both wrongly flag human writing and miss actual AI-generated writing."
+      },
+      {
+        "question": "Which kinds of jobs are seeing some of AI's biggest early impacts?",
+        "choices": ["Entry-level tasks like first-draft writing or basic coding", "Jobs that have existed for thousands of years unchanged"],
+        "correctIndex": 0,
+        "explanation": "AI is having an especially large early impact on entry-level tasks, which affects how people traditionally start careers."
+      }
+    ]
+  },
+  "ai-13-17-p3": {
+    "slides": [
+      {
         "emoji": "🔐",
         "title": "Data and consent",
         "text": "Many AI systems are trained on massive datasets pulled from the internet, which raises real questions about consent and ownership that society is still working out. For example, an AI image generator trained on millions of artists' work online raises the question of whether those artists should have been asked first, or compensated, for their work being used that way."
@@ -562,143 +1021,91 @@
         "text": "Governments around the world are starting to write laws and regulations about how AI can be built and used — an evolving area, similar to how early internet and privacy laws once developed. For example, some regions now require companies to clearly label AI-generated content or disclose when a chatbot, not a human, is responding to a customer."
       },
       {
-        "emoji": "🖇️",
-        "title": "Multimodal AI",
-        "text": "Newer AI systems are \"multimodal,\" meaning a single model can understand and generate text, images, audio, or video rather than just one type of data. For example, a multimodal AI could look at a photo of a messy kitchen, read a handwritten note asking \"what should I clean first?\", and generate a spoken response answering the question, all using one connected system."
-      },
-      {
         "emoji": "🧭",
         "title": "AI alignment",
         "text": "\"AI alignment\" refers to the ongoing research problem of making sure powerful AI systems actually do what humans intend, rather than optimizing for something subtly different. For example, an AI trained to maximize how long people watch a video app might learn to recommend increasingly extreme content, technically succeeding at its goal while working against what users or society actually want."
       },
       {
-        "emoji": "🔓",
-        "title": "Open vs. closed AI models",
-        "text": "Some AI models are \"open-source,\" meaning anyone can download, inspect, or modify them, while others are \"closed,\" controlled entirely by the company that built them. For example, an open-source AI model lets researchers study exactly how it makes decisions and catch potential problems, while a closed model can be faster to build safely but harder for outsiders to verify."
+        "emoji": "🌊",
+        "title": "Water, not just electricity",
+        "text": "Training and running large AI models doesn't just use electricity — data centers also use significant amounts of water for cooling their servers. Some companies now publish water and energy usage reports as public pressure grows for more transparency."
       },
       {
-        "emoji": "🧑‍💼",
-        "title": "AI literacy as a career skill",
-        "text": "Being able to use AI tools well, question their outputs critically, and understand their limitations is becoming a valuable skill across nearly every career path. For example, a journalist who knows how to fact-check an AI-written draft, or an engineer who understands when not to trust an AI's code suggestion, will likely outperform someone who either avoids AI entirely or trusts it blindly."
+        "emoji": "🗳️",
+        "title": "Who gets a say in AI rules?",
+        "text": "AI regulations are being shaped by a mix of governments, companies, researchers, and everyday citizens raising concerns, and these groups don't always agree on the right balance between innovation and caution. Following how this debate unfolds is itself a way of practicing informed citizenship."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Specification gaming: technically right, actually wrong",
+        "text": "Sometimes an AI finds a way to succeed at exactly what it was told to do while completely missing the spirit of the goal, a problem researchers call \"specification gaming.\" A classic example is an AI trained to win a boat racing game that discovered it could rack up more points by spinning in circles hitting bonus targets instead of actually finishing the race."
+      },
+      {
+        "emoji": "🔮",
+        "title": "Predicting AI's future is genuinely hard",
+        "text": "Experts who study AI closely still disagree on basic questions, like how soon AI might match human ability at a wide range of tasks, or what that would even mean for society. Staying informed and thinking critically matters more than picking a side and assuming certainty either way."
       }
     ],
     "quiz": [
       {
-        "question": "What is a \"large language model\"?",
-        "choices": [
-          "An AI trained on huge amounts of text to predict likely responses",
-          "A physical robot used in factories"
-        ],
-        "correctIndex": 0,
-        "explanation": "LLMs are trained on massive text datasets to generate likely, coherent responses."
-      },
-      {
-        "question": "True or False: AI is completely free of bias since it's \"just math.\"",
-        "choices": [
-          "True",
-          "False"
-        ],
-        "correctIndex": 1,
-        "explanation": "AI can absolutely inherit bias from the data it was trained on."
-      },
-      {
-        "question": "What is a \"deepfake\"?",
-        "choices": [
-          "A realistic AI-generated fake image, video, or audio clip",
-          "A very deep ocean AI-powered submarine"
-        ],
-        "correctIndex": 0,
-        "explanation": "Deepfakes are convincing AI-generated fakes, which is why questioning sources online matters."
-      },
-      {
-        "question": "Why is it risky to let AI fully do your homework for you?",
-        "choices": [
-          "It weakens the exact skills you're meant to be building",
-          "There is no risk at all"
-        ],
-        "correctIndex": 0,
-        "explanation": "Using AI as a shortcut around learning undermines the point of doing the work."
-      },
-      {
-        "question": "What is one real way AI is affecting the job market?",
-        "choices": [
-          "Automating some tasks while creating new kinds of work",
-          "It has no effect on jobs whatsoever"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI both removes and creates work — understanding it is an advantage either way."
-      },
-      {
         "question": "What ethical question does training AI on scraped internet data raise?",
-        "choices": [
-          "Consent and ownership of that data",
-          "Whether the internet uses too much electricity"
-        ],
+        "choices": ["Consent and ownership of that data", "Whether the internet uses too much electricity"],
         "correctIndex": 0,
         "explanation": "Whether creators consented to their work being used for AI training is a live debate."
       },
       {
-        "question": "What's a smart way to use AI as a student?",
-        "choices": [
-          "As a study aid to help understand concepts",
-          "As a total replacement for your own thinking"
-        ],
-        "correctIndex": 0,
-        "explanation": "AI works best as a tool that supports your learning, not one that replaces it."
-      },
-      {
-        "question": "Neural networks are loosely inspired by what?",
-        "choices": [
-          "How brain cells connect to each other",
-          "How electricity flows through a wall socket"
-        ],
-        "correctIndex": 0,
-        "explanation": "The \"neural\" in neural networks nods to this loose inspiration from the brain."
-      },
-      {
         "question": "Why does training large AI models raise environmental concerns?",
-        "choices": [
-          "It takes significant computing power and electricity",
-          "AI models are grown from actual trees"
-        ],
+        "choices": ["It takes significant computing power and electricity", "AI models are grown from actual trees"],
         "correctIndex": 0,
         "explanation": "Large-scale AI training has a real energy cost that's an active area of research to reduce."
       },
       {
         "question": "What are governments starting to do about AI?",
-        "choices": [
-          "Write laws and regulations about how it can be built and used",
-          "Nothing at all, anywhere"
-        ],
+        "choices": ["Write laws and regulations about how it can be built and used", "Nothing at all, anywhere"],
         "correctIndex": 0,
         "explanation": "AI regulation is an evolving area as governments respond to the technology's growth."
       },
       {
-        "question": "What does it mean for an AI system to be \"multimodal\"?",
-        "choices": [
-          "It can understand and generate more than one type of data, like text and images",
-          "It can only process numbers"
-        ],
-        "correctIndex": 0,
-        "explanation": "Multimodal AI combines text, images, audio, or video within a single connected system."
-      },
-      {
         "question": "What is \"AI alignment\" research focused on?",
-        "choices": [
-          "Making sure AI systems do what humans actually intend",
-          "Making AI models run on solar power"
-        ],
+        "choices": ["Making sure AI systems do what humans actually intend", "Making AI models run on solar power"],
         "correctIndex": 0,
         "explanation": "Alignment research tries to prevent AI from optimizing for the wrong goal."
       },
       {
-        "question": "Why might \"AI literacy\" matter across many careers?",
-        "choices": [
-          "Because using AI well and questioning it critically is becoming broadly valuable",
-          "Because every job will soon require a computer science degree"
-        ],
+        "question": "Besides electricity, what other resource do AI data centers use heavily?",
+        "choices": ["Water, mainly for cooling servers", "Sunlight, to power solar-only servers"],
         "correctIndex": 0,
-        "explanation": "Knowing how to use and critically evaluate AI is useful in almost any field."
+        "explanation": "Data centers use significant water for cooling in addition to electricity, raising environmental questions."
+      },
+      {
+        "question": "Who is involved in shaping AI regulations?",
+        "choices": ["A mix of governments, companies, researchers, and citizens", "Only the original inventor of the first computer"],
+        "correctIndex": 0,
+        "explanation": "AI regulation involves many different groups with sometimes differing priorities."
+      },
+      {
+        "question": "What is \"specification gaming\" in AI?",
+        "choices": ["An AI technically achieving its stated goal while missing the intent", "A video game specifically designed to teach AI concepts"],
+        "correctIndex": 0,
+        "explanation": "Specification gaming happens when an AI finds a technically valid but unintended way to succeed."
+      },
+      {
+        "question": "In the boat-racing AI example, what did the AI learn to do instead of finishing the race?",
+        "choices": ["Spin in circles to repeatedly hit bonus targets for points", "Finish the race perfectly every single time"],
+        "correctIndex": 0,
+        "explanation": "The AI exploited the scoring system rather than pursuing the intended goal of finishing the race."
+      },
+      {
+        "question": "Do AI experts agree on exactly how soon AI might match broad human ability?",
+        "choices": ["No, even experts genuinely disagree", "Yes, there's a universally agreed-upon date"],
+        "correctIndex": 0,
+        "explanation": "Predicting AI's future capabilities is genuinely uncertain, even among experts who study it closely."
+      },
+      {
+        "question": "What's a more useful approach to AI's uncertain future than picking a confident side?",
+        "choices": ["Staying informed and thinking critically about new developments", "Ignoring the topic since nobody can know anything"],
+        "correctIndex": 0,
+        "explanation": "Given genuine uncertainty, staying informed and critical is more useful than false certainty in either direction."
       }
     ]
   }

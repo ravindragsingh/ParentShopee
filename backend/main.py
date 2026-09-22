@@ -239,155 +239,6 @@ def startup():
     from models import DBLearningModule
     db3 = SessionLocal()
     try:
-        catalog = [
-            dict(id="investing-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="investing-for-kids", topic_title="Investing for Kids", topic_emoji="📈",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=1),
-            dict(id="investing-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="investing-for-kids", topic_title="Investing for Kids", topic_emoji="📈",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=2),
-            dict(id="investing-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="investing-for-kids", topic_title="Investing for Kids", topic_emoji="📈",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=3),
-            dict(id="investing-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="investing-for-kids", topic_title="Investing for Kids", topic_emoji="📈",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=4),
-            dict(id="ai-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="ai-for-kids", topic_title="AI for Kids", topic_emoji="🤖",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=5),
-            dict(id="ai-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="ai-for-kids", topic_title="AI for Kids", topic_emoji="🤖",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=6),
-            dict(id="ai-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="ai-for-kids", topic_title="AI for Kids", topic_emoji="🤖",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=7),
-            dict(id="ai-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="ai-for-kids", topic_title="AI for Kids", topic_emoji="🤖",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=8),
-            dict(id="entrepreneurship-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="entrepreneurship", topic_title="Entrepreneurship", topic_emoji="💡",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=9),
-            dict(id="entrepreneurship-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="entrepreneurship", topic_title="Entrepreneurship", topic_emoji="💡",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=10),
-            dict(id="entrepreneurship-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="entrepreneurship", topic_title="Entrepreneurship", topic_emoji="💡",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=11),
-            dict(id="entrepreneurship-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="entrepreneurship", topic_title="Entrepreneurship", topic_emoji="💡",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=12),
-            dict(id="critical-thinking-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="critical-thinking", topic_title="Critical Thinking", topic_emoji="🧠",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=13),
-            dict(id="critical-thinking-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="critical-thinking", topic_title="Critical Thinking", topic_emoji="🧠",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=14),
-            dict(id="critical-thinking-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="critical-thinking", topic_title="Critical Thinking", topic_emoji="🧠",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=15),
-            dict(id="critical-thinking-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="critical-thinking", topic_title="Critical Thinking", topic_emoji="🧠",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=16),
-            dict(id="communication-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="communication", topic_title="Communication", topic_emoji="💬",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=17),
-            dict(id="communication-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="communication", topic_title="Communication", topic_emoji="💬",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=18),
-            dict(id="communication-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="communication", topic_title="Communication", topic_emoji="💬",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=19),
-            dict(id="communication-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="communication", topic_title="Communication", topic_emoji="💬",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=20),
-            dict(id="digital-safety-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="digital-safety", topic_title="Digital Safety", topic_emoji="🔒",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=21),
-            dict(id="digital-safety-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="digital-safety", topic_title="Digital Safety", topic_emoji="🔒",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=22),
-            dict(id="digital-safety-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="digital-safety", topic_title="Digital Safety", topic_emoji="🔒",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=23),
-            dict(id="digital-safety-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="digital-safety", topic_title="Digital Safety", topic_emoji="🔒",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=24),
-            dict(id="problem-solving-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="problem-solving", topic_title="Problem Solving", topic_emoji="🧩",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=25),
-            dict(id="problem-solving-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="problem-solving", topic_title="Problem Solving", topic_emoji="🧩",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=26),
-            dict(id="problem-solving-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="problem-solving", topic_title="Problem Solving", topic_emoji="🧩",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=27),
-            dict(id="problem-solving-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="problem-solving", topic_title="Problem Solving", topic_emoji="🧩",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=28),
-            dict(id="leadership-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="leadership", topic_title="Leadership", topic_emoji="👑",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=29),
-            dict(id="leadership-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="leadership", topic_title="Leadership", topic_emoji="👑",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=30),
-            dict(id="leadership-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="leadership", topic_title="Leadership", topic_emoji="👑",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=31),
-            dict(id="leadership-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="leadership", topic_title="Leadership", topic_emoji="👑",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=32),
-            dict(id="negotiation-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=33),
-            dict(id="negotiation-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=34),
-            dict(id="negotiation-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=35),
-            dict(id="negotiation-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="negotiation", topic_title="Negotiation Skills", topic_emoji="🤝",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=36),
-            dict(id="public-speaking-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=37),
-            dict(id="public-speaking-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=38),
-            dict(id="public-speaking-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=39),
-            dict(id="public-speaking-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="public-speaking", topic_title="Public Speaking", topic_emoji="🎤",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=40),
-            dict(id="sight-words-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="sight-words", topic_title="Sight Words", topic_emoji="🔤",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=41),
-            dict(id="money-value-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="money-value", topic_title="Value of Money", topic_emoji="💰",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=42),
-            dict(id="money-value-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="money-value", topic_title="Value of Money", topic_emoji="💰",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=43),
-            dict(id="money-value-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="money-value", topic_title="Value of Money", topic_emoji="💰",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=44),
-            dict(id="money-value-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="money-value", topic_title="Value of Money", topic_emoji="💰",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=45),
-            dict(id="making-friends-4-6", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="making-friends", topic_title="Making Friends", topic_emoji="🧑‍🤝‍🧑",
-                 age_min=4, age_max=6, title="Ages 4–6", points=10, order_index=46),
-            dict(id="making-friends-7-9", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="making-friends", topic_title="Making Friends", topic_emoji="🧑‍🤝‍🧑",
-                 age_min=7, age_max=9, title="Ages 7–9", points=12, order_index=47),
-            dict(id="making-friends-10-13", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="making-friends", topic_title="Making Friends", topic_emoji="🧑‍🤝‍🧑",
-                 age_min=10, age_max=13, title="Ages 10–13", points=15, order_index=48),
-            dict(id="making-friends-13-17", section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                 topic="making-friends", topic_title="Making Friends", topic_emoji="🧑‍🤝‍🧑",
-                 age_min=13, age_max=17, title="Ages 13–17", points=18, order_index=49),
-        ]
         # Lesson content (slides + quiz) lives in these JSON files -- one per
         # topic, hand-authored directly here -- rather than bundled into the
         # frontend, so editing or adding a lesson is a backend-only redeploy.
@@ -397,6 +248,52 @@ def startup():
         for fname in sorted(glob.glob(os.path.join(content_dir, "*.json"))):
             with open(fname, encoding="utf-8") as f:
                 content_by_id.update(json.load(f))
+
+        # A band's lesson can be split across several "Part N" modules --
+        # e.g. "ai-4-6-p1", "ai-4-6-p2" -- each its own quiz and points, so a
+        # kid working through a big topic gets a payout every ~10 questions
+        # instead of one all-or-nothing quiz at the very end. How many parts
+        # a band has is discovered from content_by_id rather than hardcoded
+        # here, since that can (and does) vary per topic/band -- adding or
+        # splitting a part is purely a content-file change, no code change.
+        # (file slug, kid-facing topic-grouping key, topic title, topic emoji)
+        TOPICS = [
+            ("investing", "investing-for-kids", "Investing for Kids", "📈"),
+            ("ai", "ai-for-kids", "AI for Kids", "🤖"),
+            ("entrepreneurship", "entrepreneurship", "Entrepreneurship", "💡"),
+            ("critical-thinking", "critical-thinking", "Critical Thinking", "🧠"),
+            ("communication", "communication", "Communication", "💬"),
+            ("digital-safety", "digital-safety", "Digital Safety", "🔒"),
+            ("problem-solving", "problem-solving", "Problem Solving", "🧩"),
+            ("leadership", "leadership", "Leadership", "👑"),
+            ("negotiation", "negotiation", "Negotiation Skills", "🤝"),
+            ("public-speaking", "public-speaking", "Public Speaking", "🎤"),
+            ("sight-words", "sight-words", "Sight Words", "🔤"),
+            ("money-value", "money-value", "Value of Money", "💰"),
+            ("making-friends", "making-friends", "Making Friends", "🧑‍🤝‍🧑"),
+        ]
+        AGE_BANDS = [(4, 6, 10), (7, 9, 12), (10, 13, 15), (13, 17, 18)]  # (age_min, age_max, points per part)
+
+        catalog = []
+        order_index = 1
+        for file_slug, topic_key, topic_title, topic_emoji in TOPICS:
+            bands = [(4, 6, 10)] if file_slug == "sight-words" else AGE_BANDS
+            for age_min, age_max, points in bands:
+                band_prefix = f"{file_slug}-{age_min}-{age_max}-p"
+                part_ids = sorted(
+                    (k for k in content_by_id if k.startswith(band_prefix) and k[len(band_prefix):].isdigit()),
+                    key=lambda k: int(k[len(band_prefix):]),
+                )
+                for part_id in part_ids:
+                    part_num = int(part_id[len(band_prefix):])
+                    part_title = f"Ages {age_min}–{age_max} · Part {part_num}" if len(part_ids) > 1 else f"Ages {age_min}–{age_max}"
+                    catalog.append(dict(
+                        id=part_id, section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                        topic=topic_key, topic_title=topic_title, topic_emoji=topic_emoji,
+                        age_min=age_min, age_max=age_max, title=part_title, points=points, order_index=order_index,
+                    ))
+                    order_index += 1
+
         for fields in catalog:
             fields = {**fields, "content": content_by_id.get(fields["id"])}
             existing = db3.query(DBLearningModule).filter(DBLearningModule.id == fields["id"]).first()

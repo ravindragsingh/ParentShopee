@@ -1,10 +1,20 @@
 {
-  "critical-thinking-4-6": {
+  "critical-thinking-4-6-p1": {
     "slides": [
       {
         "emoji": "❓",
         "title": "Why do we ask \"why\"?",
         "text": "Asking why helps you learn new things. Ice melts because the sun is warm."
+      },
+      {
+        "emoji": "🙋",
+        "title": "It's okay to ask questions",
+        "text": "It is okay to ask a question when you feel confused. Good thinkers ask lots of questions."
+      },
+      {
+        "emoji": "👀",
+        "title": "Look closely first",
+        "text": "A bug on the ground might look scary at first. Look closely before you decide — it might just be a tiny ladybug."
       },
       {
         "emoji": "🔎",
@@ -17,29 +27,19 @@
         "text": "A cartoon dragon that breathes fire is pretend. A real dog barking next to you is real."
       },
       {
-        "emoji": "🛑",
-        "title": "Think before you act",
-        "text": "Stop and think before you act. It helps you make a better choice."
-      },
-      {
         "emoji": "🧩",
         "title": "Looking for clues",
         "text": "Clues can help you solve a mystery. Wet shoes might mean that it rained outside."
       },
       {
-        "emoji": "🙋",
-        "title": "It's okay to ask questions",
-        "text": "It is okay to ask a question when you feel confused. Good thinkers ask lots of questions."
+        "emoji": "🧵",
+        "title": "Two clues together",
+        "text": "One clue helps you guess. Two matching clues help even more. Muddy paw prints and a wagging tail both mean your dog was outside."
       },
       {
-        "emoji": "🧸",
-        "title": "Sorting things into groups",
-        "text": "Put your toys into matching groups. All the cars go together, and all the animals go together."
-      },
-      {
-        "emoji": "🔢",
-        "title": "What comes next?",
-        "text": "Look at this pattern: red, blue, red, blue. Can you guess what color comes next?"
+        "emoji": "👂",
+        "title": "Listening all the way",
+        "text": "Listen to the whole story before you decide what happened. The middle of a story can change everything."
       },
       {
         "emoji": "🧐",
@@ -47,19 +47,9 @@
         "text": "You are not sure if something is true. Ask a grown-up you trust to help."
       },
       {
-        "emoji": "🔄",
-        "title": "Changing your mind",
-        "text": "Sometimes you learn something new. It is okay to change your mind about it."
-      },
-      {
         "emoji": "🤔",
         "title": "Guess or really know?",
         "text": "A guess might turn out to be wrong. Looking closely helps you know for sure."
-      },
-      {
-        "emoji": "🌱",
-        "title": "What made it happen?",
-        "text": "Something always makes things happen. Watering the plant is what made it grow tall."
       }
     ],
     "quiz": [
@@ -71,6 +61,24 @@
         ],
         "correctIndex": 0,
         "explanation": "Asking why helps you understand things better."
+      },
+      {
+        "question": "Is it okay to ask a question when something feels confusing?",
+        "choices": [
+          "Yes, that's smart",
+          "No, never ask questions"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking questions helps good thinkers learn."
+      },
+      {
+        "question": "You see a bug on the ground. What should you do before deciding it's scary?",
+        "choices": [
+          "Look closely at it first",
+          "Assume it's scary right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Looking closely helps you know what something really is."
       },
       {
         "question": "A ball and a block — are they the same shape?",
@@ -91,15 +99,6 @@
         "explanation": "Cartoons show pretend things, even exciting ones."
       },
       {
-        "question": "What should you do before you act?",
-        "choices": [
-          "Stop and think first",
-          "Just do it right away"
-        ],
-        "correctIndex": 0,
-        "explanation": "Thinking first helps you make a better choice."
-      },
-      {
         "question": "Your shoes are wet. What clue could explain why?",
         "choices": [
           "It rained outside",
@@ -109,31 +108,22 @@
         "explanation": "Clues help you figure out what happened."
       },
       {
-        "question": "Is it okay to ask a question when something feels confusing?",
+        "question": "Muddy paw prints and a wagging tail both hint your dog was outside. Do two matching clues help more than just one?",
         "choices": [
-          "Yes, that's smart",
-          "No, never ask questions"
+          "Yes, two matching clues help more",
+          "No, one clue is just as good as two"
         ],
         "correctIndex": 0,
-        "explanation": "Asking questions helps good thinkers learn."
+        "explanation": "More matching clues make you more sure about what happened."
       },
       {
-        "question": "What is a good way to organize your toys?",
+        "question": "Your friend starts telling you a story. Should you listen to the whole thing before deciding what happened?",
         "choices": [
-          "Put them into matching groups",
-          "Mix them all together"
+          "Yes, listen all the way through",
+          "No, guess after just the first word"
         ],
         "correctIndex": 0,
-        "explanation": "Sorting into groups is a first step toward organized thinking."
-      },
-      {
-        "question": "Red, blue, red, blue, red... what comes next?",
-        "choices": [
-          "Blue",
-          "Green"
-        ],
-        "correctIndex": 0,
-        "explanation": "The pattern repeats red then blue."
+        "explanation": "Listening to the whole story helps you understand it correctly."
       },
       {
         "question": "You hear something surprising. What should you do?",
@@ -152,6 +142,125 @@
         ],
         "correctIndex": 0,
         "explanation": "Checking turns a guess into something you really know."
+      }
+    ]
+  },
+  "critical-thinking-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "🛑",
+        "title": "Think before you act",
+        "text": "Stop and think before you act. It helps you make a better choice."
+      },
+      {
+        "emoji": "🐢",
+        "title": "Slow down to be sure",
+        "text": "You count your blocks fast and aren't sure of the number. Counting again slowly helps you know for sure."
+      },
+      {
+        "emoji": "🧸",
+        "title": "Sorting things into groups",
+        "text": "Put your toys into matching groups. All the cars go together, and all the animals go together."
+      },
+      {
+        "emoji": "🍪",
+        "title": "Which is more?",
+        "text": "One plate has 3 cookies. Another plate has 5 cookies. Counting them tells you which plate has more."
+      },
+      {
+        "emoji": "🔢",
+        "title": "What comes next?",
+        "text": "Look at this pattern: red, blue, red, blue. Can you guess what color comes next?"
+      },
+      {
+        "emoji": "🌂",
+        "title": "Guessing what happens next",
+        "text": "The sky fills up with big dark clouds. That is a clue that rain might be coming soon."
+      },
+      {
+        "emoji": "🌱",
+        "title": "What made it happen?",
+        "text": "Something always makes things happen. Watering the plant is what made it grow tall."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Changing your mind",
+        "text": "Sometimes you learn something new. It is okay to change your mind about it."
+      },
+      {
+        "emoji": "🍎",
+        "title": "Picking the best choice",
+        "text": "An apple and a candy are both snacks. The apple keeps your tummy full for longer."
+      },
+      {
+        "emoji": "🧩",
+        "title": "Try it again if it doesn't work",
+        "text": "A puzzle piece does not fit in the spot. Try a different piece instead of giving up."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What should you do before you act?",
+        "choices": [
+          "Stop and think first",
+          "Just do it right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Thinking first helps you make a better choice."
+      },
+      {
+        "question": "You count your blocks fast and aren't sure you got it right. What should you do?",
+        "choices": [
+          "Count again slowly to be sure",
+          "Just guess and move on"
+        ],
+        "correctIndex": 0,
+        "explanation": "Counting again slowly helps you know the real answer."
+      },
+      {
+        "question": "What is a good way to organize your toys?",
+        "choices": [
+          "Put them into matching groups",
+          "Mix them all together"
+        ],
+        "correctIndex": 0,
+        "explanation": "Sorting into groups is a first step toward organized thinking."
+      },
+      {
+        "question": "One plate has 3 cookies, another has 5. Which plate has more?",
+        "choices": [
+          "The plate with 5",
+          "They both have the same amount"
+        ],
+        "correctIndex": 0,
+        "explanation": "Counting carefully tells you which amount is bigger."
+      },
+      {
+        "question": "Red, blue, red, blue, red... what comes next?",
+        "choices": [
+          "Blue",
+          "Green"
+        ],
+        "correctIndex": 0,
+        "explanation": "The pattern repeats red then blue."
+      },
+      {
+        "question": "The sky fills up with big dark clouds. What might that mean?",
+        "choices": [
+          "It might rain soon",
+          "The clouds mean nothing at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Noticing clues like clouds helps you guess what might happen next."
+      },
+      {
+        "question": "A plant grows tall because you gave it water every day. What made it grow?",
+        "choices": [
+          "Watering it",
+          "Nothing made it happen"
+        ],
+        "correctIndex": 0,
+        "explanation": "Watering the plant is the cause, and it growing tall is the effect."
       },
       {
         "question": "You learn something new that shows you were wrong. What should you do?",
@@ -161,10 +270,28 @@
         ],
         "correctIndex": 0,
         "explanation": "Learning new things can change what you think, and that is okay."
+      },
+      {
+        "question": "An apple and a piece of candy are both snack choices. Which one keeps you full longer?",
+        "choices": [
+          "The apple",
+          "They are exactly the same"
+        ],
+        "correctIndex": 0,
+        "explanation": "Thinking about a choice, not just grabbing the first thing, can lead to a better pick."
+      },
+      {
+        "question": "A puzzle piece does not fit where you tried it. What should you do?",
+        "choices": [
+          "Try a different piece",
+          "Give up right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Trying again, a different way, is how you solve tricky puzzles."
       }
     ]
   },
-  "critical-thinking-7-9": {
+  "critical-thinking-7-9-p1": {
     "slides": [
       {
         "emoji": "📰",
@@ -182,9 +309,19 @@
         "text": "Some questions have more than one good answer, so it pays to think of a few options. Picking between reading, playing outside, or building something often leads to a better choice."
       },
       {
+        "emoji": "🎈",
+        "title": "Spotting an exaggeration",
+        "text": "Some statements sound like facts but are really big opinions in disguise. \"This is the best pizza in the entire universe\" can't actually be checked or proven — it just sounds confident."
+      },
+      {
         "emoji": "🚫",
         "title": "Don't believe everything right away",
         "text": "Something isn't automatically true just because it's written down or posted online. A video claiming a trick will make you \"super strong instantly\" should make you pause and wonder."
+      },
+      {
+        "emoji": "🖼️",
+        "title": "A picture doesn't tell the whole story",
+        "text": "A photo only shows one moment, chosen by whoever took it. A picture of a messy room might have been taken right after a fun project, not because someone is messy all the time."
       },
       {
         "emoji": "🧭",
@@ -192,34 +329,9 @@
         "text": "When you're not sure if something is true, ask a grown-up or check a trusted book. If a friend says elephants can't jump, a nature book can tell you if that's really true."
       },
       {
-        "emoji": "🔗",
-        "title": "Cause and effect",
-        "text": "A cause is why something happened, and an effect is what happened because of it. Forgetting to water a plant is the cause, and the plant wilting days later is the effect."
-      },
-      {
-        "emoji": "🧠",
-        "title": "Changing your mind",
-        "text": "A good thinker isn't afraid to change their mind when new information shows their first idea was wrong. Learning an animal is actually a mammal, not a reptile, is a reason to update your belief."
-      },
-      {
-        "emoji": "🕵️",
-        "title": "Being a detective",
-        "text": "A good detective checks several clues before deciding what happened, instead of guessing from just one. If a plant is dying, check its sunlight, water, and soil before assuming you know why."
-      },
-      {
-        "emoji": "🙋‍♀️",
-        "title": "It's okay to disagree",
-        "text": "Two people can look at the same thing and see it differently, and that's normal. You might think a book's ending was happy while your friend thinks it was sad, and you can both still be great friends."
-      },
-      {
-        "emoji": "🧱",
-        "title": "Spotting assumptions",
-        "text": "An assumption is something you believe without checking if it's true. Saying 'he must be fast because he's tall' assumes something about him that might not be true at all."
-      },
-      {
-        "emoji": "🔗➡️",
-        "title": "Correlation isn't causation",
-        "text": "Two things happening at the same time doesn't mean one caused the other. Ice cream sales and sunburns both go up in summer, but ice cream doesn't cause sunburn."
+        "emoji": "🔁",
+        "title": "Checking more than one place",
+        "text": "If something you read seems surprising, check whether another trusted source says the same thing. When two or three good sources agree, you can trust the information more."
       },
       {
         "emoji": "🎯",
@@ -227,9 +339,9 @@
         "text": "People sometimes share information because it helps them, not just because it's true. An ad for a toy wants you to buy it, so it will only mention the good parts."
       },
       {
-        "emoji": "🔬",
-        "title": "One example isn't proof",
-        "text": "One example doesn't prove something is always true, even if it seems convincing. Just because one dog you met was friendly doesn't mean every dog you'll ever meet will be friendly too."
+        "emoji": "🙋‍♀️",
+        "title": "It's okay to disagree",
+        "text": "Two people can look at the same thing and see it differently, and that's normal. You might think a book's ending was happy while your friend thinks it was sad, and you can both still be great friends."
       }
     ],
     "quiz": [
@@ -261,6 +373,24 @@
         "explanation": "Asking follow-up questions is a great way to think critically about new information."
       },
       {
+        "question": "You want to spend your free time well — reading, playing outside, or building something. Is there only one right choice?",
+        "choices": [
+          "No, several choices could be good ones",
+          "Yes, there's always exactly one right answer"
+        ],
+        "correctIndex": 0,
+        "explanation": "Many questions have more than one good answer worth considering."
+      },
+      {
+        "question": "\"This is the best pizza in the entire universe!\" — is that a checkable fact or an opinion dressed up big?",
+        "choices": [
+          "An opinion, even though it sounds like a fact",
+          "A fact anyone could prove"
+        ],
+        "correctIndex": 0,
+        "explanation": "Big, confident-sounding statements can still just be opinions."
+      },
+      {
         "question": "Does everything you read online automatically become true?",
         "choices": [
           "No, it should be checked",
@@ -269,6 +399,98 @@
         "correctIndex": 0,
         "explanation": "Being written or posted online doesn't make something automatically true."
       },
+      {
+        "question": "A friend says elephants can't jump. How can you find out if that's really true?",
+        "choices": [
+          "Check a trusted book or ask an adult",
+          "Just believe your friend, no need to check"
+        ],
+        "correctIndex": 0,
+        "explanation": "Trusted sources like books or knowledgeable adults help confirm facts."
+      },
+      {
+        "question": "You read a surprising claim in one place. What's a smart next step?",
+        "choices": [
+          "Check if another trusted source says the same thing",
+          "Believe it because you read it once"
+        ],
+        "correctIndex": 0,
+        "explanation": "When multiple good sources agree, the information is more trustworthy."
+      },
+      {
+        "question": "An ad for a toy only mentions the good parts. Why?",
+        "choices": [
+          "Because the ad wants you to buy the toy",
+          "Ads always tell the full, balanced truth"
+        ],
+        "correctIndex": 0,
+        "explanation": "It helps to ask why someone is telling you something, and what they might gain from it."
+      },
+      {
+        "question": "Does disagreeing with a friend mean the friendship is in trouble?",
+        "choices": [
+          "No, respectful disagreement is normal",
+          "Yes, friends must always agree on everything"
+        ],
+        "correctIndex": 0,
+        "explanation": "People can see things differently and still be good friends."
+      }
+    ]
+  },
+  "critical-thinking-7-9-p2": {
+    "slides": [
+      {
+        "emoji": "🔗",
+        "title": "Cause and effect",
+        "text": "A cause is why something happened, and an effect is what happened because of it. Forgetting to water a plant is the cause, and the plant wilting days later is the effect."
+      },
+      {
+        "emoji": "🕵️",
+        "title": "Being a detective",
+        "text": "A good detective checks several clues before deciding what happened, instead of guessing from just one. If a plant is dying, check its sunlight, water, and soil before assuming you know why."
+      },
+      {
+        "emoji": "🧱",
+        "title": "Spotting assumptions",
+        "text": "An assumption is something you believe without checking if it's true. Saying 'he must be fast because he's tall' assumes something about him that might not be true at all."
+      },
+      {
+        "emoji": "🔗➡️",
+        "title": "Correlation isn't causation",
+        "text": "Two things happening at the same time doesn't mean one caused the other. Ice cream sales and sunburns both go up in summer, but ice cream doesn't cause sunburn."
+      },
+      {
+        "emoji": "🔬",
+        "title": "One example isn't proof",
+        "text": "One example doesn't prove something is always true, even if it seems convincing. Just because one dog you met was friendly doesn't mean every dog you'll ever meet will be friendly too."
+      },
+      {
+        "emoji": "🥧",
+        "title": "Big claims need big evidence",
+        "text": "A huge claim, like \"this vitamin cures every sickness,\" needs strong proof behind it. One person's story isn't enough evidence for a claim that big."
+      },
+      {
+        "emoji": "🧵",
+        "title": "Following the thread",
+        "text": "If a friend says \"cats hate water,\" a good next question is \"how do you know?\" Asking that a few times in a row often leads back to real evidence, or shows there wasn't much to begin with."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Guessing then testing",
+        "text": "You guess a plant isn't growing well because it needs more light. Moving it to a sunnier spot and watching what happens next actually tests your guess instead of just hoping you're right."
+      },
+      {
+        "emoji": "🧮",
+        "title": "Small numbers can trick you",
+        "text": "Flipping a coin three times and getting heads every time doesn't mean the coin always lands on heads. A few tries can look like a pattern even when it's really just luck."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Changing your mind",
+        "text": "A good thinker isn't afraid to change their mind when new information shows their first idea was wrong. Learning an animal is actually a mammal, not a reptile, is a reason to update your belief."
+      }
+    ],
+    "quiz": [
       {
         "question": "You forgot to water a plant, and a few days later it wilted. What does \"cause and effect\" mean here?",
         "choices": [
@@ -279,15 +501,6 @@
         "explanation": "Cause and effect helps you connect why something happened to what happened next."
       },
       {
-        "question": "Is it okay to change your mind if you learn new information?",
-        "choices": [
-          "Yes, that's what good thinkers do",
-          "No, you should never change your mind"
-        ],
-        "correctIndex": 0,
-        "explanation": "Updating your thinking based on new evidence is a sign of strong critical thinking."
-      },
-      {
         "question": "A plant is dying. What does a good detective-thinker do before deciding why?",
         "choices": [
           "Checks several clues, like sunlight, water, and soil",
@@ -295,15 +508,6 @@
         ],
         "correctIndex": 0,
         "explanation": "Good thinking, like good detective work, weighs multiple clues before concluding."
-      },
-      {
-        "question": "Does disagreeing with a friend mean the friendship is in trouble?",
-        "choices": [
-          "No, respectful disagreement is normal",
-          "Yes, friends must always agree on everything"
-        ],
-        "correctIndex": 0,
-        "explanation": "People can see things differently and still be good friends."
       },
       {
         "question": "Saying \"he must be fast because he's tall\" — what is that an example of?",
@@ -324,17 +528,62 @@
         "explanation": "Things happening at the same time doesn't mean one causes the other."
       },
       {
-        "question": "An ad for a toy only mentions the good parts. Why?",
+        "question": "One dog you met was friendly. Does that prove every dog you'll ever meet will be friendly too?",
         "choices": [
-          "Because the ad wants you to buy the toy",
-          "Ads always tell the full, balanced truth"
+          "No, one example isn't proof",
+          "Yes, one example proves it for all dogs"
         ],
         "correctIndex": 0,
-        "explanation": "It helps to ask why someone is telling you something, and what they might gain from it."
+        "explanation": "A single example isn't strong enough evidence to prove something is always true."
+      },
+      {
+        "question": "\"This vitamin cures every sickness\" is a huge claim. What does a claim that big need?",
+        "choices": [
+          "Strong evidence, not just one story",
+          "No evidence at all, since it sounds nice"
+        ],
+        "correctIndex": 0,
+        "explanation": "Bigger claims need bigger, stronger evidence before you should believe them."
+      },
+      {
+        "question": "A friend says \"cats hate water.\" What's a good way to check if that's really true?",
+        "choices": [
+          "Keep asking \"how do you know?\" until you reach real evidence",
+          "Repeat it to others without checking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking how someone knows something can lead you back to real evidence, or reveal there wasn't any."
+      },
+      {
+        "question": "You guess a plant isn't growing because it needs more light. What should you do next?",
+        "choices": [
+          "Move it to more light and see what happens",
+          "Just assume your guess is correct"
+        ],
+        "correctIndex": 0,
+        "explanation": "Testing a guess by trying it out is how you find out if it's really true."
+      },
+      {
+        "question": "You flip a coin 3 times and get heads all 3 times. Does that mean the coin always lands heads?",
+        "choices": [
+          "No, that could just be luck with a few flips",
+          "Yes, 3 flips proves it always lands heads"
+        ],
+        "correctIndex": 0,
+        "explanation": "A few tries aren't enough to prove a pattern is real instead of coincidence."
+      },
+      {
+        "question": "Is it okay to change your mind if you learn new information?",
+        "choices": [
+          "Yes, that's what good thinkers do",
+          "No, you should never change your mind"
+        ],
+        "correctIndex": 0,
+        "explanation": "Updating your thinking based on new evidence is a sign of strong critical thinking."
       }
     ]
   },
-  "critical-thinking-10-13": {
+  "critical-thinking-10-13-p1": {
     "slides": [
       {
         "emoji": "🔬",
@@ -342,29 +591,9 @@
         "text": "Before believing a claim, it helps to ask: what evidence supports it? Is the evidence strong, weak, or missing entirely? For example, if a classmate claims \"this energy drink makes you smarter,\" asking what actual studies or evidence back that up — versus just a company's advertisement — helps you judge whether it's really true."
       },
       {
-        "emoji": "🧱",
-        "title": "Spotting assumptions",
-        "text": "An assumption is something believed without proof. Noticing hidden assumptions in an argument helps you judge whether it actually holds up. For example, the argument \"he must be good at math because he's Asian\" hides an unproven assumption about a whole group of people, which makes the argument weak the moment you notice it."
-      },
-      {
-        "emoji": "🔗➡️",
-        "title": "Correlation isn't causation",
-        "text": "Just because two things happen around the same time doesn't mean one caused the other. Ice cream sales and sunburns both rise in summer — but ice cream doesn't cause sunburn. For example, if students who play a certain video game also tend to get good grades, that doesn't necessarily mean the game caused the good grades — maybe both are just linked to having more free time at home."
-      },
-      {
-        "emoji": "👥",
-        "title": "Considering other perspectives",
-        "text": "Understanding how a situation looks from someone else's point of view often reveals things your own perspective alone would miss. For example, a disagreement between two group project members might look totally different once you understand that one person was juggling other responsibilities the other didn't know about."
-      },
-      {
-        "emoji": "⚖️",
-        "title": "Weighing both sides",
-        "text": "On a genuinely debatable topic, looking fairly at the strongest arguments on both sides — before forming an opinion — leads to more solid conclusions. For example, before deciding your opinion on whether school should start later, actually reading the strongest arguments on both sides — about sleep and about schedules — leads to a more solid opinion than just picking a side because it sounds nice."
-      },
-      {
-        "emoji": "🎯",
-        "title": "Defining the real problem",
-        "text": "Sometimes what looks like the problem is actually just a symptom of a different, deeper problem. Defining the real issue is the first step to solving it well. For example, a student who keeps falling asleep in class might seem lazy, but the real problem could be staying up too late — fixing bedtime, not \"trying harder to stay awake,\" is what actually solves it."
+        "emoji": "📈",
+        "title": "What makes evidence strong?",
+        "text": "Not all evidence is equally solid — a claim backed by one blog post is much weaker than one backed by ten independent studies that all found the same thing. Before trusting a claim, it's worth asking how much real evidence actually stands behind it, and how independent that evidence is."
       },
       {
         "emoji": "🧮",
@@ -372,9 +601,19 @@
         "text": "Who is saying this, and why? A source with something to gain from you believing a claim deserves a closer, more careful look. For example, an ad for a supplement claiming it \"boosts brainpower\" comes from a company that profits if you believe it — which is exactly why it deserves more scrutiny than a neutral science article on the same topic."
       },
       {
-        "emoji": "🎯",
-        "title": "Setting a goal and checking progress",
-        "text": "Deciding what you're aiming for, then regularly checking whether your approach is actually getting you closer, keeps effort from being wasted. For example, if your goal is to improve a test score, checking after a few practice tests whether your study method is actually helping lets you switch strategies early instead of wasting weeks on something that isn't working."
+        "emoji": "🔗➡️",
+        "title": "Correlation isn't causation",
+        "text": "Just because two things happen around the same time doesn't mean one caused the other. Ice cream sales and sunburns both rise in summer — but ice cream doesn't cause sunburn. For example, if students who play a certain video game also tend to get good grades, that doesn't necessarily mean the game caused the good grades — maybe both are just linked to having more free time at home."
+      },
+      {
+        "emoji": "🎣",
+        "title": "Cherry-picking data",
+        "text": "Cherry-picking means showing only the evidence that supports your point while quietly leaving out the evidence that doesn't. For example, a company's report might highlight the one month sales went up while leaving out the five months they went down, creating a misleading picture from real, but incomplete, numbers."
+      },
+      {
+        "emoji": "📐",
+        "title": "Percent vs. actual numbers",
+        "text": "A headline like \"cases tripled!\" sounds alarming, but tripling from 1 case to 3 cases in a school of 2,000 students is barely anything at all. Checking the actual numbers behind a percentage often changes how alarming — or unalarming — a claim really is."
       },
       {
         "emoji": "🧮",
@@ -382,24 +621,14 @@
         "text": "An average can hide a lot — a class 'average score' of 75% might mean everyone scored near 75%, or it might mean half scored 100% and half scored 50%. For example, two classes could both report a 75% average test score, but one class might have every student scoring close to 75%, while the other has half the class acing it and half failing badly — very different situations hidden behind the same number."
       },
       {
-        "emoji": "🙋",
-        "title": "Asking better questions",
-        "text": "The quality of your thinking often depends on the quality of your questions — a vague question gets a vague answer. For example, instead of asking \"is this a good school?\" asking \"good at what, and good for whom?\" forces a much more specific, useful answer than the original question ever could."
-      },
-      {
-        "emoji": "🔄",
-        "title": "Updating your view",
-        "text": "Being able to say \"I was wrong\" and change your mind when solid new evidence appears is a strength, not a failure. For example, if you were sure a friend forgot your birthday on purpose, but then learned their phone had been broken all week, updating your opinion based on that new fact is exactly what a careful thinker does."
-      },
-      {
         "emoji": "📊",
         "title": "One story isn't the whole story",
         "text": "A single dramatic story can feel more convincing than a pile of boring statistics, even when the statistics tell the truer story. For example, hearing one scary story about a plane crash can make flying feel dangerous, even though the actual data shows that flying is one of the safest ways to travel."
       },
       {
-        "emoji": "👥",
-        "title": "Thinking for yourself in a group",
-        "text": "When everyone around you agrees quickly, it can feel easier to go along with the group than to raise a doubt out loud. For example, if a group project is rushing toward a plan you think has a flaw, speaking up — even briefly — gives the group a chance to catch a mistake before it becomes a real problem."
+        "emoji": "🔁",
+        "title": "Can it be repeated?",
+        "text": "If an experiment finds a surprising result once, but nobody else can get the same result when they try it again, that's a warning sign the original finding might not be real. Results that hold up when other people repeat the test are far more trustworthy than a one-time surprise."
       }
     ],
     "quiz": [
@@ -413,31 +642,13 @@
         "explanation": "Strong claims deserve strong evidence — checking for it is a core critical thinking skill."
       },
       {
-        "question": "What is an \"assumption\"?",
+        "question": "A claim backed by one blog post vs. backed by ten independent scientific studies — which is stronger evidence?",
         "choices": [
-          "Something believed without proof",
-          "A fact that has been proven true"
+          "Ten independent studies",
+          "They're equally strong"
         ],
         "correctIndex": 0,
-        "explanation": "Assumptions are unproven beliefs that can weaken an argument if left unchecked."
-      },
-      {
-        "question": "Ice cream sales and sunburns both rise in summer. Does ice cream cause sunburn?",
-        "choices": [
-          "No — correlation isn't the same as causation",
-          "Yes, if two things happen together one always causes the other"
-        ],
-        "correctIndex": 0,
-        "explanation": "Two things happening together doesn't prove one caused the other."
-      },
-      {
-        "question": "Why is it useful to consider other people's perspectives?",
-        "choices": [
-          "It can reveal things your own viewpoint alone would miss",
-          "Other perspectives are never worth considering"
-        ],
-        "correctIndex": 0,
-        "explanation": "Different viewpoints often surface details a single perspective would overlook."
+        "explanation": "More independent evidence pointing to the same conclusion is generally stronger than a single, unverified source."
       },
       {
         "question": "An ad for a \"brain-boosting\" supplement comes from the company selling it. Why does that matter?",
@@ -449,22 +660,31 @@
         "explanation": "Considering a source's motives is part of evaluating how trustworthy a claim is."
       },
       {
-        "question": "A student keeps falling asleep in class, and the real cause turns out to be a late bedtime. What does \"defining the real problem\" mean here?",
+        "question": "Ice cream sales and sunburns both rise in summer. Does ice cream cause sunburn?",
         "choices": [
-          "Making sure you're solving the actual issue, not just a symptom of it",
-          "Skipping straight to a solution without thinking"
+          "No — correlation isn't the same as causation",
+          "Yes, if two things happen together one always causes the other"
         ],
         "correctIndex": 0,
-        "explanation": "Solving the wrong problem — even solving it well — doesn't actually help."
+        "explanation": "Two things happening together doesn't prove one caused the other."
       },
       {
-        "question": "Why is checking progress toward a goal useful?",
+        "question": "A company's report shows only the one month sales went up, hiding the five months they went down. What's this called?",
         "choices": [
-          "It keeps effort from being wasted on the wrong approach",
-          "Checking progress never matters"
+          "Cherry-picking data",
+          "A completely fair, balanced report"
         ],
         "correctIndex": 0,
-        "explanation": "Regularly checking progress lets you adjust before too much effort is wasted."
+        "explanation": "Cherry-picking presents real numbers in a misleading way by leaving out inconvenient parts."
+      },
+      {
+        "question": "A school goes from 1 case of a cold to 3 cases out of 2,000 students, and a headline says \"cases tripled!\" What's misleading about that?",
+        "choices": [
+          "The percentage sounds scary but the actual numbers are tiny",
+          "Nothing — tripling is always a huge, alarming deal"
+        ],
+        "correctIndex": 0,
+        "explanation": "A big percentage change can still describe a very small, unalarming real-world number."
       },
       {
         "question": "Two classes both average 75% on a test, but one has scores clustered near 75% while the other is half 100s and half 50s. What does this show?",
@@ -476,15 +696,6 @@
         "explanation": "Averages can look identical while hiding very different underlying patterns."
       },
       {
-        "question": "Which question is more useful: \"is this a good school?\" or \"good at what, and for whom?\"",
-        "choices": [
-          "The more specific question — vague questions get vague answers",
-          "They are exactly equally useful"
-        ],
-        "correctIndex": 0,
-        "explanation": "Specific questions tend to produce much more useful answers than vague ones."
-      },
-      {
         "question": "A dramatic story about a plane crash can make flying feel dangerous, even though data shows flying is very safe. Why?",
         "choices": [
           "A vivid story can feel more convincing than statistics, even when it's misleading",
@@ -494,6 +705,129 @@
         "explanation": "One memorable story can outweigh solid data in how convincing it feels, even when the data is more reliable."
       },
       {
+        "question": "An experiment gets a surprising result, but no one else can repeat it. What should that make you think?",
+        "choices": [
+          "Be cautious — it might not be a real, reliable effect",
+          "Trust it completely since it happened once"
+        ],
+        "correctIndex": 0,
+        "explanation": "Results that can't be repeated by others are a warning sign, not solid proof."
+      },
+      {
+        "question": "Is \"lots of people believe it\" the same thing as strong evidence?",
+        "choices": [
+          "No, popularity isn't proof",
+          "Yes, if enough people believe something it must be true"
+        ],
+        "correctIndex": 0,
+        "explanation": "How many people believe a claim says nothing about whether it's actually true."
+      }
+    ]
+  },
+  "critical-thinking-10-13-p2": {
+    "slides": [
+      {
+        "emoji": "🧱",
+        "title": "Spotting assumptions",
+        "text": "An assumption is something believed without proof. Noticing hidden assumptions in an argument helps you judge whether it actually holds up. For example, the argument \"he must be good at math because he's Asian\" hides an unproven assumption about a whole group of people, which makes the argument weak the moment you notice it."
+      },
+      {
+        "emoji": "🎭",
+        "title": "Stereotypes vs. individuals",
+        "text": "A stereotype is a generalization applied to a whole group, and it says nothing reliable about any one specific person in that group. Assuming a new classmate is bad at sports because of where they're from tells you nothing real about that individual kid."
+      },
+      {
+        "emoji": "👥",
+        "title": "Considering other perspectives",
+        "text": "Understanding how a situation looks from someone else's point of view often reveals things your own perspective alone would miss. For example, a disagreement between two group project members might look totally different once you understand that one person was juggling other responsibilities the other didn't know about."
+      },
+      {
+        "emoji": "🪞",
+        "title": "Everyone has a blind spot",
+        "text": "Your own experiences quietly shape what problems feel obvious to you and which ones you barely notice. Someone who's never dealt with money trouble might assume budgeting is \"just common sense,\" without realizing how hard it actually is for someone juggling unpredictable bills."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Weighing both sides",
+        "text": "On a genuinely debatable topic, looking fairly at the strongest arguments on both sides — before forming an opinion — leads to more solid conclusions. For example, before deciding your opinion on whether school should start later, actually reading the strongest arguments on both sides — about sleep and about schedules — leads to a more solid opinion than just picking a side because it sounds nice."
+      },
+      {
+        "emoji": "🐑",
+        "title": "Groupthink",
+        "text": "Groupthink happens when a group moves toward agreement so quickly that individual doubts never get voiced out loud. A class might loudly agree a plan is great, even though privately, several students have real concerns they never mention."
+      },
+      {
+        "emoji": "👥",
+        "title": "Thinking for yourself in a group",
+        "text": "When everyone around you agrees quickly, it can feel easier to go along with the group than to raise a doubt out loud. For example, if a group project is rushing toward a plan you think has a flaw, speaking up — even briefly — gives the group a chance to catch a mistake before it becomes a real problem."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Updating your view",
+        "text": "Being able to say \"I was wrong\" and change your mind when solid new evidence appears is a strength, not a failure. For example, if you were sure a friend forgot your birthday on purpose, but then learned their phone had been broken all week, updating your opinion based on that new fact is exactly what a careful thinker does."
+      },
+      {
+        "emoji": "🧊",
+        "title": "Being wrong doesn't make you dumb",
+        "text": "A scientist whose theory gets disproven by better evidence isn't a failure — that's exactly how scientific progress works. Treating being wrong as a normal, expected part of learning makes it much easier to update your views instead of defending them out of pride."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is an \"assumption\"?",
+        "choices": [
+          "Something believed without proof",
+          "A fact that has been proven true"
+        ],
+        "correctIndex": 0,
+        "explanation": "Assumptions are unproven beliefs that can weaken an argument if left unchecked."
+      },
+      {
+        "question": "Assuming a new classmate is bad at sports because of where they're from — is that fair reasoning?",
+        "choices": [
+          "No, a group generalization says nothing about one specific person",
+          "Yes, group generalizations always apply to individuals"
+        ],
+        "correctIndex": 0,
+        "explanation": "Stereotypes describe imagined groups, not the actual individual in front of you."
+      },
+      {
+        "question": "Why is it useful to consider other people's perspectives?",
+        "choices": [
+          "It can reveal things your own viewpoint alone would miss",
+          "Other perspectives are never worth considering"
+        ],
+        "correctIndex": 0,
+        "explanation": "Different viewpoints often surface details a single perspective would overlook."
+      },
+      {
+        "question": "Someone who's never struggled with money might assume budgeting is 'just common sense.' What does this show?",
+        "choices": [
+          "Your own background can create a blind spot to others' struggles",
+          "Everyone experiences every situation in exactly the same way"
+        ],
+        "correctIndex": 0,
+        "explanation": "Personal experience shapes what feels obvious to you, and what you might completely miss in someone else's situation."
+      },
+      {
+        "question": "Before forming an opinion on a genuinely debatable topic like school start times, what should you do?",
+        "choices": [
+          "Look fairly at the strongest arguments on both sides",
+          "Only read arguments that already match your opinion"
+        ],
+        "correctIndex": 0,
+        "explanation": "Fairly weighing both sides before deciding leads to a more solid, well-reasoned opinion."
+      },
+      {
+        "question": "A class loudly agrees a plan is great, even though many privately have doubts. What's this called?",
+        "choices": [
+          "Groupthink — going along with the crowd",
+          "Careful, independent thinking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Groupthink happens when a group reaches agreement quickly without voicing real doubts."
+      },
+      {
         "question": "A group is rushing toward a plan you think has a flaw. What does independent thinking suggest doing?",
         "choices": [
           "Speaking up, even if it feels uncomfortable",
@@ -501,10 +835,178 @@
         ],
         "correctIndex": 0,
         "explanation": "Raising a doubt, even briefly, gives a group the chance to catch a mistake early."
+      },
+      {
+        "question": "You were sure a friend forgot your birthday on purpose, but learn their phone was broken all week. What should you do?",
+        "choices": [
+          "Update your belief based on the new information",
+          "Keep believing the original idea no matter what"
+        ],
+        "correctIndex": 0,
+        "explanation": "Updating a belief when solid new evidence appears is a sign of careful thinking."
+      },
+      {
+        "question": "A scientist's theory gets disproven by better evidence. Does that make the scientist a failure?",
+        "choices": [
+          "No, updating theories with better evidence is how progress happens",
+          "Yes, a disproven theory always means failure"
+        ],
+        "correctIndex": 0,
+        "explanation": "Being wrong and updating your view is a normal, healthy part of learning, not a failure."
+      },
+      {
+        "question": "Saying \"she must not like sports because she wears glasses\" — what is that?",
+        "choices": [
+          "An unproven assumption",
+          "A proven fact"
+        ],
+        "correctIndex": 0,
+        "explanation": "This links two unrelated things without any real evidence connecting them."
       }
     ]
   },
-  "critical-thinking-13-17": {
+  "critical-thinking-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "🎯",
+        "title": "Defining the real problem",
+        "text": "Sometimes what looks like the problem is actually just a symptom of a different, deeper problem. Defining the real issue is the first step to solving it well. For example, a student who keeps falling asleep in class might seem lazy, but the real problem could be staying up too late — fixing bedtime, not \"trying harder to stay awake,\" is what actually solves it."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Root cause vs. quick fix",
+        "text": "A bike chain that keeps falling off can be oiled again and again, but if the chain itself is stretched out, oiling it is only ever a quick fix. Finding the actual root cause — replacing the stretched chain — solves the problem instead of just delaying it."
+      },
+      {
+        "emoji": "🧩",
+        "title": "Breaking a big problem into parts",
+        "text": "A goal like \"get better at math\" is so big and vague that it's hard to know where to even start. Breaking it into something specific, like \"practice fractions for fifteen minutes a day,\" turns an overwhelming goal into something you can actually do."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Setting a goal and checking progress",
+        "text": "Deciding what you're aiming for, then regularly checking whether your approach is actually getting you closer, keeps effort from being wasted. For example, if your goal is to improve a test score, checking after a few practice tests whether your study method is actually helping lets you switch strategies early instead of wasting weeks on something that isn't working."
+      },
+      {
+        "emoji": "🧪",
+        "title": "Testing your solution",
+        "text": "After trying a new study method, checking whether your next quiz score actually improved tells you if it really worked — assuming it helped just because it felt different isn't the same as knowing."
+      },
+      {
+        "emoji": "🗺️",
+        "title": "Working backward from the goal",
+        "text": "Planning a big project by starting at the deadline and figuring out what needs to happen each week before it often works better than just starting at the beginning and hoping. Working backward from the goal turns a vague deadline into a clear weekly plan."
+      },
+      {
+        "emoji": "🙋",
+        "title": "Asking better questions",
+        "text": "The quality of your thinking often depends on the quality of your questions — a vague question gets a vague answer. For example, instead of asking \"is this a good school?\" asking \"good at what, and good for whom?\" forces a much more specific, useful answer than the original question ever could."
+      },
+      {
+        "emoji": "🙅",
+        "title": "Ruling out the obvious wrong answer",
+        "text": "On a hard multiple-choice question, eliminating the choices you already know are wrong first makes the remaining decision much easier. Ruling out bad options is often a faster path to the right one than staring at all of them at once."
+      },
+      {
+        "emoji": "🧯",
+        "title": "When to ask for help",
+        "text": "Being stuck on one problem for thirty minutes without progress is usually a sign that it's a good time to ask for help, not a sign of failure. Knowing when to ask is its own kind of good thinking, not a shortcut around it."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A student keeps falling asleep in class, and the real cause turns out to be a late bedtime. What does \"defining the real problem\" mean here?",
+        "choices": [
+          "Making sure you're solving the actual issue, not just a symptom of it",
+          "Skipping straight to a solution without thinking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Solving the wrong problem — even solving it well — doesn't actually help."
+      },
+      {
+        "question": "A bike chain keeps falling off, and oiling it only helps for a day. What does looking for the root cause mean here?",
+        "choices": [
+          "Figuring out the chain itself is stretched and needs replacing",
+          "Oiling it every single day forever without asking why"
+        ],
+        "correctIndex": 0,
+        "explanation": "A root cause fix solves the actual issue instead of repeating a temporary patch."
+      },
+      {
+        "question": "\"Get better at math\" is a huge, vague goal. What's a smarter way to approach it?",
+        "choices": [
+          "Break it into a specific step, like practicing fractions 15 minutes a day",
+          "Just repeat the vague goal to yourself daily"
+        ],
+        "correctIndex": 0,
+        "explanation": "Breaking a big goal into a specific, doable step makes it much easier to actually achieve."
+      },
+      {
+        "question": "Why is checking progress toward a goal useful?",
+        "choices": [
+          "It keeps effort from being wasted on the wrong approach",
+          "Checking progress never matters"
+        ],
+        "correctIndex": 0,
+        "explanation": "Regularly checking progress lets you adjust before too much effort is wasted."
+      },
+      {
+        "question": "You change your study method. How do you know if it actually helped?",
+        "choices": [
+          "Check whether your next quiz score actually improved",
+          "Just assume it worked because it felt different"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking real results, not just how something felt, tells you if a change actually worked."
+      },
+      {
+        "question": "Planning a big project by starting at the deadline and figuring out what needs to happen each week before it — what's this approach called?",
+        "choices": [
+          "Working backward from the goal",
+          "Waiting until the night before to start"
+        ],
+        "correctIndex": 0,
+        "explanation": "Working backward from a deadline turns a vague timeline into a clear, weekly plan."
+      },
+      {
+        "question": "Which question is more useful: \"is this a good school?\" or \"good at what, and for whom?\"",
+        "choices": [
+          "The more specific question — vague questions get vague answers",
+          "They are exactly equally useful"
+        ],
+        "correctIndex": 0,
+        "explanation": "Specific questions tend to produce much more useful answers than vague ones."
+      },
+      {
+        "question": "On a hard multiple-choice question, what's a smart first step?",
+        "choices": [
+          "Rule out the choices you know are wrong",
+          "Guess immediately without reading the choices"
+        ],
+        "correctIndex": 0,
+        "explanation": "Eliminating clearly wrong choices first makes the remaining decision much easier."
+      },
+      {
+        "question": "You've been stuck on one problem for 30 minutes. What does that usually mean?",
+        "choices": [
+          "It's a good time to ask for help",
+          "You should never ask for help, no matter how long you're stuck"
+        ],
+        "correctIndex": 0,
+        "explanation": "Recognizing when you're stuck and asking for help is a smart move, not a weakness."
+      },
+      {
+        "question": "A team keeps missing deadlines and everyone blames laziness, but the real issue is unclear instructions. What should the team fix first?",
+        "choices": [
+          "The unclear instructions, the actual root problem",
+          "Nothing, just keep blaming laziness"
+        ],
+        "correctIndex": 0,
+        "explanation": "Fixing the real, underlying problem works better than blaming the wrong cause."
+      }
+    ]
+  },
+  "critical-thinking-13-17-p1": {
     "slides": [
       {
         "emoji": "🧠",
@@ -512,54 +1014,34 @@
         "text": "Confirmation bias is the tendency to notice and believe information that agrees with what you already think, while ignoring information that doesn't. For example, someone convinced a certain diet is unhealthy might notice and remember every negative story about it, while barely registering the many studies showing it's fine — without even realizing they're doing it."
       },
       {
-        "emoji": "📺",
-        "title": "Media literacy",
-        "text": "Understanding who created a piece of media, why, and who it's meant to persuade helps you judge how much to trust it. For example, an article about a product's benefits written by the company that sells it deserves a different level of trust than an independent review with no financial stake in the outcome."
+        "emoji": "🧯",
+        "title": "Naming the bias helps you catch it",
+        "text": "Simply knowing a bias's name — like confirmation bias — makes it noticeably easier to catch it happening in your own thinking, in the moment it's happening. Psychologists have named dozens of these predictable mental shortcuts, precisely because naming them is the first step to correcting for them."
       },
       {
-        "emoji": "🧩",
-        "title": "Common logical fallacies",
-        "text": "A logical fallacy is a flaw in reasoning — like attacking a person instead of their argument, or assuming something is true just because 'everyone believes it.' For example, responding to someone's argument about climate policy by saying \"well, you're not even a scientist\" attacks the person instead of addressing what they actually said — that's a logical fallacy, not a real rebuttal."
+        "emoji": "👻",
+        "title": "Availability bias",
+        "text": "Availability bias is judging how common or dangerous something is by how easily examples come to mind, rather than by the real numbers. After one dramatic news story, shark attacks can feel common, even though they're extremely rare — the vivid story is simply easier to recall than the actual statistics."
       },
       {
-        "emoji": "⚖️",
-        "title": "Weighing evidence fairly",
-        "text": "Strong critical thinkers weigh the quality and quantity of evidence on all sides before forming a conclusion — not just picking whichever side feels more comfortable. For example, when researching a controversial topic for a school paper, deliberately reading strong arguments on both sides, not just the ones that confirm what you already believed, produces a far more credible paper."
+        "emoji": "🎢",
+        "title": "Negativity bias",
+        "text": "Negative experiences and information tend to stick in memory far more strongly than positive ones do, a pattern called negativity bias. One harsh comment among ten kind ones is often the single one still bothering you at the end of the day, even though it was a tiny fraction of what was actually said."
       },
       {
-        "emoji": "🎲",
-        "title": "Deciding under uncertainty",
-        "text": "Many real decisions have to be made without knowing everything for certain. Thinking in terms of likely outcomes, not guaranteed ones, leads to better choices. For example, choosing a college major isn't about finding a guaranteed-perfect choice — it's about weighing which path seems most likely to lead somewhere you'd be happy, given what you know now."
+        "emoji": "🏆",
+        "title": "Self-serving bias",
+        "text": "Self-serving bias is the tendency to credit yourself for successes while blaming outside factors for failures. Crediting a good grade to \"I'm smart\" but blaming a bad grade on \"the test was unfair\" applies two very different standards to two outcomes that might have had the same actual cause."
       },
       {
-        "emoji": "🔄",
-        "title": "Being willing to update",
-        "text": "Genuinely strong thinkers treat their own conclusions as open to revision — new, credible evidence should be able to change a well-reasoned mind. For example, if you strongly believed a certain study supported your view, but later learned that study was retracted for bad data, updating your opinion in light of that is a sign of strength, not weakness."
+        "emoji": "🪞",
+        "title": "The Dunning-Kruger idea",
+        "text": "People who know the least about a subject are sometimes the most overconfident about it, simply because they don't yet know enough to see what they're missing. Someone who's watched a few cooking videos can feel more confident than a line cook with years of real kitchen experience, who knows firsthand how much there still is to learn."
       },
       {
-        "emoji": "🗣️",
-        "title": "Steelmanning an argument",
-        "text": "Instead of attacking the weakest version of an opposing view, a strong thinker engages with the strongest, most reasonable version of it — called 'steelmanning.' For example, instead of arguing against the silliest version of an opposing political view you've heard, engaging with the most thoughtful argument that side actually makes leads to a much stronger, more honest debate."
-      },
-      {
-        "emoji": "🧭",
-        "title": "Separating feelings from facts",
-        "text": "Recognizing when a strong emotional reaction — anger, excitement, fear — might be clouding a decision helps you think more clearly under pressure. For example, feeling furious after reading one upsetting headline might push you to share it immediately, but pausing to check the facts first, once the initial anger fades, often changes how you'd respond to it."
-      },
-      {
-        "emoji": "📢",
-        "title": "Recognizing propaganda",
-        "text": "Propaganda uses one-sided, emotionally charged messaging to push a viewpoint rather than inform. Learning to notice it helps you separate persuasion from honest information. For example, a message using only scary language and dramatic music to push one specific opinion, while ignoring any counter-evidence entirely, is a sign you might be looking at propaganda rather than balanced information."
-      },
-      {
-        "emoji": "🧪",
-        "title": "The scientific method, briefly",
-        "text": "Form a question, propose an explanation, test it, and revise based on results — this basic loop underlies careful thinking far beyond just science class. For example, if you wonder \"does studying with music help or hurt my focus,\" you could test it by studying with music some days and without on others, then honestly comparing your results — the same basic loop scientists use."
-      },
-      {
-        "emoji": "📏",
-        "title": "Sample size and small numbers",
-        "text": "A pattern based on just a few examples — a 'small sample' — can be pure coincidence rather than a real trend, so bigger samples are generally more trustworthy. For example, if three people from a certain town happen to be tall, that says almost nothing about the town in general, but if a study measures three thousand people from that town, the result actually starts to mean something."
+        "emoji": "⚓",
+        "title": "Anchoring bias",
+        "text": "Anchoring bias happens when the first number or piece of information you hear quietly shapes every judgment that comes after it, even if that first piece of information was random or irrelevant. For example, a store listing a jacket's \"original price\" as absurdly high right next to a \"sale price\" makes the sale price feel like a bargain, even if that original price was never real."
       },
       {
         "emoji": "⏳",
@@ -567,14 +1049,9 @@
         "text": "The sunk cost fallacy is the tendency to keep investing time or money in something just because you've already invested so much, even when quitting would clearly be the smarter choice. For example, finishing a boring movie \"because I already sat through an hour of it\" ignores the fact that the hour is gone either way, and the only real question is whether the next hour is worth it."
       },
       {
-        "emoji": "⚖️",
-        "title": "Burden of proof",
-        "text": "The burden of proof is the idea that whoever makes a claim is responsible for backing it up — not the other way around. For example, if someone claims a supplement cures headaches, it's their job to show real evidence for that, not everyone else's job to prove that it doesn't."
-      },
-      {
-        "emoji": "⚓",
-        "title": "Anchoring bias",
-        "text": "Anchoring bias happens when the first number or piece of information you hear quietly shapes every judgment that comes after it, even if that first piece of information was random or irrelevant. For example, a store listing a jacket's \"original price\" as absurdly high right next to a \"sale price\" makes the sale price feel like a bargain, even if that original price was never real."
+        "emoji": "🔄",
+        "title": "Being willing to update",
+        "text": "Genuinely strong thinkers treat their own conclusions as open to revision — new, credible evidence should be able to change a well-reasoned mind. For example, if you strongly believed a certain study supported your view, but later learned that study was retracted for bad data, updating your opinion in light of that is a sign of strength, not weakness."
       }
     ],
     "quiz": [
@@ -588,49 +1065,67 @@
         "explanation": "Confirmation bias is a natural tendency to seek out agreeing information and dismiss disagreeing information."
       },
       {
-        "question": "What is a \"logical fallacy\"?",
+        "question": "Why does it help to know the name of a bias, like 'confirmation bias'?",
         "choices": [
-          "A flaw in the structure or reasoning of an argument",
-          "Any statement that happens to be false"
+          "It makes the bias easier to notice happening in your own thinking",
+          "Knowing the name has no effect on noticing it"
         ],
         "correctIndex": 0,
-        "explanation": "Logical fallacies are reasoning errors that can make even a false conclusion sound convincing."
+        "explanation": "Naming a mental pattern makes it much easier to recognize and correct for."
       },
       {
-        "question": "What does \"media literacy\" involve?",
+        "question": "After one scary news story, shark attacks feel common, even though they're extremely rare. What's this called?",
         "choices": [
-          "Understanding who made a piece of media and why",
-          "Watching as much media as possible without thinking about it"
+          "Availability bias — judging by what easily comes to mind, not real numbers",
+          "An accurate way to judge how common something is"
         ],
         "correctIndex": 0,
-        "explanation": "Media literacy is about critically evaluating the source and purpose behind media."
+        "explanation": "Availability bias mistakes how memorable something is for how common it actually is."
       },
       {
-        "question": "What does \"steelmanning\" an argument mean?",
+        "question": "One harsh comment sticks in your memory more than ten kind ones from the same day. What does this show?",
         "choices": [
-          "Engaging with the strongest version of an opposing view",
-          "Ignoring opposing views entirely"
+          "Negative experiences tend to stick in memory more strongly",
+          "Positive and negative experiences are always remembered equally"
         ],
         "correctIndex": 0,
-        "explanation": "Steelmanning means fairly addressing the best version of the other side's argument."
+        "explanation": "Negativity bias makes bad experiences disproportionately memorable compared to good ones."
       },
       {
-        "question": "Why is deciding \"under uncertainty\" a real skill, like choosing a college major?",
+        "question": "Crediting a good grade to \"I'm smart\" but blaming a bad grade on \"the test was unfair\" — what's this?",
         "choices": [
-          "Most real decisions don't come with guaranteed outcomes",
-          "Every decision in life comes with a guaranteed correct answer"
+          "Self-serving bias",
+          "A perfectly balanced, objective view of both grades"
         ],
         "correctIndex": 0,
-        "explanation": "Thinking in terms of likely outcomes, not certainties, reflects how real decisions actually work."
+        "explanation": "Self-serving bias applies different standards to your own successes and failures."
       },
       {
-        "question": "Why might a strong emotional reaction be worth noticing during a decision?",
+        "question": "Someone who's watched a few cooking videos feels more confident than a chef with years of experience. What does this illustrate?",
         "choices": [
-          "It might be clouding clear thinking in the moment",
-          "Emotions never affect decision-making at all"
+          "People who know the least can be the most overconfident",
+          "More knowledge always makes people feel less confident"
         ],
         "correctIndex": 0,
-        "explanation": "Recognizing strong emotions helps you separate how you feel from what the facts actually show."
+        "explanation": "Limited knowledge can hide just how much you don't know, inflating confidence."
+      },
+      {
+        "question": "A store lists a jacket's 'original price' as absurdly high right next to the sale price. What does this exploit?",
+        "choices": [
+          "Anchoring bias — the first number shapes how later numbers feel",
+          "Nothing, the original price never affects how we judge the sale price"
+        ],
+        "correctIndex": 0,
+        "explanation": "The first number you see quietly shapes how you judge every number after it."
+      },
+      {
+        "question": "Finishing a boring movie just because you already sat through an hour of it is an example of what?",
+        "choices": [
+          "The sunk cost fallacy",
+          "Steelmanning an argument"
+        ],
+        "correctIndex": 0,
+        "explanation": "The sunk cost fallacy is letting past investment, which can't be recovered either way, drive a present decision."
       },
       {
         "question": "Should a strong thinker be willing to change a conclusion?",
@@ -642,6 +1137,98 @@
         "explanation": "Updating conclusions in light of solid new evidence is a hallmark of strong thinking, not weakness."
       },
       {
+        "question": "A person avoids flying because of one dramatic crash story, but keeps using an app just because \"I already spent so much time on it.\" Which two biases are at play, in order?",
+        "choices": [
+          "Availability bias, then the sunk cost fallacy",
+          "Confirmation bias, then anchoring bias"
+        ],
+        "correctIndex": 0,
+        "explanation": "The crash story looms large due to availability bias, while continuing due to past investment is the sunk cost fallacy."
+      }
+    ]
+  },
+  "critical-thinking-13-17-p2": {
+    "slides": [
+      {
+        "emoji": "📺",
+        "title": "Media literacy",
+        "text": "Understanding who created a piece of media, why, and who it's meant to persuade helps you judge how much to trust it. For example, an article about a product's benefits written by the company that sells it deserves a different level of trust than an independent review with no financial stake in the outcome."
+      },
+      {
+        "emoji": "🧮",
+        "title": "Primary vs. secondary sources",
+        "text": "A primary source is the original material — a study itself, a direct quote, raw data. A secondary source describes or summarizes that original, like a news article about the study, and can introduce distortion, simplification, or spin along the way, even without meaning to."
+      },
+      {
+        "emoji": "💰",
+        "title": "Follow the money",
+        "text": "Checking who funded or profits from a piece of information is a fast way to judge how much scrutiny it deserves. A \"study\" funded by a soda company that finds sugar isn't harmful deserves a closer, more skeptical look than an independent study with no financial stake in the result."
+      },
+      {
+        "emoji": "📢",
+        "title": "Recognizing propaganda",
+        "text": "Propaganda uses one-sided, emotionally charged messaging to push a viewpoint rather than inform. Learning to notice it helps you separate persuasion from honest information. For example, a message using only scary language and dramatic music to push one specific opinion, while ignoring any counter-evidence entirely, is a sign you might be looking at propaganda rather than balanced information."
+      },
+      {
+        "emoji": "🗳️",
+        "title": "Loaded language",
+        "text": "Loaded language uses words chosen to trigger an emotional reaction rather than to describe something neutrally. Calling a policy a \"job-killing disaster\" instead of \"an economic change\" can describe the exact same policy while pushing a reader toward a very different feeling about it."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Clickbait headlines",
+        "text": "A headline like \"You won't BELIEVE what happened next!\" is engineered to provoke a click, not to accurately summarize what follows. Clickbait headlines often overstate, distort, or leave out the actual substance of the story underneath them."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Weighing evidence fairly",
+        "text": "Strong critical thinkers weigh the quality and quantity of evidence on all sides before forming a conclusion — not just picking whichever side feels more comfortable. For example, when researching a controversial topic for a school paper, deliberately reading strong arguments on both sides, not just the ones that confirm what you already believed, produces a far more credible paper."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Burden of proof",
+        "text": "The burden of proof is the idea that whoever makes a claim is responsible for backing it up — not the other way around. For example, if someone claims a supplement cures headaches, it's their job to show real evidence for that, not everyone else's job to prove that it doesn't."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Separating feelings from facts",
+        "text": "Recognizing when a strong emotional reaction — anger, excitement, fear — might be clouding a decision helps you think more clearly under pressure. For example, feeling furious after reading one upsetting headline might push you to share it immediately, but pausing to check the facts first, once the initial anger fades, often changes how you'd respond to it."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Checking a claim in three steps",
+        "text": "A simple habit for evaluating almost any claim: who said it, what's their evidence, and does anyone independent agree. Running a claim through these three questions catches a surprising number of weak or misleading claims before they take hold."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What does \"media literacy\" involve?",
+        "choices": [
+          "Understanding who made a piece of media and why",
+          "Watching as much media as possible without thinking about it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Media literacy is about critically evaluating the source and purpose behind media."
+      },
+      {
+        "question": "A news article summarizes a scientific study. Which one is the primary source?",
+        "choices": [
+          "The original study itself",
+          "The news article summarizing it"
+        ],
+        "correctIndex": 0,
+        "explanation": "The primary source is the original material; anything describing it is secondary."
+      },
+      {
+        "question": "A 'study' funded by a soda company finds that sugar isn't harmful. What should that funding make you do?",
+        "choices": [
+          "Look at the study with extra scrutiny",
+          "Trust it exactly as much as any independent study"
+        ],
+        "correctIndex": 0,
+        "explanation": "Who funds or profits from a claim is relevant to how much scrutiny it deserves."
+      },
+      {
         "question": "What is \"propaganda\"?",
         "choices": [
           "One-sided, emotionally charged messaging meant to persuade",
@@ -649,6 +1236,188 @@
         ],
         "correctIndex": 0,
         "explanation": "Propaganda pushes a viewpoint through emotional persuasion rather than balanced information."
+      },
+      {
+        "question": "Calling a policy a \"job-killing disaster\" instead of \"an economic change\" — what's this an example of?",
+        "choices": [
+          "Loaded language chosen to trigger emotion",
+          "Neutral, objective description"
+        ],
+        "correctIndex": 0,
+        "explanation": "Loaded language pushes a reader's feelings rather than describing something plainly."
+      },
+      {
+        "question": "A headline reads \"You won't BELIEVE what happened next!\" What is this style of headline designed to do?",
+        "choices": [
+          "Provoke a click, often by overstating the actual story",
+          "Accurately summarize the story in a neutral way"
+        ],
+        "correctIndex": 0,
+        "explanation": "Clickbait is optimized to generate clicks, not to inform accurately."
+      },
+      {
+        "question": "When researching a controversial topic for a school paper, what produces a more credible paper?",
+        "choices": [
+          "Deliberately reading strong arguments on both sides",
+          "Only reading sources that already agree with you"
+        ],
+        "correctIndex": 0,
+        "explanation": "Considering strong arguments from multiple sides leads to a more credible, well-reasoned paper."
+      },
+      {
+        "question": "Who does the \"burden of proof\" fall on when someone makes a claim?",
+        "choices": [
+          "The person making the claim",
+          "Everyone else, to disprove it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Whoever makes a claim is responsible for backing it up with evidence."
+      },
+      {
+        "question": "Why might a strong emotional reaction be worth noticing during a decision?",
+        "choices": [
+          "It might be clouding clear thinking in the moment",
+          "Emotions never affect decision-making at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Recognizing strong emotions helps you separate how you feel from what the facts actually show."
+      },
+      {
+        "question": "What's a simple three-step habit for checking a claim?",
+        "choices": [
+          "Who said it, what's their evidence, does anyone independent agree",
+          "Believe it once, then never think about it again"
+        ],
+        "correctIndex": 0,
+        "explanation": "This three-step habit catches a lot of weak or misleading claims quickly."
+      }
+    ]
+  },
+  "critical-thinking-13-17-p3": {
+    "slides": [
+      {
+        "emoji": "🧩",
+        "title": "Common logical fallacies",
+        "text": "A logical fallacy is a flaw in reasoning — like attacking a person instead of their argument, or assuming something is true just because 'everyone believes it.' For example, responding to someone's argument about climate policy by saying \"well, you're not even a scientist\" attacks the person instead of addressing what they actually said — that's a logical fallacy, not a real rebuttal."
+      },
+      {
+        "emoji": "🍰",
+        "title": "The false dilemma",
+        "text": "A false dilemma presents only two extreme options when more actually exist. \"Either you support this exact plan completely, or you don't care about the problem at all\" ignores every reasonable middle position between full support and total indifference."
+      },
+      {
+        "emoji": "⛷️",
+        "title": "The slippery slope",
+        "text": "A slippery slope argument claims that one small step will inevitably cascade into an extreme outcome, without actually showing why that chain of events would happen. \"If we let students retake one quiz, soon nobody will ever study for anything\" skips over every reasonable middle possibility in between."
+      },
+      {
+        "emoji": "🌀",
+        "title": "Circular reasoning",
+        "text": "Circular reasoning is an argument that just restates its own conclusion as if that were proof. \"This app is the most popular because everyone uses it, and everyone uses it because it's the most popular\" goes in a loop without ever landing on any real, independent evidence."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Steelmanning an argument",
+        "text": "Instead of attacking the weakest version of an opposing view, a strong thinker engages with the strongest, most reasonable version of it — called 'steelmanning.' For example, instead of arguing against the silliest version of an opposing political view you've heard, engaging with the most thoughtful argument that side actually makes leads to a much stronger, more honest debate."
+      },
+      {
+        "emoji": "🧱",
+        "title": "Building a real argument",
+        "text": "A solid argument states a clear claim, backs it with real evidence, and directly addresses the strongest objection to it — not just the loudest or weakest voice in the room. Arguments that skip the third step tend to fall apart the moment someone raises a serious counterpoint."
+      },
+      {
+        "emoji": "🎲",
+        "title": "Deciding under uncertainty",
+        "text": "Many real decisions have to be made without knowing everything for certain. Thinking in terms of likely outcomes, not guaranteed ones, leads to better choices. For example, choosing a college major isn't about finding a guaranteed-perfect choice — it's about weighing which path seems most likely to lead somewhere you'd be happy, given what you know now."
+      },
+      {
+        "emoji": "🎰",
+        "title": "Expected value, informally",
+        "text": "A good decision weighs not just whether an outcome would be good or bad, but how likely it actually is. A tiny chance at a huge reward can, depending on the actual numbers, be worth less than a near-certain chance at a merely decent one — it's the combination of size and likelihood that matters, not either alone."
+      },
+      {
+        "emoji": "🧪",
+        "title": "The scientific method, briefly",
+        "text": "Form a question, propose an explanation, test it, and revise based on results — this basic loop underlies careful thinking far beyond just science class. For example, if you wonder \"does studying with music help or hurt my focus,\" you could test it by studying with music some days and without on others, then honestly comparing your results — the same basic loop scientists use."
+      },
+      {
+        "emoji": "📏",
+        "title": "Sample size and small numbers",
+        "text": "A pattern based on just a few examples — a 'small sample' — can be pure coincidence rather than a real trend, so bigger samples are generally more trustworthy. For example, if three people from a certain town happen to be tall, that says almost nothing about the town in general, but if a study measures three thousand people from that town, the result actually starts to mean something."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is a \"logical fallacy\"?",
+        "choices": [
+          "A flaw in the structure or reasoning of an argument",
+          "Any statement that happens to be false"
+        ],
+        "correctIndex": 0,
+        "explanation": "Logical fallacies are reasoning errors that can make even a false conclusion sound convincing."
+      },
+      {
+        "question": "\"Either you support this exact plan completely, or you don't care about the problem at all\" — what's wrong with this?",
+        "choices": [
+          "It's a false dilemma — it ignores every middle option",
+          "Nothing, every issue really only has two possible sides"
+        ],
+        "correctIndex": 0,
+        "explanation": "A false dilemma hides the reasonable middle ground between two extremes."
+      },
+      {
+        "question": "\"If we let students retake one quiz, soon nobody will ever study for anything\" — what fallacy is this?",
+        "choices": [
+          "A slippery slope — assuming one step must cascade to an extreme, without showing why",
+          "A well-supported, logical prediction"
+        ],
+        "correctIndex": 0,
+        "explanation": "Slippery slope arguments assume an extreme chain reaction without actually demonstrating it."
+      },
+      {
+        "question": "\"This app is the most popular because everyone uses it, and everyone uses it because it's the most popular.\" What's wrong with this argument?",
+        "choices": [
+          "It's circular — it never actually offers real evidence",
+          "It's a strong argument with solid evidence"
+        ],
+        "correctIndex": 0,
+        "explanation": "Circular reasoning restates the conclusion as its own proof instead of offering real evidence."
+      },
+      {
+        "question": "What does \"steelmanning\" an argument mean?",
+        "choices": [
+          "Engaging with the strongest version of an opposing view",
+          "Ignoring opposing views entirely"
+        ],
+        "correctIndex": 0,
+        "explanation": "Steelmanning means fairly addressing the best version of the other side's argument."
+      },
+      {
+        "question": "What does a solid argument need, beyond just a claim?",
+        "choices": [
+          "Real evidence and a response to the strongest objection",
+          "Just being stated loudly and confidently"
+        ],
+        "correctIndex": 0,
+        "explanation": "A solid argument needs evidence and must hold up against the best counterargument."
+      },
+      {
+        "question": "Why is deciding \"under uncertainty\" a real skill, like choosing a college major?",
+        "choices": [
+          "Most real decisions don't come with guaranteed outcomes",
+          "Every decision in life comes with a guaranteed correct answer"
+        ],
+        "correctIndex": 0,
+        "explanation": "Thinking in terms of likely outcomes, not certainties, reflects how real decisions actually work."
+      },
+      {
+        "question": "A tiny chance at a huge reward versus a near-certain chance at a decent reward — what should a good decision weigh?",
+        "choices": [
+          "Both how good the outcome is and how likely it is",
+          "Only how good the outcome could be, ignoring likelihood"
+        ],
+        "correctIndex": 0,
+        "explanation": "Good decisions under uncertainty weigh both the size of an outcome and its probability."
       },
       {
         "question": "What is the basic loop of the scientific method?",
@@ -667,24 +1436,6 @@
         ],
         "correctIndex": 0,
         "explanation": "Small samples can look like a real pattern purely by chance; larger samples are more trustworthy."
-      },
-      {
-        "question": "Finishing a boring movie just because you already sat through an hour of it is an example of what?",
-        "choices": [
-          "The sunk cost fallacy",
-          "Steelmanning an argument"
-        ],
-        "correctIndex": 0,
-        "explanation": "The sunk cost fallacy is letting past investment, which can't be recovered either way, drive a present decision."
-      },
-      {
-        "question": "Who does the \"burden of proof\" fall on when someone makes a claim?",
-        "choices": [
-          "The person making the claim",
-          "Everyone else, to disprove it"
-        ],
-        "correctIndex": 0,
-        "explanation": "Whoever makes a claim is responsible for backing it up with evidence."
       }
     ]
   }

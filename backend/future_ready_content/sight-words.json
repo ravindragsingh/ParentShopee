@@ -1,5 +1,5 @@
 {
-  "sight-words-4-6": {
+  "sight-words-4-6-p1": {
     "slides": [
       {
         "emoji": "🅰️",
@@ -50,156 +50,6 @@
         "emoji": "🎁",
         "title": "for",
         "text": "This gift is for you."
-      },
-      {
-        "emoji": "😂",
-        "title": "funny",
-        "text": "That joke was funny."
-      },
-      {
-        "emoji": "🚦",
-        "title": "go",
-        "text": "Let's go outside."
-      },
-      {
-        "emoji": "🤝",
-        "title": "help",
-        "text": "Can you help me?"
-      },
-      {
-        "emoji": "📍",
-        "title": "here",
-        "text": "Come sit here."
-      },
-      {
-        "emoji": "🙋",
-        "title": "I",
-        "text": "I like to read."
-      },
-      {
-        "emoji": "📥",
-        "title": "in",
-        "text": "The cat is in the box."
-      },
-      {
-        "emoji": "👉",
-        "title": "is",
-        "text": "The sun is bright."
-      },
-      {
-        "emoji": "👉",
-        "title": "it",
-        "text": "I like it a lot."
-      },
-      {
-        "emoji": "🤸",
-        "title": "jump",
-        "text": "Let's jump high!"
-      },
-      {
-        "emoji": "🤏",
-        "title": "little",
-        "text": "The puppy is little."
-      },
-      {
-        "emoji": "👀",
-        "title": "look",
-        "text": "Look at that!"
-      },
-      {
-        "emoji": "🛠️",
-        "title": "make",
-        "text": "Let's make a tower."
-      },
-      {
-        "emoji": "🙋",
-        "title": "me",
-        "text": "Come with me."
-      },
-      {
-        "emoji": "🎒",
-        "title": "my",
-        "text": "This is my toy."
-      },
-      {
-        "emoji": "🚫",
-        "title": "not",
-        "text": "I am not tired."
-      },
-      {
-        "emoji": "1️⃣",
-        "title": "one",
-        "text": "I have one apple."
-      },
-      {
-        "emoji": "🎾",
-        "title": "play",
-        "text": "Let's play a game."
-      },
-      {
-        "emoji": "🔴",
-        "title": "red",
-        "text": "The apple is red."
-      },
-      {
-        "emoji": "🏃",
-        "title": "run",
-        "text": "Let's run fast!"
-      },
-      {
-        "emoji": "💬",
-        "title": "said",
-        "text": "She said hello."
-      },
-      {
-        "emoji": "👁️",
-        "title": "see",
-        "text": "I can see you."
-      },
-      {
-        "emoji": "📖",
-        "title": "the",
-        "text": "The dog ran fast."
-      },
-      {
-        "emoji": "3️⃣",
-        "title": "three",
-        "text": "I have three balloons."
-      },
-      {
-        "emoji": "➡️",
-        "title": "to",
-        "text": "I want to go home."
-      },
-      {
-        "emoji": "2️⃣",
-        "title": "two",
-        "text": "I have two hands."
-      },
-      {
-        "emoji": "⬆️",
-        "title": "up",
-        "text": "Look up at the sky."
-      },
-      {
-        "emoji": "👨‍👩‍👧",
-        "title": "we",
-        "text": "We are friends."
-      },
-      {
-        "emoji": "❓",
-        "title": "where",
-        "text": "Where is my hat?"
-      },
-      {
-        "emoji": "🟡",
-        "title": "yellow",
-        "text": "The sun is yellow."
-      },
-      {
-        "emoji": "🫵",
-        "title": "you",
-        "text": "I like you."
       }
     ],
     "quiz": [
@@ -282,7 +132,63 @@
           "not"
         ],
         "correctIndex": 0
+      }
+    ]
+  },
+  "sight-words-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "😂",
+        "title": "funny",
+        "text": "That joke was funny."
       },
+      {
+        "emoji": "🚦",
+        "title": "go",
+        "text": "Let's go outside."
+      },
+      {
+        "emoji": "🤝",
+        "title": "help",
+        "text": "Can you help me?"
+      },
+      {
+        "emoji": "📍",
+        "title": "here",
+        "text": "Come sit here."
+      },
+      {
+        "emoji": "🙋",
+        "title": "I",
+        "text": "I like to read."
+      },
+      {
+        "emoji": "📥",
+        "title": "in",
+        "text": "The cat is in the box."
+      },
+      {
+        "emoji": "👉",
+        "title": "is",
+        "text": "The sun is bright."
+      },
+      {
+        "emoji": "👉",
+        "title": "it",
+        "text": "I like it a lot."
+      },
+      {
+        "emoji": "🤸",
+        "title": "jump",
+        "text": "Let's jump high!"
+      },
+      {
+        "emoji": "🤏",
+        "title": "little",
+        "text": "The puppy is little."
+      }
+    ],
+    "quiz": [
       {
         "question": "Tap the word that says \"funny\"",
         "choices": [
@@ -362,7 +268,63 @@
           "big"
         ],
         "correctIndex": 0
+      }
+    ]
+  },
+  "sight-words-4-6-p3": {
+    "slides": [
+      {
+        "emoji": "👀",
+        "title": "look",
+        "text": "Look at that!"
       },
+      {
+        "emoji": "🛠️",
+        "title": "make",
+        "text": "Let's make a tower."
+      },
+      {
+        "emoji": "🙋",
+        "title": "me",
+        "text": "Come with me."
+      },
+      {
+        "emoji": "🎒",
+        "title": "my",
+        "text": "This is my toy."
+      },
+      {
+        "emoji": "🚫",
+        "title": "not",
+        "text": "I am not tired."
+      },
+      {
+        "emoji": "1️⃣",
+        "title": "one",
+        "text": "I have one apple."
+      },
+      {
+        "emoji": "🎾",
+        "title": "play",
+        "text": "Let's play a game."
+      },
+      {
+        "emoji": "🔴",
+        "title": "red",
+        "text": "The apple is red."
+      },
+      {
+        "emoji": "🏃",
+        "title": "run",
+        "text": "Let's run fast!"
+      },
+      {
+        "emoji": "💬",
+        "title": "said",
+        "text": "She said hello."
+      }
+    ],
+    "quiz": [
       {
         "question": "Tap the word that says \"look\"",
         "choices": [
@@ -442,7 +404,63 @@
           "look"
         ],
         "correctIndex": 0
+      }
+    ]
+  },
+  "sight-words-4-6-p4": {
+    "slides": [
+      {
+        "emoji": "👁️",
+        "title": "see",
+        "text": "I can see you."
       },
+      {
+        "emoji": "📖",
+        "title": "the",
+        "text": "The dog ran fast."
+      },
+      {
+        "emoji": "3️⃣",
+        "title": "three",
+        "text": "I have three balloons."
+      },
+      {
+        "emoji": "➡️",
+        "title": "to",
+        "text": "I want to go home."
+      },
+      {
+        "emoji": "2️⃣",
+        "title": "two",
+        "text": "I have two hands."
+      },
+      {
+        "emoji": "⬆️",
+        "title": "up",
+        "text": "Look up at the sky."
+      },
+      {
+        "emoji": "👨‍👩‍👧",
+        "title": "we",
+        "text": "We are friends."
+      },
+      {
+        "emoji": "❓",
+        "title": "where",
+        "text": "Where is my hat?"
+      },
+      {
+        "emoji": "🟡",
+        "title": "yellow",
+        "text": "The sun is yellow."
+      },
+      {
+        "emoji": "🫵",
+        "title": "you",
+        "text": "I like you."
+      }
+    ],
+    "quiz": [
       {
         "question": "Tap the word that says \"see\"",
         "choices": [

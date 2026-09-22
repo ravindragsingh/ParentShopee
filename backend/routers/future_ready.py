@@ -114,18 +114,28 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
         kid_age = calculate_approx_age(user.birth_month, user.birth_year) if (user.birth_month and user.birth_year) else None
         if kid_age is None:
             return ok([])
-        by_topic = {}
+        # A band can now be split across several "Part N" modules, all
+        # sharing one age_min/age_max, so picking a band for this topic is a
+        # separate step from picking which of its modules to show -- first
+        # find the best-matching band per topic, then include every module
+        # that belongs to it.
+        best_band = {}  # topic -> (age_min, age_max, gap)
+        for m in modules:
+            if not _kid_allowed(settings.get(m.id), user.id):
+                continue
+            gap = _age_gap(m, kid_age)
+            current = best_band.get(m.topic)
+            if current is None or gap < current[2]:
+                best_band[m.topic] = (m.age_min, m.age_max, gap)
+        result = []
         for m in modules:
             setting = settings.get(m.id)
             if not _kid_allowed(setting, user.id):
                 continue
-            current = by_topic.get(m.topic)
-            if current is None or _age_gap(m, kid_age) < _age_gap(current, kid_age):
-                by_topic[m.topic] = m
-        return ok([
-            module_dict(m, _effective_points(m, settings.get(m.id)), completed=m.id in completed_ids)
-            for m in by_topic.values()
-        ])
+            band = best_band.get(m.topic)
+            if band and (m.age_min, m.age_max) == (band[0], band[1]):
+                result.append(module_dict(m, _effective_points(m, setting), completed=m.id in completed_ids))
+        return ok(result)
     # Guardians see the full catalog with every age band, its current
     # visibility, and its effective point value (their own override if set,
     # otherwise the catalog default) -- something to toggle and tune even
