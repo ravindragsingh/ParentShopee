@@ -5,7 +5,7 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from chore_logic import check_and_expire_chores, generate_instances, get_visible_chores
+from chore_logic import generate_instances, get_visible_chores, maybe_run_maintenance
 from config import CONTACT_EMAIL, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
@@ -35,15 +35,9 @@ def get_add_limits(db: Session = Depends(get_db), user: DBUser = Depends(require
 @router.get("/api/chores")
 def get_chores(status: Optional[str] = None, kidId: Optional[str] = None,
                db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    check_and_expire_chores(db)
     # guardians see their own family's chores; kids see chores from their guardian's family
     fid = get_family_id(user) if user.role == "guardian" else user.guardian_id
-    # Generate any missing instances for active recurring templates in this family
-    for t in db.query(DBRecurringTemplate).filter(
-        DBRecurringTemplate.family_id == fid,
-        DBRecurringTemplate.is_active == "1",
-    ).all():
-        generate_instances(db, t)
+    maybe_run_maintenance(db, fid)
     cutoff = 72 if user.role == "guardian" else 48   # 3 days for guardians, 2 days for kids
     chores = get_visible_chores(db, family_id=fid, cutoff_hours=cutoff)
     if status:
