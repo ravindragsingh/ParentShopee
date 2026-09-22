@@ -55,7 +55,7 @@
           "It has no use at all"
         ],
         "correctIndex": 0,
-        "explanation": "That's right! Money lets us buy things like food, clothes, and toys."
+        "explanation": "Money buys things like food and toys. You give a coin and get a snack back."
       },
       {
         "question": "What happens when you use your money to buy a toy?",
@@ -64,7 +64,7 @@
           "That's called flying"
         ],
         "correctIndex": 0,
-        "explanation": "Using money to get something now is called spending."
+        "explanation": "Spending means giving money to get something now, like trading a coin for a toy car."
       },
       {
         "question": "What is a store?",
@@ -73,7 +73,7 @@
           "A place where money grows on trees"
         ],
         "correctIndex": 0,
-        "explanation": "A store trades things you want for the money you give it."
+        "explanation": "A store sells things for money. You give coins, and you get to take home a toy."
       },
       {
         "question": "What are three things you can do with money?",
@@ -82,7 +82,7 @@
           "Only ever spend it"
         ],
         "correctIndex": 0,
-        "explanation": "You always get to choose between saving, spending, or sharing your money."
+        "explanation": "You can save it in a jar, spend it on a treat, or share it with a friend."
       },
       {
         "question": "How can you earn money?",
@@ -91,7 +91,7 @@
           "By just wishing for it"
         ],
         "correctIndex": 0,
-        "explanation": "Money usually comes from doing work, like helping out with chores."
+        "explanation": "You earn money by doing work, like feeding the dog for a coin."
       },
       {
         "question": "You clean your room and earn one coin. What did you do to get that coin?",
@@ -100,7 +100,7 @@
           "Found it on the ground"
         ],
         "correctIndex": 0,
-        "explanation": "Doing a chore, like cleaning your room, is a way to earn money."
+        "explanation": "Cleaning your room is a chore. Doing chores earns coins, like walking a dog earns one too."
       },
       {
         "question": "What are coins and bills?",
@@ -109,7 +109,7 @@
           "Two kinds of toys"
         ],
         "correctIndex": 0,
-        "explanation": "Money can come as metal coins or paper bills."
+        "explanation": "Coins and bills are both money. A shiny coin and a paper dollar can both buy a treat."
       },
       {
         "question": "If you give a friend some of your money to help them, what are you doing?",
@@ -118,7 +118,7 @@
           "Losing"
         ],
         "correctIndex": 0,
-        "explanation": "Giving money to help someone else is called sharing."
+        "explanation": "Sharing means giving some of your money to help someone else, like buying your friend a snack."
       },
       {
         "question": "True or False: You get to choose what you do with your money.",
@@ -127,7 +127,7 @@
           "False"
         ],
         "correctIndex": 0,
-        "explanation": "You can choose to save it, spend it, or share it."
+        "explanation": "True! You can save your coins, spend them on a treat, or share them with someone."
       },
       {
         "question": "What does a store do?",
@@ -136,7 +136,7 @@
           "Gives away money for free"
         ],
         "correctIndex": 0,
-        "explanation": "A store sells things, and you pay money to take them home."
+        "explanation": "A store sells things for money. Hand over coins, and a toy goes home with you."
       }
     ]
   },
@@ -196,7 +196,7 @@
           "A piggy bank"
         ],
         "correctIndex": 1,
-        "explanation": "A piggy bank (or a real bank!) keeps your saved money safe."
+        "explanation": "A piggy bank keeps your coins safe until you need them, like a tiny treasure box."
       },
       {
         "question": "You add one coin every week. What happens to your pile?",
@@ -205,7 +205,7 @@
           "It disappears forever"
         ],
         "correctIndex": 0,
-        "explanation": "Little by little, your saved coins add up into a bigger pile."
+        "explanation": "Each coin you add makes your pile bigger, like stacking blocks one on top of another."
       },
       {
         "question": "A toy costs 10 coins. You only have 4. What can you do?",
@@ -214,7 +214,7 @@
           "Give up on it"
         ],
         "correctIndex": 0,
-        "explanation": "Saving a few coins each week helps you reach 10 coins."
+        "explanation": "Saving a few coins each week adds up to 10, like adding 2 coins every week."
       },
       {
         "question": "What is a bank?",
@@ -223,7 +223,7 @@
           "A toy store"
         ],
         "correctIndex": 0,
-        "explanation": "A bank keeps your money safe, just like a piggy bank."
+        "explanation": "A bank is a safe place that holds your money, like a giant piggy bank for everyone."
       },
       {
         "question": "What is interest?",
@@ -232,7 +232,7 @@
           "A fine you have to pay"
         ],
         "correctIndex": 0,
-        "explanation": "Interest is a small reward banks give you for saving your money."
+        "explanation": "Interest is extra money a bank gives you just for saving there, like a small prize coin."
       },
       {
         "question": "Which kind of money is for later?",
@@ -241,7 +241,7 @@
           "Spending"
         ],
         "correctIndex": 0,
-        "explanation": "Saving means keeping money for something in the future."
+        "explanation": "Saving is money kept for later, like coins tucked away for a toy next month."
       },
       {
         "question": "What does \"saving\" mean?",
@@ -250,7 +250,7 @@
           "Throwing money away"
         ],
         "correctIndex": 0,
-        "explanation": "Saving means holding on to your money instead of using it right away."
+        "explanation": "Saving means keeping your coins instead of spending them now, like putting one in a jar."
       },
       {
         "question": "You want a toy but need more coins. What can help?",
@@ -259,7 +259,7 @@
           "Giving up right away"
         ],
         "correctIndex": 0,
-        "explanation": "Saving a bit each week helps you reach the amount you need."
+        "explanation": "Waiting and saving a few more coins each week helps you get the toy you want."
       },
       {
         "question": "Why is it fun to count your saved coins each week?",
@@ -268,7 +268,7 @@
           "It makes the coins disappear"
         ],
         "correctIndex": 0,
-        "explanation": "Counting your coins lets you see your savings getting bigger over time."
+        "explanation": "Counting your coins each week lets you watch your pile grow, from 3 coins to 4, then 5."
       },
       {
         "question": "A goal jar helps you...",
@@ -277,7 +277,7 @@
           "Spend all your money right away"
         ],
         "correctIndex": 0,
-        "explanation": "A goal jar shows your progress, which makes saving feel exciting."
+        "explanation": "A goal jar shows how close you are, like a jar that's half full of coins for a new toy."
       }
     ]
   },
@@ -337,7 +337,7 @@
           "A place that takes your money away"
         ],
         "correctIndex": 0,
-        "explanation": "Banks keep money safe, and some even pay you a little extra for saving with them."
+        "explanation": "A bank keeps your money safe, like a giant piggy bank that tracks every dollar. Some banks even pay you extra just for saving there."
       },
       {
         "question": "If a bank gives you a little extra money just for saving, what's that called?",
@@ -346,7 +346,7 @@
           "Interest"
         ],
         "correctIndex": 1,
-        "explanation": "Interest is like a small thank-you reward for keeping your money saved."
+        "explanation": "Interest is money a bank pays you just for keeping your savings there. If you save $50, the bank might add a little extra on top each year."
       },
       {
         "question": "Which one is a \"need\"?",
@@ -355,7 +355,7 @@
           "Food"
         ],
         "correctIndex": 1,
-        "explanation": "Food is something you must have to live — that's a need, not just a want."
+        "explanation": "A need is something you must have to live, like food, water, or clothes. A want, like a new video game, is nice but not required."
       },
       {
         "question": "A bike costs $60 and you save $5 a week. About how many weeks until you can afford it?",
@@ -364,7 +364,7 @@
           "It can never be saved for"
         ],
         "correctIndex": 0,
-        "explanation": "Saving $5 a week adds up to $60 after about 12 weeks — a clear goal makes the plan easy to picture."
+        "explanation": "Saving $5 every week adds up: after 12 weeks, you'll have $60 for the bike. Breaking a big goal into small weekly steps makes it easier to reach."
       },
       {
         "question": "What's it called when you plan out ahead of time how you'll use your money?",
@@ -373,7 +373,7 @@
           "A trophy"
         ],
         "correctIndex": 0,
-        "explanation": "A budget is simply a plan for saving, spending, and sharing your money."
+        "explanation": "A budget is a plan for your money before you spend it, deciding how much to save, spend, and share. For example, splitting $10 into $5 saved, $3 spent, and $2 shared."
       },
       {
         "question": "The same toy costs $12 at one store and $9 at another. Why check both first?",
@@ -382,7 +382,7 @@
           "It never makes a difference"
         ],
         "correctIndex": 0,
-        "explanation": "Comparing prices could save you $3 in this example — money you could use for something else."
+        "explanation": "Comparing prices before buying can save you real money. If the same toy costs $9 instead of $12, checking first puts an extra $3 in your pocket."
       },
       {
         "question": "What can help make a savings goal feel more real?",
@@ -391,7 +391,7 @@
           "Never deciding what you're saving for"
         ],
         "correctIndex": 0,
-        "explanation": "A clear, specific goal makes it much easier to stay motivated while saving."
+        "explanation": "Picking one specific thing to save for, like a $16 game, gives you something exciting to work toward. A clear target makes it easier to stick with saving."
       },
       {
         "question": "What's the difference between a \"want\" and a \"need\"?",
@@ -400,7 +400,7 @@
           "They mean exactly the same thing"
         ],
         "correctIndex": 0,
-        "explanation": "Needs are things you must have, like food, while wants are things that are just nice to have."
+        "explanation": "A need is something you must have, like food or a coat in winter. A want, like a new toy, is nice to have but not necessary."
       },
       {
         "question": "Why is it helpful to write down what you spend?",
@@ -409,7 +409,7 @@
           "It makes your money disappear"
         ],
         "correctIndex": 0,
-        "explanation": "Tracking what you spend shows you how small purchases can add up."
+        "explanation": "Writing down what you buy shows exactly where your money goes each week. Small purchases, like a $2 snack a few times, can quietly add up to a lot."
       },
       {
         "question": "You wait two weeks instead of buying a toy right away, and end up affording a better one. What does that show?",
@@ -418,7 +418,7 @@
           "Waiting never helps"
         ],
         "correctIndex": 0,
-        "explanation": "Waiting a little longer sometimes means you can get something even better."
+        "explanation": "Waiting before buying gives you time to save more and sometimes afford something better. Skipping a small toy today could mean a bigger one in just a couple of weeks."
       }
     ]
   },
@@ -483,7 +483,7 @@
           "A type of toy"
         ],
         "correctIndex": 0,
-        "explanation": "A bank account tracks your balance so you always know how much you've saved."
+        "explanation": "A bank account is like a digital piggy bank that keeps track of your exact balance. Instead of counting coins, you just check a number, like balance: $37."
       },
       {
         "question": "Why is it helpful to write down and add up your savings each week?",
@@ -492,7 +492,7 @@
           "It has no real purpose"
         ],
         "correctIndex": 0,
-        "explanation": "Tracking your savings makes progress toward a goal feel real and motivating."
+        "explanation": "Writing down your savings each week lets you actually watch the total climb, like $2, then $4, then $6. Seeing the numbers grow keeps you motivated to keep going."
       },
       {
         "question": "What happens when you take a risk with your money?",
@@ -501,7 +501,7 @@
           "Nothing ever changes"
         ],
         "correctIndex": 0,
-        "explanation": "Risk means your money could grow more, but it could also go down."
+        "explanation": "Taking a risk with money means it could grow bigger, but it could also shrink for a while. That up-and-down chance is part of how investing can earn more over time."
       },
       {
         "question": "What does it mean to diversify your money?",
@@ -510,7 +510,7 @@
           "Put it all in one place"
         ],
         "correctIndex": 0,
-        "explanation": "Diversifying means not putting all your money in just one thing."
+        "explanation": "Diversifying means putting your money into a few different things instead of just one. If one investment does poorly, the others can help balance it out."
       },
       {
         "question": "What is compound growth?",
@@ -519,7 +519,7 @@
           "When a bank charges you a fee"
         ],
         "correctIndex": 0,
-        "explanation": "Compound growth happens when your earnings start earning more on top of themselves."
+        "explanation": "Compound growth happens when the interest you already earned starts earning its own interest too. Money left in the bank grows a little faster each year instead of staying flat."
       },
       {
         "question": "What is a stock?",
@@ -528,7 +528,7 @@
           "A type of bank account"
         ],
         "correctIndex": 0,
-        "explanation": "Owning a stock means owning a small slice of a real company."
+        "explanation": "A stock is a tiny piece of a real company that you can own. If that company sells more toys or games, your tiny piece can become worth more."
       },
       {
         "question": "If a company you own a small piece of grows and does well, what usually happens?",
@@ -537,7 +537,7 @@
           "Your piece disappears"
         ],
         "correctIndex": 0,
-        "explanation": "When a company grows, the small pieces people own often become more valuable too."
+        "explanation": "When a company does well and earns more money, the small pieces people own often become worth more too. Your slice of the company grows in value right along with it."
       },
       {
         "question": "Why does starting to save or invest young help so much?",
@@ -546,7 +546,7 @@
           "It doesn't make any difference"
         ],
         "correctIndex": 0,
-        "explanation": "Starting early gives your money many more years to grow bigger."
+        "explanation": "Starting to save or invest young gives your money many more years to grow. A few dollars saved at age 8 has far more time to add up than money started at 20."
       },
       {
         "question": "An investment goes up some weeks and down other weeks. Is that normal?",
@@ -555,7 +555,7 @@
           "No, real investments never change"
         ],
         "correctIndex": 0,
-        "explanation": "Investments naturally go up and down — staying patient usually pays off."
+        "explanation": "Yes, an investment's value naturally goes up some weeks and down others, like a rollercoaster ride. Staying patient through the dips instead of panicking usually works out better in the end."
       },
       {
         "question": "What's the main difference between saving and investing?",
@@ -564,7 +564,7 @@
           "They are exactly the same thing"
         ],
         "correctIndex": 0,
-        "explanation": "Saving keeps your money safe and steady, while investing puts it to work to grow."
+        "explanation": "Saving keeps your money the exact same amount and safe, ready whenever you need it. Investing puts your money to work instead, hoping it grows into more than you started with."
       }
     ]
   },
@@ -624,7 +624,7 @@
           "Hiding money so nobody can find it"
         ],
         "correctIndex": 0,
-        "explanation": "Investing puts your money to work, hoping it grows over time."
+        "explanation": "Investing means putting your money into something, like a small piece of a company, instead of just spending it. If that company grows, like a sneaker brand selling more shoes, your $50 piece could grow to $60 or more over time."
       },
       {
         "question": "What is a stock?",
@@ -633,7 +633,7 @@
           "A small piece of ownership in a company"
         ],
         "correctIndex": 1,
-        "explanation": "Owning a stock means owning a tiny slice of that company."
+        "explanation": "A stock is a small piece of ownership in a real company, not just a fake certificate. If a video game company splits itself into 1,000 stocks and you own 1, you technically own 1/1000th of that whole business."
       },
       {
         "question": "True or False: Investments only ever go up in value.",
@@ -642,7 +642,7 @@
           "False"
         ],
         "correctIndex": 1,
-        "explanation": "Investments can go up and down — that ups-and-downs risk is part of how investing works."
+        "explanation": "False — investments can go up and down in value, not just rise forever. For example, $100 might grow to $110 in a good year but dip to $90 in a rough one before recovering; that ride is the risk that makes bigger rewards possible."
       },
       {
         "question": "If a company you own a tiny piece of grows and does well, what usually happens to your piece?",
@@ -651,7 +651,7 @@
           "It disappears"
         ],
         "correctIndex": 0,
-        "explanation": "When a company grows in value, the pieces of it people own — including yours — tend to grow in value too."
+        "explanation": "When a company grows and earns more money, the small pieces of it that people own — including yours — usually become worth more too. It's like owning a slice of a pizza that keeps getting bigger."
       },
       {
         "question": "An investment drops in value for a while, but you leave it alone and it recovers later. Was that a real loss?",
@@ -660,7 +660,7 @@
           "Yes, any drop is a permanent loss"
         ],
         "correctIndex": 0,
-        "explanation": "A drop is just 'on paper' until you actually sell — patience often lets it recover."
+        "explanation": "No — a drop in value is only a loss \"on paper\" until you actually sell. If your $100 investment falls to $80 but you wait and it climbs back to $105 a year later, you never really lost anything at all."
       },
       {
         "question": "When you buy a stock, what are you actually buying?",
@@ -669,7 +669,7 @@
           "A gift card to a store"
         ],
         "correctIndex": 0,
-        "explanation": "A stock represents real ownership in an actual business."
+        "explanation": "When you buy a stock, you're buying a tiny slice of an actual, real business — not just a picture or a promise. Owning shares in a snack company, for example, means you truly own a small part of that company."
       },
       {
         "question": "Can everyday people, not just experts, own stocks?",
@@ -678,7 +678,7 @@
           "No, only professional traders can"
         ],
         "correctIndex": 0,
-        "explanation": "Millions of ordinary people, including teens with a parent's help, own small pieces of companies."
+        "explanation": "Yes — millions of ordinary people, including teenagers with a parent's help, own small pieces of companies through simple accounts. You don't need to be a finance expert or a grown-up genius to start investing."
       },
       {
         "question": "A sneaker company sells way more shoes than last year. What might happen to its stock?",
@@ -687,7 +687,7 @@
           "It always stays exactly the same"
         ],
         "correctIndex": 0,
-        "explanation": "When a company earns more, its stock often becomes more valuable too."
+        "explanation": "When a company sells a lot more of its product, like shoes, it usually earns more money as a result. Investors often notice, which makes the company's stock become more valuable, since more people want to own a piece of it."
       },
       {
         "question": "What's a key difference between investing and gambling?",
@@ -696,7 +696,7 @@
           "There is no difference at all"
         ],
         "correctIndex": 0,
-        "explanation": "Investing is based on owning a real business and thinking things through, not pure luck."
+        "explanation": "Gambling is mostly luck, with no real strategy or research behind the bet. Investing means actually owning a real part of a real business, and long-term investors study a company's numbers and plans instead of just guessing."
       },
       {
         "question": "Why do risk and reward usually go together in investing?",
@@ -705,7 +705,7 @@
           "Taking risks never has any effect on growth"
         ],
         "correctIndex": 0,
-        "explanation": "Accepting some risk is part of the deal that allows for bigger rewards."
+        "explanation": "Risk and reward go together because taking on some chance of loss is part of what allows money to grow faster than it would sitting still. A savings account barely grows, but accepting some risk, like owning stock, opens the door to bigger gains over years."
       }
     ]
   },
@@ -765,7 +765,7 @@
           "It isn't actually an advantage"
         ],
         "correctIndex": 0,
-        "explanation": "The earlier you start, the more time your money has to grow bigger."
+        "explanation": "Starting young matters because time lets compound growth do its work, turning small amounts into much larger ones. $100 invested at age 12 has decades to grow before retirement, far more than the same $100 invested at 40."
       },
       {
         "question": "$100 growing 10% becomes $110. Why does year two's 10% growth apply to $110, not $100?",
@@ -774,7 +774,7 @@
           "Because banks round numbers up randomly"
         ],
         "correctIndex": 0,
-        "explanation": "Compounding means each year's growth is calculated on the new, larger total — it speeds up over time."
+        "explanation": "This is compound interest — each year's growth is calculated on your new, bigger total, not just your starting amount. After year one, $100 becomes $110; in year two, the 10% growth applies to the full $110, making $121."
       },
       {
         "question": "What is \"dollar-cost averaging\"?",
@@ -783,7 +783,7 @@
           "Only ever investing in dollar bills"
         ],
         "correctIndex": 0,
-        "explanation": "Investing smaller amounts on a schedule helps smooth out an investment's ups and downs."
+        "explanation": "Dollar-cost averaging means investing a smaller, steady amount on a regular schedule, like $10 every month, instead of one big lump sum. This way, you naturally buy at both high and low prices, which smooths out the ride."
       },
       {
         "question": "$200 grows at 8% a year. Why does year two's growth apply to $216, not $200?",
@@ -792,7 +792,7 @@
           "Because banks add a random bonus each year"
         ],
         "correctIndex": 0,
-        "explanation": "Each year's growth is calculated on the total so far, including previous growth."
+        "explanation": "Compounding means each year's growth is calculated on the total you have so far, including previous growth. $200 becomes $216 after year one, and in year two the 8% growth applies to that bigger $216, not the original $200."
       },
       {
         "question": "Investing $5 a week for a year adds up to about how much?",
@@ -801,7 +801,7 @@
           "About $26"
         ],
         "correctIndex": 0,
-        "explanation": "$5 a week for 52 weeks adds up to about $260."
+        "explanation": "$5 a week for 52 weeks adds up to about $260 — small, steady amounts build into a real total surprisingly fast. Left to grow for years afterward, that pattern can turn into an even bigger sum."
       },
       {
         "question": "$500 invested at age 11 vs the same $500 invested at age 25 — which has more time to grow before retirement?",
@@ -810,7 +810,7 @@
           "They have exactly the same amount of time"
         ],
         "correctIndex": 0,
-        "explanation": "Starting at 11 gives the money roughly 15 more years to grow than starting at 25."
+        "explanation": "Money invested at age 11 has roughly 15 more years to grow before retirement than the same money invested at 25. Those extra years matter enormously, since compound growth speeds up the longer it runs."
       },
       {
         "question": "You want to buy a new phone in 3 months. Where should that money likely stay?",
@@ -819,7 +819,7 @@
           "Invested, since more time always helps"
         ],
         "correctIndex": 0,
-        "explanation": "Money needed soon should stay safe in savings rather than risk a short-term dip."
+        "explanation": "Money you'll need soon, like in 3 months for a phone, should stay in simple savings rather than invested. Investments can dip in value for a while, and a short-term dip could mean you don't have enough when you need it."
       },
       {
         "question": "Why might investing the same amount every month help smooth out ups and downs?",
@@ -828,7 +828,7 @@
           "It guarantees prices never change"
         ],
         "correctIndex": 0,
-        "explanation": "Regular investing naturally balances out buying at both higher and lower prices."
+        "explanation": "Investing the same amount every month means you automatically buy more shares when prices are low and fewer when prices are high. Over time, this averages out your cost instead of you having to guess the perfect moment to buy."
       },
       {
         "question": "What is the biggest advantage a young investor typically has?",
@@ -837,7 +837,7 @@
           "A bigger allowance than adults"
         ],
         "correctIndex": 0,
-        "explanation": "Time is what lets compound growth really add up over the years."
+        "explanation": "The biggest advantage a young investor has is time, because compound growth needs years to really build momentum. Even a small amount invested early can end up bigger than a larger amount invested later, simply because it had more time."
       },
       {
         "question": "True or False: A goal that's many years away can usually handle more investing ups and downs than a goal that's just weeks away.",
@@ -846,7 +846,7 @@
           "False"
         ],
         "correctIndex": 0,
-        "explanation": "More time means more room to ride out any dips before you need the money."
+        "explanation": "True — a goal that's many years away gives an investment plenty of time to recover from a dip before you need the money. A goal just weeks away doesn't have that cushion, so it's safer kept in savings instead."
       }
     ]
   },
@@ -906,7 +906,7 @@
           "Only storing cash, like a regular bank account"
         ],
         "correctIndex": 0,
-        "explanation": "A brokerage account is specifically where investments are bought and held."
+        "explanation": "A brokerage account is specifically where you buy and hold investments like stocks, unlike a regular bank account that just holds cash. A parent might open one for a teen so they can pick companies to invest small amounts in, with supervision."
       },
       {
         "question": "What does diversification mean?",
@@ -915,7 +915,7 @@
           "Putting all your money in one company"
         ],
         "correctIndex": 0,
-        "explanation": "Diversifying means one bad investment doesn't wipe out your whole total."
+        "explanation": "Diversification means spreading your money across many different investments instead of putting it all into one. If you invest $100 across 10 companies instead of 1, one company doing badly only affects a small slice of your total money."
       },
       {
         "question": "What is inflation?",
@@ -924,7 +924,7 @@
           "Prices always staying exactly the same"
         ],
         "correctIndex": 0,
-        "explanation": "Inflation means money that just sits still slowly buys less over time."
+        "explanation": "Inflation is prices slowly rising over time, which means money that just sits still buys a little less each year. A $1 snack rising 3% a year could cost about $1.16 after five years."
       },
       {
         "question": "What is an index fund?",
@@ -933,7 +933,7 @@
           "A type of piggy bank"
         ],
         "correctIndex": 0,
-        "explanation": "An index fund is an easy way to own many companies at once."
+        "explanation": "An index fund is a single investment that gives you a tiny slice of many companies at once, instead of you picking just one. Buying one index fund might give you a small piece of 500 different companies without having to research each one yourself."
       },
       {
         "question": "What is a custodial account?",
@@ -942,7 +942,7 @@
           "A type of savings piggy bank"
         ],
         "correctIndex": 0,
-        "explanation": "A custodial account lets a young person own real investments with a parent managing it."
+        "explanation": "A custodial account is a brokerage account that a parent opens and manages for a kid until they become an adult. It lets a young person actually own real investments earlier than they otherwise could on their own."
       },
       {
         "question": "Why do smart investors research a company before buying its stock?",
@@ -951,7 +951,7 @@
           "Research never actually helps"
         ],
         "correctIndex": 0,
-        "explanation": "Researching a company helps you make an informed choice rather than a random guess."
+        "explanation": "Researching a company before buying its stock means looking into what it does, how it's been performing, and whether you believe in its future. This helps you invest with real reasons behind your choice instead of just guessing."
       },
       {
         "question": "Why does keeping money as plain cash slowly lose value?",
@@ -960,7 +960,7 @@
           "Because cash actually shrinks in size over time"
         ],
         "correctIndex": 0,
-        "explanation": "As prices rise from inflation, the same amount of cash buys less over time."
+        "explanation": "Cash kept under a mattress doesn't earn anything, but prices around it keep rising due to inflation. That means the same amount of cash buys a little less each year, even though the number of dollars never changes."
       },
       {
         "question": "A statement shows you own 3 shares worth $40 each. What's your total value?",
@@ -969,7 +969,7 @@
           "$43"
         ],
         "correctIndex": 0,
-        "explanation": "3 shares times $40 each equals $120 total."
+        "explanation": "Three shares worth $40 each add up to a total of $120, since you multiply the number of shares by the price of each one. Checking a statement like this shows you exactly what your investments are worth right now."
       },
       {
         "question": "What does a $100 investment charging a 1% yearly fee cost you in fees that year?",
@@ -978,7 +978,7 @@
           "About $100"
         ],
         "correctIndex": 0,
-        "explanation": "A 1% fee on $100 is about $1 for that year."
+        "explanation": "A 1% yearly fee on a $100 investment costs about $1 that year, since 1% of 100 is 1. It sounds tiny, but fees like this are charged every year and can add up to a real amount over many years."
       },
       {
         "question": "Why might an index fund be easier for a beginner than picking individual stocks?",
@@ -987,7 +987,7 @@
           "It only ever invests in one company"
         ],
         "correctIndex": 0,
-        "explanation": "An index fund gives instant diversification without needing to research each company yourself."
+        "explanation": "An index fund is easier for a beginner because it automatically spreads your money across many companies in one purchase. Instead of researching and buying 500 individual stocks yourself, one index fund purchase does that spreading for you."
       }
     ]
   },
@@ -1047,7 +1047,7 @@
           "Spreading your money across many different investments"
         ],
         "correctIndex": 1,
-        "explanation": "Diversification helps protect you — one investment doing poorly doesn't sink everything."
+        "explanation": "Diversification means spreading your money across many different investments instead of concentrating it in one. Putting $500 into 100 different companies means one company struggling barely dents your overall total, unlike putting the full $500 into just one company."
       },
       {
         "question": "What is an index fund?",
@@ -1056,7 +1056,7 @@
           "A savings account with no interest"
         ],
         "correctIndex": 0,
-        "explanation": "Index funds are a simple way to diversify without picking individual companies yourself."
+        "explanation": "An index fund is a single investment that gives you a small stake in hundreds of companies at once, making it an easy way to diversify. One purchase might give you a tiny piece of the 500 largest companies in the country instead of researching each one yourself."
       },
       {
         "question": "Using the Rule of 72, about how many years would it take money to double at 9% yearly growth?",
@@ -1065,7 +1065,7 @@
           "About 50 years"
         ],
         "correctIndex": 0,
-        "explanation": "72 ÷ 9 = 8 — a handy shortcut for estimating doubling time."
+        "explanation": "The Rule of 72 estimates how long money takes to double: divide 72 by the yearly growth rate. At 9% growth, 72 divided by 9 equals 8, so money roughly doubles in about 8 years."
       },
       {
         "question": "What is a \"bear market\"?",
@@ -1074,7 +1074,7 @@
           "A market that only sells stuffed animals"
         ],
         "correctIndex": 0,
-        "explanation": "A bear market describes a generally declining stretch of prices — a normal part of investing."
+        "explanation": "A bear market is a stretch of time when stock prices are generally falling, sometimes for months or longer. It's a normal, if uncomfortable, part of investing — history shows markets have always eventually recovered and moved on to new highs."
       },
       {
         "question": "What is compound growth?",
@@ -1083,7 +1083,7 @@
           "Only earning money once at the very end"
         ],
         "correctIndex": 0,
-        "explanation": "Compound growth is what makes an investment's growth speed up over time."
+        "explanation": "Compound growth means an investment earns money on both what you originally put in and on the money it already earned. $1,000 growing 7% a year becomes $1,070 after year one, and the next year's growth is calculated on that larger $1,070, not the original $1,000."
       },
       {
         "question": "What's the main difference between a stock and a bond?",
@@ -1092,7 +1092,7 @@
           "They are exactly the same investment"
         ],
         "correctIndex": 0,
-        "explanation": "A stock makes you a part-owner, while a bond makes you a lender who's paid back with interest."
+        "explanation": "A stock makes you a part-owner of a company, while a bond is more like a loan you give a company or government in exchange for interest payments. Owning a $1,000 bond might pay you $30 a year until the borrower eventually repays your original $1,000."
       },
       {
         "question": "What is a portfolio?",
@@ -1101,7 +1101,7 @@
           "A single type of stock only"
         ],
         "correctIndex": 0,
-        "explanation": "A portfolio is the full mix of everything someone has invested in."
+        "explanation": "A portfolio is simply the whole collection of investments someone owns, like a folder holding several different pieces instead of just one. Someone might hold 70% in a stock index fund and 30% in bonds, blending growth potential with steadier stability."
       },
       {
         "question": "A stock swings between $80 and $120 in a month. What term describes that kind of price swinging?",
@@ -1110,7 +1110,7 @@
           "Inflation"
         ],
         "correctIndex": 0,
-        "explanation": "Volatility describes how much a price moves around in the short term."
+        "explanation": "Volatility describes how much an investment's price swings around in the short term. A stock bouncing between $80 and $120 in a single month is far more volatile than one that barely moves from $95 to $100 over the same time."
       },
       {
         "question": "What is a bull market?",
@@ -1119,7 +1119,7 @@
           "A market that only trades farm animals"
         ],
         "correctIndex": 0,
-        "explanation": "A bull market is a generally rising stretch of prices, often lasting years."
+        "explanation": "A bull market is a stretch of time when stock prices are generally rising, sometimes lasting for years at a stretch. It's the flip side of a bear market, and long-term investors typically experience both kinds of stretches many times over their lives."
       },
       {
         "question": "Why might someone mix stocks and bonds in a portfolio?",
@@ -1128,7 +1128,7 @@
           "Because it's required by law"
         ],
         "correctIndex": 0,
-        "explanation": "Combining stocks and bonds can balance higher growth potential with more stability."
+        "explanation": "Mixing stocks and bonds in a portfolio blends the higher growth potential of stocks with the steadier, more predictable payments of bonds. This balance can smooth out the overall ride, since bonds tend to hold up better when stock prices are falling."
       }
     ]
   },
@@ -1188,7 +1188,7 @@
           "It always stays exactly $1"
         ],
         "correctIndex": 0,
-        "explanation": "Inflation quietly erodes the value of money that just sits still — the same dollar buys less over time."
+        "explanation": "Prices rising over time is called inflation, and it means money that just sits still slowly loses buying power. A $1 candy bar rising 3% a year would cost roughly $1.34 after ten years, so the same dollar buys noticeably less."
       },
       {
         "question": "True or False: Reacting quickly to every market dip usually leads to better long-term results.",
@@ -1197,7 +1197,7 @@
           "False"
         ],
         "correctIndex": 1,
-        "explanation": "Panicking over short-term dips often hurts long-term investors more than it helps."
+        "explanation": "False — reacting to every dip by selling in a panic usually hurts long-term results more than it helps. Investors who stay patient through ups and downs over years or decades have historically ended up far ahead of those chasing quick moves."
       },
       {
         "question": "A $200 credit card balance at 20% interest grows if unpaid. Why is this the \"opposite\" of investing?",
@@ -1206,7 +1206,7 @@
           "Because credit cards use a completely different kind of math"
         ],
         "correctIndex": 0,
-        "explanation": "Interest on debt compounds against you, while investing aims to compound growth for you."
+        "explanation": "A $200 credit card balance charging 20% interest can balloon if left unpaid, because interest compounds on top of interest, the same mechanism that grows investments — just working in the wrong direction. Debt grows against you while investing aims to grow money for you."
       },
       {
         "question": "What is an emergency fund for?",
@@ -1215,7 +1215,7 @@
           "Money you're never allowed to touch"
         ],
         "correctIndex": 0,
-        "explanation": "An emergency fund covers surprise costs so you don't have to sell investments at a bad time."
+        "explanation": "An emergency fund is cash set aside for surprises, like a car repair, that you can reach without selling your investments. Keeping a few months of expenses in easy-to-reach savings means a sudden bill doesn't force you to sell at a bad time."
       },
       {
         "question": "Why might a loan for education be viewed differently from debt for something that loses value fast?",
@@ -1224,7 +1224,7 @@
           "Because it never has to be paid back"
         ],
         "correctIndex": 0,
-        "explanation": "Education debt is often seen as an investment in future earning power, but it still carries a real interest cost."
+        "explanation": "A loan for education is often viewed differently from debt for something that loses value fast, because it can increase your future earning power. Even so, it still costs extra through interest, so borrowing less is almost always the safer choice."
       },
       {
         "question": "Someone spends $500 a month. Using a 3-to-6-month target, about how much might their emergency fund aim to hold?",
@@ -1233,7 +1233,7 @@
           "$50 to $60"
         ],
         "correctIndex": 0,
-        "explanation": "3 to 6 months of $500 expenses is $1,500 to $3,000."
+        "explanation": "A common emergency fund target is 3 to 6 months of expenses kept in easy-to-reach savings. Someone spending $500 a month would multiply that out to aim for somewhere between $1,500 and $3,000 before investing more aggressively."
       },
       {
         "question": "An investment drops from $1,000 to $700, then recovers to $1,050 a year later. Who \"locks in\" the loss?",
@@ -1242,7 +1242,7 @@
           "Someone who waits it out"
         ],
         "correctIndex": 0,
-        "explanation": "Selling during a dip turns a temporary paper loss into a real, permanent one."
+        "explanation": "Someone who panics and sells while the investment is down at $700 locks in that loss permanently, turning a temporary dip into a real one. Someone who waits it out gets to keep the eventual recovery, ending up with $1,050 instead."
       },
       {
         "question": "What does \"time horizon\" mean?",
@@ -1251,7 +1251,7 @@
           "How much money you currently have"
         ],
         "correctIndex": 0,
-        "explanation": "Time horizon describes how far away your goal is, which shapes how much risk you can handle."
+        "explanation": "Time horizon means how long until you'll actually need the money you've invested. Someone investing for a goal 15 years away can usually handle a much bigger dip than someone who needs the money in just six months."
       },
       {
         "question": "Someone investing for a goal 15 years away can usually handle bigger dips than someone needing the money in 6 months. Why?",
@@ -1260,7 +1260,7 @@
           "Time horizon has no effect on risk"
         ],
         "correctIndex": 0,
-        "explanation": "A longer time horizon gives an investment more time to recover from any downturn."
+        "explanation": "A longer time horizon gives an investment far more time to recover from a downturn before the money is actually needed. Someone with 15 years to go can simply wait out a rough stretch, while someone needing cash in 6 months can't afford to wait."
       },
       {
         "question": "What is a retirement account generally used for?",
@@ -1269,7 +1269,7 @@
           "Spending money the same week you earn it"
         ],
         "correctIndex": 0,
-        "explanation": "Retirement accounts are built for very long-term investing, often with tax advantages."
+        "explanation": "A retirement account is built for investing money you won't touch for decades, often with tax benefits that help it grow faster. Some employers even add extra money when you contribute, like adding $25 for free when you put in $50."
       }
     ]
   },
@@ -1329,7 +1329,7 @@
           "No real benefit either way"
         ],
         "correctIndex": 0,
-        "explanation": "Starting early gives your money decades more time to compound."
+        "explanation": "Starting to invest as a teenager instead of waiting until your 30s gives your money many more years for compound growth to work. A small amount invested at 16 has decades longer to grow than the same amount invested at 32, even without adding more."
       },
       {
         "question": "You buy a stock for $100 and sell it for $150. What might a capital gains tax apply to?",
@@ -1338,7 +1338,7 @@
           "The full $150 you received"
         ],
         "correctIndex": 0,
-        "explanation": "Capital gains tax typically applies to the profit from selling an investment, not the whole sale amount."
+        "explanation": "A capital gains tax typically applies only to the profit made from selling an investment, not the full amount received. If you bought a stock for $100 and sold it for $150, the tax would generally apply to the $50 profit, not the whole $150."
       },
       {
         "question": "What is an expense ratio?",
@@ -1347,7 +1347,7 @@
           "A tax on all your income"
         ],
         "correctIndex": 0,
-        "explanation": "An expense ratio is a yearly fee that quietly reduces your investment's growth over time."
+        "explanation": "An expense ratio is a small yearly fee some investments charge just for holding them, expressed as a percentage of your investment. A $10,000 investment with a 1% expense ratio costs about $100 a year, which can add up to thousands over a few decades."
       },
       {
         "question": "In a custodial brokerage account, who legally controls it until the teen reaches a set age?",
@@ -1356,7 +1356,7 @@
           "A random stranger"
         ],
         "correctIndex": 0,
-        "explanation": "A parent legally controls a custodial account until the teen reaches the set transfer age."
+        "explanation": "A parent legally controls a custodial brokerage account, even though the investments inside it actually belong to the teen. At a set age, often 18 or 21 depending on the state, full control transfers over to the teen."
       },
       {
         "question": "Why is it smart to keep simple records of what you paid and sold an investment for?",
@@ -1365,7 +1365,7 @@
           "Records are never actually needed"
         ],
         "correctIndex": 0,
-        "explanation": "Good records make it much easier to calculate and report investment profits later."
+        "explanation": "Keeping simple records of what you paid for an investment and what you sold it for makes it far easier to figure out any tax owed on the profit. A quick note of dates and prices at the time saves a lot of hassle later on."
       },
       {
         "question": "Fund A charges 0.05% a year and Fund B charges 1%. On a $5,000 investment, roughly what's the fee gap in one year?",
@@ -1374,7 +1374,7 @@
           "There is no real difference"
         ],
         "correctIndex": 0,
-        "explanation": "Fund B costs $50 versus Fund A's $2.50, a gap of about $47.50 in just one year."
+        "explanation": "Fund A's 0.05% fee costs about $2.50 a year on $5,000, while Fund B's 1% fee costs about $50, a gap of roughly $47.50 in just that one year. Over decades, small fee differences like this compound into a much larger gap."
       },
       {
         "question": "Why might someone saving for a house in 5 years choose steadier investments than someone saving for retirement in 40 years?",
@@ -1383,7 +1383,7 @@
           "Steadier investments are always required by law"
         ],
         "correctIndex": 0,
-        "explanation": "A shorter time horizon leaves less room to wait out a downturn before the money is needed."
+        "explanation": "Someone saving for a house in 5 years has much less time to recover from a big dip than someone investing for retirement 40 years away. A shorter time horizon leaves less room to ride out a downturn before the money is actually needed."
       },
       {
         "question": "Why is it risky to invest money you'll need within the next year or two?",
@@ -1392,7 +1392,7 @@
           "Investing that money always guarantees a profit"
         ],
         "correctIndex": 0,
-        "explanation": "Short-term investments can drop right when you need the cash, forcing a sale at a bad time."
+        "explanation": "Investing money you'll need within the next year or two is risky because a bad month in the market could force you to sell at a loss just to cover a bill. Keeping short-term money out of investments protects it from that kind of bad timing."
       },
       {
         "question": "What does risk tolerance mean?",
@@ -1401,7 +1401,7 @@
           "How much money you're required to invest"
         ],
         "correctIndex": 0,
-        "explanation": "Risk tolerance describes your comfort level with an investment's ups and downs."
+        "explanation": "Risk tolerance describes how comfortable you are watching your investment's value swing up and down without panicking and selling. Someone investing money they won't need for 20 years can usually handle bigger swings than someone who needs the money in just one year."
       },
       {
         "question": "What's one benefit modern investing apps and custodial accounts give a teenager?",
@@ -1410,7 +1410,7 @@
           "Guaranteed profits with no risk at all"
         ],
         "correctIndex": 0,
-        "explanation": "These tools make it simple to start investing small amounts safely, with parental oversight."
+        "explanation": "Modern investing apps and custodial accounts make it far easier for a teenager to start investing small, real amounts with a parent's help. A 16-year-old could begin with just $20 in an index fund and add a bit more each month from there."
       }
     ]
   }

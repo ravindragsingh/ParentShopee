@@ -55,7 +55,7 @@
           "Plays alone all the time"
         ],
         "correctIndex": 0,
-        "explanation": "A leader helps a group work together."
+        "explanation": "A leader helps a group work together. Showing friends the rules is one way to help."
       },
       {
         "question": "You knock over a friend's tower by accident. What should you say?",
@@ -64,7 +64,7 @@
           "It was not me"
         ],
         "correctIndex": 0,
-        "explanation": "Good leaders say sorry when they make a mistake."
+        "explanation": "Saying sorry shows you care about a friend's feelings. It helps them trust you again."
       },
       {
         "question": "A friend is trying something hard. What can you do?",
@@ -73,7 +73,7 @@
           "Walk away"
         ],
         "correctIndex": 0,
-        "explanation": "Cheering for a friend helps them feel brave."
+        "explanation": "Cheering for a friend helps them feel brave. Clapping when they try something hard is kind."
       },
       {
         "question": "A leader cleans up first. What happens next?",
@@ -82,7 +82,7 @@
           "Friends walk away"
         ],
         "correctIndex": 0,
-        "explanation": "Leading by example helps others want to join in."
+        "explanation": "Leading by example means showing how, not just telling. Cleaning up first makes friends want to help too."
       },
       {
         "question": "You lose a game. What does a good sport say?",
@@ -91,7 +91,7 @@
           "That's not fair"
         ],
         "correctIndex": 0,
-        "explanation": "A good leader stays kind and plays fair, even when they lose."
+        "explanation": "A good sport stays kind even after losing. Saying \"good game\" shows you care about your friend."
       },
       {
         "question": "A friend dropped their crayons. No one asked you to help. What do you do?",
@@ -100,7 +100,7 @@
           "Walk past them"
         ],
         "correctIndex": 0,
-        "explanation": "Good leaders help even when no one asks."
+        "explanation": "Good leaders help even when no one asks. Picking up dropped crayons is a kind, helpful thing to do."
       },
       {
         "question": "Your plan breaks and things go wrong. What should a good leader do?",
@@ -109,7 +109,7 @@
           "Yell and give up"
         ],
         "correctIndex": 0,
-        "explanation": "Staying calm helps you think clearly when something goes wrong."
+        "explanation": "Staying calm helps you think of what to do next. Taking a deep breath is a good first step."
       },
       {
         "question": "You try to build a block tower and it falls down. What should you do?",
@@ -118,7 +118,7 @@
           "Never try again"
         ],
         "correctIndex": 0,
-        "explanation": "A good leader keeps trying instead of giving up."
+        "explanation": "Good leaders keep trying instead of giving up. Building a fallen tower again shows you do not quit."
       },
       {
         "question": "A friend makes a mistake. What are kind words to say?",
@@ -127,7 +127,7 @@
           "You did it wrong"
         ],
         "correctIndex": 0,
-        "explanation": "Kind words help a friend feel better and want to keep trying."
+        "explanation": "Kind words help a friend feel better after a mistake. Saying \"let's fix it together\" shows you care."
       },
       {
         "question": "Why does a good leader use kind words?",
@@ -136,7 +136,7 @@
           "Mean words work better"
         ],
         "correctIndex": 0,
-        "explanation": "Kind words help friends feel good and want to be around you."
+        "explanation": "Kind words make friends feel good and want to be near you. Saying something nice is an easy way to be kind."
       }
     ]
   },
@@ -196,7 +196,7 @@
           "No, only one person leads"
         ],
         "correctIndex": 0,
-        "explanation": "Taking turns to lead and follow is fair."
+        "explanation": "Taking turns to lead is fair for everyone. Today you lead the game, tomorrow a friend leads."
       },
       {
         "question": "Is a big job easier with many hands?",
@@ -205,7 +205,7 @@
           "No, one person should do it alone"
         ],
         "correctIndex": 0,
-        "explanation": "Working together makes a big job easier and faster."
+        "explanation": "A big job gets done faster with many hands helping. Building a tower is quicker when everyone builds one part."
       },
       {
         "question": "A friend tells you their idea. What should a good leader do?",
@@ -214,7 +214,7 @@
           "Ignore it"
         ],
         "correctIndex": 0,
-        "explanation": "A good leader listens to what friends say."
+        "explanation": "A good leader listens when a friend shares an idea. Listening helps you learn what your friends like."
       },
       {
         "question": "Your team wins. What does a good leader say?",
@@ -223,7 +223,7 @@
           "I did it all myself"
         ],
         "correctIndex": 0,
-        "explanation": "Sharing credit makes the whole team feel proud."
+        "explanation": "Sharing credit makes the whole team feel proud. Saying \"we did it together\" is kinder than \"I did it alone.\""
       },
       {
         "question": "Two friends both want to go first. What is a fair way to choose?",
@@ -232,7 +232,7 @@
           "Only the biggest kid decides"
         ],
         "correctIndex": 0,
-        "explanation": "Taking turns is a fair way for a group to choose."
+        "explanation": "Taking turns is a fair way to choose who goes first. It means no one always gets picked over the other."
       },
       {
         "question": "A new kid is standing alone at recess. What should a good leader do?",
@@ -241,7 +241,7 @@
           "Ignore them"
         ],
         "correctIndex": 0,
-        "explanation": "A good leader helps new friends feel welcome."
+        "explanation": "A good leader helps new friends feel welcome. Saying \"come play with us\" can make a lonely kid happy."
       },
       {
         "question": "Your group can't agree which game to play. What can help?",
@@ -250,7 +250,7 @@
           "Only one person always picks"
         ],
         "correctIndex": 0,
-        "explanation": "Taking turns picking the game is a fair way to choose."
+        "explanation": "Taking turns picking the game is fair when friends disagree. Everyone gets a turn to choose what to play."
       },
       {
         "question": "A friend is stuck and can't finish a puzzle. What can you do?",
@@ -259,7 +259,7 @@
           "Laugh at them"
         ],
         "correctIndex": 0,
-        "explanation": "A good leader stops to help a friend who is stuck."
+        "explanation": "A good leader stops to help a friend who is stuck. Helping with a hard puzzle shows you care."
       },
       {
         "question": "A friend helps you carry your books. What should you say?",
@@ -268,7 +268,7 @@
           "Nothing at all"
         ],
         "correctIndex": 0,
-        "explanation": "Saying thank you makes friends want to help again."
+        "explanation": "Saying thank you shows you noticed someone's help. It makes friends want to help you again next time."
       },
       {
         "question": "Your team builds a great fort together. What should you say?",
@@ -277,7 +277,7 @@
           "I built this fort"
         ],
         "correctIndex": 0,
-        "explanation": "Sharing credit makes the whole team feel proud."
+        "explanation": "Sharing credit makes the whole team feel proud of their work. Saying \"we built this together\" is kinder than taking all the credit."
       }
     ]
   },
@@ -337,7 +337,7 @@
           "Ignores them and shares only their own"
         ],
         "correctIndex": 0,
-        "explanation": "Listening to everyone's ideas is a core part of good leadership."
+        "explanation": "A good leader asks what other people think instead of only sharing their own idea. If everyone wants a different game, listening helps the group find something fair to play."
       },
       {
         "question": "On a group poster, one person draws, one writes, one colors. What is this splitting of jobs called?",
@@ -346,7 +346,7 @@
           "Doing every part of a job yourself"
         ],
         "correctIndex": 0,
-        "explanation": "Delegation means sharing out the work among the group."
+        "explanation": "Delegation means splitting a job into smaller parts so each person does one piece. On a poster, one person might draw while another writes, so the work gets done faster."
       },
       {
         "question": "You agreed to bring markers for a project. Why does following through matter?",
@@ -355,7 +355,7 @@
           "It doesn't matter at all"
         ],
         "correctIndex": 0,
-        "explanation": "Following through, even when it's not fun, is how trust gets built."
+        "explanation": "Following through on a promise, even when it's not fun, shows people they can count on you. Bringing markers you promised to bring, instead of forgetting, is how trust gets built."
       },
       {
         "question": "You start cleaning the classroom without being asked, and others join in. What is this?",
@@ -364,7 +364,7 @@
           "Only telling others what to do"
         ],
         "correctIndex": 0,
-        "explanation": "Leading by example often works better than just giving instructions."
+        "explanation": "Leading by example means doing the right thing yourself instead of just telling others to do it. When you start cleaning without being asked, classmates often join in too."
       },
       {
         "question": "Which is a clearer goal for a group project: \"finish the poster by Friday\" or \"let's just do our best\"?",
@@ -373,7 +373,7 @@
           "\"Let's just do our best\" — vague"
         ],
         "correctIndex": 0,
-        "explanation": "A clear, specific goal gives the whole team something real to aim for."
+        "explanation": "A clear goal, like \"finish the poster by Friday,\" tells everyone exactly what to aim for. A vague goal like \"do our best\" doesn't say when or how you'll know you succeeded."
       },
       {
         "question": "Your team already finished two parts of a project. What can a good leader say to keep spirits up?",
@@ -382,7 +382,7 @@
           "Stop wasting time and hurry up"
         ],
         "correctIndex": 0,
-        "explanation": "Noticing small wins helps keep a tired team's energy up."
+        "explanation": "Pointing out small wins, like finishing two parts already, helps a tired team keep going. It reminds everyone how much progress they've already made."
       },
       {
         "question": "Before starting a science fair project, what should a good leader do?",
@@ -391,7 +391,7 @@
           "Just start and figure it out later"
         ],
         "correctIndex": 0,
-        "explanation": "Planning the steps ahead of time helps the group avoid running out of time."
+        "explanation": "Planning the steps before starting helps a group avoid running out of time. Listing what needs to happen each day, instead of starting the night before, keeps everyone on track."
       },
       {
         "question": "A group project gets frustrating. What helps the team keep going?",
@@ -400,7 +400,7 @@
           "A leader complaining along with everyone"
         ],
         "correctIndex": 0,
-        "explanation": "A hopeful attitude from the leader helps lift the whole team's mood."
+        "explanation": "A leader's hopeful attitude can lift the whole team's mood when a project gets hard. Saying \"we've solved harder problems than this\" helps everyone keep trying instead of giving up."
       },
       {
         "question": "Halfway through a group project, what should a good leader do?",
@@ -409,7 +409,7 @@
           "Wait until the deadline to check anything"
         ],
         "correctIndex": 0,
-        "explanation": "Checking in partway through can catch problems while there's still time to fix them."
+        "explanation": "Checking in partway through a project, by asking how everyone's part is going, can catch problems early. Waiting until the deadline to find out something went wrong is often too late to fix it."
       },
       {
         "question": "One teammate loves drawing, another loves writing. What should a good leader do when giving out jobs?",
@@ -418,7 +418,7 @@
           "Assign jobs randomly without thinking"
         ],
         "correctIndex": 0,
-        "explanation": "Matching jobs to strengths, called delegation, helps the whole project turn out well."
+        "explanation": "Delegation works best when jobs match each person's strengths, like giving the drawing to someone who loves art. This helps the whole project turn out better than assigning jobs randomly."
       }
     ]
   },
@@ -478,7 +478,7 @@
           "Only listening to one side"
         ],
         "correctIndex": 0,
-        "explanation": "Hearing both sides out helps find something everyone can accept."
+        "explanation": "Hearing both sides of a disagreement helps you find an answer everyone can accept. If two friends want different colors, using both is often better than picking just one."
       },
       {
         "question": "A quiet group member hasn't shared their idea yet. What should you do?",
@@ -487,7 +487,7 @@
           "Ignore it and move on"
         ],
         "correctIndex": 0,
-        "explanation": "A good leader notices when someone is unheard and helps include them."
+        "explanation": "A good leader notices when someone hasn't had a chance to speak and helps include them. Asking a quiet teammate what they think shows everyone's ideas matter."
       },
       {
         "question": "A teammate's idea made the project great. What should a good leader say?",
@@ -496,7 +496,7 @@
           "Let people think it was the leader's idea"
         ],
         "correctIndex": 0,
-        "explanation": "Giving credit to others makes the whole team want to keep contributing."
+        "explanation": "Giving credit to whoever had the idea makes the whole team want to keep contributing. Saying \"that was Maya's idea\" feels better to everyone than letting people think it was yours."
       },
       {
         "question": "A group can't agree on a plan. What can help everyone feel it was fair?",
@@ -505,7 +505,7 @@
           "The leader just picking their favorite"
         ],
         "correctIndex": 0,
-        "explanation": "A vote usually feels fairer, even to people whose idea wasn't picked."
+        "explanation": "Taking a vote gives everyone a say, which helps a decision feel fair. Even someone whose idea loses the vote usually feels better than if the leader just picked alone."
       },
       {
         "question": "A leader's own plan caused a problem for the group. What should they do?",
@@ -514,7 +514,7 @@
           "Hide it and hope no one notices"
         ],
         "correctIndex": 0,
-        "explanation": "Admitting a mistake as a leader earns more respect than hiding it."
+        "explanation": "Owning up to a mistake and helping fix it earns more respect than hiding it. Saying \"I picked the wrong plan, let's fix it together\" shows real leadership."
       },
       {
         "question": "A teammate is struggling with their part of the project. What can a good leader do?",
@@ -523,7 +523,7 @@
           "Ignore it and hope it works out"
         ],
         "correctIndex": 0,
-        "explanation": "Noticing a struggling teammate and offering help is real leadership."
+        "explanation": "Noticing a struggling teammate and offering to help is real leadership, not just doing your own part well. Asking \"do you want help with that?\" shows you care about the team's success."
       },
       {
         "question": "A teammate says your presentation plan won't work. What should a good leader do?",
@@ -532,7 +532,7 @@
           "Get defensive and insist you're right"
         ],
         "correctIndex": 0,
-        "explanation": "Listening to pushback, instead of getting defensive, leads to better plans."
+        "explanation": "Listening to pushback instead of getting defensive usually leads to a better plan. Asking \"what would you do differently?\" often uncovers a problem you hadn't noticed."
       },
       {
         "question": "Your friend wants the hardest research job, but another teammate is a stronger reader. What should a fair leader do?",
@@ -541,7 +541,7 @@
           "Give it to your friend no matter what"
         ],
         "correctIndex": 0,
-        "explanation": "Staying fair, even with friends, keeps the whole project strong."
+        "explanation": "Staying fair means giving a job to whoever fits it best, even if that's not your friend. This keeps the whole project stronger and shows you're not just playing favorites."
       },
       {
         "question": "A teammate gets upset and frustrated. What should a good leader do first?",
@@ -550,7 +550,7 @@
           "Ignore their feelings and move on"
         ],
         "correctIndex": 0,
-        "explanation": "Helping someone calm down first makes them feel heard before you solve the problem."
+        "explanation": "Helping someone calm down before solving the problem makes them feel heard, not rushed. Saying \"let's take a breath and figure this out together\" often works better than jumping straight to solutions."
       },
       {
         "question": "Two teammates want the last spot on the presentation team. What's the fairest way to decide?",
@@ -559,7 +559,7 @@
           "Just pick your favorite teammate"
         ],
         "correctIndex": 0,
-        "explanation": "A fair decision process helps everyone feel it was decided fairly, not just favoritism."
+        "explanation": "Letting the group vote, instead of just picking a favorite, helps a decision feel fair to everyone. A fair process matters just as much as the final choice."
       }
     ]
   },
@@ -619,7 +619,7 @@
           "Immediately blaming someone else"
         ],
         "correctIndex": 0,
-        "explanation": "Accountability means examining your own role, not just assigning blame."
+        "explanation": "Accountability means looking at your own role in a problem instead of only blaming others. For example, if your group misses a deadline, asking \"what could I have communicated better?\" is more useful than pointing fingers, because it actually helps fix things next time."
       },
       {
         "question": "How is trust usually built, based on showing up consistently over weeks?",
@@ -628,7 +628,7 @@
           "Instantly, the moment someone becomes a leader"
         ],
         "correctIndex": 0,
-        "explanation": "Trust accumulates gradually through consistent, kept promises."
+        "explanation": "Trust builds gradually through many small kept promises, like showing up on time week after week. But it can be lost quickly, since missing one important deadline right before a big presentation can undo weeks of that trust almost instantly."
       },
       {
         "question": "A team captain shows up early to set up equipment instead of just assigning it. What does this show?",
@@ -637,7 +637,7 @@
           "Leaders should never do hands-on work"
         ],
         "correctIndex": 0,
-        "explanation": "Doing the hard work yourself often earns more willingness from others than just assigning it."
+        "explanation": "Doing the hard, unglamorous work yourself, like setting up equipment early, earns more willingness from teammates than just assigning it to them. When people see a leader pitching in, they're more likely to pitch in too, without needing to be asked."
       },
       {
         "question": "Leading a project, you genuinely don't know how to fix a technical problem. What earns more respect?",
@@ -646,7 +646,7 @@
           "Bluffing your way through it"
         ],
         "correctIndex": 0,
-        "explanation": "Staying humble and asking for help earns more respect than pretending to know everything."
+        "explanation": "Staying humble means admitting when you don't have all the answers instead of pretending to. Saying \"I'm not sure, does anyone have an idea?\" during a tricky problem actually earns more respect than bluffing and getting it wrong."
       },
       {
         "question": "A team captain stays even-tempered after a tough loss, not just after wins. What does this build?",
@@ -655,7 +655,7 @@
           "Trust only matters after a win"
         ],
         "correctIndex": 0,
-        "explanation": "Being consistent under pressure, not just when things go well, is what builds real trust."
+        "explanation": "A leader who acts the same way after a loss as after a win shows teammates they can be counted on no matter what. That kind of consistency, staying even-tempered through both good and bad moments, builds far more trust than only being pleasant when things go well."
       },
       {
         "question": "Which builds a leader's reputation more over time?",
@@ -664,7 +664,7 @@
           "One impressive speech"
         ],
         "correctIndex": 0,
-        "explanation": "Trust usually comes from many small kept promises, not a single grand gesture."
+        "explanation": "Trust usually comes from many small, repeated promises rather than one big impressive moment. A leader who consistently sends the notes they promised, week after week, builds a stronger reputation than someone who gives one great speech and then disappears."
       },
       {
         "question": "A teammate wants to copy another group's idea. What should a leader with integrity do?",
@@ -673,7 +673,7 @@
           "Go along with copying since it's easier"
         ],
         "correctIndex": 0,
-        "explanation": "Standing up for what's right, even when it's less convenient, earns lasting respect."
+        "explanation": "Standing up for what's right, even when it's less convenient, is what earns lasting respect. Saying \"let's come up with our own idea\" instead of copying another group's work is more effort, but it shows real integrity."
       },
       {
         "question": "A leader missed an important deadline. How can they rebuild the team's trust afterward?",
@@ -682,7 +682,7 @@
           "Avoid the topic and hope it's forgotten"
         ],
         "correctIndex": 0,
-        "explanation": "Trust that's broken can be slowly rebuilt through consistent follow-through."
+        "explanation": "Trust that's damaged by one mistake, like a missed deadline, can be rebuilt through consistent follow-through afterward. Hitting every deadline from then on, and communicating early if something might slip, slowly shows the team they can rely on you again."
       },
       {
         "question": "You could take credit for a teammate's idea and no one would ever know. What should you do?",
@@ -691,7 +691,7 @@
           "Take the credit since no one would find out"
         ],
         "correctIndex": 0,
-        "explanation": "Doing the right thing even when no one is watching is a mark of real integrity."
+        "explanation": "Doing the right thing even when nobody would ever find out is a real test of character. Giving credit to the teammate who actually had the idea, instead of quietly keeping it for yourself, is exactly the kind of quiet integrity that earns lasting trust."
       },
       {
         "question": "A leader's team suggests a totally different plan than the leader's, and it seems solid. What should a humble leader do?",
@@ -700,7 +700,7 @@
           "Insist on their own plan since they're the leader"
         ],
         "correctIndex": 0,
-        "explanation": "Staying humble means being open to better ideas, even when they're not your own."
+        "explanation": "Staying humble means being genuinely open to a better idea, even when it isn't your own. A leader who considers adopting the team's plan instead of insisting on their own, just because they're in charge, usually ends up with a stronger outcome."
       }
     ]
   },
@@ -760,7 +760,7 @@
           "Strengths don't matter for team jobs"
         ],
         "correctIndex": 0,
-        "explanation": "Matching tasks to strengths helps both the person and the team succeed."
+        "explanation": "Matching tasks to what each person is good at, like giving research to someone who loves reading, sets everyone up to succeed. Random assignments waste people's strengths and often produce weaker results."
       },
       {
         "question": "Which is more helpful: \"this part is weak\" or \"great section, maybe add one more example\"?",
@@ -769,7 +769,7 @@
           "Being vague and harsh"
         ],
         "correctIndex": 0,
-        "explanation": "Specific, kind feedback helps a teammate grow rather than just feel criticized."
+        "explanation": "Specific, kind feedback, like \"add one more example,\" tells a teammate exactly what to improve. A vague comment like \"this part is weak\" leaves them with nothing useful to actually act on."
       },
       {
         "question": "Asking a teammate \"so you're worried we won't finish, is that right?\" is an example of what?",
@@ -778,7 +778,7 @@
           "Waiting for your turn to talk"
         ],
         "correctIndex": 0,
-        "explanation": "Active listening means checking that you understood, not just waiting to speak."
+        "explanation": "Active listening means checking that you understood, not just waiting for your turn to talk. Asking \"so you're worried we won't finish in time, is that right?\" shows a teammate you were really paying attention."
       },
       {
         "question": "A teammate loves art, and you remind them their design skills made the project look great. What is this an example of?",
@@ -787,7 +787,7 @@
           "Using the same pep talk for everyone"
         ],
         "correctIndex": 0,
-        "explanation": "Connecting work to what matters to each teammate motivates better than a generic pep talk."
+        "explanation": "Connecting work to what a teammate personally cares about, like reminding an artist that their design made the project shine, motivates better than a generic \"good job.\" People try harder when they feel their specific contribution matters."
       },
       {
         "question": "One teammate wants a clear checklist, another prefers to brainstorm freely. What should a good leader do?",
@@ -796,7 +796,7 @@
           "Force everyone to work the same way"
         ],
         "correctIndex": 0,
-        "explanation": "Recognizing different working styles helps a leader get the best from each teammate."
+        "explanation": "Some people work best with a step-by-step checklist, while others do better brainstorming freely first. A good leader adapts to each teammate's style instead of forcing everyone to work the same way, which gets better results from both."
       },
       {
         "question": "Instead of assigning exact steps for the research section, what could a leader ask?",
@@ -805,7 +805,7 @@
           "Just do it exactly this way"
         ],
         "correctIndex": 0,
-        "explanation": "Asking instead of telling usually leads to more thoughtful, engaged work."
+        "explanation": "Asking a teammate how they'd like to tackle a task, instead of dictating every step, usually leads to more thoughtful, engaged work. People tend to care more about a plan they helped create."
       },
       {
         "question": "A teammate suddenly stops contributing to the group project. What should a good leader do first?",
@@ -814,7 +814,7 @@
           "Assume they're lazy and give up on them"
         ],
         "correctIndex": 0,
-        "explanation": "Finding out why a teammate seems checked out is more useful than assuming the worst."
+        "explanation": "A teammate who suddenly stops contributing might be overwhelmed by something else, not just lazy. Checking in privately, instead of assuming the worst, often uncovers the real reason and how to help."
       },
       {
         "question": "One teammate has three tasks and another has none. What should a fair leader do?",
@@ -823,7 +823,7 @@
           "Leave it as is"
         ],
         "correctIndex": 0,
-        "explanation": "Noticing and fixing an unfair workload keeps the team functioning well."
+        "explanation": "Noticing when one teammate has three tasks and another has none, and rebalancing the work, keeps a team functioning well. Left alone, an unfair workload usually leads to resentment and burnout."
       },
       {
         "question": "What's a good way to start a group check-in meeting?",
@@ -832,7 +832,7 @@
           "Let the meeting wander with no structure"
         ],
         "correctIndex": 0,
-        "explanation": "A focused start helps a meeting actually get things done."
+        "explanation": "Starting a meeting with a clear focus, like asking everyone what they finished and what they're stuck on, keeps a group from wasting time. A focused check-in gets real information instead of just chatting."
       },
       {
         "question": "A quiet teammate rarely speaks up in big meetings, but has good ideas one-on-one. What could a good leader do?",
@@ -841,7 +841,7 @@
           "Only rely on people who speak up in big meetings"
         ],
         "correctIndex": 0,
-        "explanation": "Adapting how you gather input helps quieter teammates' ideas get heard too."
+        "explanation": "A quiet teammate might have great ideas but feel uncomfortable sharing them in a big group. Creating chances to talk privately or in smaller groups helps a good leader hear ideas that would otherwise go unheard."
       }
     ]
   },
@@ -901,7 +901,7 @@
           "Deciding quickly without hearing anyone out"
         ],
         "correctIndex": 0,
-        "explanation": "Fully hearing both sides before deciding is what makes a resolution feel fair."
+        "explanation": "Hearing both people's full explanation before deciding anything is what makes a resolution actually feel fair. If you decide quickly without listening, at least one side is left feeling ignored, even if the final decision was reasonable."
       },
       {
         "question": "Your group project gets praised. Why say \"we all worked hard\" instead of taking credit alone?",
@@ -910,7 +910,7 @@
           "The leader should always get the credit"
         ],
         "correctIndex": 0,
-        "explanation": "Sharing credit fairly recognizes everyone's contribution to a success."
+        "explanation": "Saying \"we all worked hard on this\" recognizes that a success usually comes from the whole team's effort, not just the leader's. Taking all the credit alone, even without meaning to, can make teammates feel unseen and less willing to contribute next time."
       },
       {
         "question": "Saying \"we want every judge to remember our project by name\" instead of \"let's do our best\" is an example of what?",
@@ -919,7 +919,7 @@
           "Giving vague instructions"
         ],
         "correctIndex": 0,
-        "explanation": "A clear vision gives the team something specific and real to aim for."
+        "explanation": "A clear vision, like \"every judge remembers our project by name,\" gives a team something specific to work toward. A vague goal like \"let's do our best\" doesn't tell anyone what success would actually look like."
       },
       {
         "question": "Project code crashes the night before a deadline. What should a leader do?",
@@ -928,7 +928,7 @@
           "Panic and blame whoever wrote the code"
         ],
         "correctIndex": 0,
-        "explanation": "How a leader reacts right after something goes wrong often decides whether the team panics or keeps working."
+        "explanation": "How a leader reacts right after something goes wrong often decides whether the team panics or keeps working. Calmly saying \"let's figure out the fix together\" keeps everyone focused instead of scared, even under real pressure."
       },
       {
         "question": "The goal is \"every judge remembers our project.\" What should a leader do next?",
@@ -937,7 +937,7 @@
           "Just repeat the goal and hope it happens"
         ],
         "correctIndex": 0,
-        "explanation": "A clear vision works best once it's broken into steps the team can actually do."
+        "explanation": "A clear goal isn't useful on its own until it's broken into steps a team can actually act on. Turning \"every judge remembers our project\" into concrete tasks, like \"make one unforgettable visual,\" gives the team something to actually do."
       },
       {
         "question": "The presentation venue changes the day before the event. What should a leader do?",
@@ -946,7 +946,7 @@
           "Panic and blame whoever booked the room"
         ],
         "correctIndex": 0,
-        "explanation": "A leader's calm reaction helps the team adjust instead of panicking over changes."
+        "explanation": "Unexpected changes, like a venue switching the day before, are common, and a leader's calm reaction helps the team adjust instead of panicking. Saying \"let's figure out what's different\" keeps everyone steady and focused on solving the problem."
       },
       {
         "question": "Two teammates disagree about the project's color scheme. What's a good compromise?",
@@ -955,7 +955,7 @@
           "Only use one person's color and ignore the other"
         ],
         "correctIndex": 0,
-        "explanation": "Finding a solution that gives each side something usually works better than picking a winner."
+        "explanation": "After hearing both sides of a disagreement, a good leader looks for a solution that gives each side something instead of just picking a winner. Using both colors in different sections, instead of choosing only one, can satisfy both teammates."
       },
       {
         "question": "A presentation didn't go well. What should a good leader ask afterward?",
@@ -964,7 +964,7 @@
           "Whose fault was it?"
         ],
         "correctIndex": 0,
-        "explanation": "Learning from a setback means figuring out what to improve, not just assigning blame."
+        "explanation": "Learning from a setback means figuring out what to do differently next time, not just moving on quickly. Asking \"what would we change if we did this again?\" turns a disappointing result into something the team can actually improve from."
       },
       {
         "question": "A project doesn't win a prize, but the team worked hard. What should a good leader do?",
@@ -973,7 +973,7 @@
           "Only focus on the disappointing result"
         ],
         "correctIndex": 0,
-        "explanation": "Celebrating effort, not just results, keeps a team motivated for next time."
+        "explanation": "Recognizing hard work, even when the result isn't perfect, keeps a team motivated to try again. Thanking the team for their effort after a loss matters just as much as celebrating an actual win."
       },
       {
         "question": "After hearing both teammates explain their view on a disagreement, what should a fair leader do next?",
@@ -982,7 +982,7 @@
           "Immediately side with whoever spoke first"
         ],
         "correctIndex": 0,
-        "explanation": "After hearing both sides, looking for a resolution that respects both makes it feel fair."
+        "explanation": "Once both sides have been heard, a fair leader looks for a solution that addresses both people's concerns instead of automatically siding with whoever spoke first. This is what turns a fair process into a fair outcome."
       }
     ]
   },
@@ -1042,7 +1042,7 @@
           "Yes, one style always works best"
         ],
         "correctIndex": 0,
-        "explanation": "Effective leaders adapt their style to fit the team and the moment."
+        "explanation": "Effective leadership isn't one fixed style — it adapts to the person and situation. A brand-new teammate often needs close, direct guidance to get started, while an experienced one usually performs better when a leader steps back and trusts their judgment."
       },
       {
         "question": "What does \"servant leadership\" prioritize?",
@@ -1051,7 +1051,7 @@
           "Making the leader look good"
         ],
         "correctIndex": 0,
-        "explanation": "Servant leadership puts the team's success ahead of the leader's own image."
+        "explanation": "Servant leadership is a style where the leader's main job is supporting the team's success, not their own image. A club president practicing it spends time helping members get what they need for their own projects, rather than chasing recognition for themselves."
       },
       {
         "question": "Delegating social media but then rewriting every post yourself — what's actually happening?",
@@ -1060,7 +1060,7 @@
           "True delegation with real ownership"
         ],
         "correctIndex": 0,
-        "explanation": "True delegation trusts someone with genuine ownership, unlike micromanaging."
+        "explanation": "Genuine delegation means trusting someone with real ownership of a task's decisions, not just its labor. Assigning social media to a teammate and then rewriting every post yourself is really micromanaging — controlling the details while pretending to have let go."
       },
       {
         "question": "Giving honest credit for an idea even when nobody would have noticed otherwise. What does this show?",
@@ -1069,7 +1069,7 @@
           "Only acting ethically when being observed"
         ],
         "correctIndex": 0,
-        "explanation": "Consistent ethical behavior, watched or not, is what earns lasting respect."
+        "explanation": "Leading with integrity means making the same ethical choice whether or not anyone is watching. Giving honest credit for an idea, even when nobody would have noticed if you'd taken it yourself, is exactly the kind of consistency that earns lasting respect."
       },
       {
         "question": "A team captain stays late to help clean up gear without being asked. What does this demonstrate?",
@@ -1078,7 +1078,7 @@
           "Delegating unpleasant tasks to others"
         ],
         "correctIndex": 0,
-        "explanation": "Teams take cues from what a leader actually does, not just what they say."
+        "explanation": "Teams take their real cues from what a leader actually does, not just what they say. A captain who stays late to help clean up gear, without being asked, sends a far stronger message about effort than any speech about hard work could."
       },
       {
         "question": "A co-captain has real influence on the team even though they don't have the official title. What does this show?",
@@ -1087,7 +1087,7 @@
           "Only official titles create real influence"
         ],
         "correctIndex": 0,
-        "explanation": "Formal authority and earned influence aren't the same thing; the best leaders build real influence."
+        "explanation": "Formal authority — the power that comes with an official title — is different from influence, which is earned through consistent good judgment and respect. A co-captain people actually listen to has usually built that influence over time, not just been handed it."
       },
       {
         "question": "A leader hands off an entire fundraiser to a brand-new member with zero check-ins. What's the risk?",
@@ -1096,7 +1096,7 @@
           "There's no downside to delegating everything at once"
         ],
         "correctIndex": 0,
-        "explanation": "Effective delegation includes staying appropriately available, not disappearing entirely."
+        "explanation": "Delegating too much, too fast, without staying available, can leave someone overwhelmed and a project quietly unsupervised. Handing an entire fundraiser to a new member with zero check-ins can set them up to fail, even though the intention was to trust them."
       },
       {
         "question": "An event's plans change chaotically at the last minute. What reveals a leader's real character?",
@@ -1105,7 +1105,7 @@
           "Only how they act when things go smoothly"
         ],
         "correctIndex": 0,
-        "explanation": "How a leader handles high-pressure moments often reveals more than how they act when things are easy."
+        "explanation": "How a leader behaves when stakes are high and time is short reveals more about their real character than how they act when things are calm. Staying organized and communicative during a chaotic last-minute change shows the kind of composure that actually defines good leadership."
       },
       {
         "question": "A leader explains an event in full detail to a first-time volunteer, but just confirms the plan briefly with a veteran. What is this?",
@@ -1114,7 +1114,7 @@
           "Being inconsistent and unfair"
         ],
         "correctIndex": 0,
-        "explanation": "Adjusting how much detail you give depending on who's listening respects everyone's needs."
+        "explanation": "Explaining an idea differently depending on who's listening — more detail for someone new, a quick summary for an experienced teammate — is thoughtful adaptation, not inconsistency. Walking a first-time volunteer through every step while briefly confirming a plan with a veteran respects both people's actual needs."
       },
       {
         "question": "A new leader wants people to follow safety rules at an event. What is the most effective way to make that happen?",
@@ -1123,7 +1123,7 @@
           "Just announce the rules and not follow them personally"
         ],
         "correctIndex": 0,
-        "explanation": "Teams take real cues from what a leader does, which is why leading by example works."
+        "explanation": "The most effective way to get people to follow rules is to follow them yourself first, since teams copy what a leader actually does far more than what they say. A leader who skips their own safety rules undermines the message no matter how firmly they announce it."
       }
     ]
   },
@@ -1183,7 +1183,7 @@
           "A judge who picks a winning side"
         ],
         "correctIndex": 0,
-        "explanation": "Facilitating helps the team find its own resolution rather than having one imposed."
+        "explanation": "A strong leader acts as a facilitator during conflict — guiding both sides to explain their view and propose their own compromise — rather than a judge who simply declares a winner. This approach helps the team find a resolution it actually owns, not one just handed down."
       },
       {
         "question": "Noticing a normally engaged teammate has gone quiet, and checking in early. Why does this matter?",
@@ -1192,7 +1192,7 @@
           "Feelings are irrelevant to leading a team"
         ],
         "correctIndex": 0,
-        "explanation": "Noticing how people feel, not just what they do, helps catch problems early."
+        "explanation": "Noticing how teammates feel, not just what they're doing, often catches problems before they grow. A leader who notices a normally talkative teammate has gone quiet, and checks in privately, might catch burnout or a brewing conflict while it's still easy to address."
       },
       {
         "question": "A leader asks \"does anyone see a problem with this plan?\" and welcomes critical answers. What is this building?",
@@ -1201,7 +1201,7 @@
           "A team that avoids raising concerns"
         ],
         "correctIndex": 0,
-        "explanation": "Inviting disagreement without punishing it helps a team catch mistakes early."
+        "explanation": "Psychological safety is a team climate where people feel safe raising concerns without being punished for it. A leader who asks \"does anyone see a problem with this plan?\" and genuinely welcomes critical answers builds that safety, making the team far more likely to catch mistakes early."
       },
       {
         "question": "A leader says \"I misjudged how long this would take, that's on me.\" What does this model for the team?",
@@ -1210,7 +1210,7 @@
           "That mistakes should be hidden or blamed on others"
         ],
         "correctIndex": 0,
-        "explanation": "Owning mistakes publicly gives the whole team permission to be honest too."
+        "explanation": "Naming exactly who did what well, and saying it where others can hear, builds far more trust than a vague \"great job, team.\" Telling the group \"Priya's research is the reason our argument held up\" recognizes a specific contribution in a way generic praise never can."
       },
       {
         "question": "Instead of saying \"great job, team,\" a leader says \"Priya's research is the reason our argument held up.\" Why is this more effective?",
@@ -1219,7 +1219,7 @@
           "Vague praise always works better"
         ],
         "correctIndex": 0,
-        "explanation": "Giving credit publicly and specifically recognizes contributions in a way generic praise can't."
+        "explanation": "A leader who admits their own errors openly, instead of quietly fixing them or shifting blame, gives the whole team permission to be honest about mistakes too. Saying \"I misjudged how long this would take, that's on me\" models the exact honesty a leader expects from everyone else."
       },
       {
         "question": "A team seems exhausted after a long week. What should a good leader consider doing?",
@@ -1228,7 +1228,7 @@
           "Ignore the mood and add more to the agenda"
         ],
         "correctIndex": 0,
-        "explanation": "Reading the room and adjusting to the group's mood is a mark of a thoughtful leader."
+        "explanation": "Reading the room means noticing a group's overall mood — tension, fatigue, excitement — before deciding how to run a meeting, and it's what separates good leaders from great ones. Sensing that a team is exhausted after a long week might mean shortening the meeting instead of pushing through a full agenda."
       },
       {
         "question": "A debate about event plans is getting heated. What should a leader do?",
@@ -1237,7 +1237,7 @@
           "Let emotions escalate until someone wins"
         ],
         "correctIndex": 0,
-        "explanation": "De-escalating tension prevents a disagreement from turning into a lasting rift."
+        "explanation": "When a disagreement starts getting heated, a good leader slows the conversation down instead of letting emotions take over. Saying \"let's each take a minute before responding\" during a tense debate can prevent a disagreement from turning into a lasting rift between teammates."
       },
       {
         "question": "A burned-out team member wants to step back from a big event, even though it means more work for everyone else. What should a leader do?",
@@ -1246,7 +1246,7 @@
           "Always prioritize the group over any individual, no exceptions"
         ],
         "correctIndex": 0,
-        "explanation": "Balancing individual and team needs means weighing both honestly, not automatically picking one."
+        "explanation": "Balancing individual and team needs means weighing both honestly instead of automatically picking one. Letting a burned-out member step back from a big event, even though it means redistributing their work onto others, is often still the right call for everyone's long-term wellbeing."
       },
       {
         "question": "A teammate says \"I don't think your plan is working.\" What's the most effective response?",
@@ -1255,7 +1255,7 @@
           "Shut down the conversation immediately"
         ],
         "correctIndex": 0,
-        "explanation": "Responding openly to criticism, rather than defensively, earns more respect and better solutions."
+        "explanation": "Responding openly to criticism of your own leadership, instead of defensively, usually earns more respect and produces better solutions. Replying \"tell me more about what you're seeing\" to \"I don't think your plan is working\" gathers useful information instead of shutting the conversation down."
       },
       {
         "question": "A leader wants team members to feel safe raising concerns about a plan. What habit builds this over time?",
@@ -1264,7 +1264,7 @@
           "Only asking for input after decisions are already final"
         ],
         "correctIndex": 0,
-        "explanation": "Consistently inviting disagreement, and not punishing it, builds real psychological safety over time."
+        "explanation": "Psychological safety isn't built by one good conversation — it comes from consistently inviting disagreement and never punishing people for raising it. A leader who only asks for input after decisions are already final sends the opposite message, that feedback doesn't actually matter."
       }
     ]
   },
@@ -1324,7 +1324,7 @@
           "Keep all leadership responsibility to themselves"
         ],
         "correctIndex": 0,
-        "explanation": "Growing future leaders is itself a mark of strong, generous leadership."
+        "explanation": "A strong leader doesn't just lead day to day — they deliberately help others develop leadership skills of their own. A graduating club president who spends their last months mentoring a successor, teaching them to run meetings and handle conflict, leaves the club stronger than one who never prepared anyone to follow them."
       },
       {
         "question": "A club event flops due to poor turnout. What response builds more team confidence?",
@@ -1333,7 +1333,7 @@
           "Panicking or assigning blame"
         ],
         "correctIndex": 0,
-        "explanation": "How a leader responds to failure often matters more to the team than the failure itself."
+        "explanation": "How a leader responds to failure — calmly and constructively, rather than panicking or assigning blame — often matters more to a team's confidence than the failure itself. Saying \"let's figure out what we can learn from this\" turns a flop into something the team can actually grow from."
       },
       {
         "question": "Explaining that a fundraiser will directly pay for a younger team's uniforms, instead of just promising pizza. What does this show?",
@@ -1342,7 +1342,7 @@
           "Motivation only comes from rewards"
         ],
         "correctIndex": 0,
-        "explanation": "People tend to stay engaged longer when they understand why their work matters."
+        "explanation": "People tend to stay engaged longer when they understand why their work matters, not just what reward they'll get for finishing it. Explaining that a fundraiser will directly pay for a younger team's uniforms tends to motivate a volunteer more deeply than simply promising a pizza party."
       },
       {
         "question": "A team that regularly debriefs after setbacks recovers faster than one that's never talked through failure. What does this show?",
@@ -1351,7 +1351,7 @@
           "Resilience depends only on one tough person"
         ],
         "correctIndex": 0,
-        "explanation": "A team's ability to bounce back often depends on habits the leader has built, not just individual grit."
+        "explanation": "A team's ability to recover from a setback often depends less on any one person's toughness and more on habits the leader has built, like regular debriefs after failures. A team used to briefly talking through what went wrong tends to bounce back faster than one that's never done it before."
       },
       {
         "question": "A club president only focuses on this year's big event and never trains future leaders. What's the likely result?",
@@ -1360,7 +1360,7 @@
           "There's no downside since the event goes well"
         ],
         "correctIndex": 0,
-        "explanation": "Balancing long-term vision with short-term wins helps a group outlast any one leader."
+        "explanation": "Balancing long-term vision with short-term wins matters because a leader focused only on the next event can miss chances to build something lasting, like training successors. A club president who never invests in future leaders often leaves the group worse off the moment they graduate."
       },
       {
         "question": "A teammate has more relevant experience for a project than the official club president. What should a mature leader do?",
@@ -1369,7 +1369,7 @@
           "Insist on leading it anyway because of the title"
         ],
         "correctIndex": 0,
-        "explanation": "Knowing when to step back, even as the official leader, often produces a better outcome."
+        "explanation": "A mature leader recognizes when someone else is better positioned to lead a specific effort and steps back, instead of holding onto control just because of their title. Letting a more experienced teammate take the lead on a project often produces a better outcome for the whole group."
       },
       {
         "question": "Documenting how an event was organized so future leaders don't start from scratch. What is this an example of?",
@@ -1378,7 +1378,7 @@
           "Something that only benefits the current leader"
         ],
         "correctIndex": 0,
-        "explanation": "The strongest leaders think about what happens to the group after they've moved on."
+        "explanation": "The strongest leaders think about what happens to the group after they've moved on, not just what they personally accomplish while in charge. Documenting how an event was organized, so future leaders don't have to start from scratch, is a quiet but lasting form of leadership."
       },
       {
         "question": "After several disappointing events in a row, what can help a team's motivation recover?",
@@ -1387,7 +1387,7 @@
           "Waiting for morale to recover on its own"
         ],
         "correctIndex": 0,
-        "explanation": "After repeated setbacks, a leader often needs to actively rebuild belief that things can improve."
+        "explanation": "After several things go wrong in a row, a team's motivation can fade fast, and a leader has to actively rebuild belief that things can improve rather than just waiting for morale to recover on its own. Planning one smaller, achievable win can help a discouraged team feel capable again before tackling something bigger."
       },
       {
         "question": "A leader commits firmly to a plan but is still genuinely willing to change it if a teammate raises a valid concern. What does this balance?",
@@ -1396,7 +1396,7 @@
           "Confidence and indecision"
         ],
         "correctIndex": 0,
-        "explanation": "Good leaders need enough confidence to decide under uncertainty, and enough humility to change course."
+        "explanation": "Good leadership needs enough confidence to make decisions under uncertainty, but enough humility to change course when new information shows you were wrong. Committing firmly to a plan while still being genuinely willing to revise it if a teammate raises a valid concern shows both strengths working together."
       },
       {
         "question": "A team's project fails publicly in front of judges. What should a good leader do afterward?",
@@ -1405,7 +1405,7 @@
           "Publicly blame whoever they think caused it"
         ],
         "correctIndex": 0,
-        "explanation": "Leading through failure well means focusing on improvement, not blame, especially in public."
+        "explanation": "Leading through failure well means focusing the conversation on what to improve rather than on who to blame, especially when the failure happened publicly. Discussing calmly what went wrong keeps the team focused on getting better instead of becoming defensive or ashamed."
       }
     ]
   }

@@ -55,7 +55,7 @@
           "Grabbing it"
         ],
         "correctIndex": 0,
-        "explanation": "Asking nicely, instead of grabbing or shouting, is the first step."
+        "explanation": "Asking nicely works better than grabbing. Saying \"can I have a turn?\" usually gets a happy yes."
       },
       {
         "question": "You ask for the ball and your friend says \"in two minutes.\" What should you do?",
@@ -64,7 +64,7 @@
           "Cover your ears"
         ],
         "correctIndex": 0,
-        "explanation": "Listening back helps you understand their reason or idea."
+        "explanation": "Listening helps you understand why. Maybe your friend just needs two more minutes with the ball."
       },
       {
         "question": "You and a friend both want the same red truck. What can you do?",
@@ -73,7 +73,7 @@
           "Fight over it"
         ],
         "correctIndex": 0,
-        "explanation": "Taking turns means everyone gets to play with it."
+        "explanation": "Taking turns means everyone gets to play. You go first, then your friend gets the truck."
       },
       {
         "question": "Before you ask for something, what should you do first?",
@@ -82,7 +82,7 @@
           "Just grab it right away"
         ],
         "correctIndex": 0,
-        "explanation": "Thinking first helps you ask for the right thing."
+        "explanation": "Thinking first helps you ask for the right thing, like the blue cup instead of any cup."
       },
       {
         "question": "You ask your friend for a turn. What should you say?",
@@ -91,7 +91,7 @@
           "Nothing, just take it"
         ],
         "correctIndex": 0,
-        "explanation": "Saying please and thank you keeps things kind, even if the answer is no."
+        "explanation": "Saying please and thank you keeps things kind, even when the answer is no."
       },
       {
         "question": "You and your sibling both want the tablet. What is fair?",
@@ -100,7 +100,7 @@
           "Whoever grabs it first keeps it"
         ],
         "correctIndex": 0,
-        "explanation": "Taking equal turns feels fair to both of you."
+        "explanation": "Equal turns feel fair to everyone. Ten minutes each means nobody waits too long for a turn."
       },
       {
         "question": "You are waiting for a turn on the swing. What should you do?",
@@ -109,7 +109,7 @@
           "Push the other kid off"
         ],
         "correctIndex": 0,
-        "explanation": "Waiting patiently is a kind way to get your turn."
+        "explanation": "Waiting patiently is kind. Counting to twenty while you wait makes your turn come soon."
       },
       {
         "question": "Your friend has a toy you want. What should you do?",
@@ -118,7 +118,7 @@
           "Grab it out of their hands"
         ],
         "correctIndex": 0,
-        "explanation": "Using your words is kinder and works better than grabbing."
+        "explanation": "Using your words works better than grabbing. Asking nicely feels kinder to your friend."
       },
       {
         "question": "You and a friend cannot agree on a game. What can help?",
@@ -127,7 +127,7 @@
           "Stop being friends"
         ],
         "correctIndex": 0,
-        "explanation": "A grown-up can help you both find a fair answer."
+        "explanation": "A grown-up can help you find a fair answer, like playing one game, then the other."
       },
       {
         "question": "Your sibling is explaining why they are upset. What should you do?",
@@ -136,7 +136,7 @@
           "Interrupt and walk away"
         ],
         "correctIndex": 0,
-        "explanation": "Listening carefully helps you understand how they feel."
+        "explanation": "Listening carefully helps you understand how someone feels, like why your sibling is upset."
       }
     ]
   },
@@ -196,7 +196,7 @@
           "Only good for one person"
         ],
         "correctIndex": 0,
-        "explanation": "A good trade feels fair to both people involved."
+        "explanation": "A good trade feels fair to both people, like swapping crayons you each really want."
       },
       {
         "question": "Your friend says no to your game idea. What can you do?",
@@ -205,7 +205,7 @@
           "Give up and go home"
         ],
         "correctIndex": 0,
-        "explanation": "Trying a new idea can help you both find something fun."
+        "explanation": "Trying a new idea can help you find something fun together, like playing tag instead."
       },
       {
         "question": "You want tag, your friend wants hide and seek, so you agree to play both. What is this called?",
@@ -214,7 +214,7 @@
           "Only one person gets what they want"
         ],
         "correctIndex": 0,
-        "explanation": "In a compromise, both people give a little and both get something."
+        "explanation": "In a compromise, both people give a little. Playing tag first, then hide and seek, makes you both happy."
       },
       {
         "question": "Your friend says no. What should you do?",
@@ -223,7 +223,7 @@
           "Yell and grab it"
         ],
         "correctIndex": 0,
-        "explanation": "Staying calm keeps things friendly, even after a no."
+        "explanation": "Staying calm keeps things friendly, even after a no. You can always ask again later."
       },
       {
         "question": "You and your sibling share a big chore. What helps make it fair?",
@@ -232,7 +232,7 @@
           "Make one person do it all"
         ],
         "correctIndex": 0,
-        "explanation": "Splitting the job means it doesn't feel too hard for one person."
+        "explanation": "Splitting the job means it isn't too hard for one person, like sharing toy pickup and table wiping."
       },
       {
         "question": "A trade feels bad to you. What can you do?",
@@ -241,7 +241,7 @@
           "Trade anyway even though it feels bad"
         ],
         "correctIndex": 0,
-        "explanation": "It is okay to say no to a trade that does not feel fair."
+        "explanation": "It's okay to say no to a trade that feels bad, and walk away instead."
       },
       {
         "question": "You want to trade your cookie for a friend's chips. What makes a trade fair?",
@@ -250,7 +250,7 @@
           "Only you like the trade"
         ],
         "correctIndex": 0,
-        "explanation": "A fair trade makes both people happy about it."
+        "explanation": "A fair trade makes both people happy, like when you both really want the swap."
       },
       {
         "question": "You want to play blocks, your sibling wants a puzzle. What can you do?",
@@ -259,7 +259,7 @@
           "Only ever play blocks"
         ],
         "correctIndex": 0,
-        "explanation": "Taking turns picking means you both get to enjoy your favorite game."
+        "explanation": "Taking turns picking means you both get to enjoy your favorite game, like blocks today and puzzles tomorrow."
       },
       {
         "question": "You don't get to pick the game today. How should you feel and act?",
@@ -268,7 +268,7 @@
           "Yell and cry until you get your way"
         ],
         "correctIndex": 0,
-        "explanation": "It is okay to feel sad, but staying calm and kind is still important."
+        "explanation": "It's okay to feel sad when you don't get your way, but staying calm and kind still matters."
       },
       {
         "question": "What happens when both people compromise?",
@@ -277,7 +277,7 @@
           "One person gets everything"
         ],
         "correctIndex": 0,
-        "explanation": "A compromise means both people give a little and both gain something."
+        "explanation": "When both people compromise, everyone gives a little and everyone gets something, like sharing turns on a toy."
       }
     ]
   },
@@ -337,7 +337,7 @@
           "Insisting on getting your own way"
         ],
         "correctIndex": 0,
-        "explanation": "Negotiation is about finding a solution that works for both sides."
+        "explanation": "Negotiation means talking until you find a plan that works for both people. If you want a movie and your sibling wants a game, you might watch first and play after."
       },
       {
         "question": "You learn your sibling wants the game because a friend is joining online at a specific time. Why is that helpful to know?",
@@ -346,7 +346,7 @@
           "It wastes time"
         ],
         "correctIndex": 0,
-        "explanation": "Understanding their wants and reasons makes it easier to find an idea they'll accept."
+        "explanation": "Knowing why someone wants something helps you find an idea they'll accept. Since your sibling needs the game at a set time, you can plan your movie around it."
       },
       {
         "question": "Instead of only suggesting one idea for tonight's TV time, you also suggest two backups. Why brainstorm more than one option?",
@@ -355,7 +355,7 @@
           "One idea is always enough"
         ],
         "correctIndex": 0,
-        "explanation": "More options make it more likely you'll land on something that works for both sides."
+        "explanation": "Thinking of several ideas instead of just one raises your odds of finding something that works. Offering both \"half the movie now\" and \"game after\" gives your sibling more choices."
       },
       {
         "question": "A negotiation over TV time starts to get heated. What helps most?",
@@ -364,7 +364,7 @@
           "Getting upset right away"
         ],
         "correctIndex": 0,
-        "explanation": "Staying calm helps you think more clearly and find a solution."
+        "explanation": "Staying calm helps you think clearly instead of just reacting. Taking a breath before you speak makes it easier to actually solve the problem."
       },
       {
         "question": "Before asking for something, what should you figure out first?",
@@ -373,7 +373,7 @@
           "Nothing, just ask right away"
         ],
         "correctIndex": 0,
-        "explanation": "Knowing your reason makes your request clearer and stronger."
+        "explanation": "Knowing what you want and why makes your request clearer and stronger. Saying \"I want a later bedtime because of movie night\" works better than just asking."
       },
       {
         "question": "Screen time causes arguments between you and your sibling. What can help?",
@@ -382,7 +382,7 @@
           "Whoever asks first always wins"
         ],
         "correctIndex": 0,
-        "explanation": "A schedule everyone agrees to ahead of time stops arguments before they start."
+        "explanation": "Agreeing on a schedule ahead of time stops arguments before they even start. If you and your sibling both know it's thirty minutes each, there's nothing left to fight about."
       },
       {
         "question": "Your idea gets turned down. What works better than arguing?",
@@ -391,7 +391,7 @@
           "Arguing louder until they give in"
         ],
         "correctIndex": 0,
-        "explanation": "A calm follow-up question keeps the conversation open instead of turning it into a fight."
+        "explanation": "Asking a calm question keeps the conversation open instead of turning it into a fight. Asking \"what would make this work for you?\" often turns a no into a new idea."
       },
       {
         "question": "You want thirty more minutes of game time. What makes your ask stronger?",
@@ -400,7 +400,7 @@
           "Just repeating \"please\" over and over"
         ],
         "correctIndex": 0,
-        "explanation": "A clear reason makes your request easier for someone to say yes to."
+        "explanation": "Explaining your reason makes it easier for someone to say yes. \"I want thirty more minutes because I'm almost done\" works better than just asking for more time."
       },
       {
         "question": "Your sibling says no to your plan. What is a good next step?",
@@ -409,7 +409,7 @@
           "Walk away angry and stop talking"
         ],
         "correctIndex": 0,
-        "explanation": "Asking a follow-up question can turn a no into a new idea."
+        "explanation": "Asking a follow-up question can turn a no into a new idea. Finding out what's bothering your sibling might lead to a plan you both like."
       },
       {
         "question": "Why come up with two or three ideas instead of just one?",
@@ -418,7 +418,7 @@
           "It just wastes everyone's time"
         ],
         "correctIndex": 0,
-        "explanation": "Having backup ideas ready makes it more likely you'll land on a plan everyone likes."
+        "explanation": "Having backup ideas ready raises your odds of landing on a plan everyone likes. If your first idea gets turned down, you already have another one ready to offer."
       }
     ]
   },
@@ -478,7 +478,7 @@
           "Only one person benefits"
         ],
         "correctIndex": 0,
-        "explanation": "A fair trade leaves both people feeling like they got something good."
+        "explanation": "A fair trade leaves both people feeling like they gained something good. You do the dishes, and in return you get to pick the movie tonight."
       },
       {
         "question": "You ask for 30 extra minutes, your guardian offers 10, and you agree on 20. What does \"splitting the difference\" mean?",
@@ -487,7 +487,7 @@
           "One side getting everything"
         ],
         "correctIndex": 0,
-        "explanation": "Splitting the difference means landing between the two starting offers."
+        "explanation": "Splitting the difference means landing between two starting offers. If you ask for thirty minutes and get offered ten, meeting at twenty feels fair to both sides."
       },
       {
         "question": "What is a \"win-win\" outcome?",
@@ -496,7 +496,7 @@
           "One side gets everything and the other gets nothing"
         ],
         "correctIndex": 0,
-        "explanation": "Win-win means both sides come away satisfied."
+        "explanation": "A win-win means both sides come away satisfied with the outcome. Agreeing to split TV time evenly, instead of one person taking it all, is a win-win."
       },
       {
         "question": "Two people share a big chore. What helps keep it fair?",
@@ -505,7 +505,7 @@
           "Only one person doing all of it"
         ],
         "correctIndex": 0,
-        "explanation": "Splitting the job and taking turns keeps things fair over time."
+        "explanation": "Splitting the job and switching tasks later keeps things fair over time. Vacuuming this week and emptying trash next week means neither person is stuck with the harder job forever."
       },
       {
         "question": "A trade does not feel fair to you. What can you do?",
@@ -514,7 +514,7 @@
           "Agree anyway so you do not seem rude"
         ],
         "correctIndex": 0,
-        "explanation": "It is okay to walk away from a deal that does not feel fair."
+        "explanation": "It's okay to walk away from a deal that doesn't feel fair to you. Saying no calmly is better than agreeing and feeling bad about it later."
       },
       {
         "question": "You trade your board game for a friend's video game, but only because you feel pressured. Is that a fair trade?",
@@ -523,7 +523,7 @@
           "Yes, any trade that happens is fair"
         ],
         "correctIndex": 0,
-        "explanation": "A fair trade should feel good to both people, not just happen because of pressure."
+        "explanation": "A fair trade should feel good to both people, not happen just because you felt pressured. If you're not excited about what you're getting, it isn't really fair."
       },
       {
         "question": "You and a sibling truly cannot agree tonight. What can you do?",
@@ -532,7 +532,7 @@
           "Keep arguing until someone gives in"
         ],
         "correctIndex": 0,
-        "explanation": "Stopping and coming back later is often better than pushing through an argument."
+        "explanation": "Stopping and coming back later is often better than pushing through an argument. Saying \"let's each do something else tonight and talk tomorrow\" gives everyone time to cool off."
       },
       {
         "question": "A trade doesn't work for you. What can you say?",
@@ -541,7 +541,7 @@
           "Nothing, you have to accept it"
         ],
         "correctIndex": 0,
-        "explanation": "A calm no is a complete answer — you don't need to accept every deal."
+        "explanation": "A calm no is a complete answer, and you don't need to accept every deal offered to you. You're allowed to just say it doesn't work for you."
       },
       {
         "question": "You're negotiating TV time with two siblings at once. What should you look for?",
@@ -550,7 +550,7 @@
           "Whatever the loudest person wants"
         ],
         "correctIndex": 0,
-        "explanation": "A good group plan works for everyone involved, not just the loudest voice."
+        "explanation": "A good group plan works for everyone at the table, not just whoever talks the loudest. Taking turns choosing shows helps every sibling feel included."
       },
       {
         "question": "Why switch chore tasks with your sibling from week to week?",
@@ -559,7 +559,7 @@
           "It doesn't matter who does what"
         ],
         "correctIndex": 0,
-        "explanation": "Switching tasks over time keeps the arrangement feeling fair to both people."
+        "explanation": "Switching tasks over time keeps the arrangement fair to both people. Nobody gets stuck doing the harder chore, like taking out trash, every single week."
       }
     ]
   },
@@ -619,7 +619,7 @@
           "They mean exactly the same thing"
         ],
         "correctIndex": 0,
-        "explanation": "Positions are the stated ask; interests are the underlying reason."
+        "explanation": "A position is the specific thing someone asks for, while an interest is the deeper reason behind it. A friend's position of \"I always pick the movie\" might really come from wanting their opinion to matter, which opens up other solutions."
       },
       {
         "question": "Before asking for a later curfew, why think through your reason and anticipate concerns first?",
@@ -628,7 +628,7 @@
           "Preparing wastes time"
         ],
         "correctIndex": 0,
-        "explanation": "Thinking it through beforehand makes your case stronger."
+        "explanation": "Preparing beforehand makes your case far stronger than asking on the spot. Thinking through your reason, guessing what concern they'll raise, and having an answer ready shows you've genuinely thought it through."
       },
       {
         "question": "You say \"so you're saying you're worried about how I'll get home.\" What does repeating back what you heard show?",
@@ -637,7 +637,7 @@
           "That you agree with everything they said"
         ],
         "correctIndex": 0,
-        "explanation": "Active listening shows understanding, not automatic agreement."
+        "explanation": "Repeating back what you heard shows you understand someone, without meaning you automatically agree with them. It can also reveal their real concern is safety, not the clock."
       },
       {
         "question": "You ask for a later curfew but what you really want is just one late night for a concert. Why does getting clear on this matter?",
@@ -646,7 +646,7 @@
           "It has no effect on the conversation"
         ],
         "correctIndex": 0,
-        "explanation": "A specific, honest ask is often much easier for someone to agree to than a broad one."
+        "explanation": "Getting clear on what you actually want makes your request easier to agree to. Asking for one specific late night for a concert is a much smaller ask than requesting a permanent later curfew."
       },
       {
         "question": "Which question is more likely to reveal what someone really cares about?",
@@ -655,7 +655,7 @@
           "\"Can I do this, yes or no?\""
         ],
         "correctIndex": 0,
-        "explanation": "Open-ended questions invite a real answer instead of just a yes or no."
+        "explanation": "An open-ended question invites a real answer instead of a flat yes or no. Asking what matters most about splitting a chore uncovers what someone actually cares about."
       },
       {
         "question": "What's the difference between a want and a need in a negotiation?",
@@ -664,7 +664,7 @@
           "They always mean exactly the same thing"
         ],
         "correctIndex": 0,
-        "explanation": "Telling wants and needs apart helps you know what you can actually give up."
+        "explanation": "A need is something that has to happen, while a want is just something you'd prefer. Knowing a working laptop is a need but the newest model is only a want helps you negotiate a device budget more honestly."
       },
       {
         "question": "A friend goes quiet whenever a certain topic comes up, but says nothing is wrong. What might that suggest?",
@@ -673,7 +673,7 @@
           "It definitely means nothing at all"
         ],
         "correctIndex": 0,
-        "explanation": "What someone doesn't say can be just as telling as what they do say."
+        "explanation": "What someone doesn't say can be just as telling as what they do say. A friend going quiet every time a trip comes up, while insisting nothing's wrong, is worth gently asking about."
       },
       {
         "question": "Why explain your own reason, not just ask what the other person wants?",
@@ -682,7 +682,7 @@
           "Your reasons are never relevant to them"
         ],
         "correctIndex": 0,
-        "explanation": "Sharing your own why helps the other person see where you're coming from."
+        "explanation": "Sharing your own reason, not just asking what the other person wants, helps them understand your side too. Explaining why the curfew matters makes the request feel less random."
       },
       {
         "question": "Two siblings both want to feel like their movie pick matters. What do they actually share?",
@@ -691,7 +691,7 @@
           "Nothing at all in common"
         ],
         "correctIndex": 0,
-        "explanation": "Different positions can still come from the very same underlying interest."
+        "explanation": "Two people can want different things on the surface while sharing the very same underlying interest. Both siblings really just want their opinion to matter, which a rotating pick schedule can solve for both."
       },
       {
         "question": "Your friend explains a worry, and you summarize it back to check you understood. What is this called?",
@@ -700,7 +700,7 @@
           "Ignoring them"
         ],
         "correctIndex": 0,
-        "explanation": "Active listening means checking that you understood correctly, not just hearing words."
+        "explanation": "Active listening means checking that you understood correctly, not just letting words go in one ear and out the other. Summarizing a friend's worry back shows you were really paying attention."
       }
     ]
   },
@@ -760,7 +760,7 @@
           "One option is always enough"
         ],
         "correctIndex": 0,
-        "explanation": "More options increase the odds of finding a genuinely good solution."
+        "explanation": "Generating a few options instead of accepting the first one raises the odds of finding a genuinely fair solution. Considering two or three ways to split chores with a sibling often reveals a better arrangement than whatever was suggested first."
       },
       {
         "question": "Asking for a later curfew while offering to text a check-in halfway through — what does this make the deal feel like?",
@@ -769,7 +769,7 @@
           "Getting everything you asked for"
         ],
         "correctIndex": 0,
-        "explanation": "Offering something in return makes a deal feel fair."
+        "explanation": "Offering something in return, not just asking for something, makes a deal feel balanced instead of one-sided. It shows you're willing to give as well as take."
       },
       {
         "question": "When you compromise with a friend over which game to play, what actually happens?",
@@ -778,7 +778,7 @@
           "One person always gets everything they want"
         ],
         "correctIndex": 0,
-        "explanation": "Compromise means giving up a little, not giving up entirely."
+        "explanation": "Compromising means trading a little of what you want to keep the relationship working well, not giving up entirely. Splitting time evenly means neither of you gets everything, but neither is ignored either."
       },
       {
         "question": "Winning an argument with a sibling by being harsh gets you the TV tonight. What might it cost you?",
@@ -787,7 +787,7 @@
           "Nothing, relationships don't factor into negotiation"
         ],
         "correctIndex": 0,
-        "explanation": "Being harsh can win the moment but damage a relationship you'll need again."
+        "explanation": "Winning by being harsh can get you what you want tonight, but it costs you goodwill you'll want from that person again later. Relationships you see every day are worth protecting, not just winning against."
       },
       {
         "question": "Instead of only negotiating your allowance amount, you also offer to take on an extra chore. What does trading across different things do?",
@@ -796,7 +796,7 @@
           "Makes the negotiation impossible"
         ],
         "correctIndex": 0,
-        "explanation": "Trading across issues gives both sides more room to find a deal."
+        "explanation": "Trading across different issues at once gives both sides more room to find a deal than arguing over one single number. Offering an extra chore for a bit more allowance opens up options that haggling over one dollar amount never would."
       },
       {
         "question": "Which is a stronger way to start a negotiation?",
@@ -805,7 +805,7 @@
           "\"Can I just get more money?\""
         ],
         "correctIndex": 0,
-        "explanation": "A specific, thought-out ask is more persuasive than a vague one."
+        "explanation": "A specific, well-thought-out ask is more persuasive than a vague one, because it shows you've actually thought it through. It gives someone something concrete to say yes to."
       },
       {
         "question": "Why might getting most of what you want with a happy other side beat getting everything with a resentful one?",
@@ -814,7 +814,7 @@
           "Getting everything is always better no matter what"
         ],
         "correctIndex": 0,
-        "explanation": "A deal that leaves the other side resentful can cause trouble down the road."
+        "explanation": "A deal that leaves the other side resentful can cause trouble down the road, even if you technically got everything. A slightly smaller ask your guardian is genuinely comfortable with tends to hold up better over time."
       },
       {
         "question": "You and a friend share a video game, but you want extra time today for a new update. What's a fair approach?",
@@ -823,7 +823,7 @@
           "Just take the console without asking"
         ],
         "correctIndex": 0,
-        "explanation": "An uneven split today, balanced by one later, can still be fair to both people."
+        "explanation": "An uneven split today, balanced by an uneven split back the other way later, can still be fair overall. Getting extra time today, then giving your friend extra time tomorrow, evens things out."
       },
       {
         "question": "You want your sibling to walk the dog for you tonight. What's a fair way to ask?",
@@ -832,7 +832,7 @@
           "Just expect them to do it for free"
         ],
         "correctIndex": 0,
-        "explanation": "Offering something in return makes the request a fair trade instead of a favor owed."
+        "explanation": "Offering something in return turns your request into a fair trade instead of a favor someone owes you. Trading your dishes for their dog walk works if you're both okay with the swap."
       },
       {
         "question": "A compromise over which game to play with a friend usually means what?",
@@ -841,7 +841,7 @@
           "One person always gets their full way"
         ],
         "correctIndex": 0,
-        "explanation": "A good compromise leaves both people with something, even if not everything."
+        "explanation": "A good compromise leaves both people with something, even if neither one gets everything they originally wanted. That's different from one person winning completely."
       }
     ]
   },
@@ -901,7 +901,7 @@
           "It's not useful to think about"
         ],
         "correctIndex": 0,
-        "explanation": "Knowing your limit beforehand protects you from a bad deal made in the moment."
+        "explanation": "Deciding your limit before a conversation starts protects you from agreeing to something you'll regret once things get emotional. It keeps you steady if you're pushed toward accepting far less."
       },
       {
         "question": "A guardian says no to a bigger allowance. What is a good next step?",
@@ -910,7 +910,7 @@
           "Give up on the topic completely"
         ],
         "correctIndex": 0,
-        "explanation": "A \"no\" is often the start of a longer conversation, not the end."
+        "explanation": "A \"no\" is often the start of a longer conversation, not the end of one. Calmly asking what would need to change for a future yes keeps the door open instead of shutting the topic down."
       },
       {
         "question": "A trade a friend offers is clearly unfair to you. What is a reasonable response?",
@@ -919,7 +919,7 @@
           "Accept it so you don't seem difficult"
         ],
         "correctIndex": 0,
-        "explanation": "Walking away from an unfair deal is a reasonable, healthy choice."
+        "explanation": "Walking away from an unfair deal is a reasonable, healthy choice, not something to feel guilty about. You don't have to trade just because someone offered."
       },
       {
         "question": "You're so excited about a trade you'd agree to almost anything. What should you do?",
@@ -928,7 +928,7 @@
           "Agree immediately since excitement means it's a good deal"
         ],
         "correctIndex": 0,
-        "explanation": "Strong emotions can push you toward a deal you'll later regret — slowing down helps."
+        "explanation": "Strong feelings like excitement can push you toward agreeing to a deal you'll later regret. Noticing that rush and slowing down gives you a chance to think clearly before saying yes."
       },
       {
         "question": "Winning an argument with a sibling by being harsh gets you the TV tonight. What might it cost you?",
@@ -937,7 +937,7 @@
           "Nothing at all, relationships aren't affected"
         ],
         "correctIndex": 0,
-        "explanation": "Being harsh can win the moment but cost you trust you'll want again."
+        "explanation": "Being harsh can win you the TV tonight but cost you trust you'll want from your sibling again soon. People you live with remember how you treated them, not just who won."
       },
       {
         "question": "Someone rushes you to decide right now before you can think. What does that suggest?",
@@ -946,7 +946,7 @@
           "You should always decide fast when rushed"
         ],
         "correctIndex": 0,
-        "explanation": "Pressure to decide instantly is itself worth noticing and questioning."
+        "explanation": "Someone rushing you to decide instantly is itself worth noticing, since real deals rarely need to be signed in seconds. Insisting on \"right now or never\" is a sign to slow down."
       },
       {
         "question": "You're unsure about a deal someone just offered. What can you say?",
@@ -955,7 +955,7 @@
           "You must decide on the spot every time"
         ],
         "correctIndex": 0,
-        "explanation": "Asking for time to think is a reasonable, complete response."
+        "explanation": "Asking for time to think it over is a completely reasonable, complete response on its own. It often leads to a much better decision than answering under pressure."
       },
       {
         "question": "You could win an argument with your sibling by being harsh. Why might that not be worth it?",
@@ -964,7 +964,7 @@
           "Relationships never matter in a negotiation"
         ],
         "correctIndex": 0,
-        "explanation": "A short-term win can cost you something bigger, like trust, later on."
+        "explanation": "A short-term win can cost you something bigger later, like the trust you'll need the next time you ask your sibling for something. Winning isn't worth it if it damages a relationship you rely on daily."
       },
       {
         "question": "A guardian says no to your request. What's a good follow-up?",
@@ -973,7 +973,7 @@
           "Assume the answer will never change"
         ],
         "correctIndex": 0,
-        "explanation": "Understanding the reason behind a no can turn it into a real conversation."
+        "explanation": "Understanding the actual reason behind a no can turn a flat refusal into a real conversation. Asking what they're worried about often uncovers a concern you can actually address."
       },
       {
         "question": "A chore-split deal you made with your sibling stopped working after your schedule changed. What can you do?",
@@ -982,7 +982,7 @@
           "Just live with something that no longer works"
         ],
         "correctIndex": 0,
-        "explanation": "It's fair to revisit a deal when circumstances genuinely change."
+        "explanation": "It's fair to revisit a deal once circumstances genuinely change, since an old agreement isn't meant to last forever no matter what. Bringing up a chore split again after a schedule change is reasonable, not unfair."
       }
     ]
   },
@@ -1042,7 +1042,7 @@
           "Positions and interests are always identical"
         ],
         "correctIndex": 0,
-        "explanation": "Focusing on the underlying interest reveals options a stated position hides."
+        "explanation": "A position is the specific demand someone states; an interest is the deeper motivation behind it. Two partners with different positions can still share the same interest of wanting the project to succeed, which is where a real compromise gets found."
       },
       {
         "question": "You have a backup job offer while negotiating pay for another job. What is that backup called?",
@@ -1051,7 +1051,7 @@
           "The first offer made in a negotiation"
         ],
         "correctIndex": 0,
-        "explanation": "BATNA stands for Best Alternative to a Negotiated Agreement."
+        "explanation": "BATNA stands for Best Alternative to a Negotiated Agreement — in plain language, it's just your backup plan if this particular deal falls through. Having another job offer lined up gives you the confidence to walk away from a lowball wage."
       },
       {
         "question": "Opening an allowance negotiation with a well-researched \"$15 a week\" tends to shape the rest of the talk. What is this called?",
@@ -1060,7 +1060,7 @@
           "It has no effect on what follows"
         ],
         "correctIndex": 0,
-        "explanation": "Anchoring means the first number shapes expectations for the rest of the talk."
+        "explanation": "Anchoring is when the first number mentioned in a negotiation shapes everything that follows, often without either side noticing. A well-researched opening number sets that anchor before a counteroffer is even made."
       },
       {
         "question": "You ask for a later curfew, but what you actually want is just one late night for a concert. Why does clarifying this matter?",
@@ -1069,7 +1069,7 @@
           "It makes no difference to the outcome"
         ],
         "correctIndex": 0,
-        "explanation": "A specific, honest ask is usually easier for someone to agree to than a broad one."
+        "explanation": "Getting honest with yourself about what you actually want, separate from what you assume you should ask for, often leads to a smaller, more specific request. A single late night is far easier to grant than a permanent later curfew."
       },
       {
         "question": "Before asking for a raise at a summer job, you look up typical pay for similar work nearby. Why does this help?",
@@ -1078,7 +1078,7 @@
           "Research never changes how a request lands"
         ],
         "correctIndex": 0,
-        "explanation": "Real information makes a request more credible than a guess."
+        "explanation": "Walking into a negotiation with real information, not just a gut feeling, makes your case far more credible. Looking up what similar jobs pay turns your request from a guess into something backed by evidence."
       },
       {
         "question": "Asking for \"more independence\" instead of \"less supervision\" is an example of what?",
@@ -1087,7 +1087,7 @@
           "A completely different, unrelated request"
         ],
         "correctIndex": 0,
-        "explanation": "Framing changes how a request is received, even when it means the same thing."
+        "explanation": "Framing is how you word a request, and it can change how it's received even when the underlying ask stays identical. Both phrases could mean the exact same thing, but one tends to land better."
       },
       {
         "question": "Deciding your ideal outcome and your absolute minimum before a negotiation starts helps you how?",
@@ -1096,7 +1096,7 @@
           "It has no real effect on the negotiation"
         ],
         "correctIndex": 0,
-        "explanation": "Setting limits ahead of time keeps you from deciding them under pressure."
+        "explanation": "Deciding both your ideal outcome and your absolute minimum before a negotiation starts keeps you from setting limits in the heat of the moment. It keeps you clear-headed no matter how the conversation goes."
       },
       {
         "question": "A summer job has very few other applicants, so the employer struggles to fill it. What does this give the applicant?",
@@ -1105,7 +1105,7 @@
           "No leverage at all"
         ],
         "correctIndex": 0,
-        "explanation": "Leverage shifts toward whoever the other side needs more."
+        "explanation": "Leverage is simply which side has more to lose if no deal happens at all, and it shapes who has more room to push. Few applicants means the employer badly needs someone to say yes."
       },
       {
         "question": "Understanding a roommate's real objection to a chore chart might do what?",
@@ -1114,7 +1114,7 @@
           "Have no effect on what you propose"
         ],
         "correctIndex": 0,
-        "explanation": "Understanding someone's real interest can change what you decide to ask for, not just how you ask."
+        "explanation": "Understanding someone's real interest doesn't just help you persuade them of your original plan — it can genuinely change what you decide to propose. Discovering the real objection is feeling micromanaged might lead you to suggest a looser system entirely."
       },
       {
         "question": "A negotiation partner's position is \"I want the corner office,\" but their interest is \"I want quiet to focus.\" What does knowing the interest allow?",
@@ -1123,7 +1123,7 @@
           "Nothing — you must give them the office"
         ],
         "correctIndex": 0,
-        "explanation": "Once you know the real interest, other solutions besides the stated position often work just as well."
+        "explanation": "Once you understand the real interest behind a stated position, you can often find another solution entirely that satisfies it just as well. Noise-canceling headphones might solve the actual problem of needing quiet."
       }
     ]
   },
@@ -1183,7 +1183,7 @@
           "One where both sides can always expand the pie"
         ],
         "correctIndex": 0,
-        "explanation": "A distributive negotiation splits a fixed amount, unlike one where the pie can grow."
+        "explanation": "A distributive negotiation involves a fixed amount to split, so whatever one side gains, the other side loses. Splitting a hundred-dollar prize is a clear example — every extra dollar you get is a dollar your friend doesn't."
       },
       {
         "question": "A job offer includes salary, remote days, and vacation time to negotiate over, not just one number. What does this allow?",
@@ -1192,7 +1192,7 @@
           "Nothing, since salary is the only thing that matters"
         ],
         "correctIndex": 0,
-        "explanation": "Expanding the pie means trading across categories instead of fighting over a single number."
+        "explanation": "Expanding the pie means recognizing a negotiation isn't always fixed, and there's room for both sides to end up better off. It lets you trade across categories instead of fighting over just one number."
       },
       {
         "question": "Telling a partner \"I value working with you, and I also think we need firmer deadlines.\" What does this show?",
@@ -1201,7 +1201,7 @@
           "Being aggressive toward the other person"
         ],
         "correctIndex": 0,
-        "explanation": "It means staying warm to the person while being firm about the issue."
+        "explanation": "Principled negotiation means separating the person from the problem — staying warm and respectful toward someone while still being firm about the actual issue you disagree on."
       },
       {
         "question": "You point out honestly that a buyer doesn't realize an item's real value, instead of exploiting that. Why negotiate this way?",
@@ -1210,7 +1210,7 @@
           "Ethics don't matter once a deal is signed"
         ],
         "correctIndex": 0,
-        "explanation": "Fair dealing builds the trust needed for future negotiations."
+        "explanation": "Being honest, rather than taking advantage of someone's inexperience or urgency, builds the trust that makes people willing to negotiate with you again. It costs a little now but pays off later."
       },
       {
         "question": "Deciding who gets the smaller bedroom for lower rent with a future roommate uses which kind of thinking?",
@@ -1219,7 +1219,7 @@
           "A completely different skill unrelated to negotiation"
         ],
         "correctIndex": 0,
-        "explanation": "Negotiation shows up in everyday situations like splitting rent, not just formal deals."
+        "explanation": "Negotiation shows up constantly in everyday situations, not just formal deals like salaries. Splitting rent with a future roommate relies on the same interests-and-trade-offs thinking as negotiating a job offer."
       },
       {
         "question": "Instead of negotiating shifts and weekends off separately, you offer to cover more shifts in exchange for one specific weekend free. What is this called?",
@@ -1228,7 +1228,7 @@
           "Negotiating ethically"
         ],
         "correctIndex": 0,
-        "explanation": "A package deal bundles multiple issues into a single offer."
+        "explanation": "A package deal bundles several issues into one offer instead of negotiating each one separately. It often works better than arguing about your schedule and your weekend as two separate fights."
       },
       {
         "question": "Two people disagree about whether a project will finish early. They agree: \"If it finishes early, I get the bonus; if not, we split it.\" What does this avoid?",
@@ -1237,7 +1237,7 @@
           "Any need to ever discuss the project again"
         ],
         "correctIndex": 0,
-        "explanation": "A contingent agreement lets two people move forward without agreeing on an uncertain future."
+        "explanation": "A contingent agreement means agreeing in advance to different outcomes depending on what actually happens. It lets two people move forward without arguing over whose prediction is correct."
       },
       {
         "question": "In a group project negotiation, agreeing to discuss deadlines before workload comes up can do what?",
@@ -1246,7 +1246,7 @@
           "Have no effect on the outcome"
         ],
         "correctIndex": 0,
-        "explanation": "What gets discussed first can shape everything that follows in a negotiation."
+        "explanation": "Setting the agenda, deciding what gets discussed and in what order, can shape a negotiation before it even really begins. Talking deadlines first can steer the rest of the conversation."
       },
       {
         "question": "Three roommates with differently sized rooms negotiate rent together. What makes this harder than a two-person deal?",
@@ -1255,7 +1255,7 @@
           "It's actually simpler since more people are involved"
         ],
         "correctIndex": 0,
-        "explanation": "Each additional side brings its own interests that all need to fit together."
+        "explanation": "A multi-party negotiation is harder than a two-person one because every added person brings their own interests that all need to line up. Three roommates means balancing three sets of priorities at once."
       },
       {
         "question": "What's the key difference between a distributive negotiation and one where you can expand the pie?",
@@ -1264,7 +1264,7 @@
           "There is no real difference between them"
         ],
         "correctIndex": 0,
-        "explanation": "A distributive negotiation is fixed-sum; expanding the pie lets both sides come out ahead."
+        "explanation": "A distributive negotiation involves a fixed amount where one side's gain is the other's loss, while expanding the pie means finding ways for both sides to end up better off. Knowing which type you're in changes your strategy."
       }
     ]
   },
@@ -1324,7 +1324,7 @@
           "Nothing useful"
         ],
         "correctIndex": 0,
-        "explanation": "Emotional signals often reveal priorities that words alone don't."
+        "explanation": "Reading emotional signals means noticing hesitation, discomfort, or excitement, not just listening to someone's words. Tensing up the moment a topic comes up can reveal what actually matters to them."
       },
       {
         "question": "Your guardian says no to a request. What's a better response than giving up?",
@@ -1333,7 +1333,7 @@
           "Immediately stop asking about anything related to it forever"
         ],
         "correctIndex": 0,
-        "explanation": "A \"no\" often signals where things stand now, not that the door is closed forever."
+        "explanation": "A \"no\" usually signals where someone stands right now, not that the door is closed forever. Calmly asking what would need to change keeps a real conversation going instead of ending it."
       },
       {
         "question": "Winning an argument with a sibling by being harsh might get you what you want tonight. What could it cost later?",
@@ -1342,7 +1342,7 @@
           "Nothing, relationships don't factor into negotiation"
         ],
         "correctIndex": 0,
-        "explanation": "Relationships worth protecting can be damaged by a harsh short-term win."
+        "explanation": "Negotiating with someone you see every day works differently than negotiating with a stranger, because the relationship itself is worth protecting. A harsh win tonight can cost you trust you'll need soon."
       },
       {
         "question": "Deciding beforehand \"I won't accept less than $12 an hour\" before a job negotiation. What is this called?",
@@ -1351,7 +1351,7 @@
           "Something you only figure out after the negotiation ends"
         ],
         "correctIndex": 0,
-        "explanation": "A walk-away point is a limit you set for yourself in advance, before pressure sets in."
+        "explanation": "A walk-away point is the limit you decide on in advance, before any pressure has a chance to wear you down. It keeps you firm if someone tries to push you lower in the moment."
       },
       {
         "question": "Two people split a shared expense evenly, even though one originally wanted the other to pay more. What does this show?",
@@ -1360,7 +1360,7 @@
           "One side completely losing the negotiation"
         ],
         "correctIndex": 0,
-        "explanation": "Compromise means both sides give a little, which isn't the same as losing."
+        "explanation": "A real compromise means both sides give up something small to gain something bigger, which isn't the same thing as losing. Splitting the expense evenly can still leave both people satisfied."
       },
       {
         "question": "Someone tells you \"this offer expires in one hour\" to rush your decision. What is this an example of?",
@@ -1369,7 +1369,7 @@
           "A completely neutral, unbiased fact"
         ],
         "correctIndex": 0,
-        "explanation": "Manufactured urgency is a common pressure tactic worth questioning."
+        "explanation": "A pressure tactic is anything designed to rush your decision before you can really think it through, like a claimed deadline that isn't actually real. It's worth questioning, not simply obeying."
       },
       {
         "question": "A conversation with a roommate gets heated. What can help?",
@@ -1378,7 +1378,7 @@
           "Pushing through no matter how heated it gets"
         ],
         "correctIndex": 0,
-        "explanation": "Stepping away to cool down often leads to a better outcome than pushing through."
+        "explanation": "Stepping away from a heated conversation to think, instead of deciding on the spot, usually leads to a better outcome. An hour's pause can cool things down enough to actually solve the problem."
       },
       {
         "question": "You propose a compromise that lets a parent's original rule \"still stand\" for younger siblings while making an exception for you. Why might this work better than just saying the rule is wrong?",
@@ -1387,7 +1387,7 @@
           "It's pointless because the rule change is what matters"
         ],
         "correctIndex": 0,
-        "explanation": "Letting someone save face makes them far more likely to actually agree."
+        "explanation": "Saving face means letting someone exit a disagreement without feeling humiliated, which makes them far more likely to actually agree with you. Letting the original rule technically stand helps them agree without feeling like they lost."
       },
       {
         "question": "You're negotiating a deadline extension on behalf of your whole group project team. What should guide your ask?",
@@ -1396,7 +1396,7 @@
           "Only what's most convenient for you personally"
         ],
         "correctIndex": 0,
-        "explanation": "Negotiating for a group means representing its interests, not just your own."
+        "explanation": "Negotiating on someone else's behalf means the priorities guiding your asks should be the group's, not only your own. Keeping the team's real constraints in mind matters more than personal convenience."
       },
       {
         "question": "Why decide your walk-away point before a negotiation even begins?",
@@ -1405,7 +1405,7 @@
           "It's something you only need to think about afterward"
         ],
         "correctIndex": 0,
-        "explanation": "Setting the limit ahead of time protects you from deciding it under pressure."
+        "explanation": "Deciding your walk-away point before a negotiation begins protects you from letting in-the-moment pressure push you past your own limit. It's easier to hold firm on a number you already committed to."
       }
     ]
   }
