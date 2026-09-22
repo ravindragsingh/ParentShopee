@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, BackgroundTasks, Depends
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 from starlette.requests import Request as StarletteRequest
 
@@ -28,8 +28,11 @@ router = APIRouter()
 
 @router.post("/api/auth/login")
 def login(body: LoginBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    # body.username doubles as "username or email" — kids only ever have a
+    # username (no email), so this is effectively guardian-only, same as before.
+    identifier = body.username.strip().lower()
     user = db.query(DBUser).filter(
-        func.lower(DBUser.username) == body.username.strip().lower(),
+        or_(func.lower(DBUser.username) == identifier, func.lower(DBUser.email) == identifier),
         DBUser.password == body.password,
     ).first()
     if not user:
