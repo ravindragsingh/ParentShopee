@@ -4,47 +4,47 @@
       {
         "emoji": "🔒",
         "title": "Some things stay private",
-        "text": "Your name, address, and phone number are private. Never type them into a game or app."
+        "text": "Your full name, home address, phone number, school, and birthday are personal information. If a game asks for them, stop and check with a grown-up before typing anything."
       },
       {
         "emoji": "🔑",
         "title": "Keep your password secret",
-        "text": "A password is like a secret key. Only share it with your grown-up, no one else."
+        "text": "A password is like a key that opens your account. Keep it between you and the grown-up who helps manage your account—not friends or people you meet in games."
       },
       {
         "emoji": "📍",
-        "title": "Keep where you are secret",
-        "text": "Do not tell people online where you live or play. That is only for family to know."
+        "title": "Keep where you are private",
+        "text": "People online do not need to know where you live, go to school, or play. For example, do not tell a game-chat stranger the name of your school or park."
       },
       {
         "emoji": "👨‍👩‍👧",
-        "title": "Always with a grown-up",
-        "text": "Use screens with a grown-up close by. They can help if something goes wrong."
+        "title": "Have a grown-up nearby",
+        "text": "When you are still learning to use apps and games, a grown-up can help if something confusing pops up. If a message makes you worried, show it to them instead of handling it alone."
       },
       {
         "emoji": "📤",
         "title": "Ask before you post",
-        "text": "Ask a grown-up before you post anything. They know what is safe to share."
+        "text": "Before you share a photo, video, or comment, ask a grown-up. They can help notice private details in the background, such as your school name or house number."
       },
       {
         "emoji": "📷",
-        "title": "Pictures can be shared forever",
-        "text": "A picture you share can be seen by many people. Ask a grown-up before you share one."
+        "title": "Pictures can travel",
+        "text": "A photo can be copied, saved, or sent to other people after you share it. That is why it is smart to ask before posting—even if you only meant one friend to see it."
       },
       {
         "emoji": "🎂",
-        "title": "Your birthday is private too",
-        "text": "Your birthday and school name are private too. Only tell family and friends you know in real life."
+        "title": "Your birthday and school are private too",
+        "text": "A birthday or school name can tell strangers more about you than you think. Share those details only with people your family trusts."
       },
       {
         "emoji": "📹",
-        "title": "Video calls need a grown-up too",
-        "text": "Video chatting is fun. A grown-up should always know who you are talking to."
+        "title": "Video calls need a check first",
+        "text": "Before starting a video call, make sure a grown-up knows who you are talking to. A camera can show your face, your room, and things around your home."
       },
       {
         "emoji": "🧸",
-        "title": "Your own secret code",
-        "text": "A password is like a secret code for your things. Keep it safe with your grown-up."
+        "title": "Passwords protect your things",
+        "text": "Think of your password as the lock on a treasure box. A strong secret password helps keep your games, pictures, and messages safe."
       }
     ],
     "quiz": [
@@ -145,47 +145,47 @@
       {
         "emoji": "😟",
         "title": "If something feels weird",
-        "text": "Some things on a screen can feel scary or strange. Tell a grown-up right away."
+        "text": "If a video, message, picture, or person online makes you feel scared, confused, or uncomfortable, stop and tell a grown-up. You will not be in trouble for asking for help."
       },
       {
         "emoji": "🎭",
-        "title": "Not everyone is who they say",
-        "text": "Not everyone online is really who they seem. Always tell a grown-up about new people."
+        "title": "People online can pretend",
+        "text": "A person online may use a different name or picture, so you cannot always know who they really are. Treat new online people like strangers until a grown-up helps you check."
       },
       {
         "emoji": "🖱️",
-        "title": "Ask before you click",
-        "text": "Do not click buttons or pop-ups you do not know. Ask a grown-up first."
+        "title": "Pause before you click",
+        "text": "Pop-ups and giant buttons are designed to make you click quickly. If you do not know what a button does, pause and ask before tapping it."
       },
       {
         "emoji": "🚪",
-        "title": "Only trusted apps and games",
-        "text": "Grown-ups pick apps and games that are safe. Always ask before you try a new one."
+        "title": "Use apps your family has checked",
+        "text": "Not every app, video, or game is made for kids. Use ones your family has approved, and ask before installing something new."
       },
       {
         "emoji": "💰",
-        "title": "Games that ask for money",
-        "text": "Some games ask you to pay for coins or toys. Always ask a grown-up before you buy."
+        "title": "Game coins can cost real money",
+        "text": "Coins, skins, pets, and extra levels in a game can use real money. Even if it only takes one tap, ask before buying anything."
       },
       {
         "emoji": "⏰",
         "title": "Screens need breaks too",
-        "text": "Take breaks from screens to play and rest. Your eyes and body need it too."
+        "text": "Your eyes, body, and brain need time away from screens. After playing for a while, stretch, look far away, get some water, or play offline."
       },
       {
         "emoji": "🙅",
-        "title": "It's okay to say no",
-        "text": "If a game or app asks you to do something that feels wrong, it's okay to say no and tell a grown-up."
+        "title": "You can always say no",
+        "text": "If someone in a game asks for a secret, a photo, personal information, or something that feels wrong, you can say no, leave, and tell a grown-up."
       },
       {
         "emoji": "📢",
-        "title": "Loud noises and flashing lights",
-        "text": "Some ads are big, loud, and flashy to grab your attention. You never have to click on them."
+        "title": "Flashy ads want your attention",
+        "text": "Some ads blink, move, or make loud sounds so you notice them. You do not have to click—close them or ask for help if you are unsure."
       },
       {
         "emoji": "🧑‍💻",
-        "title": "Grown-ups help pick safe shows too",
-        "text": "Just like games and apps, grown-ups help choose safe videos and shows for you to watch."
+        "title": "Choose shows that fit you",
+        "text": "Videos can appear automatically, and the next one may not be meant for kids. Use shows and channels your family has checked, and tell a grown-up if something upsetting appears."
       }
     ],
     "quiz": [
@@ -286,47 +286,47 @@
       {
         "emoji": "🔑",
         "title": "What makes a password strong?",
-        "text": "A strong password is hard to guess, unlike simple ones like '123456' or your pet's name. Mixing letters, numbers, and symbols, such as \"BlueTiger$7Jump,\" makes it much harder for someone to break in."
+        "text": "A strong password is long and hard for someone else to guess. A made-up passphrase such as “PurpleRocket!River7” is safer than your name, birthday, pet name, or “123456.”"
       },
       {
         "emoji": "🙈",
         "title": "Privacy settings",
-        "text": "Many apps let you choose who can see what you post, like photos or messages. Setting your account so only friends you know can see it keeps strangers from watching you."
+        "text": "Privacy settings help control who can see your posts, photos, profile, or location. With a grown-up, set accounts so only people you actually know can see personal things."
       },
       {
         "emoji": "📍",
         "title": "Keep your location private",
-        "text": "Sharing exactly where you are, like your school or park, can tell strangers too much. Turn off location sharing in apps unless a grown-up says it is okay to use."
+        "text": "Your school, home, sports field, and live location can show strangers where to find you. Keep location sharing off unless you and a trusted grown-up intentionally need it."
       },
       {
         "emoji": "📸",
-        "title": "What's okay to post",
-        "text": "Before posting a photo or comment, think about who might see it, now or later. If you are not sure a post is okay, asking a grown-up first is always a smart move."
+        "title": "Think before you post",
+        "text": "Before posting, ask: “Would I be okay if a teacher, parent, or classmate saw this later?” If the answer is no or you are unsure, do not post it yet."
       },
       {
         "emoji": "🔒",
-        "title": "Keeping accounts safe",
-        "text": "On a shared computer or tablet, always log out of your account when you are done. Leaving an account logged in lets the next person use it, or even change your info."
+        "title": "Log out on shared devices",
+        "text": "If other people use the same computer or tablet, log out when you are finished. Otherwise the next person could open your account, read messages, or change settings."
       },
       {
         "emoji": "🔁",
-        "title": "Changing passwords when needed",
-        "text": "If you think someone else might know your password, tell a grown-up so you can change it together. Changing a password after something feels off is a smart habit, not an overreaction."
+        "title": "Change a password if something feels wrong",
+        "text": "If someone may know your password, or your account acts strangely, tell a grown-up and change the password. It is like changing a lock when you think someone copied the key."
       },
       {
         "emoji": "👤",
-        "title": "What a private account means",
-        "text": "A private account means only approved followers can see your posts, unlike a public account that anyone can find. Choosing private settings with a grown-up's help is one of the easiest ways to control who sees your life online."
+        "title": "What “private account” really means",
+        "text": "A private account limits your posts to approved followers, but it cannot stop someone from taking a screenshot or sharing what they saw. Private is safer—not invisible."
       },
       {
         "emoji": "🧩",
-        "title": "Usernames don't have to reveal much",
-        "text": "A username like \"SoccerStar2013\" can hint at your birth year, while something like \"BlueFalcon99\" reveals much less. Picking a username that doesn't give away personal clues is a small choice that adds up."
+        "title": "Pick usernames that reveal less",
+        "text": "A username does not need your real name, age, school, or birth year. “BlueFalcon27” gives away less than “EmmaMarlboro2017.”"
       },
       {
         "emoji": "🔓",
-        "title": "What to do if an account gets hacked",
-        "text": "If you suddenly can't log in, or friends say you're posting strange things, your account might be hacked. Telling a grown-up right away helps get it back under control quickly."
+        "title": "If your account may be hacked",
+        "text": "Signs can include strange messages, password-change emails you did not request, or suddenly being locked out. Tell a grown-up, change your password, and use the app’s account-recovery tools."
       }
     ],
     "quiz": [
@@ -426,48 +426,48 @@
     "slides": [
       {
         "emoji": "🚫",
-        "title": "Stranger danger applies online too",
-        "text": "You would not tell a stranger on the street your address, so do not tell one online either. If someone you only know from a game asks personal questions, it is okay to say nothing."
+        "title": "Online strangers are still strangers",
+        "text": "Someone you meet in a game may seem friendly, but you still do not know who is behind the screen. Do not share your school, address, phone number, passwords, or private photos."
       },
       {
         "emoji": "💬",
-        "title": "Being kind online",
-        "text": "Mean comments hurt just as much online as they do in person, even from behind a screen. Typing something unkind may feel easier online, but the same rules of kindness still apply."
+        "title": "Kindness counts online",
+        "text": "A real person reads the words you type. Before sending a comment, imagine saying it face-to-face—if it would be cruel in person, it is cruel online too."
       },
       {
         "emoji": "🚨",
-        "title": "What to do about unkindness",
-        "text": "If someone is mean to you online, telling a grown-up is always the safest choice. Do not respond with more meanness, since that usually makes the situation worse for everyone."
+        "title": "Block, save, and tell",
+        "text": "If someone is mean or keeps bothering you, do not start a fight back. Save evidence if needed, block or report the account, and tell a trusted grown-up."
       },
       {
         "emoji": "📥",
-        "title": "Careful with downloads",
-        "text": "Not every game, app, or file you find online is actually safe to download. Before downloading something new, like a free game mod from an unfamiliar site, ask a grown-up first."
+        "title": "Be careful with downloads",
+        "text": "A “free” game, mod, or file from an unfamiliar site can contain unwanted software or scams. Ask before installing, and use trusted app stores or official sites."
       },
       {
         "emoji": "🕵️",
-        "title": "Checking if a link is safe",
-        "text": "A message saying \"click here to win a prize!\" from a stranger is usually a trick. Real prizes do not usually show up through random pop-ups or messages, so treat them with suspicion."
+        "title": "Links can pretend to be prizes",
+        "text": "Messages such as “You won—click now!” may be trying to steal information or install something unsafe. Do not click surprise links; check with a grown-up first."
       },
       {
         "emoji": "🎮",
-        "title": "Chatting in online games",
-        "text": "Some games let you chat with players you have never met in real life. Keep personal details, like your city or school, out of those chats, just like anywhere else online."
+        "title": "Keep game chat about the game",
+        "text": "You can talk strategy without sharing personal details. A player does not need your real name, school, city, phone number, or where you are right now."
       },
       {
         "emoji": "🔔",
-        "title": "In-app purchases need a grown-up",
-        "text": "Buying coins, skins, or upgrades inside a game usually spends real money from a real card. Even though it feels like just tapping a button, always check with a grown-up before buying anything."
+        "title": "In-app purchases use real money",
+        "text": "Game coins, skins, and upgrades may look imaginary, but the money charged is real. Ask before buying anything or starting a subscription."
       },
       {
         "emoji": "⏱️",
-        "title": "Balancing screen time",
-        "text": "Spending too much time on screens can crowd out sleep, friends, and things you enjoy. Noticing when a game or show is taking over your day is an important habit to build."
+        "title": "Make room for offline life too",
+        "text": "Screens are fun, but they should not regularly push out sleep, homework, movement, family time, or activities you enjoy. If they do, it is time to rebalance."
       },
       {
         "emoji": "🎥",
-        "title": "Livestreams and video chats with strangers",
-        "text": "Some apps let you livestream or video chat with people you've never met. Keep your camera and personal details limited to people you actually know, and loop in a grown-up for anything new."
+        "title": "Be extra careful with cameras",
+        "text": "Livestreams and video chats reveal more than text: your face, voice, room, and surroundings. Use them only with people you really know and with a trusted grown-up aware."
       }
     ],
     "quiz": [
@@ -559,7 +559,7 @@
           "Click it quickly before the offer ends"
         ],
         "correctIndex": 0,
-        "explanation": "Scammers create urgency, like a countdown or 'click fast,' to stop you from thinking it through. A surprise prize message from an unknown number is almost always fake."
+        "explanation": "Scammers create urgency, like a countdown or 'click fast,' to stop you from thinking it through. A surprise prize message from an unknown number is very likely a scam."
       }
     ]
   },
@@ -568,52 +568,52 @@
       {
         "emoji": "🎣",
         "title": "What is phishing?",
-        "text": "Phishing is a trick where a fake message pretends to be from someone trustworthy (like a game company) to try to steal your password or personal information. For example, an email that looks like it's from a game company saying \"your account will be deleted, click here to verify your password\" is a classic phishing attempt designed to steal your login."
+        "text": "Phishing is a fake message designed to make you reveal a password, code, or personal information. Example: “Your game account will be deleted—log in here now!” may lead to a copycat login page."
       },
       {
         "emoji": "🔐",
-        "title": "Two-factor authentication",
-        "text": "Some accounts offer an extra security step — like a code sent to your phone — on top of your password. It's an easy way to make an account harder to break into. For example, even if someone guessed or stole your password, two-factor authentication means they'd also need the one-time code sent to your phone, which they wouldn't have."
+        "title": "Use two-step verification",
+        "text": "Two-factor authentication (2FA) adds another check after your password, such as an app code or device prompt. If someone steals your password, that second step can still block them."
       },
       {
         "emoji": "🔑",
-        "title": "Strong, unique passwords",
-        "text": "Using a different, strong password for every account means that if one account gets hacked, your other accounts stay safe. For example, if someone figures out your gaming password and you also use that same password for your email, they could get into your email too — using a different password for each account keeps one leak from spreading."
+        "title": "Use strong, unique passwords",
+        "text": "Use a different strong password for important accounts. If one site is breached, reusing the same password can let attackers try it on your email, games, and social accounts too."
       },
       {
         "emoji": "🎁",
-        "title": "Too-good-to-be-true offers",
-        "text": "Scammers often lure people in with deals that seem exciting, like free gift cards, rare game items, or giveaways that seem almost too generous. For example, a message promising \"free V-bucks, just enter your account login here\" is designed to steal your password, since real companies never give away rewards in exchange for your login information."
+        "title": "Be suspicious of “free” rewards",
+        "text": "“Free V-Bucks,” gift cards, rare skins, or giveaways that ask for your login are common bait. Real rewards should never require you to hand over your password."
       },
       {
         "emoji": "💳",
-        "title": "In-app purchases and subscriptions",
-        "text": "Apps and games often make it easy to spend real money on upgrades, subscriptions, or loot boxes, sometimes without it feeling like real spending. For example, a game that offers a \"free trial\" subscription can quietly start charging a card automatically after a week unless someone cancels it first, which is why checking the terms with a grown-up matters."
+        "title": "Know when game spending becomes real spending",
+        "text": "One-tap purchases, loot boxes, subscriptions, and upgrades can make real money feel like game points. Check the price and ask before buying or subscribing."
       },
       {
         "emoji": "🧾",
-        "title": "Reading the fine print on 'free trials'",
-        "text": "Many subscriptions offer a free trial that automatically turns into a paid charge unless you cancel before it ends. For example, a game pass advertised as 'free for 7 days' might quietly charge a linked card every month afterward unless someone actively cancels it."
+        "title": "Free trials can become paid subscriptions",
+        "text": "A “7-day free trial” may begin charging automatically on day 8. Before starting one, check the renewal price, cancellation date, and whether a card is required."
       },
       {
         "emoji": "🕵️‍♂️",
-        "title": "Verifying before you trust a message",
-        "text": "If a message claims to be from a company or a friend, checking through a separate, trusted channel confirms whether it's real. For example, if a 'friend' texts asking to borrow money urgently, calling them directly (not replying to the same message) can confirm whether it's really them or a hacked account."
+        "title": "Verify through a separate channel",
+        "text": "If a message seems unusual—even from a friend—check another way. For example, if a friend suddenly asks for money, call or message them somewhere else instead of trusting the same conversation."
       },
       {
         "emoji": "🔓",
-        "title": "What to do if you already clicked",
-        "text": "Clicking a suspicious link doesn't mean you're doomed — telling a trusted adult quickly and changing your password can limit the damage. For example, if you realize seconds after clicking that a link looked fake, changing your password right away and telling a parent is far more useful than staying quiet out of embarrassment."
+        "title": "If you clicked, act quickly",
+        "text": "Clicking a suspicious link does not mean everything is lost. Stop entering information, tell a trusted adult, change any password you typed, and review the account for unusual activity."
       },
       {
         "emoji": "🎮",
-        "title": "Scams inside games, not just messages",
-        "text": "Scams don't only arrive by text or email — they also show up as fake trade offers, 'free skins' links, or impersonators pretending to be game staff. For example, a player claiming to be a 'moderator' who asks you to log in through a link they send is never actually part of the real game's staff."
+        "title": "Scams can happen inside games",
+        "text": "Fake trades, “free skin” links, and people pretending to be game staff can all be scams. Real staff generally use official in-game or support systems, not random private login links."
       },
       {
         "emoji": "🔗",
-        "title": "Spotting a fake web address",
-        "text": "Scam websites often use addresses that look almost right, like 'arnazon.com' instead of 'amazon.com,' hoping you won't notice the difference. For example, checking the web address carefully before entering a password is a quick habit that catches many fake login pages."
+        "title": "Check the whole web address",
+        "text": "Fake sites often use look-alike spellings, extra words, or strange domains. Before signing in, check the address carefully and, when possible, open the official app or type the site yourself."
       }
     ],
     "quiz": [
@@ -651,7 +651,7 @@
           "A legitimate reward from the game company"
         ],
         "correctIndex": 0,
-        "explanation": "Real companies never trade free rewards for your account login — that's a classic bait used to steal passwords. Once scammers have your login, they can take over the account entirely."
+        "explanation": "Legitimate services should never require you to give a password to claim a reward — that's a classic bait used to steal passwords. Once scammers have your login, they can take over the account entirely."
       },
       {
         "question": "A 'free trial' subscription auto-renews unless you act. What should you do if you don't want to keep paying?",
@@ -996,47 +996,47 @@
       {
         "emoji": "🎭",
         "title": "Social engineering",
-        "text": "Social engineering means manipulating someone psychologically — through urgency, fear, or trust — to trick them into giving up information or access. For example, a message claiming \"your account will be permanently locked in 10 minutes unless you verify now\" uses manufactured urgency to pressure you into acting before you have time to think carefully."
+        "text": "Social engineering targets people rather than computers. Scammers use urgency, fear, authority, or trust—such as “verify in 10 minutes or lose your account”—to push you into acting before you think."
       },
       {
         "emoji": "🖼️",
         "title": "Deepfakes and misinformation",
-        "text": "AI can now generate convincing fake images, video, and audio. Verifying a surprising claim through a second, trusted source is more important than ever. For example, a video appearing to show a public figure saying something shocking should be checked against a reliable news source before you believe or share it, since AI-generated fakes can look and sound remarkably real."
+        "text": "AI can create convincing fake images, voices, and video. If a clip is shocking or important, check whether reliable sources and the original account confirm it before believing or sharing it."
       },
       {
         "emoji": "🌐",
-        "title": "Public Wi-Fi risks",
-        "text": "Using public Wi-Fi for anything sensitive (like banking) without protection can expose your data to others on the same network. For example, logging into a banking app while connected to free coffee-shop Wi-Fi could let someone else on that same network potentially intercept your information, unlike using your phone's own secure cellular data."
+        "title": "Public Wi-Fi: understand the real risk",
+        "text": "Modern encrypted apps and HTTPS protect much of your traffic, but public Wi-Fi can still be risky through fake networks, malicious redirects, or poor device security. Avoid sensitive tasks on networks you do not trust, and use cellular data or a trusted network when practical."
       },
       {
         "emoji": "🏦",
-        "title": "Protecting financial info online",
-        "text": "Only enter card or banking details on sites you trust, with a secure connection (look for https and a lock icon) — never through a link from an unexpected message. For example, a text saying \"your package couldn't be delivered, click here and enter your card info to reschedule\" is a common scam pattern — legitimate delivery issues don't require your card details through a random text link."
+        "title": "Protecting financial information online",
+        "text": "Do not enter card or banking details from a surprise text, DM, or email link. Open the official app or type the company’s known website yourself; a padlock/HTTPS protects the connection but does not prove the business itself is legitimate."
       },
       {
         "emoji": "💼",
-        "title": "Recognizing scams aimed at teens",
-        "text": "Scammers specifically target teens with fake job offers, \"easy money\" schemes, or online relationships that eventually ask for money or personal information. For example, a message offering \"$500 a week for easy online work, just pay a small starter fee\" is a classic scam pattern, since legitimate jobs never require paying money upfront to get hired."
+        "title": "Scams aimed at teens",
+        "text": "Fake jobs, “easy money,” fake scholarships, romance scams, and payment requests all target teens. A job that requires you to pay a fee, buy gift cards, or send money before you are hired is a major warning sign."
       },
       {
         "emoji": "🕳️",
-        "title": "Checking if your data has been breached",
-        "text": "When a company's data is stolen in a breach, your email, password, or other details can end up exposed online without you knowing. For example, using a reputable breach-check tool to see if an old account's password was exposed, then changing that password everywhere it was reused, is a smart, proactive habit."
+        "title": "Check whether old credentials were exposed",
+        "text": "A company breach can expose old usernames, emails, or passwords. If you learn that one of your passwords was exposed, change it anywhere it was reused and turn on 2FA."
       },
       {
         "emoji": "🎣",
-        "title": "Spear phishing: when scams get personal",
-        "text": "Unlike generic scam emails, 'spear phishing' uses real details about you — like your school, job, or a friend's name — to seem more convincing. For example, an email that references your actual part-time employer by name before asking you to 'confirm your payroll info' is a targeted attempt, not a random guess."
+        "title": "Spear phishing uses details about you",
+        "text": "A targeted scam may mention your school, employer, coach, or friend to look believable. Real details do not prove the message is real—verify sensitive requests independently."
       },
       {
         "emoji": "💳",
-        "title": "Recognizing a fake checkout page",
-        "text": "Scam shopping sites often mimic real brands closely, but small details — a slightly wrong URL, no https padlock, or prices far below normal — are giveaways. For example, a 'limited time' sneaker site selling a $180 shoe for $19.99 with only cryptocurrency accepted as payment fits a well-known scam pattern."
+        "title": "Fake checkout pages can look polished",
+        "text": "Scam stores may copy real logos and product photos. Warning signs include a look-alike domain, unrealistic prices, poor contact information, pressure to pay quickly, or unusual payment methods."
       },
       {
         "emoji": "🔔",
-        "title": "What to do after falling for a scam",
-        "text": "If you realize you've been scammed, acting quickly — telling a trusted adult, contacting your bank if money was involved, and changing passwords — limits the damage far more than staying silent out of embarrassment. For example, reporting a fraudulent charge within hours gives a bank a much better chance of reversing it than waiting weeks."
+        "title": "If money or credentials were stolen, act fast",
+        "text": "Tell a trusted adult, change affected passwords, and contact the bank/card provider if money was involved. Quick reporting can limit further charges or account takeovers."
       }
     ],
     "quiz": [
@@ -1065,7 +1065,7 @@
           "Public Wi-Fi is always perfectly safe for anything"
         ],
         "correctIndex": 0,
-        "explanation": "Public Wi-Fi networks are often unencrypted or shared with strangers, meaning someone else on the same network could potentially intercept data you send, including banking logins. Using your phone's own cellular data, or a trusted network, avoids that exposure entirely."
+        "explanation": "Public Wi-Fi is shared with strangers and can include fake or poorly secured networks. Modern encrypted apps protect much of your traffic, but sensitive tasks are still safer on a trusted network or cellular connection."
       },
       {
         "question": "A text says \"your package couldn't be delivered, click here and enter your card info.\" What should you do?",
@@ -1128,7 +1128,7 @@
           "Trust it automatically if the logo looks right"
         ],
         "correctIndex": 0,
-        "explanation": "A mismatched web address, a missing padlock icon showing a secure connection, and prices that seem too good to be true are all quick signals a shopping site might be fake. Checking these details takes seconds and can prevent a stolen card number."
+        "explanation": "A mismatched web address, a strange web address, unrealistic prices, weak contact information, or unusual payment demands can all signal a fake shopping site. A padlock/HTTPS means the connection is encrypted, but scam sites can use HTTPS too, so also check the domain, price, contact information, and payment method."
       }
     ]
   },

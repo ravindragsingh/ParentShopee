@@ -4,42 +4,42 @@
       {
         "emoji": "🍋",
         "title": "What is a lemonade stand?",
-        "text": "A lemonade stand is a tiny business you run. You make lemonade and sell it on hot days."
+        "text": "A lemonade stand is a small business. You make lemonade, choose a price, and sell cups to people who want a drink. If someone gives you $1 for a cup, you just made a sale!"
       },
       {
         "emoji": "💡",
         "title": "Where ideas come from",
-        "text": "Big ideas start with noticing what people need. You see thirsty people, so you sell cold drinks."
+        "text": "Business ideas can start by noticing what people need or want. If people at the park are hot and thirsty, selling cold lemonade could be a useful idea."
       },
       {
         "emoji": "🎨",
         "title": "You can make things too!",
-        "text": "Making things to sell makes you an entrepreneur. You could make bracelets, drawings, or yummy cookies."
+        "text": "Kids can create things that other people may want to buy. You might make bracelets, drawings, bookmarks, or cookies. Creating and selling something is one way to be an entrepreneur."
       },
       {
         "emoji": "💪",
         "title": "It takes effort",
-        "text": "Running a lemonade stand takes real work. You squeeze lemons and make a sign too."
+        "text": "A business does not run by itself. You may need to make the lemonade, set up the table, create a sign, and clean up afterward. That work is part of being an entrepreneur."
       },
       {
         "emoji": "🏗️",
         "title": "Making something to sell",
-        "text": "You must make lemonade before you sell it. First mix lemons, sugar, and cold water."
+        "text": "Before you can sell something, you need to make or prepare it. For lemonade, you might mix lemons, water, and sugar, then pour it into cups for customers."
       },
       {
         "emoji": "🤝",
         "title": "What is trading?",
-        "text": "Trading means giving something and getting something back. You give lemonade, and get a coin back."
+        "text": "Trading means exchanging one thing for another. At a lemonade stand, a customer gives you money and you give them lemonade. Both people receive something they value."
       },
       {
         "emoji": "🙋",
         "title": "Who is a customer?",
-        "text": "A customer is someone who buys from you. Being kind makes customers want to come back."
+        "text": "A customer is a person who buys something from a business. If your neighbor pays for a cup of lemonade, your neighbor is your customer."
       },
       {
         "emoji": "😀",
         "title": "A happy customer comes back",
-        "text": "Happy customers often come back to buy more. Your neighbor loved it, so she came back."
+        "text": "When customers like what they bought and are treated kindly, they may come back again. A neighbor who loved your lemonade today might buy another cup tomorrow."
       }
     ],
     "quiz": [
@@ -50,7 +50,7 @@
           "A place to take a nap"
         ],
         "correctIndex": 0,
-        "explanation": "A lemonade stand is a real business. You make lemonade, then sell cups to neighbors for money."
+        "explanation": "A lemonade stand is a small business. You make lemonade and sell cups to customers. If someone pays $1 for a cup, that is a sale."
       },
       {
         "question": "What is a customer?",
@@ -59,7 +59,7 @@
           "A type of lemon"
         ],
         "correctIndex": 0,
-        "explanation": "A customer is someone who buys from you, like a neighbor who pays a dollar for your lemonade."
+        "explanation": "A customer is someone who buys something from you. If your neighbor pays for lemonade, your neighbor is your customer."
       },
       {
         "question": "You give lemonade, and get a coin. What just happened?",
@@ -68,7 +68,7 @@
           "Nothing happened at all"
         ],
         "correctIndex": 0,
-        "explanation": "Trading means both people give something. You give a cup of lemonade, and you get a coin back."
+        "explanation": "You made an exchange: the customer gave you money, and you gave the customer lemonade. That is a simple trade."
       },
       {
         "question": "Where do business ideas often come from?",
@@ -77,7 +77,7 @@
           "They only come from grown-ups, never kids"
         ],
         "correctIndex": 0,
-        "explanation": "Good ideas come from noticing what people need, like thirsty kids wanting a cold drink."
+        "explanation": "Business ideas often start by noticing what people need or want. Thirsty people on a hot day might want a cold drink."
       },
       {
         "question": "Does running a lemonade stand take effort?",
@@ -86,7 +86,7 @@
           "No, it happens by itself"
         ],
         "correctIndex": 0,
-        "explanation": "Running a stand takes real work, like squeezing lemons and carrying cups and a sign."
+        "explanation": "Yes. You may need to make lemonade, carry supplies, create a sign, serve customers, and clean up afterward."
       },
       {
         "question": "What must you do before selling lemonade?",
@@ -95,7 +95,7 @@
           "You can sell it before it exists"
         ],
         "correctIndex": 0,
-        "explanation": "You must make lemonade first, mixing lemons, sugar, and water, before you can sell any."
+        "explanation": "You need something ready to sell. For lemonade, that means making the drink and getting cups ready before customers arrive."
       },
       {
         "question": "What happens when a customer loves your lemonade?",
@@ -104,7 +104,7 @@
           "They never think about it again"
         ],
         "correctIndex": 0,
-        "explanation": "Happy customers come back for more, like a neighbor who loved your lemonade yesterday."
+        "explanation": "A happy customer may come back or tell someone else about your stand. Treating customers well can help a small business grow."
       },
       {
         "question": "You notice kids at the park are very thirsty on a hot day. What's a good idea?",
@@ -113,7 +113,7 @@
           "Sell them mittens"
         ],
         "correctIndex": 0,
-        "explanation": "Noticing thirsty kids on a hot day is a great idea for starting a lemonade stand."
+        "explanation": "A lemonade stand could solve a simple problem: thirsty people want a cold drink. Good business ideas often start by noticing a need."
       },
       {
         "question": "What is one thing you could make to sell, besides lemonade?",
@@ -122,7 +122,7 @@
           "A cloud"
         ],
         "correctIndex": 0,
-        "explanation": "Making bracelets, drawings, or cookies to sell also makes you a small business owner."
+        "explanation": "You can create many things people may want, such as bracelets, drawings, bookmarks, or cookies. Making and selling something is one way to start a small business."
       },
       {
         "question": "Can kids have good business ideas, or only grown-ups?",
@@ -131,7 +131,7 @@
           "Only grown-ups can have ideas"
         ],
         "correctIndex": 0,
-        "explanation": "Kids can have great business ideas too, just like noticing thirsty friends need a cold drink."
+        "explanation": "Kids can notice problems, create things, and think of useful ideas too. A business idea can start with anyone who spots a need and thinks of a solution."
       }
     ]
   },
@@ -140,47 +140,47 @@
       {
         "emoji": "🏷️",
         "title": "Picking a fair price",
-        "text": "A fair price is not too high or low. One dollar for a cold cup feels fair."
+        "text": "A price is how much money someone pays for what you sell. A fair price should make sense for both you and the customer. For example, you might charge $1 for one cold cup of lemonade."
       },
       {
         "emoji": "📣",
         "title": "Telling people about your stand",
-        "text": "You can tell people your stand is open. A big colorful sign helps people notice you."
+        "text": "People cannot buy from your stand if they do not know it is there. A bright sign saying “Lemonade $1” can help neighbors notice what you are selling."
       },
       {
         "emoji": "🪙",
         "title": "Counting your coins",
-        "text": "At the end of the day, count all your coins. Counting helps you know how much you earned."
+        "text": "At the end of the day, count the money you received. If you sold five cups for $1 each, you collected $5. Keeping track helps you understand how your business did."
       },
       {
         "emoji": "🐷",
         "title": "Saving up for supplies",
-        "text": "You can save coins to buy more lemons. Saving a little each day adds up fast."
+        "text": "A business may need supplies to keep going. Saving some of the money you earn can help you buy more lemons, cups, or ice for the next day."
       },
       {
         "emoji": "💰",
         "title": "Saving some, spending some",
-        "text": "You can save some coins and spend some too. Saving a little each time helps you reach a goal."
+        "text": "You do not have to spend all the money you earn. You can save some for a goal, keep some for your business, and spend some later."
       },
       {
         "emoji": "💯",
         "title": "Being honest",
-        "text": "Always tell the truth about your lemonade. If it is a little warm, say so."
+        "text": "Honesty helps people trust you. If your lemonade is warm or you ran out of a flavor, tell the truth instead of pretending. Customers appreciate honest sellers."
       },
       {
         "emoji": "🧑‍🤝‍🧑",
         "title": "Teamwork with a friend",
-        "text": "Two friends can run a stand together. One friend pours the cups, and one collects coins."
+        "text": "Two people can share the work. One friend might pour lemonade while the other greets customers and collects money. Teamwork can make a busy stand easier to run."
       },
       {
         "emoji": "☁️",
         "title": "A slow day happens sometimes",
-        "text": "Some days not many people stop by. That is okay, you can try again tomorrow."
+        "text": "Some days you may sell a lot, and other days you may sell only a little. One slow day does not mean your idea is bad. You can think about what to change and try again."
       },
       {
         "emoji": "🧹",
         "title": "Cleaning up your stand",
-        "text": "After selling, clean up your table and cups. A tidy spot makes neighbors happy too."
+        "text": "Good business owners take care of their space. After selling, throw away trash, put supplies away, and leave the area clean for everyone."
       }
     ],
     "quiz": [
@@ -191,7 +191,7 @@
           "As high as you can possibly charge"
         ],
         "correctIndex": 0,
-        "explanation": "A fair price isn't too high or too low, like paying one dollar for a cold cup."
+        "explanation": "A fair price makes sense for both the seller and the customer. For example, $1 for a cold cup may feel reasonable if it covers the cost and the customer is happy to pay it."
       },
       {
         "question": "Why make a big sign for your stand?",
@@ -200,7 +200,7 @@
           "To keep the sun off your lemonade"
         ],
         "correctIndex": 0,
-        "explanation": "A big sign helps people see your stand is open, so more customers stop by."
+        "explanation": "A clear sign helps people notice what you are selling and how much it costs. If people do not see your stand, they may walk right past it."
       },
       {
         "question": "Two friends run a lemonade stand. What's a good way to work together?",
@@ -209,7 +209,7 @@
           "One friend does nothing at all"
         ],
         "correctIndex": 0,
-        "explanation": "Sharing jobs makes work easier, like one friend pouring cups while another collects coins."
+        "explanation": "Sharing jobs makes the work easier. One person could pour lemonade while the other greets customers and collects money."
       },
       {
         "question": "Why count your coins at the end of the day?",
@@ -218,7 +218,7 @@
           "To build a tall tower"
         ],
         "correctIndex": 0,
-        "explanation": "Counting your coins at the end of the day shows you how much money you earned."
+        "explanation": "Counting your money tells you how much you collected. If you sold five cups for $1 each, you should have collected $5."
       },
       {
         "question": "What's a good idea to do with your earnings?",
@@ -227,7 +227,7 @@
           "Hide them and forget about them"
         ],
         "correctIndex": 0,
-        "explanation": "Saving some coins and spending some helps you reach a goal, like buying more lemons."
+        "explanation": "You can divide your money for different goals: save some, use some for more supplies, and spend some later."
       },
       {
         "question": "Your lemonade is a little warm today. What should you tell a customer?",
@@ -236,7 +236,7 @@
           "Nothing, just sell it anyway"
         ],
         "correctIndex": 0,
-        "explanation": "Telling the truth, like saying your lemonade is warm, helps customers trust you."
+        "explanation": "Tell the truth. Honest sellers build trust, and customers are more likely to return when they know they can believe you."
       },
       {
         "question": "No one stops by your stand today. What should you do?",
@@ -245,7 +245,7 @@
           "Give up on your stand forever"
         ],
         "correctIndex": 0,
-        "explanation": "A slow day is normal. You can just try selling again tomorrow."
+        "explanation": "One slow day does not mean you should quit. You can try again and think about whether a different time, sign, or location might help."
       },
       {
         "question": "Why clean up your stand after selling?",
@@ -254,7 +254,7 @@
           "It makes the lemonade taste better"
         ],
         "correctIndex": 0,
-        "explanation": "Cleaning your table and cups after selling keeps the spot tidy for your neighbors."
+        "explanation": "Cleaning up shows responsibility. It keeps the area pleasant for neighbors and gets your supplies ready for next time."
       },
       {
         "question": "If you save $1 today and $1 tomorrow, how much have you saved?",
@@ -263,7 +263,7 @@
           "$1"
         ],
         "correctIndex": 0,
-        "explanation": "Saving a little each day adds up fast, like one dollar plus one dollar makes two."
+        "explanation": "You saved $2 because $1 + $1 = $2. Small amounts can grow when you keep saving."
       },
       {
         "question": "What helps a customer trust you?",
@@ -272,7 +272,7 @@
           "Never talking to them"
         ],
         "correctIndex": 0,
-        "explanation": "Being honest, like admitting your lemonade is warm, makes customers trust your little business."
+        "explanation": "Being honest and kind helps customers trust you. Trust makes people more comfortable buying from you again."
       }
     ]
   },
@@ -286,7 +286,7 @@
       {
         "emoji": "💰",
         "title": "Cost vs. price",
-        "text": "Cost is what it takes to make something, and price is what you charge to sell it. If lemonade costs 20 cents to make and sells for a dollar, your profit is 80 cents."
+        "text": "Cost is what you spend to make or get a product. Price is what a customer pays you for it. If a cup of lemonade costs 20¢ to make and you sell it for $1, the difference before any other expenses is 80¢."
       },
       {
         "emoji": "📋",
@@ -306,7 +306,7 @@
       {
         "emoji": "🏷️",
         "title": "Checking what others charge",
-        "text": "Before setting your price, it helps to check what other nearby sellers are charging. Charging close to their price, or a little less, can help customers choose you."
+        "text": "Before choosing a price, it helps to see what similar sellers charge and what customers are willing to pay. You do not always have to be cheaper — better quality, flavor, or service can also make your product worth choosing."
       },
       {
         "emoji": "📍",
@@ -427,7 +427,7 @@
       {
         "emoji": "🧾",
         "title": "Keeping track",
-        "text": "Writing down what you spend and earn helps you see if your business is really working. If you spent $4 on supplies and earned $12, you made an $8 profit."
+        "text": "Writing down the money that comes in and the money you spend helps you understand whether your business is working. If you earned $12 and spent $4 on supplies, you have $8 left before any other expenses."
       },
       {
         "emoji": "👨‍👩‍👧",
@@ -457,7 +457,7 @@
       {
         "emoji": "🎉",
         "title": "Celebrating your progress",
-        "text": "After a great week of sales, it's worth pausing to celebrate what you accomplished, not just rushing to the next thing. Treating yourself to something small after reaching a savings goal helps you feel proud of the work you put in."
+        "text": "Entrepreneurs can celebrate progress without spending all their earnings. Reaching a goal — like your first 10 customers — is a good reason to feel proud, share the news, or choose a small reward."
       }
     ],
     "quiz": [
@@ -558,7 +558,7 @@
       {
         "emoji": "🎯",
         "title": "Knowing your customer",
-        "text": "Successful businesses understand who they're selling to — what that person likes, needs, and is willing to pay for. For example, if you're selling handmade bookmarks, knowing that your customers are mostly classmates who love a specific book series could help you design bookmarks featuring those characters, which they'd be far more excited to buy."
+        "text": "Successful businesses learn who is most likely to buy from them — what those customers like, need, and can afford. For example, if classmates love fantasy books, you might design original dragon or magic-themed bookmarks rather than copying copyrighted characters."
       },
       {
         "emoji": "🎲",
@@ -583,7 +583,7 @@
       {
         "emoji": "🧭",
         "title": "Needs vs. wants",
-        "text": "A need is something people can't easily do without, while a want is something nice to have but not essential — and businesses solving real needs often last longer. For example, a tutoring business helping students pass math class solves a genuine need, while a business selling a trendy toy might fade once the trend does."
+        "text": "A need solves an important problem; a want makes life more enjoyable or convenient. Both can support good businesses. The key is understanding how strongly customers care about the problem and whether they will pay for your solution."
       },
       {
         "emoji": "🗣️",
@@ -604,7 +604,7 @@
           "It doesn't matter who buys your product"
         ],
         "correctIndex": 0,
-        "explanation": "Knowing your customer means understanding what they like and can afford, so you can design something they'll actually want. For example, if your classmates love a certain book series, making bookmarks with those characters is far more likely to sell than generic ones."
+        "explanation": "Understanding your customer helps you design something they actually want, price it appropriately, and explain why it is useful. For example, if classmates enjoy fantasy stories, original magic-themed bookmarks may appeal more than generic designs."
       },
       {
         "question": "Which is a \"smart risk\" for a young entrepreneur?",
@@ -649,7 +649,7 @@
           "Selling a trendy toy just because it's popular this month"
         ],
         "correctIndex": 0,
-        "explanation": "A need is something people can't easily skip, while a want is just nice to have, and businesses meeting real needs tend to last. Tutoring students in math solves a lasting need; selling a trendy toy may fade once the trend does."
+        "explanation": "Tutoring can solve an ongoing problem for students who need help learning math. A trendy toy may still be a valid business, but demand could disappear faster if the trend fades."
       },
       {
         "question": "Why is it useful to write a simple pitch for your business idea?",
@@ -694,12 +694,12 @@
       {
         "emoji": "🏷️",
         "title": "Pricing fairly",
-        "text": "Setting a fair price means charging enough to cover your costs and time, without charging so much that customers walk away. For example, if a bracelet costs $3 in materials to make, pricing it at $8 covers your costs and effort while still feeling fair to someone buying a handmade gift."
+        "text": "A fair price should cover your costs, reward your time and effort, and still make sense to customers. If a bracelet uses $3 of materials, you might test an $8 price and see whether buyers think the quality and design are worth it."
       },
       {
         "emoji": "🏷️",
         "title": "Standing out from competitors",
-        "text": "If other people sell something similar, a business needs a reason customers should pick them — better quality, price, or service. For example, if three kids at your school are all selling friendship bracelets, offering custom colors made to order, or slightly better prices, gives customers a specific reason to choose you."
+        "text": "When several businesses sell similar things, customers need a reason to choose one. You could stand out through better quality, custom choices, faster service, a different style, or a fair price — not just by being the cheapest."
       },
       {
         "emoji": "📣",
@@ -830,7 +830,7 @@
       {
         "emoji": "📊",
         "title": "Profit and loss",
-        "text": "If you earn more than you spend, that's a profit. If you spend more than you earn, that's a loss. Tracking both helps a business survive. For example, if your dog-walking side business earns $60 in a month but spent $75 on flyers, leashes, and treats, that month was actually a $15 loss, even though $60 sounds like good money."
+        "text": "Profit is what remains when your business earns more than it spends; a loss happens when expenses are higher than earnings. If your dog-walking business brings in $60 but spends $75 that month, it has a $15 loss."
       },
       {
         "emoji": "🧑‍🤝‍🧑",
@@ -971,12 +971,12 @@
       {
         "emoji": "🌱",
         "title": "Startup vs. small business",
-        "text": "A small business often grows steadily and stays similar in size. A startup usually aims to grow very fast, often testing a new idea that hasn't been proven yet. For example, a local pet-sitting business run by one teen is a small business, growing steadily one customer at a time — while an app trying to connect thousands of pet owners with sitters nationwide, aiming to grow fast, would be more like a startup."
+        "text": "A small business is usually built to operate sustainably for its owners and customers. A startup is typically designed around a repeatable idea that can grow rapidly, often with significant uncertainty. A neighborhood pet-sitting service may be a small business; a platform built to connect thousands of sitters and pet owners across cities may be a startup."
       },
       {
         "emoji": "💵",
         "title": "Where funding comes from",
-        "text": "Businesses can be funded with personal savings, loans, or investors who give money in exchange for a share of future profits or ownership. For example, a teen might use $50 of their own savings to buy initial supplies, while a bigger startup might convince an investor to provide $50,000 in exchange for owning 10% of the company."
+        "text": "Businesses can be funded in different ways: personal savings, revenue from early sales, loans that must be repaid, or investors who provide money in exchange for ownership (equity). Each source changes the founder’s risk, control, and obligations."
       },
       {
         "emoji": "📈",
@@ -1001,7 +1001,7 @@
       {
         "emoji": "🏢",
         "title": "Choosing a business structure",
-        "text": "Even a simple teen business can be organized differently: a sole proprietorship has one owner who's fully responsible, while a partnership splits ownership, responsibility, and profit between two or more people. For example, a solo Etsy shop selling stickers is a sole proprietorship, while two friends co-running a tutoring service together would typically operate as a partnership."
+        "text": "Businesses can use different legal structures, and the exact rules depend on where they operate. A sole proprietorship generally has one owner, while a partnership involves two or more owners. As a business grows, owners may consider other structures with help from a parent, accountant, or attorney."
       }
     ],
     "quiz": [
@@ -1021,7 +1021,7 @@
           "There is no real difference between them"
         ],
         "correctIndex": 0,
-        "explanation": "A startup chases fast growth around an unproven idea, while a small business grows slowly and steadily instead. One teen's local pet-sitting service is a small business, but an app trying to connect thousands of pet owners with sitters nationwide would count as a startup."
+        "explanation": "A startup is generally designed to test a repeatable idea that could grow rapidly, while many small businesses focus on serving a local or defined market sustainably. Either type can be successful; they simply have different growth goals and risks."
       },
       {
         "question": "An investor gives $50,000 in exchange for 10% ownership. What did they get?",
@@ -1030,7 +1030,7 @@
           "Nothing at all, ever"
         ],
         "correctIndex": 0,
-        "explanation": "Investors give money to a business in exchange for equity, meaning partial ownership, or a share of future profits. A teen might fund $50 of supplies from personal savings, while a startup might get an investor to provide $50,000 in exchange for owning 10% of the company."
+        "explanation": "If an investor gives $50,000 in exchange for 10% ownership, the investor receives equity — a 10% ownership stake in the company. That is different from a loan, which normally must be repaid."
       },
       {
         "question": "Why does a recorded video course \"scale\" better than one-on-one tutoring?",
@@ -1075,7 +1075,7 @@
           "They are legally identical in every way"
         ],
         "correctIndex": 0,
-        "explanation": "A sole proprietorship has one owner who's fully responsible for the business, while a partnership splits ownership, responsibility, and profit between two or more people. A solo Etsy shop selling stickers is a sole proprietorship; two friends co-running a tutoring service together would typically be a partnership."
+        "explanation": "At the simplest level, a sole proprietorship has one owner and a partnership has two or more. The legal responsibilities, taxes, and registration rules can vary by location, so real businesses should check local requirements."
       },
       {
         "question": "A teen uses $200 of personal savings to launch a t-shirt business instead of taking a loan. What's an advantage of this approach?",
@@ -1107,12 +1107,12 @@
       {
         "emoji": "📢",
         "title": "Customer acquisition and marketing spend",
-        "text": "Customer acquisition cost is how much money a business spends, on average, to gain one new customer through advertising, and it needs to stay lower than what that customer is expected to spend over time. For example, spending $20 on ads to gain a customer who only ever buys $15 worth of products is a losing strategy, even if the ads technically \"worked.\""
+        "text": "Customer acquisition cost (CAC) is the average amount a business spends on sales and marketing to gain a new customer. If it costs $20 to acquire a customer who creates only $15 of gross profit, the business may need to lower acquisition costs, improve margins, or increase repeat purchases."
       },
       {
         "emoji": "📈",
         "title": "Measuring success beyond money",
-        "text": "Revenue matters, but many entrepreneurs also track customer satisfaction, repeat business, and real-world impact as signs their business is genuinely succeeding. For example, a business that earns a modest profit but has 90% of customers coming back again and again is arguably in a stronger position than one earning more but constantly losing and replacing one-time customers."
+        "text": "Revenue matters, but it is not the only signal of a healthy business. Entrepreneurs may also track profit, cash flow, customer satisfaction, repeat purchases, growth, and impact. The right measures depend on the business and its goals."
       },
       {
         "emoji": "⚔️",
@@ -1127,7 +1127,7 @@
       {
         "emoji": "🔁",
         "title": "Customer lifetime value",
-        "text": "Customer lifetime value is the total amount a business expects a single customer to spend over their entire relationship with it, not just on one purchase. For example, a customer who books a $30 haircut every six weeks for two years is worth roughly $520 in lifetime value, far more than the $30 their first visit alone suggests."
+        "text": "Customer lifetime value estimates how much value a customer may generate over the whole relationship with a business. For example, someone paying $30 for a haircut about every six weeks for two years could generate roughly $500 in revenue — much more than the first $30 visit."
       },
       {
         "emoji": "🎗️",
@@ -1316,7 +1316,7 @@
           "A business that only exists on social media"
         ],
         "correctIndex": 0,
-        "explanation": "Resilient entrepreneurs adapt when something changes instead of giving up at the first setback. If a competitor undercuts your prices, improving your service or finding a new group of customers to serve is more likely to work than simply quitting."
+        "explanation": "A social enterprise aims to earn revenue while also addressing a social or environmental problem. For example, a reusable-bottle business that donates part of its profit to clean-water projects combines a business goal with a mission."
       },
       {
         "question": "Why does responding well to a public complaint matter so much?",
@@ -1325,7 +1325,7 @@
           "Public complaints never affect other customers"
         ],
         "correctIndex": 0,
-        "explanation": "A social enterprise is a business built to make money while also intentionally solving a social or environmental problem, not purely chasing profit. A teen selling reusable water bottles who donates part of every sale to a clean-water charity is pursuing both profit and positive impact at once."
+        "explanation": "A public complaint can be seen by many potential customers, so the response affects more than one person. A calm, transparent reply that fixes the problem can show others that the business takes customers seriously."
       },
       {
         "question": "A competitor undercuts your prices significantly. What's a resilient response?",
@@ -1334,7 +1334,7 @@
           "Quit the business immediately without trying anything else"
         ],
         "correctIndex": 0,
-        "explanation": "A single public complaint, especially posted online, gets seen by far more potential customers than just the person who wrote it, so how a business responds really matters. Quickly and openly fixing a shipping complaint often earns more trust from onlookers than never having a complaint at all."
+        "explanation": "Resilience means adapting when conditions change instead of quitting immediately. If a competitor cuts prices, you might improve service, focus on a different customer group, add value, or rethink your costs rather than automatically racing to the lowest price."
       },
       {
         "question": "Two co-founders split equity 70/30 instead of evenly. What might explain this?",
