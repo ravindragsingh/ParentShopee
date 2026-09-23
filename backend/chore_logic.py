@@ -14,8 +14,10 @@ from models import DBChore, DBRecurringTemplate
 # holding its DB connection far longer than a read needs to. Throttle it per
 # family instead — at most once per window, same idea as deps.py's
 # _touch_last_active — so a burst of reads only pays this cost once. In-memory
-# and per-process, which is fine: SESSIONS (config.py) already assumes a single
-# process, and a stale-by-at-most-one-window read here is harmless.
+# and per-process, which is fine as long as this runs as a single instance
+# (true today on Render) -- a stale-by-at-most-one-window read here is
+# harmless either way, unlike sessions, which now live in the DB precisely so
+# they survive both restarts and, if it ever comes to that, multiple instances.
 _last_maintenance_at: dict = {}
 MAINTENANCE_THROTTLE_SECONDS = 120
 

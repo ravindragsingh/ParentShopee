@@ -707,7 +707,7 @@ function LoginForm({ onRegister }) {
       {sessionExpired && (
         <div style={{ background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: 8, padding: '10px 14px', marginBottom: 14, fontSize: '0.85rem', color: '#92400e', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
           <span>⚠️</span>
-          <span>Your session expired — the server restarted. Please sign in again.</span>
+          <span>Your session expired. Please sign in again.</span>
         </div>
       )}
 

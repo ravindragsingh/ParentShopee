@@ -5,9 +5,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import Session
 
-from config import SESSIONS
 from database import get_db
-from deps import require_guardian
+from deps import create_session, require_guardian
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBUser
 from responses import fail, ok
@@ -153,8 +152,7 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
         profile.pin_locked_until = None
         db.commit()
         db.refresh(profile)
-        token = str(uuid4())
-        SESSIONS[token] = profile.id
+        token = create_session(db, profile.id)
         return ok({"token": token, "user": safe_user(profile)})
 
     if profile.pin_locked_until:
@@ -182,8 +180,7 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
     db.commit()
     db.refresh(profile)
 
-    token = str(uuid4())
-    SESSIONS[token] = profile.id
+    token = create_session(db, profile.id)
     return ok({"token": token, "user": safe_user(profile)})
 
 
@@ -210,6 +207,5 @@ def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: D
     db.commit()
     db.refresh(user)
 
-    token = str(uuid4())
-    SESSIONS[token] = user.id
+    token = create_session(db, user.id)
     return ok({"token": token, "user": safe_user(user)})

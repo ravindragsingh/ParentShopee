@@ -228,3 +228,19 @@ class DBLearningCompletion(Base):
     total           = Column(Integer, nullable=False)
     points_awarded  = Column(Float, nullable=False)
     completed_at    = Column(String, nullable=False)
+
+
+class DBSession(Base):
+    """A login session's Bearer token, keyed on the token itself (it's already
+    an unguessable UUID, so it doubles as the primary key). DB-backed rather
+    than the old in-memory dict on purpose -- an in-memory session table gets
+    wiped on every server restart, which on Render means every deploy signs
+    every logged-in user out. `last_used_at` is refreshed at most once a day
+    (see deps.py's SESSION_REFRESH_THROTTLE) and drives the TTL that expires
+    a session nobody's used in SESSION_TTL_DAYS, so a stolen/leaked token
+    doesn't stay valid forever just because storage survives restarts now."""
+    __tablename__ = "sessions"
+    token        = Column(String, primary_key=True)
+    user_id      = Column(String, nullable=False, index=True)
+    created_at   = Column(String, nullable=False)
+    last_used_at = Column(String, nullable=False)

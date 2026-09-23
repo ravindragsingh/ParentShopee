@@ -27,7 +27,9 @@ async function request(method, path, body, tokenOverride) {
     const res = await fetch(`${BASE_URL}${path}`, options)
     clearTimeout(timeoutId)
 
-    // 401 while a token exists = backend restarted and lost the in-memory session
+    // 401 while a token exists = the session is gone server-side (expired from
+    // inactivity, or the account was deleted) -- sessions are DB-backed now,
+    // so a plain backend restart/redeploy no longer causes this.
     if (res.status === 401 && localStorage.getItem('token')) {
       window.dispatchEvent(new CustomEvent('auth:expired'))
       throw new Error('Your session has expired. Please log in again.')
