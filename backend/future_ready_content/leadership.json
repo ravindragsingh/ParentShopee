@@ -1,1376 +1,1411 @@
 {
-  "entrepreneurship-4-6-p1": {
+  "leadership-4-6-p1": {
     "slides": [
       {
-        "emoji": "🍋",
-        "title": "What is a lemonade stand?",
-        "text": "A lemonade stand is a small business. You make lemonade, choose a price, and sell cups to people who want a drink. If someone gives you $1 for a cup, you just made a sale!"
-      },
-      {
-        "emoji": "💡",
-        "title": "Where ideas come from",
-        "text": "Business ideas can start by noticing what people need or want. If people at the park are hot and thirsty, selling cold lemonade could be a useful idea."
-      },
-      {
-        "emoji": "🎨",
-        "title": "You can make things too!",
-        "text": "Kids can create things that other people may want to buy. You might make bracelets, drawings, bookmarks, or cookies. Creating and selling something is one way to be an entrepreneur."
-      },
-      {
-        "emoji": "💪",
-        "title": "It takes effort",
-        "text": "A business does not run by itself. You may need to make the lemonade, set up the table, create a sign, and clean up afterward. That work is part of being an entrepreneur."
-      },
-      {
-        "emoji": "🏗️",
-        "title": "Making something to sell",
-        "text": "Before you can sell something, you need to make or prepare it. For lemonade, you might mix lemons, water, and sugar, then pour it into cups for customers."
-      },
-      {
-        "emoji": "🤝",
-        "title": "What is trading?",
-        "text": "Trading means exchanging one thing for another. At a lemonade stand, a customer gives you money and you give them lemonade. Both people receive something they value."
-      },
-      {
-        "emoji": "🙋",
-        "title": "Who is a customer?",
-        "text": "A customer is a person who buys something from a business. If your neighbor pays for a cup of lemonade, your neighbor is your customer."
-      },
-      {
-        "emoji": "😀",
-        "title": "A happy customer comes back",
-        "text": "When customers like what they bought and are treated kindly, they may come back again. A neighbor who loved your lemonade today might buy another cup tomorrow."
-      }
-    ],
-    "quiz": [
-      {
-        "question": "What is a lemonade stand?",
-        "choices": [
-          "A tiny business selling lemonade",
-          "A place to take a nap"
-        ],
-        "correctIndex": 0,
-        "explanation": "A lemonade stand is a small business. You make lemonade and sell cups to customers. If someone pays $1 for a cup, that is a sale."
-      },
-      {
-        "question": "What is a customer?",
-        "choices": [
-          "Someone who buys what you're selling",
-          "A type of lemon"
-        ],
-        "correctIndex": 0,
-        "explanation": "A customer is someone who buys something from you. If your neighbor pays for lemonade, your neighbor is your customer."
-      },
-      {
-        "question": "You give lemonade, and get a coin. What just happened?",
-        "choices": [
-          "You traded — you both gave and got something",
-          "Nothing happened at all"
-        ],
-        "correctIndex": 0,
-        "explanation": "You made an exchange: the customer gave you money, and you gave the customer lemonade. That is a simple trade."
-      },
-      {
-        "question": "Where do business ideas often come from?",
-        "choices": [
-          "Noticing something people want or need",
-          "They only come from grown-ups, never kids"
-        ],
-        "correctIndex": 0,
-        "explanation": "Business ideas often start by noticing what people need or want. Thirsty people on a hot day might want a cold drink."
-      },
-      {
-        "question": "Does running a lemonade stand take effort?",
-        "choices": [
-          "Yes, it takes real work",
-          "No, it happens by itself"
-        ],
-        "correctIndex": 0,
-        "explanation": "Yes. You may need to make lemonade, carry supplies, create a sign, serve customers, and clean up afterward."
-      },
-      {
-        "question": "What must you do before selling lemonade?",
-        "choices": [
-          "Make it first, with lemons, sugar, and water",
-          "You can sell it before it exists"
-        ],
-        "correctIndex": 0,
-        "explanation": "You need something ready to sell. For lemonade, that means making the drink and getting cups ready before customers arrive."
-      },
-      {
-        "question": "What happens when a customer loves your lemonade?",
-        "choices": [
-          "They often come back to buy more",
-          "They never think about it again"
-        ],
-        "correctIndex": 0,
-        "explanation": "A happy customer may come back or tell someone else about your stand. Treating customers well can help a small business grow."
-      },
-      {
-        "question": "You notice kids at the park are very thirsty on a hot day. What's a good idea?",
-        "choices": [
-          "Start a lemonade stand for them",
-          "Sell them mittens"
-        ],
-        "correctIndex": 0,
-        "explanation": "A lemonade stand could solve a simple problem: thirsty people want a cold drink. Good business ideas often start by noticing a need."
-      },
-      {
-        "question": "What is one thing you could make to sell, besides lemonade?",
-        "choices": [
-          "Bracelets, drawings, or cookies",
-          "A cloud"
-        ],
-        "correctIndex": 0,
-        "explanation": "You can create many things people may want, such as bracelets, drawings, bookmarks, or cookies. Making and selling something is one way to start a small business."
-      },
-      {
-        "question": "Can kids have good business ideas, or only grown-ups?",
-        "choices": [
-          "Kids can have great ideas too",
-          "Only grown-ups can have ideas"
-        ],
-        "correctIndex": 0,
-        "explanation": "Kids can notice problems, create things, and think of useful ideas too. A business idea can start with anyone who spots a need and thinks of a solution."
-      }
-    ]
-  },
-  "entrepreneurship-4-6-p2": {
-    "slides": [
-      {
-        "emoji": "🏷️",
-        "title": "Picking a fair price",
-        "text": "A price is how much money someone pays for what you sell. A fair price should make sense for both you and the customer. For example, you might charge $1 for one cold cup of lemonade."
-      },
-      {
-        "emoji": "📣",
-        "title": "Telling people about your stand",
-        "text": "People cannot buy from your stand if they do not know it is there. A bright sign saying “Lemonade $1” can help neighbors notice what you are selling."
-      },
-      {
-        "emoji": "🪙",
-        "title": "Counting your coins",
-        "text": "At the end of the day, count the money you received. If you sold five cups for $1 each, you collected $5. Keeping track helps you understand how your business did."
-      },
-      {
-        "emoji": "🐷",
-        "title": "Saving up for supplies",
-        "text": "A business may need supplies to keep going. Saving some of the money you earn can help you buy more lemons, cups, or ice for the next day."
-      },
-      {
-        "emoji": "💰",
-        "title": "Saving some, spending some",
-        "text": "You do not have to spend all the money you earn. You can save some for a goal, keep some for your business, and spend some later."
-      },
-      {
-        "emoji": "💯",
-        "title": "Being honest",
-        "text": "Honesty helps people trust you. If your lemonade is warm or you ran out of a flavor, tell the truth instead of pretending. Customers appreciate honest sellers."
-      },
-      {
-        "emoji": "🧑‍🤝‍🧑",
-        "title": "Teamwork with a friend",
-        "text": "Two people can share the work. One friend might pour lemonade while the other greets customers and collects money. Teamwork can make a busy stand easier to run."
-      },
-      {
-        "emoji": "☁️",
-        "title": "A slow day happens sometimes",
-        "text": "Some days you may sell a lot, and other days you may sell only a little. One slow day does not mean your idea is bad. You can think about what to change and try again."
-      },
-      {
-        "emoji": "🧹",
-        "title": "Cleaning up your stand",
-        "text": "Good business owners take care of their space. After selling, throw away trash, put supplies away, and leave the area clean for everyone."
-      }
-    ],
-    "quiz": [
-      {
-        "question": "What makes a price fair?",
-        "choices": [
-          "Not too high and not too low",
-          "As high as you can possibly charge"
-        ],
-        "correctIndex": 0,
-        "explanation": "A fair price makes sense for both the seller and the customer. For example, $1 for a cold cup may feel reasonable if it covers the cost and the customer is happy to pay it."
-      },
-      {
-        "question": "Why make a big sign for your stand?",
-        "choices": [
-          "So people notice your stand and stop by",
-          "To keep the sun off your lemonade"
-        ],
-        "correctIndex": 0,
-        "explanation": "A clear sign helps people notice what you are selling and how much it costs. If people do not see your stand, they may walk right past it."
-      },
-      {
-        "question": "Two friends run a lemonade stand. What's a good way to work together?",
-        "choices": [
-          "Share the jobs, like pouring cups and collecting coins",
-          "One friend does nothing at all"
-        ],
-        "correctIndex": 0,
-        "explanation": "Sharing jobs makes the work easier. One person could pour lemonade while the other greets customers and collects money."
-      },
-      {
-        "question": "Why count your coins at the end of the day?",
-        "choices": [
-          "To know how much you earned",
-          "To build a tall tower"
-        ],
-        "correctIndex": 0,
-        "explanation": "Counting your money tells you how much you collected. If you sold five cups for $1 each, you should have collected $5."
-      },
-      {
-        "question": "What's a good idea to do with your earnings?",
-        "choices": [
-          "Save some and spend some",
-          "Hide them and forget about them"
-        ],
-        "correctIndex": 0,
-        "explanation": "You can divide your money for different goals: save some, use some for more supplies, and spend some later."
-      },
-      {
-        "question": "Your lemonade is a little warm today. What should you tell a customer?",
-        "choices": [
-          "The truth, that it's a bit warm",
-          "Nothing, just sell it anyway"
-        ],
-        "correctIndex": 0,
-        "explanation": "Tell the truth. Honest sellers build trust, and customers are more likely to return when they know they can believe you."
-      },
-      {
-        "question": "No one stops by your stand today. What should you do?",
-        "choices": [
-          "Try again another day",
-          "Give up on your stand forever"
-        ],
-        "correctIndex": 0,
-        "explanation": "One slow day does not mean you should quit. You can try again and think about whether a different time, sign, or location might help."
-      },
-      {
-        "question": "Why clean up your stand after selling?",
-        "choices": [
-          "It makes the spot tidy for your neighbors",
-          "It makes the lemonade taste better"
-        ],
-        "correctIndex": 0,
-        "explanation": "Cleaning up shows responsibility. It keeps the area pleasant for neighbors and gets your supplies ready for next time."
-      },
-      {
-        "question": "If you save $1 today and $1 tomorrow, how much have you saved?",
-        "choices": [
-          "$2",
-          "$1"
-        ],
-        "correctIndex": 0,
-        "explanation": "You saved $2 because $1 + $1 = $2. Small amounts can grow when you keep saving."
-      },
-      {
-        "question": "What helps a customer trust you?",
-        "choices": [
-          "Being honest with them",
-          "Never talking to them"
-        ],
-        "correctIndex": 0,
-        "explanation": "Being honest and kind helps customers trust you. Trust makes people more comfortable buying from you again."
-      }
-    ]
-  },
-  "entrepreneurship-7-9-p1": {
-    "slides": [
-      {
-        "emoji": "🔍",
-        "title": "Spotting a problem to solve",
-        "text": "Good business ideas often start when you notice a problem, like no cold drinks at the park. That kind of gap, noticed on a hot day, could become your very own business idea."
-      },
-      {
-        "emoji": "💰",
-        "title": "Cost vs. price",
-        "text": "Cost is what you spend to make or get a product. Price is what a customer pays you for it. If a cup of lemonade costs 20¢ to make and you sell it for $1, the difference before any other expenses is 80¢."
-      },
-      {
-        "emoji": "📋",
-        "title": "A simple plan",
-        "text": "Before starting, it helps to plan what you'll sell, what it costs, and what you'll charge. Writing down a plan, like charging a dollar for 20-cent lemonade, avoids confusion later."
-      },
-      {
-        "emoji": "✍️",
-        "title": "Giving your business a name",
-        "text": "A fun, memorable name helps people remember your stand and tell their friends about it. Calling your stand \"Sam's Sunny Lemonade\" sticks in people's minds much better than having no name at all."
-      },
-      {
-        "emoji": "🎨",
-        "title": "Making your product special",
-        "text": "Adding something unique, like a flavor nobody else has, can make customers choose your stand. A splash of strawberry or mint, something other stands don't offer, could set you apart."
-      },
-      {
-        "emoji": "🏷️",
-        "title": "Checking what others charge",
-        "text": "Before choosing a price, it helps to see what similar sellers charge and what customers are willing to pay. You do not always have to be cheaper — better quality, flavor, or service can also make your product worth choosing."
-      },
-      {
-        "emoji": "📍",
-        "title": "Picking a good spot",
-        "text": "Where you set up your stand matters just as much as what you're selling. A spot near a park entrance or a busy sidewalk, where lots of people walk by, will get far more customers than a hidden corner of your yard."
-      },
-      {
-        "emoji": "📅",
-        "title": "Planning your day",
-        "text": "Deciding when to open and how much to make ahead of time helps your day run smoothly. Planning to open from 2 to 4pm with 20 cups ready means you won't scramble later."
-      }
-    ],
-    "quiz": [
-      {
-        "question": "What does \"spot a problem\" mean for a business idea?",
-        "choices": [
-          "Noticing something people need that isn't available",
-          "Finding a hole in your sock"
-        ],
-        "correctIndex": 0,
-        "explanation": "A business idea often starts when you notice something people need but don't have, like cold drinks missing from a hot, crowded park. Spotting that gap is the first step."
-      },
-      {
-        "question": "A cup of lemonade costs 20 cents to make and sells for $1. What is your profit on that cup?",
-        "choices": [
-          "80 cents",
-          "$1.20"
-        ],
-        "correctIndex": 0,
-        "explanation": "Profit is what's left after you subtract your cost from your price. Lemonade that costs 20 cents to make and sells for $1 leaves you 80 cents of profit."
-      },
-      {
-        "question": "Why is a simple plan helpful before starting a business?",
-        "choices": [
-          "It helps you figure out what to sell and for how much",
-          "Plans are only for grown-ups"
-        ],
-        "correctIndex": 0,
-        "explanation": "A simple plan, like deciding lemonade costs 20 cents and sells for $1, helps you think things through before you start selling. It stops confusion later."
-      },
-      {
-        "question": "How can adding a unique flavor to your lemonade help your business?",
-        "choices": [
-          "It can make customers pick you over other sellers",
-          "It never makes any difference"
-        ],
-        "correctIndex": 0,
-        "explanation": "Adding something special, like a strawberry or mint flavor nobody else has, gives customers a reason to pick your stand over another one. It helps you stand out."
-      },
-      {
-        "question": "Why is it helpful to plan your day before opening a stand?",
-        "choices": [
-          "It helps the whole day run more smoothly",
-          "Planning ahead never actually helps"
-        ],
-        "correctIndex": 0,
-        "explanation": "Deciding your hours and how much to make ahead, like opening 2 to 4pm with 20 cups ready, keeps your day from feeling rushed."
-      },
-      {
-        "question": "Why check what other nearby stands charge before setting your own price?",
-        "choices": [
-          "It helps you set a price customers will actually choose",
-          "It doesn't matter at all what others charge"
-        ],
-        "correctIndex": 0,
-        "explanation": "Checking what nearby sellers charge helps you pick a price customers will actually pay. If everyone else charges $1, charging close to that feels fair to buyers."
-      },
-      {
-        "question": "Why give your stand a fun, memorable name?",
-        "choices": [
-          "It helps people remember and recognize your stand",
-          "Names don't matter for a lemonade stand"
-        ],
-        "correctIndex": 0,
-        "explanation": "A fun name, like \"Sam's Sunny Lemonade,\" helps people remember your stand and tell their friends about it. A forgettable stand is easy to overlook."
-      },
-      {
-        "question": "Why does where you set up your stand matter?",
-        "choices": [
-          "A busy spot means more people can see and buy",
-          "Location never makes any difference"
-        ],
-        "correctIndex": 0,
-        "explanation": "Where you set up matters as much as what you sell, because a busy spot near a park entrance gets seen by way more people than a hidden corner of your yard."
-      },
-      {
-        "question": "Lemonade costs 30 cents to make and sells for 75 cents. What's the profit?",
-        "choices": [
-          "45 cents",
-          "105 cents"
-        ],
-        "correctIndex": 0,
-        "explanation": "Profit is the price you charge minus what it cost to make. Selling lemonade for 75 cents that cost 30 cents to make leaves you 45 cents of profit."
-      },
-      {
-        "question": "What should a simple business plan include?",
-        "choices": [
-          "What you'll sell, what it costs, and what you'll charge",
-          "Just your name and nothing else"
-        ],
-        "correctIndex": 0,
-        "explanation": "A simple business plan covers three basics: what you're selling, what it costs you, and what price you'll charge. Skipping any one of these can cause confusion later."
-      }
-    ]
-  },
-  "entrepreneurship-7-9-p2": {
-    "slides": [
-      {
-        "emoji": "😊",
-        "title": "Good customer service",
-        "text": "Being friendly, honest, and helpful makes people want to buy from you again. When a customer asks for less sugar and you happily make it their way, they often return."
-      },
-      {
-        "emoji": "📢",
-        "title": "Telling people about it",
-        "text": "Even a great product needs people to know it exists, which is called marketing. A bright poster that says \"Cold Lemonade, $1!\" lets passing neighbors know your stand is open."
-      },
-      {
-        "emoji": "🧾",
-        "title": "Keeping track",
-        "text": "Writing down the money that comes in and the money you spend helps you understand whether your business is working. If you earned $12 and spent $4 on supplies, you have $8 left before any other expenses."
-      },
-      {
-        "emoji": "👨‍👩‍👧",
-        "title": "Getting help from a grown-up",
-        "text": "Many young entrepreneurs ask a parent or grown-up for help with things like buying supplies or handling money safely. Asking your mom to drive you to buy more lemons, or having her hold onto your earnings, is a smart, normal part of running a kid business."
-      },
-      {
-        "emoji": "🔁",
-        "title": "Trying again if it doesn't work",
-        "text": "When a business idea doesn't work at first, entrepreneurs usually adjust it instead of quitting. If nobody stopped by on a cloudy day, you might try a sunnier spot next time."
-      },
-      {
-        "emoji": "😕",
-        "title": "Handling an unhappy customer",
-        "text": "Sometimes a customer isn't happy, maybe your lemonade seemed too sour for their taste. Listening calmly and offering a new cup, or their money back, keeps their trust."
-      },
-      {
-        "emoji": "🧑‍🤝‍🧑",
-        "title": "Splitting jobs with a partner",
-        "text": "Running a business with a friend works best when you split up the jobs. One person could make the lemonade while the other greets customers and handles the money."
-      },
-      {
-        "emoji": "🐷",
-        "title": "Saving up for a goal",
-        "text": "Saving some of your profit each week can help you buy something bigger later on. If you save $2 every week, you'll have $20 saved after ten weeks."
-      },
-      {
-        "emoji": "🎉",
-        "title": "Celebrating your progress",
-        "text": "Entrepreneurs can celebrate progress without spending all their earnings. Reaching a goal — like your first 10 customers — is a good reason to feel proud, share the news, or choose a small reward."
-      }
-    ],
-    "quiz": [
-      {
-        "question": "Why does good customer service matter?",
-        "choices": [
-          "It makes customers want to come back and tell friends",
-          "It has no real effect on a business"
-        ],
-        "correctIndex": 0,
-        "explanation": "Being friendly and helpful, like happily making lemonade with less sugar when someone asks, makes customers want to return. Good service builds trust."
-      },
-      {
-        "question": "What is marketing, in simple terms?",
-        "choices": [
-          "Telling people about what you're selling",
-          "Counting your money at the end of the day"
-        ],
-        "correctIndex": 0,
-        "explanation": "Marketing just means telling people your product exists, like hanging a bright poster that says \"Cold Lemonade, $1!\" so neighbors know to stop by."
-      },
-      {
-        "question": "If a business idea doesn't work at first, what do entrepreneurs usually do?",
-        "choices": [
-          "Tweak the idea and try again",
-          "Never attempt anything again"
-        ],
-        "correctIndex": 0,
-        "explanation": "When an idea flops, entrepreneurs usually tweak something and try again instead of quitting, like trying a sunnier spot after a slow, cloudy day."
-      },
-      {
-        "question": "A customer says your lemonade is too sour. What should you do?",
-        "choices": [
-          "Listen calmly and offer a new cup or their money back",
-          "Ignore them and walk away"
-        ],
-        "correctIndex": 0,
-        "explanation": "Listening calmly to an unhappy customer, like offering a new cup if your lemonade tastes too sour, keeps their trust in your business. Ignoring them usually loses a customer for good."
-      },
-      {
-        "question": "You and a friend run a stand together. What's a smart way to split the work?",
-        "choices": [
-          "One makes lemonade while the other handles customers and money",
-          "Both do the exact same job at the exact same time"
-        ],
-        "correctIndex": 0,
-        "explanation": "Splitting different jobs, like one friend making lemonade while the other handles money, makes a team work faster than both doing the same task."
-      },
-      {
-        "question": "You spent $4 on supplies and earned $12. What was your profit?",
-        "choices": [
-          "$8",
-          "$16"
-        ],
-        "correctIndex": 0,
-        "explanation": "Profit is what you earn minus what you spent. Earning $12 after spending $4 on supplies leaves you an $8 profit."
-      },
-      {
-        "question": "Why is it smart to ask a grown-up for help with your business?",
-        "choices": [
-          "They can help with things like buying supplies or handling money safely",
-          "Grown-ups should never be involved in a kid's business"
-        ],
-        "correctIndex": 0,
-        "explanation": "Asking a trusted adult to help buy supplies or hold onto your earnings is smart, not embarrassing. Most young entrepreneurs get this kind of help."
-      },
-      {
-        "question": "After a great week of sales, what's a good thing to do?",
-        "choices": [
-          "Celebrate your progress and feel proud",
-          "Ignore it completely and feel nothing"
-        ],
-        "correctIndex": 0,
-        "explanation": "Pausing to celebrate, like treating yourself after a great sales week, helps you notice and feel proud of the work you did. It's not just about rushing to the next task."
-      },
-      {
-        "question": "Why keep track of what you spend and earn?",
-        "choices": [
-          "It helps you see if your business is really working",
-          "Numbers don't matter for a lemonade stand"
-        ],
-        "correctIndex": 0,
-        "explanation": "Writing down what you spend and earn shows clearly whether your business is actually making money. Without tracking it, you're just guessing."
-      },
-      {
-        "question": "You and a friend keep arguing about whose turn it is to pour cups. What might help?",
-        "choices": [
-          "Agreeing ahead of time who does which job",
-          "Never talking about it and hoping it fixes itself"
-        ],
-        "correctIndex": 0,
-        "explanation": "Agreeing ahead of time who does which job, like who pours cups, helps friends avoid arguing about it later. A clear plan prevents most disagreements."
-      }
-    ]
-  },
-  "entrepreneurship-10-13-p1": {
-    "slides": [
-      {
-        "emoji": "🎯",
-        "title": "Knowing your customer",
-        "text": "Successful businesses learn who is most likely to buy from them — what those customers like, need, and can afford. For example, if classmates love fantasy books, you might design original dragon or magic-themed bookmarks rather than copying copyrighted characters."
-      },
-      {
-        "emoji": "🎲",
-        "title": "Taking a smart risk",
-        "text": "Starting a business always involves some risk — it might not work. Smart entrepreneurs take risks they can afford, not risks that could ruin them. For example, spending $10 of your own savings to try selling friendship bracelets at a school fair is a smart, affordable risk — spending your entire year's savings on the same idea would not be."
-      },
-      {
-        "emoji": "💡",
-        "title": "Finding a business idea",
-        "text": "Most solid business ideas start the same way — by noticing a problem or an annoying gap in what's available. For example, noticing that kids at your school have nowhere nearby to buy a cold snack after practice could turn into a snack-selling business, simply because you spotted a real, everyday need."
-      },
-      {
-        "emoji": "🧪",
-        "title": "Testing your idea small before going big",
-        "text": "Before investing a lot of time or money, smart entrepreneurs try a small version of their idea first to see if people actually want it. For example, making and selling just 10 candles to friends and family before ordering hundreds of dollars of supplies lets you learn what works with very little risk."
-      },
-      {
-        "emoji": "💵",
-        "title": "Estimating startup costs",
-        "text": "Startup costs are the money you need to spend before your business earns anything at all, like ingredients, containers, or a sign. For example, a cookie business might need $15 for flour, sugar, and butter, plus $5 for bags and labels, meaning you'd need $20 just to get started."
-      },
-      {
-        "emoji": "🧭",
-        "title": "Needs vs. wants",
-        "text": "A need solves an important problem; a want makes life more enjoyable or convenient. Both can support good businesses. The key is understanding how strongly customers care about the problem and whether they will pay for your solution."
-      },
-      {
-        "emoji": "🗣️",
-        "title": "Writing a simple pitch",
-        "text": "A pitch is a short, clear explanation of your business idea that you could tell someone in under a minute. For example, \"I make custom phone cases for $12 each, designed exactly how a customer wants them\" tells a potential customer or helper exactly what you do and why it matters."
-      },
-      {
-        "emoji": "🏁",
-        "title": "Setting a goal for your first month",
-        "text": "Having a clear, specific goal — like earning $50 in your first month — gives you something concrete to work toward and a way to measure whether your business is on track. For example, if you're only halfway to your goal by week three, that's a signal to try something new, like a better sign or a new selling spot."
-      }
-    ],
-    "quiz": [
-      {
-        "question": "Why does it help to understand your customer?",
-        "choices": [
-          "So you can offer what they actually want and can afford",
-          "It doesn't matter who buys your product"
-        ],
-        "correctIndex": 0,
-        "explanation": "Understanding your customer helps you design something they actually want, price it appropriately, and explain why it is useful. For example, if classmates enjoy fantasy stories, original magic-themed bookmarks may appeal more than generic designs."
-      },
-      {
-        "question": "Which is a \"smart risk\" for a young entrepreneur?",
-        "choices": [
-          "Spending $10 of savings to try selling bracelets at a fair",
-          "Spending your entire year of savings on one untested idea"
-        ],
-        "correctIndex": 0,
-        "explanation": "A smart risk is one you can afford to lose, not one that could wipe you out. Spending $10 of savings to try selling bracelets at a fair is affordable; spending your entire year's savings on the same untested idea is not."
-      },
-      {
-        "question": "What's a smart way to find a business idea?",
-        "choices": [
-          "Notice a problem or need people have",
-          "Randomly pick anything with no thought"
-        ],
-        "correctIndex": 0,
-        "explanation": "Many strong business ideas start by noticing a real, everyday problem, like kids at school having no nearby way to buy a cold snack after practice. Spotting that gap can turn into an actual business."
-      },
-      {
-        "question": "Before launching a big version of your idea, why test it small first?",
-        "choices": [
-          "It lets you learn and fix problems while risking less money",
-          "Testing small is a waste of time and should be skipped"
-        ],
-        "correctIndex": 0,
-        "explanation": "Testing a small version of your idea, like selling just 10 candles to friends and family, lets you learn what works before spending hundreds of dollars on supplies. It's a low-risk way to check demand."
-      },
-      {
-        "question": "What are \"startup costs\"?",
-        "choices": [
-          "The money needed to get a business going before it earns anything",
-          "Money a business earns after several successful years"
-        ],
-        "correctIndex": 0,
-        "explanation": "Startup costs are the expenses you pay before your business earns anything, like ingredients or a sign. A cookie business might need $15 for flour, sugar, and butter plus $5 for bags, meaning $20 just to begin."
-      },
-      {
-        "question": "Which is an example of solving a genuine need rather than a passing want?",
-        "choices": [
-          "Tutoring students who are struggling in math",
-          "Selling a trendy toy just because it's popular this month"
-        ],
-        "correctIndex": 0,
-        "explanation": "Tutoring can solve an ongoing problem for students who need help learning math. A trendy toy may still be a valid business, but demand could disappear faster if the trend fades."
-      },
-      {
-        "question": "Why is it useful to write a simple pitch for your business idea?",
-        "choices": [
-          "It helps you clearly explain your idea to customers or helpers",
-          "Pitches are only useful for huge, established companies"
-        ],
-        "correctIndex": 0,
-        "explanation": "A pitch is a short, clear explanation of your business you could say in under a minute, like \"I make custom phone cases for $12 each, designed how the customer wants.\" It quickly tells someone what you do and why it matters."
-      },
-      {
-        "question": "Why set a specific goal, like earning $50, for your first month?",
-        "choices": [
-          "It gives you something concrete to work toward and measure",
-          "Goals only matter for adult businesses, not kid ones"
-        ],
-        "correctIndex": 0,
-        "explanation": "Setting a specific goal, like earning $50 in your first month, gives you something to measure your progress against. If you're only halfway there by week three, that's a signal to try something new, like a better sign or spot."
-      },
-      {
-        "question": "Your customers are mostly classmates who love a certain book series. What might you do?",
-        "choices": [
-          "Design products, like bookmarks, featuring those characters",
-          "Ignore their interests and sell something unrelated"
-        ],
-        "correctIndex": 0,
-        "explanation": "Understanding your customers well, like knowing classmates love a certain book series, helps you design products they're genuinely excited about, such as bookmarks featuring those characters instead of something random."
-      },
-      {
-        "question": "You're starting a dog-walking business. Which of these is a startup cost?",
-        "choices": [
-          "A leash or bags you need to buy before your first walk",
-          "Money you'll earn after three months of walking dogs"
-        ],
-        "correctIndex": 0,
-        "explanation": "Startup costs are the expenses you pay before the business earns a cent, like a leash or bags for a dog-walking business. Money you earn later, after months of walking dogs, is revenue, not a startup cost."
-      }
-    ]
-  },
-  "entrepreneurship-10-13-p2": {
-    "slides": [
-      {
-        "emoji": "🏷️",
-        "title": "Pricing fairly",
-        "text": "A fair price should cover your costs, reward your time and effort, and still make sense to customers. If a bracelet uses $3 of materials, you might test an $8 price and see whether buyers think the quality and design are worth it."
-      },
-      {
-        "emoji": "🏷️",
-        "title": "Standing out from competitors",
-        "text": "When several businesses sell similar things, customers need a reason to choose one. You could stand out through better quality, custom choices, faster service, a different style, or a fair price — not just by being the cheapest."
-      },
-      {
-        "emoji": "📣",
-        "title": "Word of mouth",
-        "text": "Happy customers telling their friends is one of the most powerful (and free!) ways a small business grows. For example, if one classmate loves the bracelet you made them and shows five friends at lunch, you might suddenly have five new customers without spending a single cent on advertising."
+        "emoji": "👑",
+        "title": "What Is a Leader?",
+        "text": "A leader helps a group get things done. Showing a friend a game's rules is one way to lead."
       },
       {
         "emoji": "🌟",
-        "title": "Building a name people remember",
-        "text": "A consistent name, look, or feel for your business — sometimes called a brand — helps customers recognize and trust you again next time. For example, always using the same logo sticker and the same colorful packaging for your bracelets helps customers instantly recognize \"oh, that's from her bracelet business\" when they see it."
+        "title": "Leading by Example",
+        "text": "A good leader shows how, not just tells. Cleaning up first makes friends want to help too."
       },
       {
-        "emoji": "📱",
-        "title": "Selling online with help",
-        "text": "With a parent's help, some young entrepreneurs sell crafts or art through simple online marketplaces, reaching far more people than a stand on the street. For example, a 12-year-old who makes custom drawings might, with a parent's account and supervision, list a few pieces online and reach buyers far beyond just their own neighborhood."
+        "emoji": "😊",
+        "title": "Being a Good Sport",
+        "text": "A good leader plays fair and stays kind. Saying \"good game\" is kind, even if you lose."
       },
       {
-        "emoji": "📢",
-        "title": "Marketing on a budget",
-        "text": "You don't need to spend much money to market a small business — social media posts, flyers, and word of mouth can all work well for free or cheap. For example, posting a few photos of your bracelets on a family member's social media account, tagged with your prices, can reach dozens of potential customers without spending a single dollar."
+        "emoji": "🗣️",
+        "title": "Saying Sorry",
+        "text": "Good leaders say sorry when they make a mistake. Saying sorry helps friends trust you more."
       },
       {
-        "emoji": "🎁",
-        "title": "Bundling and discounts",
-        "text": "Bundling means selling several items together for one combined price, often at a small discount compared to buying each separately. For example, offering three bracelets for $10 instead of $4 each encourages customers to buy more at once, while still feeling like a good deal for them."
+        "emoji": "🙋",
+        "title": "Helping Without Being Asked",
+        "text": "Good leaders help even when no one asks. Picking up a dropped toy is a kind, helpful act."
       },
       {
-        "emoji": "👂",
-        "title": "Listening to customer feedback to improve",
-        "text": "Customers often give hints about how to improve your product, even when they don't realize they're doing it. For example, if several customers mention they wish your bracelets came in brighter colors, trying out a few brighter designs next batch could meaningfully boost your sales."
-      }
-    ],
-    "quiz": [
-      {
-        "question": "Three kids at school all sell friendship bracelets. Why might a business need to \"stand out\"?",
-        "choices": [
-          "So customers have a reason to choose them specifically",
-          "Standing out never matters in business"
-        ],
-        "correctIndex": 0,
-        "explanation": "When several people sell something similar, like three classmates all selling friendship bracelets, standing out gives customers an actual reason to pick you, such as custom colors or a better price. Without something different, customers have no reason to choose you specifically."
+        "emoji": "⭐",
+        "title": "Cheering Others On",
+        "text": "Cheering for a friend helps them feel brave. Clapping for someone trying something hard is kind."
       },
       {
-        "question": "What is \"word of mouth\"?",
-        "choices": [
-          "Happy customers telling other people about a business",
-          "A type of advertisement you have to pay a lot for"
-        ],
-        "correctIndex": 0,
-        "explanation": "Word of mouth is customers telling friends about your business for free, and it's one of the most powerful kinds of marketing. If one classmate loves a bracelet and shows five friends, you might gain five new customers without spending a cent."
-      },
-      {
-        "question": "What is a \"brand\"?",
-        "choices": [
-          "A consistent name or look that helps customers recognize a business",
-          "A random word with no meaning"
-        ],
-        "correctIndex": 0,
-        "explanation": "A brand is a consistent name, logo, or look that helps customers recognize and trust your business again. Always using the same sticker and packaging for your bracelets helps people instantly know \"that's from her bracelet business.\""
-      },
-      {
-        "question": "How might a young entrepreneur reach more customers than a street stand?",
-        "choices": [
-          "Selling online with a parent's help",
-          "It's impossible to ever reach more people"
-        ],
-        "correctIndex": 0,
-        "explanation": "With a parent's help and account, young entrepreneurs can sell crafts through online marketplaces, reaching far more buyers than a street stand ever could. A 12-year-old selling custom drawings online might reach buyers well beyond their own neighborhood."
-      },
-      {
-        "question": "A bracelet costs $3 in materials. Why might you price it at $8, not $20?",
-        "choices": [
-          "It covers your costs and effort while still feeling fair to buyers",
-          "Higher prices are always better no matter what"
-        ],
-        "correctIndex": 0,
-        "explanation": "A fair price covers your costs and effort without scaring customers away. If a bracelet costs $3 in materials, pricing it at $8 covers your work while still feeling reasonable for a handmade gift; $20 would likely feel like too much."
-      },
-      {
-        "question": "What does \"bundling\" mean, like offering three bracelets for $10 instead of $4 each?",
-        "choices": [
-          "Selling items together for one combined, often discounted, price",
-          "Refusing to ever offer any kind of discount"
-        ],
-        "correctIndex": 0,
-        "explanation": "Bundling means selling several items together for one price, usually at a small discount, like three bracelets for $10 instead of $4 each. It encourages customers to buy more while still feeling like a good deal to them."
-      },
-      {
-        "question": "Several customers mention they wish your bracelets came in brighter colors. What should you consider?",
-        "choices": [
-          "Trying out their feedback to improve your product",
-          "Ignoring all customer suggestions completely"
-        ],
-        "correctIndex": 0,
-        "explanation": "Customers often hint at how to improve your product without meaning to, like several people wishing your bracelets came in brighter colors. Trying out their suggestions in your next batch can genuinely boost your sales."
-      },
-      {
-        "question": "Why might a business offer a discount for buying in bulk?",
-        "choices": [
-          "It encourages customers to buy more at once",
-          "Discounts always lose money with no real benefit"
-        ],
-        "correctIndex": 0,
-        "explanation": "A bulk discount, like three bracelets for $10, encourages customers to buy more at once even though you earn slightly less per item. Selling more total items usually makes up for the smaller price each."
-      },
-      {
-        "question": "What's one downside of NOT having a consistent, recognizable brand?",
-        "choices": [
-          "Customers might not recognize or remember your business",
-          "There are no downsides to skipping a brand at all"
-        ],
-        "correctIndex": 0,
-        "explanation": "Without a consistent, recognizable brand, customers may forget your business or mix it up with someone else's. A memorable logo or packaging, used every time, makes people instantly recognize and return to you."
-      },
-      {
-        "question": "What's a safe way for a young entrepreneur to sell products online?",
-        "choices": [
-          "Using a parent's account with their supervision",
-          "Setting up accounts secretly without telling any adult"
-        ],
-        "correctIndex": 0,
-        "explanation": "Selling online safely as a young entrepreneur usually means using a parent's account with their supervision, not setting one up secretly. A trusted adult can help handle payments and messages from strangers safely."
-      }
-    ]
-  },
-  "entrepreneurship-10-13-p3": {
-    "slides": [
-      {
-        "emoji": "📊",
-        "title": "Profit and loss",
-        "text": "Profit is what remains when your business earns more than it spends; a loss happens when expenses are higher than earnings. If your dog-walking business brings in $60 but spends $75 that month, it has a $15 loss."
-      },
-      {
-        "emoji": "🧑‍🤝‍🧑",
-        "title": "Teamwork in business",
-        "text": "Many businesses run better with a team — different people handling different jobs, like making the product, selling it, and managing money. For example, if you and a friend start a dog-walking business together, one of you could focus on finding new customers while the other tracks the schedule and money — splitting the work makes it easier to grow."
-      },
-      {
-        "emoji": "♻️",
-        "title": "Reinvesting in growth",
-        "text": "Instead of spending all the profit right away, many entrepreneurs put some of it back into the business — better supplies, a nicer sign, more inventory. For example, if your bracelet business earns $20 profit one week, using $10 of it to buy more beads and string for next week (instead of spending it all on yourself) helps the business keep growing."
-      },
-      {
-        "emoji": "😕",
-        "title": "Handling a dissatisfied customer",
-        "text": "How you respond when a customer is unhappy can matter more than the original mistake — a calm, fair fix often turns a complaint into loyalty. For example, if a customer says their custom mug arrived cracked, offering a free replacement instead of arguing about it usually keeps them as a customer instead of losing them for good."
-      },
-      {
-        "emoji": "🤝",
-        "title": "Teamwork and clear agreements",
-        "text": "When you run a business with a partner, agreeing early on who does what and how profits get split helps avoid arguments later. For example, two friends running a dog-walking business might agree in writing that one handles scheduling and the other handles the actual walks, splitting profits evenly between them."
-      },
-      {
-        "emoji": "📒",
-        "title": "Creating a simple budget",
-        "text": "A budget is a simple plan for how much money you expect to spend and how much you hope to earn or save over a certain time, like a month. For example, budgeting $20 for supplies and hoping to earn $50 in sales this month helps you know right away if you're on track or falling behind."
-      },
-      {
-        "emoji": "📉",
-        "title": "When sales slow down",
-        "text": "Almost every business hits a slow stretch at some point, and how you respond matters more than the slowdown itself. For example, if candle sales drop for two weeks straight, checking whether your price, location, or scent selection needs adjusting is more productive than simply hoping things improve on their own."
-      },
-      {
-        "emoji": "🔄",
-        "title": "Learning from a mistake",
-        "text": "Mistakes are one of the fastest ways to learn what actually works in a business, as long as you pay attention to what went wrong. For example, running out of cups halfway through a busy Saturday teaches you to buy extra supplies next time, turning a frustrating afternoon into a useful lesson."
-      }
-    ],
-    "quiz": [
-      {
-        "question": "A dog-walking business earns $60 in a month but spends $75. Was that month a profit or a loss?",
-        "choices": [
-          "A loss, since it spent more than it earned",
-          "A profit, since $60 sounds like a lot of money"
-        ],
-        "correctIndex": 0,
-        "explanation": "A loss happens when you spend more than you earn, even if the earnings sound decent alone. Earning $60 but spending $75 on flyers, leashes, and treats means that month actually lost $15."
-      },
-      {
-        "question": "What does \"reinvesting\" mean?",
-        "choices": [
-          "Putting some profit back into growing the business",
-          "Spending every bit of profit immediately"
-        ],
-        "correctIndex": 0,
-        "explanation": "Reinvesting means putting some of your profit back into the business instead of spending it all right away, like using part of a $20 profit to buy more beads for next week. It helps the business keep growing."
-      },
-      {
-        "question": "A customer's mug arrives cracked. What response is most likely to keep them as a customer?",
-        "choices": [
-          "A calm, fair fix, like a free replacement",
-          "Arguing that it's not your fault"
-        ],
-        "correctIndex": 0,
-        "explanation": "How you respond to a mistake often matters more than the mistake itself. Offering a free replacement for a cracked mug, instead of arguing whose fault it was, usually keeps that customer instead of losing them."
-      },
-      {
-        "question": "Why should business partners agree early on how profits will be split?",
-        "choices": [
-          "It helps avoid arguments and confusion later",
-          "Profit splits never need to be discussed"
-        ],
-        "correctIndex": 0,
-        "explanation": "Agreeing early on how profits will be split, and who does which job, helps business partners avoid arguments later. Two friends running a dog-walking business might agree upfront to split earnings evenly."
-      },
-      {
-        "question": "What is a simple budget?",
-        "choices": [
-          "A plan for how much you'll spend, earn, and save",
-          "A list of your favorite snacks to buy"
-        ],
-        "correctIndex": 0,
-        "explanation": "A budget is a simple plan for how much you expect to spend, earn, and save over a set time, like a month. Budgeting $20 for supplies while hoping to earn $50 helps you see right away if you're on track."
-      },
-      {
-        "question": "Sales have been slow for two weeks. What's a smart response?",
-        "choices": [
-          "Look at what might be wrong and try adjusting, like price or location",
-          "Immediately shut the business down for good"
-        ],
-        "correctIndex": 0,
-        "explanation": "Nearly every business hits a slow stretch at some point, and how you respond matters more than the slowdown itself. If candle sales drop for two weeks, checking your price, location, or scents is more useful than just hoping things improve."
-      },
-      {
-        "question": "You ran out of cups halfway through a busy Saturday. What should you do differently next time?",
-        "choices": [
-          "Buy more cups ahead of time based on what you learned",
-          "Pretend it never happened and change nothing"
-        ],
-        "correctIndex": 0,
-        "explanation": "Mistakes teach you what to fix next time, like running out of cups halfway through a busy Saturday. Learning from it means buying extra supplies next time instead of getting caught short again."
-      },
-      {
-        "question": "A candle business earns $100 and spends $130 on wax and wicks one month. Was that a profit or a loss?",
-        "choices": [
-          "A loss, since it spent more than it earned",
-          "A profit, since $100 sounds like good money"
-        ],
-        "correctIndex": 0,
-        "explanation": "A loss happens whenever you spend more than you earn, no matter how big the earnings sound by themselves. Spending $130 on wax and wicks while earning only $100 means that month lost $30."
-      },
-      {
-        "question": "Two partners disagree about how to split profits. What could have prevented this argument?",
-        "choices": [
-          "Agreeing on the split before starting the business",
-          "There's no way to ever prevent this kind of disagreement"
-        ],
-        "correctIndex": 0,
-        "explanation": "Agreeing on how profits will be split before starting a business prevents confusion and arguments once money actually starts coming in. Deciding this early, in writing if possible, protects the partnership."
-      },
-      {
-        "question": "Instead of spending all $30 of profit on candy, what's an example of reinvesting?",
-        "choices": [
-          "Using some of it to buy more supplies for next time",
-          "Spending every single cent of it immediately"
-        ],
-        "correctIndex": 0,
-        "explanation": "Reinvesting means using part of your profit to grow the business instead of spending every cent on yourself, like buying more supplies with some of a $30 profit. It helps next month's sales go even better."
-      }
-    ]
-  },
-  "entrepreneurship-13-17-p1": {
-    "slides": [
-      {
-        "emoji": "📝",
-        "title": "What is a business plan?",
-        "text": "A business plan lays out what a business will sell, who it's for, how it'll make money, and what it needs to get started — a roadmap for turning an idea into reality. For example, a teen wanting to start a pet-sitting business might write a one-page plan covering who their customers are (nearby pet owners), how much they'll charge per visit, and what supplies (a leash, treats, a scheduling app) they need first."
-      },
-      {
-        "emoji": "🌱",
-        "title": "Startup vs. small business",
-        "text": "A small business is usually built to operate sustainably for its owners and customers. A startup is typically designed around a repeatable idea that can grow rapidly, often with significant uncertainty. A neighborhood pet-sitting service may be a small business; a platform built to connect thousands of sitters and pet owners across cities may be a startup."
-      },
-      {
-        "emoji": "💵",
-        "title": "Where funding comes from",
-        "text": "Businesses can be funded in different ways: personal savings, revenue from early sales, loans that must be repaid, or investors who provide money in exchange for ownership (equity). Each source changes the founder’s risk, control, and obligations."
-      },
-      {
-        "emoji": "📈",
-        "title": "What does \"scaling\" mean?",
-        "text": "Scaling means growing a business to serve many more customers without everything becoming proportionally more expensive or difficult to manage. For example, a tutoring business that only earns more by adding more of the tutor's own hours doesn't scale well, but selling a recorded video course that hundreds of students can buy without extra work per student scales much better."
-      },
-      {
-        "emoji": "🎯",
-        "title": "Finding your target market",
-        "text": "A target market is the specific group of people most likely to actually want and pay for what you're offering, rather than the entire population. For example, a business selling custom study planners is far better off targeting stressed high school juniors and seniors preparing for exams than trying to market to literally everyone."
-      },
-      {
-        "emoji": "💎",
-        "title": "Crafting a value proposition",
-        "text": "A value proposition is a clear, specific statement of why a customer should choose your product over any alternative, including doing nothing at all. For example, \"Custom tutoring scheduled around your exact sports practice times\" gives a busy student-athlete a concrete reason to choose you over a generic tutoring center."
-      },
-      {
-        "emoji": "🔬",
-        "title": "Market research basics",
-        "text": "Market research means gathering real information about what potential customers want, need, and are willing to pay, instead of just guessing. For example, sending a short survey to 30 classmates before launching a snack business can reveal that most would pay $2 for a granola bar, but not $5, saving you from mispricing later."
-      },
-      {
-        "emoji": "🏢",
-        "title": "Choosing a business structure",
-        "text": "Businesses can use different legal structures, and the exact rules depend on where they operate. A sole proprietorship generally has one owner, while a partnership involves two or more owners. As a business grows, owners may consider other structures with help from a parent, accountant, or attorney."
-      }
-    ],
-    "quiz": [
-      {
-        "question": "What is a business plan?",
-        "choices": [
-          "A roadmap covering what a business will sell, who it's for, and how it makes money",
-          "A legal document required only for huge companies"
-        ],
-        "correctIndex": 0,
-        "explanation": "A business plan is a written roadmap: what you'll sell, who your customers are, and how you'll make money. A teen starting a pet-sitting business might write one page covering nearby pet owners, a per-visit price, and supplies like a leash and scheduling app."
-      },
-      {
-        "question": "How does a startup typically differ from a small business?",
-        "choices": [
-          "A startup usually aims to grow very fast with an unproven idea",
-          "There is no real difference between them"
-        ],
-        "correctIndex": 0,
-        "explanation": "A startup is generally designed to test a repeatable idea that could grow rapidly, while many small businesses focus on serving a local or defined market sustainably. Either type can be successful; they simply have different growth goals and risks."
-      },
-      {
-        "question": "An investor gives $50,000 in exchange for 10% ownership. What did they get?",
-        "choices": [
-          "A share of future profits or ownership",
-          "Nothing at all, ever"
-        ],
-        "correctIndex": 0,
-        "explanation": "If an investor gives $50,000 in exchange for 10% ownership, the investor receives equity — a 10% ownership stake in the company. That is different from a loan, which normally must be repaid."
-      },
-      {
-        "question": "Why does a recorded video course \"scale\" better than one-on-one tutoring?",
-        "choices": [
-          "It can serve many more customers without proportionally more cost or effort",
-          "Video courses are always cheaper to make"
-        ],
-        "correctIndex": 0,
-        "explanation": "Scaling means a business can serve far more customers without its costs or effort growing at the same rate. A tutoring business that only earns more by adding the tutor's own hours doesn't scale well, but a recorded video course that hundreds can buy needs little extra work per student."
-      },
-      {
-        "question": "What is a \"target market\"?",
-        "choices": [
-          "The specific group of people most likely to want your product",
-          "Every single person in the world, treated equally"
-        ],
-        "correctIndex": 0,
-        "explanation": "A target market is the specific group of people most likely to actually want and pay for what you're selling, rather than literally everyone. A business selling custom study planners does better targeting stressed high schoolers before exams than trying to market to the whole population."
-      },
-      {
-        "question": "What is a value proposition?",
-        "choices": [
-          "A clear statement of why customers should choose your product over alternatives",
-          "A legal document required to open a bank account"
-        ],
-        "correctIndex": 0,
-        "explanation": "A value proposition is a clear, specific reason a customer should choose you instead of any alternative, including doing nothing. Telling a busy student-athlete \"custom tutoring scheduled around your exact practice times\" gives them a concrete reason to pick you over a generic tutoring center."
-      },
-      {
-        "question": "Why do businesses conduct market research before launching?",
-        "choices": [
-          "To learn what potential customers actually want and will pay for",
-          "Because it's legally required before selling anything at all"
-        ],
-        "correctIndex": 0,
-        "explanation": "Market research means actually gathering information about what customers want and will pay, instead of guessing. Surveying 30 classmates before launching a snack business might reveal most would pay $2 for a granola bar but not $5, saving you from pricing it wrong later."
-      },
-      {
-        "question": "What's the key difference between a sole proprietorship and a partnership?",
-        "choices": [
-          "A sole proprietorship has one owner; a partnership has two or more",
-          "They are legally identical in every way"
-        ],
-        "correctIndex": 0,
-        "explanation": "At the simplest level, a sole proprietorship has one owner and a partnership has two or more. The legal responsibilities, taxes, and registration rules can vary by location, so real businesses should check local requirements."
-      },
-      {
-        "question": "A teen uses $200 of personal savings to launch a t-shirt business instead of taking a loan. What's an advantage of this approach?",
-        "choices": [
-          "They don't owe anyone money or interest if the business struggles",
-          "There is no real advantage to using personal savings"
-        ],
-        "correctIndex": 0,
-        "explanation": "Using your own savings instead of a loan means you don't owe anyone money or interest if the business struggles. A teen spending $200 of personal savings on a t-shirt business risks only that $200, not a growing debt."
-      },
-      {
-        "question": "Which business idea would likely scale more easily?",
-        "choices": [
-          "A print-on-demand online store",
-          "A one-person car detailing service that requires being there in person"
-        ],
-        "correctIndex": 0,
-        "explanation": "A print-on-demand online store scales more easily because a printer fulfills each order automatically, without the founder doing more work per sale. A one-person car detailing service can't scale the same way, since the owner must physically be there for every single job."
-      }
-    ]
-  },
-  "entrepreneurship-13-17-p2": {
-    "slides": [
-      {
-        "emoji": "🏷️",
-        "title": "Pricing strategies",
-        "text": "Businesses generally price in one of two ways: cost-plus pricing, where you add a markup on top of what something costs to make, or value-based pricing, where you charge based on how much a customer believes it's worth. For example, a $5 material cost with a $10 markup gives a cost-plus price of $15, while a designer bag might sell for $200 largely because customers value the brand, not just the materials."
-      },
-      {
-        "emoji": "📢",
-        "title": "Customer acquisition and marketing spend",
-        "text": "Customer acquisition cost (CAC) is the average amount a business spends on sales and marketing to gain a new customer. If it costs $20 to acquire a customer who creates only $15 of gross profit, the business may need to lower acquisition costs, improve margins, or increase repeat purchases."
-      },
-      {
-        "emoji": "📈",
-        "title": "Measuring success beyond money",
-        "text": "Revenue matters, but it is not the only signal of a healthy business. Entrepreneurs may also track profit, cash flow, customer satisfaction, repeat purchases, growth, and impact. The right measures depend on the business and its goals."
-      },
-      {
-        "emoji": "⚔️",
-        "title": "Competitive advantage",
-        "text": "A competitive advantage is whatever makes a business genuinely better or different from its rivals — often price, quality, convenience, or service. For example, a teen lawn-care business that guarantees same-day service, when every competitor takes a week to respond, has built a clear competitive advantage without needing to be the cheapest option."
-      },
-      {
-        "emoji": "📱",
-        "title": "Digital marketing basics",
-        "text": "Digital marketing means promoting a business online, through channels like social media, that often cost far less than traditional advertising. For example, posting short before-and-after videos of a car-detailing job can reach hundreds of potential local customers for free, something a printed flyer campaign could never do at that price."
+        "emoji": "😌",
+        "title": "Staying Calm",
+        "text": "Good leaders stay calm when things go wrong. Taking a deep breath helps you think of what to do next."
       },
       {
         "emoji": "🔁",
-        "title": "Customer lifetime value",
-        "text": "Customer lifetime value estimates how much value a customer may generate over the whole relationship with a business. For example, someone paying $30 for a haircut about every six weeks for two years could generate roughly $500 in revenue — much more than the first $30 visit."
+        "title": "Trying Again",
+        "text": "A block tower can fall down. A good leader tries again instead of giving up."
       },
       {
-        "emoji": "🎗️",
-        "title": "Building loyalty and retention",
-        "text": "Retention means keeping the customers you already have coming back, which is usually cheaper than constantly finding new ones. For example, offering a simple reward, like a free car wash after every ten paid washes, gives existing customers a reason to keep returning instead of trying a competitor."
-      },
-      {
-        "emoji": "🧪",
-        "title": "Simple experiments (A/B testing)",
-        "text": "A/B testing means trying two versions of something, like two different ad photos or prices, to see which one performs better with real customers. For example, posting one ad with a photo of the product alone and another with it in use, then comparing which gets more responses, lets you improve with evidence instead of guesswork."
+        "emoji": "💬",
+        "title": "Using Kind Words",
+        "text": "Kind words help a friend feel better. Saying \"let's fix it together\" is kind."
       }
     ],
     "quiz": [
       {
-        "question": "Besides revenue, what else might an entrepreneur track as a sign of success?",
+        "question": "What does a leader do?",
         "choices": [
-          "Customer satisfaction and real-world impact",
-          "Nothing else is ever worth tracking"
+          "Helps a group get things done",
+          "Plays alone all the time"
         ],
         "correctIndex": 0,
-        "explanation": "Revenue isn't the only measure of success; entrepreneurs also track things like customer satisfaction and repeat business. A business with modest profit but 90% of customers returning again and again is often in a stronger position than one earning more but constantly losing one-time customers."
+        "explanation": "A leader helps a group work together. Showing friends the rules is one way to help."
       },
       {
-        "question": "What's the difference between cost-plus and value-based pricing?",
+        "question": "You knock over a friend's tower by accident. What should you say?",
         "choices": [
-          "Cost-plus adds a markup to cost; value-based charges based on perceived worth",
-          "They are exactly the same thing"
+          "Sorry",
+          "It was not me"
         ],
         "correctIndex": 0,
-        "explanation": "Cost-plus pricing adds a fixed markup on top of what something costs to make, like a $5 material cost plus a $10 markup equaling $15. Value-based pricing instead charges based on what a customer believes something is worth, like a $200 designer bag priced mainly for its brand, not its materials."
+        "explanation": "Saying sorry shows you care about a friend's feelings. It helps them trust you again."
       },
       {
-        "question": "A business spends $20 to gain a customer who only spends $15. What's the problem?",
+        "question": "A friend is trying something hard. What can you do?",
         "choices": [
-          "The cost of acquiring that customer is higher than what they spend",
-          "There is no problem at all"
+          "Cheer them on",
+          "Walk away"
         ],
         "correctIndex": 0,
-        "explanation": "Customer acquisition cost is what a business spends, on average, to gain one new customer through advertising. Spending $20 on ads to gain a customer who only ever spends $15 is a losing strategy, even though the ad technically brought someone in."
+        "explanation": "Cheering for a friend helps them feel brave. Clapping when they try something hard is kind."
       },
       {
-        "question": "What is a \"competitive advantage\"?",
+        "question": "A leader cleans up first. What happens next?",
         "choices": [
-          "Something that makes a business genuinely better or different than rivals",
-          "A random, meaningless name given to any business"
+          "Friends want to help too",
+          "Friends walk away"
         ],
         "correctIndex": 0,
-        "explanation": "A competitive advantage is something real that makes a business better or different from its rivals, like price, quality, or service. A teen lawn-care business guaranteeing same-day service, when every competitor takes a week, has a clear advantage without needing to be the cheapest."
+        "explanation": "Leading by example means showing how, not just telling. Cleaning up first makes friends want to help too."
       },
       {
-        "question": "Which is an example of low-cost digital marketing for a teen business?",
+        "question": "You lose a game. What does a good sport say?",
         "choices": [
-          "Posting product photos and videos on social media",
-          "Buying a national television advertising campaign"
+          "Good game",
+          "That's not fair"
         ],
         "correctIndex": 0,
-        "explanation": "Digital marketing means promoting a business online, through things like social media, usually for far less money than traditional ads. Posting free before-and-after videos of a car-detailing job can reach hundreds of local customers, something a printed flyer campaign could never match at that price."
+        "explanation": "A good sport stays kind even after losing. Saying \"good game\" shows you care about your friend."
       },
       {
-        "question": "What is \"customer lifetime value\"?",
+        "question": "A friend dropped their crayons. No one asked you to help. What do you do?",
         "choices": [
-          "The total amount a customer is expected to spend over their whole relationship with a business",
-          "The price of a single item sold to them one time"
+          "Pick them up",
+          "Walk past them"
         ],
         "correctIndex": 0,
-        "explanation": "Customer lifetime value is the total amount a business expects one customer to spend over their whole relationship with it, not just one purchase. A customer who gets a $30 haircut every six weeks for two years is worth roughly $520 in lifetime value, far more than that first $30 visit suggests."
+        "explanation": "Good leaders help even when no one asks. Picking up dropped crayons is a kind, helpful thing to do."
       },
       {
-        "question": "Why might a business offer a loyalty reward, like \"buy 9 washes, get the 10th free\"?",
+        "question": "Your plan breaks and things go wrong. What should a good leader do?",
         "choices": [
-          "It encourages customers to keep returning instead of trying a competitor",
-          "Loyalty programs have no real effect on customer behavior"
+          "Stay calm and think what to do next",
+          "Yell and give up"
         ],
         "correctIndex": 0,
-        "explanation": "Retention means keeping customers you already have, which usually costs less than constantly finding new ones. Offering a free car wash after ten paid washes gives customers a concrete reason to keep returning instead of trying a competitor."
+        "explanation": "Staying calm helps you think of what to do next. Taking a deep breath is a good first step."
       },
       {
-        "question": "A business tries two different ad photos to see which gets more clicks. What is this called?",
+        "question": "You try to build a block tower and it falls down. What should you do?",
         "choices": [
-          "A/B testing, a simple experiment to see what works better",
-          "Cheating, since only one ad should ever be used at a time"
+          "Try again",
+          "Never try again"
         ],
         "correctIndex": 0,
-        "explanation": "A/B testing means trying two versions of something, like two ad photos or two prices, to see which performs better with real customers. Comparing an ad showing the product alone against one showing it in use lets you improve decisions with evidence instead of guesswork."
+        "explanation": "Good leaders keep trying instead of giving up. Building a fallen tower again shows you do not quit."
       },
       {
-        "question": "A business has slightly lower revenue but 90% repeat customers, versus a rival with higher revenue but only 20% repeat customers. Which is often a sign of a healthier long-term business?",
+        "question": "A friend makes a mistake. What are kind words to say?",
         "choices": [
-          "Often the one with more repeat customers, reflecting lasting satisfaction",
-          "Whichever business made more money this month, automatically and always"
+          "That's okay, let's fix it",
+          "You did it wrong"
         ],
         "correctIndex": 0,
-        "explanation": "A business with slightly lower revenue but 90% repeat customers is often healthier long-term than a rival with higher revenue but only 20% repeat customers, because repeat customers reflect real, lasting satisfaction rather than one-time luck."
+        "explanation": "Kind words help a friend feel better after a mistake. Saying \"let's fix it together\" shows you care."
       },
       {
-        "question": "A business spends $8 in ads to gain a customer who spends $50 over the next year. Is this a good outcome?",
+        "question": "Why does a good leader use kind words?",
         "choices": [
-          "Yes, the customer's value is much higher than the cost to acquire them",
-          "No, spending any money at all on ads is always a mistake"
+          "Kind words help friends feel good",
+          "Mean words work better"
         ],
         "correctIndex": 0,
-        "explanation": "When a customer's expected value, like $50 spent over a year, is much higher than the $8 spent acquiring them, that advertising spending is working well. The business earns far more from the customer than it paid to reach them."
+        "explanation": "Kind words make friends feel good and want to be near you. Saying something nice is an easy way to be kind."
       }
     ]
   },
-  "entrepreneurship-13-17-p3": {
+  "leadership-4-6-p2": {
     "slides": [
       {
-        "emoji": "⚠️",
-        "title": "Failure is part of the process",
-        "text": "Many successful entrepreneurs failed at a first (or second, or third) attempt. Learning from what went wrong is often what makes the next attempt succeed. For example, a teen's first attempt at selling custom phone cases online might flop due to poor photos and unclear pricing — but applying those exact lessons to a second attempt often leads to real success."
-      },
-      {
-        "emoji": "⚖️",
-        "title": "Ethics in business",
-        "text": "Long-term success usually depends on being honest with customers, treating employees fairly, and not cutting corners just to make a quick profit. For example, honestly describing a product's condition, even when a vague description might sell it faster, builds the kind of trust that keeps customers coming back for years."
-      },
-      {
-        "emoji": "🎯",
-        "title": "Solving a real problem",
-        "text": "The most durable businesses tend to solve a genuine problem for people — not just chase a trend that might fade quickly. For example, a tutoring business solving a real, ongoing need (students struggling with math) tends to last far longer than a business built around a fad that's popular for a few months and then forgotten."
-      },
-      {
-        "emoji": "🧭",
-        "title": "Resilience and persistence",
-        "text": "Markets change, plans fail, and competitors appear. Entrepreneurs who adapt and keep going tend to outlast those who give up at the first setback. For example, if a new competitor undercuts your prices, adapting by improving your service or finding a new customer niche is more likely to succeed than simply giving up."
-      },
-      {
-        "emoji": "🤲",
-        "title": "Businesses that also help others",
-        "text": "Some entrepreneurs build 'social enterprises' — businesses designed to make money while also solving a social or environmental problem, not purely for profit. For example, a teen-run business that sells reusable water bottles and donates a portion of every sale to a clean-water charity is pursuing both profit and positive impact at the same time."
-      },
-      {
-        "emoji": "😕",
-        "title": "Handling complaints and protecting your reputation",
-        "text": "A single public complaint, especially online, can influence far more potential customers than just the one person who made it, so how a business responds matters enormously. For example, a business that quickly and openly resolves a customer's shipping complaint often earns more trust from onlookers than a business that has never had a complaint at all."
-      },
-      {
         "emoji": "🤝",
-        "title": "Splitting equity among co-founders",
-        "text": "When multiple people start a company together, they typically divide ownership — called equity — based on factors like who contributed the original idea, how much money each person invested, and how much ongoing work each will do. For example, two co-founders might split equity 50/50 if they contribute equally, or 70/30 if one invested significantly more money or works full-time while the other stays part-time."
+        "title": "Taking Turns",
+        "text": "Everyone gets a turn to be the leader. Everyone also gets a turn to follow the leader."
       },
       {
-        "emoji": "🌐",
-        "title": "Building a personal brand as a young entrepreneur",
-        "text": "A personal brand is the consistent impression you leave through how you present yourself and your work over time, both online and in person. For example, a teen who consistently posts high-quality photos of their baking under the same name and style becomes recognizable and trusted, which can open doors well beyond that one business."
+        "emoji": "🧩",
+        "title": "Working Together",
+        "text": "A big job is easier with many hands. Friends can each build one part of a tower."
       },
       {
-        "emoji": "🧑‍🏫",
-        "title": "Networking and mentorship",
-        "text": "A mentor is someone with more experience who can offer guidance, feedback, and warnings about mistakes they've already made themselves. For example, a local shop owner willing to spend twenty minutes answering a teen entrepreneur's questions about pricing can save that teen from repeating costly mistakes the shop owner already learned the hard way."
+        "emoji": "👂",
+        "title": "Listening to Friends",
+        "text": "A good leader listens to what friends say. Listening helps you learn what your friends like."
+      },
+      {
+        "emoji": "🎁",
+        "title": "Sharing Credit",
+        "text": "A good leader says, \"we did it together.\" Sharing credit makes the whole team feel proud."
+      },
+      {
+        "emoji": "🗳️",
+        "title": "Making a Fair Choice",
+        "text": "A good leader helps the group choose fairly. Taking turns picking is one fair way to choose."
+      },
+      {
+        "emoji": "🌈",
+        "title": "Welcoming a New Friend",
+        "text": "A good leader helps new friends feel welcome. Saying \"come play with us\" makes someone happy."
+      },
+      {
+        "emoji": "🎲",
+        "title": "Picking a Team Game",
+        "text": "Friends may want to play different games. Taking turns picking the game is fair."
+      },
+      {
+        "emoji": "🧩",
+        "title": "Helping a Friend Who Is Stuck",
+        "text": "A friend may get stuck on a hard puzzle. A good leader stops to help."
+      },
+      {
+        "emoji": "🙏",
+        "title": "Saying Thank You",
+        "text": "A good leader says thank you for help. It makes friends want to help again."
       }
     ],
     "quiz": [
       {
-        "question": "Why do many successful entrepreneurs talk openly about past failures?",
+        "question": "Should you get a turn to lead?",
         "choices": [
-          "Learning from what went wrong often shapes what succeeds next",
-          "Failure has no useful lessons at all"
+          "Yes, everyone gets a turn",
+          "No, only one person leads"
         ],
         "correctIndex": 0,
-        "explanation": "Many successful entrepreneurs failed on their first attempt, and learning from exactly what went wrong is often what makes the next attempt work. A teen's first phone-case business might flop from poor photos and unclear pricing, but fixing those same issues next time often leads to real success."
+        "explanation": "Taking turns to lead is fair for everyone. Today you lead the game, tomorrow a friend leads."
       },
       {
-        "question": "Why does ethical behavior matter for long-term business success?",
+        "question": "Is a big job easier with many hands?",
         "choices": [
-          "Cutting corners for quick profit tends to damage trust over time",
-          "Ethics have no real impact on whether a business succeeds"
+          "Yes, it is easier",
+          "No, one person should do it alone"
         ],
         "correctIndex": 0,
-        "explanation": "Cutting corners for a quick profit, like vaguely describing a damaged product to sell it faster, tends to damage trust and hurt a business over time. Being honest, even when it's less convenient, builds the kind of trust that keeps customers coming back for years."
+        "explanation": "A big job gets done faster with many hands helping. Building a tower is quicker when everyone builds one part."
       },
       {
-        "question": "What tends to make a business durable over the long run?",
+        "question": "A friend tells you their idea. What should a good leader do?",
         "choices": [
-          "Solving a genuine, ongoing problem for people",
-          "Only ever chasing whatever trend is popular right now"
+          "Listen to it",
+          "Ignore it"
         ],
         "correctIndex": 0,
-        "explanation": "Businesses solving a genuine, ongoing problem tend to last far longer than ones built around a passing trend. A tutoring business helping students who struggle with math addresses a lasting need, while a business chasing a fad that's popular for a few months tends to fade once interest does."
+        "explanation": "A good leader listens when a friend shares an idea. Listening helps you learn what your friends like."
       },
       {
-        "question": "What is a \"social enterprise\"?",
+        "question": "Your team wins. What does a good leader say?",
         "choices": [
-          "A business built to make money while also solving a social or environmental problem",
-          "A business that only exists on social media"
+          "We did it together",
+          "I did it all myself"
         ],
         "correctIndex": 0,
-        "explanation": "A social enterprise aims to earn revenue while also addressing a social or environmental problem. For example, a reusable-bottle business that donates part of its profit to clean-water projects combines a business goal with a mission."
+        "explanation": "Sharing credit makes the whole team feel proud. Saying \"we did it together\" is kinder than \"I did it alone.\""
       },
       {
-        "question": "Why does responding well to a public complaint matter so much?",
+        "question": "Two friends both want to go first. What is a fair way to choose?",
         "choices": [
-          "It's visible to many potential customers, not just the one who complained",
-          "Public complaints never affect other customers"
+          "Take turns picking",
+          "Only the biggest kid decides"
         ],
         "correctIndex": 0,
-        "explanation": "A public complaint can be seen by many potential customers, so the response affects more than one person. A calm, transparent reply that fixes the problem can show others that the business takes customers seriously."
+        "explanation": "Taking turns is a fair way to choose who goes first. It means no one always gets picked over the other."
       },
       {
-        "question": "A competitor undercuts your prices significantly. What's a resilient response?",
+        "question": "A new kid is standing alone at recess. What should a good leader do?",
         "choices": [
-          "Adapt, like improving service or finding a new customer niche",
-          "Quit the business immediately without trying anything else"
+          "Say come play with us",
+          "Ignore them"
         ],
         "correctIndex": 0,
-        "explanation": "Resilience means adapting when conditions change instead of quitting immediately. If a competitor cuts prices, you might improve service, focus on a different customer group, add value, or rethink your costs rather than automatically racing to the lowest price."
+        "explanation": "A good leader helps new friends feel welcome. Saying \"come play with us\" can make a lonely kid happy."
       },
       {
-        "question": "Two co-founders split equity 70/30 instead of evenly. What might explain this?",
+        "question": "Your group can't agree which game to play. What can help?",
         "choices": [
-          "One invested more money or works full-time while the other works part-time",
-          "Equity splits are always completely random, with no real reasoning"
+          "Take turns picking the game",
+          "Only one person always picks"
         ],
         "correctIndex": 0,
-        "explanation": "Equity, meaning ownership of a company, usually gets split based on how much money each founder invested and how much ongoing work they do. Two co-founders might split equity 70/30 if one invested significantly more money or works full-time while the other stays part-time."
+        "explanation": "Taking turns picking the game is fair when friends disagree. Everyone gets a turn to choose what to play."
       },
       {
-        "question": "Why might a young entrepreneur build a personal brand, like a consistent social media presence?",
+        "question": "A friend is stuck and can't finish a puzzle. What can you do?",
         "choices": [
-          "It helps people recognize, trust, and follow their work over time",
-          "Personal brands have no real effect on a business's success"
+          "Help them",
+          "Laugh at them"
         ],
         "correctIndex": 0,
-        "explanation": "A personal brand is the consistent impression you build through how you present your work over time, both online and in person. A teen who consistently posts high-quality photos of their baking under the same name and style becomes recognizable and trusted, which can open doors beyond that one business."
+        "explanation": "A good leader stops to help a friend who is stuck. Helping with a hard puzzle shows you care."
       },
       {
-        "question": "Why is finding a mentor valuable for a young entrepreneur?",
+        "question": "A friend helps you carry your books. What should you say?",
         "choices": [
-          "A mentor can share experience and help avoid common mistakes",
-          "Mentors are only useful for adult business owners, never teens"
+          "Thank you",
+          "Nothing at all"
         ],
         "correctIndex": 0,
-        "explanation": "A mentor is someone more experienced who can share guidance and warn you about mistakes they've already made themselves. A local shop owner spending twenty minutes answering a teen's questions about pricing can save that teen from repeating costly mistakes the owner already learned the hard way."
+        "explanation": "Saying thank you shows you noticed someone's help. It makes friends want to help you again next time."
       },
       {
-        "question": "A business could quietly hide a small product flaw to sell faster, or disclose it honestly. Which builds a more lasting business?",
+        "question": "Your team builds a great fort together. What should you say?",
         "choices": [
-          "Disclosing it honestly, since that builds trust",
-          "Hiding it, since sales matter more than trust"
+          "We built this together",
+          "I built this fort"
         ],
         "correctIndex": 0,
-        "explanation": "Disclosing a small product flaw honestly, rather than hiding it to sell faster, builds the kind of trust that keeps a business's reputation intact over the long run. A business known for honesty tends to keep customers even when something occasionally goes wrong."
+        "explanation": "Sharing credit makes the whole team feel proud of their work. Saying \"we built this together\" is kinder than taking all the credit."
+      }
+    ]
+  },
+  "leadership-7-9-p1": {
+    "slides": [
+      {
+        "emoji": "👂",
+        "title": "Listening to Everyone's Ideas",
+        "text": "A good leader asks what other people think instead of only sharing their own idea. When your group picks a recess game, asking everyone what they want shows real leadership."
+      },
+      {
+        "emoji": "📋",
+        "title": "Giving Out Jobs",
+        "text": "Splitting a group project into smaller jobs and letting each person handle one is called delegation. On a poster project, one person might draw, another might write, and a third might color it in."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Setting a Group Goal",
+        "text": "Deciding together what the group is trying to achieve makes it easier to know if things are working. Agreeing the goal is \"finish the poster by Friday\" gives everyone something clear to aim for."
+      },
+      {
+        "emoji": "🌟",
+        "title": "Leading by Example",
+        "text": "Doing the right thing yourself, like helping clean up, often gets others to join in too. Starting to tidy the classroom without being asked usually works better than just telling classmates to do it."
+      },
+      {
+        "emoji": "✅",
+        "title": "Taking Responsibility",
+        "text": "If you agree to do a job, finishing it even when it is not fun builds real trust. Bringing the markers you promised, even on a day you'd rather relax, shows you can be counted on."
+      },
+      {
+        "emoji": "🔥",
+        "title": "Motivating Others",
+        "text": "A good leader notices small wins and points them out to keep the team's energy up. Saying \"we already finished two parts, we've got this\" can help tired teammates keep going."
+      },
+      {
+        "emoji": "🗓️",
+        "title": "Planning the Steps",
+        "text": "A good leader thinks through the steps of a project before starting, so the group doesn't run out of time. Listing what needs to happen each day before a science fair, instead of starting the night before, helps the whole team stay on track."
+      },
+      {
+        "emoji": "💡",
+        "title": "Staying Positive When It's Hard",
+        "text": "When a project gets frustrating, a good leader keeps a hopeful attitude instead of complaining, which helps the whole team keep going. Saying \"we've solved harder problems than this\" during a tricky group assignment can lift everyone's mood."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Checking In On the Team",
+        "text": "A good leader checks partway through a project to see how everyone is doing, instead of waiting until the deadline to find out something went wrong. Asking \"how's your part coming along?\" halfway through a group project can catch problems while there's still time to fix them."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Deciding what to play at recess, what does a good leader do with other people's ideas?",
+        "choices": [
+          "Listens to them",
+          "Ignores them and shares only their own"
+        ],
+        "correctIndex": 0,
+        "explanation": "A good leader asks what other people think instead of only sharing their own idea. If everyone wants a different game, listening helps the group find something fair to play."
+      },
+      {
+        "question": "On a group poster, one person draws, one writes, one colors. What is this splitting of jobs called?",
+        "choices": [
+          "Delegation",
+          "Doing every part of a job yourself"
+        ],
+        "correctIndex": 0,
+        "explanation": "Delegation means splitting a job into smaller parts so each person does one piece. On a poster, one person might draw while another writes, so the work gets done faster."
+      },
+      {
+        "question": "You agreed to bring markers for a project. Why does following through matter?",
+        "choices": [
+          "It builds trust",
+          "It doesn't matter at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Following through on a promise, even when it's not fun, shows people they can count on you. Bringing markers you promised to bring, instead of forgetting, is how trust gets built."
+      },
+      {
+        "question": "You start cleaning the classroom without being asked, and others join in. What is this?",
+        "choices": [
+          "Leading by example",
+          "Only telling others what to do"
+        ],
+        "correctIndex": 0,
+        "explanation": "Leading by example means doing the right thing yourself instead of just telling others to do it. When you start cleaning without being asked, classmates often join in too."
+      },
+      {
+        "question": "Which is a clearer goal for a group project: \"finish the poster by Friday\" or \"let's just do our best\"?",
+        "choices": [
+          "\"Finish the poster by Friday\" — clear and specific",
+          "\"Let's just do our best\" — vague"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear goal, like \"finish the poster by Friday,\" tells everyone exactly what to aim for. A vague goal like \"do our best\" doesn't say when or how you'll know you succeeded."
+      },
+      {
+        "question": "Your team already finished two parts of a project. What can a good leader say to keep spirits up?",
+        "choices": [
+          "We've already finished two parts, we've got this",
+          "Stop wasting time and hurry up"
+        ],
+        "correctIndex": 0,
+        "explanation": "Pointing out small wins, like finishing two parts already, helps a tired team keep going. It reminds everyone how much progress they've already made."
+      },
+      {
+        "question": "Before starting a science fair project, what should a good leader do?",
+        "choices": [
+          "List the steps and plan the timing",
+          "Just start and figure it out later"
+        ],
+        "correctIndex": 0,
+        "explanation": "Planning the steps before starting helps a group avoid running out of time. Listing what needs to happen each day, instead of starting the night before, keeps everyone on track."
+      },
+      {
+        "question": "A group project gets frustrating. What helps the team keep going?",
+        "choices": [
+          "A leader staying positive and hopeful",
+          "A leader complaining along with everyone"
+        ],
+        "correctIndex": 0,
+        "explanation": "A leader's hopeful attitude can lift the whole team's mood when a project gets hard. Saying \"we've solved harder problems than this\" helps everyone keep trying instead of giving up."
+      },
+      {
+        "question": "Halfway through a group project, what should a good leader do?",
+        "choices": [
+          "Check in on how everyone's part is going",
+          "Wait until the deadline to check anything"
+        ],
+        "correctIndex": 0,
+        "explanation": "Checking in partway through a project, by asking how everyone's part is going, can catch problems early. Waiting until the deadline to find out something went wrong is often too late to fix it."
+      },
+      {
+        "question": "One teammate loves drawing, another loves writing. What should a good leader do when giving out jobs?",
+        "choices": [
+          "Match each job to what they're good at",
+          "Assign jobs randomly without thinking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Delegation works best when jobs match each person's strengths, like giving the drawing to someone who loves art. This helps the whole project turn out better than assigning jobs randomly."
+      }
+    ]
+  },
+  "leadership-7-9-p2": {
+    "slides": [
+      {
+        "emoji": "🤝",
+        "title": "Solving a Disagreement",
+        "text": "When two people in a group disagree, a good leader lets both sides explain their thinking. Suggesting a compromise, like using both colors two teammates wanted, often helps everyone feel heard."
+      },
+      {
+        "emoji": "🙋",
+        "title": "Speaking Up for Someone",
+        "text": "When someone in the group is being left out, a good leader helps them get a chance to speak. Saying \"let's hear what they think too\" is a small but real act of leadership."
+      },
+      {
+        "emoji": "💪",
+        "title": "Encouraging a Teammate",
+        "text": "Noticing when someone on your team is struggling and offering to help is real leadership. Asking \"do you want help with that part?\" shows you care about the whole team's success."
+      },
+      {
+        "emoji": "🙌",
+        "title": "Giving Credit to Others",
+        "text": "A good leader points out what teammates did well instead of keeping the praise for themselves. Saying \"Maya's idea made this project great\" makes the whole team want to keep contributing."
+      },
+      {
+        "emoji": "🗳️",
+        "title": "Making a Group Decision Fairly",
+        "text": "When a group cannot agree, a good leader might suggest a vote so everyone gets a say. A fair decision usually feels better to the team, even to people whose idea was not picked."
+      },
+      {
+        "emoji": "🙇",
+        "title": "Admitting a Mistake as a Leader",
+        "text": "A good leader owns up when their own choice caused a problem for the group. Saying \"I picked the wrong plan, let's fix it together\" earns more respect than hiding the mistake."
+      },
+      {
+        "emoji": "👂",
+        "title": "Handling Being Disagreed With",
+        "text": "Sometimes teammates push back on a leader's own idea, and a good leader listens instead of getting defensive. If a teammate says your plan for the presentation won't work, asking \"what would you do differently?\" is more useful than insisting you're right."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Staying Fair, Even With Friends",
+        "text": "A good leader gives the best job to whoever is best suited for it, not just to their closest friend. Picking the strongest reader for the tricky research part, even if a friend wanted it, keeps the whole project fair and strong."
+      },
+      {
+        "emoji": "🌬️",
+        "title": "Calming Down an Upset Teammate",
+        "text": "When a teammate gets frustrated or upset, a good leader helps them calm down before trying to solve the problem. Saying \"let's take a breath and figure this out together\" helps an upset teammate feel heard instead of more annoyed."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Two teammates disagree about a paint color. What helps solve it?",
+        "choices": [
+          "Letting both sides say what they think",
+          "Only listening to one side"
+        ],
+        "correctIndex": 0,
+        "explanation": "Hearing both sides of a disagreement helps you find an answer everyone can accept. If two friends want different colors, using both is often better than picking just one."
+      },
+      {
+        "question": "A quiet group member hasn't shared their idea yet. What should you do?",
+        "choices": [
+          "Help make sure they get to speak",
+          "Ignore it and move on"
+        ],
+        "correctIndex": 0,
+        "explanation": "A good leader notices when someone hasn't had a chance to speak and helps include them. Asking a quiet teammate what they think shows everyone's ideas matter."
+      },
+      {
+        "question": "A teammate's idea made the project great. What should a good leader say?",
+        "choices": [
+          "Point out that it was their idea",
+          "Let people think it was the leader's idea"
+        ],
+        "correctIndex": 0,
+        "explanation": "Giving credit to whoever had the idea makes the whole team want to keep contributing. Saying \"that was Maya's idea\" feels better to everyone than letting people think it was yours."
+      },
+      {
+        "question": "A group can't agree on a plan. What can help everyone feel it was fair?",
+        "choices": [
+          "Taking a vote so everyone gets a say",
+          "The leader just picking their favorite"
+        ],
+        "correctIndex": 0,
+        "explanation": "Taking a vote gives everyone a say, which helps a decision feel fair. Even someone whose idea loses the vote usually feels better than if the leader just picked alone."
+      },
+      {
+        "question": "A leader's own plan caused a problem for the group. What should they do?",
+        "choices": [
+          "Own up to the mistake and help fix it",
+          "Hide it and hope no one notices"
+        ],
+        "correctIndex": 0,
+        "explanation": "Owning up to a mistake and helping fix it earns more respect than hiding it. Saying \"I picked the wrong plan, let's fix it together\" shows real leadership."
+      },
+      {
+        "question": "A teammate is struggling with their part of the project. What can a good leader do?",
+        "choices": [
+          "Offer to help them",
+          "Ignore it and hope it works out"
+        ],
+        "correctIndex": 0,
+        "explanation": "Noticing a struggling teammate and offering to help is real leadership, not just doing your own part well. Asking \"do you want help with that?\" shows you care about the team's success."
+      },
+      {
+        "question": "A teammate says your presentation plan won't work. What should a good leader do?",
+        "choices": [
+          "Listen and ask what they'd do differently",
+          "Get defensive and insist you're right"
+        ],
+        "correctIndex": 0,
+        "explanation": "Listening to pushback instead of getting defensive usually leads to a better plan. Asking \"what would you do differently?\" often uncovers a problem you hadn't noticed."
+      },
+      {
+        "question": "Your friend wants the hardest research job, but another teammate is a stronger reader. What should a fair leader do?",
+        "choices": [
+          "Give the job to whoever fits it best",
+          "Give it to your friend no matter what"
+        ],
+        "correctIndex": 0,
+        "explanation": "Staying fair means giving a job to whoever fits it best, even if that's not your friend. This keeps the whole project stronger and shows you're not just playing favorites."
+      },
+      {
+        "question": "A teammate gets upset and frustrated. What should a good leader do first?",
+        "choices": [
+          "Help them calm down before problem-solving",
+          "Ignore their feelings and move on"
+        ],
+        "correctIndex": 0,
+        "explanation": "Helping someone calm down before solving the problem makes them feel heard, not rushed. Saying \"let's take a breath and figure this out together\" often works better than jumping straight to solutions."
+      },
+      {
+        "question": "Two teammates want the last spot on the presentation team. What's the fairest way to decide?",
+        "choices": [
+          "Let the group vote or find another fair way",
+          "Just pick your favorite teammate"
+        ],
+        "correctIndex": 0,
+        "explanation": "Letting the group vote, instead of just picking a favorite, helps a decision feel fair to everyone. A fair process matters just as much as the final choice."
+      }
+    ]
+  },
+  "leadership-10-13-p1": {
+    "slides": [
+      {
+        "emoji": "✅",
+        "title": "Being accountable",
+        "text": "When something goes wrong on a team, a good leader looks at what they could have done differently, not just who else to blame. For example, if your group misses a deadline, a good leader asks \"what could I have communicated better?\" instead of immediately pointing fingers at whoever finished last."
+      },
+      {
+        "emoji": "🔑",
+        "title": "Earning trust over time",
+        "text": "Trust is built slowly, through many small kept promises, and can be lost quickly by breaking just one. For example, consistently showing up on time and finishing your part of group work, week after week, slowly builds real trust — but missing one important deadline right before a big presentation can undo a lot of that trust quickly."
+      },
+      {
+        "emoji": "🚶",
+        "title": "Leading by example",
+        "text": "A leader who does the hard, unglamorous work themselves earns more buy-in than one who only assigns it to others. For example, a team captain who shows up early to set up equipment, instead of just telling teammates to do it, makes everyone more willing to pitch in without being asked."
+      },
+      {
+        "emoji": "🙏",
+        "title": "Staying humble",
+        "text": "Being willing to admit you don't have all the answers, and asking for help, actually builds more respect than pretending to know everything. For example, if you're leading a project and genuinely don't know how to solve a technical problem, admitting \"I'm not sure, does anyone have an idea?\" earns more respect than bluffing your way through and getting it wrong."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Consistency under pressure",
+        "text": "A leader who behaves the same way whether things are going well or badly earns more trust than one who is only pleasant when things are easy. For example, a team captain who stays even-tempered after a disappointing practice, not just after a win, shows teammates they can count on them no matter what's happening."
+      },
+      {
+        "emoji": "🤏",
+        "title": "Following through on small promises",
+        "text": "Trust often depends more on small, repeated promises than on one big grand gesture. For example, consistently sending the meeting notes you promised, week after week, does more for a leader's reputation than one impressive speech."
+      },
+      {
+        "emoji": "🧱",
+        "title": "Standing up for what's right",
+        "text": "A leader who does the right thing even when it's unpopular or less convenient earns respect over time. For example, if a teammate suggests copying another group's idea, a leader who says \"let's come up with our own,\" even though it's more work, models real integrity for the team."
+      },
+      {
+        "emoji": "🔧",
+        "title": "Recovering trust after a mistake",
+        "text": "Trust that's broken by one missed deadline can be slowly rebuilt through consistent follow-through afterward. For example, a leader who missed a deadline can rebuild trust by hitting every deadline afterward and communicating early if something might slip again."
+      },
+      {
+        "emoji": "🌘",
+        "title": "Doing the right thing when no one's watching",
+        "text": "A leader's character often shows most clearly in the choices nobody else would ever find out about. For example, giving credit for an idea to the teammate who actually thought of it, even when no one would have noticed if you'd kept it for yourself, is exactly the kind of quiet integrity that earns lasting trust."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Your group misses a deadline. What does \"being accountable\" look like?",
+        "choices": [
+          "Looking at your own part in what went wrong",
+          "Immediately blaming someone else"
+        ],
+        "correctIndex": 0,
+        "explanation": "Accountability means looking at your own role in a problem instead of only blaming others. For example, if your group misses a deadline, asking \"what could I have communicated better?\" is more useful than pointing fingers, because it actually helps fix things next time."
+      },
+      {
+        "question": "How is trust usually built, based on showing up consistently over weeks?",
+        "choices": [
+          "Slowly, through many small kept promises",
+          "Instantly, the moment someone becomes a leader"
+        ],
+        "correctIndex": 0,
+        "explanation": "Trust builds gradually through many small kept promises, like showing up on time week after week. But it can be lost quickly, since missing one important deadline right before a big presentation can undo weeks of that trust almost instantly."
+      },
+      {
+        "question": "A team captain shows up early to set up equipment instead of just assigning it. What does this show?",
+        "choices": [
+          "Leading by example earns more buy-in",
+          "Leaders should never do hands-on work"
+        ],
+        "correctIndex": 0,
+        "explanation": "Doing the hard, unglamorous work yourself, like setting up equipment early, earns more willingness from teammates than just assigning it to them. When people see a leader pitching in, they're more likely to pitch in too, without needing to be asked."
+      },
+      {
+        "question": "Leading a project, you genuinely don't know how to fix a technical problem. What earns more respect?",
+        "choices": [
+          "Admitting it and asking for help",
+          "Bluffing your way through it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Staying humble means admitting when you don't have all the answers instead of pretending to. Saying \"I'm not sure, does anyone have an idea?\" during a tricky problem actually earns more respect than bluffing and getting it wrong."
+      },
+      {
+        "question": "A team captain stays even-tempered after a tough loss, not just after wins. What does this build?",
+        "choices": [
+          "Trust, through consistency in good times and bad",
+          "Trust only matters after a win"
+        ],
+        "correctIndex": 0,
+        "explanation": "A leader who acts the same way after a loss as after a win shows teammates they can be counted on no matter what. That kind of consistency, staying even-tempered through both good and bad moments, builds far more trust than only being pleasant when things go well."
+      },
+      {
+        "question": "Which builds a leader's reputation more over time?",
+        "choices": [
+          "Consistently keeping small promises, like sending notes every week",
+          "One impressive speech"
+        ],
+        "correctIndex": 0,
+        "explanation": "Trust usually comes from many small, repeated promises rather than one big impressive moment. A leader who consistently sends the notes they promised, week after week, builds a stronger reputation than someone who gives one great speech and then disappears."
+      },
+      {
+        "question": "A teammate wants to copy another group's idea. What should a leader with integrity do?",
+        "choices": [
+          "Say let's come up with our own, even if it's more work",
+          "Go along with copying since it's easier"
+        ],
+        "correctIndex": 0,
+        "explanation": "Standing up for what's right, even when it's less convenient, is what earns lasting respect. Saying \"let's come up with our own idea\" instead of copying another group's work is more effort, but it shows real integrity."
+      },
+      {
+        "question": "A leader missed an important deadline. How can they rebuild the team's trust afterward?",
+        "choices": [
+          "Hit every deadline afterward and communicate early",
+          "Avoid the topic and hope it's forgotten"
+        ],
+        "correctIndex": 0,
+        "explanation": "Trust that's damaged by one mistake, like a missed deadline, can be rebuilt through consistent follow-through afterward. Hitting every deadline from then on, and communicating early if something might slip, slowly shows the team they can rely on you again."
+      },
+      {
+        "question": "You could take credit for a teammate's idea and no one would ever know. What should you do?",
+        "choices": [
+          "Give credit to the teammate anyway",
+          "Take the credit since no one would find out"
+        ],
+        "correctIndex": 0,
+        "explanation": "Doing the right thing even when nobody would ever find out is a real test of character. Giving credit to the teammate who actually had the idea, instead of quietly keeping it for yourself, is exactly the kind of quiet integrity that earns lasting trust."
+      },
+      {
+        "question": "A leader's team suggests a totally different plan than the leader's, and it seems solid. What should a humble leader do?",
+        "choices": [
+          "Consider adopting the team's plan",
+          "Insist on their own plan since they're the leader"
+        ],
+        "correctIndex": 0,
+        "explanation": "Staying humble means being genuinely open to a better idea, even when it isn't your own. A leader who considers adopting the team's plan instead of insisting on their own, just because they're in charge, usually ends up with a stronger outcome."
+      }
+    ]
+  },
+  "leadership-10-13-p2": {
+    "slides": [
+      {
+        "emoji": "🧩",
+        "title": "Matching jobs to strengths",
+        "text": "A good leader notices what each person is good at and hands out jobs that fit, instead of assigning randomly. For example, on a group science project, giving the research job to someone who loves reading, the presentation to someone who enjoys public speaking, and the data charts to someone good at math sets everyone up to actually succeed."
+      },
+      {
+        "emoji": "📣",
+        "title": "Giving feedback kindly",
+        "text": "Telling a teammate what could improve, specifically and kindly, helps them grow instead of just feeling criticized. For example, saying \"your section is great, maybe just add one more example to make it clearer\" helps a teammate improve, while just saying \"this part is weak\" leaves them with nothing useful to act on."
+      },
+      {
+        "emoji": "👂",
+        "title": "Listening actively",
+        "text": "Really listening means asking follow-up questions and repeating back what you heard, not just waiting for your turn to talk. For example, asking a teammate \"so you're worried we won't finish in time, is that right?\" shows you were actually listening, not just planning what to say next."
+      },
+      {
+        "emoji": "🔥",
+        "title": "Motivating a team",
+        "text": "A good leader notices what actually matters to each teammate and connects the work to it, instead of using the same pep talk for everyone. For example, reminding a teammate who loves art that their design skills are the reason the project looks great can motivate them more than a generic \"good job, keep going.\""
+      },
+      {
+        "emoji": "🧵",
+        "title": "Recognizing different working styles",
+        "text": "Some teammates work best with a clear plan laid out step by step, while others do better brainstorming freely before settling on an approach, and a good leader adapts rather than forcing one style on everyone. For example, giving a detail-oriented teammate a checklist while letting a creative teammate free-write ideas first can get better results from both."
+      },
+      {
+        "emoji": "❓",
+        "title": "Asking instead of telling",
+        "text": "A leader who asks a teammate how they'd like to approach a task, instead of just assigning exact steps, usually gets more thoughtful, engaged work in return. For example, asking \"how do you want to tackle the research section?\" often produces a better outcome than dictating every step."
+      },
+      {
+        "emoji": "🔋",
+        "title": "Handling an unmotivated teammate",
+        "text": "A good leader tries to find out why a teammate seems checked out before assuming they're just being lazy. For example, a teammate who suddenly stops contributing might be overwhelmed by something else going on, and a quick, private check-in can uncover that reason."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Balancing group work fairly",
+        "text": "Noticing when one teammate is doing far more than their fair share and redistributing tasks keeps a team functioning well and prevents resentment. For example, if one person has ended up with three tasks and another has none, a good leader rebalances the work before it becomes a problem."
+      },
+      {
+        "emoji": "🗂️",
+        "title": "Running an effective meeting",
+        "text": "Keeping a short group check-in focused on what's actually needed helps a team get things done instead of wasting everyone's time. For example, starting a group meeting with \"let's each share what we finished and what we're stuck on\" keeps the conversation efficient and useful."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "On a science project, why give research to a reader and presenting to a good public speaker?",
+        "choices": [
+          "It sets each person up to succeed",
+          "Strengths don't matter for team jobs"
+        ],
+        "correctIndex": 0,
+        "explanation": "Matching tasks to what each person is good at, like giving research to someone who loves reading, sets everyone up to succeed. Random assignments waste people's strengths and often produce weaker results."
+      },
+      {
+        "question": "Which is more helpful: \"this part is weak\" or \"great section, maybe add one more example\"?",
+        "choices": [
+          "\"great section, maybe add one more example\" — specific and kind",
+          "Being vague and harsh"
+        ],
+        "correctIndex": 0,
+        "explanation": "Specific, kind feedback, like \"add one more example,\" tells a teammate exactly what to improve. A vague comment like \"this part is weak\" leaves them with nothing useful to actually act on."
+      },
+      {
+        "question": "Asking a teammate \"so you're worried we won't finish, is that right?\" is an example of what?",
+        "choices": [
+          "Listening actively",
+          "Waiting for your turn to talk"
+        ],
+        "correctIndex": 0,
+        "explanation": "Active listening means checking that you understood, not just waiting for your turn to talk. Asking \"so you're worried we won't finish in time, is that right?\" shows a teammate you were really paying attention."
+      },
+      {
+        "question": "A teammate loves art, and you remind them their design skills made the project look great. What is this an example of?",
+        "choices": [
+          "Motivating by connecting to what matters to them",
+          "Using the same pep talk for everyone"
+        ],
+        "correctIndex": 0,
+        "explanation": "Connecting work to what a teammate personally cares about, like reminding an artist that their design made the project shine, motivates better than a generic \"good job.\" People try harder when they feel their specific contribution matters."
+      },
+      {
+        "question": "One teammate wants a clear checklist, another prefers to brainstorm freely. What should a good leader do?",
+        "choices": [
+          "Adapt to each person's working style",
+          "Force everyone to work the same way"
+        ],
+        "correctIndex": 0,
+        "explanation": "Some people work best with a step-by-step checklist, while others do better brainstorming freely first. A good leader adapts to each teammate's style instead of forcing everyone to work the same way, which gets better results from both."
+      },
+      {
+        "question": "Instead of assigning exact steps for the research section, what could a leader ask?",
+        "choices": [
+          "How do you want to tackle this part?",
+          "Just do it exactly this way"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking a teammate how they'd like to tackle a task, instead of dictating every step, usually leads to more thoughtful, engaged work. People tend to care more about a plan they helped create."
+      },
+      {
+        "question": "A teammate suddenly stops contributing to the group project. What should a good leader do first?",
+        "choices": [
+          "Check in privately to find out why",
+          "Assume they're lazy and give up on them"
+        ],
+        "correctIndex": 0,
+        "explanation": "A teammate who suddenly stops contributing might be overwhelmed by something else, not just lazy. Checking in privately, instead of assuming the worst, often uncovers the real reason and how to help."
+      },
+      {
+        "question": "One teammate has three tasks and another has none. What should a fair leader do?",
+        "choices": [
+          "Rebalance the tasks",
+          "Leave it as is"
+        ],
+        "correctIndex": 0,
+        "explanation": "Noticing when one teammate has three tasks and another has none, and rebalancing the work, keeps a team functioning well. Left alone, an unfair workload usually leads to resentment and burnout."
+      },
+      {
+        "question": "What's a good way to start a group check-in meeting?",
+        "choices": [
+          "Have everyone share what's done and what they're stuck on",
+          "Let the meeting wander with no structure"
+        ],
+        "correctIndex": 0,
+        "explanation": "Starting a meeting with a clear focus, like asking everyone what they finished and what they're stuck on, keeps a group from wasting time. A focused check-in gets real information instead of just chatting."
+      },
+      {
+        "question": "A quiet teammate rarely speaks up in big meetings, but has good ideas one-on-one. What could a good leader do?",
+        "choices": [
+          "Create chances for them to share ideas privately or in smaller groups",
+          "Only rely on people who speak up in big meetings"
+        ],
+        "correctIndex": 0,
+        "explanation": "A quiet teammate might have great ideas but feel uncomfortable sharing them in a big group. Creating chances to talk privately or in smaller groups helps a good leader hear ideas that would otherwise go unheard."
+      }
+    ]
+  },
+  "leadership-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "🎯",
+        "title": "Setting a clear vision",
+        "text": "A leader who can explain exactly what success looks like gives the team something real to aim for, instead of vague effort. For example, saying \"we want every judge to remember our project by name\" gives a team a clearer target than just saying \"let's do our best.\""
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Fair conflict resolution",
+        "text": "Listening to both sides of a disagreement fully, before deciding anything, is what makes a resolution feel fair to everyone. For example, if two teammates disagree about how to split credit for a project, hearing both people's full explanation before suggesting a solution makes the eventual decision feel much fairer to both."
+      },
+      {
+        "emoji": "🤲",
+        "title": "Sharing credit",
+        "text": "A good leader makes sure the whole team gets recognized for a success, not just themselves. For example, if your group project gets praised by a teacher, saying \"we all worked hard on this together\" instead of taking all the credit yourself is what earns real respect from your teammates."
+      },
+      {
+        "emoji": "🌊",
+        "title": "Handling setbacks",
+        "text": "How a leader reacts right after something goes wrong often decides whether the team panics or keeps working. For example, if a project's code crashes the night before a deadline, a leader who calmly says \"let's figure out the fix together\" keeps the team focused instead of scared."
+      },
+      {
+        "emoji": "🪜",
+        "title": "Breaking a vision into steps",
+        "text": "Having a clear goal isn't enough on its own; a good leader also breaks it into smaller steps the team can actually act on. For example, \"every judge remembers our project\" becomes concrete once it's broken into steps like \"make one unforgettable visual\" and \"practice our opening line until it's smooth.\""
+      },
+      {
+        "emoji": "🌪️",
+        "title": "Staying calm when plans change",
+        "text": "Unexpected changes are common, and a leader's calm reaction helps the team adjust instead of panicking. For example, if the venue for a presentation changes the day before, a leader who says \"let's figure out what's different and adjust\" keeps the whole team steady."
+      },
+      {
+        "emoji": "🎨",
+        "title": "Finding a compromise both sides can accept",
+        "text": "After hearing both sides of a disagreement, a good leader looks for a solution that gives each side something, rather than simply picking one side as the winner. For example, if two teammates disagree about the project's color scheme, using both colors in different sections can satisfy both of them."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Learning from a setback",
+        "text": "After something goes wrong, a good leader takes time to figure out what to do differently next time, not just to move past it quickly. For example, after a presentation that didn't go well, a leader who asks \"what would we change if we did this again?\" helps the team actually improve."
+      },
+      {
+        "emoji": "🎉",
+        "title": "Celebrating the team's effort, not just the result",
+        "text": "Recognizing hard work even when the outcome isn't perfect keeps a team motivated for the next challenge. For example, after a project that didn't win a prize, thanking the team for how hard they worked keeps everyone willing to try again next time."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Two teammates disagree about splitting credit. What makes the resolution feel fair?",
+        "choices": [
+          "Both sides being fully heard first",
+          "Deciding quickly without hearing anyone out"
+        ],
+        "correctIndex": 0,
+        "explanation": "Hearing both people's full explanation before deciding anything is what makes a resolution actually feel fair. If you decide quickly without listening, at least one side is left feeling ignored, even if the final decision was reasonable."
+      },
+      {
+        "question": "Your group project gets praised. Why say \"we all worked hard\" instead of taking credit alone?",
+        "choices": [
+          "Everyone contributed and deserves recognition",
+          "The leader should always get the credit"
+        ],
+        "correctIndex": 0,
+        "explanation": "Saying \"we all worked hard on this\" recognizes that a success usually comes from the whole team's effort, not just the leader's. Taking all the credit alone, even without meaning to, can make teammates feel unseen and less willing to contribute next time."
+      },
+      {
+        "question": "Saying \"we want every judge to remember our project by name\" instead of \"let's do our best\" is an example of what?",
+        "choices": [
+          "Setting a clear vision",
+          "Giving vague instructions"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear vision, like \"every judge remembers our project by name,\" gives a team something specific to work toward. A vague goal like \"let's do our best\" doesn't tell anyone what success would actually look like."
+      },
+      {
+        "question": "Project code crashes the night before a deadline. What should a leader do?",
+        "choices": [
+          "Calmly say let's figure out the fix together",
+          "Panic and blame whoever wrote the code"
+        ],
+        "correctIndex": 0,
+        "explanation": "How a leader reacts right after something goes wrong often decides whether the team panics or keeps working. Calmly saying \"let's figure out the fix together\" keeps everyone focused instead of scared, even under real pressure."
+      },
+      {
+        "question": "The goal is \"every judge remembers our project.\" What should a leader do next?",
+        "choices": [
+          "Break it into concrete steps the team can act on",
+          "Just repeat the goal and hope it happens"
+        ],
+        "correctIndex": 0,
+        "explanation": "A clear goal isn't useful on its own until it's broken into steps a team can actually act on. Turning \"every judge remembers our project\" into concrete tasks, like \"make one unforgettable visual,\" gives the team something to actually do."
+      },
+      {
+        "question": "The presentation venue changes the day before the event. What should a leader do?",
+        "choices": [
+          "Stay calm and figure out what needs to adjust",
+          "Panic and blame whoever booked the room"
+        ],
+        "correctIndex": 0,
+        "explanation": "Unexpected changes, like a venue switching the day before, are common, and a leader's calm reaction helps the team adjust instead of panicking. Saying \"let's figure out what's different\" keeps everyone steady and focused on solving the problem."
+      },
+      {
+        "question": "Two teammates disagree about the project's color scheme. What's a good compromise?",
+        "choices": [
+          "Use both colors in different sections",
+          "Only use one person's color and ignore the other"
+        ],
+        "correctIndex": 0,
+        "explanation": "After hearing both sides of a disagreement, a good leader looks for a solution that gives each side something instead of just picking a winner. Using both colors in different sections, instead of choosing only one, can satisfy both teammates."
+      },
+      {
+        "question": "A presentation didn't go well. What should a good leader ask afterward?",
+        "choices": [
+          "What would we change if we did this again?",
+          "Whose fault was it?"
+        ],
+        "correctIndex": 0,
+        "explanation": "Learning from a setback means figuring out what to do differently next time, not just moving on quickly. Asking \"what would we change if we did this again?\" turns a disappointing result into something the team can actually improve from."
+      },
+      {
+        "question": "A project doesn't win a prize, but the team worked hard. What should a good leader do?",
+        "choices": [
+          "Thank the team for their effort",
+          "Only focus on the disappointing result"
+        ],
+        "correctIndex": 0,
+        "explanation": "Recognizing hard work, even when the result isn't perfect, keeps a team motivated to try again. Thanking the team for their effort after a loss matters just as much as celebrating an actual win."
+      },
+      {
+        "question": "After hearing both teammates explain their view on a disagreement, what should a fair leader do next?",
+        "choices": [
+          "Look for a solution that addresses both concerns",
+          "Immediately side with whoever spoke first"
+        ],
+        "correctIndex": 0,
+        "explanation": "Once both sides have been heard, a fair leader looks for a solution that addresses both people's concerns instead of automatically siding with whoever spoke first. This is what turns a fair process into a fair outcome."
+      }
+    ]
+  },
+  "leadership-13-17-p1": {
+    "slides": [
+      {
+        "emoji": "🎭",
+        "title": "Different leadership styles",
+        "text": "Some leaders direct closely, others coach, others mostly get out of the way — the best style often depends on the team and the situation, not one fixed approach. For example, a brand-new team member might need close, direct guidance at first, while an experienced teammate often does better with a leader who mostly steps back and trusts their judgment."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Servant leadership",
+        "text": "This style puts the team's needs first, asking \"how can I help you succeed?\" rather than \"how can you help me look good?\" For example, a club president practicing servant leadership might spend their time helping members get resources they need for their own projects, rather than mainly focusing on projects that make the president look good."
+      },
+      {
+        "emoji": "🪃",
+        "title": "Delegation vs. micromanaging",
+        "text": "Genuine delegation means trusting someone with real ownership of a task, instead of micromanaging — assigning the job but then controlling every detail anyway. For example, delegating the social media for a club event means letting that person actually make creative decisions, rather than assigning it to them and then rewriting every post yourself, which is really micromanaging in disguise."
+      },
+      {
+        "emoji": "🚶",
+        "title": "Leading by example",
+        "text": "Teams take their real cues from what a leader does, not just what they say — showing up prepared and doing unglamorous work yourself sets the standard everyone else follows. For example, a team captain who stays late to help clean up gear, without being asked, sends a stronger message about effort than any speech about hard work ever could."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Leading with integrity",
+        "text": "Making the same ethical choice whether or not anyone's watching is what actually earns long-term respect from a team. For example, giving honest credit for an idea even when nobody would have noticed if you'd taken it for yourself is exactly the kind of consistent integrity that earns lasting trust."
+      },
+      {
+        "emoji": "🧲",
+        "title": "Authority vs. influence",
+        "text": "Formal authority, like being the captain, and real influence, earned through respect, are not the same thing, and the best leaders build influence rather than relying on their title alone. For example, a co-captain who people actually listen to earned that influence through consistent good judgment, not just the title on the roster."
+      },
+      {
+        "emoji": "🪂",
+        "title": "The cost of over-delegating",
+        "text": "Delegating too much, too fast, without checking in, can leave a team member overwhelmed or a project unsupervised, so effective delegation includes staying appropriately available. For example, handing an entire fundraiser off to a new member with zero check-ins can set them up to fail, even though the intention was to trust them."
+      },
+      {
+        "emoji": "🌪️",
+        "title": "Leading under pressure",
+        "text": "How a leader behaves when stakes are high and time is short reveals more about their real character than how they act when everything is going smoothly. For example, a leader who stays organized and communicative during a chaotic last-minute event change shows the composure that defines real leadership."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Adapting your communication style",
+        "text": "Explaining the same idea differently depending on who's listening — more detail for someone new, a quick summary for an experienced teammate — is a sign of a thoughtful leader, not inconsistency. For example, walking a first-time volunteer through every step of an event while just briefly confirming the plan with a veteran organizer respects both people's needs."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A brand-new team member needs close guidance, while an experienced one does better with more independence. What does this show?",
+        "choices": [
+          "No single leadership style is correct for every situation",
+          "Yes, one style always works best"
+        ],
+        "correctIndex": 0,
+        "explanation": "Effective leadership isn't one fixed style — it adapts to the person and situation. A brand-new teammate often needs close, direct guidance to get started, while an experienced one usually performs better when a leader steps back and trusts their judgment."
+      },
+      {
+        "question": "What does \"servant leadership\" prioritize?",
+        "choices": [
+          "The team's needs and success",
+          "Making the leader look good"
+        ],
+        "correctIndex": 0,
+        "explanation": "Servant leadership is a style where the leader's main job is supporting the team's success, not their own image. A club president practicing it spends time helping members get what they need for their own projects, rather than chasing recognition for themselves."
+      },
+      {
+        "question": "Delegating social media but then rewriting every post yourself — what's actually happening?",
+        "choices": [
+          "Micromanaging, not genuine delegation",
+          "True delegation with real ownership"
+        ],
+        "correctIndex": 0,
+        "explanation": "Genuine delegation means trusting someone with real ownership of a task's decisions, not just its labor. Assigning social media to a teammate and then rewriting every post yourself is really micromanaging — controlling the details while pretending to have let go."
+      },
+      {
+        "question": "Giving honest credit for an idea even when nobody would have noticed otherwise. What does this show?",
+        "choices": [
+          "Leading with integrity — the same choice whether or not anyone's watching",
+          "Only acting ethically when being observed"
+        ],
+        "correctIndex": 0,
+        "explanation": "Leading with integrity means making the same ethical choice whether or not anyone is watching. Giving honest credit for an idea, even when nobody would have noticed if you'd taken it yourself, is exactly the kind of consistency that earns lasting respect."
+      },
+      {
+        "question": "A team captain stays late to help clean up gear without being asked. What does this demonstrate?",
+        "choices": [
+          "Leading by example",
+          "Delegating unpleasant tasks to others"
+        ],
+        "correctIndex": 0,
+        "explanation": "Teams take their real cues from what a leader actually does, not just what they say. A captain who stays late to help clean up gear, without being asked, sends a far stronger message about effort than any speech about hard work could."
+      },
+      {
+        "question": "A co-captain has real influence on the team even though they don't have the official title. What does this show?",
+        "choices": [
+          "Influence is earned through respect, not just given by title",
+          "Only official titles create real influence"
+        ],
+        "correctIndex": 0,
+        "explanation": "Formal authority — the power that comes with an official title — is different from influence, which is earned through consistent good judgment and respect. A co-captain people actually listen to has usually built that influence over time, not just been handed it."
+      },
+      {
+        "question": "A leader hands off an entire fundraiser to a brand-new member with zero check-ins. What's the risk?",
+        "choices": [
+          "Over-delegating without support can set someone up to fail",
+          "There's no downside to delegating everything at once"
+        ],
+        "correctIndex": 0,
+        "explanation": "Delegating too much, too fast, without staying available, can leave someone overwhelmed and a project quietly unsupervised. Handing an entire fundraiser to a new member with zero check-ins can set them up to fail, even though the intention was to trust them."
+      },
+      {
+        "question": "An event's plans change chaotically at the last minute. What reveals a leader's real character?",
+        "choices": [
+          "Staying organized and communicative under pressure",
+          "Only how they act when things go smoothly"
+        ],
+        "correctIndex": 0,
+        "explanation": "How a leader behaves when stakes are high and time is short reveals more about their real character than how they act when things are calm. Staying organized and communicative during a chaotic last-minute change shows the kind of composure that actually defines good leadership."
+      },
+      {
+        "question": "A leader explains an event in full detail to a first-time volunteer, but just confirms the plan briefly with a veteran. What is this?",
+        "choices": [
+          "Thoughtfully adapting communication to the listener",
+          "Being inconsistent and unfair"
+        ],
+        "correctIndex": 0,
+        "explanation": "Explaining an idea differently depending on who's listening — more detail for someone new, a quick summary for an experienced teammate — is thoughtful adaptation, not inconsistency. Walking a first-time volunteer through every step while briefly confirming a plan with a veteran respects both people's actual needs."
+      },
+      {
+        "question": "A new leader wants people to follow safety rules at an event. What is the most effective way to make that happen?",
+        "choices": [
+          "Follow the rules themselves first",
+          "Just announce the rules and not follow them personally"
+        ],
+        "correctIndex": 0,
+        "explanation": "The most effective way to get people to follow rules is to follow them yourself first, since teams copy what a leader actually does far more than what they say. A leader who skips their own safety rules undermines the message no matter how firmly they announce it."
+      }
+    ]
+  },
+  "leadership-13-17-p2": {
+    "slides": [
+      {
+        "emoji": "🤝",
+        "title": "Leading through team conflict",
+        "text": "A strong leader acts as a fair facilitator during conflict, not a judge picking sides, helping the team find its own resolution. For example, if two club members clash over how to run an event, a strong leader might guide a conversation where both explain their view and propose their own compromise, rather than the leader simply declaring a winner."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Emotional intelligence in leadership",
+        "text": "Noticing how team members are feeling, not just what they're doing, often prevents problems before they even start. For example, noticing a normally engaged teammate has become unusually quiet in meetings, and checking in privately, can catch a brewing problem — burnout, a personal issue, a disagreement — before it affects the whole team's work."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Creating space to be heard",
+        "text": "A leader who actively invites disagreement, and doesn't punish people for raising concerns, builds what's sometimes called psychological safety — a team where people feel safe speaking up. For example, asking \"does anyone see a problem with this plan?\" and genuinely welcoming the answer, even if it's critical, makes a team far more likely to catch mistakes early."
+      },
+      {
+        "emoji": "🙌",
+        "title": "Giving credit publicly and specifically",
+        "text": "Naming exactly who did what well, and doing it where others can hear, builds far more trust than a vague \"great job, team.\" For example, saying \"Priya's research is the reason our argument held up under questioning\" in front of the whole group recognizes a specific contribution in a way generic praise never does."
+      },
+      {
+        "emoji": "🪞",
+        "title": "Owning mistakes publicly",
+        "text": "A leader who admits their own errors openly, instead of quietly fixing them or shifting blame, gives the whole team permission to be honest about mistakes too. For example, telling a team \"I misjudged how long this would take, that's on me, here's the new plan\" models the same honesty a leader expects from everyone else."
+      },
+      {
+        "emoji": "👀",
+        "title": "Reading the room",
+        "text": "Noticing the overall mood of a group — tension, fatigue, excitement — before deciding how to run a meeting is a skill that separates good leaders from great ones. For example, sensing that a team is exhausted after a long week might mean shortening a meeting rather than pushing through a full agenda."
+      },
+      {
+        "emoji": "🧯",
+        "title": "De-escalating tension",
+        "text": "When a disagreement starts getting heated, a good leader slows the conversation down rather than letting emotions take over. For example, saying \"let's each take a minute before responding\" during a tense debate about event plans can prevent a disagreement from turning into a lasting rift."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Balancing individual and team needs",
+        "text": "Sometimes what's best for one team member and what's best for the whole group don't line up, and a leader has to weigh both honestly instead of automatically picking one. For example, letting a burned-out member step back from a big event might mean redistributing their work, which is harder on everyone else but is often still the right call."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Handling criticism of your own leadership",
+        "text": "When a teammate criticizes a leader's decision directly, responding openly rather than defensively usually earns more respect and better solutions in the long run. For example, a leader who responds to \"I don't think your plan is working\" with \"tell me more about what you're seeing\" gets more useful information than one who shuts the conversation down."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Two club members clash over an event. What role should a strong leader play?",
+        "choices": [
+          "A fair facilitator, not a judge",
+          "A judge who picks a winning side"
+        ],
+        "correctIndex": 0,
+        "explanation": "A strong leader acts as a facilitator during conflict — guiding both sides to explain their view and propose their own compromise — rather than a judge who simply declares a winner. This approach helps the team find a resolution it actually owns, not one just handed down."
+      },
+      {
+        "question": "Noticing a normally engaged teammate has gone quiet, and checking in early. Why does this matter?",
+        "choices": [
+          "It helps notice and prevent problems early",
+          "Feelings are irrelevant to leading a team"
+        ],
+        "correctIndex": 0,
+        "explanation": "Noticing how teammates feel, not just what they're doing, often catches problems before they grow. A leader who notices a normally talkative teammate has gone quiet, and checks in privately, might catch burnout or a brewing conflict while it's still easy to address."
+      },
+      {
+        "question": "A leader asks \"does anyone see a problem with this plan?\" and welcomes critical answers. What is this building?",
+        "choices": [
+          "Psychological safety — a team that feels safe speaking up",
+          "A team that avoids raising concerns"
+        ],
+        "correctIndex": 0,
+        "explanation": "Psychological safety is a team climate where people feel safe raising concerns without being punished for it. A leader who asks \"does anyone see a problem with this plan?\" and genuinely welcomes critical answers builds that safety, making the team far more likely to catch mistakes early."
+      },
+      {
+        "question": "A leader says \"I misjudged how long this would take, that's on me.\" What does this model for the team?",
+        "choices": [
+          "That it's safe to be honest about mistakes",
+          "That mistakes should be hidden or blamed on others"
+        ],
+        "correctIndex": 0,
+        "explanation": "Naming exactly who did what well, and saying it where others can hear, builds far more trust than a vague \"great job, team.\" Telling the group \"Priya's research is the reason our argument held up\" recognizes a specific contribution in a way generic praise never can."
+      },
+      {
+        "question": "Instead of saying \"great job, team,\" a leader says \"Priya's research is the reason our argument held up.\" Why is this more effective?",
+        "choices": [
+          "Naming a specific contribution builds more trust than vague praise",
+          "Vague praise always works better"
+        ],
+        "correctIndex": 0,
+        "explanation": "A leader who admits their own errors openly, instead of quietly fixing them or shifting blame, gives the whole team permission to be honest about mistakes too. Saying \"I misjudged how long this would take, that's on me\" models the exact honesty a leader expects from everyone else."
+      },
+      {
+        "question": "A team seems exhausted after a long week. What should a good leader consider doing?",
+        "choices": [
+          "Shorten the meeting instead of pushing through a full agenda",
+          "Ignore the mood and add more to the agenda"
+        ],
+        "correctIndex": 0,
+        "explanation": "Reading the room means noticing a group's overall mood — tension, fatigue, excitement — before deciding how to run a meeting, and it's what separates good leaders from great ones. Sensing that a team is exhausted after a long week might mean shortening the meeting instead of pushing through a full agenda."
+      },
+      {
+        "question": "A debate about event plans is getting heated. What should a leader do?",
+        "choices": [
+          "Slow the conversation down, like asking for a pause before responding",
+          "Let emotions escalate until someone wins"
+        ],
+        "correctIndex": 0,
+        "explanation": "When a disagreement starts getting heated, a good leader slows the conversation down instead of letting emotions take over. Saying \"let's each take a minute before responding\" during a tense debate can prevent a disagreement from turning into a lasting rift between teammates."
+      },
+      {
+        "question": "A burned-out team member wants to step back from a big event, even though it means more work for everyone else. What should a leader do?",
+        "choices": [
+          "Weigh the individual's needs honestly, even if it's harder on the group",
+          "Always prioritize the group over any individual, no exceptions"
+        ],
+        "correctIndex": 0,
+        "explanation": "Balancing individual and team needs means weighing both honestly instead of automatically picking one. Letting a burned-out member step back from a big event, even though it means redistributing their work onto others, is often still the right call for everyone's long-term wellbeing."
+      },
+      {
+        "question": "A teammate says \"I don't think your plan is working.\" What's the most effective response?",
+        "choices": [
+          "Tell me more about what you're seeing",
+          "Shut down the conversation immediately"
+        ],
+        "correctIndex": 0,
+        "explanation": "Responding openly to criticism of your own leadership, instead of defensively, usually earns more respect and produces better solutions. Replying \"tell me more about what you're seeing\" to \"I don't think your plan is working\" gathers useful information instead of shutting the conversation down."
+      },
+      {
+        "question": "A leader wants team members to feel safe raising concerns about a plan. What habit builds this over time?",
+        "choices": [
+          "Regularly inviting disagreement without punishing it",
+          "Only asking for input after decisions are already final"
+        ],
+        "correctIndex": 0,
+        "explanation": "Psychological safety isn't built by one good conversation — it comes from consistently inviting disagreement and never punishing people for raising it. A leader who only asks for input after decisions are already final sends the opposite message, that feedback doesn't actually matter."
+      }
+    ]
+  },
+  "leadership-13-17-p3": {
+    "slides": [
+      {
+        "emoji": "📉",
+        "title": "Leading through failure",
+        "text": "How a leader responds when something goes wrong — calmly, constructively — often matters more to a team than the failure itself. For example, if a club event flops due to poor turnout, a leader who calmly says \"let's figure out what we can learn from this for next time\" builds far more team confidence than one who panics or assigns blame."
+      },
+      {
+        "emoji": "🌱",
+        "title": "Growing future leaders",
+        "text": "A strong leader doesn't just lead — they deliberately help other team members develop leadership skills of their own. For example, a graduating club president who spends their last few months specifically mentoring a younger member to take over — teaching them how to run meetings and handle conflicts — leaves the club stronger than one who never prepared anyone to follow them."
+      },
+      {
+        "emoji": "🔓",
+        "title": "Motivating through meaning, not just rewards",
+        "text": "People tend to stay engaged longer when they understand why their work matters, not just what reward they'll get for finishing it. For example, explaining to a volunteer that the fundraiser they're organizing will directly pay for a younger team's uniforms tends to motivate them more deeply than simply promising a pizza party."
+      },
+      {
+        "emoji": "🌿",
+        "title": "Resilience as a team, not just individually",
+        "text": "A team's ability to recover from a setback often depends less on any one person's toughness and more on whether the leader has built habits, like regular check-ins, that help the whole group bounce back together. For example, a team that's used to briefly debriefing after every setback tends to recover faster than one that's never talked through failure before."
+      },
+      {
+        "emoji": "🔭",
+        "title": "Long-term vision vs. short-term wins",
+        "text": "A leader focused only on the next event can miss opportunities to build something that lasts, like training successors or building lasting traditions, so balancing both timeframes matters. For example, a club president who only cares about this year's big event, without investing in training next year's leaders, often leaves the club worse off after they graduate."
+      },
+      {
+        "emoji": "🪑",
+        "title": "Knowing when to step back",
+        "text": "A mature leader recognizes when someone else on the team is better positioned to lead a specific effort and steps back rather than holding onto control out of habit. For example, letting a teammate with more relevant experience take the lead on a project, even if you're the official club president, often produces a better outcome for the group."
+      },
+      {
+        "emoji": "🏛️",
+        "title": "Legacy beyond your own time as leader",
+        "text": "The strongest leaders think about what happens to the group after they've moved on, not just what they personally accomplish while in charge. For example, documenting how an event was organized so future leaders don't have to start from scratch is a quiet but lasting form of leadership."
+      },
+      {
+        "emoji": "🔋",
+        "title": "Recovering a team's morale after repeated setbacks",
+        "text": "After several things go wrong in a row, a team's motivation can fade fast, and a leader has to actively rebuild belief that things can improve, not just wait for morale to recover on its own. For example, after a string of disappointing events, a leader who plans one achievable, smaller win can help the team feel capable again before tackling something bigger."
+      },
+      {
+        "emoji": "🧗",
+        "title": "Balancing confidence and humility",
+        "text": "A good leader needs enough confidence to make decisions under uncertainty, but enough humility to change course when new information suggests they were wrong. For example, committing firmly to a plan while still being genuinely willing to revise it if a teammate raises a valid concern shows both strengths at once."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A club event flops due to poor turnout, and the leader calmly says \"let's learn from this.\" What should a strong leader do beyond day-to-day leading?",
+        "choices": [
+          "Help develop other people's leadership skills too",
+          "Keep all leadership responsibility to themselves"
+        ],
+        "correctIndex": 0,
+        "explanation": "A strong leader doesn't just lead day to day — they deliberately help others develop leadership skills of their own. A graduating club president who spends their last months mentoring a successor, teaching them to run meetings and handle conflict, leaves the club stronger than one who never prepared anyone to follow them."
+      },
+      {
+        "question": "A club event flops due to poor turnout. What response builds more team confidence?",
+        "choices": [
+          "Calmly saying let's learn from this for next time",
+          "Panicking or assigning blame"
+        ],
+        "correctIndex": 0,
+        "explanation": "How a leader responds to failure — calmly and constructively, rather than panicking or assigning blame — often matters more to a team's confidence than the failure itself. Saying \"let's figure out what we can learn from this\" turns a flop into something the team can actually grow from."
+      },
+      {
+        "question": "Explaining that a fundraiser will directly pay for a younger team's uniforms, instead of just promising pizza. What does this show?",
+        "choices": [
+          "Motivating through meaning, not just rewards",
+          "Motivation only comes from rewards"
+        ],
+        "correctIndex": 0,
+        "explanation": "People tend to stay engaged longer when they understand why their work matters, not just what reward they'll get for finishing it. Explaining that a fundraiser will directly pay for a younger team's uniforms tends to motivate a volunteer more deeply than simply promising a pizza party."
+      },
+      {
+        "question": "A team that regularly debriefs after setbacks recovers faster than one that's never talked through failure. What does this show?",
+        "choices": [
+          "Resilience is often built through team habits, not just individual toughness",
+          "Resilience depends only on one tough person"
+        ],
+        "correctIndex": 0,
+        "explanation": "A team's ability to recover from a setback often depends less on any one person's toughness and more on habits the leader has built, like regular debriefs after failures. A team used to briefly talking through what went wrong tends to bounce back faster than one that's never done it before."
+      },
+      {
+        "question": "A club president only focuses on this year's big event and never trains future leaders. What's the likely result?",
+        "choices": [
+          "The club is worse off after the president graduates",
+          "There's no downside since the event goes well"
+        ],
+        "correctIndex": 0,
+        "explanation": "Balancing long-term vision with short-term wins matters because a leader focused only on the next event can miss chances to build something lasting, like training successors. A club president who never invests in future leaders often leaves the group worse off the moment they graduate."
+      },
+      {
+        "question": "A teammate has more relevant experience for a project than the official club president. What should a mature leader do?",
+        "choices": [
+          "Step back and let the more experienced teammate lead it",
+          "Insist on leading it anyway because of the title"
+        ],
+        "correctIndex": 0,
+        "explanation": "A mature leader recognizes when someone else is better positioned to lead a specific effort and steps back, instead of holding onto control just because of their title. Letting a more experienced teammate take the lead on a project often produces a better outcome for the whole group."
+      },
+      {
+        "question": "Documenting how an event was organized so future leaders don't start from scratch. What is this an example of?",
+        "choices": [
+          "Building a legacy beyond your own time as leader",
+          "Something that only benefits the current leader"
+        ],
+        "correctIndex": 0,
+        "explanation": "The strongest leaders think about what happens to the group after they've moved on, not just what they personally accomplish while in charge. Documenting how an event was organized, so future leaders don't have to start from scratch, is a quiet but lasting form of leadership."
+      },
+      {
+        "question": "After several disappointing events in a row, what can help a team's motivation recover?",
+        "choices": [
+          "Planning one smaller, achievable win first",
+          "Waiting for morale to recover on its own"
+        ],
+        "correctIndex": 0,
+        "explanation": "After several things go wrong in a row, a team's motivation can fade fast, and a leader has to actively rebuild belief that things can improve rather than just waiting for morale to recover on its own. Planning one smaller, achievable win can help a discouraged team feel capable again before tackling something bigger."
+      },
+      {
+        "question": "A leader commits firmly to a plan but is still genuinely willing to change it if a teammate raises a valid concern. What does this balance?",
+        "choices": [
+          "Confidence and humility",
+          "Confidence and indecision"
+        ],
+        "correctIndex": 0,
+        "explanation": "Good leadership needs enough confidence to make decisions under uncertainty, but enough humility to change course when new information shows you were wrong. Committing firmly to a plan while still being genuinely willing to revise it if a teammate raises a valid concern shows both strengths working together."
+      },
+      {
+        "question": "A team's project fails publicly in front of judges. What should a good leader do afterward?",
+        "choices": [
+          "Discuss calmly what to improve, without blaming one person",
+          "Publicly blame whoever they think caused it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Leading through failure well means focusing the conversation on what to improve rather than on who to blame, especially when the failure happened publicly. Discussing calmly what went wrong keeps the team focused on getting better instead of becoming defensive or ashamed."
       }
     ]
   }
