@@ -11,6 +11,7 @@ from models import (
     DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
 )
 from responses import fail
+from sample_items import is_sample_chore, is_sample_shop_item
 
 
 def now() -> str:
@@ -80,9 +81,18 @@ def delete_family(db: Session, guardian: DBUser):
     db.query(DBShopItem).filter(DBShopItem.family_id == family_id).delete(synchronize_session=False)
     delete_lone_user(db, guardian)
 
-def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: int, item_label: str) -> DBUser:
-    """Raises 400 if adding `extra` more items would exceed the family's lifetime limit."""
+def effective_add_limit(owner: DBUser, default_limit: int, override_field: str = None) -> int:
+    """The family's actual cap: their own override if an admin has set one
+    for them (see routers/admin.py), otherwise the site-wide default."""
+    override = getattr(owner, override_field, None) if override_field else None
+    return int(override) if override is not None else default_limit
+
+def check_add_limit(db: Session, user: DBUser, field: str, extra: int, default_limit: int, item_label: str, override_field: str = None) -> DBUser:
+    """Raises 403 if adding `extra` more items would exceed the family's
+    custom-item limit (their own admin-set override if they have one,
+    otherwise default_limit)."""
     owner = get_family_owner(db, user)
+    limit = effective_add_limit(owner, default_limit, override_field)
     current = getattr(owner, field) or 0
     if current + extra > limit:
         fail(
@@ -91,6 +101,15 @@ def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: in
             403,
         )
     return owner
+
+def release_add_limit(db: Session, user: DBUser, field: str, amount: int = 1) -> None:
+    """Counterpart to check_add_limit -- deleting a custom item frees up its
+    slot again, so the count reflects what's currently in use rather than a
+    lifetime total. Floors at 0 so it can never go negative (e.g. from a
+    field that predates this ever running)."""
+    owner = get_family_owner(db, user)
+    current = getattr(owner, field) or 0
+    setattr(owner, field, max(0, current - amount))
 
 def safe_user(u: DBUser) -> dict:
     return {"id": u.id, "name": u.name, "username": u.username, "role": u.role,
@@ -111,7 +130,17 @@ def chore_dict(c: DBChore) -> dict:
             "assignedKidId": c.assigned_kid_id, "completedByKidId": c.completed_by_kid_id,
             "dueDate": c.due_date, "expiredAt": c.expired_at,
             "completedAt": c.completed_at, "createdAt": c.created_at,
-            "templateId": c.template_id, "scheduledDate": c.scheduled_date}
+            "templateId": c.template_id, "scheduledDate": c.scheduled_date,
+            # A recurring instance (template_id set) isn't itself custom-or-not --
+            # only its template is, since that's what actually consumed a slot.
+            # Deliberately re-checked against the CURRENT title on every read
+            # ("custom chore is any chore not picked from the list" is a present-
+            # tense definition) rather than locked in at creation -- a chore
+            # started from a sample template and then renamed into something
+            # unrelated (e.g. picking "Feed the pet" as a quick-fill starting
+            # point, then retitling it "Attend Karate Class") needs to become
+            # custom, which a creation-time snapshot could never catch.
+            "isCustom": False if c.template_id else not is_sample_chore(c.title)}
 
 def recurring_dict(t: DBRecurringTemplate) -> dict:
     days = [int(x) for x in t.recurrence_days.split(',') if x.strip()] if t.recurrence_days else []
@@ -123,11 +152,13 @@ def recurring_dict(t: DBRecurringTemplate) -> dict:
         "recurrenceDays": days,
         "recurrenceDom": int(t.recurrence_dom) if t.recurrence_dom else None,
         "createdAt": t.created_at,
+        "isCustom": not is_sample_chore(t.title),
     }
 
 def shop_dict(s: DBShopItem) -> dict:
     return {"id": s.id, "name": s.name, "description": s.description,
-            "cost": s.cost, "imageEmoji": s.image_emoji, "createdAt": s.created_at}
+            "cost": s.cost, "imageEmoji": s.image_emoji, "createdAt": s.created_at,
+            "isCustom": not is_sample_shop_item(s.name)}
 
 def daily_chore_dict(item: DBDailyChoreItem) -> dict:
     return {"id": item.id, "kidId": item.kid_id, "title": item.title,

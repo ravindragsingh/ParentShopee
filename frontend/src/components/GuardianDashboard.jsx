@@ -514,7 +514,10 @@ function ChoresTab({ kids }) {
               <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderBottom: '1px solid #f1f5f9' }}>
                 <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{t.imageEmoji}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontWeight: 600, fontSize: '0.875rem', color: '#1e293b' }}>{t.title}</div>
+                  <div style={{ fontWeight: 600, fontSize: '0.875rem', color: '#1e293b', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {t.title}
+                    {t.isCustom && <span title="Counts toward your family's custom chore limit" style={{ fontSize: '0.68rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>✨ Custom</span>}
+                  </div>
                   <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
                     {scheduleText} · {t.points} pts
                     {assignedKid && <> · {assignedKid.avatar} {assignedKid.name}</>}

@@ -1,0 +1,1412 @@
+{
+  "negotiation-4-6-p1": {
+    "slides": [
+      {
+        "emoji": "🙋",
+        "title": "Asking kindly",
+        "text": "When you want something, ask with words instead of grabbing. For example: \"Can I have a turn when you're done?\""
+      },
+      {
+        "emoji": "👂",
+        "title": "Listen to the answer",
+        "text": "After you ask, listen to the answer. Your friend might say \"yes,\" \"not yet,\" or \"no,\" and you can decide what to do next."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Taking turns",
+        "text": "When two people want the same toy, taking turns can help. You might play with the truck first, then give your friend a turn."
+      },
+      {
+        "emoji": "🙏",
+        "title": "Please and thank you",
+        "text": "Kind words make asking feel friendly. You can say \"please\" when you ask and \"thank you\" when someone shares or listens."
+      },
+      {
+        "emoji": "🧠",
+        "title": "Know what you want",
+        "text": "Before you ask, think about what you want. Do you want the blue crayon, a turn on the swing, or help opening something?"
+      },
+      {
+        "emoji": "📺",
+        "title": "Sharing the tablet",
+        "text": "If you and your sibling both want the tablet, make a turn plan. For example: ten minutes for you, then ten minutes for them."
+      },
+      {
+        "emoji": "🛝",
+        "title": "Waiting for your turn",
+        "text": "Sometimes you have to wait. You can ask, \"Can I go after you?\" and do something else until it is your turn."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Use your words",
+        "text": "If someone has something that belongs to you, ask for it back calmly. Try: \"Can I have my toy back, please?\""
+      },
+      {
+        "emoji": "🧑‍🤝‍🧑",
+        "title": "Ask a grown-up for help",
+        "text": "If you cannot solve a problem safely or fairly, ask a trusted grown-up for help. Getting help is part of solving the problem."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "What is the first step to getting a yes when you want something?",
+        "choices": [
+          "Asking nicely",
+          "Grabbing it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking kindly is the best first step because it tells the other person what you want without grabbing. They may say yes, not yet, or no."
+      },
+      {
+        "question": "You ask for the ball and your friend says \"in two minutes.\" What should you do?",
+        "choices": [
+          "Listen to what the other person says",
+          "Cover your ears"
+        ],
+        "correctIndex": 0,
+        "explanation": "Listening helps you understand why. Maybe your friend just needs two more minutes with the ball."
+      },
+      {
+        "question": "You and a friend both want the same red truck. What can you do?",
+        "choices": [
+          "Take turns",
+          "Fight over it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Taking turns means everyone gets to play. You go first, then your friend gets the truck."
+      },
+      {
+        "question": "Before you ask for something, what should you do first?",
+        "choices": [
+          "Think about what you really want",
+          "Just grab it right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Thinking first helps you ask for the right thing, like the blue cup instead of any cup."
+      },
+      {
+        "question": "You ask your friend for a turn. What should you say?",
+        "choices": [
+          "Please, and thank you after",
+          "Nothing, just take it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Saying please and thank you keeps things kind, even when the answer is no."
+      },
+      {
+        "question": "You and your sibling both want the tablet. What is fair?",
+        "choices": [
+          "Take turns, ten minutes each",
+          "Whoever grabs it first keeps it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Taking turns gives both people a chance to use the tablet. A simple timer can help you remember when to switch."
+      },
+      {
+        "question": "You are waiting for a turn on the swing. What should you do?",
+        "choices": [
+          "Ask to go next and wait safely",
+          "Push the other child off"
+        ],
+        "correctIndex": 0,
+        "explanation": "Ask to go next, then wait safely until the swing is free. Waiting does not mean you can decide when someone else's turn must end."
+      },
+      {
+        "question": "Your friend has a toy you want. What should you do?",
+        "choices": [
+          "Use your words and ask",
+          "Grab it out of their hands"
+        ],
+        "correctIndex": 0,
+        "explanation": "Using your words works better than grabbing. Asking nicely feels kinder to your friend."
+      },
+      {
+        "question": "You and a friend cannot agree on a game. What can help?",
+        "choices": [
+          "Ask a grown-up to help you decide",
+          "Stop being friends"
+        ],
+        "correctIndex": 0,
+        "explanation": "A grown-up can help you find a fair answer, like playing one game, then the other."
+      },
+      {
+        "question": "Your sibling is explaining why they are upset. What should you do?",
+        "choices": [
+          "Listen carefully",
+          "Interrupt and walk away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Listening carefully helps you understand how someone feels, like why your sibling is upset."
+      }
+    ]
+  },
+  "negotiation-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "🤝",
+        "title": "Make a fair trade",
+        "text": "A trade should feel okay to both people. If you swap crayons, both of you should want the crayon you are getting."
+      },
+      {
+        "emoji": "💡",
+        "title": "Try another idea",
+        "text": "If your first idea does not work, try a different one. If your friend does not want to trade toys, maybe you can play with them together."
+      },
+      {
+        "emoji": "😊",
+        "title": "Meet in the middle",
+        "text": "A compromise means both people change their plan a little. You could play tag first and hide-and-seek next."
+      },
+      {
+        "emoji": "😥",
+        "title": "It is okay to hear no",
+        "text": "Sometimes the answer is no. You can feel disappointed and still stay calm, kind, and safe."
+      },
+      {
+        "emoji": "🧹",
+        "title": "Split a big job",
+        "text": "A big job can be shared. One person can pick up the toys while the other puts the books away."
+      },
+      {
+        "emoji": "🚪",
+        "title": "You can say no to a trade",
+        "text": "You never have to make a trade that feels wrong or unfair. You can say, \"No thanks, I want to keep mine.\""
+      },
+      {
+        "emoji": "🍪",
+        "title": "Only trade if both agree",
+        "text": "A fair trade needs two yeses. If either person changes their mind before the trade happens, the trade should stop."
+      },
+      {
+        "emoji": "🧩",
+        "title": "Choose together",
+        "text": "If you want different games, make a plan that includes both people. Play one game first and the other one next."
+      },
+      {
+        "emoji": "😌",
+        "title": "Feelings are okay",
+        "text": "You will not always get your first choice. It is okay to feel sad or frustrated while still speaking kindly."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "You trade your red crayon for a friend's blue one. What should a trade feel like?",
+        "choices": [
+          "Fair to both people",
+          "Only good for one person"
+        ],
+        "correctIndex": 0,
+        "explanation": "A fair trade needs both people to choose it. If either person does not want the trade, it should not happen."
+      },
+      {
+        "question": "Your friend says no to your game idea. What can you do?",
+        "choices": [
+          "Try a new idea instead",
+          "Give up and go home"
+        ],
+        "correctIndex": 0,
+        "explanation": "Trying a new idea can help you find something fun together, like playing tag instead."
+      },
+      {
+        "question": "You want tag, your friend wants hide and seek, so you agree to play both. What is this called?",
+        "choices": [
+          "A compromise — both people give a little",
+          "Only one person gets what they want"
+        ],
+        "correctIndex": 0,
+        "explanation": "In a compromise, both people give a little. Playing tag first, then hide and seek, makes you both happy."
+      },
+      {
+        "question": "Your friend says no. What should you do?",
+        "choices": [
+          "Stay calm and try again later",
+          "Yell and grab it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Staying calm keeps things friendly, even after a no. You can always ask again later."
+      },
+      {
+        "question": "You and your sibling share a big chore. What helps make it fair?",
+        "choices": [
+          "Split the job into two parts",
+          "Make one person do it all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Splitting the job means it isn't too hard for one person, like sharing toy pickup and table wiping."
+      },
+      {
+        "question": "A trade feels bad to you. What can you do?",
+        "choices": [
+          "Say no and walk away",
+          "Trade anyway even though it feels bad"
+        ],
+        "correctIndex": 0,
+        "explanation": "You can say no to a trade that does not feel right to you. You do not have to trade just to be polite."
+      },
+      {
+        "question": "What does a fair trade need?",
+        "choices": [
+          "Both people freely agree",
+          "One person keeps asking until the other says yes"
+        ],
+        "correctIndex": 0,
+        "explanation": "A fair trade needs two real yeses. Pressure does not make a trade fair."
+      },
+      {
+        "question": "You want to play blocks, your sibling wants a puzzle. What can you do?",
+        "choices": [
+          "Take turns picking which to play first",
+          "Only ever play blocks"
+        ],
+        "correctIndex": 0,
+        "explanation": "Taking turns picking means you both get to enjoy your favorite game, like blocks today and puzzles tomorrow."
+      },
+      {
+        "question": "You don't get to pick the game today. How should you feel and act?",
+        "choices": [
+          "It's okay to feel sad, but stay calm and kind",
+          "Yell and cry until you get your way"
+        ],
+        "correctIndex": 0,
+        "explanation": "It's okay to feel sad when you don't get your way, but staying calm and kind still matters."
+      },
+      {
+        "question": "What happens when both people compromise?",
+        "choices": [
+          "Both people get some of what they want",
+          "One person gets everything"
+        ],
+        "correctIndex": 0,
+        "explanation": "When both people compromise, everyone gives a little and everyone gets something, like sharing turns on a toy."
+      }
+    ]
+  },
+  "negotiation-7-9-p1": {
+    "slides": [
+      {
+        "emoji": "🤝",
+        "title": "What is negotiation?",
+        "text": "Negotiation is a conversation where people try to find a plan they can both accept. If you want a movie and your sibling wants a game, you might agree on game first and movie after."
+      },
+      {
+        "emoji": "👂",
+        "title": "Listen for the reason",
+        "text": "Do not only listen to what someone wants—listen for why. If your sibling needs the game at 6:00 because a friend is joining online, you can plan your movie for before or after that time."
+      },
+      {
+        "emoji": "🗣️",
+        "title": "Explain your reason",
+        "text": "A reason helps the other person understand your request. \"Can I have 20 more minutes because I am almost finished with this level?\" is clearer than \"I just want more time.\""
+      },
+      {
+        "emoji": "🧠",
+        "title": "Know your goal",
+        "text": "Before you ask, decide what you really need. Maybe you do not need a later bedtime every night—you only want to finish one special movie tonight."
+      },
+      {
+        "emoji": "💡",
+        "title": "Think of more than one option",
+        "text": "One idea may not work, so bring two or three possibilities. You might suggest watching half the movie now, finishing it tomorrow, or choosing a shorter movie."
+      },
+      {
+        "emoji": "❓",
+        "title": "Ask useful questions",
+        "text": "If someone says no, do not immediately argue. Ask, \"What part does not work for you?\" or \"What would make this feel fair?\""
+      },
+      {
+        "emoji": "😤",
+        "title": "Stay calm when you disagree",
+        "text": "A calm brain solves problems better. If voices get louder, pause, breathe, and come back to the problem instead of attacking the person."
+      },
+      {
+        "emoji": "📺",
+        "title": "Make a screen-time plan",
+        "text": "Rules made before an argument starts are easier to follow. You and a sibling might agree on 30-minute turns and decide who goes first."
+      },
+      {
+        "emoji": "😥",
+        "title": "A no can give you information",
+        "text": "A no does not always mean \"never.\" Ask politely why, listen to the reason, and see whether a different plan could work."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "You want a movie, your sibling wants a game. What is negotiation?",
+        "choices": [
+          "Talking to find an answer that works for both people",
+          "Insisting on getting your own way"
+        ],
+        "correctIndex": 0,
+        "explanation": "Negotiation means talking until you find a plan that works for both people. If you want a movie and your sibling wants a game, you might watch first and play after."
+      },
+      {
+        "question": "You learn your sibling wants the game because a friend is joining online at a specific time. Why is that helpful to know?",
+        "choices": [
+          "It helps you understand what they want and why",
+          "It wastes time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Knowing the reason helps you plan around what matters. If the game must happen at a set time, your movie can happen before or after it."
+      },
+      {
+        "question": "Instead of only suggesting one idea for tonight's TV time, you also suggest two backups. Why brainstorm more than one option?",
+        "choices": [
+          "It's more likely you'll find one that works for everyone",
+          "One idea is always enough"
+        ],
+        "correctIndex": 0,
+        "explanation": "Thinking of several ideas instead of just one raises your odds of finding something that works. Offering both \"half the movie now\" and \"game after\" gives your sibling more choices."
+      },
+      {
+        "question": "A negotiation over TV time starts to get heated. What helps most?",
+        "choices": [
+          "Staying calm and taking a breath",
+          "Getting upset right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Staying calm helps you think clearly instead of just reacting. Taking a breath before you speak makes it easier to actually solve the problem."
+      },
+      {
+        "question": "Before asking for something, what should you figure out first?",
+        "choices": [
+          "What you actually want and why",
+          "Nothing, just ask right away"
+        ],
+        "correctIndex": 0,
+        "explanation": "Knowing what you want and why makes your request clearer and stronger. Saying \"I want a later bedtime because of movie night\" works better than just asking."
+      },
+      {
+        "question": "Screen time causes arguments between you and your sibling. What can help?",
+        "choices": [
+          "Agreeing on a schedule ahead of time",
+          "Whoever asks first always wins"
+        ],
+        "correctIndex": 0,
+        "explanation": "Agreeing on a schedule ahead of time stops arguments before they even start. If you and your sibling both know it's thirty minutes each, there's nothing left to fight about."
+      },
+      {
+        "question": "Your idea gets turned down. What works better than arguing?",
+        "choices": [
+          "Staying calm and asking a follow-up question",
+          "Arguing louder until they give in"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking a calm question keeps the conversation open instead of turning it into a fight. Asking \"what would make this work for you?\" often turns a no into a new idea."
+      },
+      {
+        "question": "You want thirty more minutes of game time. What makes your ask stronger?",
+        "choices": [
+          "Explaining why you want it",
+          "Just repeating \"please\" over and over"
+        ],
+        "correctIndex": 0,
+        "explanation": "Explaining your reason makes it easier for someone to say yes. \"I want thirty more minutes because I'm almost done\" works better than just asking for more time."
+      },
+      {
+        "question": "Your sibling says no to your plan. What is a good next step?",
+        "choices": [
+          "Ask what would make it work for them",
+          "Walk away angry and stop talking"
+        ],
+        "correctIndex": 0,
+        "explanation": "A calm follow-up question can help you understand why the plan does not work. Sometimes that leads to a different idea; sometimes the answer is still no."
+      },
+      {
+        "question": "Why come up with two or three ideas instead of just one?",
+        "choices": [
+          "It raises your odds of finding something that works",
+          "It just wastes everyone's time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Having backup ideas ready raises your odds of landing on a plan everyone likes. If your first idea gets turned down, you already have another one ready to offer."
+      }
+    ]
+  },
+  "negotiation-7-9-p2": {
+    "slides": [
+      {
+        "emoji": "🔄",
+        "title": "What makes a trade fair?",
+        "text": "A fair trade is one both people choose freely and understand. Nobody should feel tricked, rushed, or pressured into saying yes."
+      },
+      {
+        "emoji": "🧸",
+        "title": "Check before trading",
+        "text": "Before you swap toys, cards, or snacks, make sure both people know exactly what is being traded and both still want to do it."
+      },
+      {
+        "emoji": "✂️",
+        "title": "Meet in the middle",
+        "text": "Sometimes two offers can meet halfway. If you ask for 30 extra minutes and your guardian offers 10, you might agree on 20."
+      },
+      {
+        "emoji": "🏆",
+        "title": "Look for a win-win",
+        "text": "A win-win does not mean everyone gets everything. It means both people get something important enough to feel okay with the result."
+      },
+      {
+        "emoji": "🧹",
+        "title": "Split chores by effort",
+        "text": "Fair does not always mean identical. One person might vacuum while the other empties trash and wipes the table, then you can switch next time."
+      },
+      {
+        "emoji": "👨‍👩‍👧‍👦",
+        "title": "Make room for every voice",
+        "text": "In a group, the loudest person should not automatically decide. Let everyone explain what matters to them before choosing a plan."
+      },
+      {
+        "emoji": "🚪",
+        "title": "Pause when you cannot agree",
+        "text": "If a conversation is going nowhere, it is okay to stop and try again later. A break can help everyone think more clearly."
+      },
+      {
+        "emoji": "✋",
+        "title": "You are allowed to say no",
+        "text": "Negotiation does not mean you must agree. If a plan does not work for you, you can say no calmly and explain your reason if you want to."
+      },
+      {
+        "emoji": "🙅",
+        "title": "Walk away from pressure",
+        "text": "If someone keeps pushing after you say no, ending the conversation is okay. A fair deal does not require pressure."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "You do your sibling's dishes in exchange for picking the movie tonight. What makes this a fair trade?",
+        "choices": [
+          "Both people feel like they gained something",
+          "Only one person benefits"
+        ],
+        "correctIndex": 0,
+        "explanation": "A fair trade leaves both people feeling like they gained something good. You do the dishes, and in return you get to pick the movie tonight."
+      },
+      {
+        "question": "You ask for 30 extra minutes, your guardian offers 10, and you agree on 20. What does \"splitting the difference\" mean?",
+        "choices": [
+          "Meeting in the middle between two offers",
+          "One side getting everything"
+        ],
+        "correctIndex": 0,
+        "explanation": "Splitting the difference means landing between two starting offers. If you ask for thirty minutes and get offered ten, meeting at twenty feels fair to both sides."
+      },
+      {
+        "question": "What is a \"win-win\" outcome?",
+        "choices": [
+          "Both sides end up happy",
+          "One side gets everything and the other gets nothing"
+        ],
+        "correctIndex": 0,
+        "explanation": "Splitting the difference means choosing a point between two offers. It can be useful, although the middle is not automatically fair in every situation."
+      },
+      {
+        "question": "Two people share a big chore. What helps keep it fair?",
+        "choices": [
+          "Splitting the job and switching tasks later",
+          "Only one person doing all of it"
+        ],
+        "correctIndex": 0,
+        "explanation": "Splitting the job and switching tasks later keeps things fair over time. Vacuuming this week and emptying trash next week means neither person is stuck with the harder job forever."
+      },
+      {
+        "question": "A trade does not feel fair to you. What can you do?",
+        "choices": [
+          "Say no and walk away",
+          "Agree anyway so you do not seem rude"
+        ],
+        "correctIndex": 0,
+        "explanation": "It's okay to walk away from a deal that doesn't feel fair to you. Saying no calmly is better than agreeing and feeling bad about it later."
+      },
+      {
+        "question": "You trade your board game for a friend's video game, but only because you feel pressured. Is that a fair trade?",
+        "choices": [
+          "No, because you don't feel excited about it",
+          "Yes, any trade that happens is fair"
+        ],
+        "correctIndex": 0,
+        "explanation": "A fair trade should be freely chosen by both people. If you feel pressured, you can stop and say no."
+      },
+      {
+        "question": "You and a sibling truly cannot agree tonight. What can you do?",
+        "choices": [
+          "Stop and agree to talk again later",
+          "Keep arguing until someone gives in"
+        ],
+        "correctIndex": 0,
+        "explanation": "Stopping and coming back later is often better than pushing through an argument. Saying \"let's each do something else tonight and talk tomorrow\" gives everyone time to cool off."
+      },
+      {
+        "question": "A trade doesn't work for you. What can you say?",
+        "choices": [
+          "No, calmly and completely",
+          "Nothing, you have to accept it"
+        ],
+        "correctIndex": 0,
+        "explanation": "You are allowed to say no to a deal that does not work for you. You do not owe anyone an agreement just because they asked."
+      },
+      {
+        "question": "You're negotiating TV time with two siblings at once. What should you look for?",
+        "choices": [
+          "A plan that works for everyone at the table",
+          "Whatever the loudest person wants"
+        ],
+        "correctIndex": 0,
+        "explanation": "A good group plan works for everyone at the table, not just whoever talks the loudest. Taking turns choosing shows helps every sibling feel included."
+      },
+      {
+        "question": "Why switch chore tasks with your sibling from week to week?",
+        "choices": [
+          "It keeps things fair over time",
+          "It doesn't matter who does what"
+        ],
+        "correctIndex": 0,
+        "explanation": "Switching tasks over time keeps the arrangement fair to both people. Nobody gets stuck doing the harder chore, like taking out trash, every single week."
+      }
+    ]
+  },
+  "negotiation-10-13-p1": {
+    "slides": [
+      {
+        "emoji": "🎯",
+        "title": "Positions vs. interests",
+        "text": "A position is what someone says they want; an interest is the reason underneath it. \"I want the tablet now\" is a position. \"I need to finish homework before practice\" is the interest—and that reason may lead to a better solution."
+      },
+      {
+        "emoji": "📝",
+        "title": "Prepare before you ask",
+        "text": "Think through your goal, your reason, and what the other person may care about. Before asking for a later curfew, for example, consider transportation, safety, and how you will check in."
+      },
+      {
+        "emoji": "👂",
+        "title": "Use active listening",
+        "text": "Active listening means checking that you understood correctly. Saying, \"So your main concern is how I will get home safely—is that right?\" can prevent you from arguing about the wrong problem."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Know your real goal",
+        "text": "Sometimes your first request is bigger than what you actually need. If you only need one late night for a concert, asking for that may work better than asking to change your curfew permanently."
+      },
+      {
+        "emoji": "🔓",
+        "title": "Ask open-ended questions",
+        "text": "Questions like \"What would make this work for you?\" reveal more than yes-or-no questions. They help you discover concerns you may not have noticed."
+      },
+      {
+        "emoji": "🎒",
+        "title": "Separate wants from needs",
+        "text": "A need is something important for the situation to work; a want is a preference. You may need a reliable laptop for school but only want the newest model."
+      },
+      {
+        "emoji": "🔍",
+        "title": "Notice clues, then ask",
+        "text": "Tone, hesitation, or silence can suggest there is more to the story—but do not guess what someone is thinking. Ask respectfully: \"You seem unsure. Is there something about the plan that worries you?\""
+      },
+      {
+        "emoji": "💬",
+        "title": "Explain your own why",
+        "text": "Negotiation works better when both sides understand each other. Explain not only what you want, but why it matters to you."
+      },
+      {
+        "emoji": "🧩",
+        "title": "Find the shared interest",
+        "text": "People can disagree on the solution while caring about the same thing. Two siblings fighting over movie choice may both really want their opinion to count, so taking turns choosing can solve the deeper issue."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "A friend's position is \"I want to pick the movie every time,\" but their interest is \"I never get a say.\" What does this reveal?",
+        "choices": [
+          "A position is what someone says they want; an interest is why",
+          "They mean exactly the same thing"
+        ],
+        "correctIndex": 0,
+        "explanation": "A position is the specific thing someone asks for, while an interest is the deeper reason behind it. A friend's position of \"I always pick the movie\" might really come from wanting their opinion to matter, which opens up other solutions."
+      },
+      {
+        "question": "Before asking for a later curfew, why think through your reason and anticipate concerns first?",
+        "choices": [
+          "It makes you more persuasive and ready for pushback",
+          "Preparing wastes time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Preparing beforehand makes your case far stronger than asking on the spot. Thinking through your reason, guessing what concern they'll raise, and having an answer ready shows you've genuinely thought it through."
+      },
+      {
+        "question": "You say \"so you're saying you're worried about how I'll get home.\" What does repeating back what you heard show?",
+        "choices": [
+          "That you understand the other person",
+          "That you agree with everything they said"
+        ],
+        "correctIndex": 0,
+        "explanation": "Repeating back what you heard shows you understand someone, without meaning you automatically agree with them. It can also reveal their real concern is safety, not the clock."
+      },
+      {
+        "question": "You ask for a later curfew but what you really want is just one late night for a concert. Why does getting clear on this matter?",
+        "choices": [
+          "It leads to a request that's easier to say yes to",
+          "It has no effect on the conversation"
+        ],
+        "correctIndex": 0,
+        "explanation": "Getting clear on what you actually want makes your request easier to agree to. Asking for one specific late night for a concert is a much smaller ask than requesting a permanent later curfew."
+      },
+      {
+        "question": "Which question is more likely to reveal what someone really cares about?",
+        "choices": [
+          "\"What matters most to you about this?\"",
+          "\"Can I do this, yes or no?\""
+        ],
+        "correctIndex": 0,
+        "explanation": "An open-ended question invites a real answer instead of a flat yes or no. Asking what matters most about splitting a chore uncovers what someone actually cares about."
+      },
+      {
+        "question": "What's the difference between a want and a need in a negotiation?",
+        "choices": [
+          "A need is essential; a want is something you'd simply prefer",
+          "They always mean exactly the same thing"
+        ],
+        "correctIndex": 0,
+        "explanation": "A need is something that has to happen, while a want is just something you'd prefer. Knowing a working laptop is a need but the newest model is only a want helps you negotiate a device budget more honestly."
+      },
+      {
+        "question": "A friend goes quiet whenever a certain topic comes up, but says nothing is wrong. What might that suggest?",
+        "choices": [
+          "There might be something worth asking about respectfully",
+          "You already know exactly what they are thinking"
+        ],
+        "correctIndex": 0,
+        "explanation": "Silence or hesitation can be a clue, but it is not proof. Ask respectfully instead of guessing what your friend thinks."
+      },
+      {
+        "question": "Why explain your own reason, not just ask what the other person wants?",
+        "choices": [
+          "It helps them understand your side too",
+          "Your reasons are never relevant to them"
+        ],
+        "correctIndex": 0,
+        "explanation": "Sharing your own reason, not just asking what the other person wants, helps them understand your side too. Explaining why the curfew matters makes the request feel less random."
+      },
+      {
+        "question": "Two siblings both want to feel like their movie pick matters. What do they actually share?",
+        "choices": [
+          "The same underlying interest, even with different picks",
+          "Nothing at all in common"
+        ],
+        "correctIndex": 0,
+        "explanation": "Two people can want different things on the surface while sharing the very same underlying interest. Both siblings really just want their opinion to matter, which a rotating pick schedule can solve for both."
+      },
+      {
+        "question": "Your friend explains a worry, and you summarize it back to check you understood. What is this called?",
+        "choices": [
+          "Active listening",
+          "Ignoring them"
+        ],
+        "correctIndex": 0,
+        "explanation": "Active listening means checking that you understood correctly, not just letting words go in one ear and out the other. Summarizing a friend's worry back shows you were really paying attention."
+      }
+    ]
+  },
+  "negotiation-10-13-p2": {
+    "slides": [
+      {
+        "emoji": "💡",
+        "title": "Create several options",
+        "text": "Do not get stuck on the first idea. Listing several possible solutions gives you more chances to find one that works for both sides."
+      },
+      {
+        "emoji": "⚖️",
+        "title": "Make fair trade-offs",
+        "text": "A trade-off means giving something that matters less to you in exchange for something that matters more. For example, you might agree to send a check-in text in exchange for a later curfew."
+      },
+      {
+        "emoji": "🤲",
+        "title": "Compromise is not losing",
+        "text": "A good compromise protects something important for both sides. Neither person gets every detail they wanted, but both get enough to accept the plan."
+      },
+      {
+        "emoji": "👫",
+        "title": "Protect the relationship",
+        "text": "When you negotiate with friends or family, how you treat the person matters after the deal is over. Winning one argument is not worth damaging trust."
+      },
+      {
+        "emoji": "🔀",
+        "title": "Trade across different issues",
+        "text": "You do not have to bargain over only one thing. You might discuss allowance, chores, timing, and responsibilities together to create more possible deals."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Make a specific first ask",
+        "text": "A clear request is easier to discuss than a vague one. \"Could I earn $5 more each week if I also take out the trash?\" gives the other person something concrete to respond to."
+      },
+      {
+        "emoji": "📈",
+        "title": "Aim for a deal that lasts",
+        "text": "A deal is stronger when both sides can live with it afterward. Getting slightly less than your ideal may be better than getting everything while the other person feels forced or resentful."
+      },
+      {
+        "emoji": "🎮",
+        "title": "Fair does not always mean 50/50",
+        "text": "Fairness can balance over time. You might use the shared console longer today for a special event and give your sibling extra time tomorrow."
+      },
+      {
+        "emoji": "🧺",
+        "title": "Swap tasks when it helps",
+        "text": "Two people can trade chores if both prefer the swap. If you do dishes and your sibling walks the dog, the deal works only if both willingly agree."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Instead of only suggesting one idea for splitting chores, you also suggest two backups. Why generate multiple options instead of one?",
+        "choices": [
+          "The first idea is rarely the best one available",
+          "One option is always enough"
+        ],
+        "correctIndex": 0,
+        "explanation": "Generating several options gives you more ways to solve the problem. The first idea might be good, but comparing alternatives can reveal a better one."
+      },
+      {
+        "question": "Asking for a later curfew while offering to text a check-in halfway through — what does this make the deal feel like?",
+        "choices": [
+          "A fair trade-off, not just a one-sided ask",
+          "Getting everything you asked for"
+        ],
+        "correctIndex": 0,
+        "explanation": "Offering something in return, not just asking for something, makes a deal feel balanced instead of one-sided. It shows you're willing to give as well as take."
+      },
+      {
+        "question": "When you compromise with a friend over which game to play, what actually happens?",
+        "choices": [
+          "You trade a little of what you want to keep things working well",
+          "One person always gets everything they want"
+        ],
+        "correctIndex": 0,
+        "explanation": "Compromising means trading a little of what you want to keep the relationship working well, not giving up entirely. Splitting time evenly means neither of you gets everything, but neither is ignored either."
+      },
+      {
+        "question": "Winning an argument with a sibling by being harsh gets you the TV tonight. What might it cost you?",
+        "choices": [
+          "Goodwill you'll want from them later",
+          "Nothing, relationships don't factor into negotiation"
+        ],
+        "correctIndex": 0,
+        "explanation": "Winning by being harsh can get you what you want tonight, but it costs you goodwill you'll want from that person again later. Relationships you see every day are worth protecting, not just winning against."
+      },
+      {
+        "question": "Instead of only negotiating your allowance amount, you also offer to take on an extra chore. What does trading across different things do?",
+        "choices": [
+          "Gives you more ways to reach a deal that works for both sides",
+          "Makes the negotiation impossible"
+        ],
+        "correctIndex": 0,
+        "explanation": "Trading across different issues at once gives both sides more room to find a deal than arguing over one single number. Offering an extra chore for a bit more allowance opens up options that haggling over one dollar amount never would."
+      },
+      {
+        "question": "Which is a stronger way to start a negotiation?",
+        "choices": [
+          "\"Could I get an extra $5 a week for taking out the trash too?\"",
+          "\"Can I just get more money?\""
+        ],
+        "correctIndex": 0,
+        "explanation": "A specific, well-thought-out ask is more persuasive than a vague one, because it shows you've actually thought it through. It gives someone something concrete to say yes to."
+      },
+      {
+        "question": "Why might getting most of what you want with a happy other side beat getting everything with a resentful one?",
+        "choices": [
+          "A resentful deal often causes problems later",
+          "Getting everything is always better no matter what"
+        ],
+        "correctIndex": 0,
+        "explanation": "A deal that both sides can live with usually lasts better than one that leaves someone feeling pressured or resentful."
+      },
+      {
+        "question": "You and a friend share a video game, but you want extra time today for a new update. What's a fair approach?",
+        "choices": [
+          "Ask for extra time today and offer extra time back later",
+          "Just take the console without asking"
+        ],
+        "correctIndex": 0,
+        "explanation": "An uneven split today, balanced by an uneven split back the other way later, can still be fair overall. Getting extra time today, then giving your friend extra time tomorrow, evens things out."
+      },
+      {
+        "question": "You want your sibling to walk the dog for you tonight. What's a fair way to ask?",
+        "choices": [
+          "Offer to trade one of their chores in return",
+          "Just expect them to do it for free"
+        ],
+        "correctIndex": 0,
+        "explanation": "Offering something in return can make a request more balanced, but the other person is still free to say no."
+      },
+      {
+        "question": "A compromise over which game to play with a friend usually means what?",
+        "choices": [
+          "Neither person gets everything, but neither is ignored",
+          "One person always gets their full way"
+        ],
+        "correctIndex": 0,
+        "explanation": "A good compromise leaves both people with something, even if neither one gets everything they originally wanted. That's different from one person winning completely."
+      }
+    ]
+  },
+  "negotiation-10-13-p3": {
+    "slides": [
+      {
+        "emoji": "😤",
+        "title": "Notice strong emotions",
+        "text": "Excitement, anger, fear, or frustration can change your decisions. If you feel a strong rush, slow down before accepting or rejecting a deal."
+      },
+      {
+        "emoji": "🚩",
+        "title": "Know your limit",
+        "text": "Before a negotiation, decide what you must have and what you will not accept. Your limit should be based on what actually matters, not on trying to \"win.\""
+      },
+      {
+        "emoji": "😥",
+        "title": "Stay curious after a no",
+        "text": "A no may contain useful information. Ask, \"What would need to change for you to consider this later?\" and listen to the answer."
+      },
+      {
+        "emoji": "👫",
+        "title": "Respect matters more than winning",
+        "text": "With friends and family, you will keep interacting after the negotiation ends. Be firm about the issue without insulting, embarrassing, or pressuring the person."
+      },
+      {
+        "emoji": "⏱️",
+        "title": "Recognize pressure tactics",
+        "text": "Statements like \"decide right now\" or \"everyone else already agreed\" can push you to act before thinking. Pressure is a reason to slow down, not speed up."
+      },
+      {
+        "emoji": "⏸️",
+        "title": "Ask for thinking time",
+        "text": "You do not have to answer every offer immediately. \"Can I think about it and tell you tomorrow?\" is a reasonable response."
+      },
+      {
+        "emoji": "🏳️",
+        "title": "Know when a win costs too much",
+        "text": "If getting your way would damage trust, embarrass someone, or leave them feeling forced, reconsider whether the deal is worth it."
+      },
+      {
+        "emoji": "❓",
+        "title": "Ask what is behind the no",
+        "text": "Instead of arguing with a refusal, ask about the concern. \"Can you help me understand what worries you about this?\" may uncover a problem you can solve."
+      },
+      {
+        "emoji": "🔁",
+        "title": "Renegotiate when things change",
+        "text": "An agreement can be revisited when circumstances change. If a chore plan no longer works because your schedule changed, bring it up and make a new plan together."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Why decide your minimum acceptable outcome before a negotiation starts?",
+        "choices": [
+          "It helps you avoid crossing an important limit under pressure",
+          "It guarantees you will get exactly what you want"
+        ],
+        "correctIndex": 0,
+        "explanation": "Knowing your real limit before emotions rise helps you judge offers clearly. The limit should reflect what you actually need, not a random number chosen just to win."
+      },
+      {
+        "question": "A guardian says no to a bigger allowance. What is a good next step?",
+        "choices": [
+          "Calmly ask what would need to change for a yes later",
+          "Give up on the topic completely"
+        ],
+        "correctIndex": 0,
+        "explanation": "A \"no\" is often the start of a longer conversation, not the end of one. Calmly asking what would need to change for a future yes keeps the door open instead of shutting the topic down."
+      },
+      {
+        "question": "A trade a friend offers is clearly unfair to you. What is a reasonable response?",
+        "choices": [
+          "Say you'd rather keep what you have",
+          "Accept it so you don't seem difficult"
+        ],
+        "correctIndex": 0,
+        "explanation": "Walking away from an unfair deal is a reasonable, healthy choice, not something to feel guilty about. You don't have to trade just because someone offered."
+      },
+      {
+        "question": "You're so excited about a trade you'd agree to almost anything. What should you do?",
+        "choices": [
+          "Notice the excitement and slow down before agreeing",
+          "Agree immediately since excitement means it's a good deal"
+        ],
+        "correctIndex": 0,
+        "explanation": "Strong feelings like excitement can push you toward agreeing to a deal you'll later regret. Noticing that rush and slowing down gives you a chance to think clearly before saying yes."
+      },
+      {
+        "question": "Winning an argument with a sibling by being harsh gets you the TV tonight. What might it cost you?",
+        "choices": [
+          "Goodwill you'll want from them later",
+          "Nothing at all, relationships aren't affected"
+        ],
+        "correctIndex": 0,
+        "explanation": "Being harsh can win you the TV tonight but cost you trust you'll want from your sibling again soon. People you live with remember how you treated them, not just who won."
+      },
+      {
+        "question": "Someone rushes you to decide right now before you can think. What does that suggest?",
+        "choices": [
+          "It's worth slowing down, not deciding under pressure",
+          "You should always decide fast when rushed"
+        ],
+        "correctIndex": 0,
+        "explanation": "Being rushed is a reason to slow down and think. Some deadlines are real, so check the facts instead of assuming every deadline is fake."
+      },
+      {
+        "question": "You're unsure about a deal someone just offered. What can you say?",
+        "choices": [
+          "\"Can I think about it and get back to you?\"",
+          "You must decide on the spot every time"
+        ],
+        "correctIndex": 0,
+        "explanation": "Asking for time to think it over is a completely reasonable, complete response on its own. It often leads to a much better decision than answering under pressure."
+      },
+      {
+        "question": "You could win an argument with your sibling by being harsh. Why might that not be worth it?",
+        "choices": [
+          "It can damage a relationship you'll need again later",
+          "Relationships never matter in a negotiation"
+        ],
+        "correctIndex": 0,
+        "explanation": "A short-term win can cost you something bigger later, like the trust you'll need the next time you ask your sibling for something. Winning isn't worth it if it damages a relationship you rely on daily."
+      },
+      {
+        "question": "A guardian says no to your request. What's a good follow-up?",
+        "choices": [
+          "Calmly ask what's behind the no",
+          "Assume the answer will never change"
+        ],
+        "correctIndex": 0,
+        "explanation": "Understanding the actual reason behind a no can turn a flat refusal into a real conversation. Asking what they're worried about often uncovers a concern you can actually address."
+      },
+      {
+        "question": "A chore-split deal you made with your sibling stopped working after your schedule changed. What can you do?",
+        "choices": [
+          "Bring it up and renegotiate",
+          "Just live with something that no longer works"
+        ],
+        "correctIndex": 0,
+        "explanation": "It's fair to revisit a deal once circumstances genuinely change, since an old agreement isn't meant to last forever no matter what. Bringing up a chore split again after a schedule change is reasonable, not unfair."
+      }
+    ]
+  },
+  "negotiation-13-17-p1": {
+    "slides": [
+      {
+        "emoji": "🎯",
+        "title": "Positions vs. interests",
+        "text": "A position is the outcome someone asks for; an interest is the reason they care about it. Negotiations improve when you move from \"What do you want?\" to \"Why does that matter?\" because several different solutions may satisfy the same interest."
+      },
+      {
+        "emoji": "🧭",
+        "title": "Your BATNA",
+        "text": "BATNA means Best Alternative to a Negotiated Agreement: your best realistic option if no deal is reached. A strong BATNA keeps you from accepting a poor deal simply because you feel you have no choice."
+      },
+      {
+        "emoji": "⚓",
+        "title": "Anchoring",
+        "text": "The first serious number or proposal can influence the range of later discussion. That is why an opening offer should be based on evidence—not an extreme number chosen only to manipulate the conversation."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Define the real objective",
+        "text": "Before negotiating, identify the outcome you truly care about. You may think you want a permanently later curfew when the real objective is attending one event that ends late."
+      },
+      {
+        "emoji": "🔎",
+        "title": "Research before you negotiate",
+        "text": "Evidence makes a request more credible. Before discussing pay for a summer job, compare similar local jobs, responsibilities, experience requirements, and legal minimum-wage rules."
+      },
+      {
+        "emoji": "🖼️",
+        "title": "Frame without misleading",
+        "text": "Framing is the way you present the same underlying request. Good framing makes the benefit or problem clear without hiding important facts or manipulating the other person."
+      },
+      {
+        "emoji": "🎯",
+        "title": "Set a target and a minimum",
+        "text": "Know your preferred outcome and the minimum acceptable outcome before the conversation. This helps you evaluate offers instead of moving your limits because of pressure in the moment."
+      },
+      {
+        "emoji": "⚡",
+        "title": "Understand leverage",
+        "text": "Leverage comes from alternatives, timing, information, and how much each side needs an agreement. It is useful to understand leverage, but having more of it is not a reason to exploit someone."
+      },
+      {
+        "emoji": "🔄",
+        "title": "Let interests reshape the deal",
+        "text": "Learning the other side's real concern may change your proposal entirely. If a roommate dislikes a chore chart because it feels controlling, a flexible weekly checklist may solve the problem better than arguing over the chart."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Two group project partners want different things but share the interest of wanting a great final product. Why focus on interests?",
+        "choices": [
+          "Different positions can share the same underlying interest, opening up solutions",
+          "Positions and interests are always identical"
+        ],
+        "correctIndex": 0,
+        "explanation": "A position is the specific demand someone states; an interest is the deeper motivation behind it. Two partners with different positions can still share the same interest of wanting the project to succeed, which is where a real compromise gets found."
+      },
+      {
+        "question": "You have a backup job offer while negotiating pay for another job. What is that backup called?",
+        "choices": [
+          "Your BATNA — best alternative if the deal falls through",
+          "The first offer made in a negotiation"
+        ],
+        "correctIndex": 0,
+        "explanation": "BATNA stands for Best Alternative to a Negotiated Agreement — in plain language, it's just your backup plan if this particular deal falls through. Having another job offer lined up gives you the confidence to walk away from a lowball wage."
+      },
+      {
+        "question": "Opening an allowance negotiation with a well-researched \"$15 a week\" tends to shape the rest of the talk. What is this called?",
+        "choices": [
+          "Anchoring — the first offer shapes the rest of the conversation",
+          "It has no effect on what follows"
+        ],
+        "correctIndex": 0,
+        "explanation": "Anchoring is the tendency for an initial number or proposal to influence later discussion. A strong opening should be supported by evidence rather than chosen only to push the other side."
+      },
+      {
+        "question": "You ask for a later curfew, but what you actually want is just one late night for a concert. Why does clarifying this matter?",
+        "choices": [
+          "It leads to a request that's easier to say yes to",
+          "It makes no difference to the outcome"
+        ],
+        "correctIndex": 0,
+        "explanation": "Getting honest with yourself about what you actually want, separate from what you assume you should ask for, often leads to a smaller, more specific request. A single late night is far easier to grant than a permanent later curfew."
+      },
+      {
+        "question": "Before asking for a raise at a summer job, you look up typical pay for similar work nearby. Why does this help?",
+        "choices": [
+          "It gives your request a solid, credible basis",
+          "Research never changes how a request lands"
+        ],
+        "correctIndex": 0,
+        "explanation": "Walking into a negotiation with real information, not just a gut feeling, makes your case far more credible. Looking up what similar jobs pay turns your request from a guess into something backed by evidence."
+      },
+      {
+        "question": "Asking for \"more independence\" instead of \"less supervision\" is an example of what?",
+        "choices": [
+          "Framing — the same request worded differently",
+          "A completely different, unrelated request"
+        ],
+        "correctIndex": 0,
+        "explanation": "Framing is how you word a request, and it can change how it's received even when the underlying ask stays identical. Both phrases could mean the exact same thing, but one tends to land better."
+      },
+      {
+        "question": "Deciding your ideal outcome and your absolute minimum before a negotiation starts helps you how?",
+        "choices": [
+          "Stay clear-headed instead of deciding limits in the moment",
+          "It has no real effect on the negotiation"
+        ],
+        "correctIndex": 0,
+        "explanation": "Deciding both your ideal outcome and your absolute minimum before a negotiation starts keeps you from setting limits in the heat of the moment. It keeps you clear-headed no matter how the conversation goes."
+      },
+      {
+        "question": "A summer job has very few other applicants, so the employer struggles to fill it. What does this give the applicant?",
+        "choices": [
+          "More leverage, since the employer needs someone to say yes",
+          "No leverage at all"
+        ],
+        "correctIndex": 0,
+        "explanation": "Fewer applicants can increase an applicant's leverage because the employer has fewer alternatives. Leverage should help you understand the situation, not justify exploiting the other side."
+      },
+      {
+        "question": "Understanding a roommate's real objection to a chore chart might do what?",
+        "choices": [
+          "Shift your own proposal to actually solve their concern",
+          "Have no effect on what you propose"
+        ],
+        "correctIndex": 0,
+        "explanation": "Understanding someone's real interest doesn't just help you persuade them of your original plan — it can genuinely change what you decide to propose. Discovering the real objection is feeling micromanaged might lead you to suggest a looser system entirely."
+      },
+      {
+        "question": "A negotiation partner's position is \"I want the corner office,\" but their interest is \"I want quiet to focus.\" What does knowing the interest allow?",
+        "choices": [
+          "Finding another solution, like noise-canceling headphones, that meets the real need",
+          "Nothing — you must give them the office"
+        ],
+        "correctIndex": 0,
+        "explanation": "Once you understand the real interest behind a stated position, you can often find another solution entirely that satisfies it just as well. Noise-canceling headphones might solve the actual problem of needing quiet."
+      }
+    ]
+  },
+  "negotiation-13-17-p2": {
+    "slides": [
+      {
+        "emoji": "⚖️",
+        "title": "Distributive negotiation",
+        "text": "Some negotiations involve a fixed amount to divide, such as splitting a $100 prize. In that situation, one person's larger share directly reduces the other's, so the focus is mostly on how the fixed value is divided."
+      },
+      {
+        "emoji": "🥧",
+        "title": "Expand the pie",
+        "text": "Many negotiations are not limited to one number. Salary, schedule, responsibilities, training, remote days, or time off can create extra ways for both sides to gain value."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Use principled negotiation",
+        "text": "Principled negotiation separates the people from the problem. You can respect the person while being firm about deadlines, money, responsibilities, or another issue that needs to be solved."
+      },
+      {
+        "emoji": "🧾",
+        "title": "Negotiate ethically",
+        "text": "Do not lie, hide material facts, exploit inexperience, or create fake urgency. Ethical negotiation protects trust and makes agreements more likely to hold up after the conversation ends."
+      },
+      {
+        "emoji": "🌍",
+        "title": "Notice negotiation in everyday life",
+        "text": "Negotiation appears in group projects, work schedules, rent, buying and selling, family rules, and friendships. The same skills—interests, options, evidence, and boundaries—apply across situations."
+      },
+      {
+        "emoji": "🎁",
+        "title": "Build package deals",
+        "text": "A package deal combines several issues in one proposal. If two people value different things, bundling schedule, responsibilities, and rewards can create a better deal than arguing over each item separately."
+      },
+      {
+        "emoji": "🔮",
+        "title": "Use contingent agreements",
+        "text": "When people disagree about what will happen in the future, they can make the outcome depend on what actually occurs. For example: \"If the project is finished by Friday, we split the bonus this way; if not, we use the other plan.\""
+      },
+      {
+        "emoji": "📋",
+        "title": "Set an agenda first",
+        "text": "For a complex negotiation, agree on what topics need to be discussed before debating solutions. An agenda reduces confusion and helps make sure an important issue is not forgotten."
+      },
+      {
+        "emoji": "👥",
+        "title": "Handle multi-party negotiations",
+        "text": "With three or more people, interests can conflict in different combinations. Make sure quieter people are heard, summarize areas of agreement, and avoid assuming the loudest person represents the group."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Splitting a fixed $100 prize between two people, where one's gain is the other's loss, is what kind of negotiation?",
+        "choices": [
+          "A distributive negotiation",
+          "One where both sides can always expand the pie"
+        ],
+        "correctIndex": 0,
+        "explanation": "A distributive negotiation involves a fixed amount to split, so whatever one side gains, the other side loses. Splitting a hundred-dollar prize is a clear example — every extra dollar you get is a dollar your friend doesn't."
+      },
+      {
+        "question": "A job offer includes salary, remote days, and vacation time to negotiate over, not just one number. What does this allow?",
+        "choices": [
+          "Trading across categories so both sides can end up better off",
+          "Nothing, since salary is the only thing that matters"
+        ],
+        "correctIndex": 0,
+        "explanation": "Expanding the pie means recognizing a negotiation isn't always fixed, and there's room for both sides to end up better off. It lets you trade across categories instead of fighting over just one number."
+      },
+      {
+        "question": "Telling a partner \"I value working with you, and I also think we need firmer deadlines.\" What does this show?",
+        "choices": [
+          "Principled negotiation — separating the people from the problem",
+          "Being aggressive toward the other person"
+        ],
+        "correctIndex": 0,
+        "explanation": "Principled negotiation means separating the person from the problem — staying warm and respectful toward someone while still being firm about the actual issue you disagree on."
+      },
+      {
+        "question": "You point out honestly that a buyer doesn't realize an item's real value, instead of exploiting that. Why negotiate this way?",
+        "choices": [
+          "It's what makes people willing to negotiate with you again",
+          "Ethics don't matter once a deal is signed"
+        ],
+        "correctIndex": 0,
+        "explanation": "Being honest, rather than taking advantage of someone's inexperience or urgency, builds the trust that makes people willing to negotiate with you again. It costs a little now but pays off later."
+      },
+      {
+        "question": "Deciding who gets the smaller bedroom for lower rent with a future roommate uses which kind of thinking?",
+        "choices": [
+          "The same interests-and-trade-offs thinking as a job negotiation",
+          "A completely different skill unrelated to negotiation"
+        ],
+        "correctIndex": 0,
+        "explanation": "Negotiation shows up constantly in everyday situations, not just formal deals like salaries. Splitting rent with a future roommate relies on the same interests-and-trade-offs thinking as negotiating a job offer."
+      },
+      {
+        "question": "Instead of negotiating shifts and weekends off separately, you offer to cover more shifts in exchange for one specific weekend free. What is this called?",
+        "choices": [
+          "A package deal — bundling issues together",
+          "Negotiating ethically"
+        ],
+        "correctIndex": 0,
+        "explanation": "A package deal bundles several issues into one offer instead of negotiating each one separately. It often works better than arguing about your schedule and your weekend as two separate fights."
+      },
+      {
+        "question": "Two people disagree about whether a project will finish early. They agree: \"If it finishes early, I get the bonus; if not, we split it.\" What does this avoid?",
+        "choices": [
+          "Arguing over whose prediction about the future is right",
+          "Any need to ever discuss the project again"
+        ],
+        "correctIndex": 0,
+        "explanation": "A contingent agreement means agreeing in advance to different outcomes depending on what actually happens. It lets two people move forward without arguing over whose prediction is correct."
+      },
+      {
+        "question": "In a group project negotiation, agreeing to discuss deadlines before workload comes up can do what?",
+        "choices": [
+          "Shape the whole conversation that follows",
+          "Have no effect on the outcome"
+        ],
+        "correctIndex": 0,
+        "explanation": "Setting the agenda, deciding what gets discussed and in what order, can shape a negotiation before it even really begins. Talking deadlines first can steer the rest of the conversation."
+      },
+      {
+        "question": "Three roommates with differently sized rooms negotiate rent together. What makes this harder than a two-person deal?",
+        "choices": [
+          "More sides and interests need to align at once",
+          "It's actually simpler since more people are involved"
+        ],
+        "correctIndex": 0,
+        "explanation": "A multi-party negotiation is harder than a two-person one because every added person brings their own interests that all need to line up. Three roommates means balancing three sets of priorities at once."
+      },
+      {
+        "question": "What's the key difference between a distributive negotiation and one where you can expand the pie?",
+        "choices": [
+          "A distributive deal has a fixed amount to split; an expandable one lets both sides gain",
+          "There is no real difference between them"
+        ],
+        "correctIndex": 0,
+        "explanation": "A distributive negotiation involves a fixed amount where one side's gain is the other's loss, while expanding the pie means finding ways for both sides to end up better off. Knowing which type you're in changes your strategy."
+      }
+    ]
+  },
+  "negotiation-13-17-p3": {
+    "slides": [
+      {
+        "emoji": "🧠",
+        "title": "Read signals carefully",
+        "text": "Emotion, tone, pauses, and body language can provide clues, but they are not proof of what someone thinks. Use them as a reason to ask a respectful question, not as permission to make assumptions."
+      },
+      {
+        "emoji": "😥",
+        "title": "Treat no as information",
+        "text": "A no can mean the price is wrong, the timing is bad, a risk feels too high, or the person simply does not want the deal. Ask questions if appropriate, but respect a final no."
+      },
+      {
+        "emoji": "👫",
+        "title": "Negotiate differently with close relationships",
+        "text": "With friends, family, teammates, or roommates, the relationship continues after the deal. Protect trust and dignity while still being clear about your needs and boundaries."
+      },
+      {
+        "emoji": "🚩",
+        "title": "Know your walk-away point",
+        "text": "Your walk-away point is the point where accepting the deal is worse than using your best alternative. Decide it before pressure builds and base it on your real needs and options."
+      },
+      {
+        "emoji": "🤲",
+        "title": "Compromise vs. giving in",
+        "text": "Compromise means both sides adjust to reach an acceptable agreement. Giving in means accepting something you do not actually agree to, often because of pressure. Those are not the same thing."
+      },
+      {
+        "emoji": "⏱️",
+        "title": "Spot pressure tactics",
+        "text": "Fake deadlines, guilt, repeated demands, and \"take it or leave it\" language can limit thoughtful decision-making. When pressure rises, slow down and verify the facts."
+      },
+      {
+        "emoji": "⏸️",
+        "title": "Use a strategic pause",
+        "text": "A break can improve a negotiation when emotions are high or new information appears. Pause, review the facts, and return when both sides can think more clearly."
+      },
+      {
+        "emoji": "🎭",
+        "title": "Let people save face",
+        "text": "People are more open to agreement when they do not feel humiliated. You can disagree strongly while offering a solution that lets everyone leave the conversation with dignity."
+      },
+      {
+        "emoji": "🤝",
+        "title": "Represent others responsibly",
+        "text": "When negotiating for a team or group, your job is to represent their priorities—not just your personal preferences. Confirm what the group values, what you can agree to, and what requires their approval."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Someone hesitates specifically when a certain topic comes up in a negotiation. What can that reveal?",
+        "choices": [
+          "What they actually value most",
+          "Nothing useful"
+        ],
+        "correctIndex": 0,
+        "explanation": "Reading emotional signals means noticing hesitation, discomfort, or excitement, not just listening to someone's words. Tensing up the moment a topic comes up can reveal what actually matters to them."
+      },
+      {
+        "question": "Your guardian says no to a request. What's a better response than giving up?",
+        "choices": [
+          "Calmly ask what would need to change for a future yes",
+          "Immediately stop asking about anything related to it forever"
+        ],
+        "correctIndex": 0,
+        "explanation": "A \"no\" usually signals where someone stands right now, not that the door is closed forever. Calmly asking what would need to change keeps a real conversation going instead of ending it."
+      },
+      {
+        "question": "Winning an argument with a sibling by being harsh might get you what you want tonight. What could it cost later?",
+        "choices": [
+          "Trust you'll need from them in the future",
+          "Nothing, relationships don't factor into negotiation"
+        ],
+        "correctIndex": 0,
+        "explanation": "Negotiating with someone you see every day works differently than negotiating with a stranger, because the relationship itself is worth protecting. A harsh win tonight can cost you trust you'll need soon."
+      },
+      {
+        "question": "Deciding beforehand \"I won't accept less than $12 an hour\" before a job negotiation. What is this called?",
+        "choices": [
+          "Your walk-away point, decided before the negotiation starts",
+          "Something you only figure out after the negotiation ends"
+        ],
+        "correctIndex": 0,
+        "explanation": "A walk-away point is the limit you decide on in advance, before any pressure has a chance to wear you down. It keeps you firm if someone tries to push you lower in the moment."
+      },
+      {
+        "question": "Two people split a shared expense evenly, even though one originally wanted the other to pay more. What does this show?",
+        "choices": [
+          "A real compromise — both sides give up something small to gain something bigger",
+          "One side completely losing the negotiation"
+        ],
+        "correctIndex": 0,
+        "explanation": "A real compromise means both sides give up something small to gain something bigger, which isn't the same thing as losing. Splitting the expense evenly can still leave both people satisfied."
+      },
+      {
+        "question": "Someone tells you \"this offer expires in one hour\" to rush your decision. What is this an example of?",
+        "choices": [
+          "A pressure tactic designed to stop you from thinking it through",
+          "A completely neutral, unbiased fact"
+        ],
+        "correctIndex": 0,
+        "explanation": "A pressure tactic is anything designed to rush your decision before you can really think it through, like a claimed deadline that isn't actually real. It's worth questioning, not simply obeying."
+      },
+      {
+        "question": "A conversation with a roommate gets heated. What can help?",
+        "choices": [
+          "Asking to pause and pick it back up later",
+          "Pushing through no matter how heated it gets"
+        ],
+        "correctIndex": 0,
+        "explanation": "Stepping away from a heated conversation to think, instead of deciding on the spot, usually leads to a better outcome. An hour's pause can cool things down enough to actually solve the problem."
+      },
+      {
+        "question": "You propose a compromise that lets a parent's original rule \"still stand\" for younger siblings while making an exception for you. Why might this work better than just saying the rule is wrong?",
+        "choices": [
+          "It lets them agree without feeling like they lost",
+          "It's pointless because the rule change is what matters"
+        ],
+        "correctIndex": 0,
+        "explanation": "Saving face means letting someone exit a disagreement without feeling humiliated, which makes them far more likely to actually agree with you. Letting the original rule technically stand helps them agree without feeling like they lost."
+      },
+      {
+        "question": "You're negotiating a deadline extension on behalf of your whole group project team. What should guide your ask?",
+        "choices": [
+          "The team's priorities, not just your own",
+          "Only what's most convenient for you personally"
+        ],
+        "correctIndex": 0,
+        "explanation": "Negotiating on someone else's behalf means the priorities guiding your asks should be the group's, not only your own. Keeping the team's real constraints in mind matters more than personal convenience."
+      },
+      {
+        "question": "Why decide your walk-away point before a negotiation even begins?",
+        "choices": [
+          "So pressure in the moment doesn't push you past your own limit",
+          "It's something you only need to think about afterward"
+        ],
+        "correctIndex": 0,
+        "explanation": "Deciding your walk-away point before a negotiation begins protects you from letting in-the-moment pressure push you past your own limit. It's easier to hold firm on a number you already committed to."
+      }
+    ]
+  }
+}

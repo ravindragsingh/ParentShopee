@@ -24,8 +24,17 @@ class DBUser(Base):
     last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_at      = Column(String, nullable=True)  # ISO timestamp of most recent login
-    chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-guardian
-    shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-guardian
+    # Live count of custom (non-sample) chores/shop items currently in use,
+    # shared by co-guardian -- recomputed from what's actually in the DB on
+    # every server startup (see seed.reconcile_custom_item_counts) and kept
+    # in sync incrementally the rest of the time (create/delete/rename).
+    chores_added_count     = Column(Float, default=0)
+    shop_items_added_count = Column(Float, default=0)
+    # NULL means "use the global default" (config.LIMIT_EXTRA_CHORES /
+    # LIMIT_EXTRA_SHOP_ITEMS) -- an admin sets these to raise the cap for one
+    # specific family that's outgrown it, without changing it for everyone.
+    chores_limit_override     = Column(Float, nullable=True)
+    shop_items_limit_override = Column(Float, nullable=True)
     is_active               = Column(String, default="1")  # "1"/"0" — "0" only for guardians pending email activation
     activation_token        = Column(String, nullable=True)
     activation_token_expires = Column(String, nullable=True)  # ISO timestamp
@@ -192,8 +201,11 @@ class DBLearningModule(Base):
     # ^ served live via GET /api/future-ready/{id}/content instead of being
     # bundled into the frontend, so a content-only change (new topic, edited
     # slides/quiz) is just a backend redeploy -- no app rebuild or store
-    # submission, even for the native mobile app. Regenerate from the
-    # authored JS with frontend/scripts/extract-future-ready-content.mjs.
+    # submission, even for the native mobile app. Hand-authored directly in
+    # backend/future_ready_content/<topic>.json, loaded at startup.
+    created_at  = Column(String, nullable=True)  # ISO timestamp, set once when the
+    # row is first created (not touched on later catalog re-syncs) -- powers the
+    # "New" badge; NULL for rows that predate this column, correctly read as "not new".
 
 
 class DBFamilyLearningSetting(Base):
@@ -208,6 +220,10 @@ class DBFamilyLearningSetting(Base):
     module_id      = Column(String, primary_key=True)
     enabled        = Column(String, default="0")
     points_override = Column(Float, nullable=True)
+    enabled_kid_ids = Column(String, nullable=True)  # CSV of kid ids this module
+    # is restricted to; NULL/empty means "every kid in the family" (the original,
+    # still-default behavior) -- a guardian only narrows this when they want a
+    # topic on for just one child rather than all of them.
 
 
 class DBLearningCompletion(Base):
@@ -221,3 +237,19 @@ class DBLearningCompletion(Base):
     total           = Column(Integer, nullable=False)
     points_awarded  = Column(Float, nullable=False)
     completed_at    = Column(String, nullable=False)
+
+
+class DBSession(Base):
+    """A login session's Bearer token, keyed on the token itself (it's already
+    an unguessable UUID, so it doubles as the primary key). DB-backed rather
+    than the old in-memory dict on purpose -- an in-memory session table gets
+    wiped on every server restart, which on Render means every deploy signs
+    every logged-in user out. `last_used_at` is refreshed at most once a day
+    (see deps.py's SESSION_REFRESH_THROTTLE) and drives the TTL that expires
+    a session nobody's used in SESSION_TTL_DAYS, so a stolen/leaked token
+    doesn't stay valid forever just because storage survives restarts now."""
+    __tablename__ = "sessions"
+    token        = Column(String, primary_key=True)
+    user_id      = Column(String, nullable=False, index=True)
+    created_at   = Column(String, nullable=False)
+    last_used_at = Column(String, nullable=False)

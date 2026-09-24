@@ -1,0 +1,546 @@
+{
+  "sight-words-4-6-p1": {
+    "slides": [
+      {
+        "emoji": "🅰️",
+        "title": "a",
+        "text": "I see a cat."
+      },
+      {
+        "emoji": "➕",
+        "title": "and",
+        "text": "I like cats and dogs."
+      },
+      {
+        "emoji": "🚶",
+        "title": "away",
+        "text": "The bird flew away."
+      },
+      {
+        "emoji": "🐘",
+        "title": "big",
+        "text": "The elephant is big."
+      },
+      {
+        "emoji": "🔵",
+        "title": "blue",
+        "text": "The sky is blue."
+      },
+      {
+        "emoji": "💪",
+        "title": "can",
+        "text": "I can jump."
+      },
+      {
+        "emoji": "👋",
+        "title": "come",
+        "text": "Come and play!"
+      },
+      {
+        "emoji": "⬇️",
+        "title": "down",
+        "text": "The ball rolled down."
+      },
+      {
+        "emoji": "🔍",
+        "title": "find",
+        "text": "Can you find it?"
+      },
+      {
+        "emoji": "🎁",
+        "title": "for",
+        "text": "This gift is for you."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Tap the word that says \"a\"",
+        "choices": [
+          "a",
+          "you"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"and\"",
+        "choices": [
+          "and",
+          "the"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"away\"",
+        "choices": [
+          "away",
+          "little"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"big\"",
+        "choices": [
+          "big",
+          "red"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"blue\"",
+        "choices": [
+          "blue",
+          "yellow"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"can\"",
+        "choices": [
+          "can",
+          "look"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"come\"",
+        "choices": [
+          "come",
+          "play"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"down\"",
+        "choices": [
+          "down",
+          "up"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"find\"",
+        "choices": [
+          "find",
+          "help"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"for\"",
+        "choices": [
+          "for",
+          "not"
+        ],
+        "correctIndex": 0
+      }
+    ]
+  },
+  "sight-words-4-6-p2": {
+    "slides": [
+      {
+        "emoji": "😂",
+        "title": "funny",
+        "text": "That joke was funny."
+      },
+      {
+        "emoji": "🚦",
+        "title": "go",
+        "text": "Let's go outside."
+      },
+      {
+        "emoji": "🤝",
+        "title": "help",
+        "text": "Can you help me?"
+      },
+      {
+        "emoji": "📍",
+        "title": "here",
+        "text": "Come sit here."
+      },
+      {
+        "emoji": "🙋",
+        "title": "I",
+        "text": "I like to read."
+      },
+      {
+        "emoji": "📥",
+        "title": "in",
+        "text": "The cat is in the box."
+      },
+      {
+        "emoji": "👉",
+        "title": "is",
+        "text": "The sun is bright."
+      },
+      {
+        "emoji": "👉",
+        "title": "it",
+        "text": "I like it a lot."
+      },
+      {
+        "emoji": "🤸",
+        "title": "jump",
+        "text": "Let's jump high!"
+      },
+      {
+        "emoji": "🤏",
+        "title": "little",
+        "text": "The puppy is little."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Tap the word that says \"funny\"",
+        "choices": [
+          "funny",
+          "little"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"go\"",
+        "choices": [
+          "go",
+          "we"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"help\"",
+        "choices": [
+          "help",
+          "find"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"here\"",
+        "choices": [
+          "here",
+          "where"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"I\"",
+        "choices": [
+          "I",
+          "me"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"in\"",
+        "choices": [
+          "in",
+          "it"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"is\"",
+        "choices": [
+          "is",
+          "it"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"it\"",
+        "choices": [
+          "it",
+          "is"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"jump\"",
+        "choices": [
+          "jump",
+          "run"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"little\"",
+        "choices": [
+          "little",
+          "big"
+        ],
+        "correctIndex": 0
+      }
+    ]
+  },
+  "sight-words-4-6-p3": {
+    "slides": [
+      {
+        "emoji": "👀",
+        "title": "look",
+        "text": "Look at that!"
+      },
+      {
+        "emoji": "🛠️",
+        "title": "make",
+        "text": "Let's make a tower."
+      },
+      {
+        "emoji": "🙋",
+        "title": "me",
+        "text": "Come with me."
+      },
+      {
+        "emoji": "🎒",
+        "title": "my",
+        "text": "This is my toy."
+      },
+      {
+        "emoji": "🚫",
+        "title": "not",
+        "text": "I am not tired."
+      },
+      {
+        "emoji": "1️⃣",
+        "title": "one",
+        "text": "I have one apple."
+      },
+      {
+        "emoji": "🎾",
+        "title": "play",
+        "text": "Let's play a game."
+      },
+      {
+        "emoji": "🔴",
+        "title": "red",
+        "text": "The apple is red."
+      },
+      {
+        "emoji": "🏃",
+        "title": "run",
+        "text": "Let's run fast!"
+      },
+      {
+        "emoji": "💬",
+        "title": "said",
+        "text": "She said hello."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Tap the word that says \"look\"",
+        "choices": [
+          "look",
+          "see"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"make\"",
+        "choices": [
+          "make",
+          "play"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"me\"",
+        "choices": [
+          "me",
+          "my"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"my\"",
+        "choices": [
+          "my",
+          "me"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"not\"",
+        "choices": [
+          "not",
+          "can"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"one\"",
+        "choices": [
+          "one",
+          "two"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"play\"",
+        "choices": [
+          "play",
+          "run"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"red\"",
+        "choices": [
+          "red",
+          "blue"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"run\"",
+        "choices": [
+          "run",
+          "jump"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"said\"",
+        "choices": [
+          "said",
+          "look"
+        ],
+        "correctIndex": 0
+      }
+    ]
+  },
+  "sight-words-4-6-p4": {
+    "slides": [
+      {
+        "emoji": "👁️",
+        "title": "see",
+        "text": "I can see you."
+      },
+      {
+        "emoji": "📖",
+        "title": "the",
+        "text": "The dog ran fast."
+      },
+      {
+        "emoji": "3️⃣",
+        "title": "three",
+        "text": "I have three balloons."
+      },
+      {
+        "emoji": "➡️",
+        "title": "to",
+        "text": "I want to go home."
+      },
+      {
+        "emoji": "2️⃣",
+        "title": "two",
+        "text": "I have two hands."
+      },
+      {
+        "emoji": "⬆️",
+        "title": "up",
+        "text": "Look up at the sky."
+      },
+      {
+        "emoji": "👨‍👩‍👧",
+        "title": "we",
+        "text": "We are friends."
+      },
+      {
+        "emoji": "❓",
+        "title": "where",
+        "text": "Where is my hat?"
+      },
+      {
+        "emoji": "🟡",
+        "title": "yellow",
+        "text": "The sun is yellow."
+      },
+      {
+        "emoji": "🫵",
+        "title": "you",
+        "text": "I like you."
+      }
+    ],
+    "quiz": [
+      {
+        "question": "Tap the word that says \"see\"",
+        "choices": [
+          "see",
+          "look"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"the\"",
+        "choices": [
+          "the",
+          "a"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"three\"",
+        "choices": [
+          "three",
+          "two"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"to\"",
+        "choices": [
+          "to",
+          "for"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"two\"",
+        "choices": [
+          "two",
+          "three"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"up\"",
+        "choices": [
+          "up",
+          "down"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"we\"",
+        "choices": [
+          "we",
+          "you"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"where\"",
+        "choices": [
+          "where",
+          "here"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"yellow\"",
+        "choices": [
+          "yellow",
+          "red"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "question": "Tap the word that says \"you\"",
+        "choices": [
+          "you",
+          "we"
+        ],
+        "correctIndex": 0
+      }
+    ]
+  }
+}
