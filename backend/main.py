@@ -12,7 +12,7 @@ from starlette.responses import Response as StarletteResponse
 
 import models  # noqa: F401 — import ensures all tables are registered on Base before create_all()
 from database import SessionLocal, engine, Base
-from seed import ensure_demo_accounts, seed_db
+from seed import ensure_demo_accounts, reconcile_custom_item_counts, seed_db
 from models import DBUser
 from routers import admin, auth, chores, contact, daily_chores, family, future_ready, kids, messages, shop, wallet
 
@@ -201,6 +201,7 @@ def startup():
     try:
         seed_db(db)
         ensure_demo_accounts(db)
+        reconcile_custom_item_counts(db)
     finally:
         db.close()
 

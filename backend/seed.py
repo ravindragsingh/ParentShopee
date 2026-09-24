@@ -4,7 +4,8 @@ from uuid import uuid4
 from sqlalchemy.orm import Session
 
 from helpers import now
-from models import DBChore, DBShopItem, DBTransaction, DBUser, DBWallet
+from models import DBChore, DBRecurringTemplate, DBShopItem, DBTransaction, DBUser, DBWallet
+from sample_items import is_sample_chore, is_sample_shop_item
 
 
 def seed_db(db: Session):
@@ -99,4 +100,34 @@ def ensure_demo_accounts(db: Session):
             user.is_active = "1"
         else:
             db.add(DBUser(created_at=now(), is_active="1", **fields))
+    db.commit()
+
+
+def reconcile_custom_item_counts(db: Session) -> None:
+    """chores_added_count / shop_items_added_count are meant to reflect custom
+    items currently in use -- deleting one frees its slot back up (see the
+    delete endpoints in routers/chores.py and routers/shop.py) -- but that
+    wasn't true until that fix shipped, so any family active before then can
+    have a stale count baked in already (e.g. showing 10/10 used with only
+    one actual custom chore left, because years of since-deleted chores never
+    decremented it). Runs on every startup and recomputes every family
+    owner's counts from what's actually in the DB right now -- both a
+    one-time backfill for existing data and self-healing against any future
+    drift, the same way ensure_demo_accounts repairs its own rows above."""
+    owners = db.query(DBUser).filter(DBUser.role == "guardian", DBUser.co_guardian_of == None).all()
+    for owner in owners:
+        # A recurring instance (template_id set) was never itself counted --
+        # only its template's creation consumed a slot -- so instances are
+        # excluded here the same way delete_chore excludes them from refunds.
+        chores = db.query(DBChore).filter(DBChore.family_id == owner.id, DBChore.template_id == None).all()
+        templates = db.query(DBRecurringTemplate).filter(
+            DBRecurringTemplate.family_id == owner.id, DBRecurringTemplate.is_active == "1",
+        ).all()
+        shop_items = db.query(DBShopItem).filter(DBShopItem.family_id == owner.id).all()
+
+        owner.chores_added_count = (
+            sum(1 for c in chores if not is_sample_chore(c.title))
+            + sum(1 for t in templates if not is_sample_chore(t.title))
+        )
+        owner.shop_items_added_count = sum(1 for s in shop_items if not is_sample_shop_item(s.name))
     db.commit()
