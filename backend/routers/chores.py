@@ -10,7 +10,7 @@ from config import CONTACT_EMAIL, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
 from deps import require_auth, require_kid, require_guardian
-from helpers import chore_dict, check_add_limit, get_family_id, get_family_owner, now, recurring_dict
+from helpers import chore_dict, check_add_limit, get_family_id, get_family_owner, now, recurring_dict, release_add_limit
 from models import DBChore, DBRecurringTemplate, DBTransaction, DBUser, DBWallet
 from push_utils import notify_guardians_of_kid, notify_kid
 from responses import fail, ok
@@ -127,6 +127,11 @@ def delete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = De
     chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
     if chore.status not in ("open", "expired"): fail("Only open or expired chores can be deleted")
+    # A recurring template's own creation is what consumed a slot -- each
+    # generated daily/weekly instance (chore.template_id set) never counted
+    # separately, so deleting one shouldn't refund a slot it never used.
+    if not chore.template_id and not is_sample_chore(chore.title):
+        release_add_limit(db, user, "chores_added_count")
     db.delete(chore)
     db.commit()
     return ok(chore_dict(chore))
@@ -268,5 +273,7 @@ def delete_recurring(template_id: str, db: Session = Depends(get_db), user: DBUs
     ).delete(synchronize_session=False)
     db.commit()
     template.is_active = "0"
+    if not is_sample_chore(template.title):
+        release_add_limit(db, user, "chores_added_count")
     db.commit()
     return ok(recurring_dict(template))

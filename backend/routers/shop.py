@@ -7,7 +7,7 @@ from config import LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
 from deps import require_auth, require_kid, require_guardian
-from helpers import check_add_limit, get_family_id, get_family_owner, now, purchase_dict, shop_dict
+from helpers import check_add_limit, get_family_id, get_family_owner, now, purchase_dict, release_add_limit, shop_dict
 from models import DBShopItem, DBShopPurchase, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from sample_items import is_sample_shop_item
@@ -90,6 +90,8 @@ def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(g
 def delete_shop_item(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
+    if not is_sample_shop_item(item.name):
+        release_add_limit(db, user, "shop_items_added_count")
     db.delete(item)
     db.commit()
     return ok(shop_dict(item))

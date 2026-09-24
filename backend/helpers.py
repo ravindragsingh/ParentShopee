@@ -92,6 +92,15 @@ def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: in
         )
     return owner
 
+def release_add_limit(db: Session, user: DBUser, field: str, amount: int = 1) -> None:
+    """Counterpart to check_add_limit -- deleting a custom item frees up its
+    slot again, so the count reflects what's currently in use rather than a
+    lifetime total. Floors at 0 so it can never go negative (e.g. from a
+    field that predates this ever running)."""
+    owner = get_family_owner(db, user)
+    current = getattr(owner, field) or 0
+    setattr(owner, field, max(0, current - amount))
+
 def safe_user(u: DBUser) -> dict:
     return {"id": u.id, "name": u.name, "username": u.username, "role": u.role,
             "email": u.email, "guardianId": u.guardian_id, "avatar": u.avatar,

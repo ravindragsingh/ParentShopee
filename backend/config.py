@@ -27,11 +27,13 @@ if not SMTP_USER or not SMTP_PASSWORD:
 # ── Custom chore / shop item limits ─────────────────────────────────────────────
 # Families can add as many chores/rewards as they want by picking from the built-in
 # sample list (title/name kept as-is). Only items with a title/name that doesn't
-# match a sample — i.e. genuinely custom ones — count against the lifetime cap
-# (one-off chores + recurring templates counted together, shop items separately).
-# Deleting an item does NOT free up a slot. Families that need more custom items
-# should contact support. Keep these two sets in sync with SAMPLE_CHORES /
-# SAMPLE_SHOP_ITEMS in frontend/src/components/GuardianDashboard.jsx.
+# match a sample — i.e. genuinely custom ones — count against the cap (one-off
+# chores + recurring templates counted together, shop items separately). This is
+# a live count of items currently in use, not a lifetime total: deleting a custom
+# item frees its slot back up (see helpers.release_add_limit). Families that still
+# hit the cap with everything in active use should contact support. Keep these two
+# sets in sync with SAMPLE_CHORES / SAMPLE_SHOP_ITEMS in
+# frontend/src/components/GuardianDashboard.jsx.
 LIMIT_EXTRA_CHORES     = 10
 LIMIT_EXTRA_SHOP_ITEMS = 10
 
