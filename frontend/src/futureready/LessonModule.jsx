@@ -38,8 +38,8 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
   const [result, setResult] = useState(null) // { passed, alreadyCompleted, pointsAwarded }
   const [error, setError] = useState('')
   const [audioEnabled, setAudioEnabled] = useState(() => {
-    if (!user?.id) return true
-    return localStorage.getItem(audioKey(user.id)) !== '0'  // on by default until explicitly turned off
+    if (!user?.id) return false
+    return localStorage.getItem(audioKey(user.id)) === '1'  // off by default until explicitly turned on
   })
 
   function toggleAudio() {
