@@ -218,15 +218,24 @@ export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', ed
 
           <div style={{ flex: 1, minWidth: 0 }}>
             {showInlineEdit ? (
-              <input
-                value={editTitle}
-                onChange={e => setEditTitle(e.target.value)}
-                onBlur={handleSaveInline}
-                disabled={saving}
-                style={{ padding: '4px 8px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', maxWidth: 280, boxSizing: 'border-box' }}
-              />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                <input
+                  value={editTitle}
+                  onChange={e => setEditTitle(e.target.value)}
+                  onBlur={handleSaveInline}
+                  disabled={saving}
+                  style={{ padding: '4px 8px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', maxWidth: 280, boxSizing: 'border-box' }}
+                />
+                {/* Shown even while editing -- this is exactly the view a guardian
+                    uses to decide what to delete to free up their custom-item limit,
+                    so which rows actually count toward it matters most here. */}
+                {chore.isCustom && <span title="Counts toward your family's custom chore limit" style={{ fontSize: '0.72rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700, flexShrink: 0 }}>✨ Custom</span>}
+              </div>
             ) : (
-              <span style={{ fontWeight: 600, color: '#1e293b' }}>{chore.title}</span>
+              <span style={{ fontWeight: 600, color: '#1e293b' }}>
+                {chore.title}
+                {chore.isCustom && <span title="Counts toward your family's custom chore limit" style={{ marginLeft: 6, fontSize: '0.72rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>✨ Custom</span>}
+              </span>
             )}
             {!showInlineEdit && (
               <div style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 2, alignItems: 'center' }}>
@@ -234,7 +243,6 @@ export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', ed
                 {chore.status === 'open' && <>{assignedKid?.avatar && <span>{assignedKid.avatar}</span>}Assigned: {assignedKidName}</>}
                 {chore.status === 'pending' && <>{completedByKid?.avatar && <span>{completedByKid.avatar}</span>}Completed by: {completedByName}</>}
                 {chore.templateId && <span style={{ fontSize: '0.72rem', background: '#ccfbf1', color: '#0d9488', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>🔁 Recurring</span>}
-                {chore.isCustom && <span title="Counts toward your family's custom chore limit" style={{ fontSize: '0.72rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>✨ Custom</span>}
               </div>
             )}
           </div>
