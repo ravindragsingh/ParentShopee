@@ -9,7 +9,7 @@
       {
         "emoji": "😊",
         "title": "Say thank you",
-        "text": "Thank you tells someone you liked what they did. Say it when Grandma gives you a hug."
+        "text": "Thank you is a kind way to show you noticed someone's help or gift. If someone hands you your dropped crayon, you can smile and say, \"Thank you!\""
       },
       {
         "emoji": "🙋",
@@ -19,12 +19,12 @@
       {
         "emoji": "😔",
         "title": "Say you are sorry",
-        "text": "Sorry is what you say when you make a mistake. You say it after you knock down your friend's blocks."
+        "text": "If you hurt someone or cause a problem, saying sorry is one way to show you care. You can also help fix it, like rebuilding blocks you knocked over."
       },
       {
         "emoji": "👋",
         "title": "Say hello and goodbye",
-        "text": "A hello lets someone know you see them. Wave and say 'Hi!' to your neighbor Mr. Sam."
+        "text": "A friendly hello or goodbye can help people feel noticed. You can wave, smile, or say \"Hi\" in a way that feels comfortable."
       },
       {
         "emoji": "⏳",
@@ -39,12 +39,12 @@
       {
         "emoji": "🤫",
         "title": "Don't interrupt when someone is talking",
-        "text": "Wait until a person stops talking before you speak. You can hold your words until it is your turn."
+        "text": "Try to let someone finish before you speak. If something is urgent, say \"Excuse me\" and wait for them to notice you."
       },
       {
         "emoji": "🗣️",
         "title": "Use a kind voice",
-        "text": "A kind voice sounds soft, not loud or mean. Try to speak the way you like to be spoken to."
+        "text": "A kind voice is calm and respectful. You can still say \"no\" or disagree without yelling or using hurtful words."
       }
     ],
     "quiz": [
@@ -58,13 +58,13 @@
         "explanation": "Please makes an ask sound kind. Saying 'please' shows good manners, like asking nicely for a cookie."
       },
       {
-        "question": "Grandma gives you a hug. What do you say?",
+        "question": "Someone helps you pick up crayons you dropped. What can you say?",
         "choices": [
           "Nothing at all.",
           "Thank you!"
         ],
         "correctIndex": 1,
-        "explanation": "Thank you shows you noticed something kind. Grandma will feel happy when you thank her for the hug."
+        "explanation": "Saying thank you is a kind way to show you noticed someone's help."
       },
       {
         "question": "You need to walk past your sister. What do you say?",
@@ -132,11 +132,11 @@
       {
         "question": "What are 'please' and 'thank you' called?",
         "choices": [
-          "Magic words that show good manners.",
+          "Polite words that can show respect and appreciation.",
           "Words you only use at school."
         ],
         "correctIndex": 0,
-        "explanation": "Please and thank you are called magic words because they make people want to help you."
+        "explanation": "Please and thank you are common polite words. They do not guarantee a yes, but they can make requests and appreciation sound respectful."
       }
     ]
   },
@@ -165,12 +165,12 @@
       {
         "emoji": "🤝",
         "title": "Share your toys",
-        "text": "Sharing means letting a friend use your toy too. You can hand your ball to a friend for a turn."
+        "text": "Sharing can be kind, but you do not have to give away something special. You can take turns, choose a toy to share, or say, \"I'm still using this one.\""
       },
       {
         "emoji": "👂",
         "title": "Listen when someone is talking to you",
-        "text": "Listening means looking at the person and staying quiet. Put down your toy while your teacher is talking."
+        "text": "Listening means giving someone your attention. You can face them, pause what you're doing, or show you're listening in another comfortable way."
       },
       {
         "emoji": "🙏",
@@ -180,7 +180,7 @@
       {
         "emoji": "🍽️",
         "title": "Ask to leave the table",
-        "text": "Ask before you get up from dinner. Say, 'May I be excused?' when you are done eating."
+        "text": "Some families ask children to check before leaving the table. You can say, \"I'm finished. May I get up?\" and follow your family's routine."
       },
       {
         "emoji": "✋",
@@ -226,13 +226,13 @@
         "explanation": "Washing your hands removes germs before they get on your food. Clean hands help keep you healthy."
       },
       {
-        "question": "Your friend wants a turn with your ball. What is sharing?",
+        "question": "Your friend wants a turn with a ball you're using. What is one kind option?",
         "choices": [
-          "Hiding the ball behind your back.",
-          "Handing the ball to your friend."
+          "Hide every toy so no one can use anything.",
+          "Offer a turn when you're finished or choose something you can share."
         ],
         "correctIndex": 1,
-        "explanation": "Sharing means letting someone else use your toy too. Handing over the ball gives your friend a turn."
+        "explanation": "Sharing can mean taking turns or choosing something you're comfortable sharing. You can also say you're still using a special item."
       },
       {
         "question": "Your teacher is talking to the class. What should you do?",
@@ -301,17 +301,17 @@
       {
         "emoji": "🎁",
         "title": "Thank you for any gift",
-        "text": "Even if you already have three of that toy, say thank you like you mean it. The person picked it out because they were thinking of you and wanted to make you smile."
+        "text": "When someone gives you a gift, thank them for thinking of you, even if the gift is not your favorite. You can be appreciative without pretending you love something you don't."
       },
       {
         "emoji": "🤝",
         "title": "Introduce yourself",
-        "text": "When you meet someone new, say your name clearly and look them in the eye. You could say, 'Hi, I'm Maya, it's nice to meet you,' with a smile."
+        "text": "When you meet someone new, say your name clearly and greet them in a friendly way. Eye contact can be polite in some settings, but a smile, wave, or attentive posture can work too."
       },
       {
         "emoji": "🧦",
         "title": "Take off your shoes if asked",
-        "text": "Some families take off their shoes inside to keep the floors clean. If you see a pile of shoes by the front door, that is a hint to take yours off too."
+        "text": "House rules are different everywhere. If a family asks guests to remove shoes, follow their rule or politely explain if you need an exception."
       },
       {
         "emoji": "🎮",
@@ -321,7 +321,7 @@
       {
         "emoji": "🙋",
         "title": "Wait to be invited before you help yourself",
-        "text": "At someone else's house, wait until you are offered a snack instead of opening the pantry yourself. It can feel awkward for a host when a guest starts serving themselves without asking."
+        "text": "At someone else's house, ask before taking food or using things in the kitchen. A simple \"May I have a snack?\" is better than guessing what is okay."
       },
       {
         "emoji": "👋",
@@ -369,11 +369,11 @@
       {
         "question": "You meet a new kid at camp. What is a good way to introduce yourself?",
         "choices": [
-          "Say your name and look them in the eye.",
+          "Say your name and greet them in a friendly way.",
           "Wait for them to guess your name."
         ],
         "correctIndex": 0,
-        "explanation": "A clear introduction, like 'Hi, I'm Jordan,' along with eye contact, helps a new person feel comfortable talking with you."
+        "explanation": "A clear, friendly introduction helps someone know how to talk with you. Eye contact can be used if comfortable, but it is not the only way to show attention."
       },
       {
         "question": "You notice a pile of shoes by your friend's front door. What might that mean?",
@@ -427,7 +427,7 @@
       {
         "emoji": "🗣️",
         "title": "Speak politely to adults",
-        "text": "Adults usually appreciate a friendly tone and simple words like 'yes' instead of 'yeah.' Looking at someone while you talk to them shows you are paying attention to what they say."
+        "text": "Use the same basic respect with adults that you use with anyone else: listen, answer clearly, and avoid insulting or dismissive words. Respect does not mean you cannot ask questions or disagree."
       },
       {
         "emoji": "📱",
@@ -442,12 +442,12 @@
       {
         "emoji": "💪",
         "title": "Keep your elbows off the table",
-        "text": "Resting your elbows on the table while you eat is considered sloppy table manners by many people. Try keeping them at your sides, especially at a nicer dinner or a friend's house."
+        "text": "Table manners vary by family and culture. A useful rule is to eat neatly, avoid crowding others, and follow the host's lead when you're unsure."
       },
       {
         "emoji": "🤳",
         "title": "Put your phone away at the table",
-        "text": "Checking a phone during a meal tells the people around you that something else is more interesting. Keep it in your pocket or your bag until everyone is finished eating."
+        "text": "If people are eating and talking together, keeping your phone away helps you stay part of the conversation. If you need to check something important, explain briefly first."
       },
       {
         "emoji": "🚌",
@@ -462,7 +462,7 @@
       {
         "emoji": "📞",
         "title": "Answer the phone politely",
-        "text": "Answering a phone politely starts with saying hello and who you are, like 'Hi, this is Sam.' Then ask if you can take a message for whoever they were trying to reach."
+        "text": "When answering a family phone, start with a friendly hello. For safety, children do not need to give their full name or personal information to an unknown caller."
       },
       {
         "emoji": "🙋",
@@ -499,13 +499,13 @@
         "explanation": "Interrupting mid-sentence can make the speaker feel unheard, even if what you have to say is exciting. Waiting for a pause, or saying 'excuse me,' is more polite."
       },
       {
-        "question": "You're eating dinner at a friend's house. Where should your elbows be?",
+        "question": "You're eating dinner at a friend's house and aren't sure about their table manners. What's a good approach?",
         "choices": [
-          "Resting on the table.",
-          "At your sides."
+          "Ignore everyone else's customs.",
+          "Eat neatly and follow the host's lead."
         ],
         "correctIndex": 1,
-        "explanation": "Elbows on the table are considered sloppy table manners in many families. Keeping them at your sides, especially somewhere new, makes a better impression."
+        "explanation": "Table manners differ across families and cultures. Eating neatly and noticing the host's customs is more useful than memorizing one universal rule."
       },
       {
         "question": "Your phone buzzes during dinner. What's the polite move?",
@@ -535,13 +535,13 @@
         "explanation": "A closed door usually means someone wants privacy, even inside your own house. Knocking first respects that, whether it's your sibling's room or a bathroom."
       },
       {
-        "question": "You answer your parent's phone. What's a polite first thing to say?",
+        "question": "You answer a family phone and don't recognize the caller. What's a safe, polite start?",
         "choices": [
-          "Hello, this is Sam.",
-          "What do you want?"
+          "Hello. May I ask who's calling?",
+          "Give them your full name and address."
         ],
         "correctIndex": 0,
-        "explanation": "Saying hello and your name lets the caller know who picked up. It's a small habit that makes phone calls feel friendlier for both sides."
+        "explanation": "You can be polite without sharing personal information with an unknown caller."
       },
       {
         "question": "Your friend keeps talking and talking without letting you say anything. What's missing?",
@@ -588,12 +588,12 @@
       {
         "emoji": "🧍",
         "title": "Respecting personal space",
-        "text": "Personal space is the invisible bubble of room most people want between themselves and someone they're talking to, usually about an arm's length in casual conversation. Standing too close, even without meaning anything by it, can make a conversation feel uncomfortable and cause the other person to keep stepping backward."
+        "text": "Personal space is the amount of room that helps someone feel comfortable. There is no single perfect distance, so notice cues: if someone steps back or looks uncomfortable, give them more room."
       },
       {
         "emoji": "⏰",
         "title": "Texting at the right time",
-        "text": "A text sent late at night or right before school starts can pull someone's attention away at a genuinely bad moment, even if your news feels urgent and exciting to you in that instant. Unless it's an actual emergency, it's usually more considerate to hold onto a non-urgent message until a normal hour."
+        "text": "Before sending a non-urgent message very late or very early, think about whether it can wait. People use different notification settings, but considerate timing still matters."
       },
       {
         "emoji": "🔤",
@@ -608,7 +608,7 @@
       {
         "emoji": "🎧",
         "title": "Headphone manners in public",
-        "text": "Playing music or a video out loud on a bus, in a waiting room, or at a park forces everyone nearby to listen whether they want to or not, even if they're trying to read or rest. Headphones, or turning the volume down low, let you enjoy your own sound without making it everyone else's problem too."
+        "text": "In shared spaces, use headphones or keep sound low enough that it does not disturb others. Also stay aware of traffic, announcements, and people around you."
       }
     ],
     "quiz": [
@@ -655,7 +655,7 @@
           "They just don't like standing still."
         ],
         "correctIndex": 0,
-        "explanation": "Most people want roughly an arm's length of space during a casual conversation, sometimes called personal space. Standing closer than that, even unintentionally, can make the other person uncomfortable enough to keep backing away from you."
+        "explanation": "People prefer different amounts of personal space. If someone keeps stepping back or looks uncomfortable, give them more room."
       },
       {
         "question": "It's 11 p.m. and you have exciting but non-urgent news. Should you text a friend right now?",
@@ -739,7 +739,7 @@
       {
         "emoji": "🍴",
         "title": "Following the host's lead at meals",
-        "text": "If you're unsure which fork to use or whether it's okay to start eating before everyone is seated, a quick glance at what your host is doing usually answers the question without you having to ask out loud. Watching and matching is a simple way to handle a situation you've never faced before."
+        "text": "If you're unsure about a meal custom, watch what others do or politely ask. Different families and cultures may start eating, use utensils, or serve food in different ways."
       },
       {
         "emoji": "😳",
@@ -855,7 +855,7 @@
       {
         "emoji": "💵",
         "title": "Basic tipping awareness",
-        "text": "In many places, a tip is an expected part of a server's actual pay, not just a bonus for extra-friendly service, so leaving one for a sit-down meal is a normal part of the total bill. You don't need to calculate the exact amount yourself yet, but it helps to understand why the bill ends up higher than the menu price."
+        "text": "In the United States, tipping is common at many sit-down restaurants and some other services. Customs differ by country and situation, so it's useful to ask an adult or check local expectations."
       },
       {
         "emoji": "📵",
@@ -865,7 +865,7 @@
       {
         "emoji": "🧑‍🤝‍🧑",
         "title": "Adapting to someone else's house rules",
-        "text": "A friend's family might eat dinner in total silence with the TV off, or might have everyone talking over each other the whole meal, and neither style is actually wrong, just different from yours. Adjusting your own volume and habits to match the room you're in, instead of expecting them to match you, is a sign of real maturity."
+        "text": "A respectful guest notices the host's routines and asks when unsure. You can adapt to different customs while still speaking up about allergies, safety, privacy, or other important needs."
       },
       {
         "emoji": "🚶",
@@ -875,7 +875,7 @@
       {
         "emoji": "🎂",
         "title": "RSVPing and showing up on time",
-        "text": "When someone invites you to something, replying with a clear yes or no, even in a short text, lets them plan food, seating, and activities properly ahead of time. Showing up close to the time you said you would matters too, since arriving very late can throw off a host's whole schedule for the day."
+        "text": "When you're invited somewhere, reply by the requested date if you can. Arriving around the agreed time helps the host plan, and if you're running late, send a quick update."
       },
       {
         "emoji": "🗣️",
@@ -962,13 +962,13 @@
         "explanation": "A strong apology names the specific action, acknowledges its real effect on the other person, and says what will change going forward. The first example hits all three parts clearly; the second names and promises nothing."
       },
       {
-        "question": "Why does tipping exist as a common practice at sit-down restaurants?",
+        "question": "At a sit-down restaurant in the United States, why might your family add a tip?",
         "choices": [
-          "It's a random tradition with no real reason.",
-          "It's often built into how servers are actually paid."
+          "Because tipping is a common part of restaurant service in the U.S.",
+          "Because every country has exactly the same tipping rules."
         ],
-        "correctIndex": 1,
-        "explanation": "In many places, servers rely on tips as a genuine part of their income, not an optional extra reserved for exceptional service. Understanding that helps explain why a sit-down meal's final cost runs higher than the menu."
+        "correctIndex": 0,
+        "explanation": "Tipping is common in many U.S. restaurants, but customs differ by country and type of service."
       },
       {
         "question": "What connects respectful disagreement with an adult and a sincere apology to a friend?",
@@ -986,7 +986,7 @@
       {
         "emoji": "🤝",
         "title": "First impressions in an interview",
-        "text": "A firm handshake, direct eye contact, and arriving about ten minutes early all signal to an interviewer that you take the meeting seriously before you've said a single word about yourself. This is sometimes called rapport-building: the small, wordless signals that make someone feel comfortable and taken seriously in a conversation."
+        "text": "First impressions come from preparation, punctuality, and a respectful greeting. A handshake or direct eye contact may be common in some settings, but they are not required everywhere; follow the other person's cues."
       },
       {
         "emoji": "📧",
@@ -996,7 +996,7 @@
       {
         "emoji": "🎓",
         "title": "Speaking to teachers and other authority figures",
-        "text": "Using a title like 'Ms.' or 'Mr.' instead of a first name, and phrasing a request as 'Could I ask you something after class?' instead of just launching into it, both signal respect without being fake or stiff. Most teachers notice and appreciate that small shift in tone, even if they never mention it directly."
+        "text": "Use the name or title a teacher, coach, or supervisor asks you to use. A respectful tone and clear request matter more than guessing the 'correct' form of address."
       },
       {
         "emoji": "💼",
@@ -1006,7 +1006,7 @@
       {
         "emoji": "📱",
         "title": "Text tone with adults you don't know well",
-        "text": "Texting a teacher or a boss like you'd text a friend — no capital letters, heavy abbreviations, a string of emoji — can come across as careless even if you mean no disrespect at all. Matching your tone to the relationship, a bit more formal here than with your friends, is called code-switching, and most people do it without even noticing."
+        "text": "Messages to a teacher, coach, or employer are usually clearer when you use complete sentences and a slightly more formal tone than you might with close friends. Adjusting your communication style to the situation is a normal social skill."
       },
       {
         "emoji": "🚪",
@@ -1021,18 +1021,18 @@
       {
         "emoji": "✉️",
         "title": "Following up with a thank-you note",
-        "text": "A short email after an interview or a favor from an adult — 'Thank you for your time today, I really enjoyed our conversation' — takes two minutes to write but is genuinely rare enough that people remember who sent one. It's a small gesture that disproportionately shapes how you're remembered afterward."
+        "text": "A short thank-you message after an interview, recommendation, or meaningful favor can show appreciation. Keep it sincere and specific rather than treating it like a trick to impress someone."
       }
     ],
     "quiz": [
       {
-        "question": "You arrive for a job interview ten minutes early and greet the interviewer with a firm handshake and eye contact. Why does this matter?",
+        "question": "You arrive a little early for an interview and greet the interviewer respectfully. Why does this matter?",
         "choices": [
-          "These small signals build rapport before you've said much.",
+          "Preparation and courtesy help create a positive first impression.",
           "Interviewers only care about your resume, not behavior."
         ],
         "correctIndex": 0,
-        "explanation": "Rapport-building means the small, wordless signals — punctuality, a handshake, eye contact — that make someone feel taken seriously in a conversation. They shape an interviewer's impression before the actual questions even begin."
+        "explanation": "Punctuality, preparation, and a respectful greeting help show that you take the meeting seriously. The exact greeting can vary by person and culture."
       },
       {
         "question": "You need to ask your teacher for an extension. Which email opening is more effective?",
@@ -1068,7 +1068,7 @@
           "Nothing — texting is texting, no matter who it's to."
         ],
         "correctIndex": 0,
-        "explanation": "Adjusting your tone to fit the relationship, sometimes called code-switching, is something most people already do without noticing. A more formal text to a boss than to a friend isn't fake — it matches the relationship."
+        "explanation": "Adjusting your tone to fit the relationship, sometimes called adjusting your communication style, is something most people already do without noticing. A more formal text to a boss than to a friend isn't fake — it matches the relationship."
       },
       {
         "question": "You can't make your usual shift this week. What's the more considerate way to handle it?",
@@ -1132,7 +1132,7 @@
       {
         "emoji": "🌍",
         "title": "Manners differ across cultures",
-        "text": "Direct eye contact reads as confident and respectful in some cultures and as rude or aggressive in others; the same is true for how loudly people speak or how close they stand while talking. Being gracious about a difference you don't expect — instead of assuming your own family's norm is the only correct one — is a skill called cultural humility."
+        "text": "Manners are not universal. Eye contact, greetings, personal space, volume, and table habits can mean different things across cultures and families. Curiosity and flexibility are more useful than assuming one style is the only polite one."
       },
       {
         "emoji": "🎧",
@@ -1157,7 +1157,7 @@
       {
         "emoji": "🎭",
         "title": "Adjusting your tone across different groups",
-        "text": "The relaxed, joking version of you with close friends and the more measured version of you at a family dinner aren't fake — they're both genuinely you, adjusted for who's actually in the room. This natural shifting, called code-switching, is something almost everyone does instinctively without thinking of it as dishonest."
+        "text": "Most people naturally adjust their wording, humor, and level of formality depending on the setting. This is often called shifting your communication style; it does not mean changing your values or pretending to be someone else."
       }
     ],
     "quiz": [
@@ -1231,7 +1231,7 @@
           "No — adjusting tone to the room is normal."
         ],
         "correctIndex": 1,
-        "explanation": "This natural shifting between contexts, called code-switching, is something almost everyone does instinctively rather than a form of dishonesty. Both versions are genuinely you, just adjusted for who's actually in the room with you."
+        "explanation": "This natural shifting between contexts, called adjusting your communication style, is something almost everyone does instinctively rather than a form of dishonesty. Both versions are genuinely you, just adjusted for who's actually in the room with you."
       },
       {
         "question": "Why does small talk matter even though the topics themselves — weather, weekends — feel trivial?",
@@ -1278,17 +1278,17 @@
       {
         "emoji": "🎙️",
         "title": "Handling a compliment or criticism gracefully",
-        "text": "Deflecting a genuine compliment — 'oh, it was nothing' — can actually make the other person feel like their kind words weren't welcome, so a simple 'thank you, that means a lot' is usually the better response. The same grace applies to fair criticism: accepting it without getting visibly defensive shows more maturity than arguing every point."
+        "text": "A simple \"thank you\" is enough when someone gives you a compliment. With criticism, listen for anything useful, ask questions if needed, and remember that you can disagree respectfully with feedback that feels unfair or inaccurate."
       },
       {
         "emoji": "🕰️",
         "title": "Punctuality as a form of respect",
-        "text": "Consistently arriving late to things communicates, whether you intend it or not, that your own time matters more than everyone else's who showed up when they were supposed to. Building in extra time for the unexpected — traffic, a late bus — treats other people's schedules with the same respect you'd want for your own."
+        "text": "Being on time helps other people plan and shows reliability. Delays happen, so the respectful move is to communicate when you can rather than assuming lateness automatically means someone does not care."
       },
       {
         "emoji": "🍽️",
         "title": "Navigating a business or formal dinner",
-        "text": "At a professional meal, ordering something moderately priced rather than the most expensive item, and waiting for the most senior person at the table to start eating first, are small signals of awareness that experienced colleagues quietly notice. Nobody expects perfection, but visible effort to read the situation goes a long way."
+        "text": "At a formal or professional meal, follow the host's cues, choose something you can eat comfortably, and focus on conversation and courtesy. Traditions about who starts eating or what to order vary by setting and culture."
       },
       {
         "emoji": "🎁",
@@ -1343,22 +1343,22 @@
         "explanation": "Deflecting a genuine compliment can make the other person feel like their kind words weren't actually welcome. A simple, direct 'thank you' accepts the compliment gracefully without brushing it aside."
       },
       {
-        "question": "Why does showing up late to things communicate more than just being disorganized?",
+        "question": "Why is punctuality useful when other people are depending on you?",
         "choices": [
-          "It suggests your time matters more than everyone else's.",
-          "It doesn't communicate anything beyond being late."
+          "It helps people plan and shows reliability.",
+          "Being on time never affects anyone else."
         ],
         "correctIndex": 0,
-        "explanation": "Repeated lateness signals, whether intended or not, that your own time matters more than the time of everyone who arrived on schedule. Building in extra time for delays treats other people's schedules with real respect."
+        "explanation": "Being on time helps other people plan. If a delay happens, communicating about it is usually more respectful than disappearing without an update."
       },
       {
-        "question": "At a business dinner, the most senior person hasn't started eating yet, but your food just arrived. What's polite?",
+        "question": "At a formal dinner and unsure when to start eating, what's a good approach?",
         "choices": [
-          "Start eating right away since your food is hot.",
-          "Wait until the senior person starts eating first."
+          "Start immediately without noticing anyone else.",
+          "Follow the host's cues or wait until the group begins."
         ],
         "correctIndex": 1,
-        "explanation": "Waiting for the most senior person at the table to begin is a small, low-effort signal of awareness that experienced colleagues quietly notice. It doesn't require perfection, just visible attention to the situation."
+        "explanation": "Formal meal customs vary, so watching the host or group is a practical way to handle an unfamiliar setting."
       },
       {
         "question": "You receive a gift and immediately ask how much it cost. What does that overlook?",
