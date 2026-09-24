@@ -271,6 +271,7 @@ def startup():
             ("sight-words", "sight-words", "Sight Words", "🔤"),
             ("money-value", "money-value", "Value of Money", "💰"),
             ("making-friends", "making-friends", "Making Friends", "🧑‍🤝‍🧑"),
+            ("manners", "manners", "Manners", "🎩"),
         ]
         AGE_BANDS = [(4, 6, 10), (7, 9, 12), (10, 13, 15), (13, 17, 18)]  # (age_min, age_max, points per part)
 
