@@ -11,6 +11,7 @@ from models import (
     DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
 )
 from responses import fail
+from sample_items import is_sample_chore, is_sample_shop_item
 
 
 def now() -> str:
@@ -120,7 +121,10 @@ def chore_dict(c: DBChore) -> dict:
             "assignedKidId": c.assigned_kid_id, "completedByKidId": c.completed_by_kid_id,
             "dueDate": c.due_date, "expiredAt": c.expired_at,
             "completedAt": c.completed_at, "createdAt": c.created_at,
-            "templateId": c.template_id, "scheduledDate": c.scheduled_date}
+            "templateId": c.template_id, "scheduledDate": c.scheduled_date,
+            # A recurring instance (template_id set) isn't itself custom-or-not --
+            # only its template is, since that's what actually consumed a slot.
+            "isCustom": False if c.template_id else not is_sample_chore(c.title)}
 
 def recurring_dict(t: DBRecurringTemplate) -> dict:
     days = [int(x) for x in t.recurrence_days.split(',') if x.strip()] if t.recurrence_days else []
@@ -132,11 +136,13 @@ def recurring_dict(t: DBRecurringTemplate) -> dict:
         "recurrenceDays": days,
         "recurrenceDom": int(t.recurrence_dom) if t.recurrence_dom else None,
         "createdAt": t.created_at,
+        "isCustom": not is_sample_chore(t.title),
     }
 
 def shop_dict(s: DBShopItem) -> dict:
     return {"id": s.id, "name": s.name, "description": s.description,
-            "cost": s.cost, "imageEmoji": s.image_emoji, "createdAt": s.created_at}
+            "cost": s.cost, "imageEmoji": s.image_emoji, "createdAt": s.created_at,
+            "isCustom": not is_sample_shop_item(s.name)}
 
 def daily_chore_dict(item: DBDailyChoreItem) -> dict:
     return {"id": item.id, "kidId": item.kid_id, "title": item.title,

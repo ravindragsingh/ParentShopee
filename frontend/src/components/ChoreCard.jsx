@@ -234,6 +234,7 @@ export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', ed
                 {chore.status === 'open' && <>{assignedKid?.avatar && <span>{assignedKid.avatar}</span>}Assigned: {assignedKidName}</>}
                 {chore.status === 'pending' && <>{completedByKid?.avatar && <span>{completedByKid.avatar}</span>}Completed by: {completedByName}</>}
                 {chore.templateId && <span style={{ fontSize: '0.72rem', background: '#ccfbf1', color: '#0d9488', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>🔁 Recurring</span>}
+                {chore.isCustom && <span title="Counts toward your family's custom chore limit" style={{ fontSize: '0.72rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>✨ Custom</span>}
               </div>
             )}
           </div>
@@ -370,6 +371,9 @@ export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', ed
               <DueDateBadge dueDate={chore.dueDate} status={chore.status} />
               {chore.templateId && (
                 <span style={{ fontSize: '0.72rem', background: '#ccfbf1', color: '#0d9488', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>🔁 Recurring</span>
+              )}
+              {chore.isCustom && (
+                <span title="Counts toward your family's custom chore limit" style={{ fontSize: '0.72rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>✨ Custom</span>
               )}
               <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 4 }}>
                 {chore.status === 'open' && (
