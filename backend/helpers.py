@@ -81,9 +81,18 @@ def delete_family(db: Session, guardian: DBUser):
     db.query(DBShopItem).filter(DBShopItem.family_id == family_id).delete(synchronize_session=False)
     delete_lone_user(db, guardian)
 
-def check_add_limit(db: Session, user: DBUser, field: str, extra: int, limit: int, item_label: str) -> DBUser:
-    """Raises 400 if adding `extra` more items would exceed the family's lifetime limit."""
+def effective_add_limit(owner: DBUser, default_limit: int, override_field: str = None) -> int:
+    """The family's actual cap: their own override if an admin has set one
+    for them (see routers/admin.py), otherwise the site-wide default."""
+    override = getattr(owner, override_field, None) if override_field else None
+    return int(override) if override is not None else default_limit
+
+def check_add_limit(db: Session, user: DBUser, field: str, extra: int, default_limit: int, item_label: str, override_field: str = None) -> DBUser:
+    """Raises 403 if adding `extra` more items would exceed the family's
+    custom-item limit (their own admin-set override if they have one,
+    otherwise default_limit)."""
     owner = get_family_owner(db, user)
+    limit = effective_add_limit(owner, default_limit, override_field)
     current = getattr(owner, field) or 0
     if current + extra > limit:
         fail(

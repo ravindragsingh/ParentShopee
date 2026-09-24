@@ -176,6 +176,7 @@ export const api = {
   adminUpdateUser:         (userId, body)  => request('PUT', `/api/admin/user/${userId}`, body),
   adminDeleteUser:         (userId)        => request('DELETE', `/api/admin/user/${userId}`),
   adminUpdateChore:        (choreId, body) => request('PUT', `/api/admin/chore/${choreId}`, body),
+  adminUpdateFamilyLimits: (familyId, body) => request('PUT', `/api/admin/family/${familyId}/limits`, body),
   adminSuspendUser:        (userId)        => request('POST', `/api/admin/user/${userId}/suspend`),
   adminUnsuspendUser:      (userId)        => request('POST', `/api/admin/user/${userId}/unsuspend`),
   adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),

@@ -24,8 +24,17 @@ class DBUser(Base):
     last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_at      = Column(String, nullable=True)  # ISO timestamp of most recent login
-    chores_added_count     = Column(Float, default=0)  # lifetime count, shared by co-guardian
-    shop_items_added_count = Column(Float, default=0)  # lifetime count, shared by co-guardian
+    # Live count of custom (non-sample) chores/shop items currently in use,
+    # shared by co-guardian -- recomputed from what's actually in the DB on
+    # every server startup (see seed.reconcile_custom_item_counts) and kept
+    # in sync incrementally the rest of the time (create/delete/rename).
+    chores_added_count     = Column(Float, default=0)
+    shop_items_added_count = Column(Float, default=0)
+    # NULL means "use the global default" (config.LIMIT_EXTRA_CHORES /
+    # LIMIT_EXTRA_SHOP_ITEMS) -- an admin sets these to raise the cap for one
+    # specific family that's outgrown it, without changing it for everyone.
+    chores_limit_override     = Column(Float, nullable=True)
+    shop_items_limit_override = Column(Float, nullable=True)
     is_active               = Column(String, default="1")  # "1"/"0" — "0" only for guardians pending email activation
     activation_token        = Column(String, nullable=True)
     activation_token_expires = Column(String, nullable=True)  # ISO timestamp

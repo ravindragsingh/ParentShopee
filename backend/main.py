@@ -79,6 +79,8 @@ def startup():
             ("chores",     "scheduled_date", "VARCHAR"),
             ("users",      "chores_added_count",     "FLOAT"),
             ("users",      "shop_items_added_count", "FLOAT"),
+            ("users",      "chores_limit_override",     "FLOAT"),
+            ("users",      "shop_items_limit_override", "FLOAT"),
             ("users",      "country",                "VARCHAR"),
             ("users",      "city",                   "VARCHAR"),
             ("users",      "last_login_country",     "VARCHAR"),

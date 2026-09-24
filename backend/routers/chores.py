@@ -10,7 +10,7 @@ from config import CONTACT_EMAIL, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
 from deps import require_auth, require_kid, require_guardian
-from helpers import chore_dict, check_add_limit, get_family_id, get_family_owner, now, recurring_dict, release_add_limit
+from helpers import chore_dict, check_add_limit, effective_add_limit, get_family_id, get_family_owner, now, recurring_dict, release_add_limit
 from models import DBChore, DBRecurringTemplate, DBTransaction, DBUser, DBWallet
 from push_utils import notify_guardians_of_kid, notify_kid
 from responses import fail, ok
@@ -25,9 +25,9 @@ def get_add_limits(db: Session = Depends(get_db), user: DBUser = Depends(require
     owner = get_family_owner(db, user)
     return ok({
         "choresUsed":       int(owner.chores_added_count or 0),
-        "choresLimit":      LIMIT_EXTRA_CHORES,
+        "choresLimit":      effective_add_limit(owner, LIMIT_EXTRA_CHORES, "chores_limit_override"),
         "shopItemsUsed":    int(owner.shop_items_added_count or 0),
-        "shopItemsLimit":   LIMIT_EXTRA_SHOP_ITEMS,
+        "shopItemsLimit":   effective_add_limit(owner, LIMIT_EXTRA_SHOP_ITEMS, "shop_items_limit_override"),
         "supportEmail":     CONTACT_EMAIL,
     })
 
@@ -66,7 +66,7 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
     from_sample = is_sample_chore(body.title)
     owner = get_family_owner(db, user)
     if not from_sample:
-        owner = check_add_limit(db, user, "chores_added_count", len(kid_ids), LIMIT_EXTRA_CHORES, "chores")
+        owner = check_add_limit(db, user, "chores_added_count", len(kid_ids), LIMIT_EXTRA_CHORES, "chores", override_field="chores_limit_override")
     created = []
     for kid_id in kid_ids:
         chore = DBChore(
@@ -110,7 +110,7 @@ def update_chore(chore_id: str, body: ChoreUpdate, db: Session = Depends(get_db)
             if now_custom and not was_custom:
                 # Renaming into something custom consumes a slot -- enforce
                 # the same cap a brand-new custom chore would hit.
-                check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores")
+                check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores", override_field="chores_limit_override")
                 owner = get_family_owner(db, user)
                 owner.chores_added_count = (owner.chores_added_count or 0) + 1
             elif was_custom and not now_custom:
@@ -234,7 +234,7 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
     from_sample = is_sample_chore(body.title)
     owner = get_family_owner(db, user)
     if not from_sample:
-        owner = check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores")
+        owner = check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores", override_field="chores_limit_override")
     rec_days = ','.join(str(d) for d in body.recurrenceDays) if body.recurrenceDays else None
     rec_dom = str(body.recurrenceDom) if body.recurrenceDom else None
 

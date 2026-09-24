@@ -59,7 +59,7 @@ def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: 
     from_sample = is_sample_shop_item(body.name)
     owner = get_family_owner(db, user)
     if not from_sample:
-        owner = check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items")
+        owner = check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items", override_field="shop_items_limit_override")
     item = DBShopItem(id=str(uuid4()), name=body.name.strip(), description=body.description or "",
                       cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now(),
                       family_id=get_family_id(user))
@@ -81,7 +81,7 @@ def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(g
         if now_custom and not was_custom:
             # Renaming into something custom consumes a slot -- enforce the
             # same cap a brand-new custom item would hit.
-            check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items")
+            check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items", override_field="shop_items_limit_override")
             owner = get_family_owner(db, user)
             owner.shop_items_added_count = (owner.shop_items_added_count or 0) + 1
         elif was_custom and not now_custom:
