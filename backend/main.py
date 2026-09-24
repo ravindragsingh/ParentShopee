@@ -108,9 +108,6 @@ def startup():
             ("learning_modules", "content", "JSON"),
             ("learning_modules", "created_at", "VARCHAR"),
             ("family_learning_settings", "enabled_kid_ids", "VARCHAR"),
-            ("chores",              "is_custom", "VARCHAR"),
-            ("recurring_templates", "is_custom", "VARCHAR"),
-            ("shop_items",          "is_custom", "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):

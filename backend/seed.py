@@ -104,56 +104,41 @@ def ensure_demo_accounts(db: Session):
 
 
 def reconcile_custom_item_counts(db: Session) -> None:
-    """Two jobs, both about the custom-item limit, run together since the
-    second depends on the first:
+    """chores_added_count / shop_items_added_count are meant to reflect custom
+    items currently in use -- deleting one frees its slot back up (see the
+    delete endpoints in routers/chores.py and routers/shop.py) -- but that
+    wasn't true until that fix shipped, so any family active before then can
+    have a stale count baked in already (e.g. showing more used than any
+    custom item they can actually see, because years of since-deleted chores
+    never decremented it). Runs on every startup and recomputes every family
+    owner's counts from what's actually in the DB right now.
 
-    1. Backfill is_custom on any chore/template/shop-item row that predates
-       that column (NULL -- every row on a database that existed before this
-       migration). Best-effort, from whatever the title currently says,
-       since creation-time state isn't recoverable after the fact. This is
-       the ONLY place is_custom is ever set from title-matching -- once set
-       (here or at creation, see routers/chores.py and routers/shop.py), it
-       is never recomputed, so a guardian editing a chore's wording later
-       can't retroactively flip whether it counts as custom. That distinction
-       matters: an earlier version of this function recomputed "is this
-       custom" from the current title on every startup, which meant a chore
-       originally picked from the sample list but since lightly reworded
-       (a due-date note, a typo fix, personalizing the wording) would start
-       counting against the limit it never actually consumed a slot from --
-       inflating real accounts' counts well past what they could see any
-       custom items for.
-    2. Recompute chores_added_count / shop_items_added_count for every family
-       owner by summing is_custom=="1" rows (not by title-matching) -- fixes
-       the separate, now-historical bug where deleting an item never freed
-       its slot, so a family active before that fix can have a stale count
-       baked in (e.g. showing more used than any custom item they can see).
-
-    Runs on every startup, same as ensure_demo_accounts above: a one-time
-    backfill for existing data, self-healing against any future drift."""
-    for chore in db.query(DBChore).filter(DBChore.is_custom == None).all():
-        chore.is_custom = "0" if is_sample_chore(chore.title) else "1"
-    for template in db.query(DBRecurringTemplate).filter(DBRecurringTemplate.is_custom == None).all():
-        template.is_custom = "0" if is_sample_chore(template.title) else "1"
-    for item in db.query(DBShopItem).filter(DBShopItem.is_custom == None).all():
-        item.is_custom = "0" if is_sample_shop_item(item.name) else "1"
-    db.commit()
-
+    "Custom" is re-checked against each item's CURRENT title/name on every
+    run, not locked in at creation -- "custom chore is any chore not picked
+    from the list" is a present-tense definition. A chore started from a
+    sample template as a quick-fill starting point and then renamed into
+    something unrelated (picking "Feed the pet" then retitling it "Attend
+    Karate Class") needs to count as custom; a creation-time snapshot can
+    never catch that, since the title at creation matched a sample. The
+    trade-off is the reverse case -- lightly rewording an otherwise-untouched
+    sample chore also flips it to custom -- but that's a much smaller
+    inconsistency than a heavily-personalized chore silently never counting
+    at all, and it matches what a guardian looking at the title would
+    actually expect."""
     owners = db.query(DBUser).filter(DBUser.role == "guardian", DBUser.co_guardian_of == None).all()
     for owner in owners:
         # A recurring instance (template_id set) was never itself counted --
         # only its template's creation consumed a slot -- so instances are
         # excluded here the same way delete_chore excludes them from refunds.
-        chores_count = db.query(DBChore).filter(
-            DBChore.family_id == owner.id, DBChore.template_id == None, DBChore.is_custom == "1",
-        ).count()
-        templates_count = db.query(DBRecurringTemplate).filter(
+        chores = db.query(DBChore).filter(DBChore.family_id == owner.id, DBChore.template_id == None).all()
+        templates = db.query(DBRecurringTemplate).filter(
             DBRecurringTemplate.family_id == owner.id, DBRecurringTemplate.is_active == "1",
-            DBRecurringTemplate.is_custom == "1",
-        ).count()
-        shop_count = db.query(DBShopItem).filter(
-            DBShopItem.family_id == owner.id, DBShopItem.is_custom == "1",
-        ).count()
+        ).all()
+        shop_items = db.query(DBShopItem).filter(DBShopItem.family_id == owner.id).all()
 
-        owner.chores_added_count = chores_count + templates_count
-        owner.shop_items_added_count = shop_count
+        owner.chores_added_count = (
+            sum(1 for c in chores if not is_sample_chore(c.title))
+            + sum(1 for t in templates if not is_sample_chore(t.title))
+        )
+        owner.shop_items_added_count = sum(1 for s in shop_items if not is_sample_shop_item(s.name))
     db.commit()

@@ -62,7 +62,7 @@ def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: 
         owner = check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items")
     item = DBShopItem(id=str(uuid4()), name=body.name.strip(), description=body.description or "",
                       cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now(),
-                      family_id=get_family_id(user), is_custom="0" if from_sample else "1")
+                      family_id=get_family_id(user))
     db.add(item)
     if not from_sample:
         owner.shop_items_added_count = (owner.shop_items_added_count or 0) + 1
@@ -75,7 +75,18 @@ def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: 
 def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
-    if body.name        is not None: item.name        = body.name.strip()
+    if body.name is not None and body.name.strip() != item.name:
+        was_custom = not is_sample_shop_item(item.name)
+        now_custom = not is_sample_shop_item(body.name.strip())
+        if now_custom and not was_custom:
+            # Renaming into something custom consumes a slot -- enforce the
+            # same cap a brand-new custom item would hit.
+            check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items")
+            owner = get_family_owner(db, user)
+            owner.shop_items_added_count = (owner.shop_items_added_count or 0) + 1
+        elif was_custom and not now_custom:
+            release_add_limit(db, user, "shop_items_added_count")
+        item.name = body.name.strip()
     if body.description is not None: item.description = body.description
     if body.cost        is not None:
         if body.cost < 0: fail("cost must be a non-negative number")
@@ -90,7 +101,7 @@ def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(g
 def delete_shop_item(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
-    if item.is_custom == "1":
+    if not is_sample_shop_item(item.name):
         release_add_limit(db, user, "shop_items_added_count")
     db.delete(item)
     db.commit()

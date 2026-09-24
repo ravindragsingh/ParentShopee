@@ -11,6 +11,7 @@ from models import (
     DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
 )
 from responses import fail
+from sample_items import is_sample_chore, is_sample_shop_item
 
 
 def now() -> str:
@@ -123,10 +124,14 @@ def chore_dict(c: DBChore) -> dict:
             "templateId": c.template_id, "scheduledDate": c.scheduled_date,
             # A recurring instance (template_id set) isn't itself custom-or-not --
             # only its template is, since that's what actually consumed a slot.
-            # is_custom is set once at creation (see routers/chores.py) and never
-            # recomputed from the title afterward, so editing a chore's wording
-            # later can't retroactively flip whether it counts as custom.
-            "isCustom": False if c.template_id else c.is_custom == "1"}
+            # Deliberately re-checked against the CURRENT title on every read
+            # ("custom chore is any chore not picked from the list" is a present-
+            # tense definition) rather than locked in at creation -- a chore
+            # started from a sample template and then renamed into something
+            # unrelated (e.g. picking "Feed the pet" as a quick-fill starting
+            # point, then retitling it "Attend Karate Class") needs to become
+            # custom, which a creation-time snapshot could never catch.
+            "isCustom": False if c.template_id else not is_sample_chore(c.title)}
 
 def recurring_dict(t: DBRecurringTemplate) -> dict:
     days = [int(x) for x in t.recurrence_days.split(',') if x.strip()] if t.recurrence_days else []
@@ -138,13 +143,13 @@ def recurring_dict(t: DBRecurringTemplate) -> dict:
         "recurrenceDays": days,
         "recurrenceDom": int(t.recurrence_dom) if t.recurrence_dom else None,
         "createdAt": t.created_at,
-        "isCustom": t.is_custom == "1",
+        "isCustom": not is_sample_chore(t.title),
     }
 
 def shop_dict(s: DBShopItem) -> dict:
     return {"id": s.id, "name": s.name, "description": s.description,
             "cost": s.cost, "imageEmoji": s.image_emoji, "createdAt": s.created_at,
-            "isCustom": s.is_custom == "1"}
+            "isCustom": not is_sample_shop_item(s.name)}
 
 def daily_chore_dict(item: DBDailyChoreItem) -> dict:
     return {"id": item.id, "kidId": item.kid_id, "title": item.title,
