@@ -62,7 +62,7 @@ def create_shop_item(body: ShopItemCreate, db: Session = Depends(get_db), user: 
         owner = check_add_limit(db, user, "shop_items_added_count", 1, LIMIT_EXTRA_SHOP_ITEMS, "shop items")
     item = DBShopItem(id=str(uuid4()), name=body.name.strip(), description=body.description or "",
                       cost=body.cost, image_emoji=body.imageEmoji or "🎁", created_at=now(),
-                      family_id=get_family_id(user))
+                      family_id=get_family_id(user), is_custom="0" if from_sample else "1")
     db.add(item)
     if not from_sample:
         owner.shop_items_added_count = (owner.shop_items_added_count or 0) + 1
@@ -90,7 +90,7 @@ def update_shop_item(item_id: str, body: ShopItemUpdate, db: Session = Depends(g
 def delete_shop_item(item_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     item = db.query(DBShopItem).filter(DBShopItem.id == item_id).first()
     if not item: fail("Shop item not found", 404)
-    if not is_sample_shop_item(item.name):
+    if item.is_custom == "1":
         release_add_limit(db, user, "shop_items_added_count")
     db.delete(item)
     db.commit()

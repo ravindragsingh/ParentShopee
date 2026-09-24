@@ -60,6 +60,14 @@ class DBChore(Base):
     family_id           = Column(String, nullable=True, index=True)
     template_id         = Column(String, nullable=True, index=True)
     scheduled_date      = Column(String, nullable=True)
+    # Set once at creation ("1" if it counted against the family's custom-item
+    # limit, "0" if it came from the sample list) and never touched again --
+    # deliberately NOT recomputed from the current title, since a guardian
+    # editing a chore's wording later shouldn't retroactively change whether
+    # it was custom when it was added. See helpers.release_add_limit and
+    # seed.reconcile_custom_item_counts, which both key off this instead of
+    # re-matching title text against the sample list.
+    is_custom           = Column(String, nullable=True)
 
 
 class DBRecurringTemplate(Base):
@@ -76,6 +84,7 @@ class DBRecurringTemplate(Base):
     family_id       = Column(String, nullable=True, index=True)
     is_active       = Column(String, default="1")      # "1" or "0"
     created_at      = Column(String, nullable=False)
+    is_custom       = Column(String, nullable=True)    # see DBChore.is_custom
 
 
 class DBShopItem(Base):
@@ -87,6 +96,7 @@ class DBShopItem(Base):
     image_emoji = Column(String, default="🎁")
     created_at  = Column(String, nullable=False)
     family_id   = Column(String, nullable=True, index=True)
+    is_custom   = Column(String, nullable=True)    # see DBChore.is_custom
 
 
 class DBMessage(Base):

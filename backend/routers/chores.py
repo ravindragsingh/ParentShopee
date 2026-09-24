@@ -79,6 +79,7 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
             due_date=body.dueDate or None,
             created_at=now(),
             family_id=family_id,
+            is_custom="0" if from_sample else "1",
         )
         db.add(chore)
         created.append(chore)
@@ -130,7 +131,7 @@ def delete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = De
     # A recurring template's own creation is what consumed a slot -- each
     # generated daily/weekly instance (chore.template_id set) never counted
     # separately, so deleting one shouldn't refund a slot it never used.
-    if not chore.template_id and not is_sample_chore(chore.title):
+    if not chore.template_id and chore.is_custom == "1":
         release_add_limit(db, user, "chores_added_count")
     db.delete(chore)
     db.commit()
@@ -236,6 +237,7 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
         family_id=family_id,
         is_active="1",
         created_at=now(),
+        is_custom="0" if from_sample else "1",
     )
     db.add(template)
     if not from_sample:
@@ -273,7 +275,7 @@ def delete_recurring(template_id: str, db: Session = Depends(get_db), user: DBUs
     ).delete(synchronize_session=False)
     db.commit()
     template.is_active = "0"
-    if not is_sample_chore(template.title):
+    if template.is_custom == "1":
         release_add_limit(db, user, "chores_added_count")
     db.commit()
     return ok(recurring_dict(template))
