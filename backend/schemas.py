@@ -176,6 +176,10 @@ class AdminChoreUpdate(BaseModel):
     dueDate:       Optional[str]   = None
     imageEmoji:    Optional[str]   = None
 
+class AdminLimitsUpdate(BaseModel):
+    choresLimit:    Optional[float] = None   # null = clear override, use the site-wide default
+    shopItemsLimit: Optional[float] = None
+
 class LearningVisibilityUpdate(BaseModel):
     enabled: bool
     kidIds: Optional[List[str]] = None   # None = every kid in the family; otherwise just these

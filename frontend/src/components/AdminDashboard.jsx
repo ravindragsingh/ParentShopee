@@ -309,6 +309,91 @@ function EditModal({ target, familyKids, onSave, onClose }) {
   )
 }
 
+// ── Custom item limits modal ────────────────────────────────────────────────────
+
+function LimitsModal({ family, onSave, onClose }) {
+  const [choresLimit,    setChoresLimit]    = useState(String(family.choresLimit))
+  const [shopItemsLimit, setShopItemsLimit] = useState(String(family.shopItemsLimit))
+  const [saving, setSaving] = useState(false)
+  const [error,  setError]  = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setSaving(true)
+    setError('')
+    try {
+      if (Number(choresLimit) < 0 || Number(shopItemsLimit) < 0) {
+        setError('Limits must be non-negative numbers.')
+        setSaving(false)
+        return
+      }
+      await api.adminUpdateFamilyLimits(family.familyId, {
+        choresLimit:    Number(choresLimit),
+        shopItemsLimit: Number(shopItemsLimit),
+      })
+      onSave()
+    } catch (err) {
+      setError(err.message)
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 420, boxShadow: '0 20px 60px rgba(0,0,0,0.22)' }}
+      >
+        <div style={{ padding: '16px 22px 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>Custom Item Limits</div>
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{family.guardian.name}'s family</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+
+        <form onSubmit={handleSubmit} style={{ padding: '18px 22px' }}>
+          {error && (
+            <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>
+              {error}
+            </div>
+          )}
+
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>
+              Custom chores limit{' '}
+              <span style={{ fontWeight: 400, color: '#94a3b8' }}>(currently using {family.choresAddedCount})</span>
+            </label>
+            <input type="number" min="0" value={choresLimit} onChange={e => setChoresLimit(e.target.value)} style={inputStyle} required />
+          </div>
+
+          <div style={{ marginBottom: 6 }}>
+            <label style={labelStyle}>
+              Custom shop items limit{' '}
+              <span style={{ fontWeight: 400, color: '#94a3b8' }}>(currently using {family.shopItemsAddedCount})</span>
+            </label>
+            <input type="number" min="0" value={shopItemsLimit} onChange={e => setShopItemsLimit(e.target.value)} style={inputStyle} required />
+          </div>
+
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+            <button type="button" onClick={onClose}
+              style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem' }}>
+              Cancel
+            </button>
+            <button type="submit" disabled={saving}
+              style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
+              {saving ? 'Saving…' : 'Save Limits'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
 // ── Delete confirmation modal ───────────────────────────────────────────────────
 
 function ConfirmDeleteModal({ target, onConfirm, onClose }) {
@@ -603,6 +688,7 @@ export default function AdminDashboard() {
   const [detailTab,     setDetailTab]     = useState('chores')
   const [editTarget,    setEditTarget]    = useState(null)
   const [deleteTarget,  setDeleteTarget]  = useState(null)
+  const [limitsTarget,  setLimitsTarget]  = useState(null)
   const [suspendBusyId, setSuspendBusyId] = useState(null)
 
   useEffect(() => { loadFamilies() }, [])
@@ -663,6 +749,12 @@ export default function AdminDashboard() {
   async function handleEditSave() {
     const familyId = editTarget?.familyId
     setEditTarget(null)
+    await refreshAll(familyId)
+  }
+
+  async function handleLimitsSave() {
+    const familyId = limitsTarget?.familyId
+    setLimitsTarget(null)
     await refreshAll(familyId)
   }
 
@@ -749,6 +841,15 @@ export default function AdminDashboard() {
           target={deleteTarget}
           onConfirm={handleDeleteConfirm}
           onClose={() => setDeleteTarget(null)}
+        />
+      )}
+
+      {/* Custom item limits modal */}
+      {limitsTarget && (
+        <LimitsModal
+          family={limitsTarget}
+          onSave={handleLimitsSave}
+          onClose={() => setLimitsTarget(null)}
         />
       )}
 
@@ -947,6 +1048,22 @@ export default function AdminDashboard() {
                       🔁 {family.recurringCount} recurring
                     </span>
                   )}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                    <span
+                      title="Custom chores / shop items used"
+                      style={{
+                        background: family.choresAddedCount >= family.choresLimit || family.shopItemsAddedCount >= family.shopItemsLimit ? '#fef2f2' : '#f8fafc',
+                        color: family.choresAddedCount >= family.choresLimit || family.shopItemsAddedCount >= family.shopItemsLimit ? '#b91c1c' : '#475569',
+                        border: '1px solid #e2e8f0', borderRadius: 8, padding: '3px 9px', fontSize: '0.74rem', fontWeight: 700,
+                      }}
+                    >
+                      ✨ {family.choresAddedCount}/{family.choresLimit} chores · {family.shopItemsAddedCount}/{family.shopItemsLimit} shop
+                      {(family.choresLimitOverride != null || family.shopItemsLimitOverride != null) && ' (custom limit)'}
+                    </span>
+                    <button style={editBtnStyle} onClick={e => { e.stopPropagation(); setLimitsTarget(family) }}>
+                      🔢 Limits
+                    </button>
+                  </div>
                   <span style={{ color: '#94a3b8', fontSize: '0.72rem', marginTop: 4 }}>{isSelected ? '▲ collapse' : '▼ expand'}</span>
                 </div>
               </div>

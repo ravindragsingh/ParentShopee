@@ -739,7 +739,7 @@ function LoginForm({ onRegister }) {
     e.preventDefault()
     setError('')
     if (!username.trim() || !password.trim()) {
-      setError('Please enter username and password.')
+      setError('Please enter your username or email, and password.')
       return
     }
     setLoading(true)
@@ -775,7 +775,7 @@ function LoginForm({ onRegister }) {
       {sessionExpired && (
         <div style={{ background: '#fef3c7', border: '1px solid #fbbf24', borderRadius: 8, padding: '10px 14px', marginBottom: 14, fontSize: '0.85rem', color: '#92400e', display: 'flex', gap: 8, alignItems: 'flex-start' }}>
           <span>⚠️</span>
-          <span>Your session expired — the server restarted. Please sign in again.</span>
+          <span>Your session expired. Please sign in again.</span>
         </div>
       )}
 
@@ -809,14 +809,14 @@ function LoginForm({ onRegister }) {
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="input-icon-group">
-            <label>Username</label>
+            <label>Username or Email</label>
             <div className="input-icon-wrap">
               <span className="field-icon">👤</span>
               <input
                 type="text"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                placeholder="e.g. parent1 or kid1"
+                placeholder="e.g. parent1 or jane@example.com"
                 autoFocus
               />
             </div>

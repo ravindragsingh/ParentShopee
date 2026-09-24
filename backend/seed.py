@@ -4,7 +4,8 @@ from uuid import uuid4
 from sqlalchemy.orm import Session
 
 from helpers import now
-from models import DBChore, DBShopItem, DBTransaction, DBUser, DBWallet
+from models import DBChore, DBRecurringTemplate, DBShopItem, DBTransaction, DBUser, DBWallet
+from sample_items import is_sample_chore, is_sample_shop_item
 
 
 def seed_db(db: Session):
@@ -65,4 +66,79 @@ def seed_db(db: Session):
     db.add(DBTransaction(id=str(uuid4()), kid_id="kid1", type="earned", amount=30, description="Bonus points (seed)",        timestamp=now()))
     db.add(DBTransaction(id=str(uuid4()), kid_id="kid3", type="earned", amount=20, description="Earned: Clean the bathroom", timestamp=now()))
 
+    db.commit()
+
+
+# The public "try demo" login (parent1/pass1, referenced directly in the
+# login page's own placeholder text and in Help/blog docs) needs to always
+# work for site visitors. Unlike seed_db above -- which only ever runs once,
+# on a genuinely empty database -- this runs on every startup and repairs
+# just these specific accounts' credentials/status if they ever drift (e.g.
+# someone changes the password while poking at a public demo login), without
+# touching any of their chores/shop items/wallet history.
+DEMO_ACCOUNTS = [
+    dict(id="parent1", name="Mom",   username="parent1", password="pass1", role="guardian",
+         email="mom@family.com", date_of_birth="1980-03-10", gender="female", pin="246810", pin_auto_generated="0"),
+    dict(id="parent2", name="Dad",   username="parent2", password="pass2", role="guardian",
+         email="dad@family.com", date_of_birth="1978-07-22", gender="male", pin="864203", pin_auto_generated="0"),
+    dict(id="kid1", name="Alice", username="kid1", password="pass1", role="kid", guardian_id="parent1",
+         avatar="🐱", pin="123456", pin_auto_generated="0", birth_month=6, birth_year=2020),
+    dict(id="kid2", name="Bob",   username="kid2", password="pass1", role="kid", guardian_id="parent1",
+         avatar="🐶", pin="284917", pin_auto_generated="0", birth_month=1, birth_year=2017),
+    dict(id="kid3", name="Charlie", username="kid3", password="pass1", role="kid", guardian_id="parent2",
+         avatar="🦁", pin="573920", pin_auto_generated="0"),
+]
+
+
+def ensure_demo_accounts(db: Session):
+    for fields in DEMO_ACCOUNTS:
+        user = db.query(DBUser).filter(DBUser.id == fields["id"]).first()
+        if user:
+            for key, value in fields.items():
+                setattr(user, key, value)
+            user.is_suspended = "0"
+            user.is_active = "1"
+        else:
+            db.add(DBUser(created_at=now(), is_active="1", **fields))
+    db.commit()
+
+
+def reconcile_custom_item_counts(db: Session) -> None:
+    """chores_added_count / shop_items_added_count are meant to reflect custom
+    items currently in use -- deleting one frees its slot back up (see the
+    delete endpoints in routers/chores.py and routers/shop.py) -- but that
+    wasn't true until that fix shipped, so any family active before then can
+    have a stale count baked in already (e.g. showing more used than any
+    custom item they can actually see, because years of since-deleted chores
+    never decremented it). Runs on every startup and recomputes every family
+    owner's counts from what's actually in the DB right now.
+
+    "Custom" is re-checked against each item's CURRENT title/name on every
+    run, not locked in at creation -- "custom chore is any chore not picked
+    from the list" is a present-tense definition. A chore started from a
+    sample template as a quick-fill starting point and then renamed into
+    something unrelated (picking "Feed the pet" then retitling it "Attend
+    Karate Class") needs to count as custom; a creation-time snapshot can
+    never catch that, since the title at creation matched a sample. The
+    trade-off is the reverse case -- lightly rewording an otherwise-untouched
+    sample chore also flips it to custom -- but that's a much smaller
+    inconsistency than a heavily-personalized chore silently never counting
+    at all, and it matches what a guardian looking at the title would
+    actually expect."""
+    owners = db.query(DBUser).filter(DBUser.role == "guardian", DBUser.co_guardian_of == None).all()
+    for owner in owners:
+        # A recurring instance (template_id set) was never itself counted --
+        # only its template's creation consumed a slot -- so instances are
+        # excluded here the same way delete_chore excludes them from refunds.
+        chores = db.query(DBChore).filter(DBChore.family_id == owner.id, DBChore.template_id == None).all()
+        templates = db.query(DBRecurringTemplate).filter(
+            DBRecurringTemplate.family_id == owner.id, DBRecurringTemplate.is_active == "1",
+        ).all()
+        shop_items = db.query(DBShopItem).filter(DBShopItem.family_id == owner.id).all()
+
+        owner.chores_added_count = (
+            sum(1 for c in chores if not is_sample_chore(c.title))
+            + sum(1 for t in templates if not is_sample_chore(t.title))
+        )
+        owner.shop_items_added_count = sum(1 for s in shop_items if not is_sample_shop_item(s.name))
     db.commit()

@@ -63,6 +63,61 @@ function KidPicker({ kids, selectedIds, disabled, onChange }) {
   )
 }
 
+// Which kids have already completed this module, each with a way to let
+// them redo it -- clearing the completion doesn't touch the points they
+// already earned, it just lets them pass the quiz again for a fresh payout.
+function CompletionStatus({ completions, disabled, onRedo }) {
+  if (!completions || completions.length === 0) return null
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6, width: '100%', marginTop: 2 }}>
+      <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Completed:</span>
+      {completions.map(c => (
+        <span
+          key={c.kidId}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.74rem', fontWeight: 600,
+            borderRadius: 999, padding: '3px 6px 3px 10px', background: '#f0fdf4',
+            border: '1px solid #bbf7d0', color: '#166534',
+          }}
+        >
+          ✅ {c.kidName}
+          <button
+            type="button"
+            title={`Let ${c.kidName} redo this lesson`}
+            disabled={disabled}
+            onClick={() => onRedo(c)}
+            style={{
+              background: 'none', border: 'none', cursor: disabled ? 'default' : 'pointer',
+              fontSize: '0.85rem', color: '#166534', padding: '2px 4px', lineHeight: 1,
+            }}
+          >
+            ↺
+          </button>
+        </span>
+      ))}
+    </div>
+  )
+}
+
+// More than this many lessons enabled at once for the same kid triggers a
+// (non-blocking) warning -- just a nudge that the list might be more than a
+// kid can realistically get through, not a hard cap.
+const LESSON_WARNING_THRESHOLD = 5
+
+function countEnabledForKid(modules, kidId) {
+  return modules.filter(m => m.enabled && (m.enabledKidIds == null || m.enabledKidIds.includes(kidId))).length
+}
+
+// Checks only the kids a just-completed action actually affected (not every
+// kid in the family), so toggling on a lesson for Alice never warns about Bob.
+function overloadWarning(modules, affectedKidIds, kids) {
+  const overloaded = kids.filter(k => affectedKidIds.includes(k.id) && countEnabledForKid(modules, k.id) > LESSON_WARNING_THRESHOLD)
+  if (overloaded.length === 0) return ''
+  const names = overloaded.map(k => k.name).join(', ')
+  const verb = overloaded.length > 1 ? 'have' : 'has'
+  return `${names} now ${verb} more than ${LESSON_WARNING_THRESHOLD} lessons turned on at once — that might be a lot to get through. Consider trimming the list.`
+}
+
 function groupByTopic(modules) {
   const byTopic = new Map()
   for (const m of modules) {
@@ -115,6 +170,7 @@ export default function GuardianFutureReadyTab() {
   const [savingId, setSavingId] = useState(null)
   const [openTopic, setOpenTopic] = useState(null)
   const [previewModule, setPreviewModule] = useState(null)
+  const [warning, setWarning] = useState('')
 
   const loadModules = useCallback(async () => {
     setLoading(true)
@@ -140,7 +196,9 @@ export default function GuardianFutureReadyTab() {
       // Preserve whatever kid restriction was already set -- toggling off and
       // back on shouldn't silently reset a guardian's earlier "just for Alice" choice.
       await api.setLearningVisibility(module.id, enabled, module.enabledKidIds ?? null)
-      setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabled } : m))
+      const updated = modules.map(m => m.id === module.id ? { ...m, enabled } : m)
+      setModules(updated)
+      setWarning(enabled ? overloadWarning(updated, module.enabledKidIds ?? kids.map(k => k.id), kids) : '')
     } catch (err) {
       setError(err.message)
     } finally {
@@ -153,7 +211,25 @@ export default function GuardianFutureReadyTab() {
     setError('')
     try {
       await api.setLearningVisibility(module.id, true, kidIds)
-      setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabledKidIds: kidIds } : m))
+      const updated = modules.map(m => m.id === module.id ? { ...m, enabledKidIds: kidIds } : m)
+      setModules(updated)
+      setWarning(overloadWarning(updated, kidIds, kids))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSavingId(null)
+    }
+  }
+
+  async function handleRedo(module, completion) {
+    if (!window.confirm(`Let ${completion.kidName} redo "${module.title}"? They'll be able to earn points for it again.`)) return
+    setSavingId(module.id)
+    setError('')
+    try {
+      await api.resetLearningCompletion(module.id, completion.kidId)
+      setModules(ms => ms.map(m => m.id === module.id
+        ? { ...m, completions: (m.completions ?? []).filter(c => c.kidId !== completion.kidId) }
+        : m))
     } catch (err) {
       setError(err.message)
     } finally {
@@ -198,6 +274,23 @@ export default function GuardianFutureReadyTab() {
       </div>
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
+
+      {warning && (
+        <div style={{
+          background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 14px',
+          marginBottom: 12, color: '#92400e', fontSize: '0.85rem', display: 'flex',
+          justifyContent: 'space-between', alignItems: 'center', gap: 10,
+        }}>
+          <span>⚠️ {warning}</span>
+          <button
+            type="button"
+            onClick={() => setWarning('')}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#92400e', fontSize: '1rem', lineHeight: 1, flexShrink: 0 }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {topics.length === 0 ? (
         <div className="empty-text">No lessons available yet.</div>
@@ -283,6 +376,11 @@ export default function GuardianFutureReadyTab() {
                             onChange={(kidIds) => handleKidsChange(m, kidIds)}
                           />
                         )}
+                        <CompletionStatus
+                          completions={m.completions}
+                          disabled={savingId === m.id}
+                          onRedo={(completion) => handleRedo(m, completion)}
+                        />
                       </div>
                     ))}
                   </div>

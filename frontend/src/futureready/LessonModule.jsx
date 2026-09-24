@@ -1,5 +1,20 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api.js'
+import { useAuth } from '../context/AuthContext.jsx'
+
+const audioKey = userId => `frAudioEnabled_${userId}`
+
+// Text-to-speech relies entirely on the device/browser's built-in
+// speechSynthesis -- no native plugin, no backend involvement, works the
+// same in a browser tab and inside the Capacitor WebView. Voice quality
+// varies by device since it uses whatever TTS engine is installed there.
+function speakText(text, enabled) {
+  if (!enabled || typeof window === 'undefined' || !window.speechSynthesis) return
+  window.speechSynthesis.cancel()
+  const utterance = new SpeechSynthesisUtterance(text)
+  utterance.rate = 0.95
+  window.speechSynthesis.speak(utterance)
+}
 
 // Self-paced, untimed: a short deck of slides to read through, then a quiz
 // to check what stuck. Unlike the Games section this isn't a race against a
@@ -11,6 +26,7 @@ import { api } from '../api.js'
 // edited lesson needs no app changes at all, just a backend redeploy (see
 // backend/routers/future_ready.py and DBLearningModule.content).
 export default function LessonModule({ module, onExit, onCompleted, previewMode = false, subtitle }) {
+  const { user } = useAuth()
   const [content, setContent] = useState(null)
   const [loadError, setLoadError] = useState('')
   const [phase, setPhase] = useState('slides') // 'slides' | 'quiz' | 'result'
@@ -21,6 +37,17 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult] = useState(null) // { passed, alreadyCompleted, pointsAwarded }
   const [error, setError] = useState('')
+  const [audioEnabled, setAudioEnabled] = useState(() => {
+    if (!user?.id) return false
+    return localStorage.getItem(audioKey(user.id)) === '1'  // off by default until explicitly turned on
+  })
+
+  function toggleAudio() {
+    const next = !audioEnabled
+    setAudioEnabled(next)
+    if (user?.id) localStorage.setItem(audioKey(user.id), next ? '1' : '0')
+    if (!next) window.speechSynthesis?.cancel()
+  }
 
   useEffect(() => {
     let cancelled = false
@@ -29,6 +56,26 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
       .catch(err => { if (!cancelled) setLoadError(err.message || "This lesson isn't ready yet.") })
     return () => { cancelled = true }
   }, [module.id])
+
+  // Reads the current slide out loud as soon as it's shown, so a kid can
+  // listen instead of having to read it themselves -- re-fires whenever the
+  // slide changes, and stops if they navigate away or turn narration off.
+  useEffect(() => {
+    if (phase !== 'slides' || !content) return
+    const slide = content.slides[slideIndex]
+    speakText(`${slide.title}. ${slide.text}`, audioEnabled)
+    return () => window.speechSynthesis?.cancel()
+  }, [phase, slideIndex, content, audioEnabled])
+
+  useEffect(() => {
+    if (phase !== 'quiz' || !content || selected !== null) return
+    speakText(content.quiz[quizIndex].question, audioEnabled)
+    return () => window.speechSynthesis?.cancel()
+  }, [phase, quizIndex, content, audioEnabled, selected])
+
+  useEffect(() => {
+    return () => window.speechSynthesis?.cancel()
+  }, [])
 
   if (loadError) {
     return <div className="error-msg">{loadError}</div>
@@ -87,10 +134,34 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
 
   return (
     <div style={{ maxWidth: 460, margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 10 }}>
         <button className="btn btn-outline btn-sm" onClick={onExit}>← Back</button>
-        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b' }}>{subtitle ?? module.topicTitle}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#64748b', textAlign: 'right' }}>{subtitle ?? module.topicTitle}</span>
+          <button
+            type="button"
+            onClick={toggleAudio}
+            title={audioEnabled ? 'Turn off read-aloud' : 'Turn on read-aloud'}
+            style={{
+              background: 'none', border: '1px solid #e2e8f0', borderRadius: 999, cursor: 'pointer',
+              fontSize: '1rem', padding: '4px 9px', lineHeight: 1, flexShrink: 0,
+            }}
+          >
+            {audioEnabled ? '🔊' : '🔇'}
+          </button>
+        </div>
       </div>
+
+      {phase !== 'result' && (
+        <div style={{ textAlign: 'center', marginBottom: 14 }}>
+          <span style={{
+            fontSize: '0.78rem', fontWeight: 700, color: '#0f766e', background: '#f0fdfa',
+            border: '1px solid #99f6e4', borderRadius: 999, padding: '4px 12px',
+          }}>
+            ⭐ Earn {module.points} pts for finishing this
+          </span>
+        </div>
+      )}
 
       {phase === 'slides' && (
         <div>

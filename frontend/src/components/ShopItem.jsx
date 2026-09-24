@@ -88,7 +88,10 @@ export function GuardianShopItem({ item, onRefresh }) {
   return (
     <div className="shop-item-card">
       <div className="shop-emoji">{item.imageEmoji || '🎁'}</div>
-      <div className="shop-name">{item.name}</div>
+      <div className="shop-name">
+        {item.name}
+        {item.isCustom && <span title="Counts toward your family's custom shop item limit" style={{ marginLeft: 6, fontSize: '0.68rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>✨ Custom</span>}
+      </div>
       {item.description && <div className="shop-desc">{item.description}</div>}
       <div className="shop-cost">{item.cost} pts</div>
       {error && <div style={{ color: '#dc2626', fontSize: '0.78rem' }}>{error}</div>}

@@ -27,7 +27,9 @@ async function request(method, path, body, tokenOverride) {
     const res = await fetch(`${BASE_URL}${path}`, options)
     clearTimeout(timeoutId)
 
-    // 401 while a token exists = backend restarted and lost the in-memory session
+    // 401 while a token exists = the session is gone server-side (expired from
+    // inactivity, or the account was deleted) -- sessions are DB-backed now,
+    // so a plain backend restart/redeploy no longer causes this.
     if (res.status === 401 && localStorage.getItem('token')) {
       window.dispatchEvent(new CustomEvent('auth:expired'))
       throw new Error('Your session has expired. Please log in again.')
@@ -101,6 +103,7 @@ export const api = {
   setLearningVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/future-ready/${moduleId}/visibility`, { enabled, kidIds }),
   setLearningPoints: (moduleId, points) => request('PUT', `/api/future-ready/${moduleId}/points`, { points }),
   completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),
+  resetLearningCompletion: (moduleId, kidId) => request('DELETE', `/api/future-ready/${moduleId}/completion/${kidId}`),
 
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
@@ -173,6 +176,7 @@ export const api = {
   adminUpdateUser:         (userId, body)  => request('PUT', `/api/admin/user/${userId}`, body),
   adminDeleteUser:         (userId)        => request('DELETE', `/api/admin/user/${userId}`),
   adminUpdateChore:        (choreId, body) => request('PUT', `/api/admin/chore/${choreId}`, body),
+  adminUpdateFamilyLimits: (familyId, body) => request('PUT', `/api/admin/family/${familyId}/limits`, body),
   adminSuspendUser:        (userId)        => request('POST', `/api/admin/user/${userId}/suspend`),
   adminUnsuspendUser:      (userId)        => request('POST', `/api/admin/user/${userId}/unsuspend`),
   adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),

@@ -1,3 +1,4 @@
+import time
 from datetime import date, datetime, timedelta, timezone
 from typing import List
 from uuid import uuid4
@@ -7,6 +8,31 @@ from sqlalchemy.orm import Session
 
 from helpers import now
 from models import DBChore, DBRecurringTemplate
+
+# GET /api/chores used to run expiry + recurring-instance generation on every
+# single call. Under load that meant every read also did several writes/commits,
+# holding its DB connection far longer than a read needs to. Throttle it per
+# family instead — at most once per window, same idea as deps.py's
+# _touch_last_active — so a burst of reads only pays this cost once. In-memory
+# and per-process, which is fine as long as this runs as a single instance
+# (true today on Render) -- a stale-by-at-most-one-window read here is
+# harmless either way, unlike sessions, which now live in the DB precisely so
+# they survive both restarts and, if it ever comes to that, multiple instances.
+_last_maintenance_at: dict = {}
+MAINTENANCE_THROTTLE_SECONDS = 120
+
+
+def maybe_run_maintenance(db: Session, family_id: str) -> None:
+    last_run = _last_maintenance_at.get(family_id)
+    if last_run is not None and time.monotonic() - last_run < MAINTENANCE_THROTTLE_SECONDS:
+        return
+    _last_maintenance_at[family_id] = time.monotonic()
+    check_and_expire_chores(db)
+    for t in db.query(DBRecurringTemplate).filter(
+        DBRecurringTemplate.family_id == family_id,
+        DBRecurringTemplate.is_active == "1",
+    ).all():
+        generate_instances(db, t)
 
 
 def check_and_expire_chores(db: Session):

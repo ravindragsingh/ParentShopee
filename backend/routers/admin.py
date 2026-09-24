@@ -5,17 +5,17 @@ from typing import Optional
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from config import EMAIL_RE
+from config import EMAIL_RE, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
 from database import get_db
 from deps import require_admin
 from email_utils import send_email
 from helpers import (
-    chore_dict, delete_family, delete_kid, delete_lone_user, get_ticket_notification_email,
+    chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, get_ticket_notification_email,
     get_ticket_replies, now, safe_user, ticket_dict,
 )
 from models import DBChore, DBRecurringTemplate, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import AdminChoreUpdate, AdminUserUpdate, TicketReplyBody
+from schemas import AdminChoreUpdate, AdminLimitsUpdate, AdminUserUpdate, TicketReplyBody
 from security import check_password_complexity, check_pin_complexity
 
 router = APIRouter()
@@ -57,6 +57,12 @@ def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(re
             "kids": kid_data,
             "choreCounts": chore_counts,
             "recurringCount": recurring_count,
+            "choresAddedCount":       int(guardian.chores_added_count or 0),
+            "choresLimit":            effective_add_limit(guardian, LIMIT_EXTRA_CHORES, "chores_limit_override"),
+            "choresLimitOverride":    guardian.chores_limit_override,
+            "shopItemsAddedCount":    int(guardian.shop_items_added_count or 0),
+            "shopItemsLimit":         effective_add_limit(guardian, LIMIT_EXTRA_SHOP_ITEMS, "shop_items_limit_override"),
+            "shopItemsLimitOverride": guardian.shop_items_limit_override,
         })
 
     return ok(result)
@@ -68,6 +74,36 @@ def admin_family_chores(family_id: str, db: Session = Depends(get_db), user: DBU
         DBChore.family_id == family_id,
     ).order_by(DBChore.created_at.desc()).limit(100).all()
     return ok([chore_dict(c) for c in chores])
+
+
+@router.put("/api/admin/family/{family_id}/limits")
+def admin_update_family_limits(family_id: str, body: AdminLimitsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    """Raise (or clear back to the site-wide default) a family's custom
+    chores/shop-items cap. Set a field to null to remove the override."""
+    guardian = db.query(DBUser).filter(DBUser.id == family_id, DBUser.role == "guardian", DBUser.co_guardian_of == None).first()
+    if not guardian:
+        fail("Family not found", 404)
+    if body.choresLimit is not None:
+        if body.choresLimit < 0:
+            fail("choresLimit must be a non-negative number")
+        guardian.chores_limit_override = body.choresLimit
+    elif "choresLimit" in body.model_fields_set:
+        guardian.chores_limit_override = None
+    if body.shopItemsLimit is not None:
+        if body.shopItemsLimit < 0:
+            fail("shopItemsLimit must be a non-negative number")
+        guardian.shop_items_limit_override = body.shopItemsLimit
+    elif "shopItemsLimit" in body.model_fields_set:
+        guardian.shop_items_limit_override = None
+    db.commit()
+    db.refresh(guardian)
+    return ok({
+        "familyId": family_id,
+        "choresLimit":            effective_add_limit(guardian, LIMIT_EXTRA_CHORES, "chores_limit_override"),
+        "choresLimitOverride":    guardian.chores_limit_override,
+        "shopItemsLimit":         effective_add_limit(guardian, LIMIT_EXTRA_SHOP_ITEMS, "shop_items_limit_override"),
+        "shopItemsLimitOverride": guardian.shop_items_limit_override,
+    })
 
 
 @router.put("/api/admin/user/{user_id}")

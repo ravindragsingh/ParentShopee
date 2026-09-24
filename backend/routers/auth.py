@@ -3,13 +3,13 @@ from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, BackgroundTasks, Depends
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 from starlette.requests import Request as StarletteRequest
 
-from config import ACTIVATION_TOKEN_TTL_HOURS, EMAIL_RE, RESET_TOKEN_TTL_HOURS, SESSIONS
+from config import ACTIVATION_TOKEN_TTL_HOURS, EMAIL_RE, RESET_TOKEN_TTL_HOURS
 from database import get_db
-from deps import require_auth, require_guardian
+from deps import create_session, require_auth, require_guardian
 from email_utils import send_activation_email, send_reset_email, send_username_email
 from geolocation import get_client_ip, get_location_from_ip, record_login_location
 from google_auth_utils import verify_google_token
@@ -28,8 +28,11 @@ router = APIRouter()
 
 @router.post("/api/auth/login")
 def login(body: LoginBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+    # body.username doubles as "username or email" — kids only ever have a
+    # username (no email), so this is effectively guardian-only, same as before.
+    identifier = body.username.strip().lower()
     user = db.query(DBUser).filter(
-        func.lower(DBUser.username) == body.username.strip().lower(),
+        or_(func.lower(DBUser.username) == identifier, func.lower(DBUser.email) == identifier),
         DBUser.password == body.password,
     ).first()
     if not user:
@@ -52,8 +55,7 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
     user.last_active_at = user.last_login_at
     db.commit()
     db.refresh(user)
-    token = str(uuid4())
-    SESSIONS[token] = user.id
+    token = create_session(db, user.id)
     background_tasks.add_task(record_login_location, user.id, get_client_ip(request))
     return ok({"token": token, "user": safe_user(user)})
 
@@ -149,8 +151,7 @@ def google_login(body: GoogleAuthBody, request: StarletteRequest, background_tas
     user.last_active_at = user.last_login_at
     db.commit()
     db.refresh(user)
-    token = str(uuid4())
-    SESSIONS[token] = user.id
+    token = create_session(db, user.id)
     background_tasks.add_task(record_login_location, user.id, get_client_ip(request))
     return ok({"token": token, "user": safe_user(user)})
 
@@ -204,8 +205,7 @@ def google_complete(body: GoogleCompleteBody, request: StarletteRequest, backgro
     db.commit()
     db.refresh(user)
 
-    token = str(uuid4())
-    SESSIONS[token] = user.id
+    token = create_session(db, user.id)
     background_tasks.add_task(record_login_location, user.id, get_client_ip(request))
     return ok({"token": token, "user": safe_user(user)}, 201)
 
