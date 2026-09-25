@@ -108,6 +108,7 @@ class ChoreCreate(BaseModel):
     assignedKidIds: Optional[List[str]] = []   # multiple kids (new multi-assign)
     dueDate: Optional[str] = None
     imageEmoji: Optional[str] = "📋"
+    sampleId: Optional[str] = None   # which SAMPLE_CHORES entry this was picked from, if any
 
 class RecurringCreate(BaseModel):
     title: str
@@ -118,6 +119,7 @@ class RecurringCreate(BaseModel):
     recurrenceType: str                      # daily | weekly | monthly
     recurrenceDays: Optional[List[int]] = [] # weekday ints (0=Mon) for weekly
     recurrenceDom: Optional[int] = None      # day of month for monthly
+    sampleId: Optional[str] = None   # which SAMPLE_CHORES entry this was picked from, if any
 
 class ChoreUpdate(BaseModel):
     title: Optional[str] = None

@@ -69,6 +69,12 @@ class DBChore(Base):
     family_id           = Column(String, nullable=True, index=True)
     template_id         = Column(String, nullable=True, index=True)
     scheduled_date      = Column(String, nullable=True)
+    # Which SAMPLE_CHORES entry this was created from, if any -- fixed at
+    # creation and never touched again (see routers/chores.py). NULL means
+    # the guardian typed their own title, which is what actually makes a
+    # chore "custom": permanent from the moment it's created, unaffected by
+    # later title edits either way.
+    sample_id           = Column(String, nullable=True)
 
 
 class DBRecurringTemplate(Base):
@@ -85,6 +91,7 @@ class DBRecurringTemplate(Base):
     family_id       = Column(String, nullable=True, index=True)
     is_active       = Column(String, default="1")      # "1" or "0"
     created_at      = Column(String, nullable=False)
+    sample_id       = Column(String, nullable=True)   # see DBChore.sample_id
 
 
 class DBShopItem(Base):
