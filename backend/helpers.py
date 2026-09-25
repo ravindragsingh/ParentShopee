@@ -132,13 +132,14 @@ def chore_dict(c: DBChore) -> dict:
             "completedAt": c.completed_at, "createdAt": c.created_at,
             "templateId": c.template_id, "scheduledDate": c.scheduled_date,
             "sampleId": c.sample_id,
-            # A recurring instance (template_id set) isn't itself custom-or-not --
-            # only its template is, since that's what actually consumed a slot.
-            # Fixed by sample_id at creation (see routers/chores.py) -- which
-            # suggested-list item, if any, this was picked from -- and never
-            # recomputed from the title afterward, so renaming a chore (however
-            # far from its starting point) never flips whether it counts.
-            "isCustom": False if c.template_id else c.sample_id is None}
+            # Which suggested-list item, if any, this was picked from -- fixed
+            # at creation (see routers/chores.py) and never recomputed from the
+            # title afterward, so renaming a chore (however far from its
+            # starting point) never flips whether it counts. A recurring
+            # occurrence copies its template's sample_id purely for this badge
+            # (see chore_logic.generate_instances) -- only the template's own
+            # creation/deletion ever actually moves the slot count.
+            "isCustom": c.sample_id is None}
 
 def recurring_dict(t: DBRecurringTemplate) -> dict:
     days = [int(x) for x in t.recurrence_days.split(',') if x.strip()] if t.recurrence_days else []

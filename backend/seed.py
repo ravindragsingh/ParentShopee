@@ -123,6 +123,14 @@ def backfill_sample_ids(db: Session) -> None:
         if match:
             t.sample_id = match
     db.commit()
+    # Recurring occurrences generated before this backfill copy their template's
+    # (now-backfilled) sample_id -- new ones get it straight from the template at
+    # generation time (see chore_logic.generate_instances), so this only ever
+    # matters for rows that already existed when this shipped.
+    template_sample_ids = dict(db.query(DBRecurringTemplate.id, DBRecurringTemplate.sample_id).all())
+    for c in db.query(DBChore).filter(DBChore.sample_id == None, DBChore.template_id != None).all():
+        c.sample_id = template_sample_ids.get(c.template_id)
+    db.commit()
 
 
 def reconcile_custom_item_counts(db: Session) -> None:

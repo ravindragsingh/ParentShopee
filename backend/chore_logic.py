@@ -121,6 +121,10 @@ def generate_instances(db: Session, template: DBRecurringTemplate):
             created_at=now(),
             family_id=template.family_id,
             template_id=template.id,
+            # Copied from the template purely for display (chore_dict's isCustom) --
+            # an occurrence never itself consumes or frees a slot, only the
+            # template's own creation/deletion does (see routers/chores.py).
+            sample_id=template.sample_id,
             scheduled_date=date_str,
         )
         db.add(chore)
