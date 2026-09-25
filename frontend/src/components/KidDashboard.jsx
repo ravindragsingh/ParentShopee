@@ -76,6 +76,7 @@ function DailyChoreRow({ item, busy, onToggle }) {
 function KidChoresTab({ userId, onBalanceChange }) {
   const [chores, setChores] = useState([])
   const [dailyItems, setDailyItems] = useState([])
+  const [dailyDeductionEnabled, setDailyDeductionEnabled] = useState(false)
   const [dailyBusyId, setDailyBusyId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -88,6 +89,7 @@ function KidChoresTab({ userId, onBalanceChange }) {
       const [choresData, dailyData] = await Promise.all([api.getChores(), api.getDailyChores()])
       setChores(Array.isArray(choresData) ? choresData : [])
       setDailyItems(Array.isArray(dailyData?.items) ? dailyData.items : [])
+      setDailyDeductionEnabled(!!dailyData?.deductionEnabled)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -137,6 +139,7 @@ function KidChoresTab({ userId, onBalanceChange }) {
   // Daily chore items — merged into the same list, just visually highlighted
   const dailyAvailable = dailyItems.filter(i => i.status === 'open')
   const dailyPending = dailyItems.filter(i => i.status === 'pending')
+  const dailyAtRiskPoints = dailyAvailable.reduce((sum, i) => sum + i.points, 0)
 
   const totalCount = available.length + myPending.length + dailyAvailable.length + dailyPending.length
   const totalPendingCount = myPending.length + dailyPending.length
@@ -171,6 +174,11 @@ function KidChoresTab({ userId, onBalanceChange }) {
             <div className="empty-text" style={{ marginTop: 14 }}>No available chores right now.</div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
+              {dailyDeductionEnabled && dailyAvailable.length > 0 && (
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', color: '#991b1b', fontSize: '0.85rem', fontWeight: 600 }}>
+                  ⚠️ Don't forget your Daily Chores — anything left unchecked by the end of the day loses its points ({dailyAtRiskPoints} pts at risk right now). Check it off today to keep them!
+                </div>
+              )}
               {dailyPending.map(item => (
                 <DailyChoreRow key={`daily-${item.id}`} item={item} busy={dailyBusyId === item.id} onToggle={() => handleDailyToggle(item)} />
               ))}
