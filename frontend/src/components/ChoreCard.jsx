@@ -116,7 +116,14 @@ export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', ed
   }
 
   async function handleDelete() {
-    if (!window.confirm(`Delete chore "${chore.title}"?`)) return
+    // A recurring instance's own delete only skips today -- the template
+    // stays active and keeps its slot, so without this note it looks like
+    // deleting "didn't work" when it comes back tomorrow (see chore_logic.py's
+    // generate_instances / delete_chore's "skipped" status).
+    const confirmMsg = chore.templateId
+      ? `"${chore.title}" is a recurring chore -- deleting it here only skips today. It'll be back tomorrow, and its custom-chore slot stays reserved either way.\n\nTo stop it for good and free up its slot, delete it from "Active Recurring Chores" instead.\n\nSkip just today's occurrence?`
+      : `Delete chore "${chore.title}"?`
+    if (!window.confirm(confirmMsg)) return
     setActionLoading(true)
     try { await api.deleteChore(chore.id); onRefresh() }
     catch (err) { setError(err.message) }
