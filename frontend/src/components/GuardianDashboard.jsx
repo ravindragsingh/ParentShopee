@@ -20,37 +20,42 @@ import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
+// `id` must exactly match the corresponding entry's id in
+// backend/sample_items.py's SAMPLE_CHORES -- it's what the backend records
+// on the created chore (DBChore.sample_id) to permanently mark it as picked
+// from this list, regardless of how the title is edited afterward. Adding a
+// new suggestion here needs a matching id added there too.
 const SAMPLE_CHORES = [
   // ── Age 8 & under ──────────────────────────────────────────────────────────
-  { title: 'Clean up your toys',        points:  4, imageEmoji: '🧸', description: 'Put all toys back in their proper place.' },
-  { title: 'Put dirty clothes in hamper',points: 3, imageEmoji: '👕', description: 'Collect all dirty clothes and put them in the laundry basket.' },
-  { title: 'Pack your school bag',       points:  3, imageEmoji: '🎒', description: 'Pack your bag the night before with everything you need.' },
-  { title: 'Put shoes away',             points:  2, imageEmoji: '👟', description: 'Put your shoes neatly on the shoe rack.' },
-  { title: 'Clear your plate after eating',points: 3, imageEmoji: '🍽️', description: 'Take your plate, cup, and cutlery to the kitchen sink.' },
-  { title: 'Feed the pet',               points:  5, imageEmoji: '🐕', description: 'Fill the food and water bowl for the family pet.' },
-  { title: 'Water the plants',           points:  5, imageEmoji: '🌿', description: 'Water the indoor plants with a small watering can.' },
-  { title: 'Make your bed',              points:  4, imageEmoji: '🛏️', description: 'Straighten your sheets, fluff your pillow, and tidy your bedroom.' },
-  { title: 'Tidy your bedroom',          points:  5, imageEmoji: '🏠', description: 'Put things away, pick up off the floor, and make it neat.' },
-  { title: 'Sort the recycling',         points:  5, imageEmoji: '♻️', description: 'Sort paper, plastic, and cans into the correct recycling bins.' },
-  { title: 'Dust the furniture',         points:  5, imageEmoji: '🪣', description: 'Use a cloth to dust the shelves and tables in your room.' },
-  { title: 'Help carry groceries',       points:  4, imageEmoji: '🛍️', description: 'Help carry grocery bags from the car to the kitchen.' },
-  { title: 'Set the dinner table',       points:  4, imageEmoji: '🥄', description: 'Lay out plates, cutlery, and glasses for everyone.' },
-  { title: 'Wipe down the bathroom sink',points: 4, imageEmoji: '🪥', description: 'Wipe the sink and tap clean with a cloth after use.' },
-  { title: 'Empty small bins',           points:  3, imageEmoji: '🗑️', description: 'Empty the small bedroom and bathroom bins into the main bin.' },
-  { title: 'Put books back on shelf',    points:  3, imageEmoji: '📚', description: 'Put all books and magazines neatly back on the bookshelf.' },
+  { id: 'clean-up-your-toys',          title: 'Clean up your toys',        points:  4, imageEmoji: '🧸', description: 'Put all toys back in their proper place.' },
+  { id: 'put-dirty-clothes-in-hamper', title: 'Put dirty clothes in hamper',points: 3, imageEmoji: '👕', description: 'Collect all dirty clothes and put them in the laundry basket.' },
+  { id: 'pack-your-school-bag',        title: 'Pack your school bag',       points:  3, imageEmoji: '🎒', description: 'Pack your bag the night before with everything you need.' },
+  { id: 'put-shoes-away',              title: 'Put shoes away',             points:  2, imageEmoji: '👟', description: 'Put your shoes neatly on the shoe rack.' },
+  { id: 'clear-your-plate-after-eating',title: 'Clear your plate after eating',points: 3, imageEmoji: '🍽️', description: 'Take your plate, cup, and cutlery to the kitchen sink.' },
+  { id: 'feed-the-pet',                title: 'Feed the pet',               points:  5, imageEmoji: '🐕', description: 'Fill the food and water bowl for the family pet.' },
+  { id: 'water-the-plants',            title: 'Water the plants',           points:  5, imageEmoji: '🌿', description: 'Water the indoor plants with a small watering can.' },
+  { id: 'make-your-bed',               title: 'Make your bed',              points:  4, imageEmoji: '🛏️', description: 'Straighten your sheets, fluff your pillow, and tidy your bedroom.' },
+  { id: 'tidy-your-bedroom',           title: 'Tidy your bedroom',          points:  5, imageEmoji: '🏠', description: 'Put things away, pick up off the floor, and make it neat.' },
+  { id: 'sort-the-recycling',          title: 'Sort the recycling',         points:  5, imageEmoji: '♻️', description: 'Sort paper, plastic, and cans into the correct recycling bins.' },
+  { id: 'dust-the-furniture',          title: 'Dust the furniture',         points:  5, imageEmoji: '🪣', description: 'Use a cloth to dust the shelves and tables in your room.' },
+  { id: 'help-carry-groceries',        title: 'Help carry groceries',       points:  4, imageEmoji: '🛍️', description: 'Help carry grocery bags from the car to the kitchen.' },
+  { id: 'set-the-dinner-table',        title: 'Set the dinner table',       points:  4, imageEmoji: '🥄', description: 'Lay out plates, cutlery, and glasses for everyone.' },
+  { id: 'wipe-down-the-bathroom-sink', title: 'Wipe down the bathroom sink',points: 4, imageEmoji: '🪥', description: 'Wipe the sink and tap clean with a cloth after use.' },
+  { id: 'empty-small-bins',            title: 'Empty small bins',           points:  3, imageEmoji: '🗑️', description: 'Empty the small bedroom and bathroom bins into the main bin.' },
+  { id: 'put-books-back-on-shelf',     title: 'Put books back on shelf',    points:  3, imageEmoji: '📚', description: 'Put all books and magazines neatly back on the bookshelf.' },
   // ── General household ───────────────────────────────────────────────────────
-  { title: 'Wash the dishes',            points: 10, imageEmoji: '🍳', description: 'Wash and dry all dishes after dinner.' },
-  { title: 'Take out the trash',         points:  5, imageEmoji: '🚮', description: 'Take all trash bags out to the bin.' },
-  { title: 'Fold the laundry',           points: 12, imageEmoji: '🧺', description: 'Fold clean clothes from the dryer and put them away.' },
-  { title: 'Sweep the floor',            points:  8, imageEmoji: '🧹', description: 'Sweep the floors in all rooms.' },
-  { title: 'Vacuum the living room',     points: 15, imageEmoji: '🛋️', description: 'Vacuum carpets and clean under furniture.' },
-  { title: 'Clean the bathroom',         points: 20, imageEmoji: '🚽', description: 'Scrub the sink, toilet, and wipe down surfaces.' },
-  { title: 'Wash the car',               points: 20, imageEmoji: '🚗', description: 'Rinse, soap, and dry the family car.' },
-  { title: 'Mop the floor',              points: 15, imageEmoji: '🪣', description: 'Mop the kitchen and hallway floors after sweeping.' },
-  { title: 'Empty the dishwasher',       points:  6, imageEmoji: '🫙', description: 'Unpack and put away all clean dishes.' },
-  { title: 'Wipe kitchen surfaces',      points:  7, imageEmoji: '🧼', description: 'Clean all kitchen surfaces with a damp cloth.' },
-  { title: 'Tidy the living room',       points: 10, imageEmoji: '📦', description: 'Put things away and straighten up the room.' },
-  { title: 'Sweep the porch',            points:  8, imageEmoji: '🏡', description: 'Sweep leaves and dirt off the front porch.' },
+  { id: 'wash-the-dishes',             title: 'Wash the dishes',            points: 10, imageEmoji: '🍳', description: 'Wash and dry all dishes after dinner.' },
+  { id: 'take-out-the-trash',          title: 'Take out the trash',         points:  5, imageEmoji: '🚮', description: 'Take all trash bags out to the bin.' },
+  { id: 'fold-the-laundry',            title: 'Fold the laundry',           points: 12, imageEmoji: '🧺', description: 'Fold clean clothes from the dryer and put them away.' },
+  { id: 'sweep-the-floor',             title: 'Sweep the floor',            points:  8, imageEmoji: '🧹', description: 'Sweep the floors in all rooms.' },
+  { id: 'vacuum-the-living-room',      title: 'Vacuum the living room',     points: 15, imageEmoji: '🛋️', description: 'Vacuum carpets and clean under furniture.' },
+  { id: 'clean-the-bathroom',          title: 'Clean the bathroom',         points: 20, imageEmoji: '🚽', description: 'Scrub the sink, toilet, and wipe down surfaces.' },
+  { id: 'wash-the-car',                title: 'Wash the car',               points: 20, imageEmoji: '🚗', description: 'Rinse, soap, and dry the family car.' },
+  { id: 'mop-the-floor',               title: 'Mop the floor',              points: 15, imageEmoji: '🪣', description: 'Mop the kitchen and hallway floors after sweeping.' },
+  { id: 'empty-the-dishwasher',        title: 'Empty the dishwasher',       points:  6, imageEmoji: '🫙', description: 'Unpack and put away all clean dishes.' },
+  { id: 'wipe-kitchen-surfaces',       title: 'Wipe kitchen surfaces',      points:  7, imageEmoji: '🧼', description: 'Clean all kitchen surfaces with a damp cloth.' },
+  { id: 'tidy-the-living-room',        title: 'Tidy the living room',       points: 10, imageEmoji: '📦', description: 'Put things away and straighten up the room.' },
+  { id: 'sweep-the-porch',             title: 'Sweep the porch',            points:  8, imageEmoji: '🏡', description: 'Sweep leaves and dirt off the front porch.' },
 ]
 
 // ─── Collapsible section header ──────────────────────────────────────────────
@@ -128,6 +133,14 @@ function ChoresTab({ kids }) {
     }
   }, [])
 
+  // Any chore mutation (delete, rename, repeat, approve/reject) can change how
+  // many custom slots are in use, so the "X/Y custom used" badge needs the
+  // same refresh the chore list itself gets -- not just on create, which is
+  // the only place this used to fire.
+  const refreshChores = useCallback(async () => {
+    await Promise.all([loadChores(), loadLimits()])
+  }, [loadChores, loadLimits])
+
   useEffect(() => { loadChores() }, [loadChores])
 
   // Kid filter
@@ -144,6 +157,10 @@ function ChoresTab({ kids }) {
   const [quickTitle, setQuickTitle] = useState('')
   const [quickEmoji, setQuickEmoji] = useState('📋')
   const [quickPoints, setQuickPoints] = useState('5')
+  // Which SAMPLE_CHORES entry (if any) is currently backing the title field --
+  // cleared the moment the guardian types into the title themselves, since
+  // that means whatever gets created is their own custom chore, not the pick.
+  const [quickSampleId, setQuickSampleId] = useState(null)
   const [quickKidIds, setQuickKidIds] = useState([])   // empty = any kid can claim it
   const [quickDueDate, setQuickDueDate] = useState('')
   const [quickError, setQuickError] = useState('')
@@ -194,6 +211,7 @@ function ChoresTab({ kids }) {
           recurrenceType: quickRecurrenceType,
           recurrenceDays: quickRecurrenceType === 'weekly' ? quickRecurrenceDays : [],
           recurrenceDom: quickRecurrenceType === 'monthly' ? Number(quickRecurrenceDom) : null,
+          sampleId: quickSampleId,
         })
         loadRecurring()
       } else {
@@ -204,12 +222,12 @@ function ChoresTab({ kids }) {
           assignedKidIds: quickKidIds,
           dueDate: quickDueDate || null,
           imageEmoji: quickEmoji || '📋',
+          sampleId: quickSampleId,
         })
       }
-      setQuickTitle(''); setQuickEmoji('📋'); setQuickPoints('5'); setQuickKidIds([]); setQuickDueDate('')
+      setQuickTitle(''); setQuickEmoji('📋'); setQuickPoints('5'); setQuickKidIds([]); setQuickDueDate(''); setQuickSampleId(null)
       setQuickRecurring(false); setQuickRecurrenceType('daily'); setQuickRecurrenceDays([]); setQuickRecurrenceDom('')
-      loadChores()
-      loadLimits()
+      refreshChores()
     } catch (err) {
       setQuickError(err.message)
     } finally {
@@ -336,19 +354,19 @@ function ChoresTab({ kids }) {
                       <select
                         value=""
                         onChange={e => {
-                          const s = SAMPLE_CHORES.find(c => c.title === e.target.value)
-                          if (s) { setQuickTitle(s.title); setQuickEmoji(s.imageEmoji); setQuickPoints(String(s.points)) }
+                          const s = SAMPLE_CHORES.find(c => c.id === e.target.value)
+                          if (s) { setQuickTitle(s.title); setQuickEmoji(s.imageEmoji); setQuickPoints(String(s.points)); setQuickSampleId(s.id) }
                         }}
                       >
                         <option value="">— Pick a sample chore to pre-fill the form —</option>
                         {SAMPLE_CHORES.map(s => (
-                          <option key={s.title} value={s.title}>{s.imageEmoji} {s.title} ({s.points} pts)</option>
+                          <option key={s.id} value={s.id}>{s.imageEmoji} {s.title} ({s.points} pts)</option>
                         ))}
                       </select>
                     </div>
                     <div className="form-group" style={{ flex: '2 1 160px' }}>
                       <label>Chore title</label>
-                      <input value={quickTitle} onChange={e => setQuickTitle(e.target.value)} placeholder="e.g. Wash the dishes" />
+                      <input value={quickTitle} onChange={e => { setQuickTitle(e.target.value); setQuickSampleId(null) }} placeholder="e.g. Wash the dishes" />
                     </div>
                     <div className="form-group" style={{ flex: '0 0 64px' }}>
                       <label>Emoji</label>
@@ -466,7 +484,7 @@ function ChoresTab({ kids }) {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {[...pending, ...open].map(chore => (
-                    <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} variant="row" editMode={openChoresEditMode} />
+                    <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} variant="row" editMode={openChoresEditMode} />
                   ))}
                 </div>
               )}
@@ -479,11 +497,11 @@ function ChoresTab({ kids }) {
       {!loading && (
         <>
           <CollapsibleSection icon="🏆" title="Complete" count={complete.length} colorClass="complete" emptyText="No completed chores yet.">
-            {complete.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+            {complete.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} />)}
           </CollapsibleSection>
 
           <CollapsibleSection icon="⌛" title="Expired" count={expired.length} colorClass="expired" emptyText="No expired chores.">
-            {expired.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={loadChores} />)}
+            {expired.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} />)}
           </CollapsibleSection>
         </>
       )}

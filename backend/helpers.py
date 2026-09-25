@@ -11,7 +11,7 @@ from models import (
     DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
 )
 from responses import fail
-from sample_items import is_sample_chore, is_sample_shop_item
+from sample_items import is_sample_shop_item
 
 
 def now() -> str:
@@ -131,16 +131,14 @@ def chore_dict(c: DBChore) -> dict:
             "dueDate": c.due_date, "expiredAt": c.expired_at,
             "completedAt": c.completed_at, "createdAt": c.created_at,
             "templateId": c.template_id, "scheduledDate": c.scheduled_date,
+            "sampleId": c.sample_id,
             # A recurring instance (template_id set) isn't itself custom-or-not --
             # only its template is, since that's what actually consumed a slot.
-            # Deliberately re-checked against the CURRENT title on every read
-            # ("custom chore is any chore not picked from the list" is a present-
-            # tense definition) rather than locked in at creation -- a chore
-            # started from a sample template and then renamed into something
-            # unrelated (e.g. picking "Feed the pet" as a quick-fill starting
-            # point, then retitling it "Attend Karate Class") needs to become
-            # custom, which a creation-time snapshot could never catch.
-            "isCustom": False if c.template_id else not is_sample_chore(c.title)}
+            # Fixed by sample_id at creation (see routers/chores.py) -- which
+            # suggested-list item, if any, this was picked from -- and never
+            # recomputed from the title afterward, so renaming a chore (however
+            # far from its starting point) never flips whether it counts.
+            "isCustom": False if c.template_id else c.sample_id is None}
 
 def recurring_dict(t: DBRecurringTemplate) -> dict:
     days = [int(x) for x in t.recurrence_days.split(',') if x.strip()] if t.recurrence_days else []
@@ -152,7 +150,8 @@ def recurring_dict(t: DBRecurringTemplate) -> dict:
         "recurrenceDays": days,
         "recurrenceDom": int(t.recurrence_dom) if t.recurrence_dom else None,
         "createdAt": t.created_at,
-        "isCustom": not is_sample_chore(t.title),
+        "sampleId": t.sample_id,
+        "isCustom": t.sample_id is None,
     }
 
 def shop_dict(s: DBShopItem) -> dict:

@@ -189,6 +189,7 @@ export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', ed
         imageEmoji: chore.imageEmoji || '📋',
         assignedKidId: chore.assignedKidId || null,
         dueDate: null,
+        sampleId: chore.sampleId || null,
       })
       onRefresh()
     } catch (err) {
