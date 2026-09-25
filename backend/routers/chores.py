@@ -14,7 +14,7 @@ from helpers import chore_dict, check_add_limit, effective_add_limit, get_family
 from models import DBChore, DBRecurringTemplate, DBTransaction, DBUser, DBWallet
 from push_utils import notify_guardians_of_kid, notify_kid
 from responses import fail, ok
-from sample_items import is_sample_chore
+from sample_items import SAMPLE_CHORE_IDS
 from schemas import ChoreCreate, ChoreUpdate, RecurringCreate
 
 router = APIRouter()
@@ -63,7 +63,11 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
     for kid_id in kid_ids:
         if kid_id and not db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid").first():
             fail(f"Kid not found: {kid_id}", 404)
-    from_sample = is_sample_chore(body.title)
+    # Which suggested-list item (if any) this was picked from -- an unrecognized
+    # id is treated the same as none supplied, i.e. custom, rather than failing
+    # the request over a stale/bogus id.
+    sample_id = body.sampleId if body.sampleId in SAMPLE_CHORE_IDS else None
+    from_sample = sample_id is not None
     owner = get_family_owner(db, user)
     if not from_sample:
         owner = check_add_limit(db, user, "chores_added_count", len(kid_ids), LIMIT_EXTRA_CHORES, "chores", override_field="chores_limit_override")
@@ -79,6 +83,7 @@ def create_chore(body: ChoreCreate, db: Session = Depends(get_db), user: DBUser 
             due_date=body.dueDate or None,
             created_at=now(),
             family_id=family_id,
+            sample_id=sample_id,
         )
         db.add(chore)
         created.append(chore)
@@ -100,21 +105,10 @@ def update_chore(chore_id: str, body: ChoreUpdate, db: Session = Depends(get_db)
             body.title if body.title is not None else chore.title,
             body.description if body.description is not None else (chore.description or ""),
         )
-    if body.title is not None and body.title != chore.title:
-        # Renaming can cross the sample/custom line either way -- a recurring
-        # instance (template_id set) is excluded, same as everywhere else
-        # that touches this limit, since only its template ever counted.
-        if not chore.template_id:
-            was_custom = not is_sample_chore(chore.title)
-            now_custom = not is_sample_chore(body.title)
-            if now_custom and not was_custom:
-                # Renaming into something custom consumes a slot -- enforce
-                # the same cap a brand-new custom chore would hit.
-                check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores", override_field="chores_limit_override")
-                owner = get_family_owner(db, user)
-                owner.chores_added_count = (owner.chores_added_count or 0) + 1
-            elif was_custom and not now_custom:
-                release_add_limit(db, user, "chores_added_count")
+    if body.title is not None:
+        # Whether a chore counts as custom is fixed by sample_id at creation
+        # (see create_chore) and never revisited on rename -- renaming a
+        # chore, in either direction, doesn't move it across the limit.
         chore.title = body.title
     if body.description is not None: chore.description = body.description
     if body.points is not None:
@@ -142,12 +136,22 @@ def delete_chore(chore_id: str, db: Session = Depends(get_db), user: DBUser = De
     chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore: fail("Chore not found", 404)
     if chore.status not in ("open", "expired"): fail("Only open or expired chores can be deleted")
-    # A recurring template's own creation is what consumed a slot -- each
-    # generated daily/weekly instance (chore.template_id set) never counted
-    # separately, so deleting one shouldn't refund a slot it never used.
-    if not chore.template_id and not is_sample_chore(chore.title):
-        release_add_limit(db, user, "chores_added_count")
-    db.delete(chore)
+    if chore.template_id:
+        # This is one day's generated instance of a still-active recurring
+        # template -- generate_instances() only re-creates a day's instance
+        # when none exists yet for that date, so hard-deleting this row would
+        # make it silently reappear the next time maintenance runs (within
+        # ~2 minutes, or immediately after a restart). Marking it "skipped"
+        # instead leaves a row in place for that date -- excluded from every
+        # visible list (get_visible_chores) but still enough to satisfy that
+        # existence check, so the guardian's delete actually sticks. The
+        # template's own creation is what consumed a slot, so no refund here
+        # either way.
+        chore.status = "skipped"
+    else:
+        if chore.sample_id is None:
+            release_add_limit(db, user, "chores_added_count")
+        db.delete(chore)
     db.commit()
     return ok(chore_dict(chore))
 
@@ -231,7 +235,8 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
     if db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).count() == 0:
         fail("Please add a child first before creating chores.")
 
-    from_sample = is_sample_chore(body.title)
+    sample_id = body.sampleId if body.sampleId in SAMPLE_CHORE_IDS else None
+    from_sample = sample_id is not None
     owner = get_family_owner(db, user)
     if not from_sample:
         owner = check_add_limit(db, user, "chores_added_count", 1, LIMIT_EXTRA_CHORES, "chores", override_field="chores_limit_override")
@@ -251,6 +256,7 @@ def create_recurring(body: RecurringCreate, db: Session = Depends(get_db), user:
         family_id=family_id,
         is_active="1",
         created_at=now(),
+        sample_id=sample_id,
     )
     db.add(template)
     if not from_sample:
@@ -288,7 +294,7 @@ def delete_recurring(template_id: str, db: Session = Depends(get_db), user: DBUs
     ).delete(synchronize_session=False)
     db.commit()
     template.is_active = "0"
-    if not is_sample_chore(template.title):
+    if template.sample_id is None:
         release_add_limit(db, user, "chores_added_count")
     db.commit()
     return ok(recurring_dict(template))

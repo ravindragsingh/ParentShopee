@@ -48,6 +48,10 @@ def get_visible_chores(db: Session, family_id: str = None, cutoff_hours: int = 7
     today_str = date.today().isoformat()
     ts = (datetime.now(timezone.utc) - timedelta(hours=cutoff_hours)).isoformat()
     q = db.query(DBChore).filter(
+        # A guardian-deleted single day of an active recurring chore -- kept
+        # in the DB (see delete_chore) purely so generate_instances() sees a
+        # row already exists for that date and doesn't recreate it.
+        DBChore.status != "skipped",
         # Hide expired chores older than cutoff
         ~and_(DBChore.status == "expired",
               DBChore.expired_at.isnot(None),

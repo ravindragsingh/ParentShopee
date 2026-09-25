@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from helpers import now
 from models import DBChore, DBRecurringTemplate, DBShopItem, DBTransaction, DBUser, DBWallet
-from sample_items import is_sample_chore, is_sample_shop_item
+from sample_items import is_sample_shop_item, sample_chore_id_for_title
 
 
 def seed_db(db: Session):
@@ -103,6 +103,28 @@ def ensure_demo_accounts(db: Session):
     db.commit()
 
 
+def backfill_sample_ids(db: Session) -> None:
+    """One-time: tag chores/templates that predate the sample_id column (this
+    includes the demo seed data above, and any pre-existing production rows)
+    with the id they'd match today, best-effort by title -- the same
+    ambiguity a title-based match always had (a coincidentally-matching
+    custom title gets misattributed), but only for this one backfill. Every
+    chore created from here on gets an unambiguous, explicit sample_id
+    straight from the create request (see routers/chores.py) and is never
+    touched by this again once it has one, NULL included -- a genuinely
+    custom chore's sample_id starts and stays NULL, so re-running this on
+    every startup is safe."""
+    for c in db.query(DBChore).filter(DBChore.sample_id == None, DBChore.template_id == None).all():
+        match = sample_chore_id_for_title(c.title)
+        if match:
+            c.sample_id = match
+    for t in db.query(DBRecurringTemplate).filter(DBRecurringTemplate.sample_id == None).all():
+        match = sample_chore_id_for_title(t.title)
+        if match:
+            t.sample_id = match
+    db.commit()
+
+
 def reconcile_custom_item_counts(db: Session) -> None:
     """chores_added_count / shop_items_added_count are meant to reflect custom
     items currently in use -- deleting one frees its slot back up (see the
@@ -113,18 +135,10 @@ def reconcile_custom_item_counts(db: Session) -> None:
     never decremented it). Runs on every startup and recomputes every family
     owner's counts from what's actually in the DB right now.
 
-    "Custom" is re-checked against each item's CURRENT title/name on every
-    run, not locked in at creation -- "custom chore is any chore not picked
-    from the list" is a present-tense definition. A chore started from a
-    sample template as a quick-fill starting point and then renamed into
-    something unrelated (picking "Feed the pet" then retitling it "Attend
-    Karate Class") needs to count as custom; a creation-time snapshot can
-    never catch that, since the title at creation matched a sample. The
-    trade-off is the reverse case -- lightly rewording an otherwise-untouched
-    sample chore also flips it to custom -- but that's a much smaller
-    inconsistency than a heavily-personalized chore silently never counting
-    at all, and it matches what a guardian looking at the title would
-    actually expect."""
+    Chores/templates count as custom based on sample_id (see routers/chores.py
+    and main.py's one-time backfill for pre-existing rows) -- fixed at
+    creation, not re-derived from the current title. Shop items don't have
+    an id-based equivalent yet, so they're still matched by name."""
     owners = db.query(DBUser).filter(DBUser.role == "guardian", DBUser.co_guardian_of == None).all()
     for owner in owners:
         # A recurring instance (template_id set) was never itself counted --
@@ -137,8 +151,8 @@ def reconcile_custom_item_counts(db: Session) -> None:
         shop_items = db.query(DBShopItem).filter(DBShopItem.family_id == owner.id).all()
 
         owner.chores_added_count = (
-            sum(1 for c in chores if not is_sample_chore(c.title))
-            + sum(1 for t in templates if not is_sample_chore(t.title))
+            sum(1 for c in chores if c.sample_id is None)
+            + sum(1 for t in templates if t.sample_id is None)
         )
         owner.shop_items_added_count = sum(1 for s in shop_items if not is_sample_shop_item(s.name))
     db.commit()
