@@ -1155,7 +1155,7 @@ function LandingHero({ onSignIn, onCreateAccount }) {
         Good Habits Today,<br />Brighter Tomorrows
       </h1>
       <p style={{ fontSize: '0.88rem', color: '#78716c', margin: '0 auto 14px', lineHeight: 1.5, maxWidth: 560 }}>
-        Parents create chores and rewards, kids earn points for completing tasks, spend them in their own shop, and learn parent-approved future-ready skills.
+        Parents create chores and rewards, kids earn points for completing tasks, spend those points in their own shop, and learn parent-approved, future-ready skills.
       </p>
 
       <div style={{
