@@ -6,16 +6,19 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from config import EMAIL_RE, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
+from content_filter import check_content
 from database import get_db
 from deps import require_admin
 from email_utils import send_email
 from helpers import (
-    chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, get_ticket_notification_email,
-    get_ticket_replies, now, safe_user, ticket_dict,
+    chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, generate_inert_credentials,
+    get_ticket_notification_email, get_ticket_replies, now, safe_user, ticket_dict,
 )
 from models import DBChore, DBRecurringTemplate, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import AdminChoreUpdate, AdminLimitsUpdate, AdminUserUpdate, TicketReplyBody
+from schemas import (
+    AddKidBody, AdminChoreUpdate, AdminLimitsUpdate, AdminUserUpdate, CoGuardianBody, TicketReplyBody, WalletAdjustBody,
+)
 from security import check_password_complexity, check_pin_complexity
 
 router = APIRouter()
@@ -193,6 +196,110 @@ def admin_delete_user(user_id: str, db: Session = Depends(get_db), user: DBUser 
 
     db.commit()
     return ok({"message": f"{name} (@{username}) has been deleted."})
+
+
+@router.post("/api/admin/family/{family_id}/kids")
+def admin_add_kid(family_id: str, body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    """Mirrors POST /api/kids (the guardian's own "add a child" endpoint) but
+    targets any family by id instead of the logged-in guardian's own."""
+    guardian = db.query(DBUser).filter(DBUser.id == family_id, DBUser.role == "guardian", DBUser.co_guardian_of == None).first()
+    if not guardian:
+        fail("Family not found", 404)
+    count = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).count()
+    if count >= 10:
+        fail("This family already has the maximum of 10 children")
+    if len(body.name.strip()) < 2:
+        fail("Name must be at least 2 characters")
+    check_pin_complexity(body.pin)
+    if not (1 <= body.birthMonth <= 12):
+        fail("Birth month must be between 1 and 12")
+    current_year = date.today().year
+    if not (current_year - 25 <= body.birthYear <= current_year):
+        fail("Please enter a valid birth year")
+
+    username, password = generate_inert_credentials()
+    kid = DBUser(
+        id=str(uuid4()),
+        name=body.name.strip(),
+        username=username,
+        password=password,
+        role="kid",
+        guardian_id=family_id,
+        avatar=body.avatar or "🐶",
+        birth_month=body.birthMonth,
+        birth_year=body.birthYear,
+        pin=body.pin,
+        pin_auto_generated="0",
+        created_at=now(),
+    )
+    db.add(kid)
+    db.flush()
+    db.add(DBWallet(kid_id=kid.id, balance=0))
+    db.commit()
+    db.refresh(kid)
+    return ok(safe_user(kid), 201)
+
+
+@router.post("/api/admin/family/{family_id}/co-guardian")
+def admin_add_co_guardian(family_id: str, body: CoGuardianBody, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    """Mirrors POST /api/family/co-guardian but targets any family by id."""
+    guardian = db.query(DBUser).filter(DBUser.id == family_id, DBUser.role == "guardian", DBUser.co_guardian_of == None).first()
+    if not guardian:
+        fail("Family not found", 404)
+    if db.query(DBUser).filter(DBUser.co_guardian_of == family_id, DBUser.role == "guardian").first():
+        fail("This family already has a co-guardian. Remove them first.")
+    if len(body.name.strip()) < 2:
+        fail("Name must be at least 2 characters")
+    check_pin_complexity(body.pin)
+
+    username, password = generate_inert_credentials()
+    co_guardian = DBUser(
+        id=str(uuid4()),
+        name=body.name.strip(),
+        username=username,
+        password=password,
+        role="guardian",
+        co_guardian_of=family_id,
+        avatar=body.avatar or "🧑",
+        pin=body.pin,
+        pin_auto_generated="0",
+        created_at=now(),
+    )
+    db.add(co_guardian)
+    db.commit()
+    db.refresh(co_guardian)
+    return ok(safe_user(co_guardian), 201)
+
+
+@router.post("/api/admin/kid/{kid_id}/wallet/adjust")
+def admin_adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    """Mirrors POST /api/kids/{kid_id}/wallet/adjust (the guardian's own points
+    adjustment endpoint) but isn't restricted to the logged-in guardian's
+    family -- an admin can target any kid directly."""
+    if body.amount == 0:
+        fail("Amount cannot be zero")
+    if body.reason and len(body.reason.strip()) > 15:
+        fail("Message must be 15 characters or fewer")
+    check_content(body.reason or "")
+    kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid").first()
+    if not kid:
+        fail("Child not found", 404)
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid_id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=kid_id, balance=0)
+        db.add(wallet)
+        db.flush()
+    new_balance = wallet.balance + body.amount
+    if new_balance < 0:
+        fail(f"Cannot deduct more than current balance ({int(wallet.balance)} pts)")
+    wallet.balance = new_balance
+    tx_type = "bonus" if body.amount > 0 else "deduct"
+    desc = body.reason.strip() if body.reason and body.reason.strip() else ("Bonus points (admin)" if body.amount > 0 else "Points adjusted (admin)")
+    db.add(DBTransaction(id=str(uuid4()), kid_id=kid_id, type=tx_type, amount=abs(body.amount),
+                         description=desc, timestamp=now()))
+    db.commit()
+    db.refresh(wallet)
+    return ok({"kidName": kid.name, "adjustment": body.amount, "newBalance": wallet.balance})
 
 
 @router.put("/api/admin/chore/{chore_id}")
