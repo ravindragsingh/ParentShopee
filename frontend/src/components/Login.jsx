@@ -1083,12 +1083,12 @@ export function ResetPasswordPage() {
 // ways forward from here; the actual form only renders once one is picked. ──
 
 const FEATURE_CARDS = [
-  { icon: '✅', title: 'Chores',         text: 'Turn daily tasks into points',     color: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0' },
-  { icon: '🎁', title: 'Rewards',        text: 'Save points for bigger goals',     color: '#db2777', bg: '#fdf2f8', border: '#fbcfe8' },
-  { icon: '🪙', title: 'Investing',      text: 'Learn money skills early',         color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4' },
-  { icon: '🤖', title: 'AI Learning',    text: 'Age-based lessons made simple',    color: '#7c3aed', bg: '#f5f3ff', border: '#ddd6fe' },
-  { icon: '🛡️', title: 'Digital Safety', text: 'Explore and stay safe online',     color: '#dc2626', bg: '#fef2f2', border: '#fecaca' },
-  { icon: '🎤', title: 'Public Speaking',text: 'Build confidence step by step',    color: '#0891b2', bg: '#ecfeff', border: '#a5f3fc' },
+  { icon: '✅', title: 'Chores',         text: 'Turn daily tasks into points',     color: '#ccec13', bg: '#f0fdf4', border: '#bbf7d0' },
+  { icon: '🎁', title: 'Rewards',        text: 'Save points for bigger goals',     color: '#994cf0', bg: '#fdf2f8', border: '#fbcfe8' },
+  { icon: '💰', title: 'Investing',      text: 'Learn money skills early',         color: '#2572ed', bg: '#f0fdfa', border: '#99f6e4' },
+  { icon: '🤖', title: 'AI Learning',    text: 'Age-based lessons made simple',    color: '#ffffff', bg: '#dbebf4', border: '#ddd6fe' },
+  { icon: '🛡️', title: 'Digital Safety', text: 'Explore and stay safe online',     color: '#0f86b9', bg: '#fef2f2', border: '#fecaca' },
+  { icon: '🎤', title: 'Public Speaking',text: 'Build confidence step by step',    color: '#0be064', bg: '#ecfeff', border: '#a5f3fc' },
 ]
 
 function FeatureCard({ icon, title, text, color, bg, border }) {
