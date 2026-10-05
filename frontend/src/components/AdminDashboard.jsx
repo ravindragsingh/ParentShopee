@@ -394,6 +394,280 @@ function LimitsModal({ family, onSave, onClose }) {
   )
 }
 
+// ── Add child modal ──────────────────────────────────────────────────────────
+
+function AddKidModal({ family, onSave, onClose }) {
+  const [name, setName] = useState('')
+  const [avatar, setAvatar] = useState('🐶')
+  const [birthMonth, setBirthMonth] = useState('')
+  const [birthYear, setBirthYear] = useState('')
+  const [pin, setPin] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setSaving(true)
+    setError('')
+    try {
+      const pinCheck = checkPinComplexity(pin)
+      if (!pinCheck.ok) { setError(pinCheck.message); setSaving(false); return }
+      if (!birthMonth || !birthYear) { setError('Birth month and year are required.'); setSaving(false); return }
+      await api.adminAddKid(family.familyId, {
+        name, avatar, pin,
+        birthMonth: Number(birthMonth), birthYear: Number(birthYear),
+      })
+      onSave()
+    } catch (err) {
+      setError(err.message)
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 440, boxShadow: '0 20px 60px rgba(0,0,0,0.22)', maxHeight: '90vh', overflow: 'auto' }}
+      >
+        <div style={{ padding: '16px 22px 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: '#fff' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>Add Child</div>
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>To {family.guardian.name}'s family</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+
+        <form onSubmit={handleSubmit} style={{ padding: '18px 22px' }}>
+          {error && (
+            <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>
+              {error}
+            </div>
+          )}
+
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Name</label>
+            <input value={name} onChange={e => setName(e.target.value)} style={inputStyle} required />
+          </div>
+
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Birthday</label>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <select value={birthMonth} onChange={e => setBirthMonth(e.target.value)} style={{ ...inputStyle, flex: 1.4 }} required>
+                <option value="">Month</option>
+                {MONTH_NAMES.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+              </select>
+              <select value={birthYear} onChange={e => setBirthYear(e.target.value)} style={{ ...inputStyle, flex: 1 }} required>
+                <option value="">Year</option>
+                {ADMIN_BIRTH_YEAR_OPTIONS.map(y => <option key={y} value={y}>{y}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>PIN</label>
+            <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" style={inputStyle} required />
+            {pin && <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PIN_REQUIREMENTS_HINT}</div>}
+          </div>
+
+          <div style={{ marginBottom: 6 }}>
+            <label style={labelStyle}>Avatar</label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
+              {KID_AVATARS.map(a => (
+                <button
+                  key={a} type="button"
+                  onClick={() => setAvatar(a)}
+                  style={{ fontSize: '1.3rem', width: 42, height: 42, borderRadius: 10, border: `2px solid ${avatar === a ? '#0d9488' : '#e2e8f0'}`, background: avatar === a ? '#f0fdfa' : '#fff', cursor: 'pointer' }}
+                >{a}</button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+            <button type="button" onClick={onClose}
+              style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem' }}>
+              Cancel
+            </button>
+            <button type="submit" disabled={saving}
+              style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
+              {saving ? 'Adding…' : 'Add Child'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+// ── Add co-guardian modal ────────────────────────────────────────────────────
+
+function AddCoGuardianModal({ family, onSave, onClose }) {
+  const [name, setName] = useState('')
+  const [avatar, setAvatar] = useState('🧑')
+  const [pin, setPin] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setSaving(true)
+    setError('')
+    try {
+      const pinCheck = checkPinComplexity(pin)
+      if (!pinCheck.ok) { setError(pinCheck.message); setSaving(false); return }
+      await api.adminAddCoGuardian(family.familyId, { name, avatar, pin })
+      onSave()
+    } catch (err) {
+      setError(err.message)
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 420, boxShadow: '0 20px 60px rgba(0,0,0,0.22)' }}
+      >
+        <div style={{ padding: '16px 22px 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>Add Co-Guardian</div>
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>To {family.guardian.name}'s family</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+
+        <form onSubmit={handleSubmit} style={{ padding: '18px 22px' }}>
+          {error && (
+            <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>
+              {error}
+            </div>
+          )}
+
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Name</label>
+            <input value={name} onChange={e => setName(e.target.value)} style={inputStyle} required />
+          </div>
+
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>PIN</label>
+            <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" style={inputStyle} required />
+            {pin && <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PIN_REQUIREMENTS_HINT}</div>}
+          </div>
+
+          <div style={{ marginBottom: 6 }}>
+            <label style={labelStyle}>Avatar</label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 }}>
+              {KID_AVATARS.map(a => (
+                <button
+                  key={a} type="button"
+                  onClick={() => setAvatar(a)}
+                  style={{ fontSize: '1.3rem', width: 42, height: 42, borderRadius: 10, border: `2px solid ${avatar === a ? '#0d9488' : '#e2e8f0'}`, background: avatar === a ? '#f0fdfa' : '#fff', cursor: 'pointer' }}
+                >{a}</button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+            <button type="button" onClick={onClose}
+              style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem' }}>
+              Cancel
+            </button>
+            <button type="submit" disabled={saving}
+              style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
+              {saving ? 'Adding…' : 'Add Co-Guardian'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+// ── Adjust points modal ──────────────────────────────────────────────────────
+
+function AdjustPointsModal({ kid, onSave, onClose }) {
+  const [amount, setAmount] = useState('')
+  const [reason, setReason] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  async function submit(sign) {
+    setSaving(true)
+    setError('')
+    try {
+      const num = Number(amount)
+      if (!num || num <= 0) { setError('Enter a positive number of points.'); setSaving(false); return }
+      await api.adminAdjustWallet(kid.id, { amount: num * sign, reason: reason.trim() })
+      onSave()
+    } catch (err) {
+      setError(err.message)
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 400, boxShadow: '0 20px 60px rgba(0,0,0,0.22)' }}
+      >
+        <div style={{ padding: '16px 22px 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>Adjust Points</div>
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>{kid.avatar} {kid.name} · currently {kid.balance} pts</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+
+        <div style={{ padding: '18px 22px' }}>
+          {error && (
+            <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>
+              {error}
+            </div>
+          )}
+
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Points</label>
+            <input type="number" min="0" value={amount} onChange={e => setAmount(e.target.value)} style={inputStyle} placeholder="e.g. 10" />
+          </div>
+
+          <div style={{ marginBottom: 6 }}>
+            <label style={labelStyle}>
+              Reason <span style={{ fontWeight: 400, color: '#94a3b8' }}>(optional, shown to the child, 15 chars max)</span>
+            </label>
+            <input value={reason} onChange={e => setReason(e.target.value.slice(0, 15))} style={inputStyle} placeholder="e.g. Great job!" />
+          </div>
+
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+            <button type="button" onClick={onClose}
+              style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem' }}>
+              Cancel
+            </button>
+            <button type="button" disabled={saving} onClick={() => submit(-1)}
+              style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#fef2f2', color: '#dc2626', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
+              − Remove
+            </button>
+            <button type="button" disabled={saving} onClick={() => submit(1)}
+              style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
+              + Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Delete confirmation modal ───────────────────────────────────────────────────
 
 function ConfirmDeleteModal({ target, onConfirm, onClose }) {
@@ -688,6 +962,9 @@ export default function AdminDashboard() {
   const [editTarget,    setEditTarget]    = useState(null)
   const [deleteTarget,  setDeleteTarget]  = useState(null)
   const [limitsTarget,  setLimitsTarget]  = useState(null)
+  const [addKidTarget,  setAddKidTarget]  = useState(null)
+  const [addCoGuardianTarget, setAddCoGuardianTarget] = useState(null)
+  const [pointsTarget,  setPointsTarget]  = useState(null)
   const [suspendBusyId, setSuspendBusyId] = useState(null)
 
   useEffect(() => { loadFamilies() }, [])
@@ -754,6 +1031,24 @@ export default function AdminDashboard() {
   async function handleLimitsSave() {
     const familyId = limitsTarget?.familyId
     setLimitsTarget(null)
+    await refreshAll(familyId)
+  }
+
+  async function handleAddKidSave() {
+    const familyId = addKidTarget?.familyId
+    setAddKidTarget(null)
+    await refreshAll(familyId)
+  }
+
+  async function handleAddCoGuardianSave() {
+    const familyId = addCoGuardianTarget?.familyId
+    setAddCoGuardianTarget(null)
+    await refreshAll(familyId)
+  }
+
+  async function handlePointsSave() {
+    const familyId = pointsTarget?.familyId
+    setPointsTarget(null)
     await refreshAll(familyId)
   }
 
@@ -849,6 +1144,33 @@ export default function AdminDashboard() {
           family={limitsTarget}
           onSave={handleLimitsSave}
           onClose={() => setLimitsTarget(null)}
+        />
+      )}
+
+      {/* Add child modal */}
+      {addKidTarget && (
+        <AddKidModal
+          family={addKidTarget}
+          onSave={handleAddKidSave}
+          onClose={() => setAddKidTarget(null)}
+        />
+      )}
+
+      {/* Add co-guardian modal */}
+      {addCoGuardianTarget && (
+        <AddCoGuardianModal
+          family={addCoGuardianTarget}
+          onSave={handleAddCoGuardianSave}
+          onClose={() => setAddCoGuardianTarget(null)}
+        />
+      )}
+
+      {/* Adjust points modal */}
+      {pointsTarget && (
+        <AdjustPointsModal
+          kid={pointsTarget.kid}
+          onSave={handlePointsSave}
+          onClose={() => setPointsTarget(null)}
         />
       )}
 
@@ -1005,13 +1327,19 @@ export default function AdminDashboard() {
                         </div>
                         <div style={{ fontSize: '0.78rem', color: '#64748b' }}>PIN-gated profile</div>
                       </>
-                    : <div style={{ fontSize: '0.82rem', color: '#cbd5e1' }}>—</div>
+                    : <>
+                        <div style={{ fontSize: '0.82rem', color: '#cbd5e1', marginBottom: 4 }}>—</div>
+                        <button style={editBtnStyle} onClick={e => { e.stopPropagation(); setAddCoGuardianTarget(family) }}>+ Add</button>
+                      </>
                   }
                 </div>
 
                 {/* Kids */}
                 <div style={{ flex: '2 1 240px', minWidth: 0 }}>
-                  <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 5 }}>Children ({family.kids.length})</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
+                    <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Children ({family.kids.length})</span>
+                    <button style={editBtnStyle} onClick={e => { e.stopPropagation(); setAddKidTarget(family) }}>+ Add Child</button>
+                  </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                     {family.kids.length === 0
                       ? <span style={{ fontSize: '0.82rem', color: '#cbd5e1' }}>None</span>
@@ -1020,6 +1348,7 @@ export default function AdminDashboard() {
                             {kid.avatar} <strong>{kid.name}</strong>
                             {kid.isSuspended && <span title="Suspended">🚫</span>}
                             <span style={{ color: '#0d9488', fontWeight: 700, marginLeft: 2 }}>{kid.balance} pts</span>
+                            <button title="Adjust points" style={{ ...editBtnStyle, padding: '1px 6px', marginLeft: 2 }} onClick={e => { e.stopPropagation(); setPointsTarget({ kid, familyId: family.familyId }) }}>💰</button>
                             <button style={{ ...editBtnStyle, padding: '1px 6px', marginLeft: 2 }} onClick={e => openEditUser(e, kid, family.familyId)}>✏️</button>
                             <button style={{ ...(kid.isSuspended ? unsuspendBtnStyle : suspendBtnStyle), padding: '1px 6px', marginLeft: 2 }} onClick={e => handleToggleSuspend(e, kid, family.familyId)} disabled={suspendBusyId === kid.id}>
                               {kid.isSuspended ? '↺' : '🚫'}
