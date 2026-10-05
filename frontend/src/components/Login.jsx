@@ -1076,6 +1076,134 @@ export function ResetPasswordPage() {
 
 // ── Shell ─────────────────────────────────────────────────────────────────────
 
+// ── Landing hero — the first thing a visitor sees at "/", before any login
+// form. A short, visual pitch for what's actually in the app, with
+// Future-Ready called out specifically since it's the thing that sets this
+// apart from a plain chore chart. Sign In / Create Account are the only two
+// ways forward from here; the actual form only renders once one is picked. ──
+
+const FEATURE_CARDS = [
+  { icon: '✅', title: 'Chores',         text: 'Turn daily tasks into points',     color: '#ccec13', bg: '#f0fdf4', border: '#bbf7d0' },
+  { icon: '🎁', title: 'Rewards',        text: 'Save points for bigger goals',     color: '#994cf0', bg: '#fdf2f8', border: '#fbcfe8' },
+  { icon: '💰', title: 'Investing',      text: 'Learn money skills early',         color: '#2572ed', bg: '#f0fdfa', border: '#99f6e4' },
+  { icon: '🤖', title: 'AI Learning',    text: 'Age-based lessons made simple',    color: '#ffffff', bg: '#dbebf4', border: '#ddd6fe' },
+  { icon: '🛡️', title: 'Digital Safety', text: 'Explore and stay safe online',     color: '#0f86b9', bg: '#fef2f2', border: '#fecaca' },
+  { icon: '🎤', title: 'Public Speaking',text: 'Build confidence step by step',    color: '#0be064', bg: '#ecfeff', border: '#a5f3fc' },
+]
+
+function FeatureCard({ icon, title, text, color, bg, border }) {
+  return (
+    <div style={{ background: bg, border: `1px solid ${border}`, borderRadius: 16, padding: '16px 14px', textAlign: 'center' }}>
+      <div style={{
+        width: 44, height: 44, borderRadius: '50%', background: color, color: '#fff',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem',
+        margin: '0 auto 10px', boxShadow: `0 4px 10px ${color}55`,
+      }}>
+        {icon}
+      </div>
+      <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#1e293b', marginBottom: 2 }}>{title}</div>
+      <div style={{ fontSize: '0.76rem', color: '#78716c', lineHeight: 1.4 }}>{text}</div>
+    </div>
+  )
+}
+
+// A small, code-drawn preview of what the app actually looks like once a kid
+// is in it -- no stock photography available, so this leans on the app's own
+// real card style (point balance + savings goal + a mini feature grid)
+// instead of trying to fake a lifestyle photo.
+function AppPreviewCard() {
+  return (
+    <div style={{
+      maxWidth: 300, margin: '36px auto 0', background: '#fff', borderRadius: 24,
+      border: '6px solid #1e293b', boxShadow: '0 20px 48px rgba(0,0,0,0.18)', overflow: 'hidden',
+    }}>
+      <div style={{ padding: '16px 18px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <div style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 700 }}>MY POINTS</div>
+          <div style={{ width: 30, height: 30, borderRadius: '50%', background: '#fde68a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.95rem' }}>🙂</div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '1.6rem', fontWeight: 800, color: '#1e293b', marginBottom: 12 }}>
+          ⭐ 320
+        </div>
+        <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 700, marginBottom: 4 }}>🧱 Saving for: LEGO Set</div>
+        <div style={{ background: '#f1f5f9', borderRadius: 999, height: 8, overflow: 'hidden', marginBottom: 14 }}>
+          <div style={{ width: '40%', height: '100%', background: '#16a34a', borderRadius: 999 }} />
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+          {FEATURE_CARDS.map(f => (
+            <div key={f.title} style={{ background: f.bg, border: `1px solid ${f.border}`, borderRadius: 10, padding: '6px 4px', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.95rem' }}>{f.icon}</div>
+              <div style={{ fontSize: '0.56rem', fontWeight: 700, color: f.color, marginTop: 2 }}>{f.title}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function LandingHero({ onSignIn, onCreateAccount }) {
+  return (
+    <div style={{ maxWidth: 760, width: '100%', margin: '0 auto', textAlign: 'center' }}>
+      <img
+        src="/branding/RewardURKids_Website_Full_Logo.png"
+        alt="Reward Ur Kids — Small Tasks. Big Smiles."
+        style={{ maxWidth: 200, width: '100%', height: 'auto', display: 'block', margin: '0 auto 18px' }}
+      />
+
+      <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1e293b', margin: '0 0 8px', letterSpacing: '-0.4px', lineHeight: 1.2 }}>
+        Good Habits Today,<br />Brighter Tomorrows
+      </h1>
+      <p style={{ fontSize: '0.88rem', color: '#78716c', margin: '0 auto 14px', lineHeight: 1.5, maxWidth: 560 }}>
+        Parents create chores and rewards, kids earn points for completing tasks, spend those points in their own shop, and learn parent-approved, future-ready skills.
+      </p>
+
+      <div style={{
+        display: 'inline-flex', alignItems: 'center', gap: 6, maxWidth: '100%', boxSizing: 'border-box',
+        background: 'linear-gradient(135deg, #0d9488, #0f766e)', color: '#fff',
+        borderRadius: 999, padding: '6px 16px', fontSize: '0.72rem', fontWeight: 800,
+        letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(13,148,136,0.3)', marginBottom: 20,
+        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+      }}>
+        🚀 FUTURE-READY · included free
+      </div>
+
+      {/* Primary action -- kept right under the fold-defining content (logo,
+          headline, badge) so a visitor never has to scroll to find it. The
+          feature grid and app preview are supporting detail below. */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 10 }}>
+        <button
+          onClick={onSignIn}
+          style={{
+            background: '#16a34a', color: '#fff', border: 'none', borderRadius: 999,
+            padding: '13px 30px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
+            boxShadow: '0 6px 16px rgba(22,163,74,0.3)',
+          }}
+        >
+          Sign In →
+        </button>
+        <button
+          onClick={onCreateAccount}
+          style={{
+            background: '#fff', color: '#16a34a', border: '2px solid #16a34a', borderRadius: 999,
+            padding: '11px 28px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
+          }}
+        >
+          Create an Account →
+        </button>
+      </div>
+
+      <TryDemoLink />
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10, margin: '32px 0 28px' }}>
+        {FEATURE_CARDS.map(f => <FeatureCard key={f.title} {...f} />)}
+      </div>
+
+      <AppPreviewCard />
+    </div>
+  )
+}
+
 export default function Login() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -1083,6 +1211,9 @@ export default function Login() {
   const setMode = next => setSearchParams(next === 'register' ? { mode: 'register' } : {})
   const [showHelp, setShowHelp] = useState(false)
   const [showLegal, setShowLegal] = useState(false)
+  // The marketing landing view is what a fresh visitor sees first -- the
+  // actual sign-in/create-account form only renders once they pick one.
+  const [showLanding, setShowLanding] = useState(true)
 
   const fixedBtnStyle = {
     background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(8px)',
@@ -1105,7 +1236,22 @@ export default function Login() {
       {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}
       {showLegal && <UserAgreementModal onClose={() => setShowLegal(false)} />}
 
+      {showLanding ? (
+        <div style={{ marginTop: 56 }}>
+          <LandingHero
+            onSignIn={() => { setMode('login'); setShowLanding(false) }}
+            onCreateAccount={() => { setMode('register'); setShowLanding(false) }}
+          />
+        </div>
+      ) : (
       <div className="login-shell">
+        <button
+          type="button"
+          onClick={() => setShowLanding(true)}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#78716c', fontSize: '0.82rem', fontWeight: 600, marginBottom: 14, padding: 0 }}
+        >
+          ← Back to Home
+        </button>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 22 }}>
           <img
             src={mode === 'login' ? '/branding/RewardURKids_Website_Full_Logo.png' : '/branding/RewardURKids_Website_Compact_Logo.png'}
@@ -1139,6 +1285,7 @@ export default function Login() {
           </>
         )}
       </div>
+      )}
     </div>
   )
 }
