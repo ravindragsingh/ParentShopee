@@ -75,7 +75,7 @@ function DueDateBadge({ dueDate, status }) {
 
 // ── Guardian chore card ─────────────────────────────────────────────────────────
 
-export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', editMode = false }) {
+export function GuardianChoreCard({ chore, kids, onRefresh }) {
   const [editing, setEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(chore.title)
   const [editDesc, setEditDesc] = useState(chore.description || '')
@@ -144,48 +144,6 @@ export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', ed
     finally { setActionLoading(false) }
   }
 
-  async function handleSaveInline() {
-    const trimmedTitle = editTitle.trim()
-    if (!trimmedTitle) { setEditTitle(chore.title); return }
-    const pts = Number(editPoints)
-    if (trimmedTitle === chore.title && pts === chore.points) return  // nothing changed
-    setSaving(true); setError('')
-    try {
-      await api.updateChore(chore.id, { title: trimmedTitle, points: pts })
-      onRefresh()
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setSaving(false)
-    }
-  }
-
-  async function handleAssignInline(kidId) {
-    setEditKid(kidId)
-    setSaving(true); setError('')
-    try {
-      await api.updateChore(chore.id, { assignedKidId: kidId || null })
-      onRefresh()
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setSaving(false)
-    }
-  }
-
-  async function handleDueDateInline(dueDate) {
-    setEditDueDate(dueDate)
-    setSaving(true); setError('')
-    try {
-      await api.updateChore(chore.id, { dueDate: dueDate || '' })
-      onRefresh()
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setSaving(false)
-    }
-  }
-
   async function handleRepeat() {
     setActionLoading(true); setError('')
     try {
@@ -206,108 +164,6 @@ export function GuardianChoreCard({ chore, kids, onRefresh, variant = 'card', ed
     }
   }
 
-  if (variant === 'row') {
-    const showInlineEdit = editMode && chore.status === 'open'
-    return (
-      <div style={{ background: '#fff', border: `1px solid ${chore.status === 'pending' ? '#fed7aa' : '#e2e8f0'}`, borderRadius: 10, padding: '10px 14px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          {chore.status === 'pending' ? (
-            <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>⏳</span>
-          ) : (
-            <input
-              type="checkbox"
-              checked={chore.status === 'complete'}
-              disabled
-              title="Kids mark chores complete from their own dashboard"
-              style={{ width: 20, height: 20, flexShrink: 0 }}
-            />
-          )}
-          <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{chore.imageEmoji || '📋'}</span>
-
-          <div style={{ flex: 1, minWidth: 0 }}>
-            {showInlineEdit ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                <input
-                  value={editTitle}
-                  onChange={e => setEditTitle(e.target.value)}
-                  onBlur={handleSaveInline}
-                  disabled={saving}
-                  style={{ padding: '4px 8px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem', width: '100%', maxWidth: 280, boxSizing: 'border-box' }}
-                />
-                {/* Shown even while editing -- this is exactly the view a guardian
-                    uses to decide what to delete to free up their custom-item limit,
-                    so which rows actually count toward it matters most here. */}
-                {chore.isCustom && <span title="Counts toward your family's custom chore limit" style={{ fontSize: '0.72rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700, flexShrink: 0 }}>✨ Custom</span>}
-              </div>
-            ) : (
-              <span style={{ fontWeight: 600, color: '#1e293b' }}>
-                {chore.title}
-                {chore.isCustom && <span title="Counts toward your family's custom chore limit" style={{ marginLeft: 6, fontSize: '0.72rem', background: '#eef2ff', color: '#4338ca', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>✨ Custom</span>}
-              </span>
-            )}
-            {!showInlineEdit && (
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 2, alignItems: 'center' }}>
-                <DueDateBadge dueDate={chore.dueDate} status={chore.status} />
-                {chore.status === 'open' && <>{assignedKid?.avatar && <span>{assignedKid.avatar}</span>}Assigned: {assignedKidName}</>}
-                {chore.status === 'pending' && <>{completedByKid?.avatar && <span>{completedByKid.avatar}</span>}Completed by: {completedByName}</>}
-                {chore.templateId && <span style={{ fontSize: '0.72rem', background: '#ccfbf1', color: '#0d9488', borderRadius: 6, padding: '1px 7px', fontWeight: 700 }}>🔁 Recurring</span>}
-              </div>
-            )}
-          </div>
-
-          {chore.status === 'pending' ? (
-            <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-              <button className="btn btn-green btn-sm" onClick={handleApprove} disabled={actionLoading}>✓ Approve</button>
-              <button className="btn btn-red btn-sm" onClick={handleReject} disabled={actionLoading}>✕ Reject</button>
-            </div>
-          ) : showInlineEdit ? (
-            <input
-              type="number" min="0" value={editPoints}
-              onChange={e => setEditPoints(e.target.value)}
-              onBlur={handleSaveInline}
-              disabled={saving}
-              style={{ width: 60, padding: '4px 6px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.85rem' }}
-            />
-          ) : (
-            <span className="points-badge">{chore.points} pts</span>
-          )}
-        </div>
-
-        {showInlineEdit && (
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginTop: 8, paddingTop: 8, borderTop: '1px dashed #e2e8f0' }}>
-            <label style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}>
-              Assign to
-              <select
-                value={editKid}
-                disabled={saving}
-                onChange={e => handleAssignInline(e.target.value)}
-                style={{ padding: '4px 8px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.82rem' }}
-              >
-                <option value="">Any kid</option>
-                {kids.map(k => (
-                  <option key={k.id} value={k.id}>{k.avatar} {k.name}</option>
-                ))}
-              </select>
-            </label>
-            <label style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}>
-              Due date
-              <input
-                type="date"
-                value={editDueDate}
-                disabled={saving}
-                onChange={e => handleDueDateInline(e.target.value)}
-                style={{ padding: '4px 8px', border: '1px solid #cbd5e1', borderRadius: 6, fontSize: '0.82rem' }}
-              />
-            </label>
-            <button type="button" className="btn btn-red btn-sm" onClick={handleDelete} disabled={actionLoading} style={{ marginLeft: 'auto' }}>
-              🗑️ Delete
-            </button>
-          </div>
-        )}
-        {error && <div style={{ color: '#dc2626', fontSize: '0.75rem', marginTop: 4 }}>{error}</div>}
-      </div>
-    )
-  }
 
   return (
     <div className={`chore-card ${chore.status}`}>
@@ -491,16 +347,19 @@ export function KidChoreCard({ chore, onRefresh, variant = 'card' }) {
         ) : (
           <input
             type="checkbox"
-            checked={false}
-            disabled={loading}
+            checked={chore.status === 'complete'}
+            disabled={loading || chore.status !== 'open'}
             onChange={handleComplete}
-            style={{ width: 20, height: 20, accentColor: '#0d9488', cursor: loading ? 'default' : 'pointer', flexShrink: 0 }}
+            style={{ width: 20, height: 20, accentColor: '#0d9488', cursor: (loading || chore.status !== 'open') ? 'default' : 'pointer', flexShrink: 0 }}
           />
         )}
         <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{chore.imageEmoji || '📋'}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ fontWeight: 600, color: '#1e293b' }}>{chore.title}</span>
+          <span style={{ fontWeight: 600, color: chore.status === 'complete' ? '#94a3b8' : '#1e293b', textDecoration: chore.status === 'complete' ? 'line-through' : 'none' }}>
+            {chore.title}
+          </span>
           {isPending && <span style={{ display: 'block', fontSize: '0.72rem', color: '#c2410c', fontWeight: 700 }}>⏳ Waiting for approval</span>}
+          {chore.status === 'expired' && <span style={{ display: 'block', fontSize: '0.72rem', color: '#64748b', fontWeight: 700 }}>⌛ Expired</span>}
           {error && <span style={{ display: 'block', color: '#dc2626', fontSize: '0.72rem' }}>{error}</span>}
         </span>
         <DueDateBadge dueDate={chore.dueDate} status={chore.status} />

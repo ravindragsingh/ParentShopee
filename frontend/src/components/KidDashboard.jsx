@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { KidChoreCard } from './ChoreCard.jsx'
+import { SectionTile } from './DailyChoresCard.jsx'
 import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
@@ -11,37 +12,6 @@ import SettingsPanel from './Settings.jsx'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
 import FutureReadyTab from '../futureready/FutureReadyTab.jsx'
-
-// ─── Collapsible section header ──────────────────────────────────────────────
-
-function CollapsibleSection({ icon, title, count, colorClass, defaultOpen = false, emptyText, children }) {
-  const [isOpen, setIsOpen] = useState(defaultOpen)
-  return (
-    <div style={{ marginTop: 8 }}>
-      <div
-        role="button"
-        tabIndex={0}
-        className={`section-header ${colorClass}`}
-        onClick={() => setIsOpen(v => !v)}
-        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setIsOpen(v => !v)}
-        style={{ display: 'flex', width: '100%', cursor: 'pointer', userSelect: 'none', justifyContent: 'space-between', alignItems: 'center', boxSizing: 'border-box' }}
-      >
-        <span>{icon} {title}</span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ background: 'rgba(0,0,0,0.12)', borderRadius: 10, padding: '1px 8px', fontSize: '0.8rem', fontWeight: 700 }}>
-            {count}
-          </span>
-          <span style={{ fontSize: '0.75rem', opacity: 0.65 }}>{isOpen ? '▲' : '▼'}</span>
-        </span>
-      </div>
-      {isOpen && (
-        count === 0
-          ? <div className="empty-text">{emptyText}</div>
-          : <div className="chore-grid">{children}</div>
-      )}
-    </div>
-  )
-}
 
 // ─── Daily chore row (highlighted within the merged Chores list) ────────────
 
@@ -81,6 +51,8 @@ function KidChoresTab({ userId, onBalanceChange }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [choresExpanded, setChoresExpanded] = useState(false)
+  const [completeExpanded, setCompleteExpanded] = useState(false)
+  const [expiredExpanded, setExpiredExpanded] = useState(false)
 
   const loadChores = useCallback(async () => {
     setLoading(true)
@@ -148,37 +120,34 @@ function KidChoresTab({ userId, onBalanceChange }) {
   if (error) return <div className="error-msg">{error}</div>
 
   return (
-    <div>
-      <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
-        <div
-          role="button" tabIndex={0}
-          onClick={() => setChoresExpanded(v => !v)}
-          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setChoresExpanded(v => !v)}
-          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
-        >
-          <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            ✨ Chores
-            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
-              {totalCount} total
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+      <SectionTile
+        icon="✨"
+        iconColor="#0d9488"
+        title="Chores"
+        badges={[
+          <span key="total" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 9px' }}>
+            {totalCount} total
+          </span>,
+          totalPendingCount > 0 && (
+            <span key="pending" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 9px' }}>
+              ⏳ {totalPendingCount} awaiting approval
             </span>
-            {totalPendingCount > 0 && (
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
-                ⏳ {totalPendingCount} awaiting approval
-              </span>
+          ),
+        ].filter(Boolean)}
+        expanded={choresExpanded}
+        onToggle={() => setChoresExpanded(v => !v)}
+      >
+        {totalCount === 0 ? (
+          <div className="empty-text">No available chores right now.</div>
+        ) : (
+          <div>
+            {dailyDeductionEnabled && dailyAvailable.length > 0 && (
+              <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', color: '#991b1b', fontSize: '0.85rem', fontWeight: 600, marginBottom: 12 }}>
+                ⚠️ Don't forget your Daily Chores — anything left unchecked by the end of the day loses its points ({dailyAtRiskPoints} pts at risk right now). Check it off today to keep them!
+              </div>
             )}
-          </span>
-          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{choresExpanded ? '▲' : '▼'}</span>
-        </div>
-        {choresExpanded && (
-          totalCount === 0 ? (
-            <div className="empty-text" style={{ marginTop: 14 }}>No available chores right now.</div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 14 }}>
-              {dailyDeductionEnabled && dailyAvailable.length > 0 && (
-                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', color: '#991b1b', fontSize: '0.85rem', fontWeight: 600 }}>
-                  ⚠️ Don't forget your Daily Chores — anything left unchecked by the end of the day loses its points ({dailyAtRiskPoints} pts at risk right now). Check it off today to keep them!
-                </div>
-              )}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {dailyPending.map(item => (
                 <DailyChoreRow key={`daily-${item.id}`} item={item} busy={dailyBusyId === item.id} onToggle={() => handleDailyToggle(item)} />
               ))}
@@ -192,17 +161,43 @@ function KidChoresTab({ userId, onBalanceChange }) {
                 <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />
               ))}
             </div>
-          )
+          </div>
         )}
-      </div>
+      </SectionTile>
 
-      <CollapsibleSection icon="🏆" title="My Completed" count={myCompleted.length} colorClass="complete" emptyText="No approved chores yet. Keep it up!">
-        {myCompleted.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
-      </CollapsibleSection>
+      <SectionTile
+        icon="🏆"
+        iconColor="#10b981"
+        title="My Completed"
+        badges={[<span key="count" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#047857', background: '#d1fae5', borderRadius: 999, padding: '2px 9px' }}>{myCompleted.length}</span>]}
+        expanded={completeExpanded}
+        onToggle={() => setCompleteExpanded(v => !v)}
+      >
+        {myCompleted.length === 0 ? (
+          <div className="empty-text">No approved chores yet. Keep it up!</div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {myCompleted.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />)}
+          </div>
+        )}
+      </SectionTile>
 
-      <CollapsibleSection icon="⌛" title="Expired" count={myExpired.length} colorClass="expired" emptyText="No expired chores.">
-        {myExpired.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} />)}
-      </CollapsibleSection>
+      <SectionTile
+        icon="⌛"
+        iconColor="#94a3b8"
+        title="Expired"
+        badges={[<span key="count" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#475569', background: '#f1f5f9', borderRadius: 999, padding: '2px 9px' }}>{myExpired.length}</span>]}
+        expanded={expiredExpanded}
+        onToggle={() => setExpiredExpanded(v => !v)}
+      >
+        {myExpired.length === 0 ? (
+          <div className="empty-text">No expired chores.</div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {myExpired.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />)}
+          </div>
+        )}
+      </SectionTile>
     </div>
   )
 }
