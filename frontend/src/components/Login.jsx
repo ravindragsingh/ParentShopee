@@ -1082,14 +1082,19 @@ export function ResetPasswordPage() {
 // apart from a plain chore chart. Sign In / Create Account are the only two
 // ways forward from here; the actual form only renders once one is picked. ──
 
-const FEATURE_CARDS = [
-  { icon: '✅', title: 'Chores',         text: 'Turn daily tasks into points',     color: '#ccec13', bg: '#f0fdf4', border: '#bbf7d0' },
-  { icon: '🎁', title: 'Rewards',        text: 'Save points for bigger goals',     color: '#994cf0', bg: '#fdf2f8', border: '#fbcfe8' },
+const CORE_FEATURES = [
+  { icon: '✅', title: 'Chores',  text: 'Turn daily tasks into points',  color: '#ccec13', bg: '#f0fdf4', border: '#bbf7d0' },
+  { icon: '🎁', title: 'Rewards', text: 'Save points for bigger goals',  color: '#994cf0', bg: '#fdf2f8', border: '#fbcfe8' },
+]
+
+const FUTURE_READY_FEATURES = [
   { icon: '💰', title: 'Investing',      text: 'Learn money skills early',         color: '#2572ed', bg: '#f0fdfa', border: '#99f6e4' },
   { icon: '🤖', title: 'AI Learning',    text: 'Age-based lessons made simple',    color: '#ffffff', bg: '#dbebf4', border: '#ddd6fe' },
   { icon: '🛡️', title: 'Digital Safety', text: 'Explore and stay safe online',     color: '#0f86b9', bg: '#fef2f2', border: '#fecaca' },
   { icon: '🎤', title: 'Public Speaking',text: 'Build confidence step by step',    color: '#0be064', bg: '#ecfeff', border: '#a5f3fc' },
 ]
+
+const FEATURE_CARDS = [...CORE_FEATURES, ...FUTURE_READY_FEATURES]
 
 function FeatureCard({ icon, title, text, color, bg, border }) {
   return (
@@ -1142,6 +1147,117 @@ function AppPreviewCard() {
   )
 }
 
+// Honest, verifiable claims about the product itself -- not fabricated user
+// counts or testimonials, since we don't have real usage numbers yet.
+const TRUST_ITEMS = [
+  { icon: '🆓', text: '100% free — no subscriptions' },
+  { icon: '🔒', text: 'Every profile is PIN-protected' },
+  { icon: '👨‍👩‍👧', text: 'Add a co-guardian anytime' },
+  { icon: '📱', text: 'Works great on mobile' },
+]
+
+function TrustStrip() {
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10, margin: '28px 0' }}>
+      {TRUST_ITEMS.map(t => (
+        <div key={t.text} style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 999, padding: '7px 14px', fontSize: '0.78rem', fontWeight: 600, color: '#334155' }}>
+          <span>{t.icon}</span>{t.text}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const PAIN_POINTS = [
+  { icon: '🙅', title: 'Stop the Nagging', text: 'Points do the motivating, so chores stop turning into daily battles.' },
+  { icon: '💵', title: 'Raise Money-Smart Kids', text: 'Real practice earning, saving, and spending — before they leave home.' },
+  { icon: '🗂️', title: 'One App, Whole Family', text: 'Chores, rewards, and Future-Ready lessons in one place — no sticky notes, no spreadsheets.' },
+]
+
+function PainPointSection() {
+  return (
+    <div style={{ margin: '12px 0 32px' }}>
+      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1e293b', textAlign: 'center', marginBottom: 18 }}>
+        Why Parents Choose Reward Ur Kids
+      </h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, textAlign: 'left' }}>
+        {PAIN_POINTS.map(p => (
+          <div key={p.title} style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16, padding: '18px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+            <div style={{ fontSize: '1.6rem', marginBottom: 8 }}>{p.icon}</div>
+            <div style={{ fontWeight: 800, fontSize: '0.92rem', color: '#1e293b', marginBottom: 4 }}>{p.title}</div>
+            <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>{p.text}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// Answers reflect actual app behavior (e.g. chores always need guardian
+// approval; only shop purchases have an approval on/off toggle) -- see
+// ShopTab's shopApprovalEnabled setting and chores.py's approve/reject flow.
+const LANDING_FAQS = [
+  { q: 'Is Reward Ur Kids free?', a: "Yes — it's completely free to create chores, rewards, and Future-Ready lessons for your whole family." },
+  { q: "Is my child's data safe?", a: "We never sell or share your family's data. Kids don't have independent logins — every profile, including yours, is PIN-protected and managed by guardians." },
+  { q: 'Do I have to approve everything my kids do?', a: "For shop purchases, you choose whether approval is required. Chores and daily tasks always wait for your quick approval before points are awarded, so you're always in the loop." },
+  { q: 'Can both parents use it together?', a: 'Yes — add a co-guardian to your family account so you can both manage chores, rewards, and points together.' },
+  { q: 'Do I need to install anything?', a: 'No — Reward Ur Kids runs right in your browser and works great on both desktop and mobile.' },
+]
+
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div style={{ borderBottom: '1px solid #e2e8f0', padding: '14px 0' }}>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0, fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }}
+      >
+        {q}
+        <span style={{ color: '#94a3b8', flexShrink: 0 }}>{open ? '−' : '+'}</span>
+      </button>
+      {open && <p style={{ marginTop: 8, fontSize: '0.84rem', color: '#64748b', lineHeight: 1.55 }}>{a}</p>}
+    </div>
+  )
+}
+
+function FAQSection() {
+  return (
+    <div style={{ textAlign: 'left', maxWidth: 560, margin: '0 auto 32px' }}>
+      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1e293b', textAlign: 'center', marginBottom: 6 }}>
+        Questions Parents Ask
+      </h2>
+      <div>
+        {LANDING_FAQS.map(f => <FAQItem key={f.q} {...f} />)}
+      </div>
+    </div>
+  )
+}
+
+function FinalCTA({ onSignIn, onCreateAccount }) {
+  return (
+    <div style={{ textAlign: 'center', background: 'linear-gradient(135deg, #f0fdfa, #fff)', border: '1px solid #99f6e4', borderRadius: 20, padding: '28px 20px' }}>
+      <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#1e293b', marginBottom: 14 }}>
+        Ready to turn chores into good habits?
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12 }}>
+        <button
+          onClick={onSignIn}
+          style={{ background: '#16a34a', color: '#fff', border: 'none', borderRadius: 999, padding: '12px 28px', fontSize: '0.92rem', fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 16px rgba(22,163,74,0.3)' }}
+        >
+          Sign In →
+        </button>
+        <button
+          onClick={onCreateAccount}
+          style={{ background: '#fff', color: '#16a34a', border: '2px solid #16a34a', borderRadius: 999, padding: '10px 26px', fontSize: '0.92rem', fontWeight: 800, cursor: 'pointer' }}
+        >
+          Create an Account →
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function LandingHero({ onSignIn, onCreateAccount }) {
   return (
     <div style={{ maxWidth: 760, width: '100%', margin: '0 auto', textAlign: 'center' }}>
@@ -1151,22 +1267,22 @@ function LandingHero({ onSignIn, onCreateAccount }) {
         style={{ maxWidth: 200, width: '100%', height: 'auto', display: 'block', margin: '0 auto 18px' }}
       />
 
-      <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1e293b', margin: '0 0 8px', letterSpacing: '-0.4px', lineHeight: 1.2 }}>
-        Good Habits Today,<br />Brighter Tomorrows
-      </h1>
-      <p style={{ fontSize: '0.88rem', color: '#78716c', margin: '0 auto 14px', lineHeight: 1.5, maxWidth: 560 }}>
+      <h1 style={{ fontSize: '0.95rem', fontWeight: 400, color: '#78716c', margin: '0 auto 14px', lineHeight: 1.5, maxWidth: 560 }}>
         Parents create chores and rewards, kids earn points for completing tasks, spend those points in their own shop, and learn parent-approved, future-ready skills.
-      </p>
+      </h1>
 
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: 6, maxWidth: '100%', boxSizing: 'border-box',
         background: 'linear-gradient(135deg, #0d9488, #0f766e)', color: '#fff',
         borderRadius: 999, padding: '6px 16px', fontSize: '0.72rem', fontWeight: 800,
-        letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(13,148,136,0.3)', marginBottom: 20,
+        letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(13,148,136,0.3)', marginBottom: 6,
         whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
       }}>
-        🚀 FUTURE-READY · included free
+        🚀 FUTURE-READY SKILLS · FREE
       </div>
+      <p style={{ fontSize: '0.76rem', color: '#78716c', margin: '0 auto 20px', maxWidth: 480, lineHeight: 1.5 }}>
+        Money, AI, online safety &amp; public speaking — real-world skills kids won't get from a typical chore app.
+      </p>
 
       {/* Primary action -- kept right under the fold-defining content (logo,
           headline, badge) so a visitor never has to scroll to find it. The
@@ -1195,11 +1311,25 @@ function LandingHero({ onSignIn, onCreateAccount }) {
 
       <TryDemoLink />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10, margin: '32px 0 28px' }}>
-        {FEATURE_CARDS.map(f => <FeatureCard key={f.title} {...f} />)}
+      <div style={{ margin: '32px 0 28px', textAlign: 'left' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10, marginBottom: 20 }}>
+          {CORE_FEATURES.map(f => <FeatureCard key={f.title} {...f} />)}
+        </div>
+        <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f766e', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: 10, textAlign: 'center' }}>
+          🚀 Future-Ready — included free
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10 }}>
+          {FUTURE_READY_FEATURES.map(f => <FeatureCard key={f.title} {...f} />)}
+        </div>
       </div>
 
+      <PainPointSection />
+
       <AppPreviewCard />
+
+      <TrustStrip />
+      <FAQSection />
+      <FinalCTA onSignIn={onSignIn} onCreateAccount={onCreateAccount} />
     </div>
   )
 }
