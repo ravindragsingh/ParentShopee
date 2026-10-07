@@ -2025,22 +2025,26 @@ function KidsTab() {
 
 // ─── Home screen ──────────────────────────────────────────────────────────────
 
-function HomeNavRow({ icon, iconBg, label, onClick }) {
+function HomeNavTile({ icon, iconColor, bg, border, label, text, onClick }) {
   return (
     <button
       onClick={onClick}
       style={{
-        display: 'flex', alignItems: 'center', gap: 14, width: '100%',
-        background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14,
-        padding: '14px 16px', cursor: 'pointer', textAlign: 'left',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+        background: bg, border: `1px solid ${border}`, borderRadius: 18,
+        padding: '20px 14px', cursor: 'pointer',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
       }}
     >
-      <span style={{ width: 42, height: 42, borderRadius: 12, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.35rem', flexShrink: 0 }}>
+      <span style={{
+        width: 56, height: 56, borderRadius: '50%', background: iconColor, color: '#fff',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem',
+        marginBottom: 10, boxShadow: `0 4px 10px ${iconColor}55`,
+      }}>
         {icon}
       </span>
-      <span style={{ flex: 1, fontWeight: 700, color: '#1e293b', fontSize: '0.98rem' }}>{label}</span>
-      <span style={{ color: '#cbd5e1', fontSize: '1.3rem', lineHeight: 1 }}>›</span>
+      <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>{label}</span>
+      <span style={{ fontSize: '0.76rem', color: '#78716c', marginTop: 3, lineHeight: 1.35 }}>{text}</span>
     </button>
   )
 }
@@ -2201,11 +2205,11 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
         )}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <HomeNavRow icon="✅" iconBg="#ccfbf1" label="Chores" onClick={() => onNavigate('chores')} />
-        <HomeNavRow icon="🛍️" iconBg="#fef3c7" label="Shop" onClick={() => onNavigate('shop')} />
-        <HomeNavRow icon="🚀" iconBg="#ede9fe" label="Future-Ready" onClick={() => onNavigate('futureready')} />
-        <HomeNavRow icon="👨‍👩‍👧" iconBg="#fce7f3" label="Kids" onClick={() => onNavigate('kids')} />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" onClick={() => onNavigate('chores')} />
+        <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" onClick={() => onNavigate('shop')} />
+        <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} />
+        <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} />
       </div>
 
       {modalOpen && (
