@@ -3,6 +3,64 @@ import { api } from '../api.js'
 
 const MAX_ITEMS = 10
 
+// ─── Shared section tile ──────────────────────────────────────────────────────
+// Collapsed: a square tile (icon, title, status badges), consistent with the
+// home-screen nav tiles. Expanded: spreads to the full grid row width and
+// shows its content below the header -- an accordion that lives in a grid.
+export function SectionTile({ icon, iconColor = '#0d9488', title, badges = [], expanded, onToggle, headerExtra, children }) {
+  return (
+    <div
+      style={{
+        gridColumn: expanded ? '1 / -1' : undefined,
+        background: '#fff', border: '1px solid #99f6e4', borderRadius: 18,
+        boxShadow: '0 1px 4px rgba(0,0,0,0.04)', overflow: 'hidden',
+      }}
+    >
+      <div
+        role="button" tabIndex={0}
+        onClick={onToggle}
+        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle()}
+        style={{
+          display: 'flex', cursor: 'pointer', userSelect: 'none',
+          flexDirection: expanded ? 'row' : 'column',
+          alignItems: 'center',
+          textAlign: expanded ? 'left' : 'center',
+          gap: expanded ? 14 : 0,
+          padding: expanded ? '16px 20px' : '22px 14px',
+        }}
+      >
+        <span style={{
+          width: expanded ? 44 : 56, height: expanded ? 44 : 56, borderRadius: '50%',
+          background: iconColor, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: expanded ? '1.3rem' : '1.6rem', marginBottom: expanded ? 0 : 10,
+          boxShadow: `0 4px 10px ${iconColor}55`, flexShrink: 0, transition: 'all 0.15s',
+        }}>
+          {icon}
+        </span>
+        <span style={{ flex: expanded ? 1 : undefined, minWidth: 0 }}>
+          <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>{title}</div>
+          {badges.length > 0 && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: expanded ? 'flex-start' : 'center', marginTop: 6 }}>
+              {badges}
+            </div>
+          )}
+        </span>
+        {headerExtra && <span onClick={e => e.stopPropagation()}>{headerExtra}</span>}
+        <span style={{ color: '#94a3b8', fontSize: '0.85rem', flexShrink: 0 }}>{expanded ? '▲' : '▼'}</span>
+      </div>
+      {expanded && <div style={{ padding: '0 20px 20px' }}>{children}</div>}
+    </div>
+  )
+}
+
+function Badge({ text, bg, color }) {
+  return (
+    <span style={{ fontSize: '0.75rem', fontWeight: 700, color, background: bg, borderRadius: 999, padding: '2px 9px' }}>
+      {text}
+    </span>
+  )
+}
+
 export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -159,52 +217,38 @@ export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
   const pendingCount = data.items.filter(i => i.status === 'pending').length
   const atRiskPoints = data.items.filter(i => i.status === 'open').reduce((sum, i) => sum + i.points, 0)
 
-  return (
-    <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
-      <div
-        role="button" tabIndex={0}
-        onClick={() => setExpanded(v => !v)}
-        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setExpanded(v => !v)}
-        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
-      >
-        <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          📅 Daily Chores{isGuardian && kid.name && <> — {kid.name}</>}
-          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
-            {doneCount}/{data.items.length} today
-          </span>
-          {pendingCount > 0 && (
-            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
-              ⏳ {pendingCount} awaiting approval
-            </span>
-          )}
-          {data.deductionEnabled && atRiskPoints > 0 && (
-            <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#b91c1c', background: '#fee2e2', borderRadius: 999, padding: '2px 10px' }} title="Points lost for anything left unchecked by end of day">
-              ⚠️ -{atRiskPoints} pts if not done today
-            </span>
-          )}
-        </span>
-        <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          {isGuardian && (
-            <button
-              type="button" className="btn btn-outline btn-sm"
-              onClick={e => {
-                e.stopPropagation()
-                setEditMode(v => {
-                  const next = !v
-                  if (next) setExpanded(true)
-                  return next
-                })
-              }}
-            >
-              {editMode ? 'Done Editing' : '✏️ Edit'}
-            </button>
-          )}
-          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{expanded ? '▲' : '▼'}</span>
-        </span>
-      </div>
+  const badges = [
+    <Badge key="count" text={`${doneCount}/${data.items.length} today`} bg="#ccfbf1" color="#0d9488" />,
+    pendingCount > 0 && <Badge key="pending" text={`⏳ ${pendingCount} awaiting approval`} bg="#fed7aa" color="#c2410c" />,
+    data.deductionEnabled && atRiskPoints > 0 && (
+      <Badge key="risk" text={`⚠️ -${atRiskPoints} pts if not done today`} bg="#fee2e2" color="#b91c1c" />
+    ),
+  ].filter(Boolean)
 
-      {expanded && (
-        <div style={{ marginTop: 14 }}>
+  return (
+    <SectionTile
+      icon="📅"
+      iconColor="#0d9488"
+      title={`Daily Chores${isGuardian && kid.name ? ` — ${kid.name}` : ''}`}
+      badges={badges}
+      expanded={expanded}
+      onToggle={() => setExpanded(v => !v)}
+      headerExtra={isGuardian && (
+        <button
+          type="button" className="btn btn-outline btn-sm"
+          onClick={() => {
+            setEditMode(v => {
+              const next = !v
+              if (next) setExpanded(true)
+              return next
+            })
+          }}
+        >
+          {editMode ? 'Done Editing' : '✏️ Edit'}
+        </button>
+      )}
+    >
+      <div>
           {isGuardian && (
             <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#334155', fontWeight: 600, cursor: 'pointer', marginBottom: 14, background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 8, padding: '8px 12px' }}>
               <input type="checkbox" checked={data.deductionEnabled} disabled={savingSettings} onChange={handleToggleDeduction} />
@@ -314,8 +358,7 @@ export function DailyChoresCard({ kid, isGuardian, onWalletChange }) {
               })}
             </div>
           )}
-        </div>
-      )}
-    </div>
+      </div>
+    </SectionTile>
   )
 }

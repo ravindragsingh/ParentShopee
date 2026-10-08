@@ -4,47 +4,260 @@
       {
         "emoji": "🗣️",
         "title": "Use words for your feelings",
-        "text": "Words help other people understand what is happening inside you. Instead of only crying when your block tower falls, you can say, 'I'm sad because my tower broke.' Then someone knows how to help."
+        "text": "Words help other people understand what is happening inside you. Instead of only crying when your block tower falls, you can say, 'I'm sad because my tower broke.' Then someone knows how to help.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your block tower just fell down and you feel upset. What's a good way to tell someone?",
+          "options": [
+            {
+              "emoji": "🗣️",
+              "label": "Say \"I'm sad because my tower broke\"",
+              "good": true,
+              "outcome": "Exactly right! Saying how you feel and why helps someone know how to help you."
+            },
+            {
+              "emoji": "😢",
+              "label": "Just cry without saying anything",
+              "good": false,
+              "outcome": "Crying alone doesn't tell someone what's wrong — using words helps them know how to help."
+            },
+            {
+              "emoji": "😤",
+              "label": "Yell at whoever is nearby",
+              "good": false,
+              "outcome": "Yelling doesn't explain what happened — calmly saying how you feel works much better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙏",
         "title": "Use please and thank you",
-        "text": "'Please' makes a request sound kind, and 'thank you' shows you noticed someone's help. You might say, 'Can I have some water, please?' and then, 'Thank you!'"
+        "text": "'Please' makes a request sound kind, and 'thank you' shows you noticed someone's help. You might say, 'Can I have some water, please?' and then, 'Thank you!'",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want a grown-up to pass you a crayon. What words make the request sound kind?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "\"Please\" and \"thank you\"",
+              "good": true,
+              "outcome": "Exactly right! Please makes a request sound kind, and thank you shows you noticed someone's help."
+            },
+            {
+              "emoji": "😤",
+              "label": "Demanding words with no please",
+              "good": false,
+              "outcome": "Demanding isn't kind — using please and thank you makes your request sound much nicer."
+            },
+            {
+              "emoji": "👉",
+              "label": "No words at all, just pointing",
+              "good": false,
+              "outcome": "Pointing without words skips a chance to be kind — saying please and thank you works much better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙋",
         "title": "Ask for help when you need it",
-        "text": "You do not have to know how to do everything by yourself. If your zipper is stuck, try saying, 'Can you help me with my zipper, please?' Asking for help is a smart thing to do."
+        "text": "You do not have to know how to do everything by yourself. If your zipper is stuck, try saying, 'Can you help me with my zipper, please?' Asking for help is a smart thing to do.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your zipper is stuck and you can't fix it yourself. What should you do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Say \"can you help me?\" to a grown-up",
+              "good": true,
+              "outcome": "Exactly right! Asking for help when you need it is a smart and healthy way to communicate."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Struggle quietly and say nothing",
+              "good": false,
+              "outcome": "Staying quiet means no one knows you need help — asking is the better choice."
+            },
+            {
+              "emoji": "😤",
+              "label": "Get upset instead of asking",
+              "good": false,
+              "outcome": "Getting upset doesn't fix the zipper — calmly asking for help works much better."
+            }
+          ]
+        }
       },
       {
         "emoji": "😢",
         "title": "Give your feelings a name",
-        "text": "Feelings have names like happy, sad, worried, excited, and mad. Saying, 'I feel worried about the loud thunder,' helps a grown-up understand what you need."
+        "text": "Feelings have names like happy, sad, worried, excited, and mad. Saying, 'I feel worried about the loud thunder,' helps a grown-up understand what you need.",
+        "widget": "matching-pairs",
+        "widgetConfig": {
+          "pairs": [
+            {
+              "left": "Happy",
+              "right": "You got a gift you wanted"
+            },
+            {
+              "left": "Sad",
+              "right": "Your tower fell down"
+            },
+            {
+              "left": "Worried",
+              "right": "You hear loud thunder"
+            },
+            {
+              "left": "Excited",
+              "right": "Tomorrow is your birthday"
+            }
+          ]
+        }
       },
       {
         "emoji": "🎨",
         "title": "Show what you mean",
-        "text": "Sometimes you may not know the right word yet. You can point, draw, or show the object while you explain. If you forget the word 'fan,' you can point to it and say, 'That thing up there.'"
+        "text": "Sometimes you may not know the right word yet. You can point, draw, or show the object while you explain. If you forget the word 'fan,' you can point to it and say, 'That thing up there.'",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You forget the word for the spinning thing on the ceiling. What can you do?",
+          "options": [
+            {
+              "emoji": "👉",
+              "label": "Point to it while you explain",
+              "good": true,
+              "outcome": "Exactly right! You can point, draw, or show something while you explain, even if you forget the word."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Give up and say nothing",
+              "good": false,
+              "outcome": "Giving up means no one understands what you mean — pointing or showing it works much better."
+            },
+            {
+              "emoji": "🗣️",
+              "label": "Only ever use words, never pointing or showing",
+              "good": false,
+              "outcome": "You don't have to use only words — pointing or showing something helps when you forget the word."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔊",
         "title": "Your tone changes your message",
-        "text": "How you say something matters too. 'Come here!' can sound angry when you yell, but warm when you say it calmly. A gentle voice helps your words feel friendly."
+        "text": "How you say something matters too. 'Come here!' can sound angry when you yell, but warm when you say it calmly. A gentle voice helps your words feel friendly.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You say \"come here\" in a calm, warm voice versus yelling it angrily. Does it sound the same?",
+          "options": [
+            {
+              "emoji": "🎵",
+              "label": "No — tone changes how the same words feel",
+              "good": true,
+              "outcome": "Exactly right! How you say something matters too — a gentle voice helps your words feel friendly."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Yes, tone never changes how words sound",
+              "good": false,
+              "outcome": "Tone actually changes a lot — the same words can sound angry or warm depending on how you say them."
+            },
+            {
+              "emoji": "📝",
+              "label": "Only the words matter, never how you say them",
+              "good": false,
+              "outcome": "How you say something matters just as much as the words — tone changes the whole feeling of a message."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧸",
         "title": "Ask before joining a game",
-        "text": "When other children are already playing, ask before jumping in. Try, 'Can I play too?' or 'Can I have a turn after you?' That gives everyone a chance to answer."
+        "text": "When other children are already playing, ask before jumping in. Try, 'Can I play too?' or 'Can I have a turn after you?' That gives everyone a chance to answer.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You see some kids playing a game and want to join. What's the polite thing to do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask if you can join",
+              "good": true,
+              "outcome": "Exactly right! Asking first is a polite way to join in."
+            },
+            {
+              "emoji": "🏃",
+              "label": "Just start playing without asking",
+              "good": false,
+              "outcome": "Jumping in without asking can surprise or bother the other kids — asking first is more polite."
+            },
+            {
+              "emoji": "👀",
+              "label": "Stand and stare until they notice",
+              "good": false,
+              "outcome": "Asking directly works much better than just staring — it's clear and polite."
+            }
+          ]
+        }
       },
       {
         "emoji": "☀️",
         "title": "Greet people warmly",
-        "text": "A small hello can make someone feel noticed. You can smile, wave, and say 'Hi!' when you see a friend, and say 'Bye, see you later!' when you leave."
+        "text": "A small hello can make someone feel noticed. You can smile, wave, and say 'Hi!' when you see a friend, and say 'Bye, see you later!' when you leave.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You see a friend at school. What's a warm way to greet them?",
+          "options": [
+            {
+              "emoji": "👋",
+              "label": "Smile, wave, and say \"Hi!\"",
+              "good": true,
+              "outcome": "Exactly right! A small hello like smiling and waving can make someone feel noticed."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore them completely",
+              "good": false,
+              "outcome": "Ignoring a friend misses a chance to make them feel noticed — a warm greeting works much better."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Greetings don't matter at all",
+              "good": false,
+              "outcome": "Greetings actually matter — a small hello can make someone feel noticed and welcomed."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛑",
         "title": "You can say no kindly",
-        "text": "You are allowed to say no, and you can still be respectful. If you do not want another snack, you can say, 'No thank you, I'm full.'"
+        "text": "You are allowed to say no, and you can still be respectful. If you do not want another snack, you can say, 'No thank you, I'm full.'",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend wants you to share your favorite toy, but you don't want to right now. What's a kind way to respond?",
+          "options": [
+            {
+              "emoji": "😊",
+              "label": "\"No thank you, maybe later!\"",
+              "good": true,
+              "outcome": "That's a kind, clear no — you don't have to share everything, and saying it nicely keeps the friendship warm."
+            },
+            {
+              "emoji": "😠",
+              "label": "Yell \"NO!\" and walk away",
+              "good": false,
+              "outcome": "It's okay to say no, but saying it kindly instead of yelling helps your friend understand without hurt feelings."
+            },
+            {
+              "emoji": "😶",
+              "label": "Say yes even though you don't want to",
+              "good": false,
+              "outcome": "You don't have to say yes just to avoid an awkward moment — a kind 'no' is always okay."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -145,47 +358,263 @@
       {
         "emoji": "👂",
         "title": "Listening is part of talking",
-        "text": "A conversation has two jobs: talking and listening. When a friend tells you about their day, stop for a moment, listen to the words, and let them finish."
+        "text": "A conversation has two jobs: talking and listening. When a friend tells you about their day, stop for a moment, listen to the words, and let them finish.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend tells you about their day. What's your job in this conversation?",
+          "options": [
+            {
+              "emoji": "👂",
+              "label": "Stop and listen to what they're saying",
+              "good": true,
+              "outcome": "Exactly right! A conversation has two jobs: talking and listening — stopping to listen is just as important."
+            },
+            {
+              "emoji": "💭",
+              "label": "Only think about what you'll say next",
+              "good": false,
+              "outcome": "Only planning your next words means you're not really listening — stopping to listen matters too."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Listening isn't part of a conversation",
+              "good": false,
+              "outcome": "Listening is actually a huge part of conversation — a conversation has two jobs: talking and listening."
+            }
+          ]
+        }
       },
       {
         "emoji": "😊",
         "title": "Your face can communicate too",
-        "text": "People also notice faces and bodies. A smile may show happiness, while a frown may show that something is wrong. Words and faces work together."
+        "text": "People also notice faces and bodies. A smile may show happiness, while a frown may show that something is wrong. Words and faces work together.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend smiles while telling you something. Does their face tell you anything, even without words?",
+          "options": [
+            {
+              "emoji": "😊",
+              "label": "Yes — faces and bodies can show feelings too, like happiness",
+              "good": true,
+              "outcome": "Exactly right! Faces and bodies communicate feelings, like a smile showing happiness, even without any words."
+            },
+            {
+              "emoji": "🗣️",
+              "label": "No, only the words someone says matter",
+              "good": false,
+              "outcome": "Words aren't the only thing that communicates — faces and bodies show feelings too."
+            },
+            {
+              "emoji": "😐",
+              "label": "Faces never show how someone feels",
+              "good": false,
+              "outcome": "Faces actually show a lot about how someone feels, like a smile showing happiness."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏳",
         "title": "Take turns talking",
-        "text": "Good conversations go back and forth. Let the other person finish, then take your turn. If you are excited, you can keep your thought in your head until there is a pause."
+        "text": "Good conversations go back and forth. Let the other person finish, then take your turn. If you are excited, you can keep your thought in your head until there is a pause.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're excited to share something while your friend is still talking. What should you do?",
+          "options": [
+            {
+              "emoji": "⏳",
+              "label": "Wait for a pause, then take your turn",
+              "good": true,
+              "outcome": "Exactly right! Good conversations go back and forth — waiting for a pause before your turn keeps it friendly."
+            },
+            {
+              "emoji": "✋",
+              "label": "Interrupt them right away",
+              "good": false,
+              "outcome": "Interrupting right away cuts off your friend — waiting for a pause is more respectful."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Never let them finish talking",
+              "good": false,
+              "outcome": "Letting your friend finish is part of a good conversation — taking turns matters."
+            }
+          ]
+        }
       },
       {
         "emoji": "😔",
         "title": "Say sorry when you hurt someone",
-        "text": "When your action hurts someone, an apology shows that you care. Try saying what happened: 'I'm sorry I knocked over your tower. I didn't mean to.'"
+        "text": "When your action hurts someone, an apology shows that you care. Try saying what happened: 'I'm sorry I knocked over your tower. I didn't mean to.'",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You accidentally knock over your friend's block tower. What's the best thing to say?",
+          "options": [
+            {
+              "emoji": "🙂",
+              "label": "\"I'm sorry, let's rebuild it together\"",
+              "good": true,
+              "outcome": "That's a great apology — saying sorry and offering to help fix it shows you really mean it."
+            },
+            {
+              "emoji": "😐",
+              "label": "It was an accident, not my fault",
+              "good": false,
+              "outcome": "Even accidents can hurt — a simple sorry helps your friend feel better, even when you didn't mean it."
+            },
+            {
+              "emoji": "🚶",
+              "label": "Say nothing and walk away",
+              "good": false,
+              "outcome": "Saying sorry, even for an accident, helps your friend feel cared about."
+            }
+          ]
+        }
       },
       {
         "emoji": "❓",
         "title": "Ask when you do not understand",
-        "text": "It is okay not to understand something the first time. You can say, 'Can you say that again?' or 'What do you mean?' Asking helps you learn."
+        "text": "It is okay not to understand something the first time. You can say, 'Can you say that again?' or 'What do you mean?' Asking helps you learn.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You don't understand something someone said. What should you do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Say \"Can you say that again?\"",
+              "good": true,
+              "outcome": "Exactly right! It's okay not to understand — asking helps you learn."
+            },
+            {
+              "emoji": "😶",
+              "label": "Pretend you understood",
+              "good": false,
+              "outcome": "Pretending to understand means you stay confused — asking again helps you actually learn."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Never ask questions",
+              "good": false,
+              "outcome": "Asking questions is exactly how you learn when you don't understand something."
+            }
+          ]
+        }
       },
       {
         "emoji": "📞",
         "title": "Speak clearly on the phone",
-        "text": "On a phone call, the other person cannot see your face or pointing. Speak clearly, listen carefully, and say things like, 'Can you hear me?' if you are not sure."
+        "text": "On a phone call, the other person cannot see your face or pointing. Speak clearly, listen carefully, and say things like, 'Can you hear me?' if you are not sure.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're on a phone call and the other person can't see your face. What helps?",
+          "options": [
+            {
+              "emoji": "📞",
+              "label": "Speak clearly and listen carefully",
+              "good": true,
+              "outcome": "Exactly right! Since they can't see your face or pointing, speaking clearly helps your message come through."
+            },
+            {
+              "emoji": "🤫",
+              "label": "Mumble since they can't see you anyway",
+              "good": false,
+              "outcome": "Mumbling makes it harder to understand — speaking clearly matters even more on the phone."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Clarity doesn't matter on the phone",
+              "good": false,
+              "outcome": "Clarity matters a lot on the phone, since the other person can't see your face or pointing."
+            }
+          ]
+        }
       },
       {
         "emoji": "👀",
         "title": "Show that you are listening",
-        "text": "You can show listening by facing the speaker, staying nearby, and responding to what they say. You do not have to stare at someone; the goal is to show you are paying attention."
+        "text": "You can show listening by facing the speaker, staying nearby, and responding to what they say. You do not have to stare at someone; the goal is to show you are paying attention.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend is telling you about their day. What shows you're really listening?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Look at them and nod along",
+              "good": true,
+              "outcome": "Exactly! Eye contact and nodding show you're paying attention and care about what they're saying."
+            },
+            {
+              "emoji": "🧸",
+              "label": "Look at your toys while they talk",
+              "good": false,
+              "outcome": "Looking away can make them feel like you're not interested — looking at them shows you're listening."
+            },
+            {
+              "emoji": "🗣️",
+              "label": "Interrupt with your own story",
+              "good": false,
+              "outcome": "Interrupting can make them feel unheard — let them finish, then share your thoughts."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "Use words that build people up",
-        "text": "Kind words can encourage someone. Instead of only saying 'good job,' you can be specific: 'I like the colors in your drawing' or 'You worked hard on that puzzle.'"
+        "text": "Kind words can encourage someone. Instead of only saying 'good job,' you can be specific: 'I like the colors in your drawing' or 'You worked hard on that puzzle.'",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend shows you their drawing. What's an encouraging thing to say?",
+          "options": [
+            {
+              "emoji": "🎨",
+              "label": "I like the colors in your drawing",
+              "good": true,
+              "outcome": "Exactly right! Being specific, like noticing the colors, is a kind way to build someone up."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Say nothing at all",
+              "good": false,
+              "outcome": "Saying nothing misses a chance to encourage your friend — a specific kind comment works much better."
+            },
+            {
+              "emoji": "👎",
+              "label": "Point out only what's wrong with it",
+              "good": false,
+              "outcome": "Focusing only on what's wrong isn't encouraging — noticing something good, like the colors, builds people up."
+            }
+          ]
+        }
       },
       {
         "emoji": "🫂",
         "title": "Comfort a friend who is sad",
-        "text": "You do not always have to fix the problem. You can sit nearby and say, 'I'm here with you' or 'Do you want to tell me what happened?' Sometimes listening is the best help."
+        "text": "You do not always have to fix the problem. You can sit nearby and say, 'I'm here with you' or 'Do you want to tell me what happened?' Sometimes listening is the best help.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend looks sad and you don't know how to fix their problem. What can you do?",
+          "options": [
+            {
+              "emoji": "🤗",
+              "label": "Sit nearby and say \"I'm here with you\"",
+              "good": true,
+              "outcome": "Exactly right! You don't always have to fix the problem — sometimes listening and being there is the best help."
+            },
+            {
+              "emoji": "🚶",
+              "label": "Walk away since you can't fix it",
+              "good": false,
+              "outcome": "Walking away leaves your friend alone — just being there, even without fixing anything, really helps."
+            },
+            {
+              "emoji": "😤",
+              "label": "Tell them to stop being sad",
+              "good": false,
+              "outcome": "Telling someone to just stop being sad isn't comforting — sitting with them and listening helps much more."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -286,47 +715,263 @@
       {
         "emoji": "👂",
         "title": "What is active listening?",
-        "text": "Active listening means paying close attention to the person who is talking. If a friend explains a new game, nod along and ask a question instead of waiting for your turn."
+        "text": "Active listening means paying close attention to the person who is talking. If a friend explains a new game, nod along and ask a question instead of waiting for your turn.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend explains a new game to you. What does active listening look like?",
+          "options": [
+            {
+              "emoji": "👂",
+              "label": "Nod along and ask a question",
+              "good": true,
+              "outcome": "Exactly right! Active listening means paying close attention, like nodding along and asking a question."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Wait silently for your turn to talk",
+              "good": false,
+              "outcome": "Just waiting for your turn isn't really listening — nodding along and asking questions shows active listening."
+            },
+            {
+              "emoji": "💭",
+              "label": "Think about something else entirely",
+              "good": false,
+              "outcome": "Thinking about something else means you're not really listening — active listening means paying close attention."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙆",
         "title": "Body language basics",
-        "text": "Crossed arms, a big smile, or looking away all send a message without any words. If a friend says 'I'm fine' but won't look at you, their body might be telling you something different."
+        "text": "Crossed arms, a big smile, or looking away all send a message without any words. If a friend says 'I'm fine' but won't look at you, their body might be telling you something different.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend crosses their arms and looks away while you're talking. What might this body language suggest, even without words?",
+          "options": [
+            {
+              "emoji": "😟",
+              "label": "They might be upset, uncomfortable, or not interested",
+              "good": true,
+              "outcome": "Exactly! Body language like crossed arms or looking away can send a message without any words being said."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Body language never sends any message",
+              "good": false,
+              "outcome": "Body language actually sends a lot of messages, even without words — crossed arms or looking away can hint at how someone feels."
+            },
+            {
+              "emoji": "😄",
+              "label": "It definitely means they're having a great time",
+              "good": false,
+              "outcome": "Crossed arms and looking away usually suggest the opposite — discomfort or disinterest, not enjoyment."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔄",
         "title": "Taking turns in conversation",
-        "text": "A good conversation feels like a back-and-forth game of catch, not one person talking the whole time. If you talk about your weekend for five minutes straight, ask your friend about theirs too."
+        "text": "A good conversation feels like a back-and-forth game of catch, not one person talking the whole time. If you talk about your weekend for five minutes straight, ask your friend about theirs too.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You've been talking about your weekend for five minutes straight. What should you do?",
+          "options": [
+            {
+              "emoji": "🔄",
+              "label": "Ask your friend about their weekend too",
+              "good": true,
+              "outcome": "Exactly right! A good conversation feels like back-and-forth, so asking about their weekend keeps it balanced."
+            },
+            {
+              "emoji": "🗣️",
+              "label": "Keep talking about yourself for five more minutes",
+              "good": false,
+              "outcome": "Talking only about yourself turns the conversation one-sided — asking about your friend keeps it balanced."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Taking turns doesn't matter in conversation",
+              "good": false,
+              "outcome": "Taking turns actually matters a lot — a good conversation feels like a back-and-forth game of catch."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙅",
         "title": "Disagreeing politely",
-        "text": "You can disagree with someone without being mean about it. If a friend loved a movie you didn't, saying 'I see it differently' keeps things friendly instead of starting an argument."
+        "text": "You can disagree with someone without being mean about it. If a friend loved a movie you didn't, saying 'I see it differently' keeps things friendly instead of starting an argument.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend says their favorite movie is the best one ever, but you think a different movie is better. What's the best way to respond?",
+          "options": [
+            {
+              "emoji": "🙂",
+              "label": "\"I liked that one too, but I actually love another movie even more!\"",
+              "good": true,
+              "outcome": "Nice! You shared your real opinion without putting theirs down — that's disagreeing politely."
+            },
+            {
+              "emoji": "🙄",
+              "label": "\"That movie is actually terrible.\"",
+              "good": false,
+              "outcome": "Putting down their choice can hurt feelings, even if you don't mean to. You can disagree without criticizing."
+            },
+            {
+              "emoji": "😶",
+              "label": "Pretend to agree even though you don't",
+              "good": false,
+              "outcome": "It's okay to have a different opinion! Sharing it honestly and kindly is better than pretending."
+            }
+          ]
+        }
       },
       {
         "emoji": "❓",
         "title": "Asking clarifying questions",
-        "text": "If you don't understand something, it's smarter to ask than to pretend you understood. When a teacher explains a math step too fast, asking 'can you show that again?' gets you real help."
+        "text": "If you don't understand something, it's smarter to ask than to pretend you understood. When a teacher explains a math step too fast, asking 'can you show that again?' gets you real help.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A teacher explains a math step too fast and you're lost. What's the smarter move?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask \"can you show that again?\"",
+              "good": true,
+              "outcome": "Exactly right! It's smarter to ask than to pretend you understood — asking gets you real help."
+            },
+            {
+              "emoji": "😶",
+              "label": "Pretend you understood",
+              "good": false,
+              "outcome": "Pretending to understand means you stay stuck — asking for it again gets you real help."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Give up on the problem entirely",
+              "good": false,
+              "outcome": "Giving up skips a chance to actually understand — asking a clarifying question helps much more."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤗",
         "title": "Checking in on feelings",
-        "text": "Asking a friend 'are you okay?' shows you notice more than just their words. If a friend seems quiet at lunch and isn't smiling, checking in shows you care."
+        "text": "Asking a friend 'are you okay?' shows you notice more than just their words. If a friend seems quiet at lunch and isn't smiling, checking in shows you care.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend seems quiet at lunch and isn't smiling. What shows you care?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask \"are you okay?\"",
+              "good": true,
+              "outcome": "Exactly right! Checking in shows you notice more than just their words — it shows you care."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore it and talk about something else",
+              "good": false,
+              "outcome": "Ignoring it misses a chance to show you care — checking in means noticing and asking."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Assume everything is fine without checking",
+              "good": false,
+              "outcome": "Assuming without checking might miss something real — asking shows you actually care."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤗",
         "title": "Comforting a sad friend",
-        "text": "Sometimes a friend doesn't need advice right away, just someone to listen. If a friend's pet is sick, saying 'that sounds really hard' can help more than jumping straight to advice."
+        "text": "Sometimes a friend doesn't need advice right away, just someone to listen. If a friend's pet is sick, saying 'that sounds really hard' can help more than jumping straight to advice.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend is sad because they lost a game. What's a comforting thing to say?",
+          "options": [
+            {
+              "emoji": "🤗",
+              "label": "\"That's tough, I'm here if you want to talk.\"",
+              "good": true,
+              "outcome": "That's really comforting — acknowledging their feelings and offering support helps a lot."
+            },
+            {
+              "emoji": "😐",
+              "label": "\"It's just a game, get over it.\"",
+              "good": false,
+              "outcome": "That can feel dismissive — acknowledging their feelings first is more comforting."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore them until they feel better",
+              "good": false,
+              "outcome": "Checking in, even briefly, shows you care — ignoring them can make them feel more alone."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔊",
         "title": "Using your tone of voice",
-        "text": "The same words can sound totally different depending on your tone of voice. Saying 'okay' in a flat, annoyed voice feels very different from saying it with a smile."
+        "text": "The same words can sound totally different depending on your tone of voice. Saying 'okay' in a flat, annoyed voice feels very different from saying it with a smile.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You say \"okay\" in a flat, annoyed voice versus with a smile. Does it feel the same?",
+          "options": [
+            {
+              "emoji": "🎵",
+              "label": "No — the same words can sound totally different depending on tone",
+              "good": true,
+              "outcome": "Exactly right! The same words can sound totally different depending on your tone of voice."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Yes, tone never changes how words feel",
+              "good": false,
+              "outcome": "Tone actually changes a lot — the same words can feel flat and annoyed or warm and friendly."
+            },
+            {
+              "emoji": "📝",
+              "label": "Only the words matter, tone is irrelevant",
+              "good": false,
+              "outcome": "Tone matters just as much as the words themselves — it can completely change how a message feels."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗣️",
         "title": "Interrupting vs. jumping in",
-        "text": "Waiting for a pause before talking shows respect. If your friend is mid-sentence, jumping in to finish their thought can feel annoying, even if you didn't mean it that way."
+        "text": "Waiting for a pause before talking shows respect. If your friend is mid-sentence, jumping in to finish their thought can feel annoying, even if you didn't mean it that way.",
+        "widget": "odd-one-out",
+        "widgetConfig": {
+          "prompt": "Which of these is NOT respectful when your friend is talking?",
+          "items": [
+            {
+              "emoji": "⏳",
+              "label": "Waiting for a pause"
+            },
+            {
+              "emoji": "🙆",
+              "label": "Nodding along"
+            },
+            {
+              "emoji": "✋",
+              "label": "Interrupting mid-sentence to finish their thought"
+            },
+            {
+              "emoji": "🙋",
+              "label": "Asking a question after they finish"
+            }
+          ],
+          "oddIndex": 2,
+          "explanation": "Jumping in to finish someone's thought mid-sentence can feel annoying, even if you didn't mean it that way — waiting for a pause shows respect."
+        }
       }
     ],
     "quiz": [
@@ -427,47 +1072,285 @@
       {
         "emoji": "💌",
         "title": "Written vs. spoken words",
-        "text": "Writing a message can feel very different from saying the same words out loud. Texting just 'fine' can sound annoyed, even though saying it with a smile would sound totally different."
+        "text": "Writing a message can feel very different from saying the same words out loud. Texting just 'fine' can sound annoyed, even though saying it with a smile would sound totally different.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You text just \"fine\" to a friend. Could this sound different than saying it out loud with a smile?",
+          "options": [
+            {
+              "emoji": "📱",
+              "label": "Yes — written words can come across differently than spoken ones",
+              "good": true,
+              "outcome": "Exactly right! Writing a message can feel very different from saying the same words out loud with a smile."
+            },
+            {
+              "emoji": "🔁",
+              "label": "No, writing and speaking always sound the same",
+              "good": false,
+              "outcome": "They don't always sound the same — the same written word can come across very differently than spoken aloud."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Tone never matters in writing",
+              "good": false,
+              "outcome": "Tone actually matters a lot in writing too — a short text can easily sound more annoyed than intended."
+            }
+          ]
+        }
       },
       {
         "emoji": "📞",
         "title": "Talking on the phone",
-        "text": "On a phone call, you can't see the other person's face, so your voice has to do more work. Speaking clearly and asking 'does that make sense?' matters even more than it does in person."
+        "text": "On a phone call, you can't see the other person's face, so your voice has to do more work. Speaking clearly and asking 'does that make sense?' matters even more than it does in person.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're on a phone call and the other person can't see your face. What has to do more work than usual?",
+          "options": [
+            {
+              "emoji": "🗣️",
+              "label": "Your voice and tone",
+              "good": true,
+              "outcome": "Exactly! Since they can't see your face, your voice has to carry more of the meaning and feeling."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Nothing changes compared to talking in person",
+              "good": false,
+              "outcome": "Something does change — without facial expressions, your voice has to carry more of the meaning."
+            },
+            {
+              "emoji": "👋",
+              "label": "Your hand gestures",
+              "good": false,
+              "outcome": "Hand gestures can't be seen over the phone — it's your voice and tone that have to do the extra work."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙇",
         "title": "Saying sorry the right way",
-        "text": "A good apology names what you did and how it might have made someone feel. Saying 'I'm sorry I broke your model, that must have been frustrating' means more than just 'sorry.'"
+        "text": "A good apology names what you did and how it might have made someone feel. Saying 'I'm sorry I broke your model, that must have been frustrating' means more than just 'sorry.'",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You broke a friend's model. What makes a good apology?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Naming what you did and how it might have felt",
+              "good": true,
+              "outcome": "Exactly right! A good apology names what you did and how it might have made someone feel."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Just saying 'sorry' with no explanation",
+              "good": false,
+              "outcome": "Just saying sorry with no explanation means less than naming what happened and how it felt."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Not apologizing at all",
+              "good": false,
+              "outcome": "Not apologizing at all misses an important chance to repair things — naming what happened matters."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔁",
         "title": "Giving feedback kindly",
-        "text": "When you tell a friend how to improve something, focus on the specific thing, not the whole person. Saying 'maybe add more color here' helps more than just saying 'this isn't very good.'"
+        "text": "When you tell a friend how to improve something, focus on the specific thing, not the whole person. Saying 'maybe add more color here' helps more than just saying 'this isn't very good.'",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend shows you their drawing and it's not very good, but they're proud of it. What's the kindest feedback?",
+          "options": [
+            {
+              "emoji": "🎨",
+              "label": "Point out what you like, then gently suggest one idea to improve",
+              "good": true,
+              "outcome": "That's kind and helpful — starting with something positive, then offering gentle suggestions, keeps feedback encouraging."
+            },
+            {
+              "emoji": "😬",
+              "label": "Tell them it's bad",
+              "good": false,
+              "outcome": "That can really hurt their feelings — kind, constructive feedback works much better."
+            },
+            {
+              "emoji": "🤥",
+              "label": "Lie and say it's perfect",
+              "good": false,
+              "outcome": "A little honesty mixed with kindness helps them actually improve, rather than just telling them what they want to hear."
+            }
+          ]
+        }
       },
       {
         "emoji": "📱",
         "title": "Texting vs. talking in person",
-        "text": "A quick text can't show your face or the tone in your voice. Save texts for simple stuff, and save talking in person for things that really matter."
+        "text": "A quick text can't show your face or the tone in your voice. Save texts for simple stuff, and save talking in person for things that really matter.",
+        "widget": "sort-puzzle",
+        "widgetConfig": {
+          "prompt": "Sort each situation into the better way to handle it",
+          "categoryA": {
+            "key": "text",
+            "label": "Text",
+            "color": "#0d9488"
+          },
+          "categoryB": {
+            "key": "person",
+            "label": "In person",
+            "color": "#dc2626"
+          },
+          "items": [
+            {
+              "emoji": "⏰",
+              "label": "Asking what time practice starts",
+              "answer": "text"
+            },
+            {
+              "emoji": "😢",
+              "label": "Comforting a sad friend",
+              "answer": "person"
+            },
+            {
+              "emoji": "📍",
+              "label": "Sending your address to a driver",
+              "answer": "text"
+            },
+            {
+              "emoji": "😠",
+              "label": "Having a serious disagreement",
+              "answer": "person"
+            },
+            {
+              "emoji": "🎉",
+              "label": "Confirming you're coming to a party",
+              "answer": "text"
+            },
+            {
+              "emoji": "🙏",
+              "label": "Apologizing for really hurting someone",
+              "answer": "person"
+            }
+          ]
+        }
       },
       {
         "emoji": "✍️",
         "title": "Writing a clear note or message",
-        "text": "A short message that says exactly what you need is easier to answer than a long, confusing one. Writing 'Can I come over Saturday at 2?' gets a faster yes than 'hey what are you doing this weekend maybe.'"
+        "text": "A short message that says exactly what you need is easier to answer than a long, confusing one. Writing 'Can I come over Saturday at 2?' gets a faster yes than 'hey what are you doing this weekend maybe.'",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to ask a friend over Saturday at 2pm. Which message gets a faster, clearer answer?",
+          "options": [
+            {
+              "emoji": "✉️",
+              "label": "\"Can I come over Saturday at 2?\"",
+              "good": true,
+              "outcome": "Exactly right! A short message that says exactly what you need gets a faster, clearer answer."
+            },
+            {
+              "emoji": "🌀",
+              "label": "\"hey what are you doing this weekend maybe\"",
+              "good": false,
+              "outcome": "A vague message like this is harder to answer quickly — being specific gets a faster yes."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Clarity doesn't matter in messages",
+              "good": false,
+              "outcome": "Clarity actually matters a lot — a clear message gets a much faster, better response."
+            }
+          ]
+        }
       },
       {
         "emoji": "😅",
         "title": "Emojis can help — or confuse",
-        "text": "An emoji can show your tone in a text, but the wrong one can also confuse things. A 😂 after bad news might make a friend think you're laughing at them, even if you didn't mean it that way."
+        "text": "An emoji can show your tone in a text, but the wrong one can also confuse things. A 😂 after bad news might make a friend think you're laughing at them, even if you didn't mean it that way.",
+        "widget": "odd-one-out",
+        "widgetConfig": {
+          "prompt": "Which of these emoji uses could cause confusion?",
+          "items": [
+            {
+              "emoji": "😂",
+              "label": "Using 😂 to react to a funny joke"
+            },
+            {
+              "emoji": "👍",
+              "label": "Using 👍 to confirm plans"
+            },
+            {
+              "emoji": "🙃",
+              "label": "Using 🙃 without explaining what you mean"
+            },
+            {
+              "emoji": "🎉",
+              "label": "Using 🎉 to celebrate a friend's win"
+            }
+          ],
+          "oddIndex": 2,
+          "explanation": "Emojis like 🙃 can mean different things to different people without context — the other three uses are pretty clear and unlikely to be misread."
+        }
       },
       {
         "emoji": "🔄",
         "title": "Fixing a misunderstanding",
-        "text": "If a text gets misread, a quick call or face-to-face chat can clear it up faster than more texting back and forth. Typing 'sorry, that came out wrong, let me explain' works, but sometimes talking it through works even better."
+        "text": "If a text gets misread, a quick call or face-to-face chat can clear it up faster than more texting back and forth. Typing 'sorry, that came out wrong, let me explain' works, but sometimes talking it through works even better.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend seems upset because they misread your text as rude, but you didn't mean it that way. What's the best fix?",
+          "options": [
+            {
+              "emoji": "📞",
+              "label": "Call or talk in person to explain what you really meant",
+              "good": true,
+              "outcome": "Great choice — a real conversation clears up tone way better than more texts, which can easily be misread too."
+            },
+            {
+              "emoji": "💬",
+              "label": "Send another text hoping it clears things up",
+              "good": false,
+              "outcome": "More texting can actually make a misunderstanding worse since tone is still hard to read — talking directly works better."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore it and hope they forget",
+              "good": false,
+              "outcome": "Ignoring it usually leaves hurt feelings unresolved — a quick clarifying conversation fixes it faster."
+            }
+          ]
+        }
       },
       {
         "emoji": "📝",
         "title": "Group chat manners",
-        "text": "In a group chat, one unkind message can feel worse because everyone sees it at once. Think about whether you'd say the same thing to someone's face before you hit send."
+        "text": "In a group chat, one unkind message can feel worse because everyone sees it at once. Think about whether you'd say the same thing to someone's face before you hit send.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to send an unkind message in a group chat. What should you consider first?",
+          "options": [
+            {
+              "emoji": "🤔",
+              "label": "Whether you'd say the same thing to their face",
+              "good": true,
+              "outcome": "Exactly right! Thinking about whether you'd say the same thing to someone's face is a good check before hitting send."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — group chats are different from real life",
+              "good": false,
+              "outcome": "Group chats aren't really different — an unkind message can feel even worse since everyone sees it at once."
+            },
+            {
+              "emoji": "📉",
+              "label": "Unkind messages feel smaller in a group chat",
+              "good": false,
+              "outcome": "Unkind messages can actually feel worse in a group chat, since everyone sees it at once."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -568,47 +1451,263 @@
       {
         "emoji": "🎯",
         "title": "Knowing your audience",
-        "text": "How you explain something to a younger sibling is different from how you'd explain it to a teacher — good communicators adjust to who they're talking to. For example, explaining a video game's rules to a 5-year-old sibling might use simple words and lots of patience, while explaining the same rules to a teacher for a project might use more precise, detailed language."
+        "text": "How you explain something to a younger sibling is different from how you'd explain it to a teacher — good communicators adjust to who they're talking to. For example, explaining a video game's rules to a 5-year-old sibling might use simple words and lots of patience, while explaining the same rules to a teacher for a project might use more precise, detailed language.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're explaining a video game to your little cousin versus to a friend who's an expert at it. Should you explain it the same way to both?",
+          "options": [
+            {
+              "emoji": "🎯",
+              "label": "No — adjust how you explain based on who you're talking to",
+              "good": true,
+              "outcome": "Exactly right! Knowing your audience means adjusting your explanation based on what they already know."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Yes, always explain things exactly the same way to everyone",
+              "good": false,
+              "outcome": "Explaining the same way to everyone ignores what each listener already knows — adjusting helps them understand better."
+            },
+            {
+              "emoji": "🧑",
+              "label": "Only adjust for adults, never for kids",
+              "good": false,
+              "outcome": "Adjusting your explanation helps with any audience, not just adults — it's about what the specific listener already knows."
+            }
+          ]
+        }
       },
       {
         "emoji": "💬",
         "title": "Persuasive communication",
-        "text": "Persuading someone works best with clear reasons and evidence, not just repeating what you want louder. For example, asking a parent for a later bedtime by saying \"can I stay up later, please, please, please\" is much weaker than explaining \"I finish my homework by 8, and an extra 30 minutes would let me read before bed\" with a real reason behind it."
+        "text": "Persuading someone works best with clear reasons and evidence, not just repeating what you want louder. For example, asking a parent for a later bedtime by saying \"can I stay up later, please, please, please\" is much weaker than explaining \"I finish my homework by 8, and an extra 30 minutes would let me read before bed\" with a real reason behind it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want a later bedtime. Which approach works better?",
+          "options": [
+            {
+              "emoji": "💡",
+              "label": "Explaining a real reason, like finishing homework by 8",
+              "good": true,
+              "outcome": "Exactly right! Persuading someone works best with clear reasons and evidence, not just repeating a request louder."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Repeating 'please please please' louder",
+              "good": false,
+              "outcome": "Repeating the same request louder isn't persuasive — a real reason works much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Reasons never help persuade anyone",
+              "good": false,
+              "outcome": "Reasons actually help a lot — a request backed by a real reason is far more convincing."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎤",
         "title": "Speaking up in a group",
-        "text": "Sharing your idea in front of a group takes practice. Preparing what you want to say ahead of time makes it feel much less intimidating. For example, jotting down two or three key points before a group discussion means you won't freeze up trying to remember what you wanted to say when it's your turn."
+        "text": "Sharing your idea in front of a group takes practice. Preparing what you want to say ahead of time makes it feel much less intimidating. For example, jotting down two or three key points before a group discussion means you won't freeze up trying to remember what you wanted to say when it's your turn.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You have an idea during a group discussion, but you're nervous others won't like it. What's the best move?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Share it clearly and calmly — your idea deserves to be heard",
+              "good": true,
+              "outcome": "Good instinct — sharing ideas, even when nervous, is how good group decisions get made. The group can't consider an idea it never hears."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Stay quiet so no one can judge it",
+              "good": false,
+              "outcome": "Staying quiet protects you from judgment, but it also means a potentially great idea goes unheard."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Wait for someone else to say something similar first",
+              "good": false,
+              "outcome": "Waiting for permission means your original idea might get lost — speaking up yourself builds confidence too."
+            }
+          ]
+        }
       },
       {
         "emoji": "❓",
         "title": "Asking clarifying questions",
-        "text": "Asking a question when you're confused isn't a weakness — it usually saves everyone time and prevents mistakes later on. For example, saying \"just to make sure, do you want this by Friday or next Friday?\" takes five seconds and can prevent an entire assignment from being turned in on the wrong day."
+        "text": "Asking a question when you're confused isn't a weakness — it usually saves everyone time and prevents mistakes later on. For example, saying \"just to make sure, do you want this by Friday or next Friday?\" takes five seconds and can prevent an entire assignment from being turned in on the wrong day.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your teacher gives instructions but you're not sure what to do. What's the smart move?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask a clarifying question before starting",
+              "good": true,
+              "outcome": "Smart move! Asking a quick question can save you from doing the whole assignment wrong."
+            },
+            {
+              "emoji": "🎲",
+              "label": "Guess and hope you're right",
+              "good": false,
+              "outcome": "Guessing risks doing the whole thing incorrectly — a quick clarifying question saves time."
+            },
+            {
+              "emoji": "😶",
+              "label": "Do nothing since you're confused",
+              "good": false,
+              "outcome": "Staying stuck doesn't help — asking a clarifying question gets you unstuck quickly."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎯",
         "title": "Reading your audience's reaction",
-        "text": "Paying attention to whether someone looks confused or bored while you're explaining something is a skill in itself. If a friend's eyes glaze over during a long explanation, that's a signal to simplify or check in, not a reason to talk faster."
+        "text": "Paying attention to whether someone looks confused or bored while you're explaining something is a skill in itself. If a friend's eyes glaze over during a long explanation, that's a signal to simplify or check in, not a reason to talk faster.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend's eyes glaze over during your long explanation. What should this tell you?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Simplify or check in with them",
+              "good": true,
+              "outcome": "Exactly right! Noticing confusion or boredom is a signal to simplify or check in, not to talk faster."
+            },
+            {
+              "emoji": "🏃",
+              "label": "Talk faster to finish quicker",
+              "good": false,
+              "outcome": "Talking faster usually makes confusion worse — simplifying or checking in works much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Their reaction doesn't matter at all",
+              "good": false,
+              "outcome": "Their reaction actually matters a lot — it's a useful signal for whether your explanation is landing."
+            }
+          ]
+        }
       },
       {
         "emoji": "💡",
         "title": "Leading with your main point",
-        "text": "Starting with the most important part of what you want to say, instead of building up to it slowly, makes people more likely to actually hear it. For example, texting a teacher \"Can I turn in my essay a day late? I'm sick\" works better than a long story that buries the actual question at the end."
+        "text": "Starting with the most important part of what you want to say, instead of building up to it slowly, makes people more likely to actually hear it. For example, texting a teacher \"Can I turn in my essay a day late? I'm sick\" works better than a long story that buries the actual question at the end.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You need to ask a teacher for a one-day extension because you're sick. What's the better way to text?",
+          "options": [
+            {
+              "emoji": "🎯",
+              "label": "Lead with the actual question clearly",
+              "good": true,
+              "outcome": "Exactly right! Starting with the most important part makes people more likely to actually hear and respond to it."
+            },
+            {
+              "emoji": "📜",
+              "label": "Bury the question in a long story",
+              "good": false,
+              "outcome": "Burying the question in a long story can mean it gets missed — leading with it works much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Leading with your point never helps",
+              "good": false,
+              "outcome": "Leading with your point actually helps a lot — it makes your message much more likely to be understood quickly."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗳️",
         "title": "Backing up an opinion with a reason",
-        "text": "An opinion lands better when it comes with a reason attached, even a short one. Saying \"I think we should go to the park because it's less crowded on weekdays\" is more convincing than just \"let's go to the park.\""
+        "text": "An opinion lands better when it comes with a reason attached, even a short one. Saying \"I think we should go to the park because it's less crowded on weekdays\" is more convincing than just \"let's go to the park.\"",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You think the class should go to the park. Which statement is more convincing?",
+          "options": [
+            {
+              "emoji": "💬",
+              "label": "\"We should go because it's less crowded on weekdays\"",
+              "good": true,
+              "outcome": "Exactly right! An opinion lands better when it comes with a reason attached, even a short one."
+            },
+            {
+              "emoji": "🗣️",
+              "label": "Just \"let's go to the park\" with no reason",
+              "good": false,
+              "outcome": "An opinion with no reason attached is less convincing than one backed by even a short explanation."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Reasons never make opinions more convincing",
+              "good": false,
+              "outcome": "Reasons actually make opinions much more convincing — even a short one helps a lot."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎙️",
         "title": "Handling a tough question on the spot",
-        "text": "It's okay to pause and think before answering a hard question instead of blurting out the first thing that comes to mind. Saying \"that's a good question, let me think for a second\" buys you time and still sounds confident."
+        "text": "It's okay to pause and think before answering a hard question instead of blurting out the first thing that comes to mind. Saying \"that's a good question, let me think for a second\" buys you time and still sounds confident.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone asks you a hard question you need a moment to think about. What's a good response?",
+          "options": [
+            {
+              "emoji": "🤔",
+              "label": "\"That's a good question, let me think for a second\"",
+              "good": true,
+              "outcome": "Exactly right! It's okay to pause and think before answering a hard question — it still sounds confident."
+            },
+            {
+              "emoji": "💥",
+              "label": "Blurt out the first thing that comes to mind",
+              "good": false,
+              "outcome": "Blurting out the first thing can lead to a weaker answer — pausing to think works better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Refuse to answer at all",
+              "good": false,
+              "outcome": "Refusing to answer misses the chance to think it through — pausing briefly works much better."
+            }
+          ]
+        }
       },
       {
         "emoji": "✂️",
         "title": "Knowing when to stop explaining",
-        "text": "Once someone understands your point, adding more details can actually make things more confusing. If your friend already said \"okay, got it,\" repeating the explanation three more times just wastes both your time."
+        "text": "Once someone understands your point, adding more details can actually make things more confusing. If your friend already said \"okay, got it,\" repeating the explanation three more times just wastes both your time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend already said \"okay, got it.\" Should you keep explaining the same thing?",
+          "options": [
+            {
+              "emoji": "🛑",
+              "label": "No — more explaining can just confuse things",
+              "good": true,
+              "outcome": "Exactly right! Once someone understands your point, adding more details can actually make things more confusing."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Yes, repeat it three more times",
+              "good": false,
+              "outcome": "Repeating an already-understood explanation can waste time and cause confusion — knowing when to stop matters."
+            },
+            {
+              "emoji": "🙅",
+              "label": "You should never stop explaining once you start",
+              "good": false,
+              "outcome": "Stopping once someone understands is exactly the right move — more explaining isn't always better."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -709,47 +1808,248 @@
       {
         "emoji": "🔁",
         "title": "Giving feedback kindly",
-        "text": "Good feedback focuses on the specific thing that could improve, said kindly — not a vague or harsh comment about the person. For example, saying \"the intro was a little confusing, maybe start with your main point first\" helps a group project partner improve, while \"this is bad\" just makes them feel criticized without knowing what to fix."
+        "text": "Good feedback focuses on the specific thing that could improve, said kindly — not a vague or harsh comment about the person. For example, saying \"the intro was a little confusing, maybe start with your main point first\" helps a group project partner improve, while \"this is bad\" just makes them feel criticized without knowing what to fix.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A group project partner's intro is confusing. What's kind, helpful feedback?",
+          "options": [
+            {
+              "emoji": "💬",
+              "label": "\"The intro was a little confusing, maybe start with your main point\"",
+              "good": true,
+              "outcome": "Exactly right! Good feedback focuses on the specific thing that could improve, said kindly."
+            },
+            {
+              "emoji": "👎",
+              "label": "\"This is bad\"",
+              "good": false,
+              "outcome": "A vague, harsh comment like this just makes someone feel criticized without knowing what to fix."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Saying nothing at all",
+              "good": false,
+              "outcome": "Saying nothing misses a chance to help your partner improve — specific, kind feedback works much better."
+            }
+          ]
+        }
       },
       {
         "emoji": "👂",
         "title": "Receiving feedback well",
-        "text": "Hearing feedback about something you did isn't the same as being told you're a bad person — separating the two helps you actually improve. For example, if a teacher says your essay's conclusion needs work, that's feedback about one part of your writing, not a judgment about your intelligence or worth as a person."
+        "text": "Hearing feedback about something you did isn't the same as being told you're a bad person — separating the two helps you actually improve. For example, if a teacher says your essay's conclusion needs work, that's feedback about one part of your writing, not a judgment about your intelligence or worth as a person.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A teacher says your essay's conclusion needs work. Does this mean you're a bad person?",
+          "options": [
+            {
+              "emoji": "📝",
+              "label": "No — it's feedback about one part of your writing",
+              "good": true,
+              "outcome": "Exactly right! Feedback about your work isn't the same as being told you're a bad person."
+            },
+            {
+              "emoji": "😢",
+              "label": "Yes, it's a judgment of your worth",
+              "good": false,
+              "outcome": "Feedback about your writing isn't a judgment of your worth as a person — it's about one part of the work."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Feedback always means you failed completely",
+              "good": false,
+              "outcome": "Feedback about one part doesn't mean total failure — it's a specific, helpful note about something to improve."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "Resolving a disagreement",
-        "text": "Calmly explaining your side, actually listening to theirs, and looking for a solution both people can accept usually works better than arguing to 'win.' For example, if you and a sibling disagree about which show to watch, calmly explaining why you want your choice, listening to their reason, and maybe agreeing to alternate shows usually ends better than a shouting match over the remote."
+        "text": "Calmly explaining your side, actually listening to theirs, and looking for a solution both people can accept usually works better than arguing to 'win.' For example, if you and a sibling disagree about which show to watch, calmly explaining why you want your choice, listening to their reason, and maybe agreeing to alternate shows usually ends better than a shouting match over the remote.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You and a friend disagree about whose idea to use for a group project. What's the best first step?",
+          "options": [
+            {
+              "emoji": "👂",
+              "label": "Ask them to explain their reasoning, then share yours",
+              "good": true,
+              "outcome": "Exactly — understanding each other's reasoning first often reveals a solution that works for both of you."
+            },
+            {
+              "emoji": "💥",
+              "label": "Insist on your idea until they give in",
+              "good": false,
+              "outcome": "Pushing until someone gives in can work short-term, but it often damages the relationship and misses a better combined idea."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Avoid the topic and hope it resolves itself",
+              "good": false,
+              "outcome": "Avoiding the disagreement usually just delays it — and the project still needs a decision."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙇",
         "title": "Apologizing well",
-        "text": "A real apology names what happened and how it affected the other person, instead of a quick, empty \"sorry.\" For example, saying \"I'm sorry I was late and made you wait alone, that wasn't fair to you\" shows you actually understand the impact, while a mumbled \"sorry\" walking past someone often doesn't."
+        "text": "A real apology names what happened and how it affected the other person, instead of a quick, empty \"sorry.\" For example, saying \"I'm sorry I was late and made you wait alone, that wasn't fair to you\" shows you actually understand the impact, while a mumbled \"sorry\" walking past someone often doesn't.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You hurt a friend's feelings by accident. What makes the best apology?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Acknowledge what you did, say sorry, and mean it",
+              "good": true,
+              "outcome": "Exactly! A genuine apology names what happened and shows you really mean it."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Say sorry without explaining what for",
+              "good": false,
+              "outcome": "A vague apology can feel less sincere — naming what happened makes it more meaningful."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Avoid apologizing and hope they forget",
+              "good": false,
+              "outcome": "Avoiding an apology can let hurt feelings linger — a genuine apology helps repair things faster."
+            }
+          ]
+        }
       },
       {
         "emoji": "🥊",
         "title": "The sandwich method for feedback",
-        "text": "Starting with something genuine that's working, then the thing to improve, then encouragement, makes feedback easier to hear without softening it into uselessness. For example, \"your intro really grabbed my attention — the middle section lost me a bit, but I think moving your best example up front would fix that\" covers all three."
+        "text": "Starting with something genuine that's working, then the thing to improve, then encouragement, makes feedback easier to hear without softening it into uselessness. For example, \"your intro really grabbed my attention — the middle section lost me a bit, but I think moving your best example up front would fix that\" covers all three.",
+        "widget": "sequence-order",
+        "widgetConfig": {
+          "prompt": "Tap the three layers of the sandwich method in order",
+          "items": [
+            "Start with something positive",
+            "Give the constructive feedback",
+            "End with encouragement"
+          ]
+        }
       },
       {
         "emoji": "😤",
         "title": "Not taking feedback personally",
-        "text": "Feeling a flash of defensiveness when you hear feedback is normal — the skill is not letting that flash turn into an argument. Taking a breath before responding to a critique gives you time to actually consider it instead of just reacting."
+        "text": "Feeling a flash of defensiveness when you hear feedback is normal — the skill is not letting that flash turn into an argument. Taking a breath before responding to a critique gives you time to actually consider it instead of just reacting.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You feel a flash of defensiveness hearing feedback. What helps?",
+          "options": [
+            {
+              "emoji": "🧘",
+              "label": "Take a breath before responding",
+              "good": true,
+              "outcome": "Exactly right! Taking a breath before responding gives you time to actually consider the feedback instead of just reacting."
+            },
+            {
+              "emoji": "😠",
+              "label": "Argue back immediately",
+              "good": false,
+              "outcome": "Arguing back immediately often comes from that flash of defensiveness — taking a breath first helps you respond better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Feeling defensive is impossible to manage",
+              "good": false,
+              "outcome": "That flash of defensiveness is normal, but it can be managed — taking a breath before responding helps a lot."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧊",
         "title": "Cooling off before a hard conversation",
-        "text": "Trying to resolve a conflict while you're still furious rarely goes well — waiting even ten minutes to calm down usually leads to a much more productive conversation. Saying \"can we talk about this in a few minutes, I need to cool off first\" isn't avoiding the problem, it's setting it up to go better."
+        "text": "Trying to resolve a conflict while you're still furious rarely goes well — waiting even ten minutes to calm down usually leads to a much more productive conversation. Saying \"can we talk about this in a few minutes, I need to cool off first\" isn't avoiding the problem, it's setting it up to go better.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're still furious right after an argument. Is this the best time to resolve the conflict?",
+          "options": [
+            {
+              "emoji": "🧊",
+              "label": "No — waiting even a bit to cool off usually helps",
+              "good": true,
+              "outcome": "Exactly right! Trying to resolve a conflict while still furious rarely goes well — waiting to cool off usually leads to a better conversation."
+            },
+            {
+              "emoji": "😡",
+              "label": "Yes, you should always resolve it immediately no matter how you feel",
+              "good": false,
+              "outcome": "Resolving it while still furious often backfires — waiting to cool off tends to work better."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't matter when you talk about it",
+              "good": false,
+              "outcome": "Timing actually matters a lot — cooling off first tends to lead to a much better conversation."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔍",
         "title": "Finding the real issue",
-        "text": "Arguments about small things — like whose turn it is to do dishes — are sometimes really about something bigger, like feeling like chores aren't split fairly. Naming the bigger issue directly usually resolves things faster than arguing about the small one over and over."
+        "text": "Arguments about small things — like whose turn it is to do dishes — are sometimes really about something bigger, like feeling like chores aren't split fairly. Naming the bigger issue directly usually resolves things faster than arguing about the small one over and over.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You keep arguing about whose turn it is to do dishes. What might really be going on?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "A bigger issue, like chores feeling unfair",
+              "good": true,
+              "outcome": "Exactly right! Arguments about small things are sometimes really about something bigger, like chores feeling unfairly split."
+            },
+            {
+              "emoji": "🍽️",
+              "label": "Nothing — it's really just about dishes",
+              "good": false,
+              "outcome": "It's often not really just about dishes — naming the bigger issue directly usually resolves things faster."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Arguing about it repeatedly will resolve it",
+              "good": false,
+              "outcome": "Arguing about the small thing over and over rarely resolves it — naming the bigger issue works faster."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙋",
         "title": "Owning your part of a conflict",
-        "text": "Most disagreements involve both people doing something that made things worse, even if one side did more. Admitting your own part — even a small one — often makes the other person more willing to admit theirs too."
+        "text": "Most disagreements involve both people doing something that made things worse, even if one side did more. Admitting your own part — even a small one — often makes the other person more willing to admit theirs too.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "In most disagreements, did only one person do something wrong?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "No — both people usually contributed something",
+              "good": true,
+              "outcome": "Exactly right! Most disagreements involve both people doing something that made things worse, even if one side did more."
+            },
+            {
+              "emoji": "👉",
+              "label": "Yes, it's always entirely one person's fault",
+              "good": false,
+              "outcome": "It's rarely entirely one person's fault — most disagreements involve some contribution from both sides."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Admitting your part never helps",
+              "good": false,
+              "outcome": "Admitting your own part, even a small one, often makes the other person more willing to admit theirs too."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -850,47 +2150,263 @@
       {
         "emoji": "📱",
         "title": "Reading tone in messages",
-        "text": "A short text like 'fine.' can come across as annoyed even if it wasn't meant that way — being aware of this helps avoid mixed-up messages. For example, texting just \"k\" in response to a friend's exciting news might come across as dismissive, even if you were just typing quickly and meant nothing by it."
+        "text": "A short text like 'fine.' can come across as annoyed even if it wasn't meant that way — being aware of this helps avoid mixed-up messages. For example, texting just \"k\" in response to a friend's exciting news might come across as dismissive, even if you were just typing quickly and meant nothing by it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You text just \"k\" in response to exciting news. Could this come across as dismissive?",
+          "options": [
+            {
+              "emoji": "📱",
+              "label": "Yes, even if you did not mean it that way",
+              "good": true,
+              "outcome": "Exactly right! A short text can come across as dismissive even if you were just typing quickly and meant nothing by it."
+            },
+            {
+              "emoji": "😊",
+              "label": "No, short texts always read as enthusiastic",
+              "good": false,
+              "outcome": "Short texts don't always read as enthusiastic — they can easily come across as dismissive instead."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Tone never matters in texting",
+              "good": false,
+              "outcome": "Tone actually matters a lot in texting — short replies can easily be misread."
+            }
+          ]
+        }
       },
       {
         "emoji": "📝",
         "title": "Written communication skills",
-        "text": "A clear, organized message — like a well-written email or message — gets read and understood much more easily than a rushed, jumbled one. For example, a message that says \"Hi Coach, I'll miss practice Tuesday for a dentist appointment. See you Thursday!\" gets a much faster, clearer response than a rambling message that buries that same information in the middle."
+        "text": "A clear, organized message — like a well-written email or message — gets read and understood much more easily than a rushed, jumbled one. For example, a message that says \"Hi Coach, I'll miss practice Tuesday for a dentist appointment. See you Thursday!\" gets a much faster, clearer response than a rambling message that buries that same information in the middle.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You send a message to your teacher that's organized and clearly explains what you need. What's the benefit?",
+          "options": [
+            {
+              "emoji": "✉️",
+              "label": "It gets your point across more effectively and is taken more seriously",
+              "good": true,
+              "outcome": "Exactly! A clear, organized message communicates your point more effectively and tends to be taken more seriously."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Organization in a message never matters",
+              "good": false,
+              "outcome": "Organization actually matters a lot — a clear, well-organized message gets your point across far more effectively."
+            },
+            {
+              "emoji": "📝",
+              "label": "Clear writing is only useful for school essays",
+              "good": false,
+              "outcome": "Clear writing helps in all kinds of messages, not just essays — like getting a request to a teacher taken seriously."
+            }
+          ]
+        }
       },
       {
         "emoji": "📧",
         "title": "Writing a clear message",
-        "text": "A short, well-organized message — saying exactly what you need and by when — gets a faster, better response than a vague, rambling one. For example, \"Can you send me the group project notes by Thursday? I want to start my part this weekend\" gets a much clearer response than just \"hey, can you send me stuff sometime?\""
+        "text": "A short, well-organized message — saying exactly what you need and by when — gets a faster, better response than a vague, rambling one. For example, \"Can you send me the group project notes by Thursday? I want to start my part this weekend\" gets a much clearer response than just \"hey, can you send me stuff sometime?\"",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Which message gets a faster, clearer response?",
+          "options": [
+            {
+              "emoji": "✉️",
+              "label": "\"Can you send me the notes by Thursday? I want to start this weekend\"",
+              "good": true,
+              "outcome": "Exactly right! A short, well-organized message saying exactly what you need gets a faster, better response."
+            },
+            {
+              "emoji": "🌀",
+              "label": "\"hey, can you send me stuff sometime?\"",
+              "good": false,
+              "outcome": "A vague, rambling message like this is harder to respond to quickly — being specific works much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Clarity never affects how fast someone responds",
+              "good": false,
+              "outcome": "Clarity actually affects response speed a lot — a clear, specific message gets answered faster."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔊",
         "title": "Tone of voice matters as much as words",
-        "text": "The exact same sentence can sound supportive or sarcastic depending on your tone of voice, speed, and volume. For example, saying \"sure, whatever you say\" can sound genuinely agreeable or completely sarcastic, depending only on how it's said — the words themselves don't change at all."
+        "text": "The exact same sentence can sound supportive or sarcastic depending on your tone of voice, speed, and volume. For example, saying \"sure, whatever you say\" can sound genuinely agreeable or completely sarcastic, depending only on how it's said — the words themselves don't change at all.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone says \"sure, whatever you say.\" Could this sound sarcastic or genuine depending on tone?",
+          "options": [
+            {
+              "emoji": "🎭",
+              "label": "Yes — the exact same words can sound totally different",
+              "good": true,
+              "outcome": "Exactly right! The exact same sentence can sound supportive or sarcastic depending on tone, speed, and volume."
+            },
+            {
+              "emoji": "🔁",
+              "label": "No, the words always mean the same thing",
+              "good": false,
+              "outcome": "The words alone don't always mean the same thing — tone can completely change how a sentence lands."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Tone of voice does not exist in spoken language",
+              "good": false,
+              "outcome": "Tone of voice is a real and powerful part of spoken language — it can change meaning completely."
+            }
+          ]
+        }
       },
       {
         "emoji": "📲",
         "title": "Choosing text, call, or in person",
-        "text": "Not every message deserves the same format — quick logistics fit a text, but anything emotional or complicated usually goes better as a call or face-to-face talk. For example, texting \"running 10 min late\" is fine, but resolving a serious argument by text usually leaves too much room for misreading tone."
+        "text": "Not every message deserves the same format — quick logistics fit a text, but anything emotional or complicated usually goes better as a call or face-to-face talk. For example, texting \"running 10 min late\" is fine, but resolving a serious argument by text usually leaves too much room for misreading tone.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You need to have a sensitive conversation with a friend about something that upset you. What's usually the best way to communicate it?",
+          "options": [
+            {
+              "emoji": "📞",
+              "label": "In person or by call, not text",
+              "good": true,
+              "outcome": "Good choice! Sensitive topics are usually better handled by voice or in person, where tone and context come through clearly."
+            },
+            {
+              "emoji": "💬",
+              "label": "Always text, regardless of the topic",
+              "good": false,
+              "outcome": "Texting can strip away tone and lead to misunderstandings — sensitive topics usually go better by voice or in person."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Avoid the conversation entirely",
+              "good": false,
+              "outcome": "Avoiding it doesn't resolve the issue — choosing the right communication method (like talking in person) helps you actually address it."
+            }
+          ]
+        }
       },
       {
         "emoji": "📨",
         "title": "Proofreading before you send",
-        "text": "Reading a message once before hitting send catches typos and awkward phrasing that could confuse or embarrass you. A message that says \"I can't wait to see you Friday\" reads very differently from an unproofread typo like \"I cant wait to sue you Friday.\""
+        "text": "Reading a message once before hitting send catches typos and awkward phrasing that could confuse or embarrass you. A message that says \"I can't wait to see you Friday\" reads very differently from an unproofread typo like \"I cant wait to sue you Friday.\"",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You meant to type \"I can't wait to see you Friday\" but it has a typo. Why proofread first?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "A typo could confuse or embarrass you",
+              "good": true,
+              "outcome": "Exactly right! Reading a message once before hitting send catches typos and awkward phrasing that could confuse or embarrass you."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Typos never matter in messages",
+              "good": false,
+              "outcome": "Typos can actually change meaning in confusing or embarrassing ways — proofreading helps catch them."
+            },
+            {
+              "emoji": "⏱️",
+              "label": "Proofreading wastes time for no reason",
+              "good": false,
+              "outcome": "A quick proofread takes very little time and can prevent a confusing or embarrassing typo."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧵",
         "title": "Keeping a group chat on topic",
-        "text": "A group chat works best when messages stay relevant to what the group actually needs to plan or discuss. Derailing a class project group chat with unrelated jokes can bury the one message that actually matters."
+        "text": "A group chat works best when messages stay relevant to what the group actually needs to plan or discuss. Derailing a class project group chat with unrelated jokes can bury the one message that actually matters.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A class project group chat gets derailed with unrelated jokes. What's the downside?",
+          "options": [
+            {
+              "emoji": "📌",
+              "label": "The one message that actually matters can get buried",
+              "good": true,
+              "outcome": "Exactly right! A group chat works best when messages stay relevant — otherwise an important message can get buried."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Staying on topic never matters in group chats",
+              "good": false,
+              "outcome": "Staying on topic actually matters a lot — it keeps important messages from getting lost."
+            },
+            {
+              "emoji": "😂",
+              "label": "Jokes always help a group chat stay organized",
+              "good": false,
+              "outcome": "Unrelated jokes can actually derail a group chat and bury important messages, not help it stay organized."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏰",
         "title": "Response time expectations",
-        "text": "Not answering a text within five minutes doesn't mean someone is mad at you — people have different habits around how quickly they reply. Assuming the worst about a slow reply usually causes more stress than it's worth."
+        "text": "Not answering a text within five minutes doesn't mean someone is mad at you — people have different habits around how quickly they reply. Assuming the worst about a slow reply usually causes more stress than it's worth.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend doesn't reply to your text within five minutes. What does this probably mean?",
+          "options": [
+            {
+              "emoji": "🤷",
+              "label": "Nothing bad — people have different reply habits",
+              "good": true,
+              "outcome": "Exactly right! Not answering within five minutes doesn't mean someone is mad — people just have different habits around replying."
+            },
+            {
+              "emoji": "😠",
+              "label": "They must be mad at you",
+              "good": false,
+              "outcome": "Assuming the worst about a slow reply usually causes more stress than it's worth — it rarely means someone is mad."
+            },
+            {
+              "emoji": "⏰",
+              "label": "Everyone should always reply within five minutes",
+              "good": false,
+              "outcome": "People have different reply habits — expecting everyone to reply within five minutes isn't realistic."
+            }
+          ]
+        }
       },
       {
         "emoji": "📸",
         "title": "Think before you screenshot or forward",
-        "text": "Forwarding a private message to someone else without asking can break trust, even if you didn't mean any harm by it. Before sharing what someone told you privately, it's worth asking yourself if they'd be okay with that."
+        "text": "Forwarding a private message to someone else without asking can break trust, even if you didn't mean any harm by it. Before sharing what someone told you privately, it's worth asking yourself if they'd be okay with that.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend vents to you privately about a bad day, and you're tempted to screenshot it and share with others for a laugh. What should you do?",
+          "options": [
+            {
+              "emoji": "🤐",
+              "label": "Don't share it — it was said in confidence",
+              "good": true,
+              "outcome": "Right call — forwarding a private message without permission can seriously break trust, even if it seems harmless."
+            },
+            {
+              "emoji": "😂",
+              "label": "Share it since it's funny",
+              "good": false,
+              "outcome": "Even if it seems funny, sharing a private message without permission can hurt your friend and damage their trust in you."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Share it but hide their name",
+              "good": false,
+              "outcome": "Even without a name, sharing someone's private words without permission isn't respectful of their trust."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -991,42 +2507,219 @@
       {
         "emoji": "🎤",
         "title": "Public speaking basics",
-        "text": "Speaking to a group feels easier with preparation: knowing your key points, practicing out loud, and remembering that some nerves are completely normal. For example, practicing a class presentation out loud three times beforehand — even alone in your room — makes an enormous difference in how confident you sound on the actual day."
+        "text": "Speaking to a group feels easier with preparation: knowing your key points, practicing out loud, and remembering that some nerves are completely normal. For example, practicing a class presentation out loud three times beforehand — even alone in your room — makes an enormous difference in how confident you sound on the actual day.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to give a presentation to your class. What preparation helps most?",
+          "options": [
+            {
+              "emoji": "📋",
+              "label": "Knowing your key points well in advance",
+              "good": true,
+              "outcome": "Exactly! Speaking to a group feels easier with preparation, especially knowing your key points ahead of time."
+            },
+            {
+              "emoji": "🎲",
+              "label": "Winging it with zero preparation",
+              "good": false,
+              "outcome": "Winging it usually makes a presentation harder, not easier — preparation is what helps most."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Preparation never actually helps with public speaking",
+              "good": false,
+              "outcome": "Preparation actually helps a lot — knowing your key points in advance makes speaking to a group much easier."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧭",
         "title": "Assertive vs. passive vs. aggressive",
-        "text": "Assertive communication states your needs clearly and respectfully. Passive avoids saying what you need. Aggressive disregards the other person's feelings entirely. For example, if a group project partner isn't doing their share, saying \"I need you to finish your part by Friday so we're not scrambling\" is assertive — staying silent and hoping it fixes itself is passive, and yelling \"you never do anything\" is aggressive."
+        "text": "Assertive communication states your needs clearly and respectfully. Passive avoids saying what you need. Aggressive disregards the other person's feelings entirely. For example, if a group project partner isn't doing their share, saying \"I need you to finish your part by Friday so we're not scrambling\" is assertive — staying silent and hoping it fixes itself is passive, and yelling \"you never do anything\" is aggressive.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A classmate keeps borrowing your notes without asking and not returning them. What's the assertive response?",
+          "options": [
+            {
+              "emoji": "🗣️",
+              "label": "\"I need my notes back by tomorrow, and please ask first next time.\"",
+              "good": true,
+              "outcome": "That's assertive — clear, direct, and respectful, without being pushy or staying silent about what you need."
+            },
+            {
+              "emoji": "😶",
+              "label": "Say nothing and just feel annoyed",
+              "good": false,
+              "outcome": "That's the passive route — your need doesn't get communicated, and the pattern will likely continue."
+            },
+            {
+              "emoji": "😡",
+              "label": "\"You always take my stuff, you're so inconsiderate!\"",
+              "good": false,
+              "outcome": "That's the aggressive route — it attacks the person rather than stating the need, which usually puts people on the defensive."
+            }
+          ]
+        }
       },
       {
         "emoji": "💼",
         "title": "Professional communication",
-        "text": "A clear subject line, a polite tone, and getting to the point efficiently make emails and messages far more effective in school or work settings. For example, an email titled \"Question about Friday's assignment deadline\" with two clear sentences gets answered far faster than one titled \"hi\" with a long, unfocused paragraph."
+        "text": "A clear subject line, a polite tone, and getting to the point efficiently make emails and messages far more effective in school or work settings. For example, an email titled \"Question about Friday's assignment deadline\" with two clear sentences gets answered far faster than one titled \"hi\" with a long, unfocused paragraph.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're emailing a potential employer for the first time. What tone fits best?",
+          "options": [
+            {
+              "emoji": "✉️",
+              "label": "Polite, clear, and reasonably formal",
+              "good": true,
+              "outcome": "Exactly! Professional communication, especially a first impression, calls for clarity and a respectful, polished tone."
+            },
+            {
+              "emoji": "😎",
+              "label": "Very casual, like texting a friend",
+              "good": false,
+              "outcome": "An overly casual tone in a first professional email can come across as unprepared — a polished, respectful tone works better."
+            },
+            {
+              "emoji": "🎩",
+              "label": "Extremely formal and full of complex words",
+              "good": false,
+              "outcome": "You don't need overly complex language — clear and professional, without being overly stiff, works best."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍💼",
         "title": "Introducing yourself professionally",
-        "text": "A short, confident self-introduction — your name, what you're interested in, and why you're reaching out — makes a strong first impression in interviews or networking. For example, \"Hi, I'm Jordan, a junior interested in environmental science, and I'm reaching out because I'd love to learn more about your research\" makes a far stronger first impression than a vague, rambling introduction."
+        "text": "A short, confident self-introduction — your name, what you're interested in, and why you're reaching out — makes a strong first impression in interviews or networking. For example, \"Hi, I'm Jordan, a junior interested in environmental science, and I'm reaching out because I'd love to learn more about your research\" makes a far stronger first impression than a vague, rambling introduction.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're meeting a potential mentor for the first time. What's a strong self-introduction?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Your name, what you're interested in, and a bit of context",
+              "good": true,
+              "outcome": "Exactly! A short, confident self-introduction — your name, what you're interested in, and a bit of context — makes a strong impression."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Just your name and nothing else",
+              "good": false,
+              "outcome": "Just a name alone misses a chance to make a real connection — adding a bit of context helps much more."
+            },
+            {
+              "emoji": "📜",
+              "label": "A long life story with every detail",
+              "good": false,
+              "outcome": "A long life story can be overwhelming for a first introduction — short and focused works better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎤",
         "title": "Managing nerves before speaking",
-        "text": "A racing heart before a presentation is a normal stress response, not proof that you will do badly. Instead of fighting every nervous feeling, try labeling the energy as readiness: 'My body is getting me ready to speak.' Then focus on your first sentence and your key points."
+        "text": "A racing heart before a presentation is a normal stress response, not proof that you will do badly. Instead of fighting every nervous feeling, try labeling the energy as readiness: 'My body is getting me ready to speak.' Then focus on your first sentence and your key points.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your heart races before a presentation. What does this mean?",
+          "options": [
+            {
+              "emoji": "💓",
+              "label": "It's a normal stress response, not proof you'll do badly",
+              "good": true,
+              "outcome": "Exactly right! A racing heart before a presentation is a normal stress response, not proof that you will do badly."
+            },
+            {
+              "emoji": "😨",
+              "label": "You will definitely fail",
+              "good": false,
+              "outcome": "A racing heart doesn't predict failure — it's just a normal stress response you can work through."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nervousness means you shouldn't speak at all",
+              "good": false,
+              "outcome": "Nervousness doesn't mean you shouldn't speak — it's normal, and focusing on your key points helps you push through it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧱",
         "title": "Structuring a persuasive case",
-        "text": "A persuasive argument usually needs a clear claim, a reason, and evidence — without all three, it's just an opinion repeated louder. Saying 'we should extend the club meeting time because attendance has grown 30%, and longer meetings would let us finish activities without rushing' has all three pieces."
+        "text": "A persuasive argument usually needs a clear claim, a reason, and evidence — without all three, it's just an opinion repeated louder. Saying 'we should extend the club meeting time because attendance has grown 30%, and longer meetings would let us finish activities without rushing' has all three pieces.",
+        "widget": "sequence-order",
+        "widgetConfig": {
+          "prompt": "Tap the three parts of a persuasive case in order",
+          "items": [
+            "State your claim",
+            "Give a reason",
+            "Back it up with evidence"
+          ]
+        }
       },
       {
         "emoji": "🚫",
         "title": "Setting a boundary assertively",
-        "text": "Assertively declining something — like extra work you don't have time for — means saying no clearly without over-apologizing or making excuses. 'I can't take this on right now, my schedule's full' is direct and respectful, without needing three paragraphs of justification."
+        "text": "Assertively declining something — like extra work you don't have time for — means saying no clearly without over-apologizing or making excuses. 'I can't take this on right now, my schedule's full' is direct and respectful, without needing three paragraphs of justification.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You don't have time for extra work. What's an assertive way to decline?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "\"I can't take this on right now, my schedule's full\"",
+              "good": true,
+              "outcome": "Exactly right! Saying no clearly, without over-apologizing or making excuses, is direct and respectful."
+            },
+            {
+              "emoji": "📜",
+              "label": "Write three paragraphs of excuses",
+              "good": false,
+              "outcome": "Long justifications aren't necessary — a clear, direct no is respectful enough on its own."
+            },
+            {
+              "emoji": "😓",
+              "label": "Say yes anyway even though you do not have time",
+              "good": false,
+              "outcome": "Saying yes despite not having time can set you up to struggle later — a clear, respectful no is better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍🏫",
         "title": "Adjusting formality on the fly",
-        "text": "Reading whether a situation calls for casual or formal language — a text to a friend versus an email to a teacher — is a skill that gets sharper with practice. Using the same casual tone in both places can come across as careless in the more formal one."
+        "text": "Reading whether a situation calls for casual or formal language — a text to a friend versus an email to a teacher — is a skill that gets sharper with practice. Using the same casual tone in both places can come across as careless in the more formal one.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're texting a friend versus emailing a teacher. Should you use the same casual tone for both?",
+          "options": [
+            {
+              "emoji": "🎚️",
+              "label": "No — reading what the situation calls for matters",
+              "good": true,
+              "outcome": "Exactly right! Reading whether a situation calls for casual or formal language is a skill that gets sharper with practice."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Yes, always use the same tone everywhere",
+              "good": false,
+              "outcome": "Using the same casual tone everywhere can come across as careless in a more formal setting."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Formality never matters in communication",
+              "good": false,
+              "outcome": "Formality actually matters a lot — adjusting your tone to the situation shows awareness and respect."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1127,42 +2820,234 @@
       {
         "emoji": "🤝",
         "title": "Conflict resolution",
-        "text": "Resolving conflict well usually means naming the real issue calmly, listening fully to the other side, and working toward a solution instead of assigning blame. For example, instead of saying \"you always ignore me,\" naming the specific issue — \"I felt left out when the group made plans without me\" — opens the door to an actual conversation instead of a defensive reaction."
+        "text": "Resolving conflict well usually means naming the real issue calmly, listening fully to the other side, and working toward a solution instead of assigning blame. For example, instead of saying \"you always ignore me,\" naming the specific issue — \"I felt left out when the group made plans without me\" — opens the door to an actual conversation instead of a defensive reaction.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You and a close friend had a heated argument over text. What's the most effective next step?",
+          "options": [
+            {
+              "emoji": "☕",
+              "label": "Suggest talking it through in person or by call",
+              "good": true,
+              "outcome": "Good call — tone is easy to misread over text, and a real conversation resolves conflict faster than more typing."
+            },
+            {
+              "emoji": "📱",
+              "label": "Keep texting back and forth to settle it",
+              "good": false,
+              "outcome": "Text conflicts can spiral since tone and intent are easy to misread — a real conversation usually resolves things faster."
+            },
+            {
+              "emoji": "🙊",
+              "label": "Stop responding and let it fade away",
+              "good": false,
+              "outcome": "Ignoring it might feel easier now, but unresolved conflict usually resurfaces later, often worse."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎧",
         "title": "Listening for understanding, not rebuttal",
-        "text": "Truly listening means trying to understand the other person's point, not just waiting for your turn to argue back. For example, in a disagreement about curfew, really listening to why a parent is worried (not just waiting to counter-argue) might reveal a specific concern you could actually address directly."
+        "text": "Truly listening means trying to understand the other person's point, not just waiting for your turn to argue back. For example, in a disagreement about curfew, really listening to why a parent is worried (not just waiting to counter-argue) might reveal a specific concern you could actually address directly.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "While someone is explaining their point, you're already planning your counter-argument instead of really listening. What's the issue?",
+          "options": [
+            {
+              "emoji": "👂",
+              "label": "You might miss their actual point, making real resolution harder",
+              "good": true,
+              "outcome": "Exactly — listening to understand, rather than just waiting for your turn to argue back, is what actually leads to productive conversations and real resolution."
+            },
+            {
+              "emoji": "🤷",
+              "label": "There's no issue, that's just normal conversation",
+              "good": false,
+              "outcome": "Planning your rebuttal instead of truly listening often means missing the other person's actual point, which can derail productive conversation."
+            },
+            {
+              "emoji": "🎤",
+              "label": "It shows you're a strong debater",
+              "good": false,
+              "outcome": "Being ready to counter isn't the same as truly understanding — genuine listening leads to better, more productive conversations."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔁",
         "title": "Giving and receiving feedback like a pro",
-        "text": "Good feedback is specific and focused on the work, not a vague judgment of the person delivering or receiving it. For example, telling a coworker \"the report's third section repeats the intro, maybe cut it\" is more useful than \"this needs work,\" and receiving similar feedback without getting defensive is just as important a skill."
+        "text": "Good feedback is specific and focused on the work, not a vague judgment of the person delivering or receiving it. For example, telling a coworker \"the report's third section repeats the intro, maybe cut it\" is more useful than \"this needs work,\" and receiving similar feedback without getting defensive is just as important a skill.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're giving a teammate feedback on their work. What makes feedback actually helpful?",
+          "options": [
+            {
+              "emoji": "🎯",
+              "label": "Being specific and focused on the work, not a vague judgment of the person",
+              "good": true,
+              "outcome": "Exactly right! Good feedback is specific and focused on the work itself, not a vague judgment of the person."
+            },
+            {
+              "emoji": "👎",
+              "label": "Just saying 'this is bad' with no specifics",
+              "good": false,
+              "outcome": "Vague feedback like that doesn't give anyone a way to improve — specific, work-focused feedback helps much more."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Avoiding feedback entirely so no one's feelings get hurt",
+              "good": false,
+              "outcome": "Avoiding feedback entirely means missing a chance to help someone improve — specific, kind feedback is more useful."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙇",
         "title": "Apologizing without over-explaining",
-        "text": "A strong apology takes responsibility clearly and briefly, without piling on excuses that shift the blame elsewhere. For example, \"I'm sorry I missed the deadline, I should have asked for help sooner\" lands better than a long explanation of everything that went wrong that week."
+        "text": "A strong apology takes responsibility clearly and briefly, without piling on excuses that shift the blame elsewhere. For example, \"I'm sorry I missed the deadline, I should have asked for help sooner\" lands better than a long explanation of everything that went wrong that week.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You missed a deadline. Which apology lands better?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "\"I'm sorry I missed the deadline, I should have asked for help sooner\"",
+              "good": true,
+              "outcome": "Exactly right! A strong apology takes responsibility clearly and briefly, without piling on excuses."
+            },
+            {
+              "emoji": "📜",
+              "label": "A long explanation of everything that went wrong",
+              "good": false,
+              "outcome": "Piling on excuses can shift the blame elsewhere — a brief, clear apology lands much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Not apologizing at all",
+              "good": false,
+              "outcome": "Not apologizing at all misses the chance to take responsibility — a brief, clear apology works much better."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏸️",
         "title": "Taking a pause mid-argument",
-        "text": "Saying 'I need a few minutes before I respond to that' during a heated moment isn't losing the argument — it's preventing you from saying something you'll regret. Conversations paused and resumed calmly almost always go better than ones pushed through while both people are upset."
+        "text": "Saying 'I need a few minutes before I respond to that' during a heated moment isn't losing the argument — it's preventing you from saying something you'll regret. Conversations paused and resumed calmly almost always go better than ones pushed through while both people are upset.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're in a heated moment and might say something you'll regret. What helps?",
+          "options": [
+            {
+              "emoji": "⏸️",
+              "label": "Say \"I need a few minutes before I respond to that\"",
+              "good": true,
+              "outcome": "Exactly right! Pausing during a heated moment isn't losing the argument — it prevents you from saying something you'll regret."
+            },
+            {
+              "emoji": "💥",
+              "label": "Push through and say whatever comes to mind",
+              "good": false,
+              "outcome": "Pushing through a heated moment often leads to saying something you'll regret — pausing helps much more."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Pausing always means you're losing the argument",
+              "good": false,
+              "outcome": "Pausing isn't losing — conversations paused and resumed calmly almost always go better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🪞",
         "title": "Separating intent from impact",
-        "text": "Someone can hurt you without meaning to, and both things can be true at once — their intent wasn't bad, but the impact still landed. Saying 'I know you didn't mean it that way, but it still hurt' names both halves honestly."
+        "text": "Someone can hurt you without meaning to, and both things can be true at once — their intent wasn't bad, but the impact still landed. Saying 'I know you didn't mean it that way, but it still hurt' names both halves honestly.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone hurt your feelings without meaning to. Can both things be true at once?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "Yes — their intent wasn't bad, but the impact still hurt",
+              "good": true,
+              "outcome": "Exactly right! Someone can hurt you without meaning to, and both things — their good intent and the real impact — can be true at once."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, only intent or only impact can matter, never both",
+              "good": false,
+              "outcome": "Both can matter at the same time — someone's intent and the actual impact on you aren't mutually exclusive."
+            },
+            {
+              "emoji": "❌",
+              "label": "If they didn't mean it, it can't have really hurt",
+              "good": false,
+              "outcome": "Something can still genuinely hurt even when it wasn't meant that way — both things can be true."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗂️",
         "title": "Sticking to one issue at a time",
-        "text": "Bringing up five old grievances in the middle of one disagreement — 'and another thing' — usually makes conflicts harder to resolve, not easier. Sticking to the issue actually in front of you keeps the conversation solvable."
+        "text": "Bringing up five old grievances in the middle of one disagreement — 'and another thing' — usually makes conflicts harder to resolve, not easier. Sticking to the issue actually in front of you keeps the conversation solvable.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "In the middle of one disagreement, you want to bring up five old grievances. Is this helpful?",
+          "options": [
+            {
+              "emoji": "🛑",
+              "label": "No — it usually makes conflicts harder to resolve",
+              "good": true,
+              "outcome": "Exactly right! Bringing up old grievances in the middle of one disagreement usually makes conflicts harder to resolve, not easier."
+            },
+            {
+              "emoji": "📋",
+              "label": "Yes, bringing up everything at once helps",
+              "good": false,
+              "outcome": "Bringing up everything at once tends to overwhelm the conversation — sticking to one issue resolves things faster."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Old issues should always be mentioned every time",
+              "good": false,
+              "outcome": "Constantly re-raising old issues makes conflicts harder to resolve — sticking to the current issue works better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔂",
         "title": "Repeating back what you heard",
-        "text": "Saying 'so what I'm hearing is...' before responding forces you to actually process the other person's point instead of just waiting to argue. It also catches misunderstandings early, before they turn into a bigger fight."
+        "text": "Saying 'so what I'm hearing is...' before responding forces you to actually process the other person's point instead of just waiting to argue. It also catches misunderstandings early, before they turn into a bigger fight.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Before responding to someone, you say \"so what I'm hearing is...\" What does this do?",
+          "options": [
+            {
+              "emoji": "🔁",
+              "label": "It forces you to actually process their point and catches misunderstandings",
+              "good": true,
+              "outcome": "Exactly right! Repeating back what you heard forces you to actually process the other person's point instead of just waiting to argue."
+            },
+            {
+              "emoji": "⏱️",
+              "label": "It wastes time and never helps",
+              "good": false,
+              "outcome": "This actually saves time in the long run — it catches misunderstandings early, before they turn into a bigger fight."
+            },
+            {
+              "emoji": "😏",
+              "label": "It always sounds sarcastic, never helpful",
+              "good": false,
+              "outcome": "Said genuinely, this phrase helps you process the other person's point and catch misunderstandings early."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1263,47 +3148,263 @@
       {
         "emoji": "📵",
         "title": "Digital communication etiquette",
-        "text": "What you'd never say to someone's face shouldn't be said online either — screenshots and messages tend to stick around far longer than a spoken conversation. For example, a harsh comment typed in frustration can be screenshotted and shared long after you've cooled down and moved past the moment — something a spoken argument doesn't leave behind."
+        "text": "What you'd never say to someone's face shouldn't be said online either — screenshots and messages tend to stick around far longer than a spoken conversation. For example, a harsh comment typed in frustration can be screenshotted and shared long after you've cooled down and moved past the moment — something a spoken argument doesn't leave behind.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're frustrated and typing a harsh comment online. Should you say it since it's not face-to-face?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "No — what you wouldn't say to someone's face shouldn't be said online either",
+              "good": true,
+              "outcome": "Exactly right! What you'd never say to someone's face shouldn't be said online either — messages tend to stick around far longer."
+            },
+            {
+              "emoji": "💻",
+              "label": "Yes, online comments do not count the same way",
+              "good": false,
+              "outcome": "Online comments can actually feel more lasting — screenshots and messages stick around far longer than a spoken conversation."
+            },
+            {
+              "emoji": "🗑️",
+              "label": "Online messages disappear quickly so it does not matter",
+              "good": false,
+              "outcome": "Online messages often don't disappear — they can be screenshotted and shared long after you've cooled down."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌍",
         "title": "Communicating across differences",
-        "text": "People from different backgrounds may communicate in different styles — being aware of this helps avoid misreading someone's tone or intent. For example, someone raised in a culture that values indirect communication might phrase a disagreement much more softly than someone used to being very direct — neither is wrong, but misreading the difference can cause unnecessary friction."
+        "text": "People from different backgrounds may communicate in different styles — being aware of this helps avoid misreading someone's tone or intent. For example, someone raised in a culture that values indirect communication might phrase a disagreement much more softly than someone used to being very direct — neither is wrong, but misreading the difference can cause unnecessary friction.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A classmate from a different background seems to communicate more directly than you're used to. What's a helpful mindset?",
+          "options": [
+            {
+              "emoji": "🌍",
+              "label": "Be aware that communication styles can differ by background",
+              "good": true,
+              "outcome": "Exactly! Being aware that people from different backgrounds may communicate differently helps you understand them better instead of misreading their style."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Assume everyone communicates exactly the same way",
+              "good": false,
+              "outcome": "Assuming everyone communicates the same way can lead to misunderstandings — being aware of different styles helps."
+            },
+            {
+              "emoji": "❌",
+              "label": "Decide their style is simply wrong",
+              "good": false,
+              "outcome": "A different communication style isn't wrong — being aware of these differences helps you understand each other better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧩",
         "title": "Nonverbal cues under pressure",
-        "text": "In a tense conversation, tone of voice and body language often carry as much meaning as the actual words being said. For example, saying \"I'm not mad\" through gritted teeth and crossed arms sends a very different message than the actual words — the tone and body language often reveal more truth than the sentence itself."
+        "text": "In a tense conversation, tone of voice and body language often carry as much meaning as the actual words being said. For example, saying \"I'm not mad\" through gritted teeth and crossed arms sends a very different message than the actual words — the tone and body language often reveal more truth than the sentence itself.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone says \"I'm not mad\" through gritted teeth and crossed arms. What message does this send?",
+          "options": [
+            {
+              "emoji": "😠",
+              "label": "A different message than the words alone — tone and body language reveal more",
+              "good": true,
+              "outcome": "Exactly right! In a tense conversation, tone of voice and body language often carry as much meaning as the actual words."
+            },
+            {
+              "emoji": "🗣️",
+              "label": "Only the spoken words matter, nothing else",
+              "good": false,
+              "outcome": "The spoken words aren't the whole story — tone and body language can reveal more truth than the sentence itself."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Body language never contradicts what someone says",
+              "good": false,
+              "outcome": "Body language can absolutely contradict spoken words, like gritted teeth and crossed arms saying 'I'm not mad.'"
+            }
+          ]
+        }
       },
       {
         "emoji": "🌐",
         "title": "Communicating across cultures online",
-        "text": "Humor, directness, and how formal a message should be all vary a lot between cultures — a message that reads as friendly in one context can read as blunt or confusing in another. For example, a very short, direct message that feels efficient and normal in one culture's messaging style might come across as cold or rude to someone from a culture where messages are typically warmer and more elaborate."
+        "text": "Humor, directness, and how formal a message should be all vary a lot between cultures — a message that reads as friendly in one context can read as blunt or confusing in another. For example, a very short, direct message that feels efficient and normal in one culture's messaging style might come across as cold or rude to someone from a culture where messages are typically warmer and more elaborate.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A short, direct message feels normal in one culture but could seem cold in another. What does this show?",
+          "options": [
+            {
+              "emoji": "🌍",
+              "label": "Communication styles can vary a lot between cultures",
+              "good": true,
+              "outcome": "Exactly right! Humor, directness, and formality all vary a lot between cultures — what feels normal in one can feel blunt in another."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Everyone everywhere communicates exactly the same way",
+              "good": false,
+              "outcome": "Communication styles actually vary quite a bit between cultures — being aware of this helps avoid misunderstandings."
+            },
+            {
+              "emoji": "😠",
+              "label": "Directness is always rude no matter the context",
+              "good": false,
+              "outcome": "Directness isn't always rude — whether it feels rude or just efficient depends a lot on the cultural context."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔍",
         "title": "Reading the room",
-        "text": "The same joke or comment can land differently depending on the mood of the room, so paying attention to context matters as much as what you actually say. For example, a sarcastic joke that gets laughs at a casual hangout might fall flat or seem rude during a serious team meeting."
+        "text": "The same joke or comment can land differently depending on the mood of the room, so paying attention to context matters as much as what you actually say. For example, a sarcastic joke that gets laughs at a casual hangout might fall flat or seem rude during a serious team meeting.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You walk into a meeting where everyone looks tense and quiet. What's the smart first move?",
+          "options": [
+            {
+              "emoji": "🧐",
+              "label": "Read the mood before jumping in with jokes or unrelated topics",
+              "good": true,
+              "outcome": "Exactly — reading the room first helps you respond appropriately instead of saying something that clashes with the mood."
+            },
+            {
+              "emoji": "😂",
+              "label": "Start making jokes right away",
+              "good": false,
+              "outcome": "Jumping in with jokes without reading the mood can land badly in a tense moment."
+            },
+            {
+              "emoji": "🙉",
+              "label": "Ignore the mood completely",
+              "good": false,
+              "outcome": "Picking up on the room's mood first helps you communicate more effectively."
+            }
+          ]
+        }
       },
       {
         "emoji": "📢",
         "title": "Delivering difficult news",
-        "text": "Sharing bad news clearly and with empathy — without burying it in vague language — respects the other person more than softening it so much it's confusing. For example, saying \"I won't be able to finish this by Friday, I need two more days\" is more respectful than a vague message that leaves someone guessing until the deadline passes."
+        "text": "Sharing bad news clearly and with empathy — without burying it in vague language — respects the other person more than softening it so much it's confusing. For example, saying \"I won't be able to finish this by Friday, I need two more days\" is more respectful than a vague message that leaves someone guessing until the deadline passes.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You can't finish something by Friday and need two more days. What's the most respectful way to say it?",
+          "options": [
+            {
+              "emoji": "💬",
+              "label": "Clearly state it, like \"I need two more days\"",
+              "good": true,
+              "outcome": "Exactly right! Sharing bad news clearly and with empathy respects the other person more than softening it into confusion."
+            },
+            {
+              "emoji": "🌫️",
+              "label": "Use vague language that leaves them guessing",
+              "good": false,
+              "outcome": "Vague language can leave someone guessing until the deadline passes — a clear, direct statement respects them more."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Avoid saying anything until the deadline passes",
+              "good": false,
+              "outcome": "Staying silent until the deadline passes is far less respectful than clearly sharing the news ahead of time."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌡️",
         "title": "Picking up on group mood shifts",
-        "text": "A meeting or hangout can shift from relaxed to tense in a moment, and noticing that shift as it happens — not five minutes later — lets you adjust before you say something that lands wrong. Pausing to check the room's energy costs nothing and prevents a lot of awkwardness."
+        "text": "A meeting or hangout can shift from relaxed to tense in a moment, and noticing that shift as it happens — not five minutes later — lets you adjust before you say something that lands wrong. Pausing to check the room's energy costs nothing and prevents a lot of awkwardness.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A hangout suddenly feels tense instead of relaxed. What helps?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Noticing the shift right away and adjusting",
+              "good": true,
+              "outcome": "Exactly right! Noticing a mood shift as it happens, not five minutes later, lets you adjust before saying something that lands wrong."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignoring it and continuing as if nothing changed",
+              "good": false,
+              "outcome": "Ignoring a mood shift can mean missing a chance to adjust before saying something that lands wrong."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Mood shifts do not matter in conversations",
+              "good": false,
+              "outcome": "Mood shifts actually matter a lot — noticing them lets you adjust and avoid unnecessary awkwardness."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎭",
         "title": "Sarcasm doesn't always translate",
-        "text": "A sarcastic comment that clearly lands as a joke in person can read as genuinely rude in a text, where tone doesn't come through. Adding context or saving sarcasm for in-person conversations avoids a lot of unnecessary offense."
+        "text": "A sarcastic comment that clearly lands as a joke in person can read as genuinely rude in a text, where tone doesn't come through. Adding context or saving sarcasm for in-person conversations avoids a lot of unnecessary offense.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You send a sarcastic joke in a text to someone who doesn't know you well, and they seem to take it seriously and get upset. What's the best response?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Clarify right away that you were joking and apologize for the confusion",
+              "good": true,
+              "outcome": "Good move — sarcasm is easy to misread in text, especially with people who don't know your sense of humor yet. A quick clarification fixes it."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Let them stay confused, they'll figure it out",
+              "good": false,
+              "outcome": "Leaving the confusion unresolved can let hurt feelings linger — a quick clarification is kinder and more effective."
+            },
+            {
+              "emoji": "😏",
+              "label": "Double down on the joke to seem confident",
+              "good": false,
+              "outcome": "That risks making the misunderstanding worse — owning the mix-up and clarifying is a stronger, more respectful move."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤐",
         "title": "Knowing what not to share",
-        "text": "Not every private detail someone tells you is meant to be repeated, even to close friends — assuming silence is expected unless told otherwise protects trust. When in doubt, asking 'is it okay if I mention this to someone else?' is always a safe move."
+        "text": "Not every private detail someone tells you is meant to be repeated, even to close friends — assuming silence is expected unless told otherwise protects trust. When in doubt, asking 'is it okay if I mention this to someone else?' is always a safe move.",
+        "widget": "odd-one-out",
+        "widgetConfig": {
+          "prompt": "Which of these is safe to share in a group chat with classmates?",
+          "items": [
+            {
+              "emoji": "📍",
+              "label": "Your home address"
+            },
+            {
+              "emoji": "🎉",
+              "label": "That you're excited for the weekend"
+            },
+            {
+              "emoji": "🏥",
+              "label": "A friend's private medical info"
+            },
+            {
+              "emoji": "🔑",
+              "label": "Someone else's password"
+            }
+          ],
+          "oddIndex": 1,
+          "explanation": "Sharing that you're excited for the weekend is harmless — the other three are private details that shouldn't be shared without permission, including things that aren't even yours to share."
+        }
       }
     ],
     "quiz": [

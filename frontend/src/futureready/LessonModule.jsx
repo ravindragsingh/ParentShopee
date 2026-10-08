@@ -1,6 +1,44 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../context/AuthContext.jsx'
+import CompoundGrowthWidget from './CompoundGrowthWidget.jsx'
+import SaveVsInvestWidget from './SaveVsInvestWidget.jsx'
+import RiskRewardSimulator from './RiskRewardSimulator.jsx'
+import DiversificationPuzzle from './DiversificationPuzzle.jsx'
+import RuleOf72Widget from './RuleOf72Widget.jsx'
+import NeedVsWantSort from './NeedVsWantSort.jsx'
+import SortPuzzle from './SortPuzzle.jsx'
+import ScenarioPicker from './ScenarioPicker.jsx'
+import MatchingPairs from './MatchingPairs.jsx'
+import BudgetSplitWidget from './BudgetSplitWidget.jsx'
+import ProfitCalculatorWidget from './ProfitCalculatorWidget.jsx'
+import SequenceOrder from './SequenceOrder.jsx'
+import WordScramble from './WordScramble.jsx'
+import SliderGuess from './SliderGuess.jsx'
+import OddOneOut from './OddOneOut.jsx'
+
+// Maps a slide's optional "widget" key to the interactive component that
+// renders below its text -- data-driven so a new interactive slide only
+// needs a new entry here, not a new slide "type" switch spread everywhere.
+// The first six are topic-specific (investing); the last four are generic,
+// config-driven widgets reused across every other Future-Ready topic.
+const SLIDE_WIDGETS = {
+  'compound-growth': CompoundGrowthWidget,
+  'save-vs-invest': SaveVsInvestWidget,
+  'risk-reward': RiskRewardSimulator,
+  'diversification': DiversificationPuzzle,
+  'rule-of-72': RuleOf72Widget,
+  'need-vs-want': NeedVsWantSort,
+  'sort-puzzle': SortPuzzle,
+  'scenario-picker': ScenarioPicker,
+  'matching-pairs': MatchingPairs,
+  'budget-split': BudgetSplitWidget,
+  'profit-calculator': ProfitCalculatorWidget,
+  'sequence-order': SequenceOrder,
+  'word-scramble': WordScramble,
+  'slider-guess': SliderGuess,
+  'odd-one-out': OddOneOut,
+}
 
 const audioKey = userId => `frAudioEnabled_${userId}`
 
@@ -31,6 +69,9 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
   const [loadError, setLoadError] = useState('')
   const [phase, setPhase] = useState('slides') // 'slides' | 'quiz' | 'result'
   const [slideIndex, setSlideIndex] = useState(0)
+  const swipeStart = useRef(null) // swipe-to-navigate on the slide card; see handleSlidePointer{Down,Up} below
+  const [navDir, setNavDir] = useState(1) // 1 = moved forward, -1 = moved back; drives the slide-in animation's direction
+  const [streak, setStreak] = useState(0) // consecutive correct answers across this lesson's interactive widgets
   const [quizIndex, setQuizIndex] = useState(0)
   const [answers, setAnswers] = useState([]) // index chosen per question
   const [selected, setSelected] = useState(null)
@@ -132,6 +173,43 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
     setPhase('quiz')
   }
 
+  function handleWidgetResult(correct) {
+    setStreak(s => (correct ? s + 1 : 0))
+  }
+
+  function goToNextSlide() {
+    setNavDir(1)
+    if (slideIndex + 1 < content.slides.length) setSlideIndex(i => i + 1)
+    else setPhase('quiz')
+  }
+
+  function goToPrevSlide() {
+    setNavDir(-1)
+    setSlideIndex(i => Math.max(0, i - 1))
+  }
+
+  // Swipe-to-navigate on the slide card. A slide can contain its own
+  // interactive widget (range sliders, buttons) that need to own their own
+  // drag/tap gestures, so a swipe only counts if it started on plain
+  // card background -- starting on a button/input/link is left alone.
+  const SWIPE_THRESHOLD = 50
+
+  function handleSlidePointerDown(e) {
+    const interactive = e.target.closest?.('button, input, a, [role="button"]')
+    swipeStart.current = { x: e.clientX, y: e.clientY, skip: !!interactive }
+  }
+
+  function handleSlidePointerUp(e) {
+    const start = swipeStart.current
+    swipeStart.current = null
+    if (!start || start.skip) return
+    const dx = e.clientX - start.x
+    const dy = e.clientY - start.y
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy) * 1.5) return
+    if (dx < 0) goToNextSlide()
+    else goToPrevSlide()
+  }
+
   return (
     <div style={{ maxWidth: 460, margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 10 }}>
@@ -165,11 +243,18 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
 
       {phase === 'slides' && (
         <div>
-          <div style={{
-            background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16, padding: '32px 24px',
-            textAlign: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', marginBottom: 18, minHeight: 220,
-            display: 'flex', flexDirection: 'column', justifyContent: 'center',
-          }}>
+          <div
+            key={slideIndex}
+            onPointerDown={handleSlidePointerDown}
+            onPointerUp={handleSlidePointerUp}
+            style={{
+              background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16, padding: '32px 24px',
+              textAlign: 'center', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', marginBottom: 18, minHeight: 220,
+              display: 'flex', flexDirection: 'column', justifyContent: 'center',
+              touchAction: 'pan-y', cursor: 'grab',
+              animation: 'slideCardIn 0.25s ease', '--slide-dir': navDir > 0 ? '16px' : '-16px',
+            }}
+          >
             <div style={{ fontSize: '2.6rem', marginBottom: 12 }}>{content.slides[slideIndex].emoji}</div>
             <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b', marginBottom: 10 }}>
               {content.slides[slideIndex].title}
@@ -177,7 +262,20 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
             <p style={{ fontSize: '0.95rem', color: '#475569', lineHeight: 1.7, margin: 0 }}>
               {content.slides[slideIndex].text}
             </p>
+            {content.slides[slideIndex].widget && SLIDE_WIDGETS[content.slides[slideIndex].widget] && (
+              (() => {
+                const Widget = SLIDE_WIDGETS[content.slides[slideIndex].widget]
+                return <Widget config={content.slides[slideIndex].widgetConfig} onResult={handleWidgetResult} />
+              })()
+            )}
           </div>
+          {streak >= 2 && (
+            <div style={{ textAlign: 'center', marginBottom: 10 }}>
+              <span className="streak-badge" key={streak}>
+                <span className="flame">🔥</span> {streak} in a row!
+              </span>
+            </div>
+          )}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 18 }}>
             {content.slides.map((_, i) => (
               <span key={i} style={{
@@ -186,18 +284,21 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
               }} />
             ))}
           </div>
+          <div style={{ textAlign: 'center', fontSize: '0.72rem', color: '#cbd5e1', marginBottom: 8 }}>
+            ← swipe or tap to move between slides →
+          </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
             <button
               className="btn btn-outline"
-              onClick={() => setSlideIndex(i => Math.max(0, i - 1))}
+              onClick={goToPrevSlide}
               disabled={slideIndex === 0}
             >
               ← Back
             </button>
             {slideIndex + 1 < content.slides.length ? (
-              <button className="btn btn-green" onClick={() => setSlideIndex(i => i + 1)}>Next →</button>
+              <button className="btn btn-green" onClick={goToNextSlide}>Next →</button>
             ) : (
-              <button className="btn btn-green" onClick={() => setPhase('quiz')}>Start the quiz 📝</button>
+              <button className="btn btn-green" onClick={goToNextSlide}>Start the quiz 📝</button>
             )}
           </div>
         </div>
@@ -254,7 +355,13 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
         error ? (
           <div className="error-msg">{error}</div>
         ) : result?.passed ? (
-          <div style={{ textAlign: 'center', padding: '34px 20px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 16 }}>
+          <div className="result-celebration" style={{ textAlign: 'center', padding: '34px 20px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 16 }}>
+            <div className="nova-flyby" aria-hidden="true">🚀</div>
+            <div className="mega-confetti" aria-hidden="true">
+              {['🎉', '✨', '⭐', '🎊', '🎈', '🌟', '💫', '🏆'].map((p, i) => (
+                <span key={i} className={`confetti-piece mc-${i}`}>{p}</span>
+              ))}
+            </div>
             <div style={{ fontSize: '2.6rem', marginBottom: 8 }}>🎉</div>
             <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#166534' }}>
               You got {score} of {content.quiz.length} right!

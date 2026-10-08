@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { GuardianChoreCard, EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
-import { DailyChoresCard } from './DailyChoresCard.jsx'
+import { DailyChoresCard, SectionTile } from './DailyChoresCard.jsx'
 import { GuardianShopItem } from './ShopItem.jsx'
 import { KidWalletModal } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
@@ -57,37 +57,6 @@ const SAMPLE_CHORES = [
   { id: 'tidy-the-living-room',        title: 'Tidy the living room',       points: 10, imageEmoji: '📦', description: 'Put things away and straighten up the room.' },
   { id: 'sweep-the-porch',             title: 'Sweep the porch',            points:  8, imageEmoji: '🏡', description: 'Sweep leaves and dirt off the front porch.' },
 ]
-
-// ─── Collapsible section header ──────────────────────────────────────────────
-
-function CollapsibleSection({ icon, title, count, colorClass, defaultOpen = false, emptyText, children }) {
-  const [isOpen, setIsOpen] = useState(defaultOpen)
-  return (
-    <div style={{ marginTop: 8 }}>
-      <div
-        role="button"
-        tabIndex={0}
-        className={`section-header ${colorClass}`}
-        onClick={() => setIsOpen(v => !v)}
-        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setIsOpen(v => !v)}
-        style={{ display: 'flex', width: '100%', cursor: 'pointer', userSelect: 'none', justifyContent: 'space-between', alignItems: 'center', boxSizing: 'border-box' }}
-      >
-        <span>{icon} {title}</span>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ background: 'rgba(0,0,0,0.12)', borderRadius: 10, padding: '1px 8px', fontSize: '0.8rem', fontWeight: 700 }}>
-            {count}
-          </span>
-          <span style={{ fontSize: '0.75rem', opacity: 0.65 }}>{isOpen ? '▲' : '▼'}</span>
-        </span>
-      </div>
-      {isOpen && (
-        count === 0
-          ? <div className="empty-text">{emptyText}</div>
-          : <div className="chore-grid">{children}</div>
-      )}
-    </div>
-  )
-}
 
 // ─── Chores Tab ─────────────────────────────────────────────────────────────
 
@@ -151,7 +120,9 @@ function ChoresTab({ kids }) {
 
   // Open Chores card expand state
   const [openChoresExpanded, setOpenChoresExpanded] = useState(false)
-  const [openChoresEditMode, setOpenChoresEditMode] = useState(false)
+  const [showQuickAdd, setShowQuickAdd] = useState(false)
+  const [completeExpanded, setCompleteExpanded] = useState(false)
+  const [expiredExpanded, setExpiredExpanded] = useState(false)
 
   // Open Chores inline quick-add (mirrors the Daily Chores quick-add form)
   const [quickTitle, setQuickTitle] = useState('')
@@ -283,58 +254,50 @@ function ChoresTab({ kids }) {
         </div>
       )}
 
-      {/* Daily Chores — shown first, per child */}
-      {kids.length > 0 && (
-        <>
-          {(filterKidId ? kids.filter(k => k.id === filterKidId) : kids).map(kid => (
-            <DailyChoresCard key={kid.id} kid={kid} isGuardian />
-          ))}
-        </>
-      )}
-
       {loading && <div className="loading-text">Loading chores...</div>}
       {error && <div className="error-msg">{error}</div>}
 
-      {/* Open Chores — includes chores awaiting approval inline, styled like Daily Chores */}
       {!loading && (
-        <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
-          <div
-            role="button" tabIndex={0}
-            onClick={() => setOpenChoresExpanded(v => !v)}
-            onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setOpenChoresExpanded(v => !v)}
-            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
-          >
-            <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              ✨ Add non daily chores
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 10px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+          {/* Daily Chores — one tile per child */}
+          {(filterKidId ? kids.filter(k => k.id === filterKidId) : kids).map(kid => (
+            <DailyChoresCard key={kid.id} kid={kid} isGuardian />
+          ))}
+
+          {/* Open Chores — includes chores awaiting approval inline, styled like Daily Chores */}
+          <SectionTile
+            icon="✨"
+            iconColor="#0d9488"
+            title="Add non daily chores"
+            badges={[
+              <span key="total" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 9px' }}>
                 {open.length + pending.length} total
-              </span>
-              {pending.length > 0 && (
-                <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
+              </span>,
+              pending.length > 0 && (
+                <span key="pending" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 9px' }}>
                   ⏳ {pending.length} awaiting approval
                 </span>
-              )}
-            </span>
-            <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              ),
+            ].filter(Boolean)}
+            expanded={openChoresExpanded}
+            onToggle={() => setOpenChoresExpanded(v => !v)}
+            headerExtra={(
               <button
                 type="button" className="btn btn-outline btn-sm"
-                onClick={e => {
-                  e.stopPropagation()
-                  setOpenChoresEditMode(v => {
+                onClick={() => {
+                  setShowQuickAdd(v => {
                     const next = !v
                     if (next) setOpenChoresExpanded(true)
                     return next
                   })
                 }}
               >
-                {openChoresEditMode ? 'Done Editing' : '✏️ Edit'}
+                {showQuickAdd ? 'Close' : '+ Add Chore'}
               </button>
-              <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{openChoresExpanded ? '▲' : '▼'}</span>
-            </span>
-          </div>
-          {openChoresExpanded && (
-            <div style={{ marginTop: 14 }}>
-              {openChoresEditMode && (
+            )}
+          >
+            <div>
+              {showQuickAdd && (
                 <div style={{ marginBottom: 16, borderBottom: '1px dashed #cbd5e1', paddingBottom: 14 }}>
                   {limits && (
                     <div style={{ marginBottom: 10 }}>
@@ -473,37 +436,56 @@ function ChoresTab({ kids }) {
                       {quickAdding ? 'Adding...' : quickRecurring ? '🔁 Add Recurring Chore' : '+ Add'}
                     </button>
                   </form>
-                  <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 6 }}>
-                    While editing, click a chore's title, points, assignment, or due date above to change it.
-                  </div>
                 </div>
               )}
 
               {(open.length + pending.length) === 0 ? (
                 <div className="empty-text">No open chores.</div>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div className="chore-grid">
                   {[...pending, ...open].map(chore => (
-                    <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} variant="row" editMode={openChoresEditMode} />
+                    <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} />
                   ))}
                 </div>
               )}
             </div>
-          )}
+          </SectionTile>
+
+          {/* Complete / Expired */}
+          <SectionTile
+            icon="🏆"
+            iconColor="#10b981"
+            title="Complete"
+            badges={[<span key="count" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#047857', background: '#d1fae5', borderRadius: 999, padding: '2px 9px' }}>{complete.length}</span>]}
+            expanded={completeExpanded}
+            onToggle={() => setCompleteExpanded(v => !v)}
+          >
+            {complete.length === 0 ? (
+              <div className="empty-text">No completed chores yet.</div>
+            ) : (
+              <div className="chore-grid">
+                {complete.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} />)}
+              </div>
+            )}
+          </SectionTile>
+
+          <SectionTile
+            icon="⌛"
+            iconColor="#94a3b8"
+            title="Expired"
+            badges={[<span key="count" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#475569', background: '#f1f5f9', borderRadius: 999, padding: '2px 9px' }}>{expired.length}</span>]}
+            expanded={expiredExpanded}
+            onToggle={() => setExpiredExpanded(v => !v)}
+          >
+            {expired.length === 0 ? (
+              <div className="empty-text">No expired chores.</div>
+            ) : (
+              <div className="chore-grid">
+                {expired.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} />)}
+              </div>
+            )}
+          </SectionTile>
         </div>
-      )}
-
-      {/* Remaining chore lists */}
-      {!loading && (
-        <>
-          <CollapsibleSection icon="🏆" title="Complete" count={complete.length} colorClass="complete" emptyText="No completed chores yet.">
-            {complete.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} />)}
-          </CollapsibleSection>
-
-          <CollapsibleSection icon="⌛" title="Expired" count={expired.length} colorClass="expired" emptyText="No expired chores.">
-            {expired.map(chore => <GuardianChoreCard key={chore.id} chore={chore} kids={kids} onRefresh={refreshChores} />)}
-          </CollapsibleSection>
-        </>
       )}
 
       {/* Recurring templates */}
@@ -616,6 +598,7 @@ function ShopTab({ kids = [] }) {
 
   // Purchase approvals
   const [approvalExpanded, setApprovalExpanded] = useState(false)
+  const [addItemExpanded, setAddItemExpanded] = useState(false)
   const [shopSettings, setShopSettings] = useState(null)
   const [savingSettings, setSavingSettings] = useState(false)
   const [purchases, setPurchases] = useState([])
@@ -771,26 +754,21 @@ function ShopTab({ kids = [] }) {
 
   return (
     <div>
-      {/* Purchase Approvals */}
-      <div className="form-card" style={{ border: '1.5px solid #99f6e4', background: 'linear-gradient(135deg, #f0fdfa, #ffffff)' }}>
-        <div
-          role="button" tabIndex={0}
-          onClick={() => setApprovalExpanded(v => !v)}
-          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setApprovalExpanded(v => !v)}
-          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12, marginBottom: 20 }}>
+        {/* Purchase Approvals */}
+        <SectionTile
+          icon="🛍️"
+          iconColor="#0d9488"
+          title="Purchase Approvals"
+          badges={pendingPurchases.length > 0 ? [
+            <span key="pending" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 9px' }}>
+              ⏳ {pendingPurchases.length} awaiting approval
+            </span>,
+          ] : []}
+          expanded={approvalExpanded}
+          onToggle={() => setApprovalExpanded(v => !v)}
         >
-          <span className="form-title" style={{ marginBottom: 0, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-            🛍️ Purchase Approvals
-            {pendingPurchases.length > 0 && (
-              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 10px' }}>
-                ⏳ {pendingPurchases.length} awaiting approval
-              </span>
-            )}
-          </span>
-          <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{approvalExpanded ? '▲' : '▼'}</span>
-        </div>
-        {approvalExpanded && (
-          <div style={{ marginTop: 14 }}>
+          <div>
             {shopSettings && (
               <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#334155', fontWeight: 600, cursor: 'pointer', marginBottom: 14 }}>
                 <input type="checkbox" checked={shopSettings.shopApprovalEnabled} disabled={savingSettings} onChange={handleToggleShopApproval} />
@@ -801,20 +779,23 @@ function ShopTab({ kids = [] }) {
             {pendingPurchases.length === 0 ? (
               <div className="empty-text">No purchase requests waiting on you right now.</div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <div className="chore-grid">
                 {pendingPurchases.map(p => {
                   const kid = kids.find(k => k.id === p.kidId)
                   return (
-                    <div key={p.id} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1px solid #fed7aa', borderRadius: 10, padding: '10px 14px' }}>
-                      <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{p.imageEmoji}</span>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <span style={{ fontWeight: 600, color: '#1e293b' }}>{p.itemName}</span>
-                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>
-                          {kid?.avatar && <span>{kid.avatar} </span>}Requested by: {kid?.name || 'Unknown'}
+                    <div key={p.id} className="chore-card pending">
+                      <div className="chore-emoji">{p.imageEmoji}</div>
+                      <div className="chore-info">
+                        <div className="chore-title">{p.itemName}</div>
+                        <div className="chore-meta">
+                          <span className="points-badge">{p.cost} pts</span>
+                          <span style={{ fontSize: '0.8rem', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 4 }}>
+                            {kid?.avatar && <span>{kid.avatar}</span>}
+                            {`Requested by: ${kid?.name || 'Unknown'}`}
+                          </span>
                         </div>
                       </div>
-                      <span className="points-badge">{p.cost} pts</span>
-                      <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                      <div className="chore-actions">
                         <button className="btn btn-green btn-sm" disabled={purchaseBusyId === p.id} onClick={() => handleApprovePurchase(p)}>✓ Approve</button>
                         <button className="btn btn-red btn-sm" disabled={purchaseBusyId === p.id} onClick={() => handleRejectPurchase(p)}>✕ Reject</button>
                       </div>
@@ -824,94 +805,95 @@ function ShopTab({ kids = [] }) {
               </div>
             )}
           </div>
-        )}
-      </div>
+        </SectionTile>
 
-      {/* Add Item Form */}
-      <div className="form-card">
-        <div className="form-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          Add Shop Item
-          {limits && (
-            <span style={{
-              fontSize: '0.72rem', fontWeight: 700, padding: '2px 8px', borderRadius: 999,
-              background: shopAtLimit ? '#fee2e2' : '#f0fdfa',
-              color: shopAtLimit ? '#dc2626' : '#0d9488',
-            }}>
+        {/* Add Shop Item */}
+        <SectionTile
+          icon="🎁"
+          iconColor="#d97706"
+          title="Add Shop Item"
+          badges={limits ? [
+            <span key="limit" style={{ fontSize: '0.75rem', fontWeight: 700, color: shopAtLimit ? '#dc2626' : '#0d9488', background: shopAtLimit ? '#fee2e2' : '#f0fdfa', borderRadius: 999, padding: '2px 9px' }}>
               {limits.shopItemsUsed}/{limits.shopItemsLimit} custom used
-            </span>
-          )}
-        </div>
-        {addError && <div className="error-msg">{addError}</div>}
-        {shopAtLimit && (
-          <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.82rem', lineHeight: 1.6 }}>
-            You've used all {limits.shopItemsLimit} custom shop item slots for your family. You can still add as many
-            items as you like by picking one from "Start from a template" below without changing its name. For more
-            custom items, contact support at <strong>{limits.supportEmail}</strong>.
+            </span>,
+          ] : []}
+          expanded={addItemExpanded}
+          onToggle={() => setAddItemExpanded(v => !v)}
+        >
+          <div>
+            {addError && <div className="error-msg">{addError}</div>}
+            {shopAtLimit && (
+              <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '12px 14px', marginBottom: 14, color: '#92400e', fontSize: '0.82rem', lineHeight: 1.6 }}>
+                You've used all {limits.shopItemsLimit} custom shop item slots for your family. You can still add as many
+                items as you like by picking one from "Start from a template" below without changing its name. For more
+                custom items, contact support at <strong>{limits.supportEmail}</strong>.
+              </div>
+            )}
+            <form onSubmit={handleAddItem}>
+              <div className="form-group" style={{ marginBottom: 14 }}>
+                <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
+                <select
+                  value=""
+                  onChange={e => {
+                    const s = SAMPLE_SHOP_ITEMS.find(i => i.name === e.target.value)
+                    if (s) fillShopFromSample(s)
+                  }}
+                >
+                  <option value="">— Pick a sample reward to pre-fill the form —</option>
+                  {SAMPLE_SHOP_ITEMS.map(s => (
+                    <option key={s.name} value={s.name}>
+                      {s.imageEmoji} {s.name} ({s.cost} pts)
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-row">
+                <div className="form-group" style={{ maxWidth: '80px' }}>
+                  <label>Emoji</label>
+                  <input
+                    value={emoji}
+                    onChange={e => setEmoji(e.target.value)}
+                    maxLength={4}
+                    style={{ textAlign: 'center', fontSize: '1.2rem' }}
+                  />
+                </div>
+                <div className="form-group" style={{ flex: 2 }}>
+                  <label>Item Name *</label>
+                  <input
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder="e.g. Extra Screen Time"
+                  />
+                </div>
+                <div className="form-group" style={{ maxWidth: '110px' }}>
+                  <label>Cost (pts) *</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={cost}
+                    onChange={e => setCost(e.target.value)}
+                    placeholder="50"
+                  />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label>Description</label>
+                  <input
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                    placeholder="Optional details..."
+                  />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                  <button type="submit" className="btn btn-primary" disabled={adding}>
+                    {adding ? 'Adding...' : 'Add Item'}
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
-        )}
-        <form onSubmit={handleAddItem}>
-          <div className="form-group" style={{ marginBottom: 14 }}>
-            <label>Start from a template <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(optional)</span></label>
-            <select
-              value=""
-              onChange={e => {
-                const s = SAMPLE_SHOP_ITEMS.find(i => i.name === e.target.value)
-                if (s) fillShopFromSample(s)
-              }}
-            >
-              <option value="">— Pick a sample reward to pre-fill the form —</option>
-              {SAMPLE_SHOP_ITEMS.map(s => (
-                <option key={s.name} value={s.name}>
-                  {s.imageEmoji} {s.name} ({s.cost} pts)
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-row">
-            <div className="form-group" style={{ maxWidth: '80px' }}>
-              <label>Emoji</label>
-              <input
-                value={emoji}
-                onChange={e => setEmoji(e.target.value)}
-                maxLength={4}
-                style={{ textAlign: 'center', fontSize: '1.2rem' }}
-              />
-            </div>
-            <div className="form-group" style={{ flex: 2 }}>
-              <label>Item Name *</label>
-              <input
-                value={name}
-                onChange={e => setName(e.target.value)}
-                placeholder="e.g. Extra Screen Time"
-              />
-            </div>
-            <div className="form-group" style={{ maxWidth: '110px' }}>
-              <label>Cost (pts) *</label>
-              <input
-                type="number"
-                min="1"
-                value={cost}
-                onChange={e => setCost(e.target.value)}
-                placeholder="50"
-              />
-            </div>
-          </div>
-          <div className="form-row">
-            <div className="form-group" style={{ flex: 1 }}>
-              <label>Description</label>
-              <input
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder="Optional details..."
-              />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-              <button type="submit" className="btn btn-primary" disabled={adding}>
-                {adding ? 'Adding...' : 'Add Item'}
-              </button>
-            </div>
-          </div>
-        </form>
+        </SectionTile>
       </div>
 
       {loading && <div className="loading-text">Loading shop...</div>}
@@ -2025,22 +2007,26 @@ function KidsTab() {
 
 // ─── Home screen ──────────────────────────────────────────────────────────────
 
-function HomeNavRow({ icon, iconBg, label, onClick }) {
+function HomeNavTile({ icon, iconColor, bg, border, label, text, onClick }) {
   return (
     <button
       onClick={onClick}
       style={{
-        display: 'flex', alignItems: 'center', gap: 14, width: '100%',
-        background: '#fff', border: '1px solid #f1f5f9', borderRadius: 14,
-        padding: '14px 16px', cursor: 'pointer', textAlign: 'left',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+        background: bg, border: `1px solid ${border}`, borderRadius: 18,
+        padding: '20px 14px', cursor: 'pointer',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
       }}
     >
-      <span style={{ width: 42, height: 42, borderRadius: 12, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.35rem', flexShrink: 0 }}>
+      <span style={{
+        width: 56, height: 56, borderRadius: '50%', background: iconColor, color: '#fff',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem',
+        marginBottom: 10, boxShadow: `0 4px 10px ${iconColor}55`,
+      }}>
         {icon}
       </span>
-      <span style={{ flex: 1, fontWeight: 700, color: '#1e293b', fontSize: '0.98rem' }}>{label}</span>
-      <span style={{ color: '#cbd5e1', fontSize: '1.3rem', lineHeight: 1 }}>›</span>
+      <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>{label}</span>
+      <span style={{ fontSize: '0.76rem', color: '#78716c', marginTop: 3, lineHeight: 1.35 }}>{text}</span>
     </button>
   )
 }
@@ -2201,11 +2187,11 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
         )}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <HomeNavRow icon="✅" iconBg="#ccfbf1" label="Chores" onClick={() => onNavigate('chores')} />
-        <HomeNavRow icon="🛍️" iconBg="#fef3c7" label="Shop" onClick={() => onNavigate('shop')} />
-        <HomeNavRow icon="🚀" iconBg="#ede9fe" label="Future-Ready" onClick={() => onNavigate('futureready')} />
-        <HomeNavRow icon="👨‍👩‍👧" iconBg="#fce7f3" label="Kids" onClick={() => onNavigate('kids')} />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" onClick={() => onNavigate('chores')} />
+        <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" onClick={() => onNavigate('shop')} />
+        <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} />
+        <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} />
       </div>
 
       {modalOpen && (
