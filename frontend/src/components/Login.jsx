@@ -1248,7 +1248,7 @@ function PainPointSection() {
       <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1e293b', textAlign: 'center', marginBottom: 18 }}>
         Why Parents Choose Reward Ur Kids
       </h2>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, textAlign: 'left' }}>
+      <div className="pain-point-grid">
         {PAIN_POINTS.map(p => (
           <div key={p.title} style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16, padding: '18px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
             <div style={{ fontSize: '1.6rem', marginBottom: 8 }}>{p.icon}</div>
@@ -1386,7 +1386,7 @@ function LandingHero({ onSignIn, onCreateAccount }) {
         <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f766e', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: 10, textAlign: 'center' }}>
           🚀 Future-Ready — included free
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10 }}>
+        <div className="future-ready-grid">
           {FUTURE_READY_FEATURES.map(f => <FeatureCard key={f.title} {...f} />)}
         </div>
       </div>

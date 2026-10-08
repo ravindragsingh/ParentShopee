@@ -1269,3 +1269,30 @@ body {
     padding: 28px 20px;
   }
 }
+
+/* Landing-page tile grids: fixed column counts (never auto-fit) so a tile
+   count's divisors are always respected -- 4 Future-Ready tiles only ever
+   sit in 2 or 4 columns, 3 pain-point tiles only ever sit in 1 or 3, so no
+   width ever strands a single tile alone on its own row. */
+.future-ready-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 640px) {
+  .future-ready-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.pain-point-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  text-align: left;
+}
+@media (min-width: 640px) {
+  .pain-point-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
