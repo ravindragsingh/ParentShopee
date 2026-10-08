@@ -4,42 +4,234 @@
       {
         "emoji": "💰",
         "title": "What is money?",
-        "text": "Money is a tool people use to pay for things. If an apple costs $1, you can give the store $1 and take the apple home. Money helps us trade without having to swap one thing for another."
+        "text": "Money is a tool people use to pay for things. If an apple costs $1, you can give the store $1 and take the apple home. Money helps us trade without having to swap one thing for another.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An apple costs $1. How can you get the apple without trading something else for it directly?",
+          "options": [
+            {
+              "emoji": "💵",
+              "label": "Give the store $1",
+              "good": true,
+              "outcome": "Exactly right! Money is a tool people use to pay for things — you give the store $1 and take the apple home."
+            },
+            {
+              "emoji": "👟",
+              "label": "Trade your shoes for it",
+              "good": false,
+              "outcome": "Trading your shoes isn't how money works — giving the store money lets you avoid swapping other things directly."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Money cannot be used to pay for things",
+              "good": false,
+              "outcome": "Money actually is exactly what's used to pay for things, like trading $1 for an apple."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛠️",
         "title": "Where does money come from?",
-        "text": "Grown-ups usually earn money by doing work. For example, a teacher is paid for teaching and a driver is paid for driving. Kids may earn a little money or points by helping with agreed-upon chores."
+        "text": "Grown-ups usually earn money by doing work. For example, a teacher is paid for teaching and a driver is paid for driving. Kids may earn a little money or points by helping with agreed-upon chores.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A teacher gets paid for teaching at school. Why does she receive money?",
+          "options": [
+            {
+              "emoji": "💼",
+              "label": "She's paid for doing work",
+              "good": true,
+              "outcome": "Exactly right! Grown-ups usually earn money by doing work, like a teacher being paid for teaching."
+            },
+            {
+              "emoji": "✨",
+              "label": "Money just appears for no reason",
+              "good": false,
+              "outcome": "Money doesn't just appear — it's usually earned by doing work, like teaching."
+            },
+            {
+              "emoji": "🧒",
+              "label": "Only kids can receive money, not adults",
+              "good": false,
+              "outcome": "Adults earn money too, usually by working — like a teacher being paid for teaching."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧹",
         "title": "How can chores help you earn?",
-        "text": "A chore is a helpful job at home, such as feeding a pet or putting away laundry. Sometimes families give money or points for certain extra chores. You do the job first, then earn the reward."
+        "text": "A chore is a helpful job at home, such as feeding a pet or putting away laundry. Sometimes families give money or points for certain extra chores. You do the job first, then earn the reward.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A family gives money for an extra chore, like feeding a pet. When do you earn the reward?",
+          "options": [
+            {
+              "emoji": "✅",
+              "label": "After you do the job",
+              "good": true,
+              "outcome": "Exactly right! You do the job first, then earn the reward."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Before doing any work at all",
+              "good": false,
+              "outcome": "You earn the reward after doing the job, not before any work is done."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Chores never connect to earning money",
+              "good": false,
+              "outcome": "Chores actually can connect to earning money, especially for extra jobs families choose to reward."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧺",
         "title": "Why can some chores earn more?",
-        "text": "Some jobs take more time or effort than others. Putting away five toys is quick, but helping clean a whole room takes longer. A bigger job may earn a bigger reward."
+        "text": "Some jobs take more time or effort than others. Putting away five toys is quick, but helping clean a whole room takes longer. A bigger job may earn a bigger reward.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Cleaning your whole room pays more points than putting away one toy. Why do you think that is?",
+          "options": [
+            {
+              "emoji": "🧹",
+              "label": "Bigger or harder chores usually earn more",
+              "good": true,
+              "outcome": "Exactly right! The amount of effort and time a chore takes usually affects how much it's worth."
+            },
+            {
+              "emoji": "⚖️",
+              "label": "All chores should pay the exact same no matter what",
+              "good": false,
+              "outcome": "Actually, chores that take more time or effort usually earn more — that's fair since more work is being done."
+            },
+            {
+              "emoji": "🎲",
+              "label": "It's totally random with no reason",
+              "good": false,
+              "outcome": "There's usually a real reason — bigger or harder chores take more effort, so they're often worth more."
+            }
+          ]
+        }
       },
       {
         "emoji": "💵",
         "title": "What is an allowance?",
-        "text": "An allowance is a small amount of money some kids receive regularly, such as every week. It gives you a chance to practice choosing: spend some now, save some for later, or share some."
+        "text": "An allowance is a small amount of money some kids receive regularly, such as every week. It gives you a chance to practice choosing: spend some now, save some for later, or share some.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your parents give you a small amount of money each week for doing chores. What is this called?",
+          "options": [
+            {
+              "emoji": "💵",
+              "label": "An allowance",
+              "good": true,
+              "outcome": "Exactly right! An allowance is regular money you might get, often for helping with chores."
+            },
+            {
+              "emoji": "🏦",
+              "label": "A loan you have to pay back",
+              "good": false,
+              "outcome": "An allowance isn't a loan — you don't have to pay it back, it's given to you regularly."
+            },
+            {
+              "emoji": "🎁",
+              "label": "Free money with no reason",
+              "good": false,
+              "outcome": "An allowance is usually tied to chores or responsibilities, not just free money for no reason."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔢",
         "title": "Why should you count your money?",
-        "text": "Counting tells you exactly how much money you have. If you have four $1 bills, you have $4. Then you can check whether you have enough for something you want."
+        "text": "Counting tells you exactly how much money you have. If you have four $1 bills, you have $4. Then you can check whether you have enough for something you want.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You have four $1 bills. Why is counting them useful?",
+          "options": [
+            {
+              "emoji": "🔢",
+              "label": "It tells you exactly how much you have",
+              "good": true,
+              "outcome": "Exactly right! Counting tells you exactly how much money you have, so you can check if you have enough for something."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Counting money never tells you anything useful",
+              "good": false,
+              "outcome": "Counting money actually tells you a lot — exactly how much you have to spend."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Guessing is just as good as counting",
+              "good": false,
+              "outcome": "Guessing isn't as reliable as counting — counting tells you the exact amount you have."
+            }
+          ]
+        }
       },
       {
         "emoji": "💪",
         "title": "Why does earned money feel special?",
-        "text": "When you earn money by helping, you can remember the work you did to get it. If you earned $3 by helping wash the car, spending or saving that $3 can feel extra meaningful."
+        "text": "When you earn money by helping, you can remember the work you did to get it. If you earned $3 by helping wash the car, spending or saving that $3 can feel extra meaningful.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You earned $5 by helping with chores, versus being given $5. Why might the earned money feel more special?",
+          "options": [
+            {
+              "emoji": "💪",
+              "label": "You remember the work you did to get it",
+              "good": true,
+              "outcome": "Exactly right! Earned money feels special because you remember the effort behind it."
+            },
+            {
+              "emoji": "💵",
+              "label": "It's actually worth more money",
+              "good": false,
+              "outcome": "The dollar amount is the same — what's different is the memory of the effort you put in to earn it."
+            },
+            {
+              "emoji": "🤷",
+              "label": "There's no difference at all",
+              "good": false,
+              "outcome": "There is a difference in how it feels — earned money carries the memory of the work behind it, even though the amount is the same."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔒",
         "title": "Where should you keep your money?",
-        "text": "Money is easier to use when you keep it somewhere safe. Coins can go in a piggy bank and bills can go in a wallet or money jar. A safe spot helps you avoid losing what you worked for."
+        "text": "Money is easier to use when you keep it somewhere safe. Coins can go in a piggy bank and bills can go in a wallet or money jar. A safe spot helps you avoid losing what you worked for.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to avoid losing your coins and bills. What helps?",
+          "options": [
+            {
+              "emoji": "🐷",
+              "label": "Keep it somewhere safe, like a piggy bank or wallet",
+              "good": true,
+              "outcome": "Exactly right! A safe spot, like a piggy bank or wallet, helps you avoid losing what you worked for."
+            },
+            {
+              "emoji": "🌀",
+              "label": "Leave it scattered anywhere",
+              "good": false,
+              "outcome": "Leaving money scattered makes it easy to lose — a safe spot like a piggy bank protects it better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Where you keep money never matters",
+              "good": false,
+              "outcome": "Where you keep money actually matters — a safe spot helps you avoid losing it."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -140,47 +332,285 @@
       {
         "emoji": "🆚",
         "title": "What is the difference between a need and a want?",
-        "text": "A need is something important for living and staying healthy, like food, water, or a warm coat. A want is something fun or nice to have, like a new toy. We can enjoy wants, but needs usually come first."
+        "text": "A need is something important for living and staying healthy, like food, water, or a warm coat. A want is something fun or nice to have, like a new toy. We can enjoy wants, but needs usually come first.",
+        "widget": "sort-puzzle",
+        "widgetConfig": {
+          "prompt": "Tap a button for each one",
+          "categoryA": {
+            "key": "need",
+            "label": "Need",
+            "color": "#0d9488"
+          },
+          "categoryB": {
+            "key": "want",
+            "label": "Want",
+            "color": "#d97706"
+          },
+          "items": [
+            {
+              "emoji": "🍎",
+              "label": "Food to eat",
+              "answer": "need"
+            },
+            {
+              "emoji": "🧸",
+              "label": "A new toy",
+              "answer": "want"
+            },
+            {
+              "emoji": "🧥",
+              "label": "A warm coat in winter",
+              "answer": "need"
+            },
+            {
+              "emoji": "🍭",
+              "label": "Candy",
+              "answer": "want"
+            },
+            {
+              "emoji": "🏠",
+              "label": "A place to live",
+              "answer": "need"
+            },
+            {
+              "emoji": "🎮",
+              "label": "A video game",
+              "answer": "want"
+            }
+          ]
+        }
       },
       {
         "emoji": "🐷",
         "title": "What does it mean to save money?",
-        "text": "Saving means keeping some money for later instead of spending it right away. If you get $2 and put $1 in your piggy bank, you are saving. Little amounts can grow when you keep adding to them."
+        "text": "Saving means keeping some money for later instead of spending it right away. If you get $2 and put $1 in your piggy bank, you are saving. Little amounts can grow when you keep adding to them.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Instead of spending all your money right away, you put some aside for later. What is this called?",
+          "options": [
+            {
+              "emoji": "🐷",
+              "label": "Saving",
+              "good": true,
+              "outcome": "Exactly right! Saving means keeping some money aside instead of spending it all right away."
+            },
+            {
+              "emoji": "🗑️",
+              "label": "Wasting money",
+              "good": false,
+              "outcome": "Saving isn't wasting — it's setting money aside so you have it for later."
+            },
+            {
+              "emoji": "😔",
+              "label": "Losing money",
+              "good": false,
+              "outcome": "Saved money isn't lost — it's still yours, just set aside for something later."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏳",
         "title": "What if you don't have enough money yet?",
-        "text": "You do not always have to buy something right away. If a toy costs $6 and you have $3, you can keep saving until you reach $6. Waiting can help you get something you really want."
+        "text": "You do not always have to buy something right away. If a toy costs $6 and you have $3, you can keep saving until you reach $6. Waiting can help you get something you really want.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A toy costs $6, but you only have $4. What can you do?",
+          "options": [
+            {
+              "emoji": "⏳",
+              "label": "Wait and save a little more until you have enough",
+              "good": true,
+              "outcome": "Exactly right! You do not always have to buy something right away — waiting and saving a little more works well."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Take the toy anyway without paying",
+              "good": false,
+              "outcome": "Taking something without paying isn't right — saving a little more until you have enough is the correct approach."
+            },
+            {
+              "emoji": "😢",
+              "label": "Give up on ever getting the toy",
+              "good": false,
+              "outcome": "You don't have to give up — saving a bit more until you reach $6 will get you there."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤔",
         "title": "Why can't we buy everything we want?",
-        "text": "Money is limited, so choosing one thing can mean waiting for another. If you have $5, you might choose a book or a small toy, but not both. Making choices is part of using money."
+        "text": "Money is limited, so choosing one thing can mean waiting for another. If you have $5, you might choose a book or a small toy, but not both. Making choices is part of using money.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You have $5 and want both a book and a toy. What's true about money?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "Money is limited, so you may have to choose",
+              "good": true,
+              "outcome": "Exactly right! Money is limited, so choosing one thing can mean waiting for another — making choices is part of using money."
+            },
+            {
+              "emoji": "♾️",
+              "label": "Money never runs out, so you can buy everything",
+              "good": false,
+              "outcome": "Money actually is limited — that's exactly why choosing between a book and a toy might be necessary."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Choosing isn't part of using money",
+              "good": false,
+              "outcome": "Choosing is actually a big part of using money, especially when you can't buy everything you want."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏷️",
         "title": "Why should you compare prices?",
-        "text": "The same thing can cost different amounts in different places. If one store sells a ball for $6 and another sells it for $5, the $5 ball leaves you $1 to save. Checking prices can help your money go further."
+        "text": "The same thing can cost different amounts in different places. If one store sells a ball for $6 and another sells it for $5, the $5 ball leaves you $1 to save. Checking prices can help your money go further.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A ball costs $6 at one store and $5 at another. Why check prices first?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "The cheaper price leaves you more money to save",
+              "good": true,
+              "outcome": "Exactly right! Checking prices first means the $5 ball leaves you $1 to save, instead of spending more than you need to."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Prices are always exactly the same everywhere",
+              "good": false,
+              "outcome": "Prices actually can differ between stores — checking first can save you money."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Comparing prices never helps your money go further",
+              "good": false,
+              "outcome": "Comparing prices actually helps a lot — it can leave you with extra money to save."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎁",
         "title": "How can money be used to help others?",
-        "text": "Money is not only for buying things for yourself. You might use some to buy a birthday card, donate to an animal shelter, or help someone in need. Giving is one way money can show kindness."
+        "text": "Money is not only for buying things for yourself. You might use some to buy a birthday card, donate to an animal shelter, or help someone in need. Giving is one way money can show kindness.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Is money only for buying things for yourself?",
+          "options": [
+            {
+              "emoji": "🎁",
+              "label": "No — you can also use it to help others, like donating",
+              "good": true,
+              "outcome": "Exactly right! Money is not only for buying things for yourself — you can donate or help someone in need too."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Yes, money can only ever be spent on yourself",
+              "good": false,
+              "outcome": "Money isn't only for yourself — you can use it to help others too, like donating to a shelter."
+            },
+            {
+              "emoji": "❌",
+              "label": "Giving money away never shows kindness",
+              "good": false,
+              "outcome": "Giving money away actually is a way to show kindness, like helping someone in need."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛒",
         "title": "How do you choose what to buy?",
-        "text": "Sometimes you have enough money for only one thing. You can stop, look at your choices, and pick the one you care about most. Choosing on purpose is smarter than grabbing the first thing you see."
+        "text": "Sometimes you have enough money for only one thing. You can stop, look at your choices, and pick the one you care about most. Choosing on purpose is smarter than grabbing the first thing you see.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You only have enough money for one thing. What's smarter than grabbing the first item you see?",
+          "options": [
+            {
+              "emoji": "🤔",
+              "label": "Look at your choices and pick what you care about most",
+              "good": true,
+              "outcome": "Exactly right! Stopping to look at your choices and picking what you care about most is smarter than grabbing the first thing you see."
+            },
+            {
+              "emoji": "👉",
+              "label": "Grab the very first thing you see",
+              "good": false,
+              "outcome": "Grabbing the first thing you see skips thinking about what you actually care about most — looking at your choices works better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Choosing on purpose never matters",
+              "good": false,
+              "outcome": "Choosing on purpose actually matters a lot — it helps you pick what you truly care about."
+            }
+          ]
+        }
       },
       {
         "emoji": "🍬",
         "title": "Would you rather buy a small treat or save for something bigger?",
-        "text": "A small treat may be fun right now, while a bigger item may take more saving. For example, you could spend $1 on candy today or save several dollars toward a toy. Neither choice is always right—the important part is choosing on purpose."
+        "text": "A small treat may be fun right now, while a bigger item may take more saving. For example, you could spend $1 on candy today or save several dollars toward a toy. Neither choice is always right—the important part is choosing on purpose.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Is a small treat now always the wrong choice compared to saving for something bigger?",
+          "options": [
+            {
+              "emoji": "🤷",
+              "label": "No — neither choice is always right, as long as it is on purpose",
+              "good": true,
+              "outcome": "Exactly right! Neither choice is always right — the important part is choosing on purpose, whether it's a treat now or saving for later."
+            },
+            {
+              "emoji": "💰",
+              "label": "Yes, saving is always the only right choice",
+              "good": false,
+              "outcome": "Saving isn't always the only right choice — a small treat can be a fine choice too, as long as it's made on purpose."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Small treats are always a waste of money",
+              "good": false,
+              "outcome": "Small treats aren't always a waste — the important part is choosing on purpose, not which option you pick."
+            }
+          ]
+        }
       },
       {
         "emoji": "❓",
         "title": "What should you ask before buying something?",
-        "text": "Ask yourself, “Do I need this, or do I just want it?” Then ask, “Do I still want it enough to spend my money on it?” Those two questions can help you make a thoughtful choice."
+        "text": "Ask yourself, “Do I need this, or do I just want it?” Then ask, “Do I still want it enough to spend my money on it?” Those two questions can help you make a thoughtful choice.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to buy something. What question helps you decide thoughtfully?",
+          "options": [
+            {
+              "emoji": "🤔",
+              "label": "\"Do I need this, or do I just want it?\"",
+              "good": true,
+              "outcome": "Exactly right! Asking yourself this question, and whether you still want it enough to spend your money, helps you make a thoughtful choice."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — just buy it with no questions",
+              "good": false,
+              "outcome": "Buying with no questions at all skips a helpful step — asking yourself a thoughtful question first helps you decide."
+            },
+            {
+              "emoji": "❌",
+              "label": "Asking questions before buying never helps",
+              "good": false,
+              "outcome": "Asking questions before buying actually helps a lot — it leads to a more thoughtful choice."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -281,47 +711,243 @@
       {
         "emoji": "💵",
         "title": "What is an allowance?",
-        "text": "An allowance is money some kids receive regularly, such as once a week. Sometimes it is connected to chores and sometimes it is simply for learning money skills. If you receive $10, you get to practice deciding how much to spend, save, or give."
+        "text": "An allowance is money some kids receive regularly, such as once a week. Sometimes it is connected to chores and sometimes it is simply for learning money skills. If you receive $10, you get to practice deciding how much to spend, save, or give.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You receive $10 regularly as an allowance. What does this let you practice?",
+          "options": [
+            {
+              "emoji": "💡",
+              "label": "Deciding how much to spend, save, or give",
+              "good": true,
+              "outcome": "Exactly right! An allowance lets you practice deciding how much to spend, save, or give."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — allowances teach no money skills",
+              "good": false,
+              "outcome": "Allowances actually teach real money skills, like practicing how much to spend, save, or give."
+            },
+            {
+              "emoji": "🧹",
+              "label": "Allowances are always exactly tied to chores",
+              "good": false,
+              "outcome": "An allowance isn't always tied to chores — sometimes it's simply for learning money skills."
+            }
+          ]
+        }
       },
       {
         "emoji": "📝",
         "title": "What is a simple budget?",
-        "text": "A budget is a plan for your money before you spend it. If you get 20 points this week, you might plan 10 for saving, 8 for spending, and 2 for giving. A plan helps you avoid wondering where all your money went."
+        "text": "A budget is a plan for your money before you spend it. If you get 20 points this week, you might plan 10 for saving, 8 for spending, and 2 for giving. A plan helps you avoid wondering where all your money went.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You get 20 points and want to plan how to use them before spending any. What is this plan called?",
+          "options": [
+            {
+              "emoji": "📋",
+              "label": "A budget",
+              "good": true,
+              "outcome": "Exactly right! A budget is a plan for your money before you spend it."
+            },
+            {
+              "emoji": "🧾",
+              "label": "A receipt",
+              "good": false,
+              "outcome": "A receipt just records what you already spent — a plan made before spending is called a budget."
+            },
+            {
+              "emoji": "🤷",
+              "label": "There is no way to plan money ahead of time",
+              "good": false,
+              "outcome": "There actually is a way — making a budget is exactly how you plan your money before spending it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧹",
         "title": "Why can different chores have different rewards?",
-        "text": "Jobs can take different amounts of time, effort, or skill. Wiping the table may take five minutes, while organizing the garage may take an hour. It makes sense for the harder job to be worth more."
+        "text": "Jobs can take different amounts of time, effort, or skill. Wiping the table may take five minutes, while organizing the garage may take an hour. It makes sense for the harder job to be worth more.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Wiping a table takes 5 minutes, but organizing a garage takes an hour. Why might they pay differently?",
+          "options": [
+            {
+              "emoji": "⏱️",
+              "label": "Jobs take different amounts of time, effort, or skill",
+              "good": true,
+              "outcome": "Exactly right! Jobs can take different amounts of time, effort, or skill, so it makes sense for the harder job to be worth more."
+            },
+            {
+              "emoji": "⚖️",
+              "label": "All chores should pay exactly the same no matter what",
+              "good": false,
+              "outcome": "Chores don't need to pay exactly the same — harder, longer jobs can reasonably be worth more."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Chore rewards never depend on effort",
+              "good": false,
+              "outcome": "Chore rewards actually can depend on effort — jobs that take more time or skill can be worth more."
+            }
+          ]
+        }
       },
       {
         "emoji": "✂️",
         "title": "How can you split your money three ways?",
-        "text": "A simple method is to divide money into spend, save, and give. For example, from $12 you might spend $5, save $5, and give $2. This lets you enjoy some now while preparing for later and helping others."
+        "text": "A simple method is to divide money into spend, save, and give. For example, from $12 you might spend $5, save $5, and give $2. This lets you enjoy some now while preparing for later and helping others.",
+        "widget": "budget-split",
+        "widgetConfig": {
+          "totalAmount": 15
+        }
       },
       {
         "emoji": "📒",
         "title": "Why should you track your money?",
-        "text": "Writing down what comes in and what goes out shows you what is really happening with your money. You may think you saved $10, but your list might show that small snacks used $4. Tracking replaces guessing with facts."
+        "text": "Writing down what comes in and what goes out shows you what is really happening with your money. You may think you saved $10, but your list might show that small snacks used $4. Tracking replaces guessing with facts.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're not sure where your allowance goes each week. What would help you figure it out?",
+          "options": [
+            {
+              "emoji": "📝",
+              "label": "Write down what you earn and spend",
+              "good": true,
+              "outcome": "Exactly! Tracking your money helps you see where it actually goes, so you can make better choices."
+            },
+            {
+              "emoji": "🎲",
+              "label": "Just guess and hope for the best",
+              "good": false,
+              "outcome": "Guessing won't show you the real picture — writing it down helps you actually understand your spending."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't matter where money goes",
+              "good": false,
+              "outcome": "It actually does matter — tracking helps you notice patterns and make smarter choices with your money."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎯",
         "title": "How do you set a savings goal?",
-        "text": "Choose something specific, find its price, and decide how much you can save each week. If a game costs $40 and you save $10 a week, you can reach the goal in four weeks. A clear target makes saving easier to stick with."
+        "text": "Choose something specific, find its price, and decide how much you can save each week. If a game costs $40 and you save $10 a week, you can reach the goal in four weeks. A clear target makes saving easier to stick with.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A game costs $40 and you save $10 a week. What makes this goal easier to stick with?",
+          "options": [
+            {
+              "emoji": "🎯",
+              "label": "Choosing something specific with a clear price and plan",
+              "good": true,
+              "outcome": "Exactly right! Choosing something specific, finding its price, and deciding how much to save each week makes a goal easier to stick with."
+            },
+            {
+              "emoji": "🌀",
+              "label": "Having no specific target at all",
+              "good": false,
+              "outcome": "Having no specific target makes saving harder to stick with — a clear goal and plan work much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Clear targets never help with saving",
+              "good": false,
+              "outcome": "Clear targets actually help a lot with saving — they make the goal easier to stick with."
+            }
+          ]
+        }
       },
       {
         "emoji": "💰",
         "title": "What is bonus pay?",
-        "text": "Bonus pay is an extra reward for going beyond the basic job. For example, if you were asked to rake leaves and also neatly bagged them without being reminded, your family might choose to add a bonus. The key is agreeing on the rules ahead of time."
+        "text": "Bonus pay is an extra reward for going beyond the basic job. For example, if you were asked to rake leaves and also neatly bagged them without being reminded, your family might choose to add a bonus. The key is agreeing on the rules ahead of time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You rake leaves and also neatly bag them without being asked. What might your family give you for the extra effort?",
+          "options": [
+            {
+              "emoji": "🌟",
+              "label": "Bonus pay, agreed on ahead of time",
+              "good": true,
+              "outcome": "Exactly right! Bonus pay is an extra reward for going beyond the basic job, with the rules agreed on ahead of time."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing extra, no matter how much more you do",
+              "good": false,
+              "outcome": "Going beyond the basic job can actually earn bonus pay, when the rules are agreed on ahead of time."
+            },
+            {
+              "emoji": "❌",
+              "label": "Bonus pay is decided only after the work with no agreement",
+              "good": false,
+              "outcome": "The key to bonus pay is agreeing on the rules ahead of time, not deciding only afterward."
+            }
+          ]
+        }
       },
       {
         "emoji": "📅",
         "title": "Why plan your money for the whole week?",
-        "text": "If you spend everything on Monday, you may have nothing left when you want something on Saturday. Thinking about the whole week helps you decide how much to use now and how much to keep for later."
+        "text": "If you spend everything on Monday, you may have nothing left when you want something on Saturday. Thinking about the whole week helps you decide how much to use now and how much to keep for later.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You spend everything on Monday. What happens if you want something on Saturday?",
+          "options": [
+            {
+              "emoji": "😕",
+              "label": "You may have nothing left",
+              "good": true,
+              "outcome": "Exactly right! If you spend everything on Monday, you may have nothing left when you want something on Saturday."
+            },
+            {
+              "emoji": "💰",
+              "label": "You will always have plenty left no matter what",
+              "good": false,
+              "outcome": "Spending everything early can leave you with nothing left later — planning for the whole week helps avoid that."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Planning for the week never affects what is left later",
+              "good": false,
+              "outcome": "Planning for the whole week actually affects this a lot — it helps you have money left when you need it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎯",
         "title": "Why start with a small savings goal?",
-        "text": "Small goals give you practice and quick wins. Saving 5 points a week for a 20-point reward teaches the same habit you will use someday for much bigger goals. Big money habits often start small."
+        "text": "Small goals give you practice and quick wins. Saving 5 points a week for a 20-point reward teaches the same habit you will use someday for much bigger goals. Big money habits often start small.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You save 5 points a week for a 20-point reward. What does this small goal teach you?",
+          "options": [
+            {
+              "emoji": "🌱",
+              "label": "The same habit you'll use for bigger goals someday",
+              "good": true,
+              "outcome": "Exactly right! Small goals give you practice and quick wins — the same habit you'll use someday for much bigger goals."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing useful, since the goal is too small",
+              "good": false,
+              "outcome": "A small goal actually teaches something very useful — the same saving habit you'll use for bigger goals later."
+            },
+            {
+              "emoji": "❌",
+              "label": "Small goals never lead to good money habits",
+              "good": false,
+              "outcome": "Small goals actually do lead to good money habits — big habits often start small."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -422,47 +1048,263 @@
       {
         "emoji": "🏷️",
         "title": "Why should you compare prices?",
-        "text": "Two stores can charge different prices for the exact same item. If a game is $25 in one place and $20 in another, comparing first saves $5. That $5 can stay in your savings or pay for something else later."
+        "text": "Two stores can charge different prices for the exact same item. If a game is $25 in one place and $20 in another, comparing first saves $5. That $5 can stay in your savings or pay for something else later.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A game is $25 in one place and $20 in another. What does comparing prices first save you?",
+          "options": [
+            {
+              "emoji": "💵",
+              "label": "$5 that can go to savings or something else",
+              "good": true,
+              "outcome": "Exactly right! Comparing first saves $5, which can stay in your savings or pay for something else later."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — comparing prices never saves money",
+              "good": false,
+              "outcome": "Comparing prices actually can save real money, like the $5 difference between two stores."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Prices are always identical everywhere",
+              "good": false,
+              "outcome": "Prices actually can differ a lot between stores — comparing first can reveal real savings."
+            }
+          ]
+        }
       },
       {
         "emoji": "🆚",
         "title": "What is a tradeoff?",
-        "text": "A tradeoff happens when choosing one thing means giving up another. If you have $20, you might choose a movie ticket or a toy, but not both today. The thing you do not choose is part of the tradeoff."
+        "text": "A tradeoff happens when choosing one thing means giving up another. If you have $20, you might choose a movie ticket or a toy, but not both today. The thing you do not choose is part of the tradeoff.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You have $10. You can buy a toy OR save it for a bigger toy later, not both. What is this choice called?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "A tradeoff — choosing one option means giving up the other",
+              "good": true,
+              "outcome": "Exactly! A tradeoff means choosing one thing means you give up the other option, at least for now."
+            },
+            {
+              "emoji": "😔",
+              "label": "A mistake no matter what you pick",
+              "good": false,
+              "outcome": "It's not a mistake — tradeoffs are just a normal part of making choices with limited money."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Something that only happens with big purchases",
+              "good": false,
+              "outcome": "Tradeoffs happen with purchases big and small — any time choosing one option means giving up another."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "What does borrowing mean?",
-        "text": "Borrowing means using money that belongs to someone else and promising to pay it back. If your sibling lends you $5, that $5 is not free—you now owe $5. Agreeing on when you will repay it keeps things fair."
+        "text": "Borrowing means using money that belongs to someone else and promising to pay it back. If your sibling lends you $5, that $5 is not free—you now owe $5. Agreeing on when you will repay it keeps things fair.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your sibling lends you $5. Is this money free to keep?",
+          "options": [
+            {
+              "emoji": "🔄",
+              "label": "No — you now owe $5 and should agree on repayment",
+              "good": true,
+              "outcome": "Exactly right! Borrowing means using money that belongs to someone else and promising to pay it back — that $5 is not free."
+            },
+            {
+              "emoji": "🎁",
+              "label": "Yes, borrowed money is always free",
+              "good": false,
+              "outcome": "Borrowed money isn't free — you owe it back, and agreeing on repayment keeps things fair."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Borrowing never requires paying anything back",
+              "good": false,
+              "outcome": "Borrowing actually always involves paying it back — that's the whole idea of borrowing versus receiving a gift."
+            }
+          ]
+        }
       },
       {
         "emoji": "😬",
         "title": "What can happen when you spend too fast?",
-        "text": "Spending everything right away can leave you stuck later. If you use all 20 points on Monday and a reward you really love appears on Friday, you cannot get it unless you earn or save more. Slowing down gives future-you more choices."
+        "text": "Spending everything right away can leave you stuck later. If you use all 20 points on Monday and a reward you really love appears on Friday, you cannot get it unless you earn or save more. Slowing down gives future-you more choices.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You get $10 and spend it all on candy the same day. A week later, you really want to buy a toy but have no money left. What happened?",
+          "options": [
+            {
+              "emoji": "🍬",
+              "label": "Spending it all right away meant nothing was left for something you wanted more later",
+              "good": true,
+              "outcome": "Exactly — spending fast feels fun in the moment, but it can mean missing out on something you'd want even more later."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Nothing — spending money fast has no downside",
+              "good": false,
+              "outcome": "Spending it all fast meant there was nothing left for the toy you wanted later — that's a real downside of spending too quickly."
+            },
+            {
+              "emoji": "🏪",
+              "label": "The toy store should have given it to you anyway",
+              "good": false,
+              "outcome": "The real lesson here is about planning — spending slower leaves room for things you want later."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤲",
         "title": "Why might you choose to give some money away?",
-        "text": "Giving lets your money help someone else. You might donate part of your allowance to a food drive or animal shelter. Even a small amount can matter when many people contribute."
+        "text": "Giving lets your money help someone else. You might donate part of your allowance to a food drive or animal shelter. Even a small amount can matter when many people contribute.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You donate part of your allowance to a food drive. What does giving let your money do?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Help someone else",
+              "good": true,
+              "outcome": "Exactly right! Giving lets your money help someone else, even a small amount can matter when many people contribute."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — giving money away never helps anyone",
+              "good": false,
+              "outcome": "Giving money away actually can help a lot, even in small amounts when many people contribute."
+            },
+            {
+              "emoji": "💰",
+              "label": "Only large amounts of money can ever help others",
+              "good": false,
+              "outcome": "Even a small donated amount can matter, especially when many people contribute together."
+            }
+          ]
+        }
       },
       {
         "emoji": "📈",
         "title": "Why do prices change over time?",
-        "text": "Prices do not stay exactly the same forever. A snack that cost $2 before might cost $2.25 later because the costs of making and selling things can change. This is one reason money choices can look different over time."
+        "text": "Prices do not stay exactly the same forever. A snack that cost $2 before might cost $2.25 later because the costs of making and selling things can change. This is one reason money choices can look different over time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A snack that cost $2 before now costs $2.25. Why might this happen?",
+          "options": [
+            {
+              "emoji": "📈",
+              "label": "The costs of making and selling things can change",
+              "good": true,
+              "outcome": "Exactly right! Prices do not stay exactly the same forever, because the costs of making and selling things can change over time."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Prices never change for any reason",
+              "good": false,
+              "outcome": "Prices actually do change over time, because the costs of making and selling things can shift."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Only you control whether prices change",
+              "good": false,
+              "outcome": "You don't control prices — they change because of shifting costs of making and selling things."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛍️",
         "title": "Can a bigger pack sometimes be a better deal?",
-        "text": "Yes, because the total price is not the only number that matters. A 10-pack for $5 costs 50 cents each, while a 4-pack for $3 costs 75 cents each. The bigger pack is a better deal only if you will actually use it."
+        "text": "Yes, because the total price is not the only number that matters. A 10-pack for $5 costs 50 cents each, while a 4-pack for $3 costs 75 cents each. The bigger pack is a better deal only if you will actually use it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A 10-pack costs $5 and a 5-pack costs $3. Which is the better deal per item?",
+          "options": [
+            {
+              "emoji": "📦",
+              "label": "The 10-pack — it costs less per item",
+              "good": true,
+              "outcome": "Exactly! The 10-pack works out to 50 cents per item, cheaper than the 5-pack's 60 cents per item."
+            },
+            {
+              "emoji": "💰",
+              "label": "The 5-pack, since it costs less total",
+              "good": false,
+              "outcome": "Looking at total price alone can be misleading — comparing the price per item shows the 10-pack is actually the better deal."
+            },
+            {
+              "emoji": "🤷",
+              "label": "They're exactly the same deal",
+              "good": false,
+              "outcome": "They're not the same — comparing price per item shows the 10-pack is the better value."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "What does it mean to split a cost?",
-        "text": "Splitting a cost means two or more people each pay part of the total. If a shared craft kit costs $20, two friends might each pay $10. Before splitting, agree on who owns it and how it will be shared."
+        "text": "Splitting a cost means two or more people each pay part of the total. If a shared craft kit costs $20, two friends might each pay $10. Before splitting, agree on who owns it and how it will be shared.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A shared craft kit costs $20, and two friends split it. How much might each pay?",
+          "options": [
+            {
+              "emoji": "➗",
+              "label": "$10 each, after agreeing on ownership and sharing",
+              "good": true,
+              "outcome": "Exactly right! Splitting a cost means two or more people each pay part of the total, after agreeing on how it will be shared."
+            },
+            {
+              "emoji": "1️⃣",
+              "label": "One person pays the full $20 alone",
+              "good": false,
+              "outcome": "Splitting the cost means both people pay part of it, not just one person paying the whole $20 alone."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Splitting a cost never requires any agreement first",
+              "good": false,
+              "outcome": "Splitting a cost actually requires agreeing first on ownership and how it'll be shared."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏸️",
         "title": "Why pause before a big purchase?",
-        "text": "Big purchases can use up a lot of your money at once. Waiting a little gives you time to ask, “Do I still want this?” and “What will I give up if I buy it?” A short pause can prevent a decision you regret."
+        "text": "Big purchases can use up a lot of your money at once. Waiting a little gives you time to ask, “Do I still want this?” and “What will I give up if I buy it?” A short pause can prevent a decision you regret.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to make a big purchase. What can a short pause help you do?",
+          "options": [
+            {
+              "emoji": "⏸️",
+              "label": "Ask if you still want it and what you would give up",
+              "good": true,
+              "outcome": "Exactly right! A short pause gives you time to ask 'Do I still want this?' and 'What will I give up if I buy it?', which can prevent a decision you regret."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — pausing before a big purchase never helps",
+              "good": false,
+              "outcome": "Pausing before a big purchase actually helps a lot — it can prevent a decision you'd later regret."
+            },
+            {
+              "emoji": "⚡",
+              "label": "Big purchases should always happen immediately with no thought",
+              "good": false,
+              "outcome": "Big purchases benefit from a pause to think it through, rather than happening immediately with no thought."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -563,47 +1405,263 @@
       {
         "emoji": "⚖️",
         "title": "What is the difference between price and value?",
-        "text": "Price is the amount something costs; value is how useful or meaningful it is to you. A $6 book you read five times may give you more value than a $25 gadget you stop using after one day. The highest price does not always mean the highest value."
+        "text": "Price is the amount something costs; value is how useful or meaningful it is to you. A $6 book you read five times may give you more value than a $25 gadget you stop using after one day. The highest price does not always mean the highest value.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A $6 book you read five times versus a $25 gadget you stop using after one day. Which gives more value?",
+          "options": [
+            {
+              "emoji": "📖",
+              "label": "The $6 book, despite its lower price",
+              "good": true,
+              "outcome": "Exactly right! Value is how useful or meaningful something is to you — the highest price does not always mean the highest value."
+            },
+            {
+              "emoji": "📱",
+              "label": "The $25 gadget, since it costs more",
+              "good": false,
+              "outcome": "A higher price doesn't automatically mean higher value — the $6 book used five times can be worth more to you."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Price and value always mean exactly the same thing",
+              "good": false,
+              "outcome": "Price and value aren't the same thing — something cheaper can actually give you more value."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧮",
         "title": "How can cost per unit reveal the better deal?",
-        "text": "Cost per unit tells you what each item, ounce, or piece really costs. A 10-pack of pencils for $2 costs 20 cents per pencil, while a 4-pack for $1 costs 25 cents each. Comparing units helps you look past the bigger price tag."
+        "text": "Cost per unit tells you what each item, ounce, or piece really costs. A 10-pack of pencils for $2 costs 20 cents per pencil, while a 4-pack for $1 costs 25 cents each. Comparing units helps you look past the bigger price tag.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "One bag of 10 apples costs $5, another bag of 4 apples costs $3. Which tells you the real better deal?",
+          "options": [
+            {
+              "emoji": "🍎",
+              "label": "Comparing the cost per apple in each bag",
+              "good": true,
+              "outcome": "Exactly! Cost per unit tells you what each item really costs, which reveals the better deal more clearly than total price alone."
+            },
+            {
+              "emoji": "💲",
+              "label": "Just looking at the total price of each bag",
+              "good": false,
+              "outcome": "Total price alone can be misleading — comparing cost per item reveals which bag is actually the better deal."
+            },
+            {
+              "emoji": "🖼️",
+              "label": "Whichever bag has a bigger picture on it",
+              "good": false,
+              "outcome": "The picture on the bag has nothing to do with value — comparing cost per apple is what actually reveals the better deal."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏷️",
         "title": "Does a sale sign always mean a good deal?",
-        "text": "No. A discount only matters compared with the normal price and other available prices. If an item is marked “30% off” but another store sells the same item for less, the flashy sale is not the best deal. Compare before assuming."
+        "text": "No. A discount only matters compared with the normal price and other available prices. If an item is marked “30% off” but another store sells the same item for less, the flashy sale is not the best deal. Compare before assuming.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A store has a big \"SALE!\" sign on an item, but you realize the \"sale price\" is actually the same as what other stores normally charge. Is it really a deal?",
+          "options": [
+            {
+              "emoji": "🏷️",
+              "label": "No — a sale sign doesn't automatically mean it's cheaper than elsewhere",
+              "good": true,
+              "outcome": "Exactly right — marketing can make something look like a deal even when it isn't. It's worth comparing the actual price, not just trusting the sign."
+            },
+            {
+              "emoji": "💰",
+              "label": "Yes, sale signs always mean real savings",
+              "good": false,
+              "outcome": "Not always — some 'sale' prices are the same as (or barely below) normal prices elsewhere. It's worth comparing before assuming it's a deal."
+            },
+            {
+              "emoji": "🙅",
+              "label": "It doesn't matter, sales are always fake",
+              "good": false,
+              "outcome": "Some sales are genuinely good deals — the key is checking the actual price elsewhere rather than assuming either way."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔍",
         "title": "Why should you read the fine print?",
-        "text": "The headline price may not tell the whole story. Shipping fees, service charges, return limits, or membership rules can change the real cost. A $15 item with $8 shipping actually costs $23, so details matter."
+        "text": "The headline price may not tell the whole story. Shipping fees, service charges, return limits, or membership rules can change the real cost. A $15 item with $8 shipping actually costs $23, so details matter.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A $15 item has $8 shipping. What's the real cost?",
+          "options": [
+            {
+              "emoji": "📋",
+              "label": "$23, once shipping is included",
+              "good": true,
+              "outcome": "Exactly right! The headline price may not tell the whole story — a $15 item with $8 shipping actually costs $23."
+            },
+            {
+              "emoji": "💵",
+              "label": "$15, since shipping never counts",
+              "good": false,
+              "outcome": "Shipping actually does count toward the real cost — the true total here is $23, not just $15."
+            },
+            {
+              "emoji": "🙅",
+              "label": "The fine print never changes the real cost of anything",
+              "good": false,
+              "outcome": "The fine print actually can change the real cost quite a bit, like extra shipping fees."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏪",
         "title": "Is a name brand always better than a store brand?",
-        "text": "Not necessarily. Store brands often offer a similar product for less because you are not paying as much for the brand name or marketing. Comparing ingredients, features, or quality can tell you whether the extra price is worth it."
+        "text": "Not necessarily. Store brands often offer a similar product for less because you are not paying as much for the brand name or marketing. Comparing ingredients, features, or quality can tell you whether the extra price is worth it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A name-brand cereal costs $5 and a store-brand version with similar ingredients costs $3. What's the smart choice?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "Compare the actual ingredients/quality, not just the brand name",
+              "good": true,
+              "outcome": "Exactly — brand names often cost more due to marketing, not necessarily better quality. Comparing the actual product helps you decide if it's worth the extra cost."
+            },
+            {
+              "emoji": "🏷️",
+              "label": "Always buy the name brand since it must be better",
+              "good": false,
+              "outcome": "Name brands aren't automatically better — sometimes you're mostly paying extra for marketing, not quality."
+            },
+            {
+              "emoji": "🛒",
+              "label": "Always buy the store brand no matter what",
+              "good": false,
+              "outcome": "Store brands aren't automatically better either — the smart move is comparing the actual product, not assuming based on price alone."
+            }
+          ]
+        }
       },
       {
         "emoji": "📦",
         "title": "When is buying in bulk actually smart?",
-        "text": "Buying more at once can lower the cost per item, but only if you will use everything. Saving $5 on a giant snack box is not a deal if half goes stale. A good bulk purchase saves money without creating waste."
+        "text": "Buying more at once can lower the cost per item, but only if you will use everything. Saving $5 on a giant snack box is not a deal if half goes stale. A good bulk purchase saves money without creating waste.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You save $5 on a giant snack box, but half of it goes stale before you finish. Was this a good deal?",
+          "options": [
+            {
+              "emoji": "🗑️",
+              "label": "Not really — a good bulk purchase shouldn't create waste",
+              "good": true,
+              "outcome": "Exactly right! Buying more at once can lower the cost per item, but only if you'll use everything — saving $5 isn't a deal if half goes stale."
+            },
+            {
+              "emoji": "📦",
+              "label": "Yes, bulk buying is always a smart deal no matter what",
+              "good": false,
+              "outcome": "Bulk buying isn't always smart — if a lot goes to waste, the savings don't really pay off."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Buying in bulk never has any downside",
+              "good": false,
+              "outcome": "Buying in bulk actually can have a real downside, like wasted food that goes stale before you use it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧾",
         "title": "Why should you check a receipt?",
-        "text": "A receipt is a record of what you bought and what you were charged. Checking it can catch mistakes such as being charged twice or getting the wrong price. It also helps you see exactly where your money went."
+        "text": "A receipt is a record of what you bought and what you were charged. Checking it can catch mistakes such as being charged twice or getting the wrong price. It also helps you see exactly where your money went.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You might have been charged twice by mistake. What helps you catch this?",
+          "options": [
+            {
+              "emoji": "🧾",
+              "label": "Checking your receipt",
+              "good": true,
+              "outcome": "Exactly right! A receipt is a record of what you bought and what you were charged — checking it can catch mistakes like being charged twice."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Never checking receipts at all",
+              "good": false,
+              "outcome": "Never checking receipts means mistakes like double charges could go unnoticed — checking catches them."
+            },
+            {
+              "emoji": "❌",
+              "label": "Receipts never reveal any mistakes",
+              "good": false,
+              "outcome": "Receipts actually can reveal real mistakes, like being charged twice or getting the wrong price."
+            }
+          ]
+        }
       },
       {
         "emoji": "💳",
         "title": "What extra fees can change the real price?",
-        "text": "Shipping, service, delivery, processing, and convenience fees can all make a purchase cost more than the advertised price. A $20 ticket with $7 in fees really costs $27. Always compare the final total, not just the first number you see."
+        "text": "Shipping, service, delivery, processing, and convenience fees can all make a purchase cost more than the advertised price. A $20 ticket with $7 in fees really costs $27. Always compare the final total, not just the first number you see.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A $20 ticket has $7 in fees. What's the real total cost?",
+          "options": [
+            {
+              "emoji": "🎟️",
+              "label": "$27, once fees are included",
+              "good": true,
+              "outcome": "Exactly right! Shipping, service, and other fees can all make a purchase cost more than the advertised price — this ticket really costs $27."
+            },
+            {
+              "emoji": "💵",
+              "label": "$20, since fees never count toward the real price",
+              "good": false,
+              "outcome": "Fees actually do count toward the real price — this ticket's true cost is $27, not just $20."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Extra fees never change what you actually pay",
+              "good": false,
+              "outcome": "Extra fees actually can change what you pay quite a bit — always compare the final total, not just the first number."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔁",
         "title": "Why do return policies matter?",
-        "text": "A return policy tells you what happens if an item does not fit, breaks, or is not what you expected. A cheaper item with “no returns” may be riskier than a slightly more expensive one you can return. Policies are part of the deal."
+        "text": "A return policy tells you what happens if an item does not fit, breaks, or is not what you expected. A cheaper item with “no returns” may be riskier than a slightly more expensive one you can return. Policies are part of the deal.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A cheaper item has 'no returns.' Is this automatically a better deal than a pricier item you can return?",
+          "options": [
+            {
+              "emoji": "🔙",
+              "label": "Not necessarily — \"no returns\" can make it riskier",
+              "good": true,
+              "outcome": "Exactly right! A cheaper item with 'no returns' may be riskier than a slightly more expensive one you can return — policies are part of the deal."
+            },
+            {
+              "emoji": "💵",
+              "label": "Yes, cheaper is always better no matter the return policy",
+              "good": false,
+              "outcome": "Cheaper isn't always better — a 'no returns' policy adds real risk that's worth weighing against the price."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Return policies never matter when buying something",
+              "good": false,
+              "outcome": "Return policies actually matter a lot — they tell you what happens if an item doesn't work out."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -704,47 +1762,263 @@
       {
         "emoji": "🔁",
         "title": "What is opportunity cost?",
-        "text": "Opportunity cost is what you give up when you choose one option instead of another. If you spend $20 on snacks, you also give up the chance to put that $20 toward a game. Every choice uses money that could have been used somewhere else."
+        "text": "Opportunity cost is what you give up when you choose one option instead of another. If you spend $20 on snacks, you also give up the chance to put that $20 toward a game. Every choice uses money that could have been used somewhere else.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You have $20. You can either buy a video game now, or save it toward a $100 bike you really want. What's the opportunity cost of buying the game?",
+          "options": [
+            {
+              "emoji": "🚲",
+              "label": "You're $20 further from being able to buy the bike",
+              "good": true,
+              "outcome": "Exactly — opportunity cost is what you give up by choosing one thing over another. Spending the $20 now means it's no longer working toward the bike."
+            },
+            {
+              "emoji": "🎮",
+              "label": "There is no real cost since you have the money",
+              "good": false,
+              "outcome": "Even if you have the money, spending it on one thing means you can't spend it on something else — that trade-off is the opportunity cost."
+            },
+            {
+              "emoji": "💰",
+              "label": "The cost is exactly $100",
+              "good": false,
+              "outcome": "The opportunity cost here is the $20 and its progress toward the bike, not the full $100 price of the bike."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛍️",
         "title": "How can you avoid impulse buys?",
-        "text": "An impulse buy happens when excitement makes you purchase before thinking. Try a 24-hour rule for nonessential items: save the item, wait a day, then decide again. If you still want it and it fits your budget, the choice is more thoughtful."
+        "text": "An impulse buy happens when excitement makes you purchase before thinking. Try a 24-hour rule for nonessential items: save the item, wait a day, then decide again. If you still want it and it fits your budget, the choice is more thoughtful.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You see something exciting at the store and want to buy it immediately. What's a smart strategy to avoid regretting it?",
+          "options": [
+            {
+              "emoji": "⏳",
+              "label": "Wait 24 hours before deciding to buy it",
+              "good": true,
+              "outcome": "Great strategy! Waiting a day often helps you tell the difference between a real want and a passing impulse."
+            },
+            {
+              "emoji": "🛒",
+              "label": "Always buy it immediately, no matter what",
+              "good": false,
+              "outcome": "Buying immediately on impulse often leads to regret later — waiting a bit helps you decide more clearly."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Never buy anything you get excited about",
+              "good": false,
+              "outcome": "You don't have to avoid everything exciting — just pausing briefly before buying helps you decide more wisely."
+            }
+          ]
+        }
       },
       {
         "emoji": "📊",
         "title": "Why divide a budget into categories?",
-        "text": "Categories give each part of your money a job. You might divide $30 into $15 saving, $10 spending, and $5 giving. This makes it easier to protect important goals instead of spending from one big pile."
+        "text": "Categories give each part of your money a job. You might divide $30 into $15 saving, $10 spending, and $5 giving. This makes it easier to protect important goals instead of spending from one big pile.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You have $30 to use over a month. Why might dividing it into categories, like food, fun, and savings, help?",
+          "options": [
+            {
+              "emoji": "🗂️",
+              "label": "It gives each part of your money a clear job",
+              "good": true,
+              "outcome": "Exactly right! Categories give each part of your money a job, which helps you use it intentionally instead of randomly."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Dividing it into categories makes no difference",
+              "good": false,
+              "outcome": "Dividing into categories actually helps a lot — it gives each part of your money a clear purpose."
+            },
+            {
+              "emoji": "1️⃣",
+              "label": "You should spend it all on one category only",
+              "good": false,
+              "outcome": "Spending it all on one category defeats the purpose — dividing it gives each need its own planned amount."
+            }
+          ]
+        }
       },
       {
         "emoji": "💡",
         "title": "How do people earn money by creating value?",
-        "text": "People are usually paid for solving problems or doing something useful. A teen who designs a poster, tutors a younger student, or mows a lawn is providing value to someone else. Skills that solve bigger problems can often earn more."
+        "text": "People are usually paid for solving problems or doing something useful. A teen who designs a poster, tutors a younger student, or mows a lawn is providing value to someone else. Skills that solve bigger problems can often earn more.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A teen tutors a younger student or mows a lawn. What are they doing?",
+          "options": [
+            {
+              "emoji": "💡",
+              "label": "Providing value to someone else",
+              "good": true,
+              "outcome": "Exactly right! People are usually paid for solving problems or doing something useful — this teen is providing real value to someone else."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — this never counts as earning money",
+              "good": false,
+              "outcome": "This actually is a real way of earning money — providing a useful service to someone else."
+            },
+            {
+              "emoji": "🧑",
+              "label": "Only adults can ever earn money this way",
+              "good": false,
+              "outcome": "Teens can earn money this way too, by providing a useful skill or service, not just adults."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏱️",
         "title": "Can time have an opportunity cost too?",
-        "text": "Yes. An hour spent on one activity cannot also be spent on another. Choosing two hours of gaming may mean giving up two hours you could have used for homework, practice, or paid work. Good decisions consider both time and money."
+        "text": "Yes. An hour spent on one activity cannot also be spent on another. Choosing two hours of gaming may mean giving up two hours you could have used for homework, practice, or paid work. Good decisions consider both time and money.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You spend two hours gaming instead of doing homework. What did you give up?",
+          "options": [
+            {
+              "emoji": "⏳",
+              "label": "The two hours you could have used for homework",
+              "good": true,
+              "outcome": "Exactly right! An hour spent on one activity cannot also be spent on another — choosing gaming means giving up that time for homework or something else."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — time never has an opportunity cost",
+              "good": false,
+              "outcome": "Time actually does have an opportunity cost — choosing one activity means giving up what you could have done instead."
+            },
+            {
+              "emoji": "💵",
+              "label": "Only money, never time, has an opportunity cost",
+              "good": false,
+              "outcome": "Time also has an opportunity cost, just like money — choosing one activity means giving up another."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎮",
         "title": "Why can subscriptions become a money trap?",
-        "text": "Subscriptions feel small because the charge repeats a little at a time. But $8 every month becomes $96 in a year, even if you barely use the service. Reviewing subscriptions helps you stop paying for things you no longer value."
+        "text": "Subscriptions feel small because the charge repeats a little at a time. But $8 every month becomes $96 in a year, even if you barely use the service. Reviewing subscriptions helps you stop paying for things you no longer value.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A subscription costs $8 a month. How much does this add up to in a year?",
+          "options": [
+            {
+              "emoji": "📅",
+              "label": "$96, even if you barely use it",
+              "good": true,
+              "outcome": "Exactly right! Subscriptions feel small because the charge repeats a little at a time, but $8 every month becomes $96 in a year."
+            },
+            {
+              "emoji": "💵",
+              "label": "Exactly $8 total for the whole year",
+              "good": false,
+              "outcome": "It's not just $8 for the year — the monthly charge repeats, adding up to $96 over twelve months."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Subscriptions never add up to anything meaningful",
+              "good": false,
+              "outcome": "Subscriptions actually can add up to a lot — small monthly charges become a big total over a year."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍🔧",
         "title": "How can a skill become income?",
-        "text": "A useful skill can sometimes become a small business or paid service. If you are good at drawing, tutoring, editing videos, or fixing bikes, someone may be willing to pay for that help. Start by asking what problem your skill can solve."
+        "text": "A useful skill can sometimes become a small business or paid service. If you are good at drawing, tutoring, editing videos, or fixing bikes, someone may be willing to pay for that help. Start by asking what problem your skill can solve.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're good at drawing or fixing bikes. How might this become income?",
+          "options": [
+            {
+              "emoji": "🎨",
+              "label": "Someone may pay for that skill as a service",
+              "good": true,
+              "outcome": "Exactly right! A useful skill can sometimes become a small business or paid service — start by asking what problem your skill can solve."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Skills can never become a source of income",
+              "good": false,
+              "outcome": "Skills actually can become a real source of income, as a small business or paid service."
+            },
+            {
+              "emoji": "📜",
+              "label": "Only certain approved skills can ever earn money",
+              "good": false,
+              "outcome": "Many different skills, like drawing or fixing bikes, can become income if they solve a problem someone will pay for."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "Why agree on pay before doing a job?",
-        "text": "Clear expectations prevent arguments later. Before walking a dog or helping with yard work, agree on the job, the deadline, and the pay. Then both people know what “done” means and what the work is worth."
+        "text": "Clear expectations prevent arguments later. Before walking a dog or helping with yard work, agree on the job, the deadline, and the pay. Then both people know what “done” means and what the work is worth.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to walk a dog for pay. What helps prevent arguments later?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Agreeing on the job, deadline, and pay ahead of time",
+              "good": true,
+              "outcome": "Exactly right! Clear expectations prevent arguments later — agreeing on the job, deadline, and pay beforehand means both people know what's expected."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Figuring out pay only after the work is done",
+              "good": false,
+              "outcome": "Figuring out pay only afterward can lead to disagreements — agreeing ahead of time prevents that."
+            },
+            {
+              "emoji": "❌",
+              "label": "Agreeing on pay beforehand never prevents disagreements",
+              "good": false,
+              "outcome": "Agreeing on pay beforehand actually does prevent disagreements, by making sure both people know what to expect."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧮",
         "title": "How can small purchases compete with a big goal?",
-        "text": "Small purchases can quietly add up. Spending $5 three times a week is about $60 in four weeks. Seeing the total helps you decide whether those small treats matter more to you than the bigger goal you are saving for."
+        "text": "Small purchases can quietly add up. Spending $5 three times a week is about $60 in four weeks. Seeing the total helps you decide whether those small treats matter more to you than the bigger goal you are saving for.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You spend $5 three times a week. How much does this add up to in four weeks?",
+          "options": [
+            {
+              "emoji": "📊",
+              "label": "About $60",
+              "good": true,
+              "outcome": "Exactly right! Spending $5 three times a week is about $60 in four weeks — seeing the total helps you decide if it matters more than your bigger goal."
+            },
+            {
+              "emoji": "💵",
+              "label": "Exactly $5 total, no matter how often you spend it",
+              "good": false,
+              "outcome": "It's not just $5 total — spending it repeatedly adds up to about $60 over four weeks."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Small purchases never add up to anything significant",
+              "good": false,
+              "outcome": "Small purchases actually can add up to something significant, like $60 over just four weeks."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -845,47 +2119,248 @@
       {
         "emoji": "🏆",
         "title": "How are short-term and long-term goals different?",
-        "text": "A short-term goal may take days or weeks, while a long-term goal may take months or years. Saving $30 for headphones needs a different plan from saving $300 for a bike. Longer goals usually need more patience, tracking, and protection from impulse spending."
+        "text": "A short-term goal may take days or weeks, while a long-term goal may take months or years. Saving $30 for headphones needs a different plan from saving $300 for a bike. Longer goals usually need more patience, tracking, and protection from impulse spending.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Saving $30 for headphones versus $300 for a bike. Do these need the same plan?",
+          "options": [
+            {
+              "emoji": "📆",
+              "label": "No — longer goals usually need more patience and tracking",
+              "good": true,
+              "outcome": "Exactly right! A short-term goal may take days or weeks, while a long-term goal may take months or years, usually needing more patience and tracking."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Yes, every goal needs exactly the same plan",
+              "good": false,
+              "outcome": "Goals of different sizes don't need exactly the same plan — a bigger, longer goal usually needs more patience and tracking."
+            },
+            {
+              "emoji": "🙅",
+              "label": "The size of a goal never affects how you should plan for it",
+              "good": false,
+              "outcome": "The size of a goal actually affects planning a lot — bigger, longer goals need more patience and tracking."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙏",
         "title": "Can gratitude change the way you spend?",
-        "text": "Yes. Appreciating what you already have can reduce the feeling that you always need the next new thing. Before buying, ask whether the purchase solves a real problem or whether you are simply bored with something that still works."
+        "text": "Yes. Appreciating what you already have can reduce the feeling that you always need the next new thing. Before buying, ask whether the purchase solves a real problem or whether you are simply bored with something that still works.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You feel grateful for what you already have, rather than focused on what's new. How might this affect your spending?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "You may feel less need to constantly buy new things",
+              "good": true,
+              "outcome": "Exactly! Appreciating what you already have can reduce the urge to always chase the next new purchase."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It has no effect on spending at all",
+              "good": false,
+              "outcome": "Gratitude actually can shift spending habits — appreciating what you have can reduce the urge to buy more."
+            },
+            {
+              "emoji": "🛍️",
+              "label": "It makes you want to spend even more",
+              "good": false,
+              "outcome": "Gratitude tends to reduce the urge to spend on new things, not increase it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎗️",
         "title": "What can your giving choices say about you?",
-        "text": "Where you choose to give often reflects what you care about. Someone who loves animals might donate to a shelter, while someone who values education might support a school drive. Giving turns values into action."
+        "text": "Where you choose to give often reflects what you care about. Someone who loves animals might donate to a shelter, while someone who values education might support a school drive. Giving turns values into action.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone who loves animals donates to a shelter. What does this choice reflect?",
+          "options": [
+            {
+              "emoji": "❤️",
+              "label": "What they care about",
+              "good": true,
+              "outcome": "Exactly right! Where you choose to give often reflects what you care about — giving turns values into action."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — giving choices never reflect anything",
+              "good": false,
+              "outcome": "Giving choices actually reflect a lot — they turn what you care about into real action."
+            },
+            {
+              "emoji": "🎲",
+              "label": "Giving choices are always completely random",
+              "good": false,
+              "outcome": "Giving choices usually aren't random — they often reflect what someone genuinely cares about."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧾",
         "title": "What can a spending review teach you?",
-        "text": "Looking back at a week or month of purchases can reveal patterns you missed in the moment. You may discover that several $3 snacks became $30. The goal is not to feel guilty—it is to use the information to make a better plan next time."
+        "text": "Looking back at a week or month of purchases can reveal patterns you missed in the moment. You may discover that several $3 snacks became $30. The goal is not to feel guilty—it is to use the information to make a better plan next time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You look back and discover several $3 snacks became $30. What's the point of noticing this?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "To use the information to make a better plan next time",
+              "good": true,
+              "outcome": "Exactly right! The goal of a spending review isn't to feel guilty — it's to use the information to make a better plan next time."
+            },
+            {
+              "emoji": "😔",
+              "label": "To feel guilty with no useful purpose",
+              "good": false,
+              "outcome": "The point isn't to feel guilty — it's to use what you learn to make a better plan going forward."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Looking back at spending never reveals anything useful",
+              "good": false,
+              "outcome": "Looking back at spending actually reveals a lot — patterns you missed in the moment, like small snacks adding up."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗺️",
         "title": "How can you turn a big goal into a plan?",
-        "text": "Start with the total amount, choose a target date, and work backward. If you need $120 in 12 weeks, saving $10 each week gets you there. Breaking a big number into small steps makes progress easier to measure."
+        "text": "Start with the total amount, choose a target date, and work backward. If you need $120 in 12 weeks, saving $10 each week gets you there. Breaking a big number into small steps makes progress easier to measure.",
+        "widget": "sequence-order",
+        "widgetConfig": {
+          "prompt": "Tap the steps in the right order",
+          "items": [
+            "Start with the total amount",
+            "Choose a target date",
+            "Work backward to a weekly amount"
+          ]
+        }
       },
       {
         "emoji": "📉",
         "title": "What can knock a savings goal off track?",
-        "text": "Unplanned purchases, forgetting to track spending, or saving only “whatever is left” can slow a goal down. Protect your goal by moving savings first and deciding ahead how much is safe to spend."
+        "text": "Unplanned purchases, forgetting to track spending, or saving only “whatever is left” can slow a goal down. Protect your goal by moving savings first and deciding ahead how much is safe to spend.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're saving for a $50 game, but you keep buying small snacks and little extras along the way. What's happening to your goal?",
+          "options": [
+            {
+              "emoji": "🍿",
+              "label": "Small, frequent purchases can add up and slow down a bigger savings goal",
+              "good": true,
+              "outcome": "Exactly — small purchases don't feel like much individually, but they add up and can seriously delay a bigger goal."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Small purchases don't affect big goals at all",
+              "good": false,
+              "outcome": "They actually do add up — even small, frequent spending can meaningfully slow down progress toward a bigger goal."
+            },
+            {
+              "emoji": "📈",
+              "label": "The game price must have gone up",
+              "good": false,
+              "outcome": "The more likely explanation is that small spending along the way has been eating into the savings — tracking it can help."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎉",
         "title": "Why celebrate progress before reaching the finish line?",
-        "text": "Long goals can feel far away, so noticing milestones keeps motivation alive. If your goal is $200, reaching $50, $100, and $150 are real wins. Celebrate the progress without spending the money you are trying to save."
+        "text": "Long goals can feel far away, so noticing milestones keeps motivation alive. If your goal is $200, reaching $50, $100, and $150 are real wins. Celebrate the progress without spending the money you are trying to save.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're halfway to a big savings goal but still have a long way to go. Should you wait until the very end to feel good about it?",
+          "options": [
+            {
+              "emoji": "🎉",
+              "label": "No — celebrating progress along the way helps keep you motivated",
+              "good": true,
+              "outcome": "Exactly! Recognizing progress, even midway, helps keep your motivation up for the rest of the journey."
+            },
+            {
+              "emoji": "🏁",
+              "label": "Yes, only the final result matters",
+              "good": false,
+              "outcome": "Waiting until the very end to feel good can make a long goal feel discouraging — celebrating progress along the way helps keep motivation up."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Progress doesn't matter at all",
+              "good": false,
+              "outcome": "Progress matters a lot for staying motivated — celebrating small milestones helps you keep going."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌍",
         "title": "How can you know where a donation goes?",
-        "text": "Before giving, look at what the organization says it does with donations and whether it clearly explains its work. If you donate to a food bank, for example, your money may help buy meals or supplies. Understanding the impact makes giving more intentional."
+        "text": "Before giving, look at what the organization says it does with donations and whether it clearly explains its work. If you donate to a food bank, for example, your money may help buy meals or supplies. Understanding the impact makes giving more intentional.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Before donating to a food bank, what should you check?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "What the organization says it does with donations",
+              "good": true,
+              "outcome": "Exactly right! Looking at what the organization says it does with donations, and whether it clearly explains its work, makes giving more intentional."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — donations never need any research",
+              "good": false,
+              "outcome": "Donations actually benefit from a bit of research — understanding where the money goes makes giving more intentional."
+            },
+            {
+              "emoji": "🔁",
+              "label": "All organizations use donations in exactly the same way",
+              "good": false,
+              "outcome": "Organizations don't all use donations the same way — checking what a specific one does helps you give more intentionally."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔄",
         "title": "Is it okay to change a money goal?",
-        "text": "Yes. Goals should match what matters to you now. If you started saving for a gadget but later decide a class or trip matters more, you can redirect the money. Changing a goal thoughtfully is different from abandoning every goal on impulse."
+        "text": "Yes. Goals should match what matters to you now. If you started saving for a gadget but later decide a class or trip matters more, you can redirect the money. Changing a goal thoughtfully is different from abandoning every goal on impulse.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You started saving for a gadget but a trip matters more to you now. What can you do?",
+          "options": [
+            {
+              "emoji": "🔄",
+              "label": "Thoughtfully redirect the money toward the new goal",
+              "good": true,
+              "outcome": "Exactly right! Goals should match what matters to you now — changing a goal thoughtfully is different from abandoning every goal on impulse."
+            },
+            {
+              "emoji": "🔒",
+              "label": "Never change a goal once it is set",
+              "good": false,
+              "outcome": "Goals don't have to be permanent — you can thoughtfully redirect your saving if something else now matters more."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Changing a goal always means giving up on saving entirely",
+              "good": false,
+              "outcome": "Changing a goal thoughtfully isn't giving up — it's redirecting your saving toward what matters to you now."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -986,47 +2461,263 @@
       {
         "emoji": "🎓",
         "title": "How can skills affect what you earn?",
-        "text": "Pay is often connected to the value, scarcity, and difficulty of the skills someone can offer. Learning coding, design, sales, repair, writing, or another in-demand skill can create more ways to earn. Building skill is a long-term investment in your future options."
+        "text": "Pay is often connected to the value, scarcity, and difficulty of the skills someone can offer. Learning coding, design, sales, repair, writing, or another in-demand skill can create more ways to earn. Building skill is a long-term investment in your future options.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A job that requires a rare, difficult skill often pays more than one that doesn't. Why?",
+          "options": [
+            {
+              "emoji": "💼",
+              "label": "Pay is often connected to the value, scarcity, and difficulty of the skill",
+              "good": true,
+              "outcome": "Exactly! Pay is often connected to the value, scarcity, and difficulty of the skill a job requires."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Pay has nothing to do with skill",
+              "good": false,
+              "outcome": "Pay actually connects closely to skill — rarer, harder skills often come with higher pay."
+            },
+            {
+              "emoji": "⚖️",
+              "label": "All jobs pay exactly the same no matter the skill required",
+              "good": false,
+              "outcome": "Jobs don't all pay the same — skill level, scarcity, and difficulty all affect pay."
+            }
+          ]
+        }
       },
       {
         "emoji": "💼",
         "title": "What is the difference between gross pay and net pay?",
-        "text": "Gross pay is what you earn before deductions; net pay is what reaches your bank account after taxes and other deductions. If a paycheck shows $600 gross and $510 deposited, $510 is your net pay. Budget from net pay, because that is the money you actually receive."
+        "text": "Gross pay is what you earn before deductions; net pay is what reaches your bank account after taxes and other deductions. If a paycheck shows $600 gross and $510 deposited, $510 is your net pay. Budget from net pay, because that is the money you actually receive.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your paycheck shows one number before deductions and a smaller number after. Which is net pay?",
+          "options": [
+            {
+              "emoji": "💰",
+              "label": "The smaller number — what reaches your bank account after deductions",
+              "good": true,
+              "outcome": "Exactly right! Net pay is what reaches your bank account after deductions, while gross pay is the amount before deductions."
+            },
+            {
+              "emoji": "📈",
+              "label": "The bigger number before any deductions",
+              "good": false,
+              "outcome": "That's gross pay, not net pay — net pay is the smaller amount that actually reaches your bank account."
+            },
+            {
+              "emoji": "🤷",
+              "label": "There's no real difference between the two",
+              "good": false,
+              "outcome": "There is a real difference — gross pay is before deductions, and net pay is what actually reaches your account."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧾",
         "title": "Why are taxes taken from earnings and purchases?",
-        "text": "Taxes are collected by governments to fund public services such as roads, schools, emergency services, and other shared programs. The exact taxes you pay depend on where you live, what you earn, and what you buy. A pay stub and receipt can show some of these amounts."
+        "text": "Taxes are collected by governments to fund public services such as roads, schools, emergency services, and other shared programs. The exact taxes you pay depend on where you live, what you earn, and what you buy. A pay stub and receipt can show some of these amounts.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Taxes fund things like roads and schools. Who decides and collects them?",
+          "options": [
+            {
+              "emoji": "🏛️",
+              "label": "Governments, to fund shared public services",
+              "good": true,
+              "outcome": "Exactly right! Taxes are collected by governments to fund public services such as roads, schools, and emergency services."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No one — taxes serve no real purpose",
+              "good": false,
+              "outcome": "Taxes actually serve a real purpose — funding shared public services like roads and schools."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Taxes are always exactly the same everywhere",
+              "good": false,
+              "outcome": "Taxes actually vary quite a bit — the exact amounts depend on where you live, what you earn, and what you buy."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏗️",
         "title": "What does “pay yourself first” mean?",
-        "text": "It means moving money to savings before you start spending the rest. If you earn $100 and decide to save 20%, move $20 first and treat the remaining $80 as available to spend. This turns saving from a leftover into a priority."
+        "text": "It means moving money to savings before you start spending the rest. If you earn $100 and decide to save 20%, move $20 first and treat the remaining $80 as available to spend. This turns saving from a leftover into a priority.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You get your paycheck and plan to pay bills, spend some on fun stuff, and save whatever is left over — but there's rarely anything left. What's a better approach?",
+          "options": [
+            {
+              "emoji": "🐷",
+              "label": "Move money into savings first, before spending on anything else",
+              "good": true,
+              "outcome": "Exactly — \"pay yourself first\" means treating savings like a required bill, not an afterthought. That way saving actually happens instead of hoping for leftovers."
+            },
+            {
+              "emoji": "🛍️",
+              "label": "Keep spending first and hope something's left for savings",
+              "good": false,
+              "outcome": "That approach is why savings often ends up at $0 — there's rarely much left after spending happens first."
+            },
+            {
+              "emoji": "🎁",
+              "label": "Only save if you get a bonus",
+              "good": false,
+              "outcome": "Waiting for bonuses means missing consistent saving opportunities — paying yourself first from every paycheck builds savings more reliably."
+            }
+          ]
+        }
       },
       {
         "emoji": "💼",
         "title": "Why do different jobs pay different amounts?",
-        "text": "Wages can be affected by skill level, training, experience, supply and demand, location, risk, responsibility, and the employer. A job that requires years of specialized training may pay differently from an entry-level job. Pay is shaped by several factors, not just effort."
+        "text": "Wages can be affected by skill level, training, experience, supply and demand, location, risk, responsibility, and the employer. A job that requires years of specialized training may pay differently from an entry-level job. Pay is shaped by several factors, not just effort.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A job requiring years of specialized training pays differently from an entry-level job. Is pay based only on effort?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "No — skill, training, experience, and other factors matter too",
+              "good": true,
+              "outcome": "Exactly right! Wages can be affected by skill level, training, experience, supply and demand, location, and more — pay is shaped by several factors, not just effort."
+            },
+            {
+              "emoji": "💪",
+              "label": "Yes, pay is based only on how hard someone works",
+              "good": false,
+              "outcome": "Pay isn't based only on effort — skill level, training, and other factors shape wages too."
+            },
+            {
+              "emoji": "🎲",
+              "label": "Pay is always completely random with no real factors",
+              "good": false,
+              "outcome": "Pay isn't random — it's shaped by real factors like skill level, training, experience, and location."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍💻",
         "title": "What is a side hustle or freelance work?",
-        "text": "A side hustle is extra income earned outside a main job, while freelance work usually means being paid per project or service rather than as a regular employee. Examples include tutoring, pet sitting, design, coding, or selling handmade items. Income may vary, so planning matters."
+        "text": "A side hustle is extra income earned outside a main job, while freelance work usually means being paid per project or service rather than as a regular employee. Examples include tutoring, pet sitting, design, coding, or selling handmade items. Income may vary, so planning matters.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You tutor or pet sit on the side, outside your main job. What is this called?",
+          "options": [
+            {
+              "emoji": "💼",
+              "label": "A side hustle or freelance work",
+              "good": true,
+              "outcome": "Exactly right! A side hustle is extra income earned outside a main job, and freelance work usually means being paid per project rather than as a regular employee."
+            },
+            {
+              "emoji": "🙅",
+              "label": "This has no name and is not a real thing",
+              "good": false,
+              "outcome": "This actually has a clear name and is very real — it's called a side hustle or freelance work."
+            },
+            {
+              "emoji": "🔒",
+              "label": "This only counts if it is your only source of income",
+              "good": false,
+              "outcome": "A side hustle is specifically extra income outside a main job, not necessarily your only source."
+            }
+          ]
+        }
       },
       {
         "emoji": "📄",
         "title": "How do you read a pay stub?",
-        "text": "A pay stub usually shows hours or salary, gross pay, taxes and other deductions, and net pay. Read it to check whether the hours, pay rate, and deductions make sense. Understanding your pay stub helps you catch errors and know where your earnings go."
+        "text": "A pay stub usually shows hours or salary, gross pay, taxes and other deductions, and net pay. Read it to check whether the hours, pay rate, and deductions make sense. Understanding your pay stub helps you catch errors and know where your earnings go.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your pay stub shows your gross pay is $500 but your actual deposit is $420. What explains the difference?",
+          "options": [
+            {
+              "emoji": "🧾",
+              "label": "Taxes and other deductions were taken out before the deposit",
+              "good": true,
+              "outcome": "Exactly — the difference between gross pay (before deductions) and net pay (what you actually receive) usually comes from taxes and other withholdings."
+            },
+            {
+              "emoji": "❗",
+              "label": "The employer made a mistake",
+              "good": false,
+              "outcome": "This is usually completely normal — the gap between gross and net pay comes from taxes and other standard deductions, not an error."
+            },
+            {
+              "emoji": "😡",
+              "label": "You're being underpaid",
+              "good": false,
+              "outcome": "This gap is typically normal and expected — it reflects taxes and deductions, not necessarily being underpaid."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏦",
         "title": "Why automate savings?",
-        "text": "Automatic transfers move money to savings without requiring a fresh decision every payday. If $25 automatically moves to savings each time you are paid, you are less likely to spend it first. Automation can make a good habit easier to maintain."
+        "text": "Automatic transfers move money to savings without requiring a fresh decision every payday. If $25 automatically moves to savings each time you are paid, you are less likely to spend it first. Automation can make a good habit easier to maintain.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "$25 automatically moves to savings each payday. Why might this help?",
+          "options": [
+            {
+              "emoji": "🤖",
+              "label": "You're less likely to spend it first",
+              "good": true,
+              "outcome": "Exactly right! Automatic transfers move money to savings without requiring a fresh decision every payday, making you less likely to spend it first."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Automating savings never actually helps",
+              "good": false,
+              "outcome": "Automating savings actually helps a lot — it can make a good habit easier to maintain."
+            },
+            {
+              "emoji": "✋",
+              "label": "This only works if you remember to do it manually every time",
+              "good": false,
+              "outcome": "The whole point of automating is that you don't need to remember — it happens without a fresh decision each payday."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎓",
         "title": "How can investing in yourself pay off?",
-        "text": "Money and time spent on useful education, certifications, tools, or practice can increase your future opportunities. A course is not automatically valuable, though—compare its cost with the skills, credibility, and opportunities it may realistically provide."
+        "text": "Money and time spent on useful education, certifications, tools, or practice can increase your future opportunities. A course is not automatically valuable, though—compare its cost with the skills, credibility, and opportunities it may realistically provide.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You spend money on a useful course or certification. Is every course automatically worth the cost?",
+          "options": [
+            {
+              "emoji": "📚",
+              "label": "No — compare its cost with the skills and opportunities it provides",
+              "good": true,
+              "outcome": "Exactly right! Money and time spent on useful education can increase future opportunities, but a course isn't automatically valuable — compare cost with what it realistically provides."
+            },
+            {
+              "emoji": "📚",
+              "label": "Yes, any course is always worth any price",
+              "good": false,
+              "outcome": "Not every course is automatically worth its price — comparing the cost with the real skills and opportunities it provides matters."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Investing in yourself never pays off in the future",
+              "good": false,
+              "outcome": "Investing in yourself actually can pay off quite a bit, when the cost matches the real value it provides."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1127,47 +2818,263 @@
       {
         "emoji": "💳",
         "title": "What are credit and debt?",
-        "text": "Credit is the ability to borrow money with an agreement to repay it; debt is the amount you currently owe. Borrowing can be useful, but interest and fees can make the final cost higher than the original purchase. Always understand the repayment terms before using credit."
+        "text": "Credit is the ability to borrow money with an agreement to repay it; debt is the amount you currently owe. Borrowing can be useful, but interest and fees can make the final cost higher than the original purchase. Always understand the repayment terms before using credit.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You borrow money and agree to repay it with interest. What's the real cost?",
+          "options": [
+            {
+              "emoji": "📈",
+              "label": "Possibly more than the original purchase, due to interest and fees",
+              "good": true,
+              "outcome": "Exactly right! Credit is the ability to borrow money with an agreement to repay it, but interest and fees can make the final cost higher than the original purchase."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Always exactly the same as the original purchase",
+              "good": false,
+              "outcome": "The real cost can be higher than the original purchase, once interest and fees are included."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Credit never involves understanding repayment terms",
+              "good": false,
+              "outcome": "Credit actually requires understanding repayment terms — that's essential before using it."
+            }
+          ]
+        }
       },
       {
         "emoji": "📲",
         "title": "What should you know about buy now, pay later?",
-        "text": "Buy now, pay later splits a purchase into several payments, which can make an expensive item feel cheaper than it is. The full price has not changed, and missed payments may lead to fees or other consequences depending on the service. Track every payment before committing."
+        "text": "Buy now, pay later splits a purchase into several payments, which can make an expensive item feel cheaper than it is. The full price has not changed, and missed payments may lead to fees or other consequences depending on the service. Track every payment before committing.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A \"buy now, pay later\" app lets you get a $200 item for 4 easy payments of $50. It feels affordable. What should you consider before using it?",
+          "options": [
+            {
+              "emoji": "🧮",
+              "label": "Whether you can actually afford all 4 payments, not just the first one",
+              "good": true,
+              "outcome": "Smart thinking — buy now, pay later can feel like free money upfront, but it's still real debt, and missing payments can bring fees or hurt your credit."
+            },
+            {
+              "emoji": "🆓",
+              "label": "Nothing, since it's broken into small payments it's basically free",
+              "good": false,
+              "outcome": "It's not free — it's still debt, just split up. Missing a payment can bring real fees and consequences."
+            },
+            {
+              "emoji": "🙅",
+              "label": "It's always a bad idea no matter what",
+              "good": false,
+              "outcome": "It's not always bad if used carefully — the key is making sure you can truly afford every payment, not just the first one."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔄",
         "title": "Why should you watch recurring costs?",
-        "text": "A few monthly subscriptions can become a large yearly expense. Three subscriptions costing $10 each are $30 a month, or $360 a year. Reviewing recurring charges helps you decide whether each service still earns its place in your budget."
+        "text": "A few monthly subscriptions can become a large yearly expense. Three subscriptions costing $10 each are $30 a month, or $360 a year. Reviewing recurring charges helps you decide whether each service still earns its place in your budget.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You signed up for three different subscriptions months ago and forgot about two of them. What's the lesson here?",
+          "options": [
+            {
+              "emoji": "📆",
+              "label": "Small recurring costs can add up unnoticed over time",
+              "good": true,
+              "outcome": "Exactly — subscriptions and recurring costs are easy to forget, but they keep charging you every month. Periodically reviewing them can save real money."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Subscriptions never actually cost much",
+              "good": false,
+              "outcome": "Even small subscriptions add up significantly over months and years — it's worth periodically reviewing what you're actually paying for."
+            },
+            {
+              "emoji": "🙅",
+              "label": "It's impossible to track recurring costs",
+              "good": false,
+              "outcome": "You can track them — periodically reviewing your bank or card statements helps you notice forgotten subscriptions."
+            }
+          ]
+        }
       },
       {
         "emoji": "👥",
         "title": "How can peer pressure affect spending?",
-        "text": "Friends, trends, and social media can make a purchase feel necessary even when it is not. Before spending, ask, “Would I still want this if nobody else saw it?” That question can separate your own preferences from pressure to keep up."
+        "text": "Friends, trends, and social media can make a purchase feel necessary even when it is not. Before spending, ask, “Would I still want this if nobody else saw it?” That question can separate your own preferences from pressure to keep up.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A purchase feels necessary because of trends and friends. What question can help separate real preference from pressure?",
+          "options": [
+            {
+              "emoji": "🤔",
+              "label": "\"Would I still want this if nobody else saw it?\"",
+              "good": true,
+              "outcome": "Exactly right! This question can separate your own preferences from pressure to keep up with friends, trends, or social media."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No question can ever help with this",
+              "good": false,
+              "outcome": "A thoughtful question actually can help a lot — it separates your real preferences from outside pressure."
+            },
+            {
+              "emoji": "❌",
+              "label": "Peer pressure never actually affects spending",
+              "good": false,
+              "outcome": "Peer pressure actually can affect spending quite a bit — a thoughtful question helps you notice and separate from it."
+            }
+          ]
+        }
       },
       {
         "emoji": "📊",
         "title": "What does a credit score represent?",
-        "text": "A credit score is a number created from information in a credit report, such as payment history and amounts owed. Lenders may use it when deciding whether to lend and what terms to offer. Building healthy credit starts with understanding agreements and paying obligations on time."
+        "text": "A credit score is a number created from information in a credit report, such as payment history and amounts owed. Lenders may use it when deciding whether to lend and what terms to offer. Building healthy credit starts with understanding agreements and paying obligations on time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A number is created from your payment history and amounts owed. What is this called?",
+          "options": [
+            {
+              "emoji": "📊",
+              "label": "A credit score",
+              "good": true,
+              "outcome": "Exactly right! A credit score is a number created from information in a credit report, which lenders may use when deciding whether to lend."
+            },
+            {
+              "emoji": "🍀",
+              "label": "A lucky number with no real meaning",
+              "good": false,
+              "outcome": "This isn't just a lucky number — it's a real score based on payment history and amounts owed, called a credit score."
+            },
+            {
+              "emoji": "🙅",
+              "label": "This has nothing to do with borrowing money",
+              "good": false,
+              "outcome": "This actually is directly connected to borrowing money — lenders use it to decide whether and on what terms to lend."
+            }
+          ]
+        }
       },
       {
         "emoji": "💸",
         "title": "How can interest help you or hurt you?",
-        "text": "Interest is the cost of borrowing or the money you may earn on savings. If you borrow, interest can make you repay more than you received. If you save in an interest-paying account, interest can add to your balance over time."
+        "text": "Interest is the cost of borrowing or the money you may earn on savings. If you borrow, interest can make you repay more than you received. If you save in an interest-paying account, interest can add to your balance over time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Interest applies both to borrowing and to savings. Can it work both ways?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "Yes — it can cost you more when borrowing, or add to savings",
+              "good": true,
+              "outcome": "Exactly right! If you borrow, interest can make you repay more than you received; if you save, interest can add to your balance over time."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, interest only ever costs you money",
+              "good": false,
+              "outcome": "Interest doesn't only cost you money — it can also add to your balance when you're saving."
+            },
+            {
+              "emoji": "❌",
+              "label": "Interest never has any real effect either way",
+              "good": false,
+              "outcome": "Interest actually has a real effect both ways — it can cost you more when borrowing or add to your savings."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚩",
         "title": "What are warning signs of a bad financial deal?",
-        "text": "Be cautious when someone pressures you to act immediately, hides important details, promises something that sounds unrealistic, or makes the terms hard to understand. A legitimate decision should survive questions, comparison, and time to think."
+        "text": "Be cautious when someone pressures you to act immediately, hides important details, promises something that sounds unrealistic, or makes the terms hard to understand. A legitimate decision should survive questions, comparison, and time to think.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone offers you an investment opportunity and insists you decide right now or you'll miss out. Is this a warning sign?",
+          "options": [
+            {
+              "emoji": "🚩",
+              "label": "Yes — pressure to act immediately is a classic red flag",
+              "good": true,
+              "outcome": "Exactly! Legitimate opportunities rarely require an instant decision — pressure to rush is a major warning sign of a scam."
+            },
+            {
+              "emoji": "⏰",
+              "label": "No, urgency just means it's a great opportunity",
+              "good": false,
+              "outcome": "Urgency is actually one of the most common scam tactics — real opportunities don't usually require instant decisions."
+            },
+            {
+              "emoji": "💵",
+              "label": "It only matters if they also ask for money upfront",
+              "good": false,
+              "outcome": "Pressure to act immediately is a red flag on its own, even before any money changes hands."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛍️",
         "title": "What is lifestyle inflation?",
-        "text": "Lifestyle inflation happens when spending rises almost as fast as income. Someone gets a raise, then immediately upgrades meals, clothes, subscriptions, and gadgets, leaving no extra savings. Increasing savings along with income can help prevent this pattern."
+        "text": "Lifestyle inflation happens when spending rises almost as fast as income. Someone gets a raise, then immediately upgrades meals, clothes, subscriptions, and gadgets, leaving no extra savings. Increasing savings along with income can help prevent this pattern.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone gets a raise and immediately upgrades meals, clothes, and subscriptions, leaving no extra savings. What is this pattern called?",
+          "options": [
+            {
+              "emoji": "📈",
+              "label": "Lifestyle inflation",
+              "good": true,
+              "outcome": "Exactly right! Lifestyle inflation happens when spending rises almost as fast as income, leaving no extra savings — increasing savings along with income can help prevent this."
+            },
+            {
+              "emoji": "💰",
+              "label": "Smart budgeting",
+              "good": false,
+              "outcome": "This isn't smart budgeting — spending rising to match every raise, with no extra savings, is called lifestyle inflation."
+            },
+            {
+              "emoji": "🙅",
+              "label": "This pattern has no name and never actually happens",
+              "good": false,
+              "outcome": "This pattern actually has a name and happens often — it's called lifestyle inflation."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧠",
         "title": "How does marketing influence spending?",
-        "text": "Marketing uses techniques such as limited-time offers, social proof, influencers, countdown timers, and personalized ads to increase urgency or desire. Recognizing the technique does not mean the product is bad—it simply gives you space to decide whether the purchase fits your own needs and budget."
+        "text": "Marketing uses techniques such as limited-time offers, social proof, influencers, countdown timers, and personalized ads to increase urgency or desire. Recognizing the technique does not mean the product is bad—it simply gives you space to decide whether the purchase fits your own needs and budget.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A limited-time offer and countdown timer create urgency. What does recognizing this technique let you do?",
+          "options": [
+            {
+              "emoji": "🧠",
+              "label": "Decide whether the purchase actually fits your needs",
+              "good": true,
+              "outcome": "Exactly right! Recognizing a marketing technique doesn't mean the product is bad — it gives you space to decide whether the purchase fits your own needs and budget."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — recognizing the technique never helps",
+              "good": false,
+              "outcome": "Recognizing the technique actually helps a lot — it gives you space to decide if the purchase really fits your needs."
+            },
+            {
+              "emoji": "❌",
+              "label": "Noticing a marketing technique means the product must be bad",
+              "good": false,
+              "outcome": "Noticing a technique doesn't mean the product is bad — it just helps you decide more thoughtfully."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1268,47 +3175,247 @@
       {
         "emoji": "📈",
         "title": "What is inflation?",
-        "text": "Inflation is a broad rise in prices over time, which reduces what the same amount of money can buy. If something costs $10 today and $11 later, your $10 no longer buys it. This is one reason long-term financial plans need to consider how purchasing power changes."
+        "text": "Inflation is a broad rise in prices over time, which reduces what the same amount of money can buy. If something costs $10 today and $11 later, your $10 no longer buys it. This is one reason long-term financial plans need to consider how purchasing power changes.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Something costs $10 today and $11 later. What does this show about your money?",
+          "options": [
+            {
+              "emoji": "📉",
+              "label": "Your $10 no longer buys as much as before",
+              "good": true,
+              "outcome": "Exactly right! Inflation is a broad rise in prices over time, which reduces what the same amount of money can buy."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Your $10 always buys exactly the same amount forever",
+              "good": false,
+              "outcome": "Your $10 doesn't always buy the same amount — inflation can reduce what it's able to purchase over time."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Prices never rise over time",
+              "good": false,
+              "outcome": "Prices actually can rise over time — that's exactly what inflation describes."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚨",
         "title": "Why have an emergency fund?",
-        "text": "An emergency fund is money reserved for unexpected, necessary expenses such as a repair, medical cost, or urgent travel. It can reduce the need to borrow when something goes wrong. Even a small emergency fund creates more choices than having none."
+        "text": "An emergency fund is money reserved for unexpected, necessary expenses such as a repair, medical cost, or urgent travel. It can reduce the need to borrow when something goes wrong. Even a small emergency fund creates more choices than having none.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An unexpected expense comes up suddenly. What helps you handle it without going into debt?",
+          "options": [
+            {
+              "emoji": "🏦",
+              "label": "Having an emergency fund set aside for unexpected expenses",
+              "good": true,
+              "outcome": "Exactly right! An emergency fund is money reserved for unexpected, necessary expenses, helping you avoid going into debt."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Emergency funds are unnecessary since unexpected expenses never happen",
+              "good": false,
+              "outcome": "Unexpected expenses do happen, which is exactly why having an emergency fund matters."
+            },
+            {
+              "emoji": "💳",
+              "label": "Borrowing money is always the first and best option",
+              "good": false,
+              "outcome": "Borrowing can add interest costs — having savings set aside for emergencies is generally the better first option."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌱",
         "title": "Why do long-term habits matter more than one purchase?",
-        "text": "One purchase rarely decides your financial future, but repeated habits can. Saving regularly, avoiding expensive debt, and spending intentionally for years can create a very different outcome from doing those things only occasionally. Consistency has a compounding effect."
+        "text": "One purchase rarely decides your financial future, but repeated habits can. Saving regularly, avoiding expensive debt, and spending intentionally for years can create a very different outcome from doing those things only occasionally. Consistency has a compounding effect.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Does one purchase usually decide your financial future?",
+          "options": [
+            {
+              "emoji": "🔁",
+              "label": "No — repeated habits over time matter more",
+              "good": true,
+              "outcome": "Exactly right! One purchase rarely decides your financial future, but repeated habits, like saving regularly, can create a very different outcome over years."
+            },
+            {
+              "emoji": "1️⃣",
+              "label": "Yes, a single purchase always decides everything",
+              "good": false,
+              "outcome": "A single purchase rarely decides your whole financial future — repeated habits over time matter much more."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Habits over time never really add up to anything",
+              "good": false,
+              "outcome": "Habits over time actually add up a lot — consistency has a compounding effect on your finances."
+            }
+          ]
+        }
       },
       {
         "emoji": "💹",
         "title": "Why does starting to save early matter?",
-        "text": "Starting earlier gives your money more time to earn interest and potentially compound. Saving $20 a month for several extra years can matter even if the amount feels small at first. Time is one of the strongest advantages a young saver has."
+        "text": "Starting earlier gives your money more time to earn interest and potentially compound. Saving $20 a month for several extra years can matter even if the amount feels small at first. Time is one of the strongest advantages a young saver has.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Saving $20 a month for extra years versus starting later. Why might starting earlier matter?",
+          "options": [
+            {
+              "emoji": "⏳",
+              "label": "More time lets your money potentially compound",
+              "good": true,
+              "outcome": "Exactly right! Starting earlier gives your money more time to earn interest and potentially compound — time is one of the strongest advantages a young saver has."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Starting earlier or later makes no real difference",
+              "good": false,
+              "outcome": "Starting earlier actually makes a real difference — more time lets your money potentially compound."
+            },
+            {
+              "emoji": "⏸️",
+              "label": "Time never affects how much your savings can grow",
+              "good": false,
+              "outcome": "Time actually affects savings growth a lot — more time means more potential for your money to compound."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛒",
         "title": "What is the total cost of ownership?",
-        "text": "The purchase price is only the beginning for some items. Repairs, maintenance, subscriptions, fuel, replacement parts, or frequent replacement can raise the real cost. A cheaper product can be more expensive over time if it constantly needs fixing or replacing."
+        "text": "The purchase price is only the beginning for some items. Repairs, maintenance, subscriptions, fuel, replacement parts, or frequent replacement can raise the real cost. A cheaper product can be more expensive over time if it constantly needs fixing or replacing.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A cheaper product needs constant repairs and replacement parts. Is the purchase price the whole story?",
+          "options": [
+            {
+              "emoji": "🔧",
+              "label": "No — repairs and upkeep can raise the real cost over time",
+              "good": true,
+              "outcome": "Exactly right! The purchase price is only the beginning for some items — repairs, maintenance, and replacement parts can raise the real cost, called the total cost of ownership."
+            },
+            {
+              "emoji": "💵",
+              "label": "Yes, the purchase price is always the entire cost",
+              "good": false,
+              "outcome": "The purchase price isn't always the entire cost — repairs and upkeep can raise the real cost significantly."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Repairs and maintenance never affect the real cost of owning something",
+              "good": false,
+              "outcome": "Repairs and maintenance actually can affect the real cost a lot, sometimes making a cheaper product cost more over time."
+            }
+          ]
+        }
       },
       {
         "emoji": "📈",
         "title": "What is compound interest?",
-        "text": "Compound interest means earning interest not only on your original money but also on interest added earlier. Over long periods, that can create a snowball effect. The growth depends on the rate, time, and how often interest is added, so it is powerful but not magic."
+        "text": "Compound interest means earning interest not only on your original money but also on interest added earlier. Over long periods, that can create a snowball effect. The growth depends on the rate, time, and how often interest is added, so it is powerful but not magic.",
+        "widget": "compound-growth",
+        "widgetConfig": {
+          "startAmount": 500,
+          "monthlyAmount": 25,
+          "rate": 0.05,
+          "maxYears": 20,
+          "allowRateAdjust": false
+        }
       },
       {
         "emoji": "🏥",
         "title": "How does insurance protect you financially?",
-        "text": "Insurance transfers part of the risk of a large unexpected loss to an insurer in exchange for premiums. You still need to understand deductibles, coverage limits, and exclusions. The goal is not to eliminate every expense—it is to reduce the damage of certain expensive events."
+        "text": "Insurance transfers part of the risk of a large unexpected loss to an insurer in exchange for premiums. You still need to understand deductibles, coverage limits, and exclusions. The goal is not to eliminate every expense—it is to reduce the damage of certain expensive events.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Insurance transfers part of the risk of a large unexpected loss. Does this mean you never need to think about costs again?",
+          "options": [
+            {
+              "emoji": "📋",
+              "label": "No — you still need to understand deductibles and coverage limits",
+              "good": true,
+              "outcome": "Exactly right! The goal of insurance is not to eliminate every expense — you still need to understand deductibles, coverage limits, and exclusions."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Yes, insurance eliminates every possible expense",
+              "good": false,
+              "outcome": "Insurance doesn't eliminate every expense — you still need to understand deductibles and coverage limits."
+            },
+            {
+              "emoji": "❌",
+              "label": "Insurance never actually reduces financial risk",
+              "good": false,
+              "outcome": "Insurance actually does reduce financial risk — it transfers part of the risk of a large unexpected loss to an insurer."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧭",
         "title": "What is a financial direction?",
-        "text": "A monthly budget answers, “Where should my money go right now?” A financial direction asks, “What do I want my money to make possible over the next several years?” Long-term goals—education, travel, a car, investing, or independence—can guide today’s budget choices."
+        "text": "A monthly budget answers, “Where should my money go right now?” A financial direction asks, “What do I want my money to make possible over the next several years?” Long-term goals—education, travel, a car, investing, or independence—can guide today’s budget choices.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're making financial decisions day to day without any larger plan in mind. What might help?",
+          "options": [
+            {
+              "emoji": "🧭",
+              "label": "Setting an overall financial direction, like specific goals to work toward",
+              "good": true,
+              "outcome": "Exactly — having a clear financial direction helps guide individual day-to-day decisions toward your bigger goals, rather than deciding randomly each time."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Nothing, having a plan doesn't actually help",
+              "good": false,
+              "outcome": "Having an overall direction or goal actually helps guide smaller daily decisions in a more consistent, purposeful way."
+            },
+            {
+              "emoji": "🛍️",
+              "label": "Just focus on one single purchase at a time forever",
+              "good": false,
+              "outcome": "Thinking only about one purchase at a time, without any bigger direction, can lead to decisions that don't add up to real progress."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌱",
         "title": "How do small habits compound over time?",
-        "text": "Repeated actions can build on themselves just like money can. Saving a little every payday, reviewing spending monthly, and avoiding unnecessary fees may seem small, but years of repetition can create a large difference. Good financial systems reduce the need for constant willpower."
+        "text": "Repeated actions can build on themselves just like money can. Saving a little every payday, reviewing spending monthly, and avoiding unnecessary fees may seem small, but years of repetition can create a large difference. Good financial systems reduce the need for constant willpower.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Saving a little every payday and avoiding unnecessary fees. Do these small actions matter much?",
+          "options": [
+            {
+              "emoji": "📈",
+              "label": "Yes — years of repetition can create a large difference",
+              "good": true,
+              "outcome": "Exactly right! Repeated actions can build on themselves just like money can — years of small repeated habits can create a large difference."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, small habits never add up to anything meaningful",
+              "good": false,
+              "outcome": "Small habits actually do add up to something meaningful — years of repetition can create a large difference."
+            },
+            {
+              "emoji": "1️⃣",
+              "label": "Only one large action can ever make a real financial difference",
+              "good": false,
+              "outcome": "Small repeated habits can create just as large a difference over time as one big action, maybe more."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
