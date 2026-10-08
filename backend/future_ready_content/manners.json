@@ -4,47 +4,263 @@
       {
         "emoji": "🙏",
         "title": "Say please when you ask",
-        "text": "Please is a kind word. Say it when you ask for a cookie or a turn."
+        "text": "Please is a kind word. Say it when you ask for a cookie or a turn.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want a cookie. What's a polite way to ask?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Say \"please\" when you ask",
+              "good": true,
+              "outcome": "Exactly right! Please is a kind word to say when you ask for a cookie or a turn."
+            },
+            {
+              "emoji": "✋",
+              "label": "Just grab it without asking",
+              "good": false,
+              "outcome": "Grabbing without asking isn't polite — saying please when you ask is the kind way."
+            },
+            {
+              "emoji": "😤",
+              "label": "Demand it loudly",
+              "good": false,
+              "outcome": "Demanding loudly isn't polite — saying please shows kindness instead."
+            }
+          ]
+        }
       },
       {
         "emoji": "😊",
         "title": "Say thank you",
-        "text": "Thank you is a kind way to show you noticed someone's help or gift. If someone hands you your dropped crayon, you can smile and say, \"Thank you!\""
+        "text": "Thank you is a kind way to show you noticed someone's help or gift. If someone hands you your dropped crayon, you can smile and say, \"Thank you!\"",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend gives you a small gift. What's the polite response?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Say thank you",
+              "good": true,
+              "outcome": "Exactly right! Thank you is a kind way to show you noticed someone's gift."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Say nothing",
+              "good": false,
+              "outcome": "Saying nothing can seem ungrateful — thank you shows you noticed their kindness."
+            },
+            {
+              "emoji": "😒",
+              "label": "Complain that it's not what you wanted",
+              "good": false,
+              "outcome": "Complaining about a gift can hurt the giver's feelings — a simple thank you is much kinder."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙋",
         "title": "Say excuse me",
-        "text": "Excuse me is what you say to get past someone. You say it before you walk by your sister."
+        "text": "Excuse me is what you say to get past someone. You say it before you walk by your sister.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You need to walk past someone in a narrow hallway. What's the polite thing to say?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "\"Excuse me\"",
+              "good": true,
+              "outcome": "Exactly right! Saying excuse me is a polite way to pass by someone."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Push past without saying anything",
+              "good": false,
+              "outcome": "Saying excuse me first is much more polite than just pushing past."
+            },
+            {
+              "emoji": "😠",
+              "label": "Yell at them to move",
+              "good": false,
+              "outcome": "A polite 'excuse me' works much better than yelling."
+            }
+          ]
+        }
       },
       {
         "emoji": "😔",
         "title": "Say you are sorry",
-        "text": "If you hurt someone or cause a problem, saying sorry is one way to show you care. You can also help fix it, like rebuilding blocks you knocked over."
+        "text": "If you hurt someone or cause a problem, saying sorry is one way to show you care. You can also help fix it, like rebuilding blocks you knocked over.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You accidentally knock over your friend's blocks. What should you do?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Say sorry and help rebuild them",
+              "good": true,
+              "outcome": "Exactly right! Saying sorry and helping fix it, like rebuilding blocks you knocked over, shows you care."
+            },
+            {
+              "emoji": "🚶",
+              "label": "Walk away and say nothing",
+              "good": false,
+              "outcome": "Walking away without saying anything doesn't show you care — saying sorry and helping fix it does."
+            },
+            {
+              "emoji": "👉",
+              "label": "Blame your friend for building them in your way",
+              "good": false,
+              "outcome": "Blaming your friend doesn't take responsibility — saying sorry and helping fix it is the better choice."
+            }
+          ]
+        }
       },
       {
         "emoji": "👋",
         "title": "Say hello and goodbye",
-        "text": "A friendly hello or goodbye can help people feel noticed. You can wave, smile, or say \"Hi\" in a way that feels comfortable."
+        "text": "A friendly hello or goodbye can help people feel noticed. You can wave, smile, or say \"Hi\" in a way that feels comfortable.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You arrive at a friend's house. What's a friendly way to greet them?",
+          "options": [
+            {
+              "emoji": "👋",
+              "label": "Wave, smile, or say \"Hi\"",
+              "good": true,
+              "outcome": "Exactly right! A friendly hello like waving or smiling can help people feel noticed."
+            },
+            {
+              "emoji": "🚪",
+              "label": "Walk in without saying anything",
+              "good": false,
+              "outcome": "Walking in silently misses a chance to make your friend feel noticed — a friendly hello works better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Greetings do not matter",
+              "good": false,
+              "outcome": "Greetings actually matter — a small hello can make someone feel noticed and welcomed."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏳",
         "title": "Wait for your turn",
-        "text": "Waiting your turn means you let others go first. You wait at the slide until your friend climbs down."
+        "text": "Waiting your turn means you let others go first. You wait at the slide until your friend climbs down.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You really want to go down the slide, but two other kids are already waiting in line. What should you do?",
+          "options": [
+            {
+              "emoji": "🙂",
+              "label": "Wait patiently in line behind them",
+              "good": true,
+              "outcome": "That's exactly right! Waiting your turn is fair to everyone, and your turn will come."
+            },
+            {
+              "emoji": "🏃",
+              "label": "Rush past them to go first",
+              "good": false,
+              "outcome": "Cutting in line isn't fair to the kids who were waiting first — everyone gets a turn when we wait nicely."
+            },
+            {
+              "emoji": "😤",
+              "label": "Complain loudly that it's taking too long",
+              "good": false,
+              "outcome": "Waiting can feel hard, but a calm wait is kinder than complaining — your turn will come soon!"
+            }
+          ]
+        }
       },
       {
         "emoji": "🧸",
         "title": "Ask before you take something",
-        "text": "Always ask before you take someone's toy. Say, 'Can I play with your truck?' and wait to hear yes."
+        "text": "Always ask before you take someone's toy. Say, 'Can I play with your truck?' and wait to hear yes.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to play with your friend's toy truck. What should you do first?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask \"Can I play with your truck?\"",
+              "good": true,
+              "outcome": "Exactly right! Always ask before you take someone's toy, and wait to hear yes."
+            },
+            {
+              "emoji": "✋",
+              "label": "Just take it without asking",
+              "good": false,
+              "outcome": "Taking it without asking isn't polite — asking first and waiting for yes is the right way."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Asking first does not matter",
+              "good": false,
+              "outcome": "Asking first actually matters a lot — it shows respect for what belongs to someone else."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤫",
         "title": "Don't interrupt when someone is talking",
-        "text": "Try to let someone finish before you speak. If something is urgent, say \"Excuse me\" and wait for them to notice you."
+        "text": "Try to let someone finish before you speak. If something is urgent, say \"Excuse me\" and wait for them to notice you.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone is in the middle of talking and you really want to say something. What should you do?",
+          "options": [
+            {
+              "emoji": "⏳",
+              "label": "Wait for them to finish, or say \"excuse me\" if urgent",
+              "good": true,
+              "outcome": "Exactly right! Try to let someone finish before you speak, or say excuse me if it's urgent."
+            },
+            {
+              "emoji": "✋",
+              "label": "Interrupt right away",
+              "good": false,
+              "outcome": "Interrupting right away cuts off what they're saying — waiting or saying excuse me is more polite."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Waiting to talk is never necessary",
+              "good": false,
+              "outcome": "Waiting for your turn to talk actually matters — it shows you respect what the other person is saying."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗣️",
         "title": "Use a kind voice",
-        "text": "A kind voice is calm and respectful. You can still say \"no\" or disagree without yelling or using hurtful words."
+        "text": "A kind voice is calm and respectful. You can still say \"no\" or disagree without yelling or using hurtful words.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You disagree with a friend. What's a kind way to say so?",
+          "options": [
+            {
+              "emoji": "😊",
+              "label": "Say it calmly, without yelling",
+              "good": true,
+              "outcome": "Exactly right! A kind voice is calm and respectful — you can still disagree without yelling."
+            },
+            {
+              "emoji": "😤",
+              "label": "Yell to make your point",
+              "good": false,
+              "outcome": "Yelling can hurt feelings and isn't necessary — you can disagree calmly instead."
+            },
+            {
+              "emoji": "🙅",
+              "label": "You can never disagree politely",
+              "good": false,
+              "outcome": "You actually can disagree politely — using a calm, kind voice works just fine."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -145,47 +361,285 @@
       {
         "emoji": "🤧",
         "title": "Cover your cough or sneeze",
-        "text": "A cough or sneeze can spread germs. Cover your mouth with your elbow, not your hand."
+        "text": "A cough or sneeze can spread germs. Cover your mouth with your elbow, not your hand.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You feel a big sneeze coming on while sitting with friends. What's the polite thing to do?",
+          "options": [
+            {
+              "emoji": "🤧",
+              "label": "Cover your mouth and nose with your elbow or a tissue",
+              "good": true,
+              "outcome": "Exactly right! Covering a sneeze is polite and helps keep germs from spreading."
+            },
+            {
+              "emoji": "😮",
+              "label": "Sneeze openly toward your friends",
+              "good": false,
+              "outcome": "Sneezing without covering can spread germs — covering it is the polite, healthy choice."
+            },
+            {
+              "emoji": "😤",
+              "label": "Hold it in and don't sneeze at all",
+              "good": false,
+              "outcome": "You can't really hold in a sneeze — covering it with your elbow or a tissue is the polite way to handle it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧻",
         "title": "Use your napkin",
-        "text": "A napkin wipes your hands and mouth. Use it at dinner instead of your shirt."
+        "text": "A napkin wipes your hands and mouth. Use it at dinner instead of your shirt.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your hands get messy at dinner. What should you use to clean them?",
+          "options": [
+            {
+              "emoji": "🧻",
+              "label": "A napkin",
+              "good": true,
+              "outcome": "Exactly right! A napkin wipes your hands and mouth — use it at dinner instead of your shirt."
+            },
+            {
+              "emoji": "👕",
+              "label": "Your shirt",
+              "good": false,
+              "outcome": "Using your shirt isn't the polite choice — a napkin is what it's there for."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing, leave them messy",
+              "good": false,
+              "outcome": "Leaving your hands messy isn't ideal — using a napkin keeps things clean and polite."
+            }
+          ]
+        }
       },
       {
         "emoji": "😋",
         "title": "Chew with your mouth closed",
-        "text": "Chewing with your mouth closed is polite at the table. No one wants to see your mashed potatoes."
+        "text": "Chewing with your mouth closed is polite at the table. No one wants to see your mashed potatoes.",
+        "widget": "sort-puzzle",
+        "widgetConfig": {
+          "prompt": "Sort each behavior into Polite or Not polite",
+          "categoryA": {
+            "key": "polite",
+            "label": "Polite",
+            "color": "#16a34a"
+          },
+          "categoryB": {
+            "key": "not",
+            "label": "Not polite",
+            "color": "#dc2626"
+          },
+          "items": [
+            {
+              "emoji": "🤐",
+              "label": "Chewing with your mouth closed",
+              "answer": "polite"
+            },
+            {
+              "emoji": "😮",
+              "label": "Chewing with your mouth wide open",
+              "answer": "not"
+            },
+            {
+              "emoji": "🐾",
+              "label": "Petting a puppy gently",
+              "answer": "polite"
+            },
+            {
+              "emoji": "✋",
+              "label": "Grabbing or pulling at a pet",
+              "answer": "not"
+            },
+            {
+              "emoji": "👂",
+              "label": "Listening when someone is talking to you",
+              "answer": "polite"
+            },
+            {
+              "emoji": "🗣️",
+              "label": "Interrupting without saying excuse me",
+              "answer": "not"
+            }
+          ]
+        }
       },
       {
         "emoji": "🧼",
         "title": "Wash your hands before you eat",
-        "text": "Clean hands keep food safe to eat. Wash them with soap before you sit down for dinner."
+        "text": "Clean hands keep food safe to eat. Wash them with soap before you sit down for dinner.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "It's almost dinner time. What should you do before you sit down to eat?",
+          "options": [
+            {
+              "emoji": "🧼",
+              "label": "Wash your hands with soap",
+              "good": true,
+              "outcome": "Exactly right! Washing your hands before eating keeps your food safe and clean."
+            },
+            {
+              "emoji": "👖",
+              "label": "Just wipe them on your clothes",
+              "good": false,
+              "outcome": "Wiping on clothes doesn't clean germs away — washing with soap is what keeps food safe."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Skip washing since you don't see dirt",
+              "good": false,
+              "outcome": "Germs can be there even if you can't see them — washing with soap before eating is important."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "Share your toys",
-        "text": "Sharing can be kind, but you do not have to give away something special. You can take turns, choose a toy to share, or say, \"I'm still using this one.\""
+        "text": "Sharing can be kind, but you do not have to give away something special. You can take turns, choose a toy to share, or say, \"I'm still using this one.\"",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend wants to play with your favorite toy. Do you have to give it away completely?",
+          "options": [
+            {
+              "emoji": "🔄",
+              "label": "No — you can take turns or share a different toy",
+              "good": true,
+              "outcome": "Exactly right! Sharing can be kind, but you do not have to give away something special — taking turns works too."
+            },
+            {
+              "emoji": "🎁",
+              "label": "Yes, give away anything they ask for",
+              "good": false,
+              "outcome": "You don't have to give away something special — taking turns or offering a different toy is perfectly fine."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Never share anything ever",
+              "good": false,
+              "outcome": "Never sharing anything isn't very kind — taking turns or sharing a different toy works well."
+            }
+          ]
+        }
       },
       {
         "emoji": "👂",
         "title": "Listen when someone is talking to you",
-        "text": "Listening means giving someone your attention. You can face them, pause what you're doing, or show you're listening in another comfortable way."
+        "text": "Listening means giving someone your attention. You can face them, pause what you're doing, or show you're listening in another comfortable way.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone is talking to you. What shows you're listening?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Facing them and paying attention",
+              "good": true,
+              "outcome": "Exactly right! Listening means giving someone your attention, like facing them and pausing what you're doing."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Looking away and ignoring them",
+              "good": false,
+              "outcome": "Looking away and ignoring them doesn't show you're listening — facing them and paying attention does."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Listening does not matter",
+              "good": false,
+              "outcome": "Listening actually matters a lot — it shows someone you care about what they're saying."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙏",
         "title": "Say sorry if you bump someone",
-        "text": "Accidents happen, even soft little bumps. Say sorry right away if you bump into a classmate."
+        "text": "Accidents happen, even soft little bumps. Say sorry right away if you bump into a classmate.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You accidentally bump into someone while running at the playground. What should you do?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Stop and say sorry",
+              "good": true,
+              "outcome": "That's exactly right! A quick sorry shows you care, even for small accidents."
+            },
+            {
+              "emoji": "🏃",
+              "label": "Keep running without saying anything",
+              "good": false,
+              "outcome": "Even a quick accident deserves a sorry — it shows you care about the other person."
+            },
+            {
+              "emoji": "😂",
+              "label": "Laugh and keep going",
+              "good": false,
+              "outcome": "Laughing it off without a sorry can seem like you don't care — a quick sorry is kinder."
+            }
+          ]
+        }
       },
       {
         "emoji": "🍽️",
         "title": "Ask to leave the table",
-        "text": "Some families ask children to check before leaving the table. You can say, \"I'm finished. May I get up?\" and follow your family's routine."
+        "text": "Some families ask children to check before leaving the table. You can say, \"I'm finished. May I get up?\" and follow your family's routine.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're finished eating and want to get up. What's a polite thing to do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Say \"I'm finished. May I get up?\"",
+              "good": true,
+              "outcome": "Exactly right! Some families ask children to check before leaving the table — asking shows good manners."
+            },
+            {
+              "emoji": "🏃",
+              "label": "Just get up without saying anything",
+              "good": false,
+              "outcome": "Getting up without saying anything skips an important step many families expect — asking first is more polite."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Asking to leave is never necessary",
+              "good": false,
+              "outcome": "Asking to leave the table actually matters in many families — it's a simple, polite habit."
+            }
+          ]
+        }
       },
       {
         "emoji": "✋",
         "title": "Use gentle hands",
-        "text": "Gentle hands do not hit, grab, or push. Pet the puppy softly instead of pulling its ears."
+        "text": "Gentle hands do not hit, grab, or push. Pet the puppy softly instead of pulling its ears.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're petting a puppy. What should your hands do?",
+          "options": [
+            {
+              "emoji": "🐶",
+              "label": "Pet it softly",
+              "good": true,
+              "outcome": "Exactly right! Gentle hands do not hit, grab, or push — petting the puppy softly is the kind way."
+            },
+            {
+              "emoji": "✋",
+              "label": "Pull its ears",
+              "good": false,
+              "outcome": "Pulling a puppy's ears can hurt it — gentle hands that pet softly are much kinder."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Gentleness does not matter with animals",
+              "good": false,
+              "outcome": "Gentleness actually matters a lot with animals — soft, gentle hands keep them safe and happy."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -286,47 +740,263 @@
       {
         "emoji": "🏠",
         "title": "Being a polite guest",
-        "text": "When you visit someone's house, follow their rules even if they are different from yours. Ask before you grab a snack or turn on the TV, since it is not your house."
+        "text": "When you visit someone's house, follow their rules even if they are different from yours. Ask before you grab a snack or turn on the TV, since it is not your house.",
+        "widget": "odd-one-out",
+        "widgetConfig": {
+          "prompt": "Which of these is NOT polite when visiting someone's house?",
+          "items": [
+            {
+              "emoji": "📺",
+              "label": "Asking before turning on the TV"
+            },
+            {
+              "emoji": "📏",
+              "label": "Following their house rules"
+            },
+            {
+              "emoji": "🍪",
+              "label": "Grabbing a snack without asking"
+            },
+            {
+              "emoji": "🙋",
+              "label": "Asking before grabbing a snack"
+            }
+          ],
+          "oddIndex": 2,
+          "explanation": "Grabbing a snack without asking isn't polite when it's not your house — asking first, like the other examples, shows respect."
+        }
       },
       {
         "emoji": "🚪",
         "title": "Hold the door for others",
-        "text": "Holding a door open for the person behind you is a small act of kindness. If your arms are full of grocery bags, someone holding the door really helps a lot."
+        "text": "Holding a door open for the person behind you is a small act of kindness. If your arms are full of grocery bags, someone holding the door really helps a lot.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're walking into a store and someone is right behind you. What's the polite thing to do?",
+          "options": [
+            {
+              "emoji": "🚪",
+              "label": "Hold the door open for them",
+              "good": true,
+              "outcome": "Exactly right! Holding the door for someone behind you is a simple, kind gesture."
+            },
+            {
+              "emoji": "😬",
+              "label": "Let the door close on them",
+              "good": false,
+              "outcome": "Letting the door close on someone isn't very polite — holding it open is a small kindness."
+            },
+            {
+              "emoji": "🏃",
+              "label": "Rush through quickly so they have to catch it",
+              "good": false,
+              "outcome": "Holding the door briefly is more considerate than rushing through and leaving them to catch it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🍽️",
         "title": "Restaurant manners",
-        "text": "At a restaurant, use a quiet inside voice and stay seated instead of running between tables. Say 'please' when you order and 'thank you' when the server brings your food."
+        "text": "At a restaurant, use a quiet inside voice and stay seated instead of running between tables. Say 'please' when you order and 'thank you' when the server brings your food.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're at a restaurant. What's polite behavior?",
+          "options": [
+            {
+              "emoji": "🍽️",
+              "label": "Use a quiet voice and stay seated",
+              "good": true,
+              "outcome": "Exactly right! At a restaurant, use a quiet inside voice and stay seated instead of running between tables."
+            },
+            {
+              "emoji": "🏃",
+              "label": "Run between tables loudly",
+              "good": false,
+              "outcome": "Running between tables loudly disturbs other diners — staying seated with a quiet voice is much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Restaurant manners do not matter",
+              "good": false,
+              "outcome": "Restaurant manners actually matter — they help everyone around you enjoy their meal too."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎁",
         "title": "Thank you for any gift",
-        "text": "When someone gives you a gift, thank them for thinking of you, even if the gift is not your favorite. You can be appreciative without pretending you love something you don't."
+        "text": "When someone gives you a gift, thank them for thinking of you, even if the gift is not your favorite. You can be appreciative without pretending you love something you don't.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You open a birthday gift and it's not something you were hoping for. What's the polite response?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Thank them anyway for thinking of you",
+              "good": true,
+              "outcome": "Exactly right! Saying thank you shows appreciation for their thoughtfulness, no matter the gift itself."
+            },
+            {
+              "emoji": "😒",
+              "label": "Say you don't like it",
+              "good": false,
+              "outcome": "Saying you don't like a gift can hurt the giver's feelings — thanking them for thinking of you is kinder."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Say nothing and put it aside",
+              "good": false,
+              "outcome": "Staying silent can seem ungrateful — a simple thank you shows you appreciate the thought."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "Introduce yourself",
-        "text": "When you meet someone new, say your name clearly and greet them in a friendly way. Eye contact can be polite in some settings, but a smile, wave, or attentive posture can work too."
+        "text": "When you meet someone new, say your name clearly and greet them in a friendly way. Eye contact can be polite in some settings, but a smile, wave, or attentive posture can work too.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You meet someone new. What's a good way to introduce yourself?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Say your name clearly and greet them warmly",
+              "good": true,
+              "outcome": "Exactly right! Saying your name clearly and greeting someone in a friendly way makes a great first impression."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Say nothing and walk away",
+              "good": false,
+              "outcome": "Saying nothing misses a chance to make a good first impression — introducing yourself warmly works much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Introductions do not matter",
+              "good": false,
+              "outcome": "Introductions actually matter a lot — a clear, friendly one helps start things off well."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧦",
         "title": "Take off your shoes if asked",
-        "text": "House rules are different everywhere. If a family asks guests to remove shoes, follow their rule or politely explain if you need an exception."
+        "text": "House rules are different everywhere. If a family asks guests to remove shoes, follow their rule or politely explain if you need an exception.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend's family asks guests to remove their shoes. What should you do?",
+          "options": [
+            {
+              "emoji": "👟",
+              "label": "Follow their house rule",
+              "good": true,
+              "outcome": "Exactly right! House rules are different everywhere — following a family's rule, like removing shoes, shows respect."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Ignore the request",
+              "good": false,
+              "outcome": "Ignoring a house rule isn't respectful — following it, or politely explaining if you need an exception, is better."
+            },
+            {
+              "emoji": "🔁",
+              "label": "House rules never need to be followed",
+              "good": false,
+              "outcome": "House rules actually do need to be followed as a guest — it's a simple way to show respect."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎮",
         "title": "Ask before you touch things at someone's house",
-        "text": "A friend's house has rules you might not know yet, like which snacks are okay to eat. Ask before you open the fridge, grab a video game, or use someone else's tablet."
+        "text": "A friend's house has rules you might not know yet, like which snacks are okay to eat. Ask before you open the fridge, grab a video game, or use someone else's tablet.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're visiting a friend's house and see an interesting toy or item on a shelf. What should you do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask if it's okay to look at or play with it",
+              "good": true,
+              "outcome": "Exactly right — asking first shows respect for their home and belongings."
+            },
+            {
+              "emoji": "🤲",
+              "label": "Pick it up and play with it right away",
+              "good": false,
+              "outcome": "It's polite to ask first, even if it looks like a toy — it's not your home, so checking first matters."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore it completely, even if your friend offers",
+              "good": false,
+              "outcome": "You can enjoy things at a friend's house — just ask first if you're not sure it's okay."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙋",
         "title": "Wait to be invited before you help yourself",
-        "text": "At someone else's house, ask before taking food or using things in the kitchen. A simple \"May I have a snack?\" is better than guessing what is okay."
+        "text": "At someone else's house, ask before taking food or using things in the kitchen. A simple \"May I have a snack?\" is better than guessing what is okay.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're hungry at a friend's house. What's the polite thing to do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask \"May I have a snack?\"",
+              "good": true,
+              "outcome": "Exactly right! Asking before taking food or using things in the kitchen is better than guessing what's okay."
+            },
+            {
+              "emoji": "🍎",
+              "label": "Grab food without asking",
+              "good": false,
+              "outcome": "Grabbing food without asking isn't polite at someone else's house — asking first is much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Asking first is unnecessary",
+              "good": false,
+              "outcome": "Asking first actually matters — it respects that it's not your kitchen or your food."
+            }
+          ]
+        }
       },
       {
         "emoji": "👋",
         "title": "Thank the host before you leave",
-        "text": "Before you head home, find whoever invited you and say thank you for having you over. A quick 'Thanks for having me, I had a lot of fun!' leaves a great last impression."
+        "text": "Before you head home, find whoever invited you and say thank you for having you over. A quick 'Thanks for having me, I had a lot of fun!' leaves a great last impression.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You had fun at a friend's house and it's time to go. What should you do?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Thank whoever invited you",
+              "good": true,
+              "outcome": "Exactly right! Before you head home, finding whoever invited you and saying thank you leaves a great last impression."
+            },
+            {
+              "emoji": "🚪",
+              "label": "Leave without saying anything",
+              "good": false,
+              "outcome": "Leaving without saying anything misses a chance to leave a great impression — a quick thank you is better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Thanking a host does not matter",
+              "good": false,
+              "outcome": "Thanking a host actually matters a lot — it leaves a great last impression and shows appreciation."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -427,47 +1097,263 @@
       {
         "emoji": "🗣️",
         "title": "Speak politely to adults",
-        "text": "Use the same basic respect with adults that you use with anyone else: listen, answer clearly, and avoid insulting or dismissive words. Respect does not mean you cannot ask questions or disagree."
+        "text": "Use the same basic respect with adults that you use with anyone else: listen, answer clearly, and avoid insulting or dismissive words. Respect does not mean you cannot ask questions or disagree.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A teacher asks you a question you don't fully understand. What's the most polite way to respond?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Sorry, could you explain that a bit more, please?",
+              "good": true,
+              "outcome": "That's a polite, clear way to ask for help — teachers appreciate respectful questions!"
+            },
+            {
+              "emoji": "🙄",
+              "label": "I don't get it, with a shrug",
+              "good": false,
+              "outcome": "A flat response without please can come across as rude, even if you don't mean it that way."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Say nothing and hope it doesn't come up again",
+              "good": false,
+              "outcome": "Staying silent means you might miss out on understanding — it's polite and totally fine to ask for clarification."
+            }
+          ]
+        }
       },
       {
         "emoji": "📱",
         "title": "Don't shout during a video call",
-        "text": "A microphone picks up your normal voice just fine, so shouting can hurt everyone's ears. If your family is on a video call, use the same voice you'd use sitting across the table."
+        "text": "A microphone picks up your normal voice just fine, so shouting can hurt everyone's ears. If your family is on a video call, use the same voice you'd use sitting across the table.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're on a video call and want to make sure everyone hears you. Should you shout?",
+          "options": [
+            {
+              "emoji": "🎤",
+              "label": "No — the microphone picks up your normal voice just fine",
+              "good": true,
+              "outcome": "Exactly right! A microphone picks up your normal voice just fine, so shouting can actually hurt people's ears."
+            },
+            {
+              "emoji": "📢",
+              "label": "Yes, always shout on video calls",
+              "good": false,
+              "outcome": "Shouting isn't necessary — the microphone already picks up your normal speaking voice clearly."
+            },
+            {
+              "emoji": "🔊",
+              "label": "Shouting helps the microphone work better",
+              "good": false,
+              "outcome": "Shouting doesn't help the microphone — it just makes the call uncomfortably loud for everyone else."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏸️",
         "title": "Wait for a pause before you interrupt",
-        "text": "Jumping into a conversation the second you think of something can make the other person feel unheard. If it's urgent, a quiet 'excuse me' lets you interrupt without seeming rude."
+        "text": "Jumping into a conversation the second you think of something can make the other person feel unheard. If it's urgent, a quiet 'excuse me' lets you interrupt without seeming rude.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You think of something exciting mid-conversation. What should you do?",
+          "options": [
+            {
+              "emoji": "⏳",
+              "label": "Wait for a pause, or say \"excuse me\" if urgent",
+              "good": true,
+              "outcome": "Exactly right! Jumping in the second you think of something can make the other person feel unheard — waiting for a pause is more respectful."
+            },
+            {
+              "emoji": "✋",
+              "label": "Interrupt immediately",
+              "good": false,
+              "outcome": "Interrupting immediately can make the other person feel unheard — waiting for a pause works much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Interrupting never bothers anyone",
+              "good": false,
+              "outcome": "Interrupting can actually bother people a lot — waiting for a pause shows more respect."
+            }
+          ]
+        }
       },
       {
         "emoji": "💪",
         "title": "Keep your elbows off the table",
-        "text": "Table manners vary by family and culture. A useful rule is to eat neatly, avoid crowding others, and follow the host's lead when you're unsure."
+        "text": "Table manners vary by family and culture. A useful rule is to eat neatly, avoid crowding others, and follow the host's lead when you're unsure.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're unsure about table manners at a friend's house. What's a good rule?",
+          "options": [
+            {
+              "emoji": "🍽️",
+              "label": "Eat neatly and follow the host's lead",
+              "good": true,
+              "outcome": "Exactly right! A useful rule is to eat neatly, avoid crowding others, and follow the host's lead when you're unsure."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Do whatever you want regardless of others",
+              "good": false,
+              "outcome": "Ignoring others at the table isn't considerate — eating neatly and following the host's lead works better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Table manners never matter",
+              "good": false,
+              "outcome": "Table manners actually matter, especially as a guest — following the host's lead shows respect."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤳",
         "title": "Put your phone away at the table",
-        "text": "If people are eating and talking together, keeping your phone away helps you stay part of the conversation. If you need to check something important, explain briefly first."
+        "text": "If people are eating and talking together, keeping your phone away helps you stay part of the conversation. If you need to check something important, explain briefly first.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're having dinner with family and you get a text message. What's polite?",
+          "options": [
+            {
+              "emoji": "📵",
+              "label": "Let it wait until after dinner",
+              "good": true,
+              "outcome": "Exactly! Keeping your phone away during meals shows you value time with the people around you."
+            },
+            {
+              "emoji": "📱",
+              "label": "Check it immediately at the table",
+              "good": false,
+              "outcome": "Checking your phone at the table can feel dismissive to the people you're with — it can usually wait."
+            },
+            {
+              "emoji": "🚶",
+              "label": "Leave the table to answer it",
+              "good": false,
+              "outcome": "Letting it wait until after the meal is usually the most polite choice, unless it's truly urgent."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚌",
         "title": "Say thank you to a coach, teacher, or bus driver",
-        "text": "Grown-ups who help you all week, like a coach or bus driver, rarely hear thank you. A simple 'Thanks, Coach!' at the end of practice means more than you'd think."
+        "text": "Grown-ups who help you all week, like a coach or bus driver, rarely hear thank you. A simple 'Thanks, Coach!' at the end of practice means more than you'd think.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A bus driver helps you every day but rarely hears thanks. What's a kind gesture?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Say \"Thanks!\" at the end of the ride",
+              "good": true,
+              "outcome": "Exactly right! A simple thank you to someone who helps you all week means more than you'd think."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Never acknowledge them",
+              "good": false,
+              "outcome": "Never acknowledging their help misses a chance to show appreciation — a quick thanks means a lot."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Thanking helpers does not matter",
+              "good": false,
+              "outcome": "Thanking helpers actually matters a lot, even for people who help you every day without much recognition."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚪",
         "title": "Knock before entering a room",
-        "text": "A closed door usually means someone wants privacy, even if it's just your sibling's messy bedroom. Knock and wait for an answer instead of just walking right in unannounced."
+        "text": "A closed door usually means someone wants privacy, even if it's just your sibling's messy bedroom. Knock and wait for an answer instead of just walking right in unannounced.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A door is closed. What should you do before entering?",
+          "options": [
+            {
+              "emoji": "🚪",
+              "label": "Knock and wait for an answer",
+              "good": true,
+              "outcome": "Exactly right! A closed door usually means someone wants privacy — knocking and waiting respects that."
+            },
+            {
+              "emoji": "🏃",
+              "label": "Walk right in unannounced",
+              "good": false,
+              "outcome": "Walking in unannounced can invade someone's privacy — knocking first is much more respectful."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Closed doors do not mean anything",
+              "good": false,
+              "outcome": "A closed door usually does mean something — knocking first respects the privacy someone's asking for."
+            }
+          ]
+        }
       },
       {
         "emoji": "📞",
         "title": "Answer the phone politely",
-        "text": "When answering a family phone, start with a friendly hello. For safety, children do not need to give their full name or personal information to an unknown caller."
+        "text": "When answering a family phone, start with a friendly hello. For safety, children do not need to give their full name or personal information to an unknown caller.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You answer the family phone. What's polite, and also safe?",
+          "options": [
+            {
+              "emoji": "📞",
+              "label": "Start with a friendly hello, without sharing personal info to strangers",
+              "good": true,
+              "outcome": "Exactly right! Starting with a friendly hello is polite, and for safety, you don't need to give personal information to an unknown caller."
+            },
+            {
+              "emoji": "🏠",
+              "label": "Give your full name and address to anyone who calls",
+              "good": false,
+              "outcome": "Sharing your full name and address with an unknown caller isn't safe — a friendly hello without personal details is better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Answering politely does not matter",
+              "good": false,
+              "outcome": "Answering politely actually matters — it's a simple, kind way to start any phone call."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙋",
         "title": "Wait your turn to talk in a conversation",
-        "text": "A good conversation is like passing a ball back and forth between two people talking. Let others finish their whole thought before you jump in with your own idea."
+        "text": "A good conversation is like passing a ball back and forth between two people talking. Let others finish their whole thought before you jump in with your own idea.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A good conversation goes back and forth like passing a ball. What should you do?",
+          "options": [
+            {
+              "emoji": "🔄",
+              "label": "Let others finish their whole thought first",
+              "good": true,
+              "outcome": "Exactly right! A good conversation is like passing a ball back and forth — letting others finish their thought keeps it fair."
+            },
+            {
+              "emoji": "✋",
+              "label": "Jump in with your idea before they finish",
+              "good": false,
+              "outcome": "Jumping in before they finish breaks the back-and-forth feel of a good conversation — waiting is more respectful."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Taking turns talking does not matter",
+              "good": false,
+              "outcome": "Taking turns actually matters a lot — it's what makes a conversation feel like a real exchange."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -568,47 +1454,263 @@
       {
         "emoji": "💬",
         "title": "Texting isn't the same as talking",
-        "text": "Texting strips away your tone of voice and facial expressions, so a short reply like 'fine' can come across as annoyed even when you didn't mean it that way at all. Adding a few extra words, or a simple emoji, helps the other person read your message the way you actually intended it, instead of guessing at your mood."
+        "text": "Texting strips away your tone of voice and facial expressions, so a short reply like 'fine' can come across as annoyed even when you didn't mean it that way at all. Adding a few extra words, or a simple emoji, helps the other person read your message the way you actually intended it, instead of guessing at your mood.",
+        "widget": "odd-one-out",
+        "widgetConfig": {
+          "prompt": "Which of these texts is most likely to be misread as annoyed?",
+          "items": [
+            {
+              "emoji": "😊",
+              "label": "Sounds good!"
+            },
+            {
+              "emoji": "🎉",
+              "label": "Can't wait!"
+            },
+            {
+              "emoji": "😐",
+              "label": "fine."
+            },
+            {
+              "emoji": "😄",
+              "label": "Yes, that works great!"
+            }
+          ],
+          "oddIndex": 2,
+          "explanation": "A bare \"fine.\" strips away tone and often reads as annoyed, even when it's not meant that way — adding a few extra words or an emoji helps convey your actual mood."
+        }
       },
       {
         "emoji": "👥",
         "title": "Group chat etiquette",
-        "text": "A group chat pings on everyone's phone at once, so sending twenty separate one-word messages instead of one combined message can genuinely annoy people trying to focus on homework or dinner. Before you post something off-topic or send a wall of texts, think for a second about whether it's really worth interrupting the whole group right now."
+        "text": "A group chat pings on everyone's phone at once, so sending twenty separate one-word messages instead of one combined message can genuinely annoy people trying to focus on homework or dinner. Before you post something off-topic or send a wall of texts, think for a second about whether it's really worth interrupting the whole group right now.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to share ten different short thoughts in a group chat. What's the more considerate way to do it?",
+          "options": [
+            {
+              "emoji": "✉️",
+              "label": "Combine them into fewer, well-organized messages",
+              "good": true,
+              "outcome": "Exactly! Combining your thoughts into fewer messages is more considerate than pinging everyone's phone twenty times."
+            },
+            {
+              "emoji": "📱",
+              "label": "Send all ten as separate one-word messages",
+              "good": false,
+              "outcome": "Sending many separate pings can be annoying for everyone in the chat — combining them is more considerate."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't matter how you send them",
+              "good": false,
+              "outcome": "It does matter — flooding a group chat with many pings can be inconsiderate to everyone else."
+            }
+          ]
+        }
       },
       {
         "emoji": "📚",
         "title": "Quiet voices in shared spaces",
-        "text": "Places like libraries, waiting rooms, and movie theaters are shared by people who came expecting some quiet, whether they're studying, waiting nervously, or watching a film. If you need to talk, a hushed voice lets you say what you need without pulling everyone else's attention away from what they're trying to focus on."
+        "text": "Places like libraries, waiting rooms, and movie theaters are shared by people who came expecting some quiet, whether they're studying, waiting nervously, or watching a film. If you need to talk, a hushed voice lets you say what you need without pulling everyone else's attention away from what they're trying to focus on.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're in a library where people are studying. How should you talk?",
+          "options": [
+            {
+              "emoji": "🤫",
+              "label": "In a hushed voice",
+              "good": true,
+              "outcome": "Exactly right! A hushed voice lets you say what you need without pulling everyone's attention away from what they're focused on."
+            },
+            {
+              "emoji": "📢",
+              "label": "As loud as normal",
+              "good": false,
+              "outcome": "Talking at normal volume in a quiet shared space can disturb people who are studying or focusing — a hushed voice is more considerate."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Volume does not matter in shared spaces",
+              "good": false,
+              "outcome": "Volume actually matters a lot in shared quiet spaces like libraries — keeping your voice hushed respects others."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛒",
         "title": "Don't block the aisle",
-        "text": "Standing in the middle of a grocery aisle or a hallway to chat can force other people, including someone pushing a cart or carrying groceries, to awkwardly squeeze past you. Stepping to the side for a moment, especially when you notice someone waiting, keeps the path clear for everyone else trying to get through."
+        "text": "Standing in the middle of a grocery aisle or a hallway to chat can force other people, including someone pushing a cart or carrying groceries, to awkwardly squeeze past you. Stepping to the side for a moment, especially when you notice someone waiting, keeps the path clear for everyone else trying to get through.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're chatting with a friend in the middle of a grocery aisle. Someone needs to get by. What should you do?",
+          "options": [
+            {
+              "emoji": "↔️",
+              "label": "Step to the side",
+              "good": true,
+              "outcome": "Exactly right! Stepping to the side for a moment keeps the path clear for everyone else trying to get through."
+            },
+            {
+              "emoji": "🚫",
+              "label": "Keep blocking the aisle",
+              "good": false,
+              "outcome": "Blocking the aisle can force someone to awkwardly squeeze past you — stepping aside is much more considerate."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Blocking an aisle never bothers anyone",
+              "good": false,
+              "outcome": "Blocking an aisle can actually bother people quite a bit, especially someone pushing a cart or carrying groceries."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧍",
         "title": "Respecting personal space",
-        "text": "Personal space is the amount of room that helps someone feel comfortable. There is no single perfect distance, so notice cues: if someone steps back or looks uncomfortable, give them more room."
+        "text": "Personal space is the amount of room that helps someone feel comfortable. There is no single perfect distance, so notice cues: if someone steps back or looks uncomfortable, give them more room.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're talking to someone and keep stepping closer while they keep stepping back. What's happening?",
+          "options": [
+            {
+              "emoji": "🧍",
+              "label": "You're standing too close, and they need more personal space",
+              "good": true,
+              "outcome": "Good awareness! Noticing someone stepping back is a clear signal to respect their need for more personal space."
+            },
+            {
+              "emoji": "😒",
+              "label": "They're just being unfriendly",
+              "good": false,
+              "outcome": "Stepping back is usually just about personal space, not unfriendliness — it's polite to notice and respect it."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Personal space doesn't matter in conversations",
+              "good": false,
+              "outcome": "Personal space does matter — respecting it helps people feel comfortable during a conversation."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏰",
         "title": "Texting at the right time",
-        "text": "Before sending a non-urgent message very late or very early, think about whether it can wait. People use different notification settings, but considerate timing still matters."
+        "text": "Before sending a non-urgent message very late or very early, think about whether it can wait. People use different notification settings, but considerate timing still matters.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to send a non-urgent text very late at night. What should you consider?",
+          "options": [
+            {
+              "emoji": "🕐",
+              "label": "Whether it can wait until a more considerate time",
+              "good": true,
+              "outcome": "Exactly right! Before sending a non-urgent message very late or very early, it's worth thinking about whether it can wait."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Timing never matters for texts",
+              "good": false,
+              "outcome": "Timing actually matters — considerate timing is worth thinking about, even with different notification settings."
+            },
+            {
+              "emoji": "⏰",
+              "label": "Always send it immediately no matter the hour",
+              "good": false,
+              "outcome": "Sending non-urgent texts at any hour without thinking about timing isn't very considerate — waiting can be the better choice."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔤",
         "title": "Tone gets lost in text",
-        "text": "Sarcasm and jokes are easy to read correctly out loud, where your voice and expression do half the work, but they can land as genuinely mean in a flat, silent text message. If a joke might be misread by the person receiving it, it's often safer to say it in person or add something that clearly signals you're joking."
+        "text": "Sarcasm and jokes are easy to read correctly out loud, where your voice and expression do half the work, but they can land as genuinely mean in a flat, silent text message. If a joke might be misread by the person receiving it, it's often safer to say it in person or add something that clearly signals you're joking.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to make a joke in a text message. What's a risk?",
+          "options": [
+            {
+              "emoji": "😬",
+              "label": "It could be misread as genuinely mean",
+              "good": true,
+              "outcome": "Exactly right! Sarcasm and jokes are easy to read correctly out loud, but can land as genuinely mean in a flat, silent text."
+            },
+            {
+              "emoji": "😂",
+              "label": "Jokes always land perfectly in text",
+              "good": false,
+              "outcome": "Jokes don't always land perfectly in text — tone is easy to lose, which can make a joke seem mean instead of funny."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Tone is impossible to misunderstand in texting",
+              "good": false,
+              "outcome": "Tone is actually very easy to misunderstand in texting, since your voice and expression aren't there to help."
+            }
+          ]
+        }
       },
       {
         "emoji": "📸",
         "title": "Ask before you post a photo of someone",
-        "text": "A funny or embarrassing photo might feel completely harmless to you, but the person in it might hate how they look in that moment or simply not want it posted online for anyone to see. Asking, 'Is it okay if I post this?' before sharing respects that the photo is about them too, not just about you."
+        "text": "A funny or embarrassing photo might feel completely harmless to you, but the person in it might hate how they look in that moment or simply not want it posted online for anyone to see. Asking, 'Is it okay if I post this?' before sharing respects that the photo is about them too, not just about you.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You took a funny photo of a friend and want to post it online. What's the polite thing to do first?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask your friend if it's okay to post it",
+              "good": true,
+              "outcome": "Right call — even a funny, harmless-seeming photo should get a yes from the person in it before you post it."
+            },
+            {
+              "emoji": "📸",
+              "label": "Post it right away since it's funny",
+              "good": false,
+              "outcome": "Even funny photos should get permission first — not everyone wants every photo of themselves posted."
+            },
+            {
+              "emoji": "🏷️",
+              "label": "Post it but tag someone else instead",
+              "good": false,
+              "outcome": "Mislabeling doesn't solve the real issue — the person in the photo still deserves a say in whether it's posted."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎧",
         "title": "Headphone manners in public",
-        "text": "In shared spaces, use headphones or keep sound low enough that it does not disturb others. Also stay aware of traffic, announcements, and people around you."
+        "text": "In shared spaces, use headphones or keep sound low enough that it does not disturb others. Also stay aware of traffic, announcements, and people around you.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're listening to music in a shared space. What's considerate?",
+          "options": [
+            {
+              "emoji": "🎧",
+              "label": "Keep the volume low enough not to disturb others",
+              "good": true,
+              "outcome": "Exactly right! In shared spaces, keeping sound low enough that it does not disturb others is considerate."
+            },
+            {
+              "emoji": "📢",
+              "label": "Play it as loud as you want",
+              "good": false,
+              "outcome": "Playing it loudly can disturb the people around you — keeping the volume low is more considerate."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Headphone volume never affects others",
+              "good": false,
+              "outcome": "Headphone volume can actually affect others nearby — keeping it low is a simple way to be considerate."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -709,47 +1811,263 @@
       {
         "emoji": "🤔",
         "title": "Disagreeing without being disagreeable",
-        "text": "You can tell a friend you think they're wrong without attacking them personally, by aiming your words at the idea itself instead of at the person holding it. Saying 'I see it differently, here's why' invites a real conversation and keeps things open, while 'that's a dumb idea' just shuts the whole thing down."
+        "text": "You can tell a friend you think they're wrong without attacking them personally, by aiming your words at the idea itself instead of at the person holding it. Saying 'I see it differently, here's why' invites a real conversation and keeps things open, while 'that's a dumb idea' just shuts the whole thing down.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "At dinner, a family member says something you strongly disagree with. What's the most respectful response?",
+          "options": [
+            {
+              "emoji": "🗣️",
+              "label": "I see it differently — here's why...",
+              "good": true,
+              "outcome": "That's a respectful way to disagree — sharing your view calmly keeps the conversation friendly instead of turning into an argument."
+            },
+            {
+              "emoji": "🙄",
+              "label": "That's a ridiculous thing to say.",
+              "good": false,
+              "outcome": "Dismissing someone's opinion harshly can shut down the conversation and hurt feelings, even if you have a good point."
+            },
+            {
+              "emoji": "😶",
+              "label": "Stay quiet even though it bothers you",
+              "good": false,
+              "outcome": "You don't have to stay silent — sharing your view respectfully is totally fine, even at the dinner table."
+            }
+          ]
+        }
       },
       {
         "emoji": "👂",
         "title": "Really listen before you respond",
-        "text": "It's tempting to plan your comeback while the other person is still talking, but that means you're not actually hearing their point or understanding where they're coming from. Waiting until they finish, and maybe repeating back what you heard in your own words, shows you took their side of the disagreement seriously."
+        "text": "It's tempting to plan your comeback while the other person is still talking, but that means you're not actually hearing their point or understanding where they're coming from. Waiting until they finish, and maybe repeating back what you heard in your own words, shows you took their side of the disagreement seriously.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend is still talking, but you're already planning what you'll say back. What's the better approach?",
+          "options": [
+            {
+              "emoji": "👂",
+              "label": "Focus on really listening before responding",
+              "good": true,
+              "outcome": "Exactly! It's tempting to plan your comeback while someone is still talking, but really listening first leads to a better conversation."
+            },
+            {
+              "emoji": "💭",
+              "label": "Keep planning your response instead of listening",
+              "good": false,
+              "outcome": "Planning your response while they're still talking means you might miss what they're actually saying — listening first is better."
+            },
+            {
+              "emoji": "✋",
+              "label": "Interrupt them to say your point first",
+              "good": false,
+              "outcome": "Interrupting cuts off what they're saying — waiting and really listening first is more respectful and effective."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙏",
         "title": "A real apology names what happened",
-        "text": "'Sorry you're upset' quietly blames the other person's reaction instead of owning your own part in causing it in the first place. A sincere apology, like 'I'm sorry I read your diary without asking, that wasn't fair to you,' names the specific thing you actually did wrong instead of staying vague."
+        "text": "'Sorry you're upset' quietly blames the other person's reaction instead of owning your own part in causing it in the first place. A sincere apology, like 'I'm sorry I read your diary without asking, that wasn't fair to you,' names the specific thing you actually did wrong instead of staying vague.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Which is a more sincere apology after reading someone's diary without asking?",
+          "options": [
+            {
+              "emoji": "📓",
+              "label": "\"I'm sorry I read your diary without asking, that wasn't fair to you\"",
+              "good": true,
+              "outcome": "Exactly right! Naming the specific thing you actually did wrong, instead of staying vague, makes a sincere apology."
+            },
+            {
+              "emoji": "🤷",
+              "label": "\"Sorry you're upset\"",
+              "good": false,
+              "outcome": "This quietly blames the other person's reaction instead of owning what you actually did — naming the specific action is more sincere."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Saying nothing at all",
+              "good": false,
+              "outcome": "Saying nothing skips the apology entirely — naming what happened is a much more sincere approach."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔁",
         "title": "An apology means changing next time",
-        "text": "Saying sorry for the same thing over and over, without ever changing your behavior afterward, starts to feel hollow and even a little insulting to the person you keep apologizing to. A real apology usually comes paired with some genuine, visible effort to actually do things differently going forward."
+        "text": "Saying sorry for the same thing over and over, without ever changing your behavior afterward, starts to feel hollow and even a little insulting to the person you keep apologizing to. A real apology usually comes paired with some genuine, visible effort to actually do things differently going forward.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You keep apologizing for the same thing without ever changing. How does this feel to the other person?",
+          "options": [
+            {
+              "emoji": "😕",
+              "label": "Hollow, since nothing actually changes",
+              "good": true,
+              "outcome": "Exactly right! Saying sorry for the same thing over and over without changing starts to feel hollow, even insulting."
+            },
+            {
+              "emoji": "😊",
+              "label": "Just as sincere every time",
+              "good": false,
+              "outcome": "Repeated apologies with no real change tend to feel less sincere each time, not just as sincere."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Apologies never need real change behind them",
+              "good": false,
+              "outcome": "A real apology usually comes paired with genuine effort to actually do things differently — change matters."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛏️",
         "title": "Being a considerate overnight guest",
-        "text": "A good overnight guest makes their bed or folds up the sleeping bag in the morning, keeps their stuff from spreading through the whole house, and asks before raiding the fridge for a midnight snack. Small habits like these, repeated over one weekend, make a host genuinely glad they invited you."
+        "text": "A good overnight guest makes their bed or folds up the sleeping bag in the morning, keeps their stuff from spreading through the whole house, and asks before raiding the fridge for a midnight snack. Small habits like these, repeated over one weekend, make a host genuinely glad they invited you.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're staying overnight at a friend's house. What's a considerate thing to do?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Follow their family's routines and help tidy up after yourself",
+              "good": true,
+              "outcome": "Exactly right! Respecting their household's way of doing things and helping out shows you're a considerate guest."
+            },
+            {
+              "emoji": "🏠",
+              "label": "Expect them to do everything exactly like your house",
+              "good": false,
+              "outcome": "Every household is a little different — adapting to their routines shows respect, rather than expecting things to match your own home."
+            },
+            {
+              "emoji": "🧦",
+              "label": "Leave your things scattered everywhere",
+              "good": false,
+              "outcome": "Being tidy and helping clean up shows consideration for your hosts and their home."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏡",
         "title": "Every family's rules are a little different",
-        "text": "One house might let you keep shoes on inside, while another expects everyone to take theirs off the second they walk through the door, and neither family is doing it wrong. Paying attention to what a friend's family actually does, instead of assuming your own house rules apply everywhere you go, shows real respect."
+        "text": "One house might let you keep shoes on inside, while another expects everyone to take theirs off the second they walk through the door, and neither family is doing it wrong. Paying attention to what a friend's family actually does, instead of assuming your own house rules apply everywhere you go, shows real respect.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your friend's family has different house rules than yours. What shows respect?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Paying attention to their rules instead of assuming yours apply",
+              "good": true,
+              "outcome": "Exactly right! Paying attention to what a friend's family actually does, instead of assuming your own rules apply, shows real respect."
+            },
+            {
+              "emoji": "🏠",
+              "label": "Assuming your house rules apply everywhere",
+              "good": false,
+              "outcome": "Assuming your own rules apply everywhere can come across as disrespectful — paying attention to their rules is better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "House rules are always exactly the same everywhere",
+              "good": false,
+              "outcome": "House rules actually vary quite a bit between families — paying attention to each one shows respect."
+            }
+          ]
+        }
       },
       {
         "emoji": "🍴",
         "title": "Following the host's lead at meals",
-        "text": "If you're unsure about a meal custom, watch what others do or politely ask. Different families and cultures may start eating, use utensils, or serve food in different ways."
+        "text": "If you're unsure about a meal custom, watch what others do or politely ask. Different families and cultures may start eating, use utensils, or serve food in different ways.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're unsure about a meal custom at someone's house. What should you do?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Watch what others do or politely ask",
+              "good": true,
+              "outcome": "Exactly right! If you're unsure about a meal custom, watching what others do or politely asking is the best approach."
+            },
+            {
+              "emoji": "🏠",
+              "label": "Do whatever you would do at home, regardless",
+              "good": false,
+              "outcome": "Doing things exactly as you would at home can clash with a different family's customs — watching or asking works better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Meal customs are always identical everywhere",
+              "good": false,
+              "outcome": "Meal customs actually vary a lot between families and cultures — watching or asking helps you follow along respectfully."
+            }
+          ]
+        }
       },
       {
         "emoji": "😳",
         "title": "Handling an awkward moment at someone's house",
-        "text": "If you accidentally break something or spill a drink at a friend's house, owning up right away — 'I'm sorry, I knocked over the glass, let me help clean it up' — goes a lot further than staying quiet and hoping nobody notices what happened."
+        "text": "If you accidentally break something or spill a drink at a friend's house, owning up right away — 'I'm sorry, I knocked over the glass, let me help clean it up' — goes a lot further than staying quiet and hoping nobody notices what happened.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You accidentally spill a drink at a friend's house. What's the better response?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Own up right away and offer to help clean it",
+              "good": true,
+              "outcome": "Exactly right! Owning up right away and offering to help goes a lot further than staying quiet and hoping nobody notices."
+            },
+            {
+              "emoji": "🤫",
+              "label": "Stay quiet and hope nobody notices",
+              "good": false,
+              "outcome": "Staying quiet and hoping nobody notices rarely goes well — owning up right away is much better."
+            },
+            {
+              "emoji": "👉",
+              "label": "Blame someone else for the spill",
+              "good": false,
+              "outcome": "Blaming someone else for your own accident isn't honest — owning up right away is the better response."
+            }
+          ]
+        }
       },
       {
         "emoji": "💌",
         "title": "Saying thank you after you stay over",
-        "text": "A quick text the next day, 'Thanks for letting me stay over, I had a great time,' tells a host their effort planning meals and activities didn't go unnoticed. It takes about ten seconds to send and makes them noticeably more likely to invite you back again."
+        "text": "A quick text the next day, 'Thanks for letting me stay over, I had a great time,' tells a host their effort planning meals and activities didn't go unnoticed. It takes about ten seconds to send and makes them noticeably more likely to invite you back again.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You stayed over at a friend's house. What's a thoughtful thing to do the next day?",
+          "options": [
+            {
+              "emoji": "💬",
+              "label": "Send a quick thank-you text",
+              "good": true,
+              "outcome": "Exactly right! A quick thank-you text tells a host their effort didn't go unnoticed, and makes them more likely to invite you back."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Never mention it again",
+              "good": false,
+              "outcome": "Never mentioning it again misses a chance to show appreciation — a quick thank-you text means a lot to a host."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Thank-you texts do not matter to hosts",
+              "good": false,
+              "outcome": "Thank-you texts actually matter a lot to hosts — they notice when their effort is appreciated."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -850,42 +2168,219 @@
       {
         "emoji": "🍽️",
         "title": "Ordering politely at a restaurant",
-        "text": "Talking directly to the server, saying 'please' and 'thank you,' and looking up from your phone while you order all make the interaction feel human instead of purely transactional. Servers deal with dozens of orders every single shift, and a little courtesy from a young customer genuinely stands out to them."
+        "text": "Talking directly to the server, saying 'please' and 'thank you,' and looking up from your phone while you order all make the interaction feel human instead of purely transactional. Servers deal with dozens of orders every single shift, and a little courtesy from a young customer genuinely stands out to them.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're ordering food at a restaurant. What's the polite way to do it?",
+          "options": [
+            {
+              "emoji": "🍽️",
+              "label": "Talk directly to the server, saying \"please\" and \"thank you\"",
+              "good": true,
+              "outcome": "Exactly right! Talking directly to the server, saying please and thank you, and listening to their questions is the polite way to order."
+            },
+            {
+              "emoji": "👉",
+              "label": "Point at the menu without saying a word",
+              "good": false,
+              "outcome": "Pointing silently skips a chance to be polite — speaking directly with please and thank you is better."
+            },
+            {
+              "emoji": "🧑",
+              "label": "Order through a parent instead of speaking yourself, every single time",
+              "good": false,
+              "outcome": "Speaking for yourself to the server, when you're able to, is a good way to practice polite, direct communication."
+            }
+          ]
+        }
       },
       {
         "emoji": "💵",
         "title": "Basic tipping awareness",
-        "text": "In the United States, tipping is common at many sit-down restaurants and some other services. Customs differ by country and situation, so it's useful to ask an adult or check local expectations."
+        "text": "In the United States, tipping is common at many sit-down restaurants and some other services. Customs differ by country and situation, so it's useful to ask an adult or check local expectations.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're unsure whether tipping is expected somewhere. What's a smart move?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask an adult or check local expectations",
+              "good": true,
+              "outcome": "Exactly right! Tipping customs differ by country and situation, so asking an adult or checking local expectations is smart."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Assume the same rule applies everywhere",
+              "good": false,
+              "outcome": "Tipping customs actually vary quite a bit by place — assuming one rule applies everywhere can lead to mistakes."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Tipping customs never vary by place",
+              "good": false,
+              "outcome": "Tipping customs do vary by place — checking local expectations helps you know what's appropriate."
+            }
+          ]
+        }
       },
       {
         "emoji": "📵",
         "title": "Phones at the table",
-        "text": "Scrolling through your phone while everyone else at the table is talking sends the message that whatever's on your screen matters more than the conversation happening in front of you. Keeping it face-down or tucked away during a meal, even a quick fast-food one, keeps you actually present with the people you're with."
+        "text": "Scrolling through your phone while everyone else at the table is talking sends the message that whatever's on your screen matters more than the conversation happening in front of you. Keeping it face-down or tucked away during a meal, even a quick fast-food one, keeps you actually present with the people you're with.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're at a restaurant with family and everyone's phone is away except yours. What should you do?",
+          "options": [
+            {
+              "emoji": "📵",
+              "label": "Put your phone away too, to match the group",
+              "good": true,
+              "outcome": "Good instinct! Matching the group's effort to be present together is a thoughtful, polite choice."
+            },
+            {
+              "emoji": "📱",
+              "label": "Keep using yours since no one said anything",
+              "good": false,
+              "outcome": "Even without being told, noticing the group norm and matching it is a polite, thoughtful choice."
+            },
+            {
+              "emoji": "📢",
+              "label": "Tell everyone else to use their phones too",
+              "good": false,
+              "outcome": "Following the group's more polite choice (putting phones away) fits the moment better than pulling others away from it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍🤝‍🧑",
         "title": "Adapting to someone else's house rules",
-        "text": "A respectful guest notices the host's routines and asks when unsure. You can adapt to different customs while still speaking up about allergies, safety, privacy, or other important needs."
+        "text": "A respectful guest notices the host's routines and asks when unsure. You can adapt to different customs while still speaking up about allergies, safety, privacy, or other important needs.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're a guest with a food allergy, but the house has different customs than yours. What should you do?",
+          "options": [
+            {
+              "emoji": "🗣️",
+              "label": "Adapt to their customs while still speaking up about your allergy",
+              "good": true,
+              "outcome": "Exactly right! A respectful guest adapts to different customs while still speaking up about allergies, safety, or other important needs."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Stay silent about the allergy to avoid being rude",
+              "good": false,
+              "outcome": "Staying silent about a real allergy isn't safe — you can adapt to customs while still speaking up about important needs."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Ignore their house customs completely",
+              "good": false,
+              "outcome": "Ignoring their house customs isn't respectful — adapting to them, while still voicing important needs, is the better balance."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚶",
         "title": "Not blocking shared walkways",
-        "text": "A cluster of friends stopped in the middle of a hallway or a store entrance can force other people into the wall, or even out into the street, just to get around your group. Moving your conversation to the side, out of the main path of foot traffic, takes barely any effort and avoids the problem entirely."
+        "text": "A cluster of friends stopped in the middle of a hallway or a store entrance can force other people into the wall, or even out into the street, just to get around your group. Moving your conversation to the side, out of the main path of foot traffic, takes barely any effort and avoids the problem entirely.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your group of friends is chatting in the middle of a store entrance. What's considerate?",
+          "options": [
+            {
+              "emoji": "↔️",
+              "label": "Move the conversation to the side",
+              "good": true,
+              "outcome": "Exactly right! Moving your conversation to the side, out of the main path, takes barely any effort and avoids the problem entirely."
+            },
+            {
+              "emoji": "🚫",
+              "label": "Keep blocking the entrance",
+              "good": false,
+              "outcome": "Blocking the entrance can force other people to squeeze past or go around your group — moving aside is much more considerate."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Blocking a walkway never affects anyone",
+              "good": false,
+              "outcome": "Blocking a walkway can actually affect quite a few people — moving to the side avoids the problem entirely."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎂",
         "title": "RSVPing and showing up on time",
-        "text": "When you're invited somewhere, reply by the requested date if you can. Arriving around the agreed time helps the host plan, and if you're running late, send a quick update."
+        "text": "When you're invited somewhere, reply by the requested date if you can. Arriving around the agreed time helps the host plan, and if you're running late, send a quick update.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're invited to an event. What's the polite way to respond?",
+          "options": [
+            {
+              "emoji": "✅",
+              "label": "Reply by the requested date and arrive on time",
+              "good": true,
+              "outcome": "Exactly right! Replying by the requested date helps the host plan, and arriving around the agreed time respects their effort."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Never respond at all",
+              "good": false,
+              "outcome": "Never responding leaves the host unable to plan properly — replying by the requested date is much more considerate."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Showing up whenever you want is always fine",
+              "good": false,
+              "outcome": "Arriving whenever you want can disrupt a host's plans — showing up around the agreed time respects their effort."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗣️",
         "title": "Disagreeing with an adult, respectfully",
-        "text": "You can push back on a rule or a decision from a teacher or coach without being rude about it, by asking a genuine question instead of just arguing the point. 'Can you help me understand why?' usually gets further than 'That's not fair,' even if you still end up disagreeing after hearing the answer."
+        "text": "You can push back on a rule or a decision from a teacher or coach without being rude about it, by asking a genuine question instead of just arguing the point. 'Can you help me understand why?' usually gets further than 'That's not fair,' even if you still end up disagreeing after hearing the answer.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A teacher makes a statement you think is incorrect. What's the most respectful way to handle it?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Politely ask a clarifying question or share your perspective calmly",
+              "good": true,
+              "outcome": "Good approach — respectfully questioning or sharing your view, rather than staying silent or arguing, keeps the conversation constructive."
+            },
+            {
+              "emoji": "😡",
+              "label": "Argue loudly that they're wrong",
+              "good": false,
+              "outcome": "Arguing loudly can come across as disrespectful, even if your point is valid — a calm, respectful approach works better."
+            },
+            {
+              "emoji": "😶",
+              "label": "Stay silent even though you think they're wrong",
+              "good": false,
+              "outcome": "You don't have to stay silent — respectfully sharing a different perspective is appropriate, even with an adult."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙇",
         "title": "A sincere apology, step by step",
-        "text": "A strong apology usually has three parts: naming exactly what you did, acknowledging how it actually affected the other person, and saying what you'll do differently going forward. 'I'm sorry I left you out, that must have felt lonely, I'll invite you next time' hits all three parts clearly."
+        "text": "A strong apology usually has three parts: naming exactly what you did, acknowledging how it actually affected the other person, and saying what you'll do differently going forward. 'I'm sorry I left you out, that must have felt lonely, I'll invite you next time' hits all three parts clearly.",
+        "widget": "sequence-order",
+        "widgetConfig": {
+          "prompt": "Tap the three parts of a strong apology in order",
+          "items": [
+            "Name exactly what you did",
+            "Acknowledge how it affected them",
+            "Say what you'll do differently"
+          ]
+        }
       }
     ],
     "quiz": [
@@ -986,42 +2481,234 @@
       {
         "emoji": "🤝",
         "title": "First impressions in an interview",
-        "text": "First impressions come from preparation, punctuality, and a respectful greeting. A handshake or direct eye contact may be common in some settings, but they are not required everywhere; follow the other person's cues."
+        "text": "First impressions come from preparation, punctuality, and a respectful greeting. A handshake or direct eye contact may be common in some settings, but they are not required everywhere; follow the other person's cues.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to walk into a job interview. What helps create a good first impression?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Preparation, punctuality, and a respectful greeting",
+              "good": true,
+              "outcome": "Exactly! First impressions come from preparation, punctuality, and a respectful greeting."
+            },
+            {
+              "emoji": "⏰",
+              "label": "Showing up late with no preparation",
+              "good": false,
+              "outcome": "Showing up late and unprepared tends to hurt a first impression — preparation and punctuality help far more."
+            },
+            {
+              "emoji": "🙅",
+              "label": "First impressions never matter in an interview",
+              "good": false,
+              "outcome": "First impressions actually matter a lot in an interview — preparation and punctuality make a real difference."
+            }
+          ]
+        }
       },
       {
         "emoji": "📧",
         "title": "Email tone reads differently than speech",
-        "text": "A message that would sound perfectly normal out loud can look curt or annoyed in an email, because writing strips away the warmth in your voice. Opening with 'Hi Ms. Patel,' and closing with 'Thanks, Jordan,' instead of diving straight into a request costs two extra lines but changes how the whole message lands."
+        "text": "A message that would sound perfectly normal out loud can look curt or annoyed in an email, because writing strips away the warmth in your voice. Opening with 'Hi Ms. Patel,' and closing with 'Thanks, Jordan,' instead of diving straight into a request costs two extra lines but changes how the whole message lands.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're emailing a teacher to ask for an extension, and you're tempted to write it exactly like you'd text a friend. What should you do instead?",
+          "options": [
+            {
+              "emoji": "✉️",
+              "label": "Use a more formal, clear tone since email can read more harshly than speech",
+              "good": true,
+              "outcome": "Good instinct — casual phrasing in email can come across as careless or even rude, since tone is harder to read in writing. A bit more formality helps."
+            },
+            {
+              "emoji": "📱",
+              "label": "Send it exactly like a text to a friend",
+              "good": false,
+              "outcome": "Overly casual phrasing can come across as disrespectful in an email, even if that's not how you meant it — a little more formality helps the message land well."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Don't send an email, just hope they notice",
+              "good": false,
+              "outcome": "Not communicating at all leaves your request unaddressed — a clear, appropriately toned email is the better move."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎓",
         "title": "Speaking to teachers and other authority figures",
-        "text": "Use the name or title a teacher, coach, or supervisor asks you to use. A respectful tone and clear request matter more than guessing the 'correct' form of address."
+        "text": "Use the name or title a teacher, coach, or supervisor asks you to use. A respectful tone and clear request matter more than guessing the 'correct' form of address.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A teacher asks to be called by a specific title and name. What should you do?",
+          "options": [
+            {
+              "emoji": "🎓",
+              "label": "Use the name or title they asked for",
+              "good": true,
+              "outcome": "Exactly right! Use the name or title a teacher, coach, or supervisor asks you to use — it's a simple sign of respect."
+            },
+            {
+              "emoji": "😅",
+              "label": "Use whatever nickname you prefer",
+              "good": false,
+              "outcome": "Using your own preferred nickname instead of what they asked for isn't respectful — using their requested name is better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Ignore their preference since it does not matter",
+              "good": false,
+              "outcome": "Their preference actually does matter — using the name or title they asked for shows respect."
+            }
+          ]
+        }
       },
       {
         "emoji": "💼",
         "title": "Professional etiquette at a first job",
-        "text": "Showing up on time, texting ahead if you're going to be even five minutes late, and asking 'Is there anything else I should be doing?' during slow moments all build a reputation as someone reliable. Employers remember reliability, sometimes called dependability, far more than they remember any single impressive thing you did once."
+        "text": "Showing up on time, texting ahead if you're going to be even five minutes late, and asking 'Is there anything else I should be doing?' during slow moments all build a reputation as someone reliable. Employers remember reliability, sometimes called dependability, far more than they remember any single impressive thing you did once.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You might be five minutes late to your first job. What builds a reputation as reliable?",
+          "options": [
+            {
+              "emoji": "💬",
+              "label": "Texting ahead to give a heads-up",
+              "good": true,
+              "outcome": "Exactly right! Texting ahead if you're going to be late builds a reputation as reliable — employers remember this far more than any single impressive moment."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Saying nothing and showing up whenever",
+              "good": false,
+              "outcome": "Saying nothing and showing up whenever doesn't build trust — texting ahead shows reliability employers remember."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Reliability does not matter to employers",
+              "good": false,
+              "outcome": "Reliability actually matters a huge amount to employers — it's something they remember far more than a single impressive moment."
+            }
+          ]
+        }
       },
       {
         "emoji": "📱",
         "title": "Text tone with adults you don't know well",
-        "text": "Messages to a teacher, coach, or employer are usually clearer when you use complete sentences and a slightly more formal tone than you might with close friends. Adjusting your communication style to the situation is a normal social skill."
+        "text": "Messages to a teacher, coach, or employer are usually clearer when you use complete sentences and a slightly more formal tone than you might with close friends. Adjusting your communication style to the situation is a normal social skill.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're texting a teacher or employer. What tone works best?",
+          "options": [
+            {
+              "emoji": "✉️",
+              "label": "Complete sentences and a slightly formal tone",
+              "good": true,
+              "outcome": "Exactly right! Messages to a teacher, coach, or employer are usually clearer with complete sentences and a slightly more formal tone."
+            },
+            {
+              "emoji": "😎",
+              "label": "The exact same casual tone as with close friends",
+              "good": false,
+              "outcome": "Using the exact same casual tone with a teacher or employer as with close friends can come across as too informal."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Tone never matters in texts to adults",
+              "good": false,
+              "outcome": "Tone actually matters a lot in texts to adults you don't know well — a slightly more formal tone is usually clearer and more respectful."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚪",
         "title": "Handling a scheduling conflict gracefully",
-        "text": "If you need to cancel or reschedule with a teacher, coach, or employer, saying so as early as possible and offering an alternative — 'Could we meet Thursday instead?' — shows more consideration than a last-minute cancellation ever does. Giving someone advance notice, sometimes called a courtesy heads-up, respects that their time has value too."
+        "text": "If you need to cancel or reschedule with a teacher, coach, or employer, saying so as early as possible and offering an alternative — 'Could we meet Thursday instead?' — shows more consideration than a last-minute cancellation ever does. Giving someone advance notice, sometimes called a courtesy heads-up, respects that their time has value too.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You need to reschedule with a coach. What shows more consideration?",
+          "options": [
+            {
+              "emoji": "📅",
+              "label": "Giving early notice and offering an alternative time",
+              "good": true,
+              "outcome": "Exactly right! Saying so as early as possible and offering an alternative shows far more consideration than a last-minute cancellation."
+            },
+            {
+              "emoji": "⏰",
+              "label": "Canceling last-minute with no notice",
+              "good": false,
+              "outcome": "A last-minute cancellation with no notice shows little consideration for the other person's time — early notice is much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Rescheduling never requires any consideration",
+              "good": false,
+              "outcome": "Rescheduling actually does require consideration — giving early notice respects that someone else's time has value too."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙋",
         "title": "Asking for help without feeling embarrassed",
-        "text": "Asking a teacher or supervisor a clarifying question, 'Could you walk me through that step again?', reads as engaged and conscientious, not as incompetent, to almost everyone who has ever managed or taught someone else. Staying silent and guessing usually creates a bigger problem later than a two-second question would have."
+        "text": "Asking a teacher or supervisor a clarifying question, 'Could you walk me through that step again?', reads as engaged and conscientious, not as incompetent, to almost everyone who has ever managed or taught someone else. Staying silent and guessing usually creates a bigger problem later than a two-second question would have.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're struggling with a work task and worried asking for help will make you look incapable. What's the better mindset?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Asking for help, when needed, is seen as responsible, not weak",
+              "good": true,
+              "outcome": "Exactly — most professionals respect someone who asks for clarification rather than struggling silently and making costly mistakes."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Avoid asking no matter what, to seem capable",
+              "good": false,
+              "outcome": "Struggling silently often leads to bigger mistakes — asking for help when genuinely needed is usually seen as responsible, not weak."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Only ask if you're about to fail completely",
+              "good": false,
+              "outcome": "Waiting until the last moment makes the situation harder to fix — asking earlier when you're genuinely stuck is the smarter move."
+            }
+          ]
+        }
       },
       {
         "emoji": "✉️",
         "title": "Following up with a thank-you note",
-        "text": "A short thank-you message after an interview, recommendation, or meaningful favor can show appreciation. Keep it sincere and specific rather than treating it like a trick to impress someone."
+        "text": "A short thank-you message after an interview, recommendation, or meaningful favor can show appreciation. Keep it sincere and specific rather than treating it like a trick to impress someone.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone gave you a meaningful favor or recommendation. What's a good follow-up?",
+          "options": [
+            {
+              "emoji": "💌",
+              "label": "A short, sincere thank-you message",
+              "good": true,
+              "outcome": "Exactly right! A short thank-you message after a meaningful favor shows appreciation — keep it sincere and specific."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Never mentioning it again",
+              "good": false,
+              "outcome": "Never mentioning it again misses a chance to show real appreciation — a short, sincere thank-you is a kind follow-up."
+            },
+            {
+              "emoji": "🎭",
+              "label": "Thank-you notes are just a trick to impress people",
+              "good": false,
+              "outcome": "A genuine thank-you note isn't a trick — it's a sincere, specific way to show real appreciation."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1122,42 +2809,234 @@
       {
         "emoji": "😬",
         "title": "Recovering from an awkward moment",
-        "text": "Everyone occasionally trips, forgets a name, or says the wrong thing in front of people, and the instinct to dwell on it usually makes the moment feel bigger than it actually was to anyone watching. A light acknowledgment — 'Well, that was smooth' — and moving on is called social recovery, and it usually ends the awkwardness faster than ignoring it or over-apologizing."
+        "text": "Everyone occasionally trips, forgets a name, or says the wrong thing in front of people, and the instinct to dwell on it usually makes the moment feel bigger than it actually was to anyone watching. A light acknowledgment — 'Well, that was smooth' — and moving on is called social recovery, and it usually ends the awkwardness faster than ignoring it or over-apologizing.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You trip and stumble in front of a group. What's a good way to handle it?",
+          "options": [
+            {
+              "emoji": "😅",
+              "label": "Laugh it off and keep going",
+              "good": true,
+              "outcome": "Exactly right! Everyone occasionally trips or says the wrong thing — laughing it off and moving on is a great way to recover."
+            },
+            {
+              "emoji": "🥶",
+              "label": "Freeze up and refuse to move for the rest of the day",
+              "good": false,
+              "outcome": "Freezing up makes the moment feel bigger than it is — laughing it off and continuing on works much better."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Awkward moments can never be recovered from",
+              "good": false,
+              "outcome": "Awkward moments absolutely can be recovered from — a light laugh and moving on usually does the trick."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗣️",
         "title": "Small talk has a real purpose",
-        "text": "Small talk — brief, low-stakes conversation about the weather, a shared class, or someone's weekend — isn't meaningless filler; it's a low-pressure way two people signal they're friendly before anything deeper gets discussed. Asking a genuine follow-up question, not just answering and going quiet, is what keeps small talk from feeling stiff or forced."
+        "text": "Small talk — brief, low-stakes conversation about the weather, a shared class, or someone's weekend — isn't meaningless filler; it's a low-pressure way two people signal they're friendly before anything deeper gets discussed. Asking a genuine follow-up question, not just answering and going quiet, is what keeps small talk from feeling stiff or forced.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You think small talk (like \"how's the weather\") is pointless chit-chat. What's its real value?",
+          "options": [
+            {
+              "emoji": "🌤️",
+              "label": "It builds rapport and comfort before deeper conversation",
+              "good": true,
+              "outcome": "Exactly — small talk isn't really about the weather itself, it's a social tool that builds comfort and connection before more meaningful conversation."
+            },
+            {
+              "emoji": "🙅",
+              "label": "It has no real purpose at all",
+              "good": false,
+              "outcome": "Small talk actually serves an important social function — building comfort and rapport before deeper conversations happen."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It's only for people who have nothing important to say",
+              "good": false,
+              "outcome": "Even people with plenty to say use small talk — it's a normal way to build initial comfort in a conversation."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌍",
         "title": "Manners differ across cultures",
-        "text": "Manners are not universal. Eye contact, greetings, personal space, volume, and table habits can mean different things across cultures and families. Curiosity and flexibility are more useful than assuming one style is the only polite one."
+        "text": "Manners are not universal. Eye contact, greetings, personal space, volume, and table habits can mean different things across cultures and families. Curiosity and flexibility are more useful than assuming one style is the only polite one.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Eye contact and greetings mean different things in different cultures. What's the best mindset?",
+          "options": [
+            {
+              "emoji": "🌍",
+              "label": "Curiosity and flexibility, not assuming one style is the only polite one",
+              "good": true,
+              "outcome": "Exactly right! Manners are not universal — curiosity and flexibility are more useful than assuming one style is the only polite one."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Assuming your own culture's manners are the only correct ones",
+              "good": false,
+              "outcome": "Assuming your own culture's manners are the only correct ones ignores real differences — curiosity and flexibility work much better."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Manners are identical in every culture",
+              "good": false,
+              "outcome": "Manners actually vary a lot between cultures — eye contact, greetings, and more can mean different things."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎧",
         "title": "Reading the room before you speak",
-        "text": "A joke that would land perfectly at a casual hangout can fall completely flat, or even seem hurtful, at a solemn event like a funeral or a serious family conversation. Pausing to notice the general mood of a room before speaking, sometimes called situational awareness, prevents a lot of accidental awkwardness before it happens."
+        "text": "A joke that would land perfectly at a casual hangout can fall completely flat, or even seem hurtful, at a solemn event like a funeral or a serious family conversation. Pausing to notice the general mood of a room before speaking, sometimes called situational awareness, prevents a lot of accidental awkwardness before it happens.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A joke that works at a casual hangout might not fit a solemn event. What helps?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Pausing to notice the room's general mood first",
+              "good": true,
+              "outcome": "Exactly right! Pausing to notice the general mood of a room before speaking prevents a lot of accidental awkwardness."
+            },
+            {
+              "emoji": "😅",
+              "label": "Making the same joke no matter the setting",
+              "good": false,
+              "outcome": "The same joke can land very differently depending on the setting — noticing the mood first helps avoid awkwardness."
+            },
+            {
+              "emoji": "🙅",
+              "label": "The mood of a room never matters for what you say",
+              "good": false,
+              "outcome": "The mood of a room actually matters a lot — reading it first helps you avoid a joke falling flat or seeming hurtful."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙅",
         "title": "Politely declining without over-explaining",
-        "text": "A simple 'I appreciate the invite, but I can't make it' is a complete, polite answer on its own, and it doesn't need three extra sentences of justification to be acceptable. Over-explaining a decline can actually invite more questions or pushback than a short, confident no ever would."
+        "text": "A simple 'I appreciate the invite, but I can't make it' is a complete, polite answer on its own, and it doesn't need three extra sentences of justification to be acceptable. Over-explaining a decline can actually invite more questions or pushback than a short, confident no ever would.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend invites you to an event you really don't want to attend. What's the best way to decline?",
+          "options": [
+            {
+              "emoji": "🙂",
+              "label": "Thanks for the invite, but I can't make it this time.",
+              "good": true,
+              "outcome": "That's a polite, confident decline — a short, warm response is all you need, no lengthy excuse required."
+            },
+            {
+              "emoji": "📝",
+              "label": "Give a long, detailed excuse to justify it",
+              "good": false,
+              "outcome": "Over-explaining can actually sound less believable and makes the moment more awkward than it needs to be."
+            },
+            {
+              "emoji": "👻",
+              "label": "Just don't respond to the invite at all",
+              "good": false,
+              "outcome": "Not responding can come across as rude or make the person worry — a short, polite reply is much kinder."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤳",
         "title": "Being present instead of narrating an event",
-        "text": "Filming or photographing an entire moment — a friend's toast, a sunset, a concert — instead of actually experiencing it can make the people around you feel like an audience for your phone rather than people you're spending time with. Putting the phone down occasionally, even for a memorable moment, is a form of respect for the people actually there."
+        "text": "Filming or photographing an entire moment — a friend's toast, a sunset, a concert — instead of actually experiencing it can make the people around you feel like an audience for your phone rather than people you're spending time with. Putting the phone down occasionally, even for a memorable moment, is a form of respect for the people actually there.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're at a friend's special moment and keep filming the whole thing on your phone. What does this risk?",
+          "options": [
+            {
+              "emoji": "📱",
+              "label": "Making people feel like an audience for your phone instead of being with them",
+              "good": true,
+              "outcome": "Exactly right! Filming an entire moment instead of experiencing it can make people around you feel like an audience for your phone."
+            },
+            {
+              "emoji": "📱",
+              "label": "Nothing — filming everything is always fine",
+              "good": false,
+              "outcome": "Filming everything isn't always fine — it can make the people around you feel less like they're truly being present with you."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Putting your phone down never matters",
+              "good": false,
+              "outcome": "Putting your phone down actually matters — it's a form of respect for the people who are actually there with you."
+            }
+          ]
+        }
       },
       {
         "emoji": "😂",
         "title": "Knowing when a joke has gone too far",
-        "text": "A joke that gets one uncomfortable laugh instead of a real one is usually a signal worth noticing, rather than a cue to push further to get a bigger reaction. Reading that discomfort and shifting topics, instead of doubling down, shows more social skill than any single joke landing well ever could."
+        "text": "A joke that gets one uncomfortable laugh instead of a real one is usually a signal worth noticing, rather than a cue to push further to get a bigger reaction. Reading that discomfort and shifting topics, instead of doubling down, shows more social skill than any single joke landing well ever could.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your joke gets an uncomfortable laugh instead of a real one. What should you do?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Notice the discomfort and shift topics",
+              "good": true,
+              "outcome": "Exactly right! An uncomfortable laugh is usually a signal worth noticing, and shifting topics shows more social skill than pushing further."
+            },
+            {
+              "emoji": "😬",
+              "label": "Push further to get a bigger reaction",
+              "good": false,
+              "outcome": "Pushing further after an uncomfortable laugh usually makes things worse — shifting topics is the better move."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Uncomfortable laughs always mean the joke worked",
+              "good": false,
+              "outcome": "An uncomfortable laugh usually signals discomfort, not success — noticing it and shifting topics shows more social skill."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎭",
         "title": "Adjusting your tone across different groups",
-        "text": "Most people naturally adjust their wording, humor, and level of formality depending on the setting. This is often called shifting your communication style; it does not mean changing your values or pretending to be someone else."
+        "text": "Most people naturally adjust their wording, humor, and level of formality depending on the setting. This is often called shifting your communication style; it does not mean changing your values or pretending to be someone else.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You naturally talk differently with close friends than with a teacher. Does this mean you're being fake?",
+          "options": [
+            {
+              "emoji": "🎚️",
+              "label": "No — adjusting tone to the setting is normal, not fake",
+              "good": true,
+              "outcome": "Exactly right! Most people naturally adjust their wording, humor, and formality depending on the setting — this isn't being fake."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Yes, you should talk exactly the same way everywhere",
+              "good": false,
+              "outcome": "Talking exactly the same way everywhere ignores that different settings call for different tones — adjusting is completely normal."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Adjusting your tone means pretending to be someone else",
+              "good": false,
+              "outcome": "Adjusting your tone doesn't mean pretending to be someone else — it just means shifting your communication style, not your values."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1258,42 +3137,234 @@
       {
         "emoji": "🏠",
         "title": "Being a good host, not just a guest",
-        "text": "A good host checks in during the event — 'Do you need anything? Have you met everyone?' — instead of only greeting people at the door and then disappearing into their own conversation. Hosting well means periodically noticing who looks unsure or left out and quietly including them, which is a form of attentiveness rather than a rigid script to follow."
+        "text": "A good host checks in during the event — 'Do you need anything? Have you met everyone?' — instead of only greeting people at the door and then disappearing into their own conversation. Hosting well means periodically noticing who looks unsure or left out and quietly including them, which is a form of attentiveness rather than a rigid script to follow.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're hosting a get-together. What makes you a good host beyond just greeting people at the door?",
+          "options": [
+            {
+              "emoji": "👀",
+              "label": "Checking in during the event and including people who look left out",
+              "good": true,
+              "outcome": "Exactly right! Hosting well means periodically noticing who looks unsure or left out and quietly including them."
+            },
+            {
+              "emoji": "🚪",
+              "label": "Greeting people, then disappearing into your own conversation",
+              "good": false,
+              "outcome": "Greeting people and then disappearing misses the ongoing attentiveness that makes someone a genuinely good host."
+            },
+            {
+              "emoji": "🎨",
+              "label": "Hosting well only means decorating nicely",
+              "good": false,
+              "outcome": "Decorating nicely is nice, but hosting well is really about checking in on your guests throughout the event."
+            }
+          ]
+        }
       },
       {
         "emoji": "📜",
         "title": "Formal meal etiquette, one piece at a time",
-        "text": "At a formal meal, the general rule for silverware is to work from the outside in, using the outermost fork or spoon first for each course as it arrives. You don't need to memorize every utensil in advance; watching your host and starting from the outside gets you through almost any formal table setting."
+        "text": "At a formal meal, the general rule for silverware is to work from the outside in, using the outermost fork or spoon first for each course as it arrives. You don't need to memorize every utensil in advance; watching your host and starting from the outside gets you through almost any formal table setting.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "At a formal dinner, there are multiple forks and spoons at your place setting. Which one should you use first?",
+          "options": [
+            {
+              "emoji": "🍽️",
+              "label": "The outermost utensil, working inward with each course",
+              "good": true,
+              "outcome": "Exactly! The general rule is to work from the outside in as each course arrives."
+            },
+            {
+              "emoji": "🍴",
+              "label": "Whichever utensil looks biggest",
+              "good": false,
+              "outcome": "Size isn't the rule — working from the outermost utensil inward with each course is the standard etiquette."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't matter which one you use",
+              "good": false,
+              "outcome": "It does matter at a formal meal — the outside-in order is the expected etiquette."
+            }
+          ]
+        }
       },
       {
         "emoji": "💌",
         "title": "Hosting invitations with useful details",
-        "text": "A good invitation answers the questions a guest will actually have — time, location, what to bring, how long it's expected to last — instead of leaving them to guess and ask around. Thinking through those details ahead of time is a quiet form of hospitality that guests notice even if they never mention it."
+        "text": "A good invitation answers the questions a guest will actually have — time, location, what to bring, how long it's expected to last — instead of leaving them to guess and ask around. Thinking through those details ahead of time is a quiet form of hospitality that guests notice even if they never mention it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're inviting friends to an event. What makes a good invitation?",
+          "options": [
+            {
+              "emoji": "📋",
+              "label": "Including time, location, what to bring, and how long it'll last",
+              "good": true,
+              "outcome": "Exactly right! A good invitation answers the questions a guest will actually have, instead of leaving them to guess."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Leaving guests to guess all the details",
+              "good": false,
+              "outcome": "Leaving guests to guess the details makes planning harder for them — including useful details is more thoughtful."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Details in an invitation never matter",
+              "good": false,
+              "outcome": "Details in an invitation actually matter a lot — guests notice when you've thought it through, even if they never mention it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌐",
         "title": "Cultural differences at someone else's table",
-        "text": "A meal eaten with hands instead of utensils, or a greeting that involves a bow instead of a handshake, isn't a lesser version of 'normal' — it's simply a different tradition with its own logic and history. Approaching an unfamiliar custom with curiosity instead of visible surprise is a quiet but noticeable form of respect."
+        "text": "A meal eaten with hands instead of utensils, or a greeting that involves a bow instead of a handshake, isn't a lesser version of 'normal' — it's simply a different tradition with its own logic and history. Approaching an unfamiliar custom with curiosity instead of visible surprise is a quiet but noticeable form of respect.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A meal is eaten with hands instead of utensils, which is unfamiliar to you. What's the respectful response?",
+          "options": [
+            {
+              "emoji": "🤲",
+              "label": "Approach it with curiosity instead of visible surprise",
+              "good": true,
+              "outcome": "Exactly right! Approaching an unfamiliar custom with curiosity instead of visible surprise is a quiet but noticeable form of respect."
+            },
+            {
+              "emoji": "😮",
+              "label": "React with obvious surprise or judgment",
+              "good": false,
+              "outcome": "Reacting with obvious surprise can feel disrespectful — curiosity shows much more respect for a different tradition."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Assume it's a lesser way of doing things",
+              "good": false,
+              "outcome": "An unfamiliar custom isn't a lesser version of normal — it's simply a different tradition with its own logic and history."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎙️",
         "title": "Handling a compliment or criticism gracefully",
-        "text": "A simple \"thank you\" is enough when someone gives you a compliment. With criticism, listen for anything useful, ask questions if needed, and remember that you can disagree respectfully with feedback that feels unfair or inaccurate."
+        "text": "A simple \"thank you\" is enough when someone gives you a compliment. With criticism, listen for anything useful, ask questions if needed, and remember that you can disagree respectfully with feedback that feels unfair or inaccurate.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone gives you constructive criticism about a project you worked hard on. What's the most graceful response?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Thank them for the feedback, even if it stings a little",
+              "good": true,
+              "outcome": "That's graceful handling — accepting feedback with appreciation (even when it's hard to hear) shows maturity and helps you actually improve."
+            },
+            {
+              "emoji": "😡",
+              "label": "Get defensive and argue that they're wrong",
+              "good": false,
+              "outcome": "Getting defensive can shut down useful feedback and make people hesitant to be honest with you in the future."
+            },
+            {
+              "emoji": "😐",
+              "label": "Pretend you don't care at all",
+              "good": false,
+              "outcome": "Dismissing it entirely means missing a chance to actually learn from it — graceful acceptance, even briefly, works better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🕰️",
         "title": "Punctuality as a form of respect",
-        "text": "Being on time helps other people plan and shows reliability. Delays happen, so the respectful move is to communicate when you can rather than assuming lateness automatically means someone does not care."
+        "text": "Being on time helps other people plan and shows reliability. Delays happen, so the respectful move is to communicate when you can rather than assuming lateness automatically means someone does not care.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're running 20 minutes late to meet a friend, with no real reason. What does this communicate?",
+          "options": [
+            {
+              "emoji": "⏰",
+              "label": "It can feel like their time wasn't valued as much as yours",
+              "good": true,
+              "outcome": "Exactly — consistent lateness, even unintentional, can unintentionally signal that someone's time matters less to you. Punctuality is a simple way to show respect."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't communicate anything at all",
+              "good": false,
+              "outcome": "Being late, especially repeatedly, often does send an unintended message about how much you value the other person's time."
+            },
+            {
+              "emoji": "💼",
+              "label": "It shows you're very busy and important",
+              "good": false,
+              "outcome": "Lateness is more likely to feel disrespectful than impressive — punctuality is generally seen as a sign of respect."
+            }
+          ]
+        }
       },
       {
         "emoji": "🍽️",
         "title": "Navigating a business or formal dinner",
-        "text": "At a formal or professional meal, follow the host's cues, choose something you can eat comfortably, and focus on conversation and courtesy. Traditions about who starts eating or what to order vary by setting and culture."
+        "text": "At a formal or professional meal, follow the host's cues, choose something you can eat comfortably, and focus on conversation and courtesy. Traditions about who starts eating or what to order vary by setting and culture.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're at a formal professional dinner and unsure of the customs. What should you do?",
+          "options": [
+            {
+              "emoji": "🍽️",
+              "label": "Follow the host's cues and focus on conversation and courtesy",
+              "good": true,
+              "outcome": "Exactly right! At a formal or professional meal, following the host's cues and focusing on conversation and courtesy works well."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Ignore the host's lead and do your own thing",
+              "good": false,
+              "outcome": "Ignoring the host's lead can feel out of step with the occasion — following their cues is a better approach."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Formal dinner customs are identical everywhere",
+              "good": false,
+              "outcome": "Formal dinner customs actually vary by setting and culture — following the host's lead helps you navigate them."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎁",
         "title": "Gracious gift-giving and gift-receiving",
-        "text": "A thoughtful gift doesn't need to be expensive — it needs to show you paid attention to the person, which is what actually makes it feel personal rather than generic. On the receiving end, reacting with genuine warmth rather than immediately commenting on cost or usefulness respects the thought the giver put into choosing it."
+        "text": "A thoughtful gift doesn't need to be expensive — it needs to show you paid attention to the person, which is what actually makes it feel personal rather than generic. On the receiving end, reacting with genuine warmth rather than immediately commenting on cost or usefulness respects the thought the giver put into choosing it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You receive a gift that isn't expensive. What makes it feel personal anyway?",
+          "options": [
+            {
+              "emoji": "💝",
+              "label": "That the giver paid attention to who you are",
+              "good": true,
+              "outcome": "Exactly right! A thoughtful gift doesn't need to be expensive — it needs to show the giver paid attention to who you are."
+            },
+            {
+              "emoji": "💲",
+              "label": "Only the price of the gift matters",
+              "good": false,
+              "outcome": "Price isn't really what makes a gift feel personal — thoughtful attention to who you are matters much more."
+            },
+            {
+              "emoji": "🗣️",
+              "label": "Commenting on the cost is the polite response",
+              "good": false,
+              "outcome": "Commenting on the cost can feel dismissive — reacting with genuine warmth respects the thought the giver put into it."
+            }
+          ]
+        }
       }
     ],
     "quiz": [

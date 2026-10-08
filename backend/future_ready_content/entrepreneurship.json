@@ -4,42 +4,234 @@
       {
         "emoji": "🍋",
         "title": "What is a lemonade stand?",
-        "text": "A lemonade stand is a small business. You make lemonade, choose a price, and sell cups to people who want a drink. If someone gives you $1 for a cup, you just made a sale!"
+        "text": "A lemonade stand is a small business. You make lemonade, choose a price, and sell cups to people who want a drink. If someone gives you $1 for a cup, you just made a sale!",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You make lemonade, choose a price, and sell cups to people walking by. What is this an example of?",
+          "options": [
+            {
+              "emoji": "🍋",
+              "label": "A small business",
+              "good": true,
+              "outcome": "Exactly right! A lemonade stand is a small business — you make lemonade, choose a price, and sell it."
+            },
+            {
+              "emoji": "🧹",
+              "label": "A chore",
+              "good": false,
+              "outcome": "This is more than a chore — selling something you made for a price is a small business."
+            },
+            {
+              "emoji": "🎲",
+              "label": "A game with no real purpose",
+              "good": false,
+              "outcome": "It's not just a game — a lemonade stand is a genuine small business with a real purpose."
+            }
+          ]
+        }
       },
       {
         "emoji": "💡",
         "title": "Where ideas come from",
-        "text": "Business ideas can start by noticing what people need or want. If people at the park are hot and thirsty, selling cold lemonade could be a useful idea."
+        "text": "Business ideas can start by noticing what people need or want. If people at the park are hot and thirsty, selling cold lemonade could be a useful idea.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "People at the park look hot and thirsty on a sunny day. What's a business idea this could inspire?",
+          "options": [
+            {
+              "emoji": "🍋",
+              "label": "Selling cold lemonade",
+              "good": true,
+              "outcome": "Exactly! Noticing what people need or want, like a cold drink on a hot day, is exactly how good business ideas start."
+            },
+            {
+              "emoji": "☂️",
+              "label": "Selling umbrellas in the desert with no customers around",
+              "good": false,
+              "outcome": "That idea doesn't match what people actually need in that moment — noticing a real, nearby need works much better."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignoring it since it's not your problem",
+              "good": false,
+              "outcome": "Noticing a need like this is exactly the kind of observation that can turn into a good business idea."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎨",
         "title": "You can make things too!",
-        "text": "Kids can create things that other people may want to buy. You might make bracelets, drawings, bookmarks, or cookies. Creating and selling something is one way to be an entrepreneur."
+        "text": "Kids can create things that other people may want to buy. You might make bracelets, drawings, bookmarks, or cookies. Creating and selling something is one way to be an entrepreneur.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You like making bracelets. Could you turn that into a tiny business?",
+          "options": [
+            {
+              "emoji": "📿",
+              "label": "Yes! You could sell bracelets you make to others",
+              "good": true,
+              "outcome": "Exactly right! Kids can create things like bracelets or drawings that other people may want to buy."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, only grown-ups can sell things they make",
+              "good": false,
+              "outcome": "Kids can make and sell things too, like bracelets or drawings — it's a great way to start learning about business."
+            },
+            {
+              "emoji": "🧸",
+              "label": "Only toys bought from a store count as things to sell",
+              "good": false,
+              "outcome": "Things you make yourself, like bracelets, absolutely count — many young entrepreneurs start exactly that way."
+            }
+          ]
+        }
       },
       {
         "emoji": "💪",
         "title": "It takes effort",
-        "text": "A business does not run by itself. You may need to make the lemonade, set up the table, create a sign, and clean up afterward. That work is part of being an entrepreneur."
+        "text": "A business does not run by itself. You may need to make the lemonade, set up the table, create a sign, and clean up afterward. That work is part of being an entrepreneur.",
+        "widget": "odd-one-out",
+        "widgetConfig": {
+          "prompt": "Which of these is NOT part of running a lemonade stand?",
+          "items": [
+            {
+              "emoji": "🍋",
+              "label": "Making the lemonade"
+            },
+            {
+              "emoji": "🪑",
+              "label": "Setting up the table"
+            },
+            {
+              "emoji": "🪧",
+              "label": "Making a sign"
+            },
+            {
+              "emoji": "✨",
+              "label": "Waiting for money to appear by itself"
+            }
+          ],
+          "oddIndex": 3,
+          "explanation": "Money doesn't appear by itself — a business takes real effort, like making the lemonade, setting up, and making a sign."
+        }
       },
       {
         "emoji": "🏗️",
         "title": "Making something to sell",
-        "text": "Before you can sell something, you need to make or prepare it. For lemonade, you might mix lemons, water, and sugar, then pour it into cups for customers."
+        "text": "Before you can sell something, you need to make or prepare it. For lemonade, you might mix lemons, water, and sugar, then pour it into cups for customers.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Before you can sell lemonade, what do you need to do first?",
+          "options": [
+            {
+              "emoji": "🥤",
+              "label": "Make or prepare the lemonade",
+              "good": true,
+              "outcome": "Exactly right! Before you can sell something, you need to make or prepare it first."
+            },
+            {
+              "emoji": "🪑",
+              "label": "Just put out an empty table",
+              "good": false,
+              "outcome": "An empty table has nothing to sell — you need to actually make the lemonade first."
+            },
+            {
+              "emoji": "✨",
+              "label": "Wait for lemonade to appear on its own",
+              "good": false,
+              "outcome": "Lemonade doesn't appear on its own — you need to make or prepare it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "What is trading?",
-        "text": "Trading means exchanging one thing for another. At a lemonade stand, a customer gives you money and you give them lemonade. Both people receive something they value."
+        "text": "Trading means exchanging one thing for another. At a lemonade stand, a customer gives you money and you give them lemonade. Both people receive something they value.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You have extra stickers and your friend has an extra toy car you want. What could you do?",
+          "options": [
+            {
+              "emoji": "🔄",
+              "label": "Trade your stickers for their toy car, if you both agree",
+              "good": true,
+              "outcome": "Exactly! Trading is when two people swap things they both agree to exchange."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Just take the toy car",
+              "good": false,
+              "outcome": "Taking isn't trading — trading means both people agree to the swap."
+            },
+            {
+              "emoji": "😐",
+              "label": "Ignore it since you can't trade",
+              "good": false,
+              "outcome": "You can trade! Just ask if they'd like to swap something for your stickers."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙋",
         "title": "Who is a customer?",
-        "text": "A customer is a person who buys something from a business. If your neighbor pays for a cup of lemonade, your neighbor is your customer."
+        "text": "A customer is a person who buys something from a business. If your neighbor pays for a cup of lemonade, your neighbor is your customer.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your neighbor pays you for a cup of lemonade. What do we call your neighbor?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "A customer",
+              "good": true,
+              "outcome": "Exactly right! A customer is a person who buys something from a business, like your neighbor buying lemonade."
+            },
+            {
+              "emoji": "👔",
+              "label": "An employee",
+              "good": false,
+              "outcome": "An employee works for the business — someone who buys from it is called a customer."
+            },
+            {
+              "emoji": "🆚",
+              "label": "A competitor",
+              "good": false,
+              "outcome": "A competitor runs a similar business — someone who buys from you is called a customer."
+            }
+          ]
+        }
       },
       {
         "emoji": "😀",
         "title": "A happy customer comes back",
-        "text": "When customers like what they bought and are treated kindly, they may come back again. A neighbor who loved your lemonade today might buy another cup tomorrow."
+        "text": "When customers like what they bought and are treated kindly, they may come back again. A neighbor who loved your lemonade today might buy another cup tomorrow.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A customer buys lemonade from your stand and says it was delicious. What's likely to happen next?",
+          "options": [
+            {
+              "emoji": "😊",
+              "label": "They might come back again, and maybe bring friends",
+              "good": true,
+              "outcome": "Yes! Happy customers often return and tell others — that's great for your stand."
+            },
+            {
+              "emoji": "🤷",
+              "label": "They'll never think about your stand again",
+              "good": false,
+              "outcome": "Happy customers often remember and come back — making customers happy is really important for a business."
+            },
+            {
+              "emoji": "😐",
+              "label": "It doesn't matter if they're happy or not",
+              "good": false,
+              "outcome": "It matters a lot! Happy customers are more likely to return and tell their friends."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -140,47 +332,243 @@
       {
         "emoji": "🏷️",
         "title": "Picking a fair price",
-        "text": "A price is how much money someone pays for what you sell. A fair price should make sense for both you and the customer. For example, you might charge $1 for one cold cup of lemonade."
+        "text": "A price is how much money someone pays for what you sell. A fair price should make sense for both you and the customer. For example, you might charge $1 for one cold cup of lemonade.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're deciding how much to charge for one cup of lemonade. What makes a price fair?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "It makes sense for both you and the customer",
+              "good": true,
+              "outcome": "Exactly right! A fair price should make sense for both you and the customer, not just one side."
+            },
+            {
+              "emoji": "💰",
+              "label": "As expensive as possible, no matter what",
+              "good": false,
+              "outcome": "Charging as much as possible, no matter what, isn't fair to the customer — a good price works for both sides."
+            },
+            {
+              "emoji": "🆓",
+              "label": "Free, so you never make any money",
+              "good": false,
+              "outcome": "Giving it away for free means your business never earns anything — a fair price works for both you and the customer."
+            }
+          ]
+        }
       },
       {
         "emoji": "📣",
         "title": "Telling people about your stand",
-        "text": "People cannot buy from your stand if they do not know it is there. A bright sign saying “Lemonade $1” can help neighbors notice what you are selling."
+        "text": "People cannot buy from your stand if they do not know it is there. A bright sign saying “Lemonade $1” can help neighbors notice what you are selling.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You set up a lemonade stand, but nobody knows it's there. What should you do?",
+          "options": [
+            {
+              "emoji": "📣",
+              "label": "Make a sign or tell people about it",
+              "good": true,
+              "outcome": "Exactly right! People cannot buy from your stand if they do not know it is there — telling people helps."
+            },
+            {
+              "emoji": "🤫",
+              "label": "Just wait quietly and hope people notice",
+              "good": false,
+              "outcome": "Waiting quietly means people may never notice — making a sign or telling people helps far more."
+            },
+            {
+              "emoji": "✨",
+              "label": "Customers always find stands automatically with no effort",
+              "good": false,
+              "outcome": "Customers don't just find stands automatically — telling people about it helps a lot."
+            }
+          ]
+        }
       },
       {
         "emoji": "🪙",
         "title": "Counting your coins",
-        "text": "At the end of the day, count the money you received. If you sold five cups for $1 each, you collected $5. Keeping track helps you understand how your business did."
+        "text": "At the end of the day, count the money you received. If you sold five cups for $1 each, you collected $5. Keeping track helps you understand how your business did.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You sold five cups of lemonade for $1 each. How much money did you collect?",
+          "options": [
+            {
+              "emoji": "💵",
+              "label": "$5",
+              "good": true,
+              "outcome": "Exactly right! Five cups at $1 each adds up to $5."
+            },
+            {
+              "emoji": "💵",
+              "label": "$1",
+              "good": false,
+              "outcome": "That's the price of just one cup — five cups at $1 each adds up to $5 total."
+            },
+            {
+              "emoji": "💵",
+              "label": "$10",
+              "good": false,
+              "outcome": "That would be if cups cost $2 each — at $1 each, five cups adds up to $5."
+            }
+          ]
+        }
       },
       {
         "emoji": "🐷",
         "title": "Saving up for supplies",
-        "text": "A business may need supplies to keep going. Saving some of the money you earn can help you buy more lemons, cups, or ice for the next day."
+        "text": "A business may need supplies to keep going. Saving some of the money you earn can help you buy more lemons, cups, or ice for the next day.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You earn money from your lemonade stand. Why might you save some of it instead of spending it all?",
+          "options": [
+            {
+              "emoji": "🏦",
+              "label": "To buy more lemons, cups, or ice for next time",
+              "good": true,
+              "outcome": "Exactly right! Saving some of what you earn helps you buy more supplies to keep your business going."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Saving never helps a business",
+              "good": false,
+              "outcome": "Saving actually helps a lot — it lets you buy supplies to keep your business running."
+            },
+            {
+              "emoji": "🛍️",
+              "label": "You should always spend every cent immediately",
+              "good": false,
+              "outcome": "Spending everything immediately leaves nothing for next time's supplies — saving some helps your business continue."
+            }
+          ]
+        }
       },
       {
         "emoji": "💰",
         "title": "Saving some, spending some",
-        "text": "You do not have to spend all the money you earn. You can save some for a goal, keep some for your business, and spend some later."
+        "text": "You do not have to spend all the money you earn. You can save some for a goal, keep some for your business, and spend some later.",
+        "widget": "budget-split",
+        "widgetConfig": {
+          "totalAmount": 10
+        }
       },
       {
         "emoji": "💯",
         "title": "Being honest",
-        "text": "Honesty helps people trust you. If your lemonade is warm or you ran out of a flavor, tell the truth instead of pretending. Customers appreciate honest sellers."
+        "text": "Honesty helps people trust you. If your lemonade is warm or you ran out of a flavor, tell the truth instead of pretending. Customers appreciate honest sellers.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A customer gives you too much change by accident at your lemonade stand. What's the right thing to do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Point it out and give back the extra change",
+              "good": true,
+              "outcome": "That's exactly right! Being honest, even when it costs you a little, builds trust and a good reputation for your business."
+            },
+            {
+              "emoji": "🤫",
+              "label": "Keep the extra money quietly",
+              "good": false,
+              "outcome": "Keeping money that isn't yours isn't honest — pointing it out builds trust with customers."
+            },
+            {
+              "emoji": "👀",
+              "label": "Only give it back if they notice",
+              "good": false,
+              "outcome": "Being honest means doing the right thing even if no one would notice otherwise."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍🤝‍🧑",
         "title": "Teamwork with a friend",
-        "text": "Two people can share the work. One friend might pour lemonade while the other greets customers and collects money. Teamwork can make a busy stand easier to run."
+        "text": "Two people can share the work. One friend might pour lemonade while the other greets customers and collects money. Teamwork can make a busy stand easier to run.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Running a busy lemonade stand alone is hard. How can a friend help?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Share the work, like pouring while the other greets customers",
+              "good": true,
+              "outcome": "Exactly right! Two people can share the work, which can make a busy stand much easier to run."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Having a friend around never helps",
+              "good": false,
+              "outcome": "A friend sharing the work can actually make a busy stand much easier to manage."
+            },
+            {
+              "emoji": "1️⃣",
+              "label": "Only one person should ever be allowed to help",
+              "good": false,
+              "outcome": "Sharing the work between two people is exactly what makes a busy stand easier to run."
+            }
+          ]
+        }
       },
       {
         "emoji": "☁️",
         "title": "A slow day happens sometimes",
-        "text": "Some days you may sell a lot, and other days you may sell only a little. One slow day does not mean your idea is bad. You can think about what to change and try again."
+        "text": "Some days you may sell a lot, and other days you may sell only a little. One slow day does not mean your idea is bad. You can think about what to change and try again.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You barely sold any lemonade today. Does this mean your business idea is bad?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "No — one slow day doesn't mean the idea is bad",
+              "good": true,
+              "outcome": "Exactly right! One slow day does not mean your idea is bad — you can think about what to change and try again."
+            },
+            {
+              "emoji": "😢",
+              "label": "Yes, you should give up immediately",
+              "good": false,
+              "outcome": "A single slow day isn't a reason to quit — thinking about what to change and trying again is a better response."
+            },
+            {
+              "emoji": "✨",
+              "label": "Slow days never happen to good businesses",
+              "good": false,
+              "outcome": "Slow days happen to good businesses too — one slow day doesn't mean the idea itself is bad."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧹",
         "title": "Cleaning up your stand",
-        "text": "Good business owners take care of their space. After selling, throw away trash, put supplies away, and leave the area clean for everyone."
+        "text": "Good business owners take care of their space. After selling, throw away trash, put supplies away, and leave the area clean for everyone.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're done selling for the day. What should a good business owner do?",
+          "options": [
+            {
+              "emoji": "🧹",
+              "label": "Clean up the trash and put supplies away",
+              "good": true,
+              "outcome": "Exactly right! Good business owners take care of their space by cleaning up and putting supplies away."
+            },
+            {
+              "emoji": "🗑️",
+              "label": "Leave the mess for someone else",
+              "good": false,
+              "outcome": "Leaving a mess isn't taking care of your space — cleaning up yourself is what a good business owner does."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Cleaning up doesn't matter at all",
+              "good": false,
+              "outcome": "Cleaning up actually matters — it shows you take care of your space and respect the people around you."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -281,42 +669,219 @@
       {
         "emoji": "🔍",
         "title": "Spotting a problem to solve",
-        "text": "Good business ideas often start when you notice a problem, like no cold drinks at the park. That kind of gap, noticed on a hot day, could become your very own business idea."
+        "text": "Good business ideas often start when you notice a problem, like no cold drinks at the park. That kind of gap, noticed on a hot day, could become your very own business idea.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You notice nobody at the park has a cold drink on a hot day. What's a smart first step for a business idea?",
+          "options": [
+            {
+              "emoji": "🧊",
+              "label": "Notice that problem — it could be the start of a good business idea",
+              "good": true,
+              "outcome": "Exactly! Good business ideas often start when you notice a problem, like people wanting a cold drink on a hot day."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore it since problems have nothing to do with business ideas",
+              "good": false,
+              "outcome": "Problems are actually where many good business ideas start — noticing one is a smart first step."
+            },
+            {
+              "emoji": "🌍",
+              "label": "Only huge, famous problems can ever lead to a business idea",
+              "good": false,
+              "outcome": "Small, everyday problems, like no cold drinks at the park, can lead to great business ideas too."
+            }
+          ]
+        }
       },
       {
         "emoji": "💰",
         "title": "Cost vs. price",
-        "text": "Cost is what you spend to make or get a product. Price is what a customer pays you for it. If a cup of lemonade costs 20¢ to make and you sell it for $1, the difference before any other expenses is 80¢."
+        "text": "Cost is what you spend to make or get a product. Price is what a customer pays you for it. If a cup of lemonade costs 20¢ to make and you sell it for $1, the difference before any other expenses is 80¢.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "It costs you $0.30 to make a cup of lemonade (cups, lemons, sugar). If you sell each cup for $0.30, do you make a profit?",
+          "options": [
+            {
+              "emoji": "🧮",
+              "label": "No — you need to charge more than your cost to make a profit",
+              "good": true,
+              "outcome": "Exactly right — if your price equals your cost, you break even with no profit. You need to charge more than it costs to make money."
+            },
+            {
+              "emoji": "💵",
+              "label": "Yes, selling at cost is a smart business move",
+              "good": false,
+              "outcome": "Selling at exactly your cost means you make $0 profit — you need to price above your cost to actually earn money."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't matter what price you charge",
+              "good": false,
+              "outcome": "Price matters a lot! Charging less than or equal to your cost means you won't make any profit."
+            }
+          ]
+        }
       },
       {
         "emoji": "📋",
         "title": "A simple plan",
-        "text": "Before starting, it helps to plan what you'll sell, what it costs, and what you'll charge. Writing down a plan, like charging a dollar for 20-cent lemonade, avoids confusion later."
+        "text": "Before starting, it helps to plan what you'll sell, what it costs, and what you'll charge. Writing down a plan, like charging a dollar for 20-cent lemonade, avoids confusion later.",
+        "widget": "sequence-order",
+        "widgetConfig": {
+          "prompt": "Tap the planning steps in the right order",
+          "items": [
+            "Decide what you'll sell",
+            "Figure out what it costs",
+            "Decide what you'll charge"
+          ]
+        }
       },
       {
         "emoji": "✍️",
         "title": "Giving your business a name",
-        "text": "A fun, memorable name helps people remember your stand and tell their friends about it. Calling your stand \"Sam's Sunny Lemonade\" sticks in people's minds much better than having no name at all."
+        "text": "A fun, memorable name helps people remember your stand and tell their friends about it. Calling your stand \"Sam's Sunny Lemonade\" sticks in people's minds much better than having no name at all.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're starting a lemonade stand. Why might giving it a memorable name help?",
+          "options": [
+            {
+              "emoji": "🪧",
+              "label": "It helps people remember your stand and tell friends",
+              "good": true,
+              "outcome": "Exactly right! A fun, memorable name helps people remember your stand and tell their friends about it."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Names never matter for a business",
+              "good": false,
+              "outcome": "A good name actually helps a lot — it makes your stand memorable and easier for people to recommend."
+            },
+            {
+              "emoji": "😕",
+              "label": "A confusing name attracts more customers",
+              "good": false,
+              "outcome": "A confusing name tends to be forgotten, not remembered — a clear, fun name works much better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎨",
         "title": "Making your product special",
-        "text": "Adding something unique, like a flavor nobody else has, can make customers choose your stand. A splash of strawberry or mint, something other stands don't offer, could set you apart."
+        "text": "Adding something unique, like a flavor nobody else has, can make customers choose your stand. A splash of strawberry or mint, something other stands don't offer, could set you apart.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Lots of other stands sell plain lemonade. What could help yours stand out?",
+          "options": [
+            {
+              "emoji": "🍓",
+              "label": "Adding a unique flavor nobody else offers",
+              "good": true,
+              "outcome": "Exactly! Adding something unique, like a flavor nobody else has, can make customers choose your stand."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Making it exactly the same as everyone else",
+              "good": false,
+              "outcome": "Being exactly the same as everyone else doesn't give customers a reason to pick your stand specifically."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Uniqueness never matters to customers",
+              "good": false,
+              "outcome": "Uniqueness actually matters a lot — it's often exactly what makes customers choose one stand over another."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏷️",
         "title": "Checking what others charge",
-        "text": "Before choosing a price, it helps to see what similar sellers charge and what customers are willing to pay. You do not always have to be cheaper — better quality, flavor, or service can also make your product worth choosing."
+        "text": "Before choosing a price, it helps to see what similar sellers charge and what customers are willing to pay. You do not always have to be cheaper — better quality, flavor, or service can also make your product worth choosing.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Before setting your lemonade price, you notice a nearby stand charges $1 per cup. What should you do?",
+          "options": [
+            {
+              "emoji": "🍋",
+              "label": "Consider that price when setting your own, so you're competitive",
+              "good": true,
+              "outcome": "Smart move! Checking what others charge helps you set a fair, competitive price for your own product."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore other prices completely",
+              "good": false,
+              "outcome": "Knowing what others charge helps you set a smart, competitive price — ignoring it could mean pricing too high or too low."
+            },
+            {
+              "emoji": "💎",
+              "label": "Charge way more just to seem fancy",
+              "good": false,
+              "outcome": "Pricing way above competitors without a good reason can mean fewer customers — it's smart to consider the market price."
+            }
+          ]
+        }
       },
       {
         "emoji": "📍",
         "title": "Picking a good spot",
-        "text": "Where you set up your stand matters just as much as what you're selling. A spot near a park entrance or a busy sidewalk, where lots of people walk by, will get far more customers than a hidden corner of your yard."
+        "text": "Where you set up your stand matters just as much as what you're selling. A spot near a park entrance or a busy sidewalk, where lots of people walk by, will get far more customers than a hidden corner of your yard.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Where should you set up your lemonade stand for the most customers?",
+          "options": [
+            {
+              "emoji": "🚶",
+              "label": "Somewhere busy, like near a park entrance",
+              "good": true,
+              "outcome": "Exactly right! A spot where lots of people walk by will get far more customers than a hidden corner."
+            },
+            {
+              "emoji": "🏡",
+              "label": "A hidden corner of your yard",
+              "good": false,
+              "outcome": "A hidden spot means fewer people will notice your stand — a busy location gets far more customers."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Location never affects how many customers you get",
+              "good": false,
+              "outcome": "Location actually matters a lot — a busy spot gets far more customers than a hidden one."
+            }
+          ]
+        }
       },
       {
         "emoji": "📅",
         "title": "Planning your day",
-        "text": "Deciding when to open and how much to make ahead of time helps your day run smoothly. Planning to open from 2 to 4pm with 20 cups ready means you won't scramble later."
+        "text": "Deciding when to open and how much to make ahead of time helps your day run smoothly. Planning to open from 2 to 4pm with 20 cups ready means you won't scramble later.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want your stand to run smoothly. What helps?",
+          "options": [
+            {
+              "emoji": "📅",
+              "label": "Deciding when to open and how much to make ahead of time",
+              "good": true,
+              "outcome": "Exactly! Planning to open at a set time with enough cups ready helps your day run smoothly."
+            },
+            {
+              "emoji": "🎲",
+              "label": "Figuring it out randomly as you go",
+              "good": false,
+              "outcome": "Figuring it out randomly tends to cause scrambling later — planning ahead helps things run smoothly."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Planning ahead never helps a business",
+              "good": false,
+              "outcome": "Planning ahead actually helps a lot — it prevents scrambling and keeps your day running smoothly."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -417,47 +982,263 @@
       {
         "emoji": "😊",
         "title": "Good customer service",
-        "text": "Being friendly, honest, and helpful makes people want to buy from you again. When a customer asks for less sugar and you happily make it their way, they often return."
+        "text": "Being friendly, honest, and helpful makes people want to buy from you again. When a customer asks for less sugar and you happily make it their way, they often return.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A customer asks for less sugar in their lemonade. What should you do?",
+          "options": [
+            {
+              "emoji": "😊",
+              "label": "Happily make it their way",
+              "good": true,
+              "outcome": "Exactly right! When you happily make a drink the way a customer wants it, they often return."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Refuse and make it the same for everyone",
+              "good": false,
+              "outcome": "Refusing a reasonable request can make a customer less likely to return — happily adjusting works much better."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Customer requests never matter",
+              "good": false,
+              "outcome": "Customer requests actually matter a lot — happily meeting them is part of good customer service."
+            }
+          ]
+        }
       },
       {
         "emoji": "📢",
         "title": "Telling people about it",
-        "text": "Even a great product needs people to know it exists, which is called marketing. A bright poster that says \"Cold Lemonade, $1!\" lets passing neighbors know your stand is open."
+        "text": "Even a great product needs people to know it exists, which is called marketing. A bright poster that says \"Cold Lemonade, $1!\" lets passing neighbors know your stand is open.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You started a dog-walking business but nobody knows about it yet. What should you do?",
+          "options": [
+            {
+              "emoji": "📣",
+              "label": "Tell neighbors and friends, maybe make a simple flyer",
+              "good": true,
+              "outcome": "Great idea! Telling people about your business, even informally, helps customers find you."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Wait for customers to magically find you",
+              "good": false,
+              "outcome": "Customers usually need to hear about your business first — telling people helps a lot."
+            },
+            {
+              "emoji": "🤫",
+              "label": "Keep it a secret",
+              "good": false,
+              "outcome": "A secret business won't get customers — telling people is how they find out you exist!"
+            }
+          ]
+        }
       },
       {
         "emoji": "🧾",
         "title": "Keeping track",
-        "text": "Writing down the money that comes in and the money you spend helps you understand whether your business is working. If you earned $12 and spent $4 on supplies, you have $8 left before any other expenses."
+        "text": "Writing down the money that comes in and the money you spend helps you understand whether your business is working. If you earned $12 and spent $4 on supplies, you have $8 left before any other expenses.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You earned $12 and spent $4 on supplies. How much do you have left before other expenses?",
+          "options": [
+            {
+              "emoji": "💵",
+              "label": "$8",
+              "good": true,
+              "outcome": "Exactly right! $12 earned minus $4 spent leaves you with $8."
+            },
+            {
+              "emoji": "💵",
+              "label": "$12",
+              "good": false,
+              "outcome": "That's before subtracting your $4 in supply costs — you'd have $8 left after spending."
+            },
+            {
+              "emoji": "💵",
+              "label": "$16",
+              "good": false,
+              "outcome": "That would mean adding instead of subtracting — $12 minus $4 spent leaves $8."
+            }
+          ]
+        }
       },
       {
         "emoji": "👨‍👩‍👧",
         "title": "Getting help from a grown-up",
-        "text": "Many young entrepreneurs ask a parent or grown-up for help with things like buying supplies or handling money safely. Asking your mom to drive you to buy more lemons, or having her hold onto your earnings, is a smart, normal part of running a kid business."
+        "text": "Many young entrepreneurs ask a parent or grown-up for help with things like buying supplies or handling money safely. Asking your mom to drive you to buy more lemons, or having her hold onto your earnings, is a smart, normal part of running a kid business.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You need to buy more lemons and want to handle money safely. What's a smart move?",
+          "options": [
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "Ask a parent or grown-up for help",
+              "good": true,
+              "outcome": "Exactly right! Many young entrepreneurs ask a parent or grown-up for help with supplies or handling money safely."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Never ask a grown-up for anything",
+              "good": false,
+              "outcome": "Asking for help with things like buying supplies or handling money is a smart, normal part of running a kid business."
+            },
+            {
+              "emoji": "😤",
+              "label": "Asking for help means you're not a real entrepreneur",
+              "good": false,
+              "outcome": "Asking for help is actually a smart, normal part of running a kid business, not a sign of failure."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔁",
         "title": "Trying again if it doesn't work",
-        "text": "When a business idea doesn't work at first, entrepreneurs usually adjust it instead of quitting. If nobody stopped by on a cloudy day, you might try a sunnier spot next time."
+        "text": "When a business idea doesn't work at first, entrepreneurs usually adjust it instead of quitting. If nobody stopped by on a cloudy day, you might try a sunnier spot next time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Nobody stopped by your stand on a cloudy day. What should you do?",
+          "options": [
+            {
+              "emoji": "🔄",
+              "label": "Adjust and try again, like picking a sunnier spot next time",
+              "good": true,
+              "outcome": "Exactly right! When a business idea doesn't work at first, entrepreneurs usually adjust it instead of quitting."
+            },
+            {
+              "emoji": "😢",
+              "label": "Quit the business forever",
+              "good": false,
+              "outcome": "Quitting after one slow day skips a chance to adjust and improve — trying again usually works better."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Keep doing the exact same thing and expect different results",
+              "good": false,
+              "outcome": "Repeating the exact same approach tends to get the same result — adjusting something, like your spot, helps more."
+            }
+          ]
+        }
       },
       {
         "emoji": "😕",
         "title": "Handling an unhappy customer",
-        "text": "Sometimes a customer isn't happy, maybe your lemonade seemed too sour for their taste. Listening calmly and offering a new cup, or their money back, keeps their trust."
+        "text": "Sometimes a customer isn't happy, maybe your lemonade seemed too sour for their taste. Listening calmly and offering a new cup, or their money back, keeps their trust.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A customer says the cookie they bought from your stand wasn't very good. What's the best response?",
+          "options": [
+            {
+              "emoji": "🙏",
+              "label": "Apologize and offer to make it right",
+              "good": true,
+              "outcome": "Great instinct! Making it right keeps customers happy and coming back — that's good for any business."
+            },
+            {
+              "emoji": "🙅",
+              "label": "That's not my problem.",
+              "good": false,
+              "outcome": "Dismissing a complaint can lose you a customer for good — and they might tell their friends too."
+            },
+            {
+              "emoji": "😤",
+              "label": "Argue that the cookie was fine",
+              "good": false,
+              "outcome": "Arguing with an unhappy customer rarely helps — listening and offering a fix builds trust instead."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍🤝‍🧑",
         "title": "Splitting jobs with a partner",
-        "text": "Running a business with a friend works best when you split up the jobs. One person could make the lemonade while the other greets customers and handles the money."
+        "text": "Running a business with a friend works best when you split up the jobs. One person could make the lemonade while the other greets customers and handles the money.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're running a stand with a friend. What's a smart way to split the work?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "One makes lemonade while the other greets customers and handles money",
+              "good": true,
+              "outcome": "Exactly right! Splitting up the jobs, like one making lemonade and the other greeting customers, works best."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Both people should do nothing and hope it works out",
+              "good": false,
+              "outcome": "Doing nothing doesn't run a business — splitting the actual jobs between you works much better."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Splitting jobs never helps a team",
+              "good": false,
+              "outcome": "Splitting jobs actually helps a lot — it makes running the stand together much more manageable."
+            }
+          ]
+        }
       },
       {
         "emoji": "🐷",
         "title": "Saving up for a goal",
-        "text": "Saving some of your profit each week can help you buy something bigger later on. If you save $2 every week, you'll have $20 saved after ten weeks."
+        "text": "Saving some of your profit each week can help you buy something bigger later on. If you save $2 every week, you'll have $20 saved after ten weeks.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You earn some profit from your lemonade stand each week. How can this help you buy something bigger later?",
+          "options": [
+            {
+              "emoji": "🏦",
+              "label": "Save some of the profit each week toward the goal",
+              "good": true,
+              "outcome": "Exactly! Saving a portion of your profit regularly adds up over time toward a bigger goal."
+            },
+            {
+              "emoji": "🛍️",
+              "label": "Spend all the profit right away each week",
+              "good": false,
+              "outcome": "Spending everything right away means you'll never build up enough for a bigger goal — saving some each week helps."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Wait until you have a huge amount before saving any",
+              "good": false,
+              "outcome": "Saving a little bit regularly works better than waiting — small amounts add up toward your goal over time."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎉",
         "title": "Celebrating your progress",
-        "text": "Entrepreneurs can celebrate progress without spending all their earnings. Reaching a goal — like your first 10 customers — is a good reason to feel proud, share the news, or choose a small reward."
+        "text": "Entrepreneurs can celebrate progress without spending all their earnings. Reaching a goal — like your first 10 customers — is a good reason to feel proud, share the news, or choose a small reward.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You just reached your first 10 customers! What's a reasonable way to celebrate?",
+          "options": [
+            {
+              "emoji": "🎉",
+              "label": "Feel proud, share the news, or pick a small reward",
+              "good": true,
+              "outcome": "Exactly right! Reaching a goal like your first 10 customers is a good reason to feel proud and celebrate a little."
+            },
+            {
+              "emoji": "💸",
+              "label": "Spend every single cent you have earned immediately",
+              "good": false,
+              "outcome": "Spending everything right away isn't necessary — a small reward is plenty, while saving the rest helps your business."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Progress is never worth celebrating",
+              "good": false,
+              "outcome": "Progress is absolutely worth celebrating — it's a good way to stay motivated as an entrepreneur."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -558,42 +1339,256 @@
       {
         "emoji": "🎯",
         "title": "Knowing your customer",
-        "text": "Successful businesses learn who is most likely to buy from them — what those customers like, need, and can afford. For example, if classmates love fantasy books, you might design original dragon or magic-themed bookmarks rather than copying copyrighted characters."
+        "text": "Successful businesses learn who is most likely to buy from them — what those customers like, need, and can afford. For example, if classmates love fantasy books, you might design original dragon or magic-themed bookmarks rather than copying copyrighted characters.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to sell friendship bracelets. Who should you think about first?",
+          "options": [
+            {
+              "emoji": "🎯",
+              "label": "Who would actually want to buy them, like kids your age",
+              "good": true,
+              "outcome": "Exactly! Knowing who your customers are helps you design and price your product for them."
+            },
+            {
+              "emoji": "🪞",
+              "label": "Just make whatever you personally like",
+              "good": false,
+              "outcome": "Your own taste matters, but thinking about who'll actually buy it helps you design something people want."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't matter who buys them",
+              "good": false,
+              "outcome": "It matters a lot — understanding your customers helps you make smarter choices about your product."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎲",
         "title": "Taking a smart risk",
-        "text": "Starting a business always involves some risk — it might not work. Smart entrepreneurs take risks they can afford, not risks that could ruin them. For example, spending $10 of your own savings to try selling friendship bracelets at a school fair is a smart, affordable risk — spending your entire year's savings on the same idea would not be."
+        "text": "Starting a business always involves some risk — it might not work. Smart entrepreneurs take risks they can afford, not risks that could ruin them. For example, spending $10 of your own savings to try selling friendship bracelets at a school fair is a smart, affordable risk — spending your entire year's savings on the same idea would not be.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Starting any business involves some risk that it might not work out. What makes a risk 'smart' rather than careless?",
+          "options": [
+            {
+              "emoji": "🧠",
+              "label": "Thinking it through and limiting how much you could lose",
+              "good": true,
+              "outcome": "Exactly right! A smart risk means thinking it through and limiting how much you could lose if it doesn't work out."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Risk never matters in business",
+              "good": false,
+              "outcome": "Risk actually matters a lot in business — the key is taking a smart, well-thought-out risk, not ignoring risk entirely."
+            },
+            {
+              "emoji": "🎲",
+              "label": "A smart risk means risking everything you have",
+              "good": false,
+              "outcome": "Risking everything is the opposite of smart — a smart risk limits how much you could lose."
+            }
+          ]
+        }
       },
       {
         "emoji": "💡",
         "title": "Finding a business idea",
-        "text": "Most solid business ideas start the same way — by noticing a problem or an annoying gap in what's available. For example, noticing that kids at your school have nowhere nearby to buy a cold snack after practice could turn into a snack-selling business, simply because you spotted a real, everyday need."
+        "text": "Most solid business ideas start the same way — by noticing a problem or an annoying gap in what's available. For example, noticing that kids at your school have nowhere nearby to buy a cold snack after practice could turn into a snack-selling business, simply because you spotted a real, everyday need.",
+        "widget": "odd-one-out",
+        "widgetConfig": {
+          "prompt": "Which of these is NOT a good way to find a business idea?",
+          "items": [
+            {
+              "emoji": "🔍",
+              "label": "Noticing a problem people have"
+            },
+            {
+              "emoji": "🙋",
+              "label": "Asking friends what they wish existed"
+            },
+            {
+              "emoji": "📋",
+              "label": "Copying something exactly, with zero changes or understanding"
+            },
+            {
+              "emoji": "💡",
+              "label": "Thinking about what you're good at"
+            }
+          ],
+          "oddIndex": 2,
+          "explanation": "Copying something exactly without understanding why it worked rarely succeeds the same way — the other three are solid starting points for finding a real idea."
+        }
       },
       {
         "emoji": "🧪",
         "title": "Testing your idea small before going big",
-        "text": "Before investing a lot of time or money, smart entrepreneurs try a small version of their idea first to see if people actually want it. For example, making and selling just 10 candles to friends and family before ordering hundreds of dollars of supplies lets you learn what works with very little risk."
+        "text": "Before investing a lot of time or money, smart entrepreneurs try a small version of their idea first to see if people actually want it. For example, making and selling just 10 candles to friends and family before ordering hundreds of dollars of supplies lets you learn what works with very little risk.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You have an idea for a dog-walking business and you're excited to buy business cards, a website, and equipment right away. What's the smarter first step?",
+          "options": [
+            {
+              "emoji": "🐕",
+              "label": "Try it small first — walk a couple of neighbors' dogs to see if people want it",
+              "good": true,
+              "outcome": "Smart move — testing small lets you learn what works before investing a lot of time and money into something unproven."
+            },
+            {
+              "emoji": "💳",
+              "label": "Go all in immediately with all the big purchases",
+              "good": false,
+              "outcome": "Going all in before testing the idea risks a lot of money on something that might not actually work as planned."
+            },
+            {
+              "emoji": "😔",
+              "label": "Give up before trying since it might not work",
+              "good": false,
+              "outcome": "You don't need to give up — testing small is exactly how you find out if an idea works, without the big risk."
+            }
+          ]
+        }
       },
       {
         "emoji": "💵",
         "title": "Estimating startup costs",
-        "text": "Startup costs are the money you need to spend before your business earns anything at all, like ingredients, containers, or a sign. For example, a cookie business might need $15 for flour, sugar, and butter, plus $5 for bags and labels, meaning you'd need $20 just to get started."
+        "text": "Startup costs are the money you need to spend before your business earns anything at all, like ingredients, containers, or a sign. For example, a cookie business might need $15 for flour, sugar, and butter, plus $5 for bags and labels, meaning you'd need $20 just to get started.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A cookie business needs $15 for ingredients and $5 for bags and labels. What's the total startup cost?",
+          "options": [
+            {
+              "emoji": "💵",
+              "label": "$20",
+              "good": true,
+              "outcome": "Exactly right! $15 for ingredients plus $5 for bags and labels adds up to $20 in startup costs."
+            },
+            {
+              "emoji": "💵",
+              "label": "$15",
+              "good": false,
+              "outcome": "That's just the ingredient cost — adding the $5 for bags and labels brings the total to $20."
+            },
+            {
+              "emoji": "💵",
+              "label": "$5",
+              "good": false,
+              "outcome": "That's just the bags and labels cost — adding the $15 for ingredients brings the total to $20."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧭",
         "title": "Needs vs. wants",
-        "text": "A need solves an important problem; a want makes life more enjoyable or convenient. Both can support good businesses. The key is understanding how strongly customers care about the problem and whether they will pay for your solution."
+        "text": "A need solves an important problem; a want makes life more enjoyable or convenient. Both can support good businesses. The key is understanding how strongly customers care about the problem and whether they will pay for your solution.",
+        "widget": "sort-puzzle",
+        "widgetConfig": {
+          "prompt": "Sort each item into Need or Want",
+          "categoryA": {
+            "key": "need",
+            "label": "Need",
+            "color": "#16a34a"
+          },
+          "categoryB": {
+            "key": "want",
+            "label": "Want",
+            "color": "#f59e0b"
+          },
+          "items": [
+            {
+              "emoji": "🍎",
+              "label": "Food to eat",
+              "answer": "need"
+            },
+            {
+              "emoji": "🎮",
+              "label": "A new video game",
+              "answer": "want"
+            },
+            {
+              "emoji": "👟",
+              "label": "Designer sneakers",
+              "answer": "want"
+            },
+            {
+              "emoji": "💧",
+              "label": "Clean water",
+              "answer": "need"
+            },
+            {
+              "emoji": "📓",
+              "label": "School supplies",
+              "answer": "need"
+            },
+            {
+              "emoji": "🍬",
+              "label": "Candy at the checkout",
+              "answer": "want"
+            }
+          ]
+        }
       },
       {
         "emoji": "🗣️",
         "title": "Writing a simple pitch",
-        "text": "A pitch is a short, clear explanation of your business idea that you could tell someone in under a minute. For example, \"I make custom phone cases for $12 each, designed exactly how a customer wants them\" tells a potential customer or helper exactly what you do and why it matters."
+        "text": "A pitch is a short, clear explanation of your business idea that you could tell someone in under a minute. For example, \"I make custom phone cases for $12 each, designed exactly how a customer wants them\" tells a potential customer or helper exactly what you do and why it matters.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone asks what your business does. What makes a good pitch?",
+          "options": [
+            {
+              "emoji": "🎤",
+              "label": "A short, clear explanation in under a minute",
+              "good": true,
+              "outcome": "Exactly right! A pitch is a short, clear explanation of your business idea that you could tell someone in under a minute."
+            },
+            {
+              "emoji": "📜",
+              "label": "A long, rambling explanation with no clear point",
+              "good": false,
+              "outcome": "A long, unclear explanation can lose someone's interest — a short, clear pitch works much better."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Refusing to explain your business at all",
+              "good": false,
+              "outcome": "Not explaining your business at all misses the chance to interest a customer or helper — a quick pitch works better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏁",
         "title": "Setting a goal for your first month",
-        "text": "Having a clear, specific goal — like earning $50 in your first month — gives you something concrete to work toward and a way to measure whether your business is on track. For example, if you're only halfway to your goal by week three, that's a signal to try something new, like a better sign or a new selling spot."
+        "text": "Having a clear, specific goal — like earning $50 in your first month — gives you something concrete to work toward and a way to measure whether your business is on track. For example, if you're only halfway to your goal by week three, that's a signal to try something new, like a better sign or a new selling spot.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're only halfway to your $50 goal by week three of the month. What should this tell you?",
+          "options": [
+            {
+              "emoji": "🔁",
+              "label": "It's a signal to try something new, like a better sign or spot",
+              "good": true,
+              "outcome": "Exactly right! Falling behind your goal partway through is a signal to try something new, not just hope it fixes itself."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Nothing — goals don't matter once set",
+              "good": false,
+              "outcome": "Goals actually matter a lot — checking your progress against them tells you when to adjust your approach."
+            },
+            {
+              "emoji": "😢",
+              "label": "You should give up on the goal completely",
+              "good": false,
+              "outcome": "Falling behind doesn't mean giving up — it's a signal to try something new, like a better sign or selling spot."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -694,42 +1689,234 @@
       {
         "emoji": "🏷️",
         "title": "Pricing fairly",
-        "text": "A fair price should cover your costs, reward your time and effort, and still make sense to customers. If a bracelet uses $3 of materials, you might test an $8 price and see whether buyers think the quality and design are worth it."
+        "text": "A fair price should cover your costs, reward your time and effort, and still make sense to customers. If a bracelet uses $3 of materials, you might test an $8 price and see whether buyers think the quality and design are worth it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A bracelet uses $3 of materials. You're testing an $8 price. What should a fair price do?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "Cover costs, reward your effort, and still make sense to customers",
+              "good": true,
+              "outcome": "Exactly right! A fair price should cover your costs, reward your time and effort, and still make sense to customers."
+            },
+            {
+              "emoji": "💰",
+              "label": "Be as high as possible no matter what",
+              "good": false,
+              "outcome": "Pricing as high as possible regardless of value can push customers away — a fair price balances costs, effort, and customer value."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Ignore your costs completely",
+              "good": false,
+              "outcome": "Ignoring your costs could mean losing money on every sale — a fair price needs to at least cover what you spent."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏷️",
         "title": "Standing out from competitors",
-        "text": "When several businesses sell similar things, customers need a reason to choose one. You could stand out through better quality, custom choices, faster service, a different style, or a fair price — not just by being the cheapest."
+        "text": "When several businesses sell similar things, customers need a reason to choose one. You could stand out through better quality, custom choices, faster service, a different style, or a fair price — not just by being the cheapest.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "There are already three other kids selling cookies at the school fair. What could help your stand stand out?",
+          "options": [
+            {
+              "emoji": "✨",
+              "label": "Offer something unique, like a special flavor or friendly branding",
+              "good": true,
+              "outcome": "Great thinking! Standing out with something unique, even something small, helps customers choose you over competitors."
+            },
+            {
+              "emoji": "🐑",
+              "label": "Copy exactly what the other stands are doing",
+              "good": false,
+              "outcome": "Copying exactly what others do makes it harder for customers to choose you — offering something unique helps you stand out."
+            },
+            {
+              "emoji": "😔",
+              "label": "Give up since there's too much competition",
+              "good": false,
+              "outcome": "Competition doesn't mean giving up — finding your own unique angle can help you succeed even in a crowded market."
+            }
+          ]
+        }
       },
       {
         "emoji": "📣",
         "title": "Word of mouth",
-        "text": "Happy customers telling their friends is one of the most powerful (and free!) ways a small business grows. For example, if one classmate loves the bracelet you made them and shows five friends at lunch, you might suddenly have five new customers without spending a single cent on advertising."
+        "text": "Happy customers telling their friends is one of the most powerful (and free!) ways a small business grows. For example, if one classmate loves the bracelet you made them and shows five friends at lunch, you might suddenly have five new customers without spending a single cent on advertising.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "One classmate loves your bracelet and tells five friends. What just happened?",
+          "options": [
+            {
+              "emoji": "🗣️",
+              "label": "Word of mouth brought new customers for free",
+              "good": true,
+              "outcome": "Exactly! Happy customers telling their friends is one of the most powerful, and free, ways a small business grows."
+            },
+            {
+              "emoji": "🙅",
+              "label": "This never helps a business grow",
+              "good": false,
+              "outcome": "Word of mouth actually helps a business grow a lot, and it costs nothing."
+            },
+            {
+              "emoji": "💸",
+              "label": "You have to pay for every single new customer",
+              "good": false,
+              "outcome": "Word of mouth is a free way to gain new customers — you don't have to pay for every one."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌟",
         "title": "Building a name people remember",
-        "text": "A consistent name, look, or feel for your business — sometimes called a brand — helps customers recognize and trust you again next time. For example, always using the same logo sticker and the same colorful packaging for your bracelets helps customers instantly recognize \"oh, that's from her bracelet business\" when they see it."
+        "text": "A consistent name, look, or feel for your business — sometimes called a brand — helps customers recognize and trust you again next time. For example, always using the same logo sticker and the same colorful packaging for your bracelets helps customers instantly recognize \"oh, that's from her bracelet business\" when they see it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You always use the same logo sticker and packaging for your bracelets. Why might this help?",
+          "options": [
+            {
+              "emoji": "🏷️",
+              "label": "It helps customers recognize and trust your business again",
+              "good": true,
+              "outcome": "Exactly right! A consistent look or feel for your business helps customers recognize and trust you again next time."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Consistency never matters for a business",
+              "good": false,
+              "outcome": "Consistency actually matters a lot — it helps customers recognize and trust your business over time."
+            },
+            {
+              "emoji": "🔀",
+              "label": "Customers prefer a business that looks different every time",
+              "good": false,
+              "outcome": "Constantly changing your look can make a business harder to recognize — consistency builds trust instead."
+            }
+          ]
+        }
       },
       {
         "emoji": "📱",
         "title": "Selling online with help",
-        "text": "With a parent's help, some young entrepreneurs sell crafts or art through simple online marketplaces, reaching far more people than a stand on the street. For example, a 12-year-old who makes custom drawings might, with a parent's account and supervision, list a few pieces online and reach buyers far beyond just their own neighborhood."
+        "text": "With a parent's help, some young entrepreneurs sell crafts or art through simple online marketplaces, reaching far more people than a stand on the street. For example, a 12-year-old who makes custom drawings might, with a parent's account and supervision, list a few pieces online and reach buyers far beyond just their own neighborhood.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to sell your crafts online. What's the responsible way to do this as a kid?",
+          "options": [
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "Do it with a parent's help and supervision",
+              "good": true,
+              "outcome": "Exactly right! Selling online as a kid should always be done with a parent's help and supervision."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Set it up entirely on your own without telling anyone",
+              "good": false,
+              "outcome": "Selling online on your own without a parent's involvement isn't safe — always get help and supervision."
+            },
+            {
+              "emoji": "🎭",
+              "label": "It's fine as long as you use a fake name",
+              "good": false,
+              "outcome": "Using a fake name doesn't make it safe — getting a parent's help and supervision is what matters."
+            }
+          ]
+        }
       },
       {
         "emoji": "📢",
         "title": "Marketing on a budget",
-        "text": "You don't need to spend much money to market a small business — social media posts, flyers, and word of mouth can all work well for free or cheap. For example, posting a few photos of your bracelets on a family member's social media account, tagged with your prices, can reach dozens of potential customers without spending a single dollar."
+        "text": "You don't need to spend much money to market a small business — social media posts, flyers, and word of mouth can all work well for free or cheap. For example, posting a few photos of your bracelets on a family member's social media account, tagged with your prices, can reach dozens of potential customers without spending a single dollar.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to tell more people about your bracelets without spending money. What could work?",
+          "options": [
+            {
+              "emoji": "📱",
+              "label": "Posting photos on social media or word of mouth",
+              "good": true,
+              "outcome": "Exactly right! Social media posts, flyers, and word of mouth can all work well for free or cheap marketing."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Marketing is impossible without spending a lot of money",
+              "good": false,
+              "outcome": "Marketing doesn't have to cost much — free options like social media posts and word of mouth can work well."
+            },
+            {
+              "emoji": "🤐",
+              "label": "You should never tell anyone about your business",
+              "good": false,
+              "outcome": "Staying silent means fewer people ever find out about your business — low-cost marketing helps spread the word."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎁",
         "title": "Bundling and discounts",
-        "text": "Bundling means selling several items together for one combined price, often at a small discount compared to buying each separately. For example, offering three bracelets for $10 instead of $4 each encourages customers to buy more at once, while still feeling like a good deal for them."
+        "text": "Bundling means selling several items together for one combined price, often at a small discount compared to buying each separately. For example, offering three bracelets for $10 instead of $4 each encourages customers to buy more at once, while still feeling like a good deal for them.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You offer three bracelets for $10 instead of $4 each. What is this pricing strategy called?",
+          "options": [
+            {
+              "emoji": "📦",
+              "label": "Bundling",
+              "good": true,
+              "outcome": "Exactly right! Bundling means selling several items together for one combined price, often at a small discount."
+            },
+            {
+              "emoji": "📈",
+              "label": "Overpricing",
+              "good": false,
+              "outcome": "This isn't overpricing — it's actually a discount for buying more at once, which is called bundling."
+            },
+            {
+              "emoji": "🤷",
+              "label": "This has no name",
+              "good": false,
+              "outcome": "This pricing strategy actually has a name — it's called bundling."
+            }
+          ]
+        }
       },
       {
         "emoji": "👂",
         "title": "Listening to customer feedback to improve",
-        "text": "Customers often give hints about how to improve your product, even when they don't realize they're doing it. For example, if several customers mention they wish your bracelets came in brighter colors, trying out a few brighter designs next batch could meaningfully boost your sales."
+        "text": "Customers often give hints about how to improve your product, even when they don't realize they're doing it. For example, if several customers mention they wish your bracelets came in brighter colors, trying out a few brighter designs next batch could meaningfully boost your sales.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Several customers tell you your cookies would be even better with less sugar. What's the smartest response?",
+          "options": [
+            {
+              "emoji": "🍪",
+              "label": "Try adjusting the recipe based on the feedback",
+              "good": true,
+              "outcome": "Great instinct — listening to repeated customer feedback and adjusting is exactly how businesses improve and keep customers happy."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Ignore it, your original recipe is perfect",
+              "good": false,
+              "outcome": "Ignoring repeated feedback from multiple customers means missing a chance to improve your product and keep them happy."
+            },
+            {
+              "emoji": "😤",
+              "label": "Get upset that they didn't like it",
+              "good": false,
+              "outcome": "Feedback isn't personal — it's useful information that can help make your product even better."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -830,42 +2017,206 @@
       {
         "emoji": "📊",
         "title": "Profit and loss",
-        "text": "Profit is what remains when your business earns more than it spends; a loss happens when expenses are higher than earnings. If your dog-walking business brings in $60 but spends $75 that month, it has a $15 loss."
+        "text": "Profit is what remains when your business earns more than it spends; a loss happens when expenses are higher than earnings. If your dog-walking business brings in $60 but spends $75 that month, it has a $15 loss.",
+        "widget": "profit-calculator",
+        "widgetConfig": {
+          "productEmoji": "🍋",
+          "productName": "cup of lemonade",
+          "costPerItem": 0.5,
+          "priceMin": 0.5,
+          "priceMax": 3,
+          "defaultPrice": 1.5,
+          "maxUnits": 50,
+          "defaultUnits": 20
+        }
       },
       {
         "emoji": "🧑‍🤝‍🧑",
         "title": "Teamwork in business",
-        "text": "Many businesses run better with a team — different people handling different jobs, like making the product, selling it, and managing money. For example, if you and a friend start a dog-walking business together, one of you could focus on finding new customers while the other tracks the schedule and money — splitting the work makes it easier to grow."
+        "text": "Many businesses run better with a team — different people handling different jobs, like making the product, selling it, and managing money. For example, if you and a friend start a dog-walking business together, one of you could focus on finding new customers while the other tracks the schedule and money — splitting the work makes it easier to grow.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A business runs better with people handling different tasks based on their strengths. Why?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Because dividing tasks by strength helps the whole business run more smoothly",
+              "good": true,
+              "outcome": "Exactly! Many businesses run better with a team, where different people handle different parts based on their strengths."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Teamwork never helps a business",
+              "good": false,
+              "outcome": "Teamwork actually helps a lot — dividing tasks by strength makes the whole business run more smoothly."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Everyone should always do the exact same tasks regardless of skill",
+              "good": false,
+              "outcome": "Assigning the same tasks to everyone regardless of skill wastes everyone's strengths — dividing by strength works better."
+            }
+          ]
+        }
       },
       {
         "emoji": "♻️",
         "title": "Reinvesting in growth",
-        "text": "Instead of spending all the profit right away, many entrepreneurs put some of it back into the business — better supplies, a nicer sign, more inventory. For example, if your bracelet business earns $20 profit one week, using $10 of it to buy more beads and string for next week (instead of spending it all on yourself) helps the business keep growing."
+        "text": "Instead of spending all the profit right away, many entrepreneurs put some of it back into the business — better supplies, a nicer sign, more inventory. For example, if your bracelet business earns $20 profit one week, using $10 of it to buy more beads and string for next week (instead of spending it all on yourself) helps the business keep growing.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your bracelet business earns $20 profit. What could help it keep growing?",
+          "options": [
+            {
+              "emoji": "🔁",
+              "label": "Use some of the profit to buy more supplies",
+              "good": true,
+              "outcome": "Exactly! Putting some profit back into the business, like more beads and string, helps it keep growing."
+            },
+            {
+              "emoji": "🛍️",
+              "label": "Spend all of it on yourself immediately",
+              "good": false,
+              "outcome": "Spending all the profit on yourself leaves nothing to grow the business further — reinvesting some helps it keep going."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Reinvesting never helps a business grow",
+              "good": false,
+              "outcome": "Reinvesting actually helps a business grow — using some profit for more supplies keeps things going."
+            }
+          ]
+        }
       },
       {
         "emoji": "😕",
         "title": "Handling a dissatisfied customer",
-        "text": "How you respond when a customer is unhappy can matter more than the original mistake — a calm, fair fix often turns a complaint into loyalty. For example, if a customer says their custom mug arrived cracked, offering a free replacement instead of arguing about it usually keeps them as a customer instead of losing them for good."
+        "text": "How you respond when a customer is unhappy can matter more than the original mistake — a calm, fair fix often turns a complaint into loyalty. For example, if a customer says their custom mug arrived cracked, offering a free replacement instead of arguing about it usually keeps them as a customer instead of losing them for good.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A customer messages saying the item they ordered from your small business arrived damaged. What's the best response?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Apologize, listen, and offer a replacement or refund",
+              "good": true,
+              "outcome": "Exactly right — handling complaints well turns an unhappy customer into a loyal one, and shows others you stand behind your product."
+            },
+            {
+              "emoji": "🙉",
+              "label": "Ignore the message and hope they drop it",
+              "good": false,
+              "outcome": "Ignoring complaints usually makes customers angrier and more likely to leave a bad review."
+            },
+            {
+              "emoji": "😡",
+              "label": "Tell them it's their fault for not being careful",
+              "good": false,
+              "outcome": "Blaming the customer damages your reputation — a calm, helpful response protects your business's name."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "Teamwork and clear agreements",
-        "text": "When you run a business with a partner, agreeing early on who does what and how profits get split helps avoid arguments later. For example, two friends running a dog-walking business might agree in writing that one handles scheduling and the other handles the actual walks, splitting profits evenly between them."
+        "text": "When you run a business with a partner, agreeing early on who does what and how profits get split helps avoid arguments later. For example, two friends running a dog-walking business might agree in writing that one handles scheduling and the other handles the actual walks, splitting profits evenly between them.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Two friends run a dog-walking business together. What helps avoid arguments later?",
+          "options": [
+            {
+              "emoji": "📝",
+              "label": "Agreeing early on who does what and how profits split",
+              "good": true,
+              "outcome": "Exactly right! Agreeing early on roles and how profits get split helps avoid arguments later."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Never discussing how work or profits are divided",
+              "good": false,
+              "outcome": "Not discussing this upfront often leads to disagreements later — agreeing early helps avoid that."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Agreements only matter after problems start",
+              "good": false,
+              "outcome": "Waiting until problems start is too late — agreeing early helps prevent those arguments in the first place."
+            }
+          ]
+        }
       },
       {
         "emoji": "📒",
         "title": "Creating a simple budget",
-        "text": "A budget is a simple plan for how much money you expect to spend and how much you hope to earn or save over a certain time, like a month. For example, budgeting $20 for supplies and hoping to earn $50 in sales this month helps you know right away if you're on track or falling behind."
+        "text": "A budget is a simple plan for how much money you expect to spend and how much you hope to earn or save over a certain time, like a month. For example, budgeting $20 for supplies and hoping to earn $50 in sales this month helps you know right away if you're on track or falling behind.",
+        "widget": "sequence-order",
+        "widgetConfig": {
+          "prompt": "Tap the budgeting steps in the right order",
+          "items": [
+            "Estimate how much you'll spend",
+            "Set a goal for how much you'll earn",
+            "Check your progress partway through"
+          ]
+        }
       },
       {
         "emoji": "📉",
         "title": "When sales slow down",
-        "text": "Almost every business hits a slow stretch at some point, and how you respond matters more than the slowdown itself. For example, if candle sales drop for two weeks straight, checking whether your price, location, or scent selection needs adjusting is more productive than simply hoping things improve on their own."
+        "text": "Almost every business hits a slow stretch at some point, and how you respond matters more than the slowdown itself. For example, if candle sales drop for two weeks straight, checking whether your price, location, or scent selection needs adjusting is more productive than simply hoping things improve on their own.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Candle sales drop for two weeks straight. What's the most productive response?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "Check if price, location, or selection needs adjusting",
+              "good": true,
+              "outcome": "Exactly right! Checking whether your price, location, or selection needs adjusting is more productive than just hoping things improve."
+            },
+            {
+              "emoji": "🤞",
+              "label": "Just hope things improve on their own",
+              "good": false,
+              "outcome": "Just hoping rarely fixes a slowdown — checking what might need adjusting is much more productive."
+            },
+            {
+              "emoji": "😢",
+              "label": "Give up on the business immediately",
+              "good": false,
+              "outcome": "A two-week slowdown isn't a reason to quit — checking what needs adjusting is a better first step."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔄",
         "title": "Learning from a mistake",
-        "text": "Mistakes are one of the fastest ways to learn what actually works in a business, as long as you pay attention to what went wrong. For example, running out of cups halfway through a busy Saturday teaches you to buy extra supplies next time, turning a frustrating afternoon into a useful lesson."
+        "text": "Mistakes are one of the fastest ways to learn what actually works in a business, as long as you pay attention to what went wrong. For example, running out of cups halfway through a busy Saturday teaches you to buy extra supplies next time, turning a frustrating afternoon into a useful lesson.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You ran out of cups halfway through a busy Saturday. What's the useful lesson?",
+          "options": [
+            {
+              "emoji": "📦",
+              "label": "Buy extra supplies next time",
+              "good": true,
+              "outcome": "Exactly right! Running out of cups teaches you to buy extra supplies next time, turning a frustrating day into a useful lesson."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Mistakes teach you nothing",
+              "good": false,
+              "outcome": "Mistakes actually teach a lot — this one shows exactly why buying extra supplies next time matters."
+            },
+            {
+              "emoji": "🚫",
+              "label": "Never sell on busy days again",
+              "good": false,
+              "outcome": "Avoiding busy days isn't the lesson here — the real lesson is to prepare with extra supplies next time."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -966,42 +2317,231 @@
       {
         "emoji": "📝",
         "title": "What is a business plan?",
-        "text": "A business plan lays out what a business will sell, who it's for, how it'll make money, and what it needs to get started — a roadmap for turning an idea into reality. For example, a teen wanting to start a pet-sitting business might write a one-page plan covering who their customers are (nearby pet owners), how much they'll charge per visit, and what supplies (a leash, treats, a scheduling app) they need first."
+        "text": "A business plan lays out what a business will sell, who it's for, how it'll make money, and what it needs to get started — a roadmap for turning an idea into reality. For example, a teen wanting to start a pet-sitting business might write a one-page plan covering who their customers are (nearby pet owners), how much they'll charge per visit, and what supplies (a leash, treats, a scheduling app) they need first.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Before starting a business, you write out what it will sell, who it's for, and how it'll make money. What is this document called?",
+          "options": [
+            {
+              "emoji": "📋",
+              "label": "A business plan",
+              "good": true,
+              "outcome": "Exactly right! A business plan lays out what a business will sell, who it's for, and how it'll make money."
+            },
+            {
+              "emoji": "📝",
+              "label": "A report card",
+              "good": false,
+              "outcome": "A report card is unrelated — the document describing a business's plan is called a business plan."
+            },
+            {
+              "emoji": "🙅",
+              "label": "There's no need to plan anything before starting a business",
+              "good": false,
+              "outcome": "Planning actually helps a lot before starting a business — that's exactly what a business plan is for."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌱",
         "title": "Startup vs. small business",
-        "text": "A small business is usually built to operate sustainably for its owners and customers. A startup is typically designed around a repeatable idea that can grow rapidly, often with significant uncertainty. A neighborhood pet-sitting service may be a small business; a platform built to connect thousands of sitters and pet owners across cities may be a startup."
+        "text": "A small business is usually built to operate sustainably for its owners and customers. A startup is typically designed around a repeatable idea that can grow rapidly, often with significant uncertainty. A neighborhood pet-sitting service may be a small business; a platform built to connect thousands of sitters and pet owners across cities may be a startup.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "One business is built to grow rapidly and scale fast, while another is built to run steadily for its owner and customers. Which is typically called a \"startup\"?",
+          "options": [
+            {
+              "emoji": "🚀",
+              "label": "The one built to grow rapidly and scale fast",
+              "good": true,
+              "outcome": "Exactly! A startup is usually built with rapid growth and scaling in mind, while a small business focuses on sustainable, steady operation."
+            },
+            {
+              "emoji": "🏪",
+              "label": "The one built to operate sustainably and steadily",
+              "good": false,
+              "outcome": "That description fits a small business more — a startup is typically built around rapid growth and scaling."
+            },
+            {
+              "emoji": "🤷",
+              "label": "There's no real difference between the two",
+              "good": false,
+              "outcome": "There is a meaningful difference — startups aim for rapid scaling, while small businesses focus on steady, sustainable operation."
+            }
+          ]
+        }
       },
       {
         "emoji": "💵",
         "title": "Where funding comes from",
-        "text": "Businesses can be funded in different ways: personal savings, revenue from early sales, loans that must be repaid, or investors who provide money in exchange for ownership (equity). Each source changes the founder’s risk, control, and obligations."
+        "text": "Businesses can be funded in different ways: personal savings, revenue from early sales, loans that must be repaid, or investors who provide money in exchange for ownership (equity). Each source changes the founder’s risk, control, and obligations.",
+        "widget": "matching-pairs",
+        "widgetConfig": {
+          "pairs": [
+            {
+              "left": "Personal savings",
+              "right": "Using your own money"
+            },
+            {
+              "left": "Revenue",
+              "right": "Money earned from early sales"
+            },
+            {
+              "left": "Loan",
+              "right": "Borrowed money that must be repaid"
+            },
+            {
+              "left": "Investor (equity)",
+              "right": "Money given in exchange for part ownership"
+            }
+          ]
+        }
       },
       {
         "emoji": "📈",
         "title": "What does \"scaling\" mean?",
-        "text": "Scaling means growing a business to serve many more customers without everything becoming proportionally more expensive or difficult to manage. For example, a tutoring business that only earns more by adding more of the tutor's own hours doesn't scale well, but selling a recorded video course that hundreds of students can buy without extra work per student scales much better."
+        "text": "Scaling means growing a business to serve many more customers without everything becoming proportionally more expensive or difficult to manage. For example, a tutoring business that only earns more by adding more of the tutor's own hours doesn't scale well, but selling a recorded video course that hundreds of students can buy without extra work per student scales much better.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A tutoring business only earns more by adding more of the tutor's own hours. A video course can be bought by hundreds of students with no extra work per student. Which one scales better?",
+          "options": [
+            {
+              "emoji": "🎥",
+              "label": "The video course",
+              "good": true,
+              "outcome": "Exactly right! The video course scales better since hundreds of students can buy it without adding extra work per student."
+            },
+            {
+              "emoji": "🧑‍🏫",
+              "label": "The tutoring business",
+              "good": false,
+              "outcome": "The tutoring business doesn't scale as well, since earning more requires adding more of the tutor's own hours."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Neither one can ever scale",
+              "good": false,
+              "outcome": "One of these actually does scale well — the video course, since it doesn't require more work per additional student."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎯",
         "title": "Finding your target market",
-        "text": "A target market is the specific group of people most likely to actually want and pay for what you're offering, rather than the entire population. For example, a business selling custom study planners is far better off targeting stressed high school juniors and seniors preparing for exams than trying to market to literally everyone."
+        "text": "A target market is the specific group of people most likely to actually want and pay for what you're offering, rather than the entire population. For example, a business selling custom study planners is far better off targeting stressed high school juniors and seniors preparing for exams than trying to market to literally everyone.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to start a business selling trendy phone cases. Who should you research first before designing your product?",
+          "options": [
+            {
+              "emoji": "🎯",
+              "label": "The specific group of people most likely to buy phone cases like yours",
+              "good": true,
+              "outcome": "Exactly — understanding your target market's preferences and habits shapes smarter decisions about design, pricing, and marketing from the start."
+            },
+            {
+              "emoji": "🌍",
+              "label": "Everyone who owns a phone, since anyone could buy one",
+              "good": false,
+              "outcome": "Trying to appeal to literally everyone usually means appealing strongly to no one — a specific target market helps you design something people actually want."
+            },
+            {
+              "emoji": "🪞",
+              "label": "No one — just make what you personally like",
+              "good": false,
+              "outcome": "Your own taste matters, but understanding what your actual customers want is what turns a product into a successful business."
+            }
+          ]
+        }
       },
       {
         "emoji": "💎",
         "title": "Crafting a value proposition",
-        "text": "A value proposition is a clear, specific statement of why a customer should choose your product over any alternative, including doing nothing at all. For example, \"Custom tutoring scheduled around your exact sports practice times\" gives a busy student-athlete a concrete reason to choose you over a generic tutoring center."
+        "text": "A value proposition is a clear, specific statement of why a customer should choose your product over any alternative, including doing nothing at all. For example, \"Custom tutoring scheduled around your exact sports practice times\" gives a busy student-athlete a concrete reason to choose you over a generic tutoring center.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're starting a tutoring business. What should your value proposition clearly communicate?",
+          "options": [
+            {
+              "emoji": "🎯",
+              "label": "Why a student should choose your tutoring over other options",
+              "good": true,
+              "outcome": "Exactly! A value proposition clearly explains the unique benefit you offer that makes customers choose you specifically."
+            },
+            {
+              "emoji": "📜",
+              "label": "A long list of unrelated personal facts about you",
+              "good": false,
+              "outcome": "A value proposition should focus on the specific benefit you offer customers, not unrelated personal details."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Nothing in particular, just vague positivity",
+              "good": false,
+              "outcome": "A vague message doesn't help customers understand why to choose you — being specific about your unique value works much better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔬",
         "title": "Market research basics",
-        "text": "Market research means gathering real information about what potential customers want, need, and are willing to pay, instead of just guessing. For example, sending a short survey to 30 classmates before launching a snack business can reveal that most would pay $2 for a granola bar, but not $5, saving you from mispricing later."
+        "text": "Market research means gathering real information about what potential customers want, need, and are willing to pay, instead of just guessing. For example, sending a short survey to 30 classmates before launching a snack business can reveal that most would pay $2 for a granola bar, but not $5, saving you from mispricing later.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You send a survey to classmates before launching a snack business. Why is this a smart move?",
+          "options": [
+            {
+              "emoji": "📊",
+              "label": "It reveals what customers actually want and will pay, instead of guessing",
+              "good": true,
+              "outcome": "Exactly right! Market research gathers real information about what customers want and will pay, instead of just guessing."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Market research never helps avoid mistakes",
+              "good": false,
+              "outcome": "Market research actually helps avoid costly mistakes, like mispricing a product customers wouldn't pay for."
+            },
+            {
+              "emoji": "🎲",
+              "label": "Guessing is always better than asking customers",
+              "good": false,
+              "outcome": "Guessing can lead to costly mistakes — asking customers directly, through research, gives much more reliable information."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏢",
         "title": "Choosing a business structure",
-        "text": "Businesses can use different legal structures, and the exact rules depend on where they operate. A sole proprietorship generally has one owner, while a partnership involves two or more owners. As a business grows, owners may consider other structures with help from a parent, accountant, or attorney."
+        "text": "Businesses can use different legal structures, and the exact rules depend on where they operate. A sole proprietorship generally has one owner, while a partnership involves two or more owners. As a business grows, owners may consider other structures with help from a parent, accountant, or attorney.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A business has exactly one owner. What is this type of structure generally called?",
+          "options": [
+            {
+              "emoji": "🧑",
+              "label": "A sole proprietorship",
+              "good": true,
+              "outcome": "Exactly right! A sole proprietorship generally has one owner."
+            },
+            {
+              "emoji": "🤝",
+              "label": "A partnership",
+              "good": false,
+              "outcome": "A partnership involves two or more owners — a business with exactly one owner is a sole proprietorship."
+            },
+            {
+              "emoji": "🤷",
+              "label": "There's no name for this structure",
+              "good": false,
+              "outcome": "There actually is a name for it — a business with one owner is called a sole proprietorship."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1102,42 +2642,228 @@
       {
         "emoji": "🏷️",
         "title": "Pricing strategies",
-        "text": "Businesses generally price in one of two ways: cost-plus pricing, where you add a markup on top of what something costs to make, or value-based pricing, where you charge based on how much a customer believes it's worth. For example, a $5 material cost with a $10 markup gives a cost-plus price of $15, while a designer bag might sell for $200 largely because customers value the brand, not just the materials."
+        "text": "Businesses generally price in one of two ways: cost-plus pricing, where you add a markup on top of what something costs to make, or value-based pricing, where you charge based on how much a customer believes it's worth. For example, a $5 material cost with a $10 markup gives a cost-plus price of $15, while a designer bag might sell for $200 largely because customers value the brand, not just the materials.",
+        "widget": "profit-calculator",
+        "widgetConfig": {
+          "productEmoji": "🧁",
+          "productName": "cupcake",
+          "costPerItem": 1.5,
+          "priceMin": 1,
+          "priceMax": 6,
+          "defaultPrice": 3,
+          "maxUnits": 60,
+          "defaultUnits": 25
+        }
       },
       {
         "emoji": "📢",
         "title": "Customer acquisition and marketing spend",
-        "text": "Customer acquisition cost (CAC) is the average amount a business spends on sales and marketing to gain a new customer. If it costs $20 to acquire a customer who creates only $15 of gross profit, the business may need to lower acquisition costs, improve margins, or increase repeat purchases."
+        "text": "Customer acquisition cost (CAC) is the average amount a business spends on sales and marketing to gain a new customer. If it costs $20 to acquire a customer who creates only $15 of gross profit, the business may need to lower acquisition costs, improve margins, or increase repeat purchases.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A business spends money on ads to get new customers. What is this average cost per new customer called?",
+          "options": [
+            {
+              "emoji": "📊",
+              "label": "Customer acquisition cost (CAC)",
+              "good": true,
+              "outcome": "Exactly right! Customer acquisition cost (CAC) is the average amount a business spends to gain one new customer."
+            },
+            {
+              "emoji": "💰",
+              "label": "Customer lifetime value",
+              "good": false,
+              "outcome": "That's a different metric — the average cost to gain a new customer is called customer acquisition cost."
+            },
+            {
+              "emoji": "🤷",
+              "label": "There is no way to measure this cost",
+              "good": false,
+              "outcome": "This cost can absolutely be measured — it's called customer acquisition cost (CAC)."
+            }
+          ]
+        }
       },
       {
         "emoji": "📈",
         "title": "Measuring success beyond money",
-        "text": "Revenue matters, but it is not the only signal of a healthy business. Entrepreneurs may also track profit, cash flow, customer satisfaction, repeat purchases, growth, and impact. The right measures depend on the business and its goals."
+        "text": "Revenue matters, but it is not the only signal of a healthy business. Entrepreneurs may also track profit, cash flow, customer satisfaction, repeat purchases, growth, and impact. The right measures depend on the business and its goals.",
+        "widget": "sort-puzzle",
+        "widgetConfig": {
+          "prompt": "Sort each measure into Financial or Beyond money",
+          "categoryA": {
+            "key": "financial",
+            "label": "Financial",
+            "color": "#16a34a"
+          },
+          "categoryB": {
+            "key": "beyond",
+            "label": "Beyond money",
+            "color": "#0891b2"
+          },
+          "items": [
+            {
+              "emoji": "💵",
+              "label": "Revenue",
+              "answer": "financial"
+            },
+            {
+              "emoji": "📈",
+              "label": "Profit",
+              "answer": "financial"
+            },
+            {
+              "emoji": "😊",
+              "label": "Customer satisfaction",
+              "answer": "beyond"
+            },
+            {
+              "emoji": "🔁",
+              "label": "Repeat purchases",
+              "answer": "beyond"
+            },
+            {
+              "emoji": "💰",
+              "label": "Cash flow",
+              "answer": "financial"
+            },
+            {
+              "emoji": "🌍",
+              "label": "Community impact",
+              "answer": "beyond"
+            }
+          ]
+        }
       },
       {
         "emoji": "⚔️",
         "title": "Competitive advantage",
-        "text": "A competitive advantage is whatever makes a business genuinely better or different from its rivals — often price, quality, convenience, or service. For example, a teen lawn-care business that guarantees same-day service, when every competitor takes a week to respond, has built a clear competitive advantage without needing to be the cheapest option."
+        "text": "A competitive advantage is whatever makes a business genuinely better or different from its rivals — often price, quality, convenience, or service. For example, a teen lawn-care business that guarantees same-day service, when every competitor takes a week to respond, has built a clear competitive advantage without needing to be the cheapest option.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Two coffee shops sell similar coffee, but one consistently has longer lines. What might explain their competitive advantage?",
+          "options": [
+            {
+              "emoji": "☕",
+              "label": "They may offer something unique — better service, atmosphere, or quality",
+              "good": true,
+              "outcome": "Exactly — a real competitive advantage comes from something genuinely hard for competitors to replicate, like exceptional service or a unique experience."
+            },
+            {
+              "emoji": "🍀",
+              "label": "It's probably just random luck",
+              "good": false,
+              "outcome": "Consistent success usually points to a real advantage, like service or quality, rather than just random chance."
+            },
+            {
+              "emoji": "💲",
+              "label": "Price is the only thing that could matter",
+              "good": false,
+              "outcome": "Price matters, but plenty of competitive advantages come from service, quality, or experience, not just being the cheapest."
+            }
+          ]
+        }
       },
       {
         "emoji": "📱",
         "title": "Digital marketing basics",
-        "text": "Digital marketing means promoting a business online, through channels like social media, that often cost far less than traditional advertising. For example, posting short before-and-after videos of a car-detailing job can reach hundreds of potential local customers for free, something a printed flyer campaign could never do at that price."
+        "text": "Digital marketing means promoting a business online, through channels like social media, that often cost far less than traditional advertising. For example, posting short before-and-after videos of a car-detailing job can reach hundreds of potential local customers for free, something a printed flyer campaign could never do at that price.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You post short before-and-after videos of a car-detailing job on social media. What's a benefit of this over a printed flyer campaign?",
+          "options": [
+            {
+              "emoji": "📱",
+              "label": "It can reach hundreds of people for little to no cost",
+              "good": true,
+              "outcome": "Exactly right! Digital marketing, like social media posts, often costs far less than traditional advertising while reaching far more people."
+            },
+            {
+              "emoji": "💸",
+              "label": "Digital marketing is always more expensive",
+              "good": false,
+              "outcome": "Digital marketing is usually far cheaper than traditional advertising, not more expensive."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Nobody ever sees posts on social media",
+              "good": false,
+              "outcome": "Social media posts can actually reach hundreds of potential customers, often for free."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔁",
         "title": "Customer lifetime value",
-        "text": "Customer lifetime value estimates how much value a customer may generate over the whole relationship with a business. For example, someone paying $30 for a haircut about every six weeks for two years could generate roughly $500 in revenue — much more than the first $30 visit."
+        "text": "Customer lifetime value estimates how much value a customer may generate over the whole relationship with a business. For example, someone paying $30 for a haircut about every six weeks for two years could generate roughly $500 in revenue — much more than the first $30 visit.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone pays $30 for a haircut about every six weeks for two years. What does this estimate of total value represent?",
+          "options": [
+            {
+              "emoji": "📊",
+              "label": "Customer lifetime value",
+              "good": true,
+              "outcome": "Exactly right! Customer lifetime value estimates how much value a customer may generate over their whole relationship with a business."
+            },
+            {
+              "emoji": "1️⃣",
+              "label": "A one-time purchase only",
+              "good": false,
+              "outcome": "This is about the whole ongoing relationship, not just one purchase — that's what customer lifetime value measures."
+            },
+            {
+              "emoji": "🙅",
+              "label": "This can't be estimated at all",
+              "good": false,
+              "outcome": "This actually can be estimated — it's called customer lifetime value."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎗️",
         "title": "Building loyalty and retention",
-        "text": "Retention means keeping the customers you already have coming back, which is usually cheaper than constantly finding new ones. For example, offering a simple reward, like a free car wash after every ten paid washes, gives existing customers a reason to keep returning instead of trying a competitor."
+        "text": "Retention means keeping the customers you already have coming back, which is usually cheaper than constantly finding new ones. For example, offering a simple reward, like a free car wash after every ten paid washes, gives existing customers a reason to keep returning instead of trying a competitor.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You offer a free car wash after every ten paid washes. Why might this help your business?",
+          "options": [
+            {
+              "emoji": "🎁",
+              "label": "It gives customers a reason to keep returning instead of trying a competitor",
+              "good": true,
+              "outcome": "Exactly right! A simple reward like this gives existing customers a reason to keep returning instead of trying a competitor."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Rewards never affect whether customers return",
+              "good": false,
+              "outcome": "Rewards actually do affect behavior — they give customers a reason to keep coming back."
+            },
+            {
+              "emoji": "🆕",
+              "label": "It only helps new customers, not existing ones",
+              "good": false,
+              "outcome": "This reward is specifically aimed at keeping existing customers coming back, not attracting new ones."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧪",
         "title": "Simple experiments (A/B testing)",
-        "text": "A/B testing means trying two versions of something, like two different ad photos or prices, to see which one performs better with real customers. For example, posting one ad with a photo of the product alone and another with it in use, then comparing which gets more responses, lets you improve with evidence instead of guesswork."
+        "text": "A/B testing means trying two versions of something, like two different ad photos or prices, to see which one performs better with real customers. For example, posting one ad with a photo of the product alone and another with it in use, then comparing which gets more responses, lets you improve with evidence instead of guesswork.",
+        "widget": "sequence-order",
+        "widgetConfig": {
+          "prompt": "Tap the A/B testing steps in the right order",
+          "items": [
+            "Create two versions",
+            "Show each to real customers",
+            "Compare which performs better"
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1238,47 +2964,263 @@
       {
         "emoji": "⚠️",
         "title": "Failure is part of the process",
-        "text": "Many successful entrepreneurs failed at a first (or second, or third) attempt. Learning from what went wrong is often what makes the next attempt succeed. For example, a teen's first attempt at selling custom phone cases online might flop due to poor photos and unclear pricing — but applying those exact lessons to a second attempt often leads to real success."
+        "text": "Many successful entrepreneurs failed at a first (or second, or third) attempt. Learning from what went wrong is often what makes the next attempt succeed. For example, a teen's first attempt at selling custom phone cases online might flop due to poor photos and unclear pricing — but applying those exact lessons to a second attempt often leads to real success.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your first business idea didn't work out and you lost some money. What's the most useful mindset?",
+          "options": [
+            {
+              "emoji": "📓",
+              "label": "Figure out what you learned and try again smarter",
+              "good": true,
+              "outcome": "That's the entrepreneurial mindset — most successful founders had failed attempts first. What matters is what you learn and do next."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Decide entrepreneurship just isn't for you",
+              "good": false,
+              "outcome": "One failed attempt doesn't mean you're not cut out for it — nearly every entrepreneur has a failure story before success."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Avoid thinking about what went wrong",
+              "good": false,
+              "outcome": "Avoiding the lesson means you're more likely to repeat the same mistake — reflecting on it is what turns failure into useful experience."
+            }
+          ]
+        }
       },
       {
         "emoji": "⚖️",
         "title": "Ethics in business",
-        "text": "Long-term success usually depends on being honest with customers, treating employees fairly, and not cutting corners just to make a quick profit. For example, honestly describing a product's condition, even when a vague description might sell it faster, builds the kind of trust that keeps customers coming back for years."
+        "text": "Long-term success usually depends on being honest with customers, treating employees fairly, and not cutting corners just to make a quick profit. For example, honestly describing a product's condition, even when a vague description might sell it faster, builds the kind of trust that keeps customers coming back for years.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A business is deciding how to treat its customers and employees for the long run. What usually drives long-term success?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Being honest and treating people fairly",
+              "good": true,
+              "outcome": "Exactly! Long-term success usually depends on being honest with customers and treating people fairly."
+            },
+            {
+              "emoji": "😈",
+              "label": "Cutting corners and misleading customers whenever convenient",
+              "good": false,
+              "outcome": "Cutting corners and misleading people tends to backfire — honesty and fairness drive long-term success."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Ethics has no connection to long-term business success",
+              "good": false,
+              "outcome": "Ethics actually connects closely to long-term success — honest, fair treatment builds the trust businesses need to last."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎯",
         "title": "Solving a real problem",
-        "text": "The most durable businesses tend to solve a genuine problem for people — not just chase a trend that might fade quickly. For example, a tutoring business solving a real, ongoing need (students struggling with math) tends to last far longer than a business built around a fad that's popular for a few months and then forgotten."
+        "text": "The most durable businesses tend to solve a genuine problem for people — not just chase a trend that might fade quickly. For example, a tutoring business solving a real, ongoing need (students struggling with math) tends to last far longer than a business built around a fad that's popular for a few months and then forgotten.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "One business solves students' ongoing struggle with math, while another just chases a trend that's popular for a few months. Which tends to last longer?",
+          "options": [
+            {
+              "emoji": "📐",
+              "label": "The one solving a genuine, ongoing problem",
+              "good": true,
+              "outcome": "Exactly right! The most durable businesses tend to solve a genuine, ongoing problem rather than just chasing a fading trend."
+            },
+            {
+              "emoji": "🔥",
+              "label": "The trend-based business always lasts longer",
+              "good": false,
+              "outcome": "Trend-based businesses tend to fade once the trend does — solving a genuine, ongoing problem lasts longer."
+            },
+            {
+              "emoji": "⚖️",
+              "label": "Both last exactly the same amount of time",
+              "good": false,
+              "outcome": "They don't typically last the same — a business solving a real, ongoing problem tends to last much longer."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧭",
         "title": "Resilience and persistence",
-        "text": "Markets change, plans fail, and competitors appear. Entrepreneurs who adapt and keep going tend to outlast those who give up at the first setback. For example, if a new competitor undercuts your prices, adapting by improving your service or finding a new customer niche is more likely to succeed than simply giving up."
+        "text": "Markets change, plans fail, and competitors appear. Entrepreneurs who adapt and keep going tend to outlast those who give up at the first setback. For example, if a new competitor undercuts your prices, adapting by improving your service or finding a new customer niche is more likely to succeed than simply giving up.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A new competitor undercuts your prices. What's the more effective response?",
+          "options": [
+            {
+              "emoji": "🔧",
+              "label": "Adapt by improving your service or finding a new niche",
+              "good": true,
+              "outcome": "Exactly right! Entrepreneurs who adapt and keep going tend to outlast those who give up at the first setback."
+            },
+            {
+              "emoji": "😢",
+              "label": "Give up at the first sign of competition",
+              "good": false,
+              "outcome": "Giving up right away misses a chance to adapt — entrepreneurs who keep adjusting tend to outlast those who quit early."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore the competitor and change nothing",
+              "good": false,
+              "outcome": "Ignoring a real competitive threat rarely works well — adapting your service or niche is a more effective response."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤲",
         "title": "Businesses that also help others",
-        "text": "Some entrepreneurs build 'social enterprises' — businesses designed to make money while also solving a social or environmental problem, not purely for profit. For example, a teen-run business that sells reusable water bottles and donates a portion of every sale to a clean-water charity is pursuing both profit and positive impact at the same time."
+        "text": "Some entrepreneurs build 'social enterprises' — businesses designed to make money while also solving a social or environmental problem, not purely for profit. For example, a teen-run business that sells reusable water bottles and donates a portion of every sale to a clean-water charity is pursuing both profit and positive impact at the same time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're starting a business and want it to also make a positive impact. What's one way to do that?",
+          "options": [
+            {
+              "emoji": "💚",
+              "label": "Donate a portion of profits to a cause, or use sustainable materials",
+              "good": true,
+              "outcome": "Great approach! Many successful businesses build in a way to give back, which can also build customer loyalty."
+            },
+            {
+              "emoji": "💰",
+              "label": "Focus only on profit and ignore any other impact",
+              "good": false,
+              "outcome": "You can focus on profit and still build in a positive impact — many customers actually prefer businesses that do both."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Wait until you're rich to think about giving back",
+              "good": false,
+              "outcome": "You can start building in a positive impact from the beginning, even in small ways, rather than waiting."
+            }
+          ]
+        }
       },
       {
         "emoji": "😕",
         "title": "Handling complaints and protecting your reputation",
-        "text": "A single public complaint, especially online, can influence far more potential customers than just the one person who made it, so how a business responds matters enormously. For example, a business that quickly and openly resolves a customer's shipping complaint often earns more trust from onlookers than a business that has never had a complaint at all."
+        "text": "A single public complaint, especially online, can influence far more potential customers than just the one person who made it, so how a business responds matters enormously. For example, a business that quickly and openly resolves a customer's shipping complaint often earns more trust from onlookers than a business that has never had a complaint at all.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A customer posts a public complaint about a shipping issue. What's the smartest response?",
+          "options": [
+            {
+              "emoji": "🤝",
+              "label": "Resolve it quickly and openly",
+              "good": true,
+              "outcome": "Exactly right! Quickly and openly resolving a complaint often earns more trust from onlookers than never having a complaint at all."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore the complaint and hope it disappears",
+              "good": false,
+              "outcome": "Ignoring a public complaint can let it influence more potential customers — resolving it quickly and openly works much better."
+            },
+            {
+              "emoji": "😠",
+              "label": "Argue publicly with the customer",
+              "good": false,
+              "outcome": "Arguing publicly usually damages trust further — resolving the issue calmly and openly protects your reputation better."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "Splitting equity among co-founders",
-        "text": "When multiple people start a company together, they typically divide ownership — called equity — based on factors like who contributed the original idea, how much money each person invested, and how much ongoing work each will do. For example, two co-founders might split equity 50/50 if they contribute equally, or 70/30 if one invested significantly more money or works full-time while the other stays part-time."
+        "text": "When multiple people start a company together, they typically divide ownership — called equity — based on factors like who contributed the original idea, how much money each person invested, and how much ongoing work each will do. For example, two co-founders might split equity 50/50 if they contribute equally, or 70/30 if one invested significantly more money or works full-time while the other stays part-time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Two co-founders start a company — one invests significantly more money and works full-time, the other works part-time. What's a reasonable way to split equity?",
+          "options": [
+            {
+              "emoji": "📊",
+              "label": "Unevenly, like 70/30, reflecting the different contributions",
+              "good": true,
+              "outcome": "Exactly right! Equity is typically divided based on factors like money invested and ongoing work, so an uneven split can make sense here."
+            },
+            {
+              "emoji": "⚖️",
+              "label": "Always exactly 50/50 no matter what each person contributes",
+              "good": false,
+              "outcome": "Always splitting 50/50 regardless of contribution can feel unfair when one person invests much more — equity usually reflects actual contributions."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Equity never needs to be discussed or agreed upon",
+              "good": false,
+              "outcome": "Equity actually needs to be discussed and agreed upon clearly, to avoid disputes later."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌐",
         "title": "Building a personal brand as a young entrepreneur",
-        "text": "A personal brand is the consistent impression you leave through how you present yourself and your work over time, both online and in person. For example, a teen who consistently posts high-quality photos of their baking under the same name and style becomes recognizable and trusted, which can open doors well beyond that one business."
+        "text": "A personal brand is the consistent impression you leave through how you present yourself and your work over time, both online and in person. For example, a teen who consistently posts high-quality photos of their baking under the same name and style becomes recognizable and trusted, which can open doors well beyond that one business.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A teen consistently posts high-quality photos of their baking under the same name and style. What does this build over time?",
+          "options": [
+            {
+              "emoji": "🌟",
+              "label": "A recognizable, trusted personal brand",
+              "good": true,
+              "outcome": "Exactly right! Consistently presenting your work the same way over time builds a recognizable, trusted personal brand."
+            },
+            {
+              "emoji": "🙅",
+              "label": "This has no effect on how people see their work",
+              "good": false,
+              "outcome": "Consistent presentation actually has a big effect — it's exactly how a recognizable personal brand gets built."
+            },
+            {
+              "emoji": "🏢",
+              "label": "Consistency only matters for big companies, not individuals",
+              "good": false,
+              "outcome": "Consistency matters for individuals too — it's exactly how a young entrepreneur builds a personal brand people trust."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍🏫",
         "title": "Networking and mentorship",
-        "text": "A mentor is someone with more experience who can offer guidance, feedback, and warnings about mistakes they've already made themselves. For example, a local shop owner willing to spend twenty minutes answering a teen entrepreneur's questions about pricing can save that teen from repeating costly mistakes the shop owner already learned the hard way."
+        "text": "A mentor is someone with more experience who can offer guidance, feedback, and warnings about mistakes they've already made themselves. For example, a local shop owner willing to spend twenty minutes answering a teen entrepreneur's questions about pricing can save that teen from repeating costly mistakes the shop owner already learned the hard way.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A local shop owner spends twenty minutes answering a teen entrepreneur's questions about pricing. What is this shop owner acting as?",
+          "options": [
+            {
+              "emoji": "🧑‍🏫",
+              "label": "A mentor",
+              "good": true,
+              "outcome": "Exactly right! A mentor is someone with more experience who offers guidance and feedback, like answering pricing questions."
+            },
+            {
+              "emoji": "🆚",
+              "label": "A competitor",
+              "good": false,
+              "outcome": "A competitor would be running a similar business for themselves — someone offering guidance like this is acting as a mentor."
+            },
+            {
+              "emoji": "💰",
+              "label": "An investor",
+              "good": false,
+              "outcome": "An investor provides money for ownership — someone offering advice and guidance is acting as a mentor."
+            }
+          ]
+        }
       }
     ],
     "quiz": [

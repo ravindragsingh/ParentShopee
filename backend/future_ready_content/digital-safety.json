@@ -4,47 +4,263 @@
       {
         "emoji": "🔒",
         "title": "Some things stay private",
-        "text": "Your full name, home address, phone number, school, and birthday are personal information. If a game asks for them, stop and check with a grown-up before typing anything."
+        "text": "Your full name, home address, phone number, school, and birthday are personal information. If a game asks for them, stop and check with a grown-up before typing anything.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A new app asks for your full name, home address, and phone number. Should you share these?",
+          "options": [
+            {
+              "emoji": "🔒",
+              "label": "No — these are personal details that should stay private",
+              "good": true,
+              "outcome": "Exactly right! Your full name, home address, phone number, school, and birthday are personal information that should stay private."
+            },
+            {
+              "emoji": "📝",
+              "label": "Yes, sharing all your details is fine for any app",
+              "good": false,
+              "outcome": "Sharing personal details with any app isn't safe — this information should stay private."
+            },
+            {
+              "emoji": "🏠",
+              "label": "Only your address matters, the rest is fine to share",
+              "good": false,
+              "outcome": "All of these details — name, address, phone, school, birthday — are personal and should stay private, not just your address."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔑",
         "title": "Keep your password secret",
-        "text": "A password is like a key that opens your account. Keep it between you and the grown-up who helps manage your account—not friends or people you meet in games."
+        "text": "A password is like a key that opens your account. Keep it between you and the grown-up who helps manage your account—not friends or people you meet in games.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend at school asks for your tablet password so they can play a game. What should you do?",
+          "options": [
+            {
+              "emoji": "🔒",
+              "label": "Keep it private, even from friends",
+              "good": true,
+              "outcome": "Right! Passwords should stay secret, even from friends — that keeps your things safe."
+            },
+            {
+              "emoji": "🗣️",
+              "label": "Tell them since they're a friend",
+              "good": false,
+              "outcome": "Even friends shouldn't know your password — it's safest to keep it private."
+            },
+            {
+              "emoji": "📝",
+              "label": "Write it down and give it to them",
+              "good": false,
+              "outcome": "Passwords are meant to stay secret, even from friends, to keep your account safe."
+            }
+          ]
+        }
       },
       {
         "emoji": "📍",
         "title": "Keep where you are private",
-        "text": "People online do not need to know where you live, go to school, or play. For example, do not tell a game-chat stranger the name of your school or park."
+        "text": "People online do not need to know where you live, go to school, or play. For example, do not tell a game-chat stranger the name of your school or park.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A stranger in a game chat asks what school you go to. What should you do?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "Don't tell them — keep that private",
+              "good": true,
+              "outcome": "Exactly right! People online do not need to know where you live, go to school, or play."
+            },
+            {
+              "emoji": "💬",
+              "label": "Tell them right away",
+              "good": false,
+              "outcome": "Telling a stranger online where you go to school isn't safe — that kind of information should stay private."
+            },
+            {
+              "emoji": "❌",
+              "label": "Where you live or go to school never needs to stay private",
+              "good": false,
+              "outcome": "That information actually does need to stay private, especially from people you only know online."
+            }
+          ]
+        }
       },
       {
         "emoji": "👨‍👩‍👧",
         "title": "Have a grown-up nearby",
-        "text": "When you are still learning to use apps and games, a grown-up can help if something confusing pops up. If a message makes you worried, show it to them instead of handling it alone."
+        "text": "When you are still learning to use apps and games, a grown-up can help if something confusing pops up. If a message makes you worried, show it to them instead of handling it alone.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A confusing message pops up while you're using an app. What should you do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Show it to a grown-up instead of handling it alone",
+              "good": true,
+              "outcome": "Exactly right! A grown-up can help if something confusing pops up — show it to them instead of handling it alone."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Figure it out completely by yourself",
+              "good": false,
+              "outcome": "You don't have to figure it out alone — a grown-up can help with something confusing or worrying."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Grown-ups never need to know about confusing messages",
+              "good": false,
+              "outcome": "Grown-ups actually should know about confusing or worrying messages — they can help."
+            }
+          ]
+        }
       },
       {
         "emoji": "📤",
         "title": "Ask before you post",
-        "text": "Before you share a photo, video, or comment, ask a grown-up. They can help notice private details in the background, such as your school name or house number."
+        "text": "Before you share a photo, video, or comment, ask a grown-up. They can help notice private details in the background, such as your school name or house number.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to post a cute picture of you and your friend online. What should you do first?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask a grown-up and your friend if it's okay",
+              "good": true,
+              "outcome": "Yes! Checking first keeps everyone comfortable and safe."
+            },
+            {
+              "emoji": "📸",
+              "label": "Post it right away since it's cute",
+              "good": false,
+              "outcome": "Even cute pictures should get an okay first — not everyone wants their picture posted."
+            },
+            {
+              "emoji": "🤫",
+              "label": "Post it but don't tell anyone",
+              "good": false,
+              "outcome": "Asking first, not after, is what keeps it safe and respectful."
+            }
+          ]
+        }
       },
       {
         "emoji": "📷",
         "title": "Pictures can travel",
-        "text": "A photo can be copied, saved, or sent to other people after you share it. That is why it is smart to ask before posting—even if you only meant one friend to see it."
+        "text": "A photo can be copied, saved, or sent to other people after you share it. That is why it is smart to ask before posting—even if you only meant one friend to see it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to post a photo meaning only one friend to see it. Could it still travel further?",
+          "options": [
+            {
+              "emoji": "📸",
+              "label": "Yes — it can be copied, saved, or sent to others",
+              "good": true,
+              "outcome": "Exactly right! A photo can be copied, saved, or sent to other people after you share it, even if you only meant one friend to see it."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, a photo always stays only with the one person you send it to",
+              "good": false,
+              "outcome": "A photo doesn't always stay with just one person — it can be copied or sent further than you meant."
+            },
+            {
+              "emoji": "❌",
+              "label": "Photos can never be copied or shared further",
+              "good": false,
+              "outcome": "Photos actually can be copied and shared further — that's exactly why it's smart to ask before posting."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎂",
         "title": "Your birthday and school are private too",
-        "text": "A birthday or school name can tell strangers more about you than you think. Share those details only with people your family trusts."
+        "text": "A birthday or school name can tell strangers more about you than you think. Share those details only with people your family trusts.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An app you don't know asks for your birthday and the name of your school. What should you do?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "Don't share it, and check with a grown-up first",
+              "good": true,
+              "outcome": "Exactly right! Your birthday and school name can tell strangers more than you'd think — always check with a grown-up before sharing."
+            },
+            {
+              "emoji": "🏠",
+              "label": "Share it since it's not your full address",
+              "good": false,
+              "outcome": "Even without your address, details like your birthday and school can reveal more than you'd think — check with a grown-up first."
+            },
+            {
+              "emoji": "🎨",
+              "label": "Share it if the app looks fun and colorful",
+              "good": false,
+              "outcome": "A fun-looking app doesn't mean it's safe to share details with — always check with a grown-up first."
+            }
+          ]
+        }
       },
       {
         "emoji": "📹",
         "title": "Video calls need a check first",
-        "text": "Before starting a video call, make sure a grown-up knows who you are talking to. A camera can show your face, your room, and things around your home."
+        "text": "Before starting a video call, make sure a grown-up knows who you are talking to. A camera can show your face, your room, and things around your home.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to start a video call. What should happen first?",
+          "options": [
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "A grown-up should know who you are talking to",
+              "good": true,
+              "outcome": "Exactly right! Before starting a video call, make sure a grown-up knows who you are talking to."
+            },
+            {
+              "emoji": "📹",
+              "label": "Just start the call with no one knowing",
+              "good": false,
+              "outcome": "Starting a video call with no one knowing isn't safe — a grown-up should know who you're talking to first."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Video calls never need any check beforehand",
+              "good": false,
+              "outcome": "Video calls actually do need a check first, since a camera can show your face, room, and things around your home."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧸",
         "title": "Passwords protect your things",
-        "text": "Think of your password as the lock on a treasure box. A strong secret password helps keep your games, pictures, and messages safe."
+        "text": "Think of your password as the lock on a treasure box. A strong secret password helps keep your games, pictures, and messages safe.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "What does a strong password do for your games, pictures, and messages?",
+          "options": [
+            {
+              "emoji": "🔒",
+              "label": "Keeps them safe, like a lock on a treasure box",
+              "good": true,
+              "outcome": "Exactly right! Think of your password as the lock on a treasure box — a strong secret password helps keep your things safe."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — passwords do not actually protect anything",
+              "good": false,
+              "outcome": "Passwords actually do protect your things — they're like the lock on a treasure box."
+            },
+            {
+              "emoji": "🧑",
+              "label": "Passwords only matter for grown-ups, not kids",
+              "good": false,
+              "outcome": "Passwords matter for kids too — they help keep games, pictures, and messages safe for everyone."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -145,47 +361,263 @@
       {
         "emoji": "😟",
         "title": "If something feels weird",
-        "text": "If a video, message, picture, or person online makes you feel scared, confused, or uncomfortable, stop and tell a grown-up. You will not be in trouble for asking for help."
+        "text": "If a video, message, picture, or person online makes you feel scared, confused, or uncomfortable, stop and tell a grown-up. You will not be in trouble for asking for help.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're using an app and someone online asks you a question that makes you feel a little weird or uncomfortable. What should you do?",
+          "options": [
+            {
+              "emoji": "🗣️",
+              "label": "Tell a grown-up you trust right away",
+              "good": true,
+              "outcome": "Yes! That weird feeling is important — telling a trusted grown-up is always the right move."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Keep it a secret and just ignore it",
+              "good": false,
+              "outcome": "Keeping weird feelings secret can let problems continue. Telling a trusted grown-up helps keep you safe."
+            },
+            {
+              "emoji": "💬",
+              "label": "Answer the question so they stop asking",
+              "good": false,
+              "outcome": "You never have to answer a question that makes you uncomfortable — tell a grown-up instead."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎭",
         "title": "People online can pretend",
-        "text": "A person online may use a different name or picture, so you cannot always know who they really are. Treat new online people like strangers until a grown-up helps you check."
+        "text": "A person online may use a different name or picture, so you cannot always know who they really are. Treat new online people like strangers until a grown-up helps you check.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone online says they're a kid your age, but something about how they talk seems off. What should you remember?",
+          "options": [
+            {
+              "emoji": "🎭",
+              "label": "People online aren't always who they say they are",
+              "good": true,
+              "outcome": "Exactly right — it's important to remember that people online can pretend to be someone they're not, so trusting a grown-up with concerns is always smart."
+            },
+            {
+              "emoji": "😇",
+              "label": "Everyone online is always honest about who they are",
+              "good": false,
+              "outcome": "Not everyone online is honest about who they are — that's exactly why staying cautious and telling a grown-up matters."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't matter who they really are",
+              "good": false,
+              "outcome": "It matters a lot — knowing people online can pretend helps you stay safe and know when to tell a trusted grown-up."
+            }
+          ]
+        }
       },
       {
         "emoji": "🖱️",
         "title": "Pause before you click",
-        "text": "Pop-ups and giant buttons are designed to make you click quickly. If you do not know what a button does, pause and ask before tapping it."
+        "text": "Pop-ups and giant buttons are designed to make you click quickly. If you do not know what a button does, pause and ask before tapping it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A giant flashing button pops up saying 'Click here to win a prize!' What should you do?",
+          "options": [
+            {
+              "emoji": "⏸️",
+              "label": "Pause and ask a grown-up before clicking",
+              "good": true,
+              "outcome": "Exactly right! Pop-ups and giant buttons are designed to make you click quickly — pausing to ask a grown-up is the safe move."
+            },
+            {
+              "emoji": "👆",
+              "label": "Click it immediately since it looks exciting",
+              "good": false,
+              "outcome": "Clicking right away is exactly what flashy pop-ups are designed to get you to do — pausing first is safer."
+            },
+            {
+              "emoji": "✨",
+              "label": "Flashy pop-ups are always safe to click",
+              "good": false,
+              "outcome": "Flashy pop-ups aren't always safe — pausing and checking with a grown-up first protects you."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚪",
         "title": "Use apps your family has checked",
-        "text": "Not every app, video, or game is made for kids. Use ones your family has approved, and ask before installing something new."
+        "text": "Not every app, video, or game is made for kids. Use ones your family has approved, and ask before installing something new.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You want to try a new app. What should you do first?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Ask before installing something new",
+              "good": true,
+              "outcome": "Exactly right! Not every app is made for kids — use ones your family has approved, and ask before installing something new."
+            },
+            {
+              "emoji": "📲",
+              "label": "Install anything without asking",
+              "good": false,
+              "outcome": "Installing anything without asking skips an important safety step — asking first helps make sure it's okay."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Every app is automatically made for kids",
+              "good": false,
+              "outcome": "Not every app is made for kids — that's exactly why asking and checking first matters."
+            }
+          ]
+        }
       },
       {
         "emoji": "💰",
         "title": "Game coins can cost real money",
-        "text": "Coins, skins, pets, and extra levels in a game can use real money. Even if it only takes one tap, ask before buying anything."
+        "text": "Coins, skins, pets, and extra levels in a game can use real money. Even if it only takes one tap, ask before buying anything.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A game offers coins or skins with one tap. Is this always free?",
+          "options": [
+            {
+              "emoji": "💳",
+              "label": "No — it can use real money, even with just one tap",
+              "good": true,
+              "outcome": "Exactly right! Coins, skins, and extra levels in a game can use real money — even one tap, so ask before buying anything."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Yes, in-game purchases are always free",
+              "good": false,
+              "outcome": "In-game purchases aren't always free — even a single tap can use real money."
+            },
+            {
+              "emoji": "❌",
+              "label": "Only buying things outside of games ever costs real money",
+              "good": false,
+              "outcome": "In-game purchases can cost real money too, not just purchases outside of games."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏰",
         "title": "Screens need breaks too",
-        "text": "Your eyes, body, and brain need time away from screens. After playing for a while, stretch, look far away, get some water, or play offline."
+        "text": "Your eyes, body, and brain need time away from screens. After playing for a while, stretch, look far away, get some water, or play offline.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You've been playing on a screen for a while. What should you do?",
+          "options": [
+            {
+              "emoji": "🧘",
+              "label": "Stretch, look far away, or play offline for a bit",
+              "good": true,
+              "outcome": "Exactly right! Your eyes, body, and brain need time away from screens — stretching or playing offline helps."
+            },
+            {
+              "emoji": "📱",
+              "label": "Keep staring at the screen with no break",
+              "good": false,
+              "outcome": "Staying on the screen with no break doesn't give your eyes and body the rest they need."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Breaks from screens are never necessary",
+              "good": false,
+              "outcome": "Breaks from screens actually are necessary — your eyes, body, and brain need time away."
+            }
+          ]
+        }
       },
       {
         "emoji": "🙅",
         "title": "You can always say no",
-        "text": "If someone in a game asks for a secret, a photo, personal information, or something that feels wrong, you can say no, leave, and tell a grown-up."
+        "text": "If someone in a game asks for a secret, a photo, personal information, or something that feels wrong, you can say no, leave, and tell a grown-up.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone in a game asks for a secret or personal information. What can you do?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "Say no, leave, and tell a grown-up",
+              "good": true,
+              "outcome": "Exactly right! If something feels wrong, you can say no, leave, and tell a grown-up."
+            },
+            {
+              "emoji": "🤐",
+              "label": "Share it since they asked nicely",
+              "good": false,
+              "outcome": "Being asked nicely doesn't mean you have to share — you can always say no if it feels wrong."
+            },
+            {
+              "emoji": "❌",
+              "label": "You must always answer whatever someone asks in a game",
+              "good": false,
+              "outcome": "You never have to answer something that feels wrong — saying no and telling a grown-up is always okay."
+            }
+          ]
+        }
       },
       {
         "emoji": "📢",
         "title": "Flashy ads want your attention",
-        "text": "Some ads blink, move, or make loud sounds so you notice them. You do not have to click—close them or ask for help if you are unsure."
+        "text": "Some ads blink, move, or make loud sounds so you notice them. You do not have to click—close them or ask for help if you are unsure.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An ad blinks and makes loud sounds to get your attention. Do you have to click it?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "No — you can close it or ask for help",
+              "good": true,
+              "outcome": "Exactly right! Some ads blink or make sounds on purpose, but you do not have to click — you can close them or ask for help."
+            },
+            {
+              "emoji": "👆",
+              "label": "Yes, you must always click flashy ads",
+              "good": false,
+              "outcome": "You never have to click a flashy ad — you can close it or ask a grown-up for help."
+            },
+            {
+              "emoji": "❌",
+              "label": "Ads never try to grab your attention on purpose",
+              "good": false,
+              "outcome": "Ads actually are designed on purpose to grab your attention, which is why it's okay to just close them."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍💻",
         "title": "Choose shows that fit you",
-        "text": "Videos can appear automatically, and the next one may not be meant for kids. Use shows and channels your family has checked, and tell a grown-up if something upsetting appears."
+        "text": "Videos can appear automatically, and the next one may not be meant for kids. Use shows and channels your family has checked, and tell a grown-up if something upsetting appears.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A video that's not meant for kids starts playing automatically. What should you do?",
+          "options": [
+            {
+              "emoji": "🙋",
+              "label": "Tell a grown-up if something upsetting appears",
+              "good": true,
+              "outcome": "Exactly right! Videos can play automatically and the next one may not be meant for kids — tell a grown-up if something upsetting appears."
+            },
+            {
+              "emoji": "📺",
+              "label": "Keep watching no matter what appears",
+              "good": false,
+              "outcome": "Continuing to watch something upsetting isn't the right move — telling a grown-up helps."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Videos that play automatically are always fine for kids",
+              "good": false,
+              "outcome": "Videos that autoplay aren't always meant for kids — telling a grown-up about anything upsetting matters."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -286,47 +718,285 @@
       {
         "emoji": "🔑",
         "title": "What makes a password strong?",
-        "text": "A strong password is long and hard for someone else to guess. A made-up passphrase such as “PurpleRocket!River7” is safer than your name, birthday, pet name, or “123456.”"
+        "text": "A strong password is long and hard for someone else to guess. A made-up passphrase such as “PurpleRocket!River7” is safer than your name, birthday, pet name, or “123456.”",
+        "widget": "sort-puzzle",
+        "widgetConfig": {
+          "prompt": "Tap a button for each one",
+          "categoryA": {
+            "key": "strong",
+            "label": "Strong",
+            "color": "#16a34a"
+          },
+          "categoryB": {
+            "key": "weak",
+            "label": "Weak",
+            "color": "#dc2626"
+          },
+          "items": [
+            {
+              "emoji": "🔑",
+              "label": "\"password123\"",
+              "answer": "weak"
+            },
+            {
+              "emoji": "🔐",
+              "label": "\"Tr33!Fr0g&Lamp92\"",
+              "answer": "strong"
+            },
+            {
+              "emoji": "🐶",
+              "label": "Your pet's name alone",
+              "answer": "weak"
+            },
+            {
+              "emoji": "🎲",
+              "label": "A random mix of words, numbers & symbols",
+              "answer": "strong"
+            },
+            {
+              "emoji": "📅",
+              "label": "Your birthday",
+              "answer": "weak"
+            },
+            {
+              "emoji": "🧩",
+              "label": "A long made-up phrase only you know",
+              "answer": "strong"
+            }
+          ]
+        }
       },
       {
         "emoji": "🙈",
         "title": "Privacy settings",
-        "text": "Privacy settings help control who can see your posts, photos, profile, or location. With a grown-up, set accounts so only people you actually know can see personal things."
+        "text": "Privacy settings help control who can see your posts, photos, profile, or location. With a grown-up, set accounts so only people you actually know can see personal things.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An app lets you control who can see your posts and photos. What are these controls called?",
+          "options": [
+            {
+              "emoji": "🔒",
+              "label": "Privacy settings",
+              "good": true,
+              "outcome": "Exactly right! Privacy settings help control who can see your posts, photos, and profile."
+            },
+            {
+              "emoji": "🎮",
+              "label": "Game settings",
+              "good": false,
+              "outcome": "Game settings control gameplay options — the controls over who sees your posts are called privacy settings."
+            },
+            {
+              "emoji": "🙅",
+              "label": "There is no way to control who sees your posts",
+              "good": false,
+              "outcome": "There actually is a way — privacy settings let you control exactly that."
+            }
+          ]
+        }
       },
       {
         "emoji": "📍",
         "title": "Keep your location private",
-        "text": "Your school, home, sports field, and live location can show strangers where to find you. Keep location sharing off unless you and a trusted grown-up intentionally need it."
+        "text": "Your school, home, sports field, and live location can show strangers where to find you. Keep location sharing off unless you and a trusted grown-up intentionally need it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An app wants to share your live location. Should you turn this on by default?",
+          "options": [
+            {
+              "emoji": "📍",
+              "label": "No — keep location sharing off unless truly needed",
+              "good": true,
+              "outcome": "Exactly right! Keep location sharing off unless you and a trusted grown-up intentionally need it."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Yes, always share your exact location",
+              "good": false,
+              "outcome": "Sharing your live location by default isn't safe — your school, home, or field location can show strangers where to find you."
+            },
+            {
+              "emoji": "❌",
+              "label": "Location sharing never reveals anything important",
+              "good": false,
+              "outcome": "Location sharing actually can reveal a lot, like where you live or play — it's worth keeping off by default."
+            }
+          ]
+        }
       },
       {
         "emoji": "📸",
         "title": "Think before you post",
-        "text": "Before posting, ask: “Would I be okay if a teacher, parent, or classmate saw this later?” If the answer is no or you are unsure, do not post it yet."
+        "text": "Before posting, ask: “Would I be okay if a teacher, parent, or classmate saw this later?” If the answer is no or you are unsure, do not post it yet.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to post a photo showing your house number and street sign in the background. What should you do?",
+          "options": [
+            {
+              "emoji": "✂️",
+              "label": "Crop or avoid posting photos that reveal your address",
+              "good": true,
+              "outcome": "Smart thinking! Avoiding details like your address in photos helps protect your privacy."
+            },
+            {
+              "emoji": "📸",
+              "label": "Post it anyway since it's just a photo",
+              "good": false,
+              "outcome": "Photos can accidentally reveal your address — it's safer to crop or avoid showing those details."
+            },
+            {
+              "emoji": "🏠",
+              "label": "Add your exact address in the caption too",
+              "good": false,
+              "outcome": "Sharing your exact address publicly is risky — it's safer to keep that information private."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔒",
         "title": "Log out on shared devices",
-        "text": "If other people use the same computer or tablet, log out when you are finished. Otherwise the next person could open your account, read messages, or change settings."
+        "text": "If other people use the same computer or tablet, log out when you are finished. Otherwise the next person could open your account, read messages, or change settings.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You finish using a shared computer. What should you do?",
+          "options": [
+            {
+              "emoji": "🔓",
+              "label": "Log out of your account",
+              "good": true,
+              "outcome": "Exactly right! If other people use the same computer or tablet, log out when you are finished."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Leave it logged in for the next person",
+              "good": false,
+              "outcome": "Leaving it logged in means the next person could open your account or change settings — logging out protects you."
+            },
+            {
+              "emoji": "❌",
+              "label": "Logging out on shared devices never matters",
+              "good": false,
+              "outcome": "Logging out actually matters a lot on shared devices — it prevents the next person from accessing your account."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔁",
         "title": "Change a password if something feels wrong",
-        "text": "If someone may know your password, or your account acts strangely, tell a grown-up and change the password. It is like changing a lock when you think someone copied the key."
+        "text": "If someone may know your password, or your account acts strangely, tell a grown-up and change the password. It is like changing a lock when you think someone copied the key.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your account starts acting strangely. What should you do?",
+          "options": [
+            {
+              "emoji": "🔑",
+              "label": "Tell a grown-up and change your password",
+              "good": true,
+              "outcome": "Exactly right! If your account acts strangely, tell a grown-up and change the password — like changing a lock when you think someone copied the key."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore it and hope it goes away",
+              "good": false,
+              "outcome": "Ignoring strange account activity doesn't fix it — telling a grown-up and changing your password helps."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Strange account activity never means anything",
+              "good": false,
+              "outcome": "Strange account activity can actually mean something real — it's worth telling a grown-up and changing your password."
+            }
+          ]
+        }
       },
       {
         "emoji": "👤",
         "title": "What “private account” really means",
-        "text": "A private account limits your posts to approved followers, but it cannot stop someone from taking a screenshot or sharing what they saw. Private is safer—not invisible."
+        "text": "A private account limits your posts to approved followers, but it cannot stop someone from taking a screenshot or sharing what they saw. Private is safer—not invisible.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your account is private, limited to approved followers. Does this mean nothing can ever be shared further?",
+          "options": [
+            {
+              "emoji": "📸",
+              "label": "No — someone could still screenshot and share it",
+              "good": true,
+              "outcome": "Exactly right! A private account limits your posts to approved followers, but it cannot stop someone from taking a screenshot — private is safer, not invisible."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Yes, private means completely invisible to everyone",
+              "good": false,
+              "outcome": "Private doesn't mean completely invisible — an approved follower could still screenshot and share what they saw."
+            },
+            {
+              "emoji": "❌",
+              "label": "Private accounts can never be screenshotted",
+              "good": false,
+              "outcome": "Private accounts actually can still be screenshotted by someone who's approved to follow you."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧩",
         "title": "Pick usernames that reveal less",
-        "text": "A username does not need your real name, age, school, or birth year. “BlueFalcon27” gives away less than “EmmaMarlboro2017.”"
+        "text": "A username does not need your real name, age, school, or birth year. “BlueFalcon27” gives away less than “EmmaMarlboro2017.”",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Which username gives away less personal information?",
+          "options": [
+            {
+              "emoji": "🦅",
+              "label": "\"BlueFalcon27\"",
+              "good": true,
+              "outcome": "Exactly right! A username does not need your real name, age, school, or birth year — 'BlueFalcon27' gives away much less than a name-based one."
+            },
+            {
+              "emoji": "👤",
+              "label": "\"EmmaMarlboro2017\"",
+              "good": false,
+              "outcome": "This username gives away a real name and possibly a birth year — 'BlueFalcon27' reveals much less personal information."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Usernames never reveal anything personal",
+              "good": false,
+              "outcome": "Usernames actually can reveal personal information, like a real name or birth year, depending on how they're chosen."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔓",
         "title": "If your account may be hacked",
-        "text": "Signs can include strange messages, password-change emails you did not request, or suddenly being locked out. Tell a grown-up, change your password, and use the app’s account-recovery tools."
+        "text": "Signs can include strange messages, password-change emails you did not request, or suddenly being locked out. Tell a grown-up, change your password, and use the app’s account-recovery tools.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You get password-change emails you never requested. What should you do?",
+          "options": [
+            {
+              "emoji": "🚨",
+              "label": "Tell a grown-up, change your password, use account-recovery tools",
+              "good": true,
+              "outcome": "Exactly right! Signs like unrequested password-change emails mean you should tell a grown-up, change your password, and use account-recovery tools."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore the emails completely",
+              "good": false,
+              "outcome": "Ignoring these emails could let a real problem go unaddressed — telling a grown-up and changing your password is safer."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Unexpected password-change emails never mean anything",
+              "good": false,
+              "outcome": "Unexpected password-change emails can actually be a real warning sign worth acting on."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -427,47 +1097,263 @@
       {
         "emoji": "🚫",
         "title": "Online strangers are still strangers",
-        "text": "Someone you meet in a game may seem friendly, but you still do not know who is behind the screen. Do not share your school, address, phone number, passwords, or private photos."
+        "text": "Someone you meet in a game may seem friendly, but you still do not know who is behind the screen. Do not share your school, address, phone number, passwords, or private photos.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone you've never met messages you in a game and asks to be \"best online friends\" right away. What should you do?",
+          "options": [
+            {
+              "emoji": "🛑",
+              "label": "Stay cautious — they're still a stranger, even online",
+              "good": true,
+              "outcome": "Exactly right. Someone being friendly online doesn't change the fact that you don't actually know them."
+            },
+            {
+              "emoji": "🤝",
+              "label": "Treat them like a close friend immediately",
+              "good": false,
+              "outcome": "Online strangers are still strangers, even if they seem nice — it takes time (and a grown-up's input) to know if someone is safe."
+            },
+            {
+              "emoji": "📍",
+              "label": "Share personal details so they trust you back",
+              "good": false,
+              "outcome": "Sharing personal info with someone you just met online isn't safe, no matter how friendly they seem."
+            }
+          ]
+        }
       },
       {
         "emoji": "💬",
         "title": "Kindness counts online",
-        "text": "A real person reads the words you type. Before sending a comment, imagine saying it face-to-face—if it would be cruel in person, it is cruel online too."
+        "text": "A real person reads the words you type. Before sending a comment, imagine saying it face-to-face—if it would be cruel in person, it is cruel online too.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to type a harsh comment. What's a good test before sending it?",
+          "options": [
+            {
+              "emoji": "🤔",
+              "label": "Imagine saying it to the person's face",
+              "good": true,
+              "outcome": "Exactly right! A real person reads what you type — if it would be cruel in person, it is cruel online too."
+            },
+            {
+              "emoji": "💬",
+              "label": "Send it since it is just online, not in person",
+              "good": false,
+              "outcome": "Something cruel online is still cruel, even if it's not said face-to-face — imagining saying it in person is a good test."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Kindness never matters in online comments",
+              "good": false,
+              "outcome": "Kindness actually matters just as much online as in person, since a real person reads what you type."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚨",
         "title": "Block, save, and tell",
-        "text": "If someone is mean or keeps bothering you, do not start a fight back. Save evidence if needed, block or report the account, and tell a trusted grown-up."
+        "text": "If someone is mean or keeps bothering you, do not start a fight back. Save evidence if needed, block or report the account, and tell a trusted grown-up.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone online keeps being mean to you. What should you do?",
+          "options": [
+            {
+              "emoji": "🛡️",
+              "label": "Save evidence, block or report, and tell a trusted grown-up",
+              "good": true,
+              "outcome": "Exactly right! If someone is mean or keeps bothering you, save evidence if needed, block or report the account, and tell a trusted grown-up."
+            },
+            {
+              "emoji": "😤",
+              "label": "Start a fight back",
+              "good": false,
+              "outcome": "Fighting back can make things worse — blocking, saving evidence, and telling a grown-up is a safer response."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Handle it completely alone with no one else involved",
+              "good": false,
+              "outcome": "You don't have to handle it alone — telling a trusted grown-up is an important part of responding well."
+            }
+          ]
+        }
       },
       {
         "emoji": "📥",
         "title": "Be careful with downloads",
-        "text": "A “free” game, mod, or file from an unfamiliar site can contain unwanted software or scams. Ask before installing, and use trusted app stores or official sites."
+        "text": "A “free” game, mod, or file from an unfamiliar site can contain unwanted software or scams. Ask before installing, and use trusted app stores or official sites.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A website offers a free download of a popular game that normally costs money. What should you do?",
+          "options": [
+            {
+              "emoji": "🧐",
+              "label": "Be suspicious — ask a grown-up before downloading anything like that",
+              "good": true,
+              "outcome": "Smart thinking — free downloads of normally-paid things are a common way harmful software gets onto devices. Checking with a grown-up first is the safe move."
+            },
+            {
+              "emoji": "⬇️",
+              "label": "Download it right away since it's free",
+              "good": false,
+              "outcome": "Unexpected free downloads of paid things are a common trick — checking with a grown-up first helps keep your device safe."
+            },
+            {
+              "emoji": "🔗",
+              "label": "Download it and share the link with friends",
+              "good": false,
+              "outcome": "Sharing a risky download spreads the risk to friends too — it's safer to check with a grown-up first."
+            }
+          ]
+        }
       },
       {
         "emoji": "🕵️",
         "title": "Links can pretend to be prizes",
-        "text": "Messages such as “You won—click now!” may be trying to steal information or install something unsafe. Do not click surprise links; check with a grown-up first."
+        "text": "Messages such as “You won—click now!” may be trying to steal information or install something unsafe. Do not click surprise links; check with a grown-up first.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A message says \"You won — click now!\" Should you click it right away?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "No — check with a grown-up first",
+              "good": true,
+              "outcome": "Exactly right! Messages like this may be trying to steal information — do not click surprise links, check with a grown-up first."
+            },
+            {
+              "emoji": "🎉",
+              "label": "Yes, always click surprise prize links immediately",
+              "good": false,
+              "outcome": "Clicking surprise prize links right away can be risky — checking with a grown-up first is much safer."
+            },
+            {
+              "emoji": "🎁",
+              "label": "Surprise prize links are always completely safe",
+              "good": false,
+              "outcome": "Surprise prize links are often not safe — they can be trying to steal information or install something unsafe."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎮",
         "title": "Keep game chat about the game",
-        "text": "You can talk strategy without sharing personal details. A player does not need your real name, school, city, phone number, or where you are right now."
+        "text": "You can talk strategy without sharing personal details. A player does not need your real name, school, city, phone number, or where you are right now.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A player in your game asks for your real name and city. Do they need this to play?",
+          "options": [
+            {
+              "emoji": "🎮",
+              "label": "No — you can talk strategy without personal details",
+              "good": true,
+              "outcome": "Exactly right! You can talk strategy without sharing personal details — a player doesn't need your real name, city, or phone number."
+            },
+            {
+              "emoji": "📍",
+              "label": "Yes, you must share personal details to play",
+              "good": false,
+              "outcome": "You don't need to share personal details to play a game — strategy talk doesn't require your real name or city."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Personal details never matter in game chat",
+              "good": false,
+              "outcome": "Personal details actually matter a lot in game chat — they're not needed to play and are safer kept private."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔔",
         "title": "In-app purchases use real money",
-        "text": "Game coins, skins, and upgrades may look imaginary, but the money charged is real. Ask before buying anything or starting a subscription."
+        "text": "Game coins, skins, and upgrades may look imaginary, but the money charged is real. Ask before buying anything or starting a subscription.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A game offers you special coins and skins to buy with one tap. Is this free?",
+          "options": [
+            {
+              "emoji": "💳",
+              "label": "No — those purchases use real money",
+              "good": true,
+              "outcome": "Exactly right! Game coins and skins may look imaginary, but the money charged for them is real — always ask a grown-up first."
+            },
+            {
+              "emoji": "🎮",
+              "label": "Yes, since it's all inside a game",
+              "good": false,
+              "outcome": "Being inside a game doesn't make it free — those purchases charge real money."
+            },
+            {
+              "emoji": "🔟",
+              "label": "It's only real money if it costs more than $10",
+              "good": false,
+              "outcome": "Any amount charged for in-app purchases is real money, no matter how small it looks."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏱️",
         "title": "Make room for offline life too",
-        "text": "Screens are fun, but they should not regularly push out sleep, homework, movement, family time, or activities you enjoy. If they do, it is time to rebalance."
+        "text": "Screens are fun, but they should not regularly push out sleep, homework, movement, family time, or activities you enjoy. If they do, it is time to rebalance.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Screens are regularly pushing out sleep and family time. What should you do?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "Rebalance so offline life gets room too",
+              "good": true,
+              "outcome": "Exactly right! Screens should not regularly push out sleep, homework, movement, or family time — if they do, it's time to rebalance."
+            },
+            {
+              "emoji": "📱",
+              "label": "Keep screens as the only priority",
+              "good": false,
+              "outcome": "Keeping screens as the only priority can crowd out sleep and family time — rebalancing helps make room for both."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Screens never affect sleep or other parts of life",
+              "good": false,
+              "outcome": "Screens actually can affect sleep and other parts of life quite a bit, which is why rebalancing matters."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎥",
         "title": "Be extra careful with cameras",
-        "text": "Livestreams and video chats reveal more than text: your face, voice, room, and surroundings. Use them only with people you really know and with a trusted grown-up aware."
+        "text": "Livestreams and video chats reveal more than text: your face, voice, room, and surroundings. Use them only with people you really know and with a trusted grown-up aware.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A livestream or video chat shows your face, voice, and room. Who should you use this with?",
+          "options": [
+            {
+              "emoji": "👪",
+              "label": "Only people you really know, with a grown-up aware",
+              "good": true,
+              "outcome": "Exactly right! Livestreams and video chats reveal more than text — use them only with people you really know and with a trusted grown-up aware."
+            },
+            {
+              "emoji": "🌐",
+              "label": "Anyone at all, with no one else knowing",
+              "good": false,
+              "outcome": "Using cameras with anyone at all, with no grown-up aware, isn't safe — reserve them for people you really know."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Cameras never reveal more than text messages do",
+              "good": false,
+              "outcome": "Cameras actually reveal a lot more than text — your face, voice, room, and surroundings."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -568,52 +1454,278 @@
       {
         "emoji": "🎣",
         "title": "What is phishing?",
-        "text": "Phishing is a fake message designed to make you reveal a password, code, or personal information. Example: “Your game account will be deleted—log in here now!” may lead to a copycat login page."
+        "text": "Phishing is a fake message designed to make you reveal a password, code, or personal information. Example: “Your game account will be deleted—log in here now!” may lead to a copycat login page.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You get an email saying you won a free gift card — just click the link and enter your info to claim it. What should you do?",
+          "options": [
+            {
+              "emoji": "🧐",
+              "label": "Be suspicious and avoid clicking the link",
+              "good": true,
+              "outcome": "Smart — surprise \"you won!\" messages asking you to click and enter info are a classic phishing trick."
+            },
+            {
+              "emoji": "🖱️",
+              "label": "Click the link right away to claim the prize",
+              "good": false,
+              "outcome": "Clicking links in unexpected \"you won\" emails is exactly how phishing scams steal information — best to avoid them."
+            },
+            {
+              "emoji": "📧",
+              "label": "Forward it to friends so they can claim prizes too",
+              "good": false,
+              "outcome": "Forwarding a phishing email spreads the scam to others — it's better to just delete or report it."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔐",
         "title": "Use two-step verification",
-        "text": "Two-factor authentication (2FA) adds another check after your password, such as an app code or device prompt. If someone steals your password, that second step can still block them."
+        "text": "Two-factor authentication (2FA) adds another check after your password, such as an app code or device prompt. If someone steals your password, that second step can still block them.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your account offers an optional extra security step (like a code texted to your phone) when logging in. Should you turn it on?",
+          "options": [
+            {
+              "emoji": "🔐",
+              "label": "Yes — it adds a strong extra layer of protection",
+              "good": true,
+              "outcome": "Exactly! Two-step verification makes it much harder for someone else to get into your account, even if they somehow get your password."
+            },
+            {
+              "emoji": "🔑",
+              "label": "No, one password is always enough",
+              "good": false,
+              "outcome": "Passwords alone can be guessed or stolen — two-step verification adds real extra protection."
+            },
+            {
+              "emoji": "🏢",
+              "label": "It's only for businesses, not personal accounts",
+              "good": false,
+              "outcome": "Two-step verification is valuable for personal accounts too — it protects anyone's account from unauthorized access."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔑",
         "title": "Use strong, unique passwords",
-        "text": "Use a different strong password for important accounts. If one site is breached, reusing the same password can let attackers try it on your email, games, and social accounts too."
+        "text": "Use a different strong password for important accounts. If one site is breached, reusing the same password can let attackers try it on your email, games, and social accounts too.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You use the exact same password for every single account. If one site gets hacked, what happens?",
+          "options": [
+            {
+              "emoji": "🔓",
+              "label": "All your other accounts using that password become at risk too",
+              "good": true,
+              "outcome": "Exactly right! Reusing one password everywhere means a hack on one site can put all your other accounts at risk too."
+            },
+            {
+              "emoji": "🛡️",
+              "label": "Nothing — hacks never affect your other accounts",
+              "good": false,
+              "outcome": "A hack can absolutely affect your other accounts if you reuse the same password — using unique passwords protects you."
+            },
+            {
+              "emoji": "1️⃣",
+              "label": "Only that one site is ever affected, no matter what",
+              "good": false,
+              "outcome": "If you reuse the password elsewhere, other accounts become at risk too, not just the one that was hacked."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎁",
         "title": "Be suspicious of “free” rewards",
-        "text": "“Free V-Bucks,” gift cards, rare skins, or giveaways that ask for your login are common bait. Real rewards should never require you to hand over your password."
+        "text": "“Free V-Bucks,” gift cards, rare skins, or giveaways that ask for your login are common bait. Real rewards should never require you to hand over your password.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An ad offers \"free V-Bucks\" if you give your login. Should you trust this?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "No — real rewards never require your password",
+              "good": true,
+              "outcome": "Exactly right! \"Free\" rewards that ask for your login are common bait — real rewards should never require you to hand over your password."
+            },
+            {
+              "emoji": "🎁",
+              "label": "Yes, giving your login for free rewards is always safe",
+              "good": false,
+              "outcome": "Giving your login for a free reward is risky — real rewards never require your password."
+            },
+            {
+              "emoji": "❌",
+              "label": "Free reward offers are never a common scam tactic",
+              "good": false,
+              "outcome": "Free reward offers that ask for logins are actually a very common scam tactic, worth being suspicious of."
+            }
+          ]
+        }
       },
       {
         "emoji": "💳",
         "title": "Know when game spending becomes real spending",
-        "text": "One-tap purchases, loot boxes, subscriptions, and upgrades can make real money feel like game points. Check the price and ask before buying or subscribing."
+        "text": "One-tap purchases, loot boxes, subscriptions, and upgrades can make real money feel like game points. Check the price and ask before buying or subscribing.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A one-tap purchase in a game feels like just points. Is it actually free?",
+          "options": [
+            {
+              "emoji": "💳",
+              "label": "No — it can use real money",
+              "good": true,
+              "outcome": "Exactly right! One-tap purchases, loot boxes, and upgrades can make real money feel like game points — check the price and ask before buying."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Yes, in-game purchases never cost real money",
+              "good": false,
+              "outcome": "In-game purchases can actually cost real money, even when they feel like just points."
+            },
+            {
+              "emoji": "❌",
+              "label": "Only purchases outside apps ever use real money",
+              "good": false,
+              "outcome": "Purchases inside apps and games can use real money too, not just purchases made outside them."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧾",
         "title": "Free trials can become paid subscriptions",
-        "text": "A “7-day free trial” may begin charging automatically on day 8. Before starting one, check the renewal price, cancellation date, and whether a card is required."
+        "text": "A “7-day free trial” may begin charging automatically on day 8. Before starting one, check the renewal price, cancellation date, and whether a card is required.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A \"7-day free trial\" signs you up. What might happen on day 8?",
+          "options": [
+            {
+              "emoji": "💳",
+              "label": "It may start charging automatically",
+              "good": true,
+              "outcome": "Exactly right! A '7-day free trial' may begin charging automatically on day 8 — check the renewal price and cancellation date before starting one."
+            },
+            {
+              "emoji": "🙅",
+              "label": "It always stays free forever with no charges",
+              "good": false,
+              "outcome": "Free trials don't always stay free forever — they often start charging automatically once the trial ends."
+            },
+            {
+              "emoji": "❌",
+              "label": "Free trials never actually lead to any charges",
+              "good": false,
+              "outcome": "Free trials actually can lead to charges, once the trial period ends and renewal kicks in."
+            }
+          ]
+        }
       },
       {
         "emoji": "🕵️‍♂️",
         "title": "Verify through a separate channel",
-        "text": "If a message seems unusual—even from a friend—check another way. For example, if a friend suddenly asks for money, call or message them somewhere else instead of trusting the same conversation."
+        "text": "If a message seems unusual—even from a friend—check another way. For example, if a friend suddenly asks for money, call or message them somewhere else instead of trusting the same conversation.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend's account suddenly asks you for money. What should you do?",
+          "options": [
+            {
+              "emoji": "📞",
+              "label": "Call or message them a different way to check",
+              "good": true,
+              "outcome": "Exactly right! If a message seems unusual, even from a friend, check another way — call or message them somewhere else instead of trusting the same conversation."
+            },
+            {
+              "emoji": "💸",
+              "label": "Send the money right away since it is a friend",
+              "good": false,
+              "outcome": "Sending money right away is risky, since the account could be compromised — verifying through a separate channel is safer."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Unusual requests from friends’ accounts are never worth double-checking",
+              "good": false,
+              "outcome": "Unusual requests are actually worth double-checking, even from a friend's account, since it could be compromised."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔓",
         "title": "If you clicked, act quickly",
-        "text": "Clicking a suspicious link does not mean everything is lost. Stop entering information, tell a trusted adult, change any password you typed, and review the account for unusual activity."
+        "text": "Clicking a suspicious link does not mean everything is lost. Stop entering information, tell a trusted adult, change any password you typed, and review the account for unusual activity.",
+        "widget": "sequence-order",
+        "widgetConfig": {
+          "prompt": "Tap what to do, in the right order",
+          "items": [
+            "Stop entering information",
+            "Tell a trusted adult",
+            "Change any password you typed",
+            "Review the account for unusual activity"
+          ]
+        }
       },
       {
         "emoji": "🎮",
         "title": "Scams can happen inside games",
-        "text": "Fake trades, “free skin” links, and people pretending to be game staff can all be scams. Real staff generally use official in-game or support systems, not random private login links."
+        "text": "Fake trades, “free skin” links, and people pretending to be game staff can all be scams. Real staff generally use official in-game or support systems, not random private login links.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone claiming to be game staff messages you privately asking to log in somewhere. Is this likely legitimate?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "No — real staff use official in-game or support systems",
+              "good": true,
+              "outcome": "Exactly right! Real game staff generally use official in-game or support systems, not random private login links — this is a common scam pattern."
+            },
+            {
+              "emoji": "🎭",
+              "label": "Yes, private messages from “staff” are always legitimate",
+              "good": false,
+              "outcome": "Private messages claiming to be from staff aren't always legitimate — real staff use official channels, not random private links."
+            },
+            {
+              "emoji": "❌",
+              "label": "Scams can never happen inside video games",
+              "good": false,
+              "outcome": "Scams actually can happen inside games too, like fake trades or people pretending to be staff."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔗",
         "title": "Check the whole web address",
-        "text": "Fake sites often use look-alike spellings, extra words, or strange domains. Before signing in, check the address carefully and, when possible, open the official app or type the site yourself."
+        "text": "Fake sites often use look-alike spellings, extra words, or strange domains. Before signing in, check the address carefully and, when possible, open the official app or type the site yourself.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A site looks like your favorite store but the web address looks slightly off. What should you do?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "Check the address carefully or type the site yourself",
+              "good": true,
+              "outcome": "Exactly right! Fake sites often use look-alike spellings or strange domains — check the address carefully, or open the official app or type the site yourself."
+            },
+            {
+              "emoji": "🙋",
+              "label": "Sign in right away since it looks familiar",
+              "good": false,
+              "outcome": "Signing in right away is risky if the address looks slightly off — checking it carefully is safer."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Web addresses never reveal whether a site is fake",
+              "good": false,
+              "outcome": "Web addresses actually can reveal a fake site — checking them carefully for look-alike spellings matters."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -714,47 +1826,263 @@
       {
         "emoji": "🎭",
         "title": "Fake accounts and catfishing",
-        "text": "Someone online might use a fake photo and name to pretend to be someone they're not — this is sometimes called 'catfishing.' For example, an account claiming to be a 13-year-old with a cute profile photo could actually belong to a much older adult using a stolen or fake picture — which is why meeting an online-only friend in person always needs a trusted adult involved."
+        "text": "Someone online might use a fake photo and name to pretend to be someone they're not — this is sometimes called 'catfishing.' For example, an account claiming to be a 13-year-old with a cute profile photo could actually belong to a much older adult using a stolen or fake picture — which is why meeting an online-only friend in person always needs a trusted adult involved.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An account claims to be a 13-year-old with a cute photo. Could this actually be an adult using a fake picture?",
+          "options": [
+            {
+              "emoji": "🎭",
+              "label": "Yes — this is sometimes called catfishing",
+              "good": true,
+              "outcome": "Exactly right! Someone online might use a fake photo and name to pretend to be someone they're not — this is sometimes called catfishing."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, profile photos always prove who someone really is",
+              "good": false,
+              "outcome": "Profile photos don't always prove who someone really is — they can be faked, which is why meeting online-only friends needs a trusted adult involved."
+            },
+            {
+              "emoji": "❌",
+              "label": "This never happens online",
+              "good": false,
+              "outcome": "This actually does happen online, which is why caution and a trusted adult's involvement matter."
+            }
+          ]
+        }
       },
       {
         "emoji": "🛑",
         "title": "When to disengage and report",
-        "text": "If an online conversation starts feeling uncomfortable or pressuring, stopping the conversation and reporting or telling a trusted adult is always okay. For example, if someone online keeps pushing you to share a photo or secret you don't want to share, ending the conversation and telling a trusted adult right away is the right call, no matter what they said to try to stop you."
+        "text": "If an online conversation starts feeling uncomfortable or pressuring, stopping the conversation and reporting or telling a trusted adult is always okay. For example, if someone online keeps pushing you to share a photo or secret you don't want to share, ending the conversation and telling a trusted adult right away is the right call, no matter what they said to try to stop you.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Someone online keeps pushing you to share a photo you don't want to share. What should you do?",
+          "options": [
+            {
+              "emoji": "🛑",
+              "label": "End the conversation and tell a trusted adult right away",
+              "good": true,
+              "outcome": "Exactly right! If a conversation feels uncomfortable or pressuring, stopping it and telling a trusted adult is always okay, no matter what they said to try to stop you."
+            },
+            {
+              "emoji": "🙇",
+              "label": "Keep talking until they stop asking",
+              "good": false,
+              "outcome": "Continuing the conversation can mean more pressure — ending it and telling a trusted adult is the right call."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Stopping a conversation like this is never okay",
+              "good": false,
+              "outcome": "Stopping a conversation like this is actually always okay — it's the right response to pressure like this."
+            }
+          ]
+        }
       },
       {
         "emoji": "📍",
         "title": "Location sharing risks",
-        "text": "Live location sharing can be useful with close family, but sharing it publicly or with people you barely know can reveal exactly where you are, in real time. For example, sharing your live location with a parent so they know you got to a friend's house safely makes sense, but sharing that same live location publicly means literally anyone could see exactly where you are right now."
+        "text": "Live location sharing can be useful with close family, but sharing it publicly or with people you barely know can reveal exactly where you are, in real time. For example, sharing your live location with a parent so they know you got to a friend's house safely makes sense, but sharing that same live location publicly means literally anyone could see exactly where you are right now.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An app asks to share your real-time location publicly with everyone, not just friends. What should you do?",
+          "options": [
+            {
+              "emoji": "📍",
+              "label": "Turn off public location sharing — only trusted people should see it",
+              "good": true,
+              "outcome": "Right — sharing your real-time location publicly can let strangers know exactly where you are, which is a real safety risk."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Leave it on since it's convenient",
+              "good": false,
+              "outcome": "Public location sharing can let strangers track exactly where you are — it's safer to keep that information private."
+            },
+            {
+              "emoji": "😬",
+              "label": "Share it so you don't look rude",
+              "good": false,
+              "outcome": "Your safety matters more than appearances — it's okay to keep your location private."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍🤝‍🧑",
         "title": "Online friends vs. real friends",
-        "text": "Someone you've only ever talked to online is different from a friend you actually know in person — it's wise to be more cautious about what you share and trust. For example, an online gaming friend you've chatted with for months might seem trustworthy, but since you've never actually met them in person, it makes sense to be more careful about what personal details you share with them."
+        "text": "Someone you've only ever talked to online is different from a friend you actually know in person — it's wise to be more cautious about what you share and trust. For example, an online gaming friend you've chatted with for months might seem trustworthy, but since you've never actually met them in person, it makes sense to be more careful about what personal details you share with them.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You've chatted with an online gaming friend for months but never met in person. Should you treat them exactly like a friend you know in person?",
+          "options": [
+            {
+              "emoji": "🤔",
+              "label": "No — it is wise to be more cautious about what you share",
+              "good": true,
+              "outcome": "Exactly right! Someone you've only ever talked to online is different from a friend you actually know — it's wise to be more cautious about what you share and trust."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Yes, treat them exactly the same as someone you have met",
+              "good": false,
+              "outcome": "Treating an online-only friend exactly like someone you've met in person skips important caution about what you share."
+            },
+            {
+              "emoji": "🙅",
+              "label": "How long you have chatted online always proves real trust",
+              "good": false,
+              "outcome": "The length of time chatting online doesn't automatically prove real trust — caution is still wise."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚩",
         "title": "Warning signs in online friendships",
-        "text": "An online contact who asks you to keep the friendship secret from your parents, or who gets upset when you don't reply instantly, is showing warning signs worth paying attention to. For example, someone who says 'don't tell your parents about our chats' is using a tactic real friends and trustworthy adults never need to use."
+        "text": "An online contact who asks you to keep the friendship secret from your parents, or who gets upset when you don't reply instantly, is showing warning signs worth paying attention to. For example, someone who says 'don't tell your parents about our chats' is using a tactic real friends and trustworthy adults never need to use.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An online contact asks you to keep your friendship secret from your parents. What should you do?",
+          "options": [
+            {
+              "emoji": "🚩",
+              "label": "See it as a warning sign and tell a trusted adult",
+              "good": true,
+              "outcome": "Exactly right! Asking you to keep secrets from your parents is a major warning sign — telling a trusted adult is the safe move."
+            },
+            {
+              "emoji": "🤫",
+              "label": "Keep it secret since they asked nicely",
+              "good": false,
+              "outcome": "Being asked to keep something secret from your parents is a warning sign, no matter how it's asked — tell a trusted adult."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It's normal for online friends to ask for secrecy",
+              "good": false,
+              "outcome": "It's not normal — asking for secrecy from your parents is a red flag worth telling a trusted adult about."
+            }
+          ]
+        }
       },
       {
         "emoji": "🖼️",
         "title": "Profile pictures can be stolen",
-        "text": "A profile photo can be copied from someone else's real account and reused to create a fake, convincing profile. For example, running a suspicious profile picture through a reverse image search can sometimes reveal it actually belongs to someone else entirely."
+        "text": "A profile photo can be copied from someone else's real account and reused to create a fake, convincing profile. For example, running a suspicious profile picture through a reverse image search can sometimes reveal it actually belongs to someone else entirely.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A reverse image search shows a profile photo actually belongs to someone else. What does this reveal?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "The profile could be fake, using a stolen photo",
+              "good": true,
+              "outcome": "Exactly right! A profile photo can be copied from someone else's real account and reused to create a fake, convincing profile."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — profile photos can never be reused by others",
+              "good": false,
+              "outcome": "Profile photos actually can be reused by others — that's exactly what a reverse image search can reveal."
+            },
+            {
+              "emoji": "🙅",
+              "label": "This proves the account is definitely trustworthy",
+              "good": false,
+              "outcome": "This actually suggests the opposite — a stolen photo is a sign the profile could be fake, not trustworthy."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎁",
         "title": "Gifts and favors with strings attached",
-        "text": "Someone online offering gifts, game currency, or special attention may be trying to build trust before asking for something in return. For example, a stranger who generously gifts rare in-game items before asking for personal photos or information is following a well-known manipulation pattern."
+        "text": "Someone online offering gifts, game currency, or special attention may be trying to build trust before asking for something in return. For example, a stranger who generously gifts rare in-game items before asking for personal photos or information is following a well-known manipulation pattern.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An online friend offers to buy you expensive game currency, but says to keep it a secret from your parents. What's the red flag here?",
+          "options": [
+            {
+              "emoji": "🚩",
+              "label": "Asking you to keep secrets from trusted adults is a major warning sign",
+              "good": true,
+              "outcome": "Exactly right — anyone asking you to hide something from your parents, especially tied to a gift, is a serious red flag."
+            },
+            {
+              "emoji": "🎁",
+              "label": "It's totally fine since it's just a nice gift",
+              "good": false,
+              "outcome": "A generous gift tied to secrecy is a classic manipulation tactic — the secrecy part is the red flag, not the gift itself."
+            },
+            {
+              "emoji": "🤫",
+              "label": "Accept it but don't use it",
+              "good": false,
+              "outcome": "Even accepting it can create pressure to repay the favor — it's safer to tell a trusted adult about the offer."
+            }
+          ]
+        }
       },
       {
         "emoji": "👪",
         "title": "Why trusted adults, not secrecy, keep you safest",
-        "text": "Keeping a trusted adult in the loop about online relationships isn't about losing privacy — it's about having backup if something feels wrong. For example, telling a parent 'I made a new friend in this game' before anything feels off means they already have context if something does go wrong later."
+        "text": "Keeping a trusted adult in the loop about online relationships isn't about losing privacy — it's about having backup if something feels wrong. For example, telling a parent 'I made a new friend in this game' before anything feels off means they already have context if something does go wrong later.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You tell a parent \"I made a new friend in this game\" before anything feels off. Why does this help?",
+          "options": [
+            {
+              "emoji": "🛡️",
+              "label": "They already have context if something goes wrong later",
+              "good": true,
+              "outcome": "Exactly right! Keeping a trusted adult in the loop isn't about losing privacy — it means they already have context if something does go wrong later."
+            },
+            {
+              "emoji": "🙅",
+              "label": "It makes no difference either way",
+              "good": false,
+              "outcome": "It actually makes a real difference — a trusted adult having context ahead of time helps if something goes wrong later."
+            },
+            {
+              "emoji": "❌",
+              "label": "Telling a trusted adult early is always unnecessary",
+              "good": false,
+              "outcome": "Telling a trusted adult early is actually a smart habit, giving them helpful context if something feels wrong later."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧭",
         "title": "Trusting your gut feeling",
-        "text": "If an interaction online feels off, even if you can't explain exactly why, that instinct is worth listening to and acting on. For example, feeling uneasy about a conversation's turn, even without a specific 'red flag,' is a good enough reason to step back and tell someone."
+        "text": "If an interaction online feels off, even if you can't explain exactly why, that instinct is worth listening to and acting on. For example, feeling uneasy about a conversation's turn, even without a specific 'red flag,' is a good enough reason to step back and tell someone.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A conversation online feels off, even though you can't explain exactly why. What should you do?",
+          "options": [
+            {
+              "emoji": "🧭",
+              "label": "Listen to that instinct and step back",
+              "good": true,
+              "outcome": "Exactly right! If an interaction feels off, even without a specific 'red flag,' that instinct is worth listening to and acting on."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore the feeling since you cannot explain it",
+              "good": false,
+              "outcome": "Ignoring a gut feeling skips useful information — it's worth listening to even without a specific explanation."
+            },
+            {
+              "emoji": "🙅",
+              "label": "A feeling without a specific reason is never worth acting on",
+              "good": false,
+              "outcome": "A gut feeling is actually worth acting on, even without a specific, nameable reason."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -855,47 +2183,263 @@
       {
         "emoji": "📸",
         "title": "Oversharing online",
-        "text": "Posting your location, school name, or daily schedule can reveal more about you to strangers than you might realize. For example, a post saying \"at soccer practice every Tuesday at 4pm at Central Park\" tells any stranger exactly where to find you at a specific, predictable time — far more than most people would say out loud to someone they don't know."
+        "text": "Posting your location, school name, or daily schedule can reveal more about you to strangers than you might realize. For example, a post saying \"at soccer practice every Tuesday at 4pm at Central Park\" tells any stranger exactly where to find you at a specific, predictable time — far more than most people would say out loud to someone they don't know.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You post \"at soccer practice every Tuesday at 4pm at Central Park.\" What does this reveal to strangers?",
+          "options": [
+            {
+              "emoji": "📍",
+              "label": "Exactly where to find you at a predictable time",
+              "good": true,
+              "outcome": "Exactly right! A post like this tells any stranger exactly where to find you at a specific, predictable time — far more than most people would say out loud to a stranger."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing useful to anyone",
+              "good": false,
+              "outcome": "This post actually reveals something quite useful to a stranger — exactly where and when to find you."
+            },
+            {
+              "emoji": "❌",
+              "label": "Posting specific routines never reveals anything risky",
+              "good": false,
+              "outcome": "Posting specific routines like this actually can reveal real risk, showing exactly where to find you."
+            }
+          ]
+        }
       },
       {
         "emoji": "👣",
         "title": "Your digital footprint",
-        "text": "Everything you post, like, or comment online adds up over time into a 'digital footprint' — a trail that can be seen by others, even years later. For example, comments and photos posted at age 12 can still be found by someone searching your name years later, which is why it's worth thinking about before posting."
+        "text": "Everything you post, like, or comment online adds up over time into a 'digital footprint' — a trail that can be seen by others, even years later. For example, comments and photos posted at age 12 can still be found by someone searching your name years later, which is why it's worth thinking about before posting.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Everything you post, like, or comment online adds up over time. What is this collection called?",
+          "options": [
+            {
+              "emoji": "👣",
+              "label": "Your digital footprint",
+              "good": true,
+              "outcome": "Exactly right! Everything you post, like, or comment adds up over time into what's called your digital footprint."
+            },
+            {
+              "emoji": "📶",
+              "label": "Your Wi-Fi signal",
+              "good": false,
+              "outcome": "That's unrelated to your online activity — the record of everything you post and like is called your digital footprint."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't add up to anything meaningful",
+              "good": false,
+              "outcome": "It actually does add up — this ongoing record is called your digital footprint, and it can matter a lot."
+            }
+          ]
+        }
       },
       {
         "emoji": "💬",
         "title": "Group chats and screenshots",
-        "text": "Anything sent in a group chat can be screenshotted and shared far beyond the people it was meant for, even if it felt private at the time. For example, a joke or complaint sent to one friend in a group chat could be screenshotted and shared with people who were never meant to see it, which is worth remembering before hitting send."
+        "text": "Anything sent in a group chat can be screenshotted and shared far beyond the people it was meant for, even if it felt private at the time. For example, a joke or complaint sent to one friend in a group chat could be screenshotted and shared with people who were never meant to see it, which is worth remembering before hitting send.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You send a complaint about a friend in a group chat. Could it be seen by people beyond the group?",
+          "options": [
+            {
+              "emoji": "📸",
+              "label": "Yes — it could be screenshotted and shared further",
+              "good": true,
+              "outcome": "Exactly right! Anything sent in a group chat can be screenshotted and shared far beyond the people it was meant for, even if it felt private at the time."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, group chats always stay completely private",
+              "good": false,
+              "outcome": "Group chats don't always stay completely private — messages can be screenshotted and shared beyond the group."
+            },
+            {
+              "emoji": "❌",
+              "label": "Screenshots are never possible in a group chat",
+              "good": false,
+              "outcome": "Screenshots are actually always possible in a group chat, which is worth remembering before hitting send."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏱️",
         "title": "Balancing screen time",
-        "text": "Noticing when screen time is crowding out sleep, friends, or activities you enjoy is an important digital safety and wellbeing skill. For example, if staying up late scrolling means you're too tired to enjoy soccer practice the next day, that's a sign screen time might need rebalancing."
+        "text": "Noticing when screen time is crowding out sleep, friends, or activities you enjoy is an important digital safety and wellbeing skill. For example, if staying up late scrolling means you're too tired to enjoy soccer practice the next day, that's a sign screen time might need rebalancing.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Staying up late scrolling makes you too tired to enjoy soccer practice. What does this suggest?",
+          "options": [
+            {
+              "emoji": "⚖️",
+              "label": "Screen time might need rebalancing",
+              "good": true,
+              "outcome": "Exactly right! Noticing when screen time is crowding out sleep or activities you enjoy is a sign it might need rebalancing."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — tiredness never relates to screen time",
+              "good": false,
+              "outcome": "Tiredness actually can relate directly to screen time, like staying up late scrolling before an activity."
+            },
+            {
+              "emoji": "📱",
+              "label": "This is a sign you should scroll even more",
+              "good": false,
+              "outcome": "Feeling too tired to enjoy an activity is a signal to rebalance screen time, not to scroll even more."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔍",
         "title": "Anyone can search your name",
-        "text": "Typing your own name into a search engine occasionally, sometimes called a 'self-search,' shows you what strangers, teachers, or future coaches might already find. For example, discovering an old public post you forgot about is a useful nudge to check your privacy settings or delete it."
+        "text": "Typing your own name into a search engine occasionally, sometimes called a 'self-search,' shows you what strangers, teachers, or future coaches might already find. For example, discovering an old public post you forgot about is a useful nudge to check your privacy settings or delete it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're thinking about what to post online. Someone mentions that anyone could search your name and find it later. What should you consider?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "Think about whether you'd be okay with anyone, including future employers, seeing it",
+              "good": true,
+              "outcome": "Great awareness! Since anyone can search your name, it's smart to think about how something might look to people beyond just your friends."
+            },
+            {
+              "emoji": "🤷",
+              "label": "It doesn't matter since only friends will see it",
+              "good": false,
+              "outcome": "Posts can often be found by searching your name, even by people outside your friend circle — it's worth thinking about the wider audience."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing posted online can ever be found later",
+              "good": false,
+              "outcome": "Actually, a lot of what's posted online can be searched and found later — it's worth considering that before posting."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏷️",
         "title": "Tags and check-ins add up too",
-        "text": "Being tagged in a friend's post, or checking in at a location, can share information about you even when you didn't post anything yourself. For example, a friend tagging you at a specific restaurant reveals where you are, even if your own account is completely private."
+        "text": "Being tagged in a friend's post, or checking in at a location, can share information about you even when you didn't post anything yourself. For example, a friend tagging you at a specific restaurant reveals where you are, even if your own account is completely private.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend tags you at a specific restaurant. Does this reveal your location even if your own account is private?",
+          "options": [
+            {
+              "emoji": "📍",
+              "label": "Yes — tags can reveal your location regardless",
+              "good": true,
+              "outcome": "Exactly right! Being tagged in a friend's post can share information about you, even if your own account is completely private."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, only your own posts can ever reveal where you are",
+              "good": false,
+              "outcome": "Your own posts aren't the only way — a friend tagging you can reveal your location too, even with a private account."
+            },
+            {
+              "emoji": "❌",
+              "label": "Being tagged by someone else never shares any information",
+              "good": false,
+              "outcome": "Being tagged by someone else actually can share real information about you, like your location."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗑️",
         "title": "Deleting doesn't always mean gone",
-        "text": "Deleting a post removes it from your profile, but people may have already seen, saved, or screenshotted it before it was deleted. For example, a post deleted five minutes after posting can still exist as a screenshot on someone else's phone."
+        "text": "Deleting a post removes it from your profile, but people may have already seen, saved, or screenshotted it before it was deleted. For example, a post deleted five minutes after posting can still exist as a screenshot on someone else's phone.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You post something online, then delete it a minute later because you regret it. Is it definitely gone for good?",
+          "options": [
+            {
+              "emoji": "📸",
+              "label": "Not necessarily — others may have already seen or screenshotted it",
+              "good": true,
+              "outcome": "Right — once something is posted, even briefly, it can be captured before you delete it. That's why it's smart to think before posting, not just after."
+            },
+            {
+              "emoji": "🗑️",
+              "label": "Yes, deleting always removes it completely everywhere",
+              "good": false,
+              "outcome": "Deleting removes it from your own page, but screenshots or saves made before deletion can still exist."
+            },
+            {
+              "emoji": "⏱️",
+              "label": "It doesn't matter since no one saw it that fast",
+              "good": false,
+              "outcome": "Even a short window is enough for someone to screenshot something — it's safest to think before posting."
+            }
+          ]
+        }
       },
       {
         "emoji": "⏳",
         "title": "Noticing screen time patterns, not just totals",
-        "text": "Paying attention to when and why you reach for a screen, like out of boredom or after an upsetting moment, reveals more than just counting total hours. For example, noticing you always open an app right after feeling left out is useful information about the habit, not just the time spent."
+        "text": "Paying attention to when and why you reach for a screen, like out of boredom or after an upsetting moment, reveals more than just counting total hours. For example, noticing you always open an app right after feeling left out is useful information about the habit, not just the time spent.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You notice you always open an app right after feeling left out. What's useful about noticing this?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "It reveals something about the habit, not just the time spent",
+              "good": true,
+              "outcome": "Exactly right! Paying attention to when and why you reach for a screen reveals more than just counting total hours."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — only the total hours matter",
+              "good": false,
+              "outcome": "Total hours aren't the only useful thing — noticing the 'why' behind reaching for a screen reveals more."
+            },
+            {
+              "emoji": "❌",
+              "label": "Noticing when and why you use a screen is never useful",
+              "good": false,
+              "outcome": "Noticing when and why you use a screen is actually quite useful — it's more informative than just totals."
+            }
+          ]
+        }
       },
       {
         "emoji": "🤝",
         "title": "Setting your own healthy limits",
-        "text": "Deciding in advance on limits, like no phones at the dinner table or an hour before bed, makes healthy screen habits easier to stick to in the moment. For example, agreeing on a charging spot outside the bedroom overnight is a simple rule that helps sleep without needing willpower every night."
+        "text": "Deciding in advance on limits, like no phones at the dinner table or an hour before bed, makes healthy screen habits easier to stick to in the moment. For example, agreeing on a charging spot outside the bedroom overnight is a simple rule that helps sleep without needing willpower every night.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You agree on a charging spot outside the bedroom overnight. What does this help with?",
+          "options": [
+            {
+              "emoji": "🔌",
+              "label": "Sticking to healthy screen habits without needing willpower every night",
+              "good": true,
+              "outcome": "Exactly right! Deciding on limits in advance, like a charging spot outside the bedroom, makes healthy screen habits easier to stick to without needing willpower every night."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Nothing — limits set in advance never actually help",
+              "good": false,
+              "outcome": "Limits set in advance actually help a lot — they make good habits easier to stick to without needing willpower each night."
+            },
+            {
+              "emoji": "❌",
+              "label": "This makes screen habits harder to maintain",
+              "good": false,
+              "outcome": "This kind of advance rule actually makes healthy screen habits easier to maintain, not harder."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -996,47 +2540,263 @@
       {
         "emoji": "🎭",
         "title": "Social engineering",
-        "text": "Social engineering targets people rather than computers. Scammers use urgency, fear, authority, or trust—such as “verify in 10 minutes or lose your account”—to push you into acting before you think."
+        "text": "Social engineering targets people rather than computers. Scammers use urgency, fear, authority, or trust—such as “verify in 10 minutes or lose your account”—to push you into acting before you think.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A message creates urgency and fear to trick you into acting fast, targeting you rather than a computer system. What is this called?",
+          "options": [
+            {
+              "emoji": "🎭",
+              "label": "Social engineering",
+              "good": true,
+              "outcome": "Exactly right! Social engineering targets people rather than computers, using urgency and fear to trick someone into acting fast."
+            },
+            {
+              "emoji": "🐛",
+              "label": "A software bug",
+              "good": false,
+              "outcome": "A software bug is a technical flaw in code — tricking a person using urgency and fear is called social engineering."
+            },
+            {
+              "emoji": "🧱",
+              "label": "A firewall",
+              "good": false,
+              "outcome": "A firewall is a security tool that protects systems — tricking a person this way is called social engineering."
+            }
+          ]
+        }
       },
       {
         "emoji": "🖼️",
         "title": "Deepfakes and misinformation",
-        "text": "AI can create convincing fake images, voices, and video. If a clip is shocking or important, check whether reliable sources and the original account confirm it before believing or sharing it."
+        "text": "AI can create convincing fake images, voices, and video. If a clip is shocking or important, check whether reliable sources and the original account confirm it before believing or sharing it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A shocking video clip is circulating online. What should you do before believing or sharing it?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "Check whether reliable sources confirm it",
+              "good": true,
+              "outcome": "Exactly right! AI can create convincing fake images, voices, and video — check whether reliable sources and the original account confirm it before believing or sharing."
+            },
+            {
+              "emoji": "📤",
+              "label": "Share it immediately since it looks real",
+              "good": false,
+              "outcome": "Sharing immediately risks spreading a convincing fake — checking reliable sources first is safer."
+            },
+            {
+              "emoji": "🙅",
+              "label": "AI can never create convincing fake video",
+              "good": false,
+              "outcome": "AI actually can create very convincing fake video and images, which is why checking sources matters."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌐",
         "title": "Public Wi-Fi: understand the real risk",
-        "text": "Modern encrypted apps and HTTPS protect much of your traffic, but public Wi-Fi can still be risky through fake networks, malicious redirects, or poor device security. Avoid sensitive tasks on networks you do not trust, and use cellular data or a trusted network when practical."
+        "text": "Modern encrypted apps and HTTPS protect much of your traffic, but public Wi-Fi can still be risky through fake networks, malicious redirects, or poor device security. Avoid sensitive tasks on networks you do not trust, and use cellular data or a trusted network when practical.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're at a coffee shop and want to check your bank account using the public Wi-Fi. What's the safer approach?",
+          "options": [
+            {
+              "emoji": "📶",
+              "label": "Use cellular data or a VPN instead of public Wi-Fi for sensitive stuff",
+              "good": true,
+              "outcome": "Good call — public Wi-Fi can be less secure for sensitive activities like banking, so using cellular data or a VPN adds real protection."
+            },
+            {
+              "emoji": "🌐",
+              "label": "Public Wi-Fi is totally fine for anything",
+              "good": false,
+              "outcome": "Public Wi-Fi carries more risk for sensitive activities like banking — it's safer to avoid it for that or use added protection."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Avoid using the internet at all while out",
+              "good": false,
+              "outcome": "You don't need to avoid the internet entirely — just be more careful about which networks you use for sensitive things like banking."
+            }
+          ]
+        }
       },
       {
         "emoji": "🏦",
         "title": "Protecting financial information online",
-        "text": "Do not enter card or banking details from a surprise text, DM, or email link. Open the official app or type the company’s known website yourself; a padlock/HTTPS protects the connection but does not prove the business itself is legitimate."
+        "text": "Do not enter card or banking details from a surprise text, DM, or email link. Open the official app or type the company’s known website yourself; a padlock/HTTPS protects the connection but does not prove the business itself is legitimate.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A surprise text link asks for your card details. What's the safer approach?",
+          "options": [
+            {
+              "emoji": "🔐",
+              "label": "Open the official app or type the website yourself",
+              "good": true,
+              "outcome": "Exactly right! Do not enter card or banking details from a surprise text, DM, or email link — open the official app or type the company's known website yourself."
+            },
+            {
+              "emoji": "💳",
+              "label": "Enter your card details right through the link",
+              "good": false,
+              "outcome": "Entering details through a surprise link is risky — opening the official app or typing the website yourself is much safer."
+            },
+            {
+              "emoji": "🔒",
+              "label": "A padlock/HTTPS icon alone proves a business is legitimate",
+              "good": false,
+              "outcome": "A padlock or HTTPS protects the connection, but it doesn't prove the business itself is legitimate."
+            }
+          ]
+        }
       },
       {
         "emoji": "💼",
         "title": "Scams aimed at teens",
-        "text": "Fake jobs, “easy money,” fake scholarships, romance scams, and payment requests all target teens. A job that requires you to pay a fee, buy gift cards, or send money before you are hired is a major warning sign."
+        "text": "Fake jobs, “easy money,” fake scholarships, romance scams, and payment requests all target teens. A job that requires you to pay a fee, buy gift cards, or send money before you are hired is a major warning sign.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You see a \"job offer\" online promising easy money for just a few minutes of work a day, no experience needed. What's the smartest response?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "Research the company and be skeptical of guarantees",
+              "good": true,
+              "outcome": "Good instinct — \"easy money, no experience\" offers are a common scam pattern aimed at teens looking for quick income."
+            },
+            {
+              "emoji": "💸",
+              "label": "Sign up immediately and provide bank details",
+              "good": false,
+              "outcome": "Scams targeting teens often ask for bank or payment info upfront — that's a major red flag, not a real job requirement."
+            },
+            {
+              "emoji": "📲",
+              "label": "Share the \"opportunity\" with friends so they can join too",
+              "good": false,
+              "outcome": "Spreading the offer to friends can pull them into the same scam — better to verify it first."
+            }
+          ]
+        }
       },
       {
         "emoji": "🕳️",
         "title": "Check whether old credentials were exposed",
-        "text": "A company breach can expose old usernames, emails, or passwords. If you learn that one of your passwords was exposed, change it anywhere it was reused and turn on 2FA."
+        "text": "A company breach can expose old usernames, emails, or passwords. If you learn that one of your passwords was exposed, change it anywhere it was reused and turn on 2FA.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You learn one of your passwords was exposed in a company breach. What should you do?",
+          "options": [
+            {
+              "emoji": "🔑",
+              "label": "Change it anywhere it was reused and turn on 2FA",
+              "good": true,
+              "outcome": "Exactly right! If a password was exposed, change it anywhere it was reused and turn on 2FA."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore it since the breach was not your fault",
+              "good": false,
+              "outcome": "Even though a breach isn't your fault, ignoring an exposed password leaves your accounts at risk — changing it protects you."
+            },
+            {
+              "emoji": "🙅",
+              "label": "An exposed password never needs to be changed",
+              "good": false,
+              "outcome": "An exposed password actually does need to be changed, especially anywhere it was reused."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎣",
         "title": "Spear phishing uses details about you",
-        "text": "A targeted scam may mention your school, employer, coach, or friend to look believable. Real details do not prove the message is real—verify sensitive requests independently."
+        "text": "A targeted scam may mention your school, employer, coach, or friend to look believable. Real details do not prove the message is real—verify sensitive requests independently.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A scam message mentions your real school and coach's name. Does this prove the message is legitimate?",
+          "options": [
+            {
+              "emoji": "🙅",
+              "label": "No — real details do not prove a message is real",
+              "good": true,
+              "outcome": "Exactly right! A targeted scam may mention real details like your school or coach to look believable — real details don't prove the message is real."
+            },
+            {
+              "emoji": "🎣",
+              "label": "Yes, knowing real details always means it is legitimate",
+              "good": false,
+              "outcome": "Knowing real details doesn't prove legitimacy — scammers can gather real details to look more convincing."
+            },
+            {
+              "emoji": "❌",
+              "label": "Scams never use real personal details to seem believable",
+              "good": false,
+              "outcome": "Scams actually do use real personal details on purpose, to look more believable — that's exactly what spear phishing is."
+            }
+          ]
+        }
       },
       {
         "emoji": "💳",
         "title": "Fake checkout pages can look polished",
-        "text": "Scam stores may copy real logos and product photos. Warning signs include a look-alike domain, unrealistic prices, poor contact information, pressure to pay quickly, or unusual payment methods."
+        "text": "Scam stores may copy real logos and product photos. Warning signs include a look-alike domain, unrealistic prices, poor contact information, pressure to pay quickly, or unusual payment methods.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An online store has a web address that's almost identical to a real brand's name, with one letter different. Is this a warning sign?",
+          "options": [
+            {
+              "emoji": "🚩",
+              "label": "Yes — a look-alike domain is a classic scam warning sign",
+              "good": true,
+              "outcome": "Exactly! Scam stores often copy real logos and photos but give themselves away with a look-alike domain name."
+            },
+            {
+              "emoji": "✨",
+              "label": "No, a polished-looking site is always trustworthy",
+              "good": false,
+              "outcome": "A polished look doesn't guarantee safety — scam sites can copy real branding closely, so checking the domain matters."
+            },
+            {
+              "emoji": "💲",
+              "label": "Only the price matters, not the web address",
+              "good": false,
+              "outcome": "The web address matters a lot — a look-alike domain is one of the clearest scam warning signs."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔔",
         "title": "If money or credentials were stolen, act fast",
-        "text": "Tell a trusted adult, change affected passwords, and contact the bank/card provider if money was involved. Quick reporting can limit further charges or account takeovers."
+        "text": "Tell a trusted adult, change affected passwords, and contact the bank/card provider if money was involved. Quick reporting can limit further charges or account takeovers.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You realize your account and some money may have been stolen. What should you do?",
+          "options": [
+            {
+              "emoji": "🚨",
+              "label": "Tell a trusted adult, change passwords, contact the provider",
+              "good": true,
+              "outcome": "Exactly right! Tell a trusted adult, change affected passwords, and contact the bank or card provider — quick reporting can limit further charges."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Wait a while before telling anyone",
+              "good": false,
+              "outcome": "Waiting can let the problem get worse — quick reporting can limit further charges or account takeovers."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Quick reporting never actually limits further damage",
+              "good": false,
+              "outcome": "Quick reporting actually can limit further damage, like additional charges or account takeovers."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1137,47 +2897,263 @@
       {
         "emoji": "🔐",
         "title": "Password managers",
-        "text": "A password manager securely stores unique, complex passwords for every account, so you don't have to reuse the same weak password everywhere. For example, instead of using the same password for your email, social media, and school account (so one leak compromises everything), a password manager can generate and remember a different strong password for each one."
+        "text": "A password manager securely stores unique, complex passwords for every account, so you don't have to reuse the same weak password everywhere. For example, instead of using the same password for your email, social media, and school account (so one leak compromises everything), a password manager can generate and remember a different strong password for each one.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're tired of reusing the same password everywhere because it's hard to remember many different ones. What's a smart solution?",
+          "options": [
+            {
+              "emoji": "🗝️",
+              "label": "Use a password manager to generate and store unique passwords",
+              "good": true,
+              "outcome": "Great solution! A password manager lets you have strong, unique passwords for every account without needing to memorize them all."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Keep reusing the same password everywhere",
+              "good": false,
+              "outcome": "Reusing passwords means if one account is breached, all your accounts become vulnerable — unique passwords are much safer."
+            },
+            {
+              "emoji": "📝",
+              "label": "Write all your passwords on a sticky note",
+              "good": false,
+              "outcome": "A password manager is a much safer way to handle many unique passwords than writing them down somewhere visible."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧾",
         "title": "Reading privacy policies (a little)",
-        "text": "You don't need to read every word, but understanding roughly what data an app collects and how it's used is a genuinely useful digital literacy skill. For example, noticing that an app's privacy policy says it shares your location data with advertisers might change whether you're comfortable granting it that permission."
+        "text": "You don't need to read every word, but understanding roughly what data an app collects and how it's used is a genuinely useful digital literacy skill. For example, noticing that an app's privacy policy says it shares your location data with advertisers might change whether you're comfortable granting it that permission.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An app has a long privacy policy nobody reads. Is it worth understanding roughly what it says?",
+          "options": [
+            {
+              "emoji": "📄",
+              "label": "Yes — understanding roughly what data it collects is worth knowing",
+              "good": true,
+              "outcome": "Exactly! You don't need to read every word, but understanding roughly what data an app collects is worth it."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, privacy policies never contain useful information",
+              "good": false,
+              "outcome": "Privacy policies actually do contain useful information about what data is collected, even in a quick skim."
+            },
+            {
+              "emoji": "⚖️",
+              "label": "Only lawyers need to ever think about privacy policies",
+              "good": false,
+              "outcome": "Anyone using an app benefits from roughly understanding its privacy policy, not just lawyers."
+            }
+          ]
+        }
       },
       {
         "emoji": "🚩",
         "title": "Recognizing predatory behavior",
-        "text": "Adults who push a minor toward secrecy, isolation from friends/family, or private communication are showing classic warning signs — reporting and telling a trusted adult matters. For example, an adult online who says \"let's keep this conversation between just us\" or discourages you from telling a parent is showing a well-documented warning sign that should be reported immediately."
+        "text": "Adults who push a minor toward secrecy, isolation from friends/family, or private communication are showing classic warning signs — reporting and telling a trusted adult matters. For example, an adult online who says \"let's keep this conversation between just us\" or discourages you from telling a parent is showing a well-documented warning sign that should be reported immediately.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An adult online says \"let's keep this conversation between just us.\" What does this show?",
+          "options": [
+            {
+              "emoji": "🚩",
+              "label": "A well-documented warning sign that should be reported",
+              "good": true,
+              "outcome": "Exactly right! Adults who push a minor toward secrecy or isolation are showing classic warning signs — reporting and telling a trusted adult matters."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Normal, harmless online conversation",
+              "good": false,
+              "outcome": "This isn't harmless — pushing for secrecy like this is a well-documented warning sign worth reporting."
+            },
+            {
+              "emoji": "❌",
+              "label": "Requests for secrecy from an adult online never matter",
+              "good": false,
+              "outcome": "Requests for secrecy actually matter a lot — they're a classic warning sign that should be reported."
+            }
+          ]
+        }
       },
       {
         "emoji": "📍",
         "title": "Location metadata in photos",
-        "text": "Photos taken on a phone often secretly store the exact location where they were taken, hidden inside the file itself as 'metadata.' For example, posting a photo taken at home, without realizing that many platforms or viewers can extract that embedded location data, could reveal exactly where you live to anyone who knows how to look for it."
+        "text": "Photos taken on a phone often secretly store the exact location where they were taken, hidden inside the file itself as 'metadata.' For example, posting a photo taken at home, without realizing that many platforms or viewers can extract that embedded location data, could reveal exactly where you live to anyone who knows how to look for it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A photo taken at home contains hidden location data. Could this reveal where you live?",
+          "options": [
+            {
+              "emoji": "📍",
+              "label": "Yes — platforms or viewers can sometimes extract that data",
+              "good": true,
+              "outcome": "Exactly right! Photos often secretly store the exact location where they were taken, hidden inside the file as metadata, which can reveal where you live."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, photos never contain any hidden location information",
+              "good": false,
+              "outcome": "Photos actually can contain hidden location data, called metadata, embedded inside the file."
+            },
+            {
+              "emoji": "❌",
+              "label": "Only the visible background of a photo can ever reveal location",
+              "good": false,
+              "outcome": "Hidden metadata inside a photo file can reveal location too, not just what's visible in the background."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔑",
         "title": "Passphrases: long beats complicated",
-        "text": "A long string of random words, like 'correct-horse-battery-staple,' can actually be harder to crack than a short complex password, while being easier to remember. For example, security experts increasingly recommend passphrases of four or more unrelated words over short passwords stuffed with symbols that are hard to remember and often reused."
+        "text": "A long string of random words, like 'correct-horse-battery-staple,' can actually be harder to crack than a short complex password, while being easier to remember. For example, security experts increasingly recommend passphrases of four or more unrelated words over short passwords stuffed with symbols that are hard to remember and often reused.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Which tends to be harder to crack while still being easy to remember?",
+          "options": [
+            {
+              "emoji": "🔑",
+              "label": "A long string of random words, like a passphrase",
+              "good": true,
+              "outcome": "Exactly right! A long string of random words, like 'correct-horse-battery-staple,' can be harder to crack than a short complex password, while being easier to remember."
+            },
+            {
+              "emoji": "🔢",
+              "label": "A short password stuffed with symbols",
+              "good": false,
+              "outcome": "A short password stuffed with symbols is often harder to remember and not necessarily more secure than a long passphrase."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Length never affects how hard a password is to crack",
+              "good": false,
+              "outcome": "Length actually affects this a lot — longer passphrases tend to be harder to crack than short complex ones."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍⚖️",
         "title": "Grooming tactics, named clearly",
-        "text": "Predatory adults often follow a recognizable pattern: excessive flattery, gradually normalizing inappropriate topics, and testing boundaries with small requests before bigger ones. For example, an adult who starts with compliments, then slowly shifts to secretive or sexual topics over weeks, is following a well-documented grooming pattern — and it's never the target's fault."
+        "text": "Predatory adults often follow a recognizable pattern: excessive flattery, gradually normalizing inappropriate topics, and testing boundaries with small requests before bigger ones. For example, an adult who starts with compliments, then slowly shifts to secretive or sexual topics over weeks, is following a well-documented grooming pattern — and it's never the target's fault.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An adult starts with compliments, then slowly shifts to secretive topics over weeks. What does this pattern show?",
+          "options": [
+            {
+              "emoji": "🚩",
+              "label": "A well-documented grooming pattern, and it is never the target's fault",
+              "good": true,
+              "outcome": "Exactly right! Predatory adults often follow a recognizable pattern — excessive flattery, then gradually normalizing inappropriate topics — and it's never the target's fault."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Normal friendship behavior with no cause for concern",
+              "good": false,
+              "outcome": "This isn't normal friendship behavior — this gradual shift is a well-documented grooming pattern worth reporting."
+            },
+            {
+              "emoji": "❌",
+              "label": "This kind of gradual pattern never actually happens",
+              "good": false,
+              "outcome": "This kind of gradual pattern actually does happen and is well-documented, which is why it's named clearly for recognition."
+            }
+          ]
+        }
       },
       {
         "emoji": "📵",
         "title": "It's never too late to tell someone",
-        "text": "Even if an uncomfortable online relationship has been going on for a while, or you feel like you 'let it happen,' telling a trusted adult is always the right move, at any point. For example, a teen who shared photos months ago and feels it's 'too late' to say anything still deserves support, not judgment, for speaking up now."
+        "text": "Even if an uncomfortable online relationship has been going on for a while, or you feel like you 'let it happen,' telling a trusted adult is always the right move, at any point. For example, a teen who shared photos months ago and feels it's 'too late' to say anything still deserves support, not judgment, for speaking up now.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Something happened online months ago that made you uncomfortable, and you never told anyone. Is it too late to say something now?",
+          "options": [
+            {
+              "emoji": "💬",
+              "label": "No — it's never too late to tell a trusted adult",
+              "good": true,
+              "outcome": "Exactly right — there's no expiration date on telling someone you trust. It's always worth speaking up, even after time has passed."
+            },
+            {
+              "emoji": "⏳",
+              "label": "Yes, too much time has passed to say anything",
+              "good": false,
+              "outcome": "It's genuinely never too late — trusted adults can still help, even if it happened a while ago."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Only if it happens again",
+              "good": false,
+              "outcome": "You don't need to wait for it to happen again — telling someone now is still valuable and can prevent it from happening to you or others."
+            }
+          ]
+        }
       },
       {
         "emoji": "🗺️",
         "title": "Metadata beyond just photos",
-        "text": "Location metadata isn't limited to photos — check-ins, timestamps on posts, and even background details in a video can reveal where you are. For example, a video posted from a recognizable street sign or storefront can reveal your location just as clearly as GPS data embedded in a photo file."
+        "text": "Location metadata isn't limited to photos — check-ins, timestamps on posts, and even background details in a video can reveal where you are. For example, a video posted from a recognizable street sign or storefront can reveal your location just as clearly as GPS data embedded in a photo file.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A video shows a recognizable street sign or storefront. Could this reveal your location, even without GPS data?",
+          "options": [
+            {
+              "emoji": "🎥",
+              "label": "Yes — visible details in a video can reveal location too",
+              "good": true,
+              "outcome": "Exactly right! Location metadata isn't limited to photos — visible background details in a video can reveal where you are, just as clearly as GPS data."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, only GPS data embedded in photos ever reveals location",
+              "good": false,
+              "outcome": "GPS data isn't the only way — visible details in a video, like a street sign, can reveal location too."
+            },
+            {
+              "emoji": "❌",
+              "label": "Videos can never reveal location information",
+              "good": false,
+              "outcome": "Videos actually can reveal location information, through visible background details like signs or storefronts."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧑‍💻",
         "title": "What privacy settings can't fix",
-        "text": "Strong privacy settings limit who sees your content, but they don't stop a trusted follower from screenshotting and sharing it elsewhere. For example, even a fully private, followers-only account can't guarantee a post never leaves that circle once someone else has seen it."
+        "text": "Strong privacy settings limit who sees your content, but they don't stop a trusted follower from screenshotting and sharing it elsewhere. For example, even a fully private, followers-only account can't guarantee a post never leaves that circle once someone else has seen it.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "Your account is fully private, followers-only. Does this guarantee a post can never leave that circle?",
+          "options": [
+            {
+              "emoji": "📸",
+              "label": "No — a trusted follower could still screenshot and share it",
+              "good": true,
+              "outcome": "Exactly right! Strong privacy settings limit who sees your content, but they don't stop a trusted follower from screenshotting and sharing it elsewhere."
+            },
+            {
+              "emoji": "🔒",
+              "label": "Yes, private settings make sharing further completely impossible",
+              "good": false,
+              "outcome": "Private settings don't make further sharing impossible — a trusted follower could still screenshot and share what they saw."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Privacy settings make screenshots impossible",
+              "good": false,
+              "outcome": "Privacy settings actually can't prevent screenshots — a follower who can see your content can still screenshot it."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
@@ -1278,47 +3254,263 @@
       {
         "emoji": "📇",
         "title": "Your long-term digital footprint",
-        "text": "Posts made as a teenager can resurface years later — to college admissions, employers, or anyone who searches your name. For example, a joke posted at 15 that seemed harmless at the time could resurface during a college application review or a job background check years later, in a very different context."
+        "text": "Posts made as a teenager can resurface years later — to college admissions, employers, or anyone who searches your name. For example, a joke posted at 15 that seemed harmless at the time could resurface during a college application review or a job background check years later, in a very different context.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A joke posted at 15 resurfaces during a college application review years later. What does this show?",
+          "options": [
+            {
+              "emoji": "📱",
+              "label": "Posts made as a teen can resurface in a very different context later",
+              "good": true,
+              "outcome": "Exactly right! Posts made as a teenager can resurface years later — to college admissions, employers, or anyone who searches your name."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Old posts always disappear and are never seen again",
+              "good": false,
+              "outcome": "Old posts don't always disappear — they can resurface years later in a very different context."
+            },
+            {
+              "emoji": "❌",
+              "label": "What you post as a teenager never has any long-term effect",
+              "good": false,
+              "outcome": "What you post as a teenager actually can have a real long-term effect, resurfacing in contexts like college admissions."
+            }
+          ]
+        }
       },
       {
         "emoji": "📵",
         "title": "Healthy social media habits",
-        "text": "Curating your feed, muting accounts that hurt your mood, and taking intentional breaks are all legitimate ways to protect your mental health online. For example, muting or unfollowing accounts that consistently make you feel worse about yourself after scrolling is a genuinely healthy, proactive choice, not something to feel guilty about."
+        "text": "Curating your feed, muting accounts that hurt your mood, and taking intentional breaks are all legitimate ways to protect your mental health online. For example, muting or unfollowing accounts that consistently make you feel worse about yourself after scrolling is a genuinely healthy, proactive choice, not something to feel guilty about.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "An account you follow always makes you feel worse after scrolling through it. What's a healthy response?",
+          "options": [
+            {
+              "emoji": "🧹",
+              "label": "Curate your feed or mute accounts that hurt your mood",
+              "good": true,
+              "outcome": "Exactly right! Curating your feed and muting accounts that hurt your mood is a healthy social media habit."
+            },
+            {
+              "emoji": "🔁",
+              "label": "Keep following it exactly the same since nothing can change",
+              "good": false,
+              "outcome": "You can actually change what you follow — muting or unfollowing accounts that hurt your mood is a healthy choice."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Social media never affects how anyone feels",
+              "good": false,
+              "outcome": "Social media can really affect how people feel — noticing that and adjusting your feed is a healthy response."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧠",
         "title": "Digital wellbeing",
-        "text": "Noticing signs of digital burnout — irritability, trouble sleeping, feeling worse after scrolling — and adjusting your habits is part of genuinely responsible tech use. For example, if you notice you feel consistently more anxious or tired after an hour of scrolling before bed, that's real, useful information worth acting on, not something to ignore."
+        "text": "Noticing signs of digital burnout — irritability, trouble sleeping, feeling worse after scrolling — and adjusting your habits is part of genuinely responsible tech use. For example, if you notice you feel consistently more anxious or tired after an hour of scrolling before bed, that's real, useful information worth acting on, not something to ignore.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You notice you feel more anxious and tired after an hour of scrolling before bed. What should you do with this?",
+          "options": [
+            {
+              "emoji": "📝",
+              "label": "Treat it as useful information worth acting on",
+              "good": true,
+              "outcome": "Exactly right! Noticing signs of digital burnout and adjusting your habits is part of genuinely responsible tech use — that's real, useful information."
+            },
+            {
+              "emoji": "🙈",
+              "label": "Ignore it since it is not a big deal",
+              "good": false,
+              "outcome": "Ignoring this feeling skips useful information — noticing and acting on it is part of responsible tech use."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Feeling worse after scrolling never means anything real",
+              "good": false,
+              "outcome": "Feeling worse after scrolling can actually mean something real and worth acting on, like adjusting your habits."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌀",
         "title": "How apps are designed to keep you scrolling",
-        "text": "Many apps use techniques like endless scrolling, push notifications, and reward-like features on purpose, to keep you engaged for as long as possible. For example, noticing that turning off non-essential notifications or setting app time limits actually helps you feel more in control, rather than powerless, is a sign the design was working on you before."
+        "text": "Many apps use techniques like endless scrolling, push notifications, and reward-like features on purpose, to keep you engaged for as long as possible. For example, noticing that turning off non-essential notifications or setting app time limits actually helps you feel more in control, rather than powerless, is a sign the design was working on you before.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You open an app \"just for a minute\" and find yourself scrolling 45 minutes later. What's actually happening?",
+          "options": [
+            {
+              "emoji": "🧠",
+              "label": "Many apps are specifically designed to keep you engaged longer than planned",
+              "good": true,
+              "outcome": "Exactly — that's not a willpower failure, it's by design. Recognizing the design helps you set intentional limits instead of blaming yourself."
+            },
+            {
+              "emoji": "😔",
+              "label": "You just have no self-control",
+              "good": false,
+              "outcome": "It's not really about willpower — these apps use deliberate design techniques (like infinite scroll and notifications) engineered to maximize time spent."
+            },
+            {
+              "emoji": "🤷",
+              "label": "This only happens to other people",
+              "good": false,
+              "outcome": "These design techniques are built to affect everyone — recognizing them is the first step to managing your own screen time intentionally."
+            }
+          ]
+        }
       },
       {
         "emoji": "🎓",
         "title": "College admissions and employer searches",
-        "text": "Many college admissions offices and employers now routinely look up applicants' public social media before making decisions. For example, an admissions officer finding a pattern of publicly posted offensive jokes can factor into a decision, even if the posts were 'just jokes' at the time."
+        "text": "Many college admissions offices and employers now routinely look up applicants' public social media before making decisions. For example, an admissions officer finding a pattern of publicly posted offensive jokes can factor into a decision, even if the posts were 'just jokes' at the time.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You're about to apply to colleges or jobs, and you remember some old posts that don't reflect who you are now. What's smart to do?",
+          "options": [
+            {
+              "emoji": "🧹",
+              "label": "Review and clean up your old public posts before applying",
+              "good": true,
+              "outcome": "Smart move — admissions officers and employers often check public profiles, so reviewing your digital footprint beforehand is a wise precaution."
+            },
+            {
+              "emoji": "🤷",
+              "label": "Ignore it since old posts don't matter",
+              "good": false,
+              "outcome": "Old public posts can still be found and considered by admissions officers or employers — it's worth reviewing them first."
+            },
+            {
+              "emoji": "💥",
+              "label": "Delete your accounts entirely right before applying",
+              "good": false,
+              "outcome": "A more targeted review and cleanup of specific posts is usually more practical than deleting entire accounts."
+            }
+          ]
+        }
       },
       {
         "emoji": "🧹",
         "title": "Doing a privacy checkup",
-        "text": "Periodically reviewing old posts, tagged photos, and privacy settings across your accounts helps you control what your digital footprint actually shows. For example, setting a yearly reminder to review and delete old posts that no longer reflect who you are is a practical habit, not paranoia."
+        "text": "Periodically reviewing old posts, tagged photos, and privacy settings across your accounts helps you control what your digital footprint actually shows. For example, setting a yearly reminder to review and delete old posts that no longer reflect who you are is a practical habit, not paranoia.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You set a yearly reminder to review and delete old posts that no longer reflect who you are. Is this a sign of paranoia?",
+          "options": [
+            {
+              "emoji": "🔍",
+              "label": "No — it is a practical, reasonable habit",
+              "good": true,
+              "outcome": "Exactly right! Periodically reviewing old posts, tagged photos, and privacy settings is a practical habit, not paranoia."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Yes, reviewing old posts is always excessive",
+              "good": false,
+              "outcome": "Reviewing old posts periodically isn't excessive — it's a reasonable, practical habit for managing your digital footprint."
+            },
+            {
+              "emoji": "❌",
+              "label": "Privacy checkups never reveal anything useful",
+              "good": false,
+              "outcome": "Privacy checkups actually can reveal useful things, like old posts or photos that no longer reflect who you are."
+            }
+          ]
+        }
       },
       {
         "emoji": "⚖️",
         "title": "Comparing your life to a highlight reel",
-        "text": "What people post online is usually a curated highlight reel, not the full picture of their life — comparing your everyday reality to it can distort how you feel. For example, remembering that a friend's seemingly perfect vacation photos leave out the boring or stressful parts of the trip can make scrolling feel less discouraging."
+        "text": "What people post online is usually a curated highlight reel, not the full picture of their life — comparing your everyday reality to it can distort how you feel. For example, remembering that a friend's seemingly perfect vacation photos leave out the boring or stressful parts of the trip can make scrolling feel less discouraging.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "A friend's vacation photos look perfect online. Do they show the whole story?",
+          "options": [
+            {
+              "emoji": "🎞️",
+              "label": "No — they leave out the boring or stressful parts",
+              "good": true,
+              "outcome": "Exactly right! What people post online is usually a curated highlight reel, not the full picture — remembering this can make scrolling feel less discouraging."
+            },
+            {
+              "emoji": "📱",
+              "label": "Yes, online posts always show someone’s complete life",
+              "good": false,
+              "outcome": "Online posts don't show someone's complete life — they usually leave out the boring or stressful parts."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Comparing your life to curated posts never affects how you feel",
+              "good": false,
+              "outcome": "Comparing your life to curated posts actually can distort how you feel, which is worth keeping in mind."
+            }
+          ]
+        }
       },
       {
         "emoji": "🔕",
         "title": "Turning off what's designed to hook you",
-        "text": "Features like autoplay, infinite scroll, and streaks are intentionally built to keep you engaged longer than you might choose on your own. For example, turning off autoplay or setting an app timer isn't a sign of weak willpower — it's working around a design built by teams whose job is to maximize your time in-app."
+        "text": "Features like autoplay, infinite scroll, and streaks are intentionally built to keep you engaged longer than you might choose on your own. For example, turning off autoplay or setting an app timer isn't a sign of weak willpower — it's working around a design built by teams whose job is to maximize your time in-app.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You turn off autoplay and set an app timer. Does this mean you have weak willpower?",
+          "options": [
+            {
+              "emoji": "🛠️",
+              "label": "No — it is working around a design built to maximize your time in-app",
+              "good": true,
+              "outcome": "Exactly right! Features like autoplay and infinite scroll are intentionally built to keep you engaged — turning them off isn't a sign of weak willpower."
+            },
+            {
+              "emoji": "🙅",
+              "label": "Yes, needing these tools means you have no self-control",
+              "good": false,
+              "outcome": "Using these tools isn't a sign of no self-control — it's working around a design intentionally built to keep you engaged longer."
+            },
+            {
+              "emoji": "❌",
+              "label": "Autoplay and infinite scroll are never designed to keep you engaged longer",
+              "good": false,
+              "outcome": "Autoplay and infinite scroll are actually intentionally designed to keep you engaged longer — that's exactly why turning them off helps."
+            }
+          ]
+        }
       },
       {
         "emoji": "🌙",
         "title": "Screens and sleep",
-        "text": "Using screens right before bed, especially bright ones, can make it harder to fall asleep and lower sleep quality, even if you don't notice it immediately. For example, swapping late-night scrolling for a wind-down routine without a screen can measurably improve how rested you feel the next day."
+        "text": "Using screens right before bed, especially bright ones, can make it harder to fall asleep and lower sleep quality, even if you don't notice it immediately. For example, swapping late-night scrolling for a wind-down routine without a screen can measurably improve how rested you feel the next day.",
+        "widget": "scenario-picker",
+        "widgetConfig": {
+          "scenario": "You use a bright screen right before bed. Could this affect your sleep even if you don't notice right away?",
+          "options": [
+            {
+              "emoji": "😴",
+              "label": "Yes — it can make it harder to fall asleep and lower sleep quality",
+              "good": true,
+              "outcome": "Exactly right! Using screens right before bed, especially bright ones, can make it harder to fall asleep and lower sleep quality, even if you don't notice immediately."
+            },
+            {
+              "emoji": "🙅",
+              "label": "No, screens before bed never affect sleep at all",
+              "good": false,
+              "outcome": "Screens before bed actually can affect sleep quite a bit, even if you don't notice it right away."
+            },
+            {
+              "emoji": "❌",
+              "label": "Only extremely late screen use before bed has any effect on sleep",
+              "good": false,
+              "outcome": "Even earlier screen use before bed can affect sleep quality, not just extremely late use."
+            }
+          ]
+        }
       }
     ],
     "quiz": [
