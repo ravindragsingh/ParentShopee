@@ -2007,17 +2007,27 @@ function KidsTab() {
 
 // ─── Home screen ──────────────────────────────────────────────────────────────
 
-function HomeNavTile({ icon, iconColor, bg, border, label, text, onClick }) {
+function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick }) {
   return (
     <button
       onClick={onClick}
       style={{
+        position: 'relative',
         display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
         background: bg, border: `1px solid ${border}`, borderRadius: 18,
         padding: '20px 14px', cursor: 'pointer',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
       }}
     >
+      {badge > 0 && (
+        <span style={{
+          position: 'absolute', top: 10, right: 10, minWidth: 22, height: 22, padding: '0 5px',
+          borderRadius: 999, background: '#dc2626', color: '#fff', fontSize: '0.72rem', fontWeight: 800,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 6px rgba(220,38,38,0.4)',
+        }}>
+          {badge > 99 ? '99+' : badge}
+        </span>
+      )}
       <span style={{
         width: 56, height: 56, borderRadius: '50%', background: iconColor, color: '#fff',
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem',
@@ -2114,6 +2124,62 @@ function PendingApprovalsModal({ items, kidsById, onClose, onChanged }) {
   )
 }
 
+function WeeklySnapshotStrip({ kids, kidsLoaded, onNavigate }) {
+  const [reports, setReports] = useState(null)
+
+  useEffect(() => {
+    if (!kidsLoaded) return
+    if (kids.length === 0) { setReports([]); return }
+    let cancelled = false
+    Promise.all(kids.map(k => api.getKidReport(k.id, 'weekly').catch(() => null)))
+      .then(results => { if (!cancelled) setReports(results.filter(Boolean)) })
+      .catch(() => { if (!cancelled) setReports([]) })
+    return () => { cancelled = true }
+  }, [kids, kidsLoaded])
+
+  if (reports === null || reports.length === 0) return null
+
+  return (
+    <div style={{ marginTop: 16 }}>
+      <div style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 10 }}>
+        THIS WEEK
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {reports.map(r => {
+          const kid = kids.find(k => k.id === r.kidId)
+          return (
+            <button
+              key={r.kidId}
+              onClick={() => onNavigate('kids')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 14, width: '100%', textAlign: 'left',
+                background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16,
+                padding: '14px 16px', cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+              }}
+            >
+              <span style={{
+                width: 42, height: 42, borderRadius: '50%', background: '#f1f5f9', flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem',
+              }}>
+                {kid?.avatar || '🧒'}
+              </span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.92rem' }}>{r.kidName}</div>
+                <div style={{ fontSize: '0.78rem', color: '#78716c', marginTop: 2 }}>
+                  {r.tasksCompleted === 0
+                    ? 'No tasks completed yet this week'
+                    : `${r.tasksCompleted} task${r.tasksCompleted === 1 ? '' : 's'} done · ${r.pointsEarned} pts earned`}
+                </div>
+              </div>
+              <span style={{ fontSize: '1.3rem', color: '#cbd5e1', flexShrink: 0 }}>→</span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
   const [pendingItems, setPendingItems] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
@@ -2149,6 +2215,8 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
   useEffect(() => { loadPending() }, [loadPending])
 
   const pendingCount = pendingItems?.length ?? null
+  const choresPendingCount = pendingItems?.filter(i => i.type === 'chore' || i.type === 'daily').length ?? null
+  const shopPendingCount = pendingItems?.filter(i => i.type === 'shop').length ?? null
 
   return (
     <div>
@@ -2188,11 +2256,13 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" onClick={() => onNavigate('chores')} />
-        <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" onClick={() => onNavigate('shop')} />
+        <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} />
+        <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} />
         <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} />
         <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} />
       </div>
+
+      <WeeklySnapshotStrip kids={kids} kidsLoaded={kidsLoaded} onNavigate={onNavigate} />
 
       {modalOpen && (
         <PendingApprovalsModal

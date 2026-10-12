@@ -335,17 +335,27 @@ function nextMilestone(balance) {
   return POINT_MILESTONES.find(m => m > balance) ?? (Math.ceil((balance + 100) / 100) * 100)
 }
 
-function HomeNavTile({ icon, iconColor, bg, border, label, text, onClick }) {
+function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick }) {
   return (
     <button
       onClick={onClick}
       style={{
+        position: 'relative',
         display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
         background: bg, border: `1px solid ${border}`, borderRadius: 18,
         padding: '20px 14px', cursor: 'pointer',
         boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
       }}
     >
+      {badge > 0 && (
+        <span style={{
+          position: 'absolute', top: 10, right: 10, minWidth: 22, height: 22, padding: '0 5px',
+          borderRadius: 999, background: '#dc2626', color: '#fff', fontSize: '0.72rem', fontWeight: 800,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 6px rgba(220,38,38,0.4)',
+        }}>
+          {badge > 99 ? '99+' : badge}
+        </span>
+      )}
       <span style={{
         width: 56, height: 56, borderRadius: '50%', background: iconColor, color: '#fff',
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem',
@@ -359,7 +369,69 @@ function HomeNavTile({ icon, iconColor, bg, border, label, text, onClick }) {
   )
 }
 
-function KidHomeScreen({ name, balance, onNavigate }) {
+// Future-Ready modules come back ordered by the catalog's order_index, so the
+// first one without a completion is exactly "pick up where you left off".
+function nextIncompleteModule(modules) {
+  return modules.find(m => !m.completed) ?? null
+}
+
+function ContinueLearningCard({ onOpenModule }) {
+  const [modules, setModules] = useState(null)
+  useEffect(() => {
+    let cancelled = false
+    api.getFutureReadyModules()
+      .then(data => { if (!cancelled) setModules(Array.isArray(data) ? data : []) })
+      .catch(() => { if (!cancelled) setModules([]) })
+    return () => { cancelled = true }
+  }, [])
+
+  if (modules === null) return null
+
+  if (modules.length === 0) return null
+
+  const next = nextIncompleteModule(modules)
+
+  if (!next) {
+    return (
+      <div style={{
+        background: '#f5f3ff', border: '1px solid #ddd6fe', borderRadius: 18,
+        padding: '18px 20px', marginTop: 16, textAlign: 'center',
+      }}>
+        <div style={{ fontSize: '1.4rem', marginBottom: 4 }}>🎓</div>
+        <div style={{ fontWeight: 800, color: '#5b21b6', fontSize: '0.95rem' }}>You've finished every Future-Ready lesson!</div>
+        <div style={{ fontSize: '0.78rem', color: '#7c3aed', marginTop: 3 }}>Check back for new ones soon.</div>
+      </div>
+    )
+  }
+
+  return (
+    <button
+      onClick={() => onOpenModule(next.id)}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 14, width: '100%', textAlign: 'left',
+        background: '#f5f3ff', border: '1px solid #ddd6fe', borderRadius: 18,
+        padding: '16px 18px', marginTop: 16, cursor: 'pointer',
+      }}
+    >
+      <span style={{
+        width: 48, height: 48, borderRadius: '50%', background: '#7c3aed', color: '#fff', flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem',
+      }}>
+        {next.topicEmoji || '🚀'}
+      </span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#7c3aed', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+          {modules.some(m => m.completed) ? 'Continue Learning' : 'Start Learning'}
+        </div>
+        <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem', marginTop: 2 }}>{next.topicTitle}</div>
+        <div style={{ fontSize: '0.78rem', color: '#78716c', marginTop: 2 }}>{next.title} · earn {next.points} pts</div>
+      </div>
+      <span style={{ fontSize: '1.3rem', color: '#a78bfa', flexShrink: 0 }}>→</span>
+    </button>
+  )
+}
+
+function KidHomeScreen({ name, userId, balance, onNavigate, onOpenModule }) {
   const [message] = useState(
     () => MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)]
   )
@@ -367,6 +439,26 @@ function KidHomeScreen({ name, balance, onNavigate }) {
   const bal = balance ?? 0
   const goal = nextMilestone(bal)
   const progressPct = Math.min(100, Math.round((bal / goal) * 100))
+
+  // Same "needs attention" definition as the Chores tab: open chores I can do,
+  // plus anything I've already marked complete and am waiting on approval for.
+  const [taskCount, setTaskCount] = useState(null)
+  useEffect(() => {
+    let cancelled = false
+    Promise.all([api.getChores(), api.getDailyChores()])
+      .then(([chores, dailyData]) => {
+        if (cancelled) return
+        const choreList = Array.isArray(chores) ? chores : []
+        const dailyItems = Array.isArray(dailyData?.items) ? dailyData.items : []
+        const available = choreList.filter(c => c.status === 'open' && (!c.assignedKidId || c.assignedKidId === userId)).length
+        const myPending = choreList.filter(c => c.status === 'pending' && (c.completedByKidId === userId || c.assignedKidId === userId)).length
+        const dailyAvailable = dailyItems.filter(i => i.status === 'open').length
+        const dailyPending = dailyItems.filter(i => i.status === 'pending').length
+        setTaskCount(available + myPending + dailyAvailable + dailyPending)
+      })
+      .catch(() => setTaskCount(null))
+    return () => { cancelled = true }
+  }, [userId])
 
   return (
     <div>
@@ -395,11 +487,13 @@ function KidHomeScreen({ name, balance, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <HomeNavTile icon="📋" iconColor="#2563eb" bg="#eff6ff" border="#bfdbfe" label="My Tasks" text="Earn points" onClick={() => onNavigate('chores')} />
+        <HomeNavTile icon="📋" iconColor="#2563eb" bg="#eff6ff" border="#bfdbfe" label="My Tasks" text="Earn points" badge={taskCount} onClick={() => onNavigate('chores')} />
         <HomeNavTile icon="🎁" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="My Rewards" text="Spend points" onClick={() => onNavigate('shop')} />
         <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learn & grow" onClick={() => onNavigate('futureready')} />
         <HomeNavTile icon="👛" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="My Wallet" text="See savings" onClick={() => onNavigate('wallet')} />
       </div>
+
+      <ContinueLearningCard onOpenModule={onOpenModule} />
     </div>
   )
 }
@@ -411,8 +505,15 @@ export default function KidDashboard() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = searchParams.get('tab') || 'home'
+  const startModuleId = searchParams.get('module')
   const setTab = useCallback(next => {
     setSearchParams(next === 'home' ? {} : { tab: next })
+  }, [setSearchParams])
+  const openModule = useCallback(moduleId => {
+    setSearchParams({ tab: 'futureready', module: moduleId })
+  }, [setSearchParams])
+  const clearStartModule = useCallback(() => {
+    setSearchParams({ tab: 'futureready' })
   }, [setSearchParams])
   useEffect(() => { window.scrollTo(0, 0) }, [tab])
   const [balance, setBalance] = useState(null)
@@ -463,10 +564,10 @@ export default function KidDashboard() {
           </div>
         )}
 
-        {tab === 'home'     && <KidHomeScreen name={user.name} balance={balance} onNavigate={setTab} />}
+        {tab === 'home'     && <KidHomeScreen name={user.name} userId={user.id} balance={balance} onNavigate={setTab} onOpenModule={openModule} />}
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
-        {tab === 'futureready' && <FutureReadyTab onBalanceChange={refreshBalance} />}
+        {tab === 'futureready' && <FutureReadyTab onBalanceChange={refreshBalance} startModuleId={startModuleId} onConsumeStart={clearStartModule} />}
         {tab === 'wallet'   && <KidWalletView kidId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'messages' && <MessagesTab />}
         {tab === 'help'     && <HelpTab role="kid" />}
