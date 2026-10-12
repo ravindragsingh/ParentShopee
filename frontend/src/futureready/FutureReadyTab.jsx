@@ -32,7 +32,7 @@ function groupByTopic(modules) {
   return [...byTopic.values()]
 }
 
-export default function FutureReadyTab({ onBalanceChange }) {
+export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsumeStart }) {
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -53,6 +53,16 @@ export default function FutureReadyTab({ onBalanceChange }) {
   }, [])
 
   useEffect(() => { loadModules() }, [loadModules])
+
+  // Deep-link from the home screen's "Continue Learning" card: jump straight
+  // into the requested module once the catalog is loaded, then clear the
+  // param so navigating away and back doesn't reopen it.
+  useEffect(() => {
+    if (loading || !startModuleId) return
+    const target = modules.find(m => m.id === startModuleId)
+    if (target) setPlayingModule(target)
+    onConsumeStart && onConsumeStart()
+  }, [loading, startModuleId, modules, onConsumeStart])
 
   function handleCompleted(points) {
     setJustEarned(points)
