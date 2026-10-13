@@ -42,16 +42,53 @@ const SLIDE_WIDGETS = {
 
 const audioKey = userId => `frAudioEnabled_${userId}`
 
+// TEMPORARY quality-comparison prototype (future-ready-audio branch): one
+// real slide's narration pre-rendered offline with Piper TTS (a free,
+// offline neural TTS engine -- see frontend/public/audio/future-ready-sample)
+// instead of the device's built-in speechSynthesis. Lets us A/B the two
+// before deciding whether to pre-render all 14 topics. Remove this map (and
+// the branch in speakSlide below) once that decision is made.
+const SAMPLE_PREGENERATED_AUDIO = {
+  'investing-4-6-p1': {
+    0: '/audio/future-ready-sample/sample-investing-slide1.m4a',
+  },
+}
+
+let currentAudioEl = null
+
+function stopSpeech() {
+  window.speechSynthesis?.cancel()
+  if (currentAudioEl) {
+    currentAudioEl.pause()
+    currentAudioEl = null
+  }
+}
+
 // Text-to-speech relies entirely on the device/browser's built-in
 // speechSynthesis -- no native plugin, no backend involvement, works the
 // same in a browser tab and inside the Capacitor WebView. Voice quality
 // varies by device since it uses whatever TTS engine is installed there.
 function speakText(text, enabled) {
   if (!enabled || typeof window === 'undefined' || !window.speechSynthesis) return
-  window.speechSynthesis.cancel()
+  stopSpeech()
   const utterance = new SpeechSynthesisUtterance(text)
   utterance.rate = 0.95
   window.speechSynthesis.speak(utterance)
+}
+
+// Slide-narration entry point: plays the pre-rendered Piper sample for the
+// one slide above when available, otherwise falls back to speakText exactly
+// as before.
+function speakSlide(moduleId, slideIndex, text, enabled) {
+  const sampleUrl = SAMPLE_PREGENERATED_AUDIO[moduleId]?.[slideIndex]
+  if (!enabled || !sampleUrl) {
+    speakText(text, enabled)
+    return
+  }
+  stopSpeech()
+  const audio = new Audio(sampleUrl)
+  currentAudioEl = audio
+  audio.play().catch(() => {})
 }
 
 // Self-paced, untimed: a short deck of slides to read through, then a quiz
@@ -87,7 +124,7 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
     const next = !audioEnabled
     setAudioEnabled(next)
     if (user?.id) localStorage.setItem(audioKey(user.id), next ? '1' : '0')
-    if (!next) window.speechSynthesis?.cancel()
+    if (!next) stopSpeech()
   }
 
   useEffect(() => {
@@ -104,18 +141,18 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
   useEffect(() => {
     if (phase !== 'slides' || !content) return
     const slide = content.slides[slideIndex]
-    speakText(`${slide.title}. ${slide.text}`, audioEnabled)
-    return () => window.speechSynthesis?.cancel()
-  }, [phase, slideIndex, content, audioEnabled])
+    speakSlide(module.id, slideIndex, `${slide.title}. ${slide.text}`, audioEnabled)
+    return () => stopSpeech()
+  }, [phase, slideIndex, content, audioEnabled, module.id])
 
   useEffect(() => {
     if (phase !== 'quiz' || !content || selected !== null) return
     speakText(content.quiz[quizIndex].question, audioEnabled)
-    return () => window.speechSynthesis?.cancel()
+    return () => stopSpeech()
   }, [phase, quizIndex, content, audioEnabled, selected])
 
   useEffect(() => {
-    return () => window.speechSynthesis?.cancel()
+    return () => stopSpeech()
   }, [])
 
   if (loadError) {

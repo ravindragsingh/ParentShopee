@@ -28,3 +28,11 @@ frontend/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Android release signing key -- never commit (see frontend/android/app/build.gradle)
+frontend/android/keystore.properties
+frontend/android/app/*.keystore
+
+# Piper TTS voice models -- large (60MB+), downloadable, not source (see tools/tts-piper/README.md)
+tools/tts-piper/*.onnx
+tools/tts-piper/*.onnx.json
