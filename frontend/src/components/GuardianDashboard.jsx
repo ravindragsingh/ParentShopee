@@ -2124,6 +2124,64 @@ function PendingApprovalsModal({ items, kidsById, onClose, onChanged }) {
   )
 }
 
+const coGuardianInviteSeenKey = userId => `coGuardianInviteSeen_${userId}`
+
+// One-time onboarding nudge: only the primary guardian can add a co-guardian
+// (co-guardians can't invite their own), and only while the family doesn't
+// already have one. Dismissing it (either way) hides it for good -- same
+// per-profile localStorage pattern as the Tip of the Day dismiss.
+function CoGuardianInviteBanner({ userId, isCoGuardian, onNavigate }) {
+  const [dismissed, setDismissed] = useState(
+    () => localStorage.getItem(coGuardianInviteSeenKey(userId)) === '1'
+  )
+  const [info, setInfo] = useState(null)
+
+  useEffect(() => {
+    if (dismissed || isCoGuardian) return
+    let cancelled = false
+    api.getCoGuardian().then(data => { if (!cancelled) setInfo(data) }).catch(() => {})
+    return () => { cancelled = true }
+  }, [dismissed, isCoGuardian])
+
+  function dismiss() {
+    setDismissed(true)
+    localStorage.setItem(coGuardianInviteSeenKey(userId), '1')
+  }
+
+  if (dismissed || isCoGuardian || !info || info.coGuardian) return null
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 14, background: '#fff7ed', border: '1px solid #fed7aa',
+      borderRadius: 18, padding: '16px 18px', marginBottom: 16,
+    }}>
+      <span style={{ fontSize: '1.6rem', flexShrink: 0 }}>👪</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '0.92rem' }}>Invite your co-parent</div>
+        <div style={{ fontSize: '0.78rem', color: '#78716c', marginTop: 2 }}>
+          Share chore approvals and rewards together — add a co-guardian from the Admin Panel.
+        </div>
+      </div>
+      <button
+        onClick={() => { onNavigate('admin'); dismiss() }}
+        style={{
+          flexShrink: 0, background: '#ea580c', color: '#fff', border: 'none', borderRadius: 10,
+          padding: '8px 14px', fontWeight: 700, fontSize: '0.82rem', cursor: 'pointer',
+        }}
+      >
+        Invite →
+      </button>
+      <button
+        onClick={dismiss}
+        aria-label="Dismiss"
+        style={{ flexShrink: 0, background: 'none', border: 'none', color: '#c2824f', fontSize: '1.1rem', cursor: 'pointer', padding: 4 }}
+      >
+        ✕
+      </button>
+    </div>
+  )
+}
+
 function WeeklySnapshotStrip({ kids, kidsLoaded, onNavigate }) {
   const [reports, setReports] = useState(null)
 
@@ -2180,7 +2238,7 @@ function WeeklySnapshotStrip({ kids, kidsLoaded, onNavigate }) {
   )
 }
 
-function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
+function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNavigate }) {
   const [pendingItems, setPendingItems] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const kidsById = kidLookup(kids)
@@ -2226,6 +2284,8 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
         </div>
         <div style={{ fontSize: '0.92rem', color: '#64748b', marginTop: 3 }}>Here's what's happening with your family today.</div>
       </div>
+
+      <CoGuardianInviteBanner userId={userId} isCoGuardian={isCoGuardian} onNavigate={onNavigate} />
 
       <div
         role={pendingCount > 0 ? 'button' : undefined}
@@ -2336,7 +2396,7 @@ export default function GuardianDashboard() {
           </div>
         )}
 
-        {tab === 'home' && <GuardianHomeScreen name={user.name} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} />}
+        {tab === 'home' && <GuardianHomeScreen name={user.name} userId={user.id} isCoGuardian={!!user.coGuardianOf} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} />}
 
         {tab !== 'home' && kids.length > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: '10px 14px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>

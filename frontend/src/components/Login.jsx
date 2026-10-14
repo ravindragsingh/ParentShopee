@@ -189,6 +189,9 @@ function RegisterForm({ onBack }) {
         <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 22 }}>
           We sent an activation link to <strong>{registered.email}</strong>. Click it to activate your account, then sign in.
         </p>
+        <p style={{ fontSize: '0.8rem', color: '#78716c', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '10px 14px', marginBottom: 22 }}>
+          👪 Once you're signed in, you can invite your co-parent to help manage chores and rewards together.
+        </p>
         <button onClick={onBack} className="login-btn-outline">
           Back to Sign In <span aria-hidden="true">→</span>
         </button>
