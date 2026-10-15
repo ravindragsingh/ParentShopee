@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -948,6 +948,51 @@ function ShopTab({ kids = [] }) {
 
 const COGUARDIAN_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
 
+// A plain `title` attribute never shows on tap, only mouse hover -- useless
+// on the touch devices this app is mostly used on. Tap-to-toggle instead,
+// closing on an outside tap/click the same way HamburgerMenu's dropdown does.
+function InfoTooltip({ text }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (!open) return
+    function onOutside(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    document.addEventListener('mousedown', onOutside)
+    document.addEventListener('touchstart', onOutside, { passive: true })
+    return () => {
+      document.removeEventListener('mousedown', onOutside)
+      document.removeEventListener('touchstart', onOutside)
+    }
+  }, [open])
+
+  return (
+    <span ref={ref} style={{ position: 'relative', display: 'inline-flex' }}>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        aria-label="More info"
+        style={{
+          background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+          color: '#94a3b8', fontSize: '0.95rem', lineHeight: 1,
+        }}
+      >
+        ⓘ
+      </button>
+      {open && (
+        <div style={{
+          position: 'absolute', top: '100%', left: 0, marginTop: 6, zIndex: 20,
+          width: 260, background: '#1e293b', color: '#f1f5f9', fontSize: '0.78rem',
+          lineHeight: 1.5, borderRadius: 8, padding: '10px 12px',
+          boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
+        }}>
+          {text}
+        </div>
+      )}
+    </span>
+  )
+}
+
 function CoGuardianTab() {
   const [info, setInfo] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -1217,12 +1262,7 @@ function CoGuardianTab() {
                 >
                   {showResendForm ? 'Cancel' : '📧 Resend Device Access'}
                 </button>
-                <span
-                  title={`Use this if ${info.coGuardian.name} loses their phone or clears their browser. They have no password of their own — just a PIN tied to that one device — so this emails a fresh one-time link that gets their existing profile working again elsewhere, with the same name, PIN and access as before.`}
-                  style={{ cursor: 'help', color: '#94a3b8', fontSize: '0.95rem', lineHeight: 1 }}
-                >
-                  ⓘ
-                </span>
+                <InfoTooltip text={`Use this if ${info.coGuardian.name} loses their phone or clears their browser. They have no password of their own — just a PIN tied to that one device — so this emails a fresh one-time link that gets their existing profile working again elsewhere, with the same name, PIN and access as before.`} />
               </span>
             )}
             <button className="btn btn-red btn-sm" onClick={handleRevoke} disabled={revoking}>
