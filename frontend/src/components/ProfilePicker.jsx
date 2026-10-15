@@ -46,6 +46,43 @@ function ProfileTile({ profile, busy, onClick }) {
   )
 }
 
+// Shown in place of the easy-to-miss dashed "+" tile only while the family
+// has no kids yet -- the single moment a brand-new guardian genuinely needs
+// pointing at "add a child" / "invite a co-parent" rather than just quietly
+// offered it. Disappears for good the moment the first kid profile exists.
+function FirstFamilySetupCard({ hasCoGuardian, onAddKid, onAddCoGuardian }) {
+  return (
+    <div style={{
+      background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 16,
+      padding: '18px 20px', marginBottom: 18, textAlign: 'center',
+    }}>
+      <div style={{ fontSize: '1.6rem', marginBottom: 6 }}>👪</div>
+      <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '1rem', marginBottom: 4 }}>
+        Let's set up your family
+      </div>
+      <div style={{ fontSize: '0.85rem', color: '#78716c', marginBottom: 14 }}>
+        Add your first child so they can start earning points, or invite your co-parent to help manage everything together.
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <button
+          onClick={onAddKid}
+          style={{ background: '#ea580c', color: '#fff', border: 'none', borderRadius: 10, padding: '11px 16px', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
+        >
+          🧒 Add Your First Child
+        </button>
+        {!hasCoGuardian && (
+          <button
+            onClick={onAddCoGuardian}
+            style={{ background: '#fff', color: '#9a3412', border: '1.5px solid #fdba74', borderRadius: 10, padding: '11px 16px', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
+          >
+            🧑 Invite Co-Parent
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function AddProfileTile({ onClick, disabled }) {
   return (
     <button
@@ -222,11 +259,21 @@ export default function ProfilePicker() {
 
           {!loading && !error && !addMode && (
             <>
+              {kidsCount === 0 && (
+                <FirstFamilySetupCard
+                  hasCoGuardian={hasCoGuardian}
+                  onAddKid={() => setAddMode('kid')}
+                  onAddCoGuardian={() => setAddMode('coguardian')}
+                />
+              )}
+
               <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 4 }}>
                 {profiles.map(p => (
                   <ProfileTile key={p.id} profile={p} busy={entering} onClick={() => handleTileClick(p)} />
                 ))}
-                <AddProfileTile onClick={() => setAddMode('choose')} disabled={kidsCount >= 10 && hasCoGuardian} />
+                {kidsCount > 0 && (
+                  <AddProfileTile onClick={() => setAddMode('choose')} disabled={kidsCount >= 10 && hasCoGuardian} />
+                )}
               </div>
 
               {pinFor && !recoverMode && (
