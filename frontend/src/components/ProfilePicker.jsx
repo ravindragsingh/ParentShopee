@@ -243,8 +243,10 @@ export default function ProfilePicker() {
 
           {!loading && !error && needsSetup.length > 0 && !dismissedNotice && (
             <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '12px 16px', marginBottom: 18, fontSize: '0.85rem', color: '#92400e' }}>
-              <div style={{ fontWeight: 700, marginBottom: 6 }}>⚠️ New PINs were set up for your family</div>
-              <div style={{ marginBottom: 8 }}>We generated a temporary PIN for each profile below. Note these down (or change them anytime from the Admin Panel / Kids tab):</div>
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>🔒 Your profile has its own PIN</div>
+              <div style={{ marginBottom: 8 }}>
+                Signing in gets you into your family's account — but since this device may be shared, each profile (including yours) is also locked behind its own 6-digit PIN. Here's your temporary one for now; change it anytime from the Admin Panel:
+              </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10 }}>
                 {needsSetup.map(p => (
                   <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', background: '#fff', borderRadius: 6, padding: '4px 10px' }}>
