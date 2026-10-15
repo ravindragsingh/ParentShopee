@@ -2438,13 +2438,17 @@ export default function GuardianDashboard() {
       .catch(() => {})
   }
 
+  // Re-fetches on every tab switch (not just on mount) -- KidsTab keeps its
+  // own independent kids list, so adding a child there wouldn't otherwise be
+  // reflected here until a full reload, leaving the home screen's "no kids
+  // yet" banner stuck on even after the first child was added.
   useEffect(() => {
     api.getKids()
       .then(data => setKids(Array.isArray(data) ? data : []))
       .catch(() => {})
       .finally(() => setKidsLoaded(true))
     refreshWallets()
-  }, [])
+  }, [tab])
 
   return (
     <div className="app-container">
