@@ -48,6 +48,8 @@ def add_co_guardian(body: CoGuardianBody, db: Session = Depends(get_db), user: D
         fail("Co-guardians cannot create other co-guardians")
     if db.query(DBUser).filter(DBUser.co_guardian_of == user.id, DBUser.role == "guardian").first():
         fail("You already have a co-guardian. Remove them first.")
+    if _pending_invite_for(db, user.id):
+        fail("You have a pending co-guardian invite — cancel it before adding one directly.")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
     check_pin_complexity(body.pin)

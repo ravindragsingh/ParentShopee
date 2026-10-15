@@ -462,6 +462,25 @@ function AddCoGuardianForm({ onDone, onCancel }) {
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
 
+  // Mutually exclusive with the direct form below -- same pending-invite
+  // check the Admin Panel's "Invite by Email" option uses, so this screen
+  // (reached from the profile picker's own "Add Profile" tile, separately
+  // from the Admin Panel) stays consistent with it.
+  const [invite, setInvite] = useState(null)
+  const [inviteLoaded, setInviteLoaded] = useState(false)
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [inviteError, setInviteError] = useState('')
+  const [sendingInvite, setSendingInvite] = useState(false)
+  const [cancelling, setCancelling] = useState(false)
+
+  const loadInvite = () => {
+    api.getCoGuardianInvite()
+      .then(data => setInvite(data.pending))
+      .catch(() => setInvite(null))
+      .finally(() => setInviteLoaded(true))
+  }
+  useEffect(() => { loadInvite() }, [])
+
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
@@ -480,31 +499,96 @@ function AddCoGuardianForm({ onDone, onCancel }) {
     }
   }
 
+  async function handleSendInvite(e) {
+    e.preventDefault()
+    setInviteError('')
+    if (!inviteEmail.trim()) { setInviteError('Email is required.'); return }
+    setSendingInvite(true)
+    try {
+      await api.sendCoGuardianInvite(inviteEmail.trim())
+      setInviteEmail('')
+      loadInvite()
+    } catch (err) {
+      setInviteError(err.message)
+    } finally {
+      setSendingInvite(false)
+    }
+  }
+
+  async function handleCancelInvite() {
+    setCancelling(true)
+    try { await api.cancelCoGuardianInvite(); loadInvite() }
+    catch (err) { setInviteError(err.message) }
+    finally { setCancelling(false) }
+  }
+
+  if (!inviteLoaded) return <div className="loading-text">Loading…</div>
+
+  if (invite) {
+    return (
+      <div>
+        <div className="login-title" style={{ fontSize: '1.1rem' }}>Invite Pending</div>
+        {inviteError && <div className="error-msg">{inviteError}</div>}
+        <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
+          Waiting on <strong>{invite.email}</strong> to accept — expires{' '}
+          {new Date(invite.expiresAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}.
+        </p>
+        <button className="login-btn-outline" disabled={cancelling} onClick={handleCancelInvite}>
+          {cancelling ? 'Cancelling...' : 'Cancel Invite'}
+        </button>
+        <button type="button" className="login-btn-outline" style={{ marginTop: 8 }} onClick={onCancel}>Back</button>
+      </div>
+    )
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Co-Guardian</div>
-      {error && <div className="error-msg">{error}</div>}
-      <div className="form-group" style={{ marginBottom: 10 }}>
-        <label>Full Name *</label>
-        <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. John Smith" />
-      </div>
-      <div className="form-group" style={{ marginBottom: 10 }}>
-        <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
-        <EmojiPicker emojis={COGUARDIAN_AVATARS} value={avatar} onChange={setAvatar} />
-      </div>
-      <div className="form-row" style={{ marginBottom: 6 }}>
-        <div className="form-group">
-          <label>6-digit PIN *</label>
-          <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Co-Guardian</div>
+        {error && <div className="error-msg">{error}</div>}
+        <div className="form-group" style={{ marginBottom: 10 }}>
+          <label>Full Name *</label>
+          <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. John Smith" />
         </div>
-        <div className="form-group">
-          <label>Confirm PIN *</label>
-          <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+        <div className="form-group" style={{ marginBottom: 10 }}>
+          <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
+          <EmojiPicker emojis={COGUARDIAN_AVATARS} value={avatar} onChange={setAvatar} />
         </div>
+        <div className="form-row" style={{ marginBottom: 6 }}>
+          <div className="form-group">
+            <label>6-digit PIN *</label>
+            <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
+          </div>
+          <div className="form-group">
+            <label>Confirm PIN *</label>
+            <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+          </div>
+        </div>
+        <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
+        <button type="submit" className="login-btn" disabled={saving}>{saving ? 'Creating...' : 'Create Co-Guardian'}</button>
+      </form>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '18px 0' }}>
+        <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
+        <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>OR</span>
+        <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
       </div>
-      <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
-      <button type="submit" className="login-btn" disabled={saving}>{saving ? 'Creating...' : 'Create Co-Guardian'}</button>
-      <button type="button" className="login-btn-outline" style={{ marginTop: 8 }} onClick={onCancel}>Cancel</button>
-    </form>
+
+      <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.92rem', marginBottom: 6 }}>Invite by Email</div>
+      <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 12 }}>
+        Not at the same device? Send an invite — they'll set up their own name and PIN from their own phone.
+      </p>
+      {inviteError && <div className="error-msg">{inviteError}</div>}
+      <form onSubmit={handleSendInvite} style={{ marginBottom: 14 }}>
+        <div className="form-group" style={{ marginBottom: 10 }}>
+          <input type="email" value={inviteEmail} onChange={e => setInviteEmail(e.target.value)} placeholder="co-parent@example.com" />
+        </div>
+        <button type="submit" className="login-btn-outline" disabled={sendingInvite}>
+          {sendingInvite ? 'Sending...' : 'Send Invite'}
+        </button>
+      </form>
+
+      <button type="button" className="login-btn-outline" onClick={onCancel}>Cancel</button>
+    </div>
   )
 }
