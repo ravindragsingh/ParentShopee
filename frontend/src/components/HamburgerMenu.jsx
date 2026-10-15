@@ -258,6 +258,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
         className={`tab-btn${isMenuTab ? activeClass : ''}`}
         onClick={handleToggle}
         title="More"
+        data-tour="hamburger-menu-button"
         style={{
           fontSize: '1.35rem',
           padding: '10px 16px',

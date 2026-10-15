@@ -50,9 +50,22 @@ export default function TourOverlay({ userId }) {
   const location = useLocation()
 
   useEffect(() => {
-    if (!currentStep?.path) return
-    const current = location.pathname + location.search
-    if (current !== currentStep.path) navigate(currentStep.path)
+    if (currentStep?.path) {
+      const current = location.pathname + location.search
+      if (current !== currentStep.path) navigate(currentStep.path)
+    }
+    // Some targets only exist once a toggle/form is opened (e.g. the
+    // recurring-chore checkbox lives inside the "+ Add Chore" form) --
+    // autoClick opens it for them. Guarded on the target not already being
+    // in the DOM, so revisiting the step (Back then Next again) doesn't
+    // blindly re-click a toggle and close what it just opened.
+    if (currentStep?.autoClick) {
+      const t = setTimeout(() => {
+        const alreadyThere = currentStep.target && document.querySelector(currentStep.target)
+        if (!alreadyThere) document.querySelector(currentStep.autoClick)?.click()
+      }, 80)
+      return () => clearTimeout(t)
+    }
   }, [currentStep, navigate, location.pathname, location.search])
 
   const rect = useTargetRect(currentStep?.target)

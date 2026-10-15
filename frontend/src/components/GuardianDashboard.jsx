@@ -285,7 +285,7 @@ function ChoresTab({ kids }) {
             onToggle={() => setOpenChoresExpanded(v => !v)}
             headerExtra={(
               <button
-                type="button" className="btn btn-outline btn-sm"
+                type="button" className="btn btn-outline btn-sm" data-tour="chores-add-button"
                 onClick={() => {
                   setShowQuickAdd(v => {
                     const next = !v
@@ -347,7 +347,7 @@ function ChoresTab({ kids }) {
                         <input type="date" value={quickDueDate} onChange={e => setQuickDueDate(e.target.value)} />
                       </div>
                     )}
-                    <div className="form-group" style={{ flex: '100%' }}>
+                    <div className="form-group" style={{ flex: '100%' }} data-tour="chores-recurring-checkbox">
                       <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
                         <input
                           type="checkbox"
@@ -2394,8 +2394,8 @@ function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNa
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} tourId="home-chores-tile" />
-        <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} />
-        <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} />
+        <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} tourId="home-shop-tile" />
+        <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} tourId="home-futureready-tile" />
         <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} tourId="home-kids-tile" />
       </div>
 
