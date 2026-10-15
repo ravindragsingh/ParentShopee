@@ -2182,6 +2182,56 @@ function CoGuardianInviteBanner({ userId, isCoGuardian, onNavigate }) {
   )
 }
 
+// Covers a guardian who skips the equivalent card on the profile-picker
+// screen (profiles.jsx) and goes straight into their dashboard with zero
+// kids -- the same unmissable prompt, just reached a different way. Not
+// dismissible: the trigger (zero kids) is itself a one-time condition that
+// resolves for good the moment they add a child, same as its profile-picker
+// counterpart.
+function FirstFamilySetupBanner({ isCoGuardian, onNavigate }) {
+  const [hasCoGuardian, setHasCoGuardian] = useState(null)
+
+  useEffect(() => {
+    if (isCoGuardian) return
+    let cancelled = false
+    api.getCoGuardian().then(data => { if (!cancelled) setHasCoGuardian(!!data.coGuardian) }).catch(() => {})
+    return () => { cancelled = true }
+  }, [isCoGuardian])
+
+  const showInvite = !isCoGuardian && hasCoGuardian === false
+
+  return (
+    <div style={{
+      background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 18,
+      padding: '18px 20px', marginBottom: 16, textAlign: 'center',
+    }}>
+      <div style={{ fontSize: '1.6rem', marginBottom: 6 }}>👪</div>
+      <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '1rem', marginBottom: 4 }}>
+        Let's set up your family
+      </div>
+      <div style={{ fontSize: '0.85rem', color: '#78716c', marginBottom: 14 }}>
+        Add your first child so they can start earning points{showInvite ? ', or invite your co-parent to help manage everything together' : ''}.
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <button
+          onClick={() => onNavigate('kids')}
+          style={{ background: '#ea580c', color: '#fff', border: 'none', borderRadius: 10, padding: '11px 16px', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
+        >
+          🧒 Add Your First Child
+        </button>
+        {showInvite && (
+          <button
+            onClick={() => onNavigate('admin')}
+            style={{ background: '#fff', color: '#9a3412', border: '1.5px solid #fdba74', borderRadius: 10, padding: '11px 16px', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
+          >
+            🧑 Invite Co-Parent
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function WeeklySnapshotStrip({ kids, kidsLoaded, onNavigate }) {
   const [reports, setReports] = useState(null)
 
@@ -2285,7 +2335,11 @@ function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNa
         <div style={{ fontSize: '0.92rem', color: '#64748b', marginTop: 3 }}>Here's what's happening with your family today.</div>
       </div>
 
-      <CoGuardianInviteBanner userId={userId} isCoGuardian={isCoGuardian} onNavigate={onNavigate} />
+      {kidsLoaded && kids.length === 0 ? (
+        <FirstFamilySetupBanner isCoGuardian={isCoGuardian} onNavigate={onNavigate} />
+      ) : (
+        <CoGuardianInviteBanner userId={userId} isCoGuardian={isCoGuardian} onNavigate={onNavigate} />
+      )}
 
       <div
         role={pendingCount > 0 ? 'button' : undefined}
