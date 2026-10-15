@@ -276,3 +276,8 @@ class DBCoGuardianInvite(Base):
     token      = Column(String, unique=True, nullable=False, index=True)
     created_at = Column(String, nullable=False)
     expires_at = Column(String, nullable=False)
+    # Set only for a "resend device access" link (see resend_coguardian_access
+    # in routers/family.py) -- the id of the co-guardian profile that ALREADY
+    # exists and just needs a fresh session, as opposed to a normal invite
+    # (NULL here) which creates a brand-new profile on accept.
+    existing_user_id = Column(String, nullable=True)

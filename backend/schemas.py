@@ -67,9 +67,14 @@ class CoGuardianInviteBody(BaseModel):
 
 class CoGuardianInviteAcceptBody(BaseModel):
     token: str
-    name: str
-    pin: str
+    # Unused for a "resend device access" link -- that one re-logs in an
+    # existing profile unchanged, no new name/PIN needed.
+    name: Optional[str] = None
+    pin: Optional[str] = None
     avatar: Optional[str] = "🧑"
+
+class ResendCoGuardianAccessBody(BaseModel):
+    email: Optional[str] = None
 
 class ProfileEnterBody(BaseModel):
     pin: Optional[str] = None

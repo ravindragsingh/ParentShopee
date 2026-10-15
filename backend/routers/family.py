@@ -8,13 +8,13 @@ from sqlalchemy.orm import Session
 from config import COGUARDIAN_INVITE_TTL_HOURS, EMAIL_RE
 from database import get_db
 from deps import create_session, require_guardian
-from email_utils import send_coguardian_invite_email
+from email_utils import send_coguardian_invite_email, send_coguardian_recovery_email
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
 from schemas import (
     CoGuardianBody, CoGuardianInviteAcceptBody, CoGuardianInviteBody,
-    ProfileEnterBody, RecoverPinBody, UpdatePinBody,
+    ProfileEnterBody, RecoverPinBody, ResendCoGuardianAccessBody, UpdatePinBody,
 )
 from security import check_pin_complexity
 
@@ -120,7 +120,8 @@ def get_coguardian_invite(db: Session = Depends(get_db), user: DBUser = Depends(
     invite = _pending_invite_for(db, user.id)
     if not invite:
         return ok({"pending": None})
-    return ok({"pending": {"email": invite.email, "expiresAt": invite.expires_at}})
+    kind = "recovery" if invite.existing_user_id else "new"
+    return ok({"pending": {"email": invite.email, "expiresAt": invite.expires_at, "kind": kind}})
 
 
 @router.post("/api/family/co-guardian/invite")
@@ -171,36 +172,53 @@ def cancel_coguardian_invite(db: Session = Depends(get_db), user: DBUser = Depen
 
 @router.get("/api/family/co-guardian/invite/preview")
 def preview_coguardian_invite(token: str, db: Session = Depends(get_db)):
-    """Public (no auth) -- lets the accept page show whose family this is
-    before the co-parent fills in their own name/PIN."""
+    """Public (no auth) -- lets the accept page show whose family this is,
+    and whether this is a fresh invite (needs a name/PIN form) or a recovery
+    link for an existing profile (just needs a confirm button)."""
     invite = db.query(DBCoGuardianInvite).filter(DBCoGuardianInvite.token == token).first()
     if not invite:
         fail("This invite link is invalid or has already been used.", 404)
     if datetime.fromisoformat(invite.expires_at) < datetime.now(timezone.utc):
         fail("This invite link has expired. Ask your co-parent to send a new one.", 410)
     guardian = db.query(DBUser).filter(DBUser.id == invite.family_id).first()
-    return ok({"guardianName": guardian.name if guardian else "your co-parent"})
+    kind = "recovery" if invite.existing_user_id else "new"
+    return ok({"guardianName": guardian.name if guardian else "your co-parent", "kind": kind})
 
 
 @router.post("/api/family/co-guardian/invite/accept")
 def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, db: Session = Depends(get_db)):
-    """Public (no auth) -- the co-parent has no session yet. Creates the same
-    kind of profile add_co_guardian does, then logs this device in (mints a
-    session the same way /api/auth/login does) so it works going forward
-    exactly like the guardian's own device, without ever needing the
-    family's username/password."""
+    """Public (no auth) -- the co-parent has no session yet. For a fresh
+    invite, creates the same kind of profile add_co_guardian does; for a
+    recovery link, re-logs in the existing profile unchanged. Either way
+    this logs the device in (mints a session the same way /api/auth/login
+    does) so it works going forward exactly like the guardian's own device,
+    without ever needing the family's username/password."""
     invite = db.query(DBCoGuardianInvite).filter(DBCoGuardianInvite.token == body.token).first()
     if not invite:
         fail("This invite link is invalid or has already been used.", 404)
     if datetime.fromisoformat(invite.expires_at) < datetime.now(timezone.utc):
         fail("This invite link has expired. Ask your co-parent to send a new one.", 410)
+
+    if invite.existing_user_id:
+        co_guardian = db.query(DBUser).filter(
+            DBUser.id == invite.existing_user_id, DBUser.co_guardian_of == invite.family_id,
+        ).first()
+        if not co_guardian:
+            db.delete(invite)
+            db.commit()
+            fail("This co-guardian profile no longer exists.", 404)
+        db.delete(invite)
+        db.commit()
+        token = create_session(db, co_guardian.id)
+        return ok({"token": token, "user": safe_user(co_guardian)})
+
     if db.query(DBUser).filter(DBUser.co_guardian_of == invite.family_id, DBUser.role == "guardian").first():
         db.delete(invite)
         db.commit()
         fail("This family already has a co-guardian.")
-    if len(body.name.strip()) < 2:
+    if not body.name or len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
-    check_pin_complexity(body.pin)
+    check_pin_complexity(body.pin or "")
 
     username, password = generate_inert_credentials()
     co_guardian = DBUser(
@@ -209,6 +227,7 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, db: Session = Dep
         username=username,
         password=password,
         role="guardian",
+        email=invite.email,  # kept so a future "resend device access" has somewhere to send it
         co_guardian_of=invite.family_id,
         avatar=body.avatar or "🧑",
         pin=body.pin,
@@ -222,6 +241,46 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, db: Session = Dep
 
     token = create_session(db, co_guardian.id)
     return ok({"token": token, "user": safe_user(co_guardian)}, 201)
+
+
+@router.post("/api/family/co-guardian/resend-access")
+def resend_coguardian_access(body: ResendCoGuardianAccessBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    """For when an EXISTING co-guardian loses their device or clears their
+    browser -- they have no password to log back in with (same as any
+    kid/co-guardian profile, this was always PIN-only), so this sends a
+    fresh one-time link that re-establishes their session unchanged,
+    instead of the guardian having to remove and re-add them from scratch."""
+    if user.co_guardian_of:
+        fail("Co-guardians cannot manage their own access recovery")
+    co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == user.id, DBUser.role == "guardian").first()
+    if not co_guardian:
+        fail("No co-guardian found")
+    if _pending_invite_for(db, user.id):
+        fail("You already have a pending invite or recovery link. Cancel it before sending another.")
+
+    email = (body.email or co_guardian.email or "").strip().lower()
+    if not email or not EMAIL_RE.match(email):
+        fail("Please provide a valid email to send the recovery link to")
+    if email != co_guardian.email:
+        co_guardian.email = email
+
+    invite = DBCoGuardianInvite(
+        id=str(uuid4()),
+        family_id=user.id,
+        email=email,
+        existing_user_id=co_guardian.id,
+        token=str(uuid4()),
+        created_at=now(),
+        expires_at=(datetime.now(timezone.utc) + timedelta(hours=COGUARDIAN_INVITE_TTL_HOURS)).isoformat(),
+    )
+    db.add(invite)
+    db.commit()
+
+    if not send_coguardian_recovery_email(email, user.name, invite.token):
+        db.delete(invite)
+        db.commit()
+        fail("Couldn't send the recovery email. Please try again shortly.", 500)
+    return ok({"email": email, "expiresAt": invite.expires_at}, 201)
 
 
 # ── Netflix-style profile picker ────────────────────────────────────────────────

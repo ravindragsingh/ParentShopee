@@ -1095,6 +1095,7 @@ export function CoGuardianInvitePage() {
   const [status, setStatus] = useState(token ? 'loading' : 'error')
   const [message, setMessage] = useState(token ? '' : 'This invite link is missing its token.')
   const [guardianName, setGuardianName] = useState('')
+  const [kind, setKind] = useState('new') // 'new' | 'recovery'
 
   const [name, setName] = useState('')
   const [avatar, setAvatar] = useState('🧑')
@@ -1108,6 +1109,7 @@ export function CoGuardianInvitePage() {
     api.previewCoGuardianInvite(token)
       .then(data => {
         setGuardianName(data.guardianName)
+        setKind(data.kind)
         setStatus('form')
       })
       .catch(err => {
@@ -1119,13 +1121,17 @@ export function CoGuardianInvitePage() {
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
-    if (!name.trim()) { setError('Name is required.'); return }
-    const pinCheck = checkPinComplexity(pin)
-    if (!pinCheck.ok) { setError(pinCheck.message); return }
-    if (pin !== confirmPin) { setError('PINs do not match.'); return }
+    if (kind === 'new') {
+      if (!name.trim()) { setError('Name is required.'); return }
+      const pinCheck = checkPinComplexity(pin)
+      if (!pinCheck.ok) { setError(pinCheck.message); return }
+      if (pin !== confirmPin) { setError('PINs do not match.'); return }
+    }
     setSubmitting(true)
     try {
-      const data = await api.acceptCoGuardianInvite({ token, name: name.trim(), pin, avatar })
+      const data = await api.acceptCoGuardianInvite(
+        kind === 'new' ? { token, name: name.trim(), pin, avatar } : { token }
+      )
       login(data.user, data.token)
       navigate('/profiles')
     } catch (err) {
@@ -1141,7 +1147,20 @@ export function CoGuardianInvitePage() {
           {status === 'loading' && (
             <p style={{ fontSize: '0.95rem', color: '#64748b' }}>Checking your invite…</p>
           )}
-          {status === 'form' && (
+          {status === 'form' && kind === 'recovery' && (
+            <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '2.2rem', marginBottom: 10 }}>👋</div>
+              <h1 className="login-title">Welcome Back</h1>
+              <p className="login-subtitle">
+                This gets your existing co-guardian profile working again on this device — your name, PIN and access are unchanged.
+              </p>
+              {error && <div className="error-msg">{error}</div>}
+              <button type="submit" className="login-btn" disabled={submitting}>
+                {submitting ? 'Restoring access...' : 'Continue'}
+              </button>
+            </form>
+          )}
+          {status === 'form' && kind === 'new' && (
             <form onSubmit={handleSubmit}>
               <h1 className="login-title">Join {guardianName}'s Family</h1>
               <p className="login-subtitle">

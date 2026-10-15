@@ -86,3 +86,17 @@ def send_coguardian_invite_email(email: str, guardian_name: str, token: str) -> 
         f"expecting this, you can safely ignore this email.\n"
     )
     return send_email(email, subject, body_text)
+
+
+def send_coguardian_recovery_email(email: str, guardian_name: str, token: str) -> bool:
+    link = f"{FRONTEND_URL}/coguardian-invite?token={token}"
+    subject = "Regain access to your Reward Ur Kids co-guardian profile"
+    body_text = (
+        f"Hi,\n\n"
+        f"{guardian_name} sent you this link to get your co-guardian profile working "
+        f"again on a new or reset device -- your profile, PIN, and access are unchanged.\n\n"
+        f"    {link}\n\n"
+        f"This link expires in {COGUARDIAN_INVITE_TTL_HOURS // 24} days. If you weren't "
+        f"expecting this, you can safely ignore this email.\n"
+    )
+    return send_email(email, subject, body_text)

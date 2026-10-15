@@ -147,6 +147,7 @@ export const api = {
   cancelCoGuardianInvite:   ()           => request('DELETE', '/api/family/co-guardian/invite'),
   previewCoGuardianInvite:  (token)      => request('GET',    `/api/family/co-guardian/invite/preview?token=${encodeURIComponent(token)}`),
   acceptCoGuardianInvite:   (body)       => request('POST',   '/api/family/co-guardian/invite/accept', body),
+  resendCoGuardianAccess:   (email)      => request('POST',   '/api/family/co-guardian/resend-access', { email }),
 
   // Netflix-style profile picker — both calls use the "device" token
   // (the family's real login), not whichever profile is currently active.

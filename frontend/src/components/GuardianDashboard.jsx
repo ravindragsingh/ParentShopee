@@ -978,6 +978,14 @@ function CoGuardianTab() {
   const [inviteError, setInviteError] = useState('')
   const [cancelling, setCancelling] = useState(false)
 
+  // Resend device access -- for an EXISTING co-guardian who's lost their
+  // device or cleared their browser (they have no password, just a PIN tied
+  // to that device's session, same as always)
+  const [showResendForm, setShowResendForm] = useState(false)
+  const [resendEmail, setResendEmail] = useState('')
+  const [resendError, setResendError] = useState('')
+  const [sendingResend, setSendingResend] = useState(false)
+
   useEffect(() => { loadInfo() }, [])
 
   async function loadInfo() {
@@ -986,6 +994,7 @@ function CoGuardianTab() {
       const [coGuardianInfo, inviteInfo] = await Promise.all([api.getCoGuardian(), api.getCoGuardianInvite()])
       setInfo(coGuardianInfo)
       setInvite(inviteInfo.pending)
+      if (coGuardianInfo.coGuardian?.email) setResendEmail(coGuardianInfo.coGuardian.email)
     }
     catch (err) { setError(err.message) }
     finally { setLoading(false) }
@@ -1008,11 +1017,27 @@ function CoGuardianTab() {
   }
 
   async function handleCancelInvite() {
-    if (!window.confirm(`Cancel the pending invite to ${invite.email}?`)) return
+    if (!window.confirm(`Cancel the pending ${invite.kind === 'recovery' ? 'recovery link' : 'invite'} to ${invite.email}?`)) return
     setCancelling(true)
     try { await api.cancelCoGuardianInvite(); loadInfo() }
     catch (err) { setError(err.message) }
     finally { setCancelling(false) }
+  }
+
+  async function handleSendResend(e) {
+    e.preventDefault()
+    setResendError('')
+    if (!resendEmail.trim()) { setResendError('Email is required.'); return }
+    setSendingResend(true)
+    try {
+      await api.resendCoGuardianAccess(resendEmail.trim())
+      setShowResendForm(false)
+      loadInfo()
+    } catch (err) {
+      setResendError(err.message)
+    } finally {
+      setSendingResend(false)
+    }
   }
 
   async function handleAdd(e) {
@@ -1084,7 +1109,7 @@ function CoGuardianTab() {
 
   return (
     <div>
-      {/* Pending email invite -- mutually exclusive with the two add options below */}
+      {/* Pending fresh invite -- mutually exclusive with the two add options below */}
       {!info?.coGuardian && invite && (
         <div className="form-card" data-tour="admin-coguardian-section">
           <div className="form-title">Invite Pending</div>
@@ -1184,6 +1209,14 @@ function CoGuardianTab() {
             >
               {showPwdForm ? 'Cancel' : '🔑 Change PIN'}
             </button>
+            {!invite && (
+              <button
+                className="btn btn-outline btn-sm"
+                onClick={() => { setShowResendForm(v => !v); setResendError('') }}
+              >
+                {showResendForm ? 'Cancel' : '📧 Resend Device Access'}
+              </button>
+            )}
             <button className="btn btn-red btn-sm" onClick={handleRevoke} disabled={revoking}>
               {revoking ? 'Removing...' : 'Remove Co-Guardian'}
             </button>
@@ -1206,6 +1239,40 @@ function CoGuardianTab() {
                   {savingPwd ? 'Saving...' : 'Save PIN'}
                 </button>
               </div>
+            </div>
+          )}
+
+          {showResendForm && !invite && (
+            <div style={{ marginTop: 14, padding: '12px 16px', background: '#f8fafc', borderRadius: 8 }}>
+              <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 10 }}>
+                If {info.coGuardian.name} lost their device or cleared their browser, send a link that gets their
+                existing profile working again elsewhere — their name, PIN and access stay the same.
+              </p>
+              {resendError && <div className="error-msg" style={{ marginBottom: 8 }}>{resendError}</div>}
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                <input
+                  type="email"
+                  value={resendEmail}
+                  onChange={e => setResendEmail(e.target.value)}
+                  placeholder="co-parent@example.com"
+                  style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
+                />
+                <button className="btn btn-green btn-sm" onClick={handleSendResend} disabled={sendingResend}>
+                  {sendingResend ? 'Sending...' : 'Send Link'}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {invite?.kind === 'recovery' && (
+            <div style={{ marginTop: 14, padding: '12px 16px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8 }}>
+              <p style={{ fontSize: '0.82rem', color: '#78350f', marginBottom: 10 }}>
+                Recovery link sent to <strong>{invite.email}</strong> — expires{' '}
+                {new Date(invite.expiresAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}.
+              </p>
+              <button className="btn btn-outline btn-sm" disabled={cancelling} onClick={handleCancelInvite}>
+                {cancelling ? 'Cancelling...' : 'Cancel Recovery Link'}
+              </button>
             </div>
           )}
         </div>
