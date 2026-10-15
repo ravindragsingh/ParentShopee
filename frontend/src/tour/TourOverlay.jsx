@@ -74,6 +74,12 @@ export default function TourOverlay({ userId }) {
 
   const hasTarget = !!currentStep.target
   const isLast = stepIndex + 1 >= totalSteps
+  // A target in the lower half of the screen (e.g. the bottom row of home
+  // tiles) would otherwise sit right behind a bottom-anchored tooltip, with
+  // its label cut off -- flip the tooltip to the top of the screen instead.
+  // Short pages (like Home) have little room to scroll a target further up,
+  // so repositioning the tooltip, not the page, is what actually fixes it.
+  const tooltipAtTop = hasTarget && rect && rect.top > window.innerHeight / 2
 
   function turnOff() {
     setTourEnabled(userId, false)
@@ -101,7 +107,9 @@ export default function TourOverlay({ userId }) {
 
       <div
         style={hasTarget
-          ? { position: 'fixed', left: 16, right: 16, bottom: 'max(16px, var(--sa-inset-bottom, 16px))' }
+          ? (tooltipAtTop
+              ? { position: 'fixed', left: 16, right: 16, top: 'max(16px, var(--sa-inset-top, 16px))' }
+              : { position: 'fixed', left: 16, right: 16, bottom: 'max(16px, var(--sa-inset-bottom, 16px))' })
           : { position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }
         }
       >
