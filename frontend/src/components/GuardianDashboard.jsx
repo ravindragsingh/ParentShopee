@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -17,6 +17,8 @@ import AppNavbar from './AppNavbar.jsx'
 import PasswordField from './PasswordField.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
+import { useTour } from '../tour/TourContext.jsx'
+import { isTourDisabled, setTourEnabled } from '../tour/tourStorage.js'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -283,7 +285,7 @@ function ChoresTab({ kids }) {
             onToggle={() => setOpenChoresExpanded(v => !v)}
             headerExtra={(
               <button
-                type="button" className="btn btn-outline btn-sm"
+                type="button" className="btn btn-outline btn-sm" data-tour="chores-add-button"
                 onClick={() => {
                   setShowQuickAdd(v => {
                     const next = !v
@@ -345,7 +347,7 @@ function ChoresTab({ kids }) {
                         <input type="date" value={quickDueDate} onChange={e => setQuickDueDate(e.target.value)} />
                       </div>
                     )}
-                    <div className="form-group" style={{ flex: '100%' }}>
+                    <div className="form-group" style={{ flex: '100%' }} data-tour="chores-recurring-checkbox">
                       <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
                         <input
                           type="checkbox"
@@ -946,6 +948,51 @@ function ShopTab({ kids = [] }) {
 
 const COGUARDIAN_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
 
+// A plain `title` attribute never shows on tap, only mouse hover -- useless
+// on the touch devices this app is mostly used on. Tap-to-toggle instead,
+// closing on an outside tap/click the same way HamburgerMenu's dropdown does.
+function InfoTooltip({ text }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (!open) return
+    function onOutside(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    document.addEventListener('mousedown', onOutside)
+    document.addEventListener('touchstart', onOutside, { passive: true })
+    return () => {
+      document.removeEventListener('mousedown', onOutside)
+      document.removeEventListener('touchstart', onOutside)
+    }
+  }, [open])
+
+  return (
+    <span ref={ref} style={{ position: 'relative', display: 'inline-flex' }}>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        aria-label="More info"
+        style={{
+          background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+          color: '#94a3b8', fontSize: '0.95rem', lineHeight: 1,
+        }}
+      >
+        ⓘ
+      </button>
+      {open && (
+        <div style={{
+          position: 'absolute', top: '100%', left: 0, marginTop: 6, zIndex: 20,
+          width: 260, background: '#1e293b', color: '#f1f5f9', fontSize: '0.78rem',
+          lineHeight: 1.5, borderRadius: 8, padding: '10px 12px',
+          boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
+        }}>
+          {text}
+        </div>
+      )}
+    </span>
+  )
+}
+
 function CoGuardianTab() {
   const [info, setInfo] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -968,13 +1015,78 @@ function CoGuardianTab() {
   // Revoke
   const [revoking, setRevoking] = useState(false)
 
+  // Invite by email -- an alternative to the create form above for when the
+  // co-parent isn't physically at this device
+  const [invite, setInvite] = useState(null)
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [sendingInvite, setSendingInvite] = useState(false)
+  const [inviteError, setInviteError] = useState('')
+  const [cancelling, setCancelling] = useState(false)
+  // Which of the two add methods is showing -- 'choose' presents them as a
+  // clear either/or pick rather than one long scroll with a faint "OR" in
+  // the middle of it.
+  const [addMode, setAddMode] = useState('choose')
+
+  // Resend device access -- for an EXISTING co-guardian who's lost their
+  // device or cleared their browser (they have no password, just a PIN tied
+  // to that device's session, same as always)
+  const [showResendForm, setShowResendForm] = useState(false)
+  const [resendEmail, setResendEmail] = useState('')
+  const [resendError, setResendError] = useState('')
+  const [sendingResend, setSendingResend] = useState(false)
+
   useEffect(() => { loadInfo() }, [])
 
   async function loadInfo() {
     setLoading(true); setError('')
-    try { setInfo(await api.getCoGuardian()) }
+    try {
+      const [coGuardianInfo, inviteInfo] = await Promise.all([api.getCoGuardian(), api.getCoGuardianInvite()])
+      setInfo(coGuardianInfo)
+      setInvite(inviteInfo.pending)
+      if (coGuardianInfo.coGuardian?.email) setResendEmail(coGuardianInfo.coGuardian.email)
+    }
     catch (err) { setError(err.message) }
     finally { setLoading(false) }
+  }
+
+  async function handleSendInvite(e) {
+    e.preventDefault()
+    setInviteError('')
+    if (!inviteEmail.trim()) { setInviteError('Email is required.'); return }
+    setSendingInvite(true)
+    try {
+      await api.sendCoGuardianInvite(inviteEmail.trim())
+      setInviteEmail('')
+      loadInfo()
+    } catch (err) {
+      setInviteError(err.message)
+    } finally {
+      setSendingInvite(false)
+    }
+  }
+
+  async function handleCancelInvite() {
+    if (!window.confirm(`Cancel the pending ${invite.kind === 'recovery' ? 'recovery link' : 'invite'} to ${invite.email}?`)) return
+    setCancelling(true)
+    try { await api.cancelCoGuardianInvite(); loadInfo() }
+    catch (err) { setError(err.message) }
+    finally { setCancelling(false) }
+  }
+
+  async function handleSendResend(e) {
+    e.preventDefault()
+    setResendError('')
+    if (!resendEmail.trim()) { setResendError('Email is required.'); return }
+    setSendingResend(true)
+    try {
+      await api.resendCoGuardianAccess(resendEmail.trim())
+      setShowResendForm(false)
+      loadInfo()
+    } catch (err) {
+      setResendError(err.message)
+    } finally {
+      setSendingResend(false)
+    }
   }
 
   async function handleAdd(e) {
@@ -1046,13 +1158,73 @@ function CoGuardianTab() {
 
   return (
     <div>
-      {/* Add co-guardian form */}
-      {!info?.coGuardian && (
-        <div className="form-card">
+      {/* Pending fresh invite -- mutually exclusive with the two add options below */}
+      {!info?.coGuardian && invite && (
+        <div className="form-card" data-tour="admin-coguardian-section">
+          <div className="form-title">Invite Pending</div>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 12 }}>
+            Waiting on <strong>{invite.email}</strong> to accept — expires{' '}
+            {new Date(invite.expiresAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}.
+          </p>
+          <button className="btn btn-outline btn-sm" disabled={cancelling} onClick={handleCancelInvite}>
+            {cancelling ? 'Cancelling...' : 'Cancel Invite'}
+          </button>
+        </div>
+      )}
+
+      {/* Add co-guardian directly, or invite them by email instead -- shown
+          as a clear either/or pick first, not one long scroll with a faint
+          "OR" buried in the middle of it. */}
+      {!info?.coGuardian && !invite && addMode === 'choose' && (
+        <div className="form-card" data-tour="admin-coguardian-section">
           <div className="form-title">Add Co-Guardian</div>
           <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
-            Add a profile for another guardian (partner, spouse, etc.) to your family. They get the same access as you —
-            they can manage children, chores, shop and wallets — unlocked with their own 6-digit PIN from the profile picker. Only one co-guardian per family.
+            Add a profile for another guardian (partner, spouse, etc.) to your family. They get the same access as you.
+            Only one co-guardian per family.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <button
+              type="button"
+              onClick={() => setAddMode('direct')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+                background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12,
+                padding: '14px 16px', cursor: 'pointer',
+              }}
+            >
+              <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>➕</span>
+              <span>
+                <span style={{ display: 'block', fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>Add Directly</span>
+                <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginTop: 2 }}>You set their name and PIN right now, on this device.</span>
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setAddMode('invite')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+                background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12,
+                padding: '14px 16px', cursor: 'pointer',
+              }}
+            >
+              <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>📧</span>
+              <span>
+                <span style={{ display: 'block', fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>Invite by Email</span>
+                <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginTop: 2 }}>Not at the same device? They set up their own name and PIN from their own phone.</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {!info?.coGuardian && !invite && addMode === 'direct' && (
+        <div className="form-card" data-tour="admin-coguardian-section">
+          <button type="button" onClick={() => setAddMode('choose')} style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', padding: 0, marginBottom: 14 }}>
+            ← Back
+          </button>
+          <div className="form-title">Add Directly</div>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
+            They get the same access as you — they can manage children, chores, shop and wallets — unlocked with their own 6-digit PIN from the profile picker.
           </p>
           {addError && <div className="error-msg">{addError}</div>}
           <form onSubmit={handleAdd}>
@@ -1077,6 +1249,27 @@ function CoGuardianTab() {
             </div>
             <button type="submit" className="btn btn-primary" disabled={adding}>
               {adding ? 'Creating...' : 'Create Co-Guardian'}
+            </button>
+          </form>
+        </div>
+      )}
+
+      {!info?.coGuardian && !invite && addMode === 'invite' && (
+        <div className="form-card" data-tour="admin-coguardian-section">
+          <button type="button" onClick={() => setAddMode('choose')} style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', padding: 0, marginBottom: 14 }}>
+            ← Back
+          </button>
+          <div className="form-title">Invite by Email</div>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 12 }}>
+            Send an invite — they'll set up their own name and PIN from their own phone, with the same access as you.
+          </p>
+          {inviteError && <div className="error-msg">{inviteError}</div>}
+          <form onSubmit={handleSendInvite} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+            <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
+              <input type="email" value={inviteEmail} onChange={e => setInviteEmail(e.target.value)} placeholder="co-parent@example.com" />
+            </div>
+            <button type="submit" className="btn btn-outline" disabled={sendingInvite}>
+              {sendingInvite ? 'Sending...' : 'Send Invite'}
             </button>
           </form>
         </div>
@@ -1112,6 +1305,17 @@ function CoGuardianTab() {
             >
               {showPwdForm ? 'Cancel' : '🔑 Change PIN'}
             </button>
+            {!invite && (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <button
+                  className="btn btn-outline btn-sm"
+                  onClick={() => { setShowResendForm(v => !v); setResendError('') }}
+                >
+                  {showResendForm ? 'Cancel' : '📧 Resend Device Access'}
+                </button>
+                <InfoTooltip text={`Use this if ${info.coGuardian.name} loses their phone or clears their browser. They have no password of their own — just a PIN tied to that one device — so this emails a fresh one-time link that gets their existing profile working again elsewhere, with the same name, PIN and access as before.`} />
+              </span>
+            )}
             <button className="btn btn-red btn-sm" onClick={handleRevoke} disabled={revoking}>
               {revoking ? 'Removing...' : 'Remove Co-Guardian'}
             </button>
@@ -1134,6 +1338,40 @@ function CoGuardianTab() {
                   {savingPwd ? 'Saving...' : 'Save PIN'}
                 </button>
               </div>
+            </div>
+          )}
+
+          {showResendForm && !invite && (
+            <div style={{ marginTop: 14, padding: '12px 16px', background: '#f8fafc', borderRadius: 8 }}>
+              <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 10 }}>
+                If {info.coGuardian.name} lost their device or cleared their browser, send a link that gets their
+                existing profile working again elsewhere — their name, PIN and access stay the same.
+              </p>
+              {resendError && <div className="error-msg" style={{ marginBottom: 8 }}>{resendError}</div>}
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                <input
+                  type="email"
+                  value={resendEmail}
+                  onChange={e => setResendEmail(e.target.value)}
+                  placeholder="co-parent@example.com"
+                  style={{ padding: '7px 12px', border: '1px solid #cbd5e1', borderRadius: 7, fontSize: '0.9rem', width: 240 }}
+                />
+                <button className="btn btn-green btn-sm" onClick={handleSendResend} disabled={sendingResend}>
+                  {sendingResend ? 'Sending...' : 'Send Link'}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {invite?.kind === 'recovery' && (
+            <div style={{ marginTop: 14, padding: '12px 16px', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8 }}>
+              <p style={{ fontSize: '0.82rem', color: '#78350f', marginBottom: 10 }}>
+                Recovery link sent to <strong>{invite.email}</strong> — expires{' '}
+                {new Date(invite.expiresAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}.
+              </p>
+              <button className="btn btn-outline btn-sm" disabled={cancelling} onClick={handleCancelInvite}>
+                {cancelling ? 'Cancelling...' : 'Cancel Recovery Link'}
+              </button>
             </div>
           )}
         </div>
@@ -1169,6 +1407,14 @@ function AdminPanelTab() {
     const enabled = e.target.checked
     setTipsEnabled(user.id, enabled)
     setTipsEnabledState(enabled)
+  }
+
+  const { startTour } = useTour()
+  const [tourEnabled, setTourEnabledState] = useState(() => !isTourDisabled(user.id))
+  function handleToggleTour(e) {
+    const enabled = e.target.checked
+    setTourEnabled(user.id, enabled)
+    setTourEnabledState(enabled)
   }
 
   const isPrimaryGuardian = !user.coGuardianOf
@@ -1327,6 +1573,18 @@ function AdminPanelTab() {
           <input type="checkbox" checked={tipsEnabled} onChange={handleToggleTips} />
           Show a daily tip when I open my dashboard
         </label>
+      </div>
+
+      {/* Guided Tour */}
+      <div className="form-card" style={{ maxWidth: 500 }}>
+        <div className="form-title">🧭 Guided Tour</div>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.875rem', color: '#334155', cursor: 'pointer', marginBottom: 14 }}>
+          <input type="checkbox" checked={tourEnabled} onChange={handleToggleTour} />
+          Offer a guided tour the first time I open my dashboard
+        </label>
+        <button className="btn btn-outline btn-sm" onClick={() => startTour('guardianOnboarding')}>
+          ▶ Replay Getting Started Tour
+        </button>
       </div>
 
       {/* Sign out */}
@@ -1611,7 +1869,7 @@ function KidsTab() {
             My Children <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 400 }}>({kids.length}/10)</span>
           </div>
           {kids.length < 10 && (
-            <button className="btn btn-primary btn-sm" onClick={() => { setShowAddForm(v => !v); setAddError('') }}>
+            <button className="btn btn-primary btn-sm" data-tour="kids-add-button" onClick={() => { setShowAddForm(v => !v); setAddError('') }}>
               {showAddForm ? 'Cancel' : '+ Add Child'}
             </button>
           )}
@@ -2007,10 +2265,11 @@ function KidsTab() {
 
 // ─── Home screen ──────────────────────────────────────────────────────────────
 
-function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick }) {
+function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick, tourId }) {
   return (
     <button
       onClick={onClick}
+      data-tour={tourId}
       style={{
         position: 'relative',
         display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
@@ -2124,6 +2383,114 @@ function PendingApprovalsModal({ items, kidsById, onClose, onChanged }) {
   )
 }
 
+const coGuardianInviteSeenKey = userId => `coGuardianInviteSeen_${userId}`
+
+// One-time onboarding nudge: only the primary guardian can add a co-guardian
+// (co-guardians can't invite their own), and only while the family doesn't
+// already have one. Dismissing it (either way) hides it for good -- same
+// per-profile localStorage pattern as the Tip of the Day dismiss.
+function CoGuardianInviteBanner({ userId, isCoGuardian, onNavigate }) {
+  const [dismissed, setDismissed] = useState(
+    () => localStorage.getItem(coGuardianInviteSeenKey(userId)) === '1'
+  )
+  const [info, setInfo] = useState(null)
+
+  useEffect(() => {
+    if (dismissed || isCoGuardian) return
+    let cancelled = false
+    api.getCoGuardian().then(data => { if (!cancelled) setInfo(data) }).catch(() => {})
+    return () => { cancelled = true }
+  }, [dismissed, isCoGuardian])
+
+  function dismiss() {
+    setDismissed(true)
+    localStorage.setItem(coGuardianInviteSeenKey(userId), '1')
+  }
+
+  if (dismissed || isCoGuardian || !info || info.coGuardian) return null
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 14, background: '#fff7ed', border: '1px solid #fed7aa',
+      borderRadius: 18, padding: '16px 18px', marginBottom: 16,
+    }}>
+      <span style={{ fontSize: '1.6rem', flexShrink: 0 }}>👪</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '0.92rem' }}>Invite your co-parent</div>
+        <div style={{ fontSize: '0.78rem', color: '#78716c', marginTop: 2 }}>
+          Share chore approvals and rewards together — add a co-guardian from the Admin Panel.
+        </div>
+      </div>
+      <button
+        onClick={() => { onNavigate('admin'); dismiss() }}
+        style={{
+          flexShrink: 0, background: '#ea580c', color: '#fff', border: 'none', borderRadius: 10,
+          padding: '8px 14px', fontWeight: 700, fontSize: '0.82rem', cursor: 'pointer',
+        }}
+      >
+        Invite →
+      </button>
+      <button
+        onClick={dismiss}
+        aria-label="Dismiss"
+        style={{ flexShrink: 0, background: 'none', border: 'none', color: '#c2824f', fontSize: '1.1rem', cursor: 'pointer', padding: 4 }}
+      >
+        ✕
+      </button>
+    </div>
+  )
+}
+
+// Covers a guardian who skips the equivalent card on the profile-picker
+// screen (profiles.jsx) and goes straight into their dashboard with zero
+// kids -- the same unmissable prompt, just reached a different way. Not
+// dismissible: the trigger (zero kids) is itself a one-time condition that
+// resolves for good the moment they add a child, same as its profile-picker
+// counterpart.
+function FirstFamilySetupBanner({ isCoGuardian, onNavigate }) {
+  const [hasCoGuardian, setHasCoGuardian] = useState(null)
+
+  useEffect(() => {
+    if (isCoGuardian) return
+    let cancelled = false
+    api.getCoGuardian().then(data => { if (!cancelled) setHasCoGuardian(!!data.coGuardian) }).catch(() => {})
+    return () => { cancelled = true }
+  }, [isCoGuardian])
+
+  const showInvite = !isCoGuardian && hasCoGuardian === false
+
+  return (
+    <div style={{
+      background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 18,
+      padding: '18px 20px', marginBottom: 16, textAlign: 'center',
+    }}>
+      <div style={{ fontSize: '1.6rem', marginBottom: 6 }}>👪</div>
+      <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '1rem', marginBottom: 4 }}>
+        Let's set up your family
+      </div>
+      <div style={{ fontSize: '0.85rem', color: '#78716c', marginBottom: 14 }}>
+        Add your first child so they can start earning points{showInvite ? ', or invite your co-parent to help manage everything together' : ''}.
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <button
+          onClick={() => onNavigate('kids')}
+          style={{ background: '#ea580c', color: '#fff', border: 'none', borderRadius: 10, padding: '11px 16px', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
+        >
+          🧒 Add Your First Child
+        </button>
+        {showInvite && (
+          <button
+            onClick={() => onNavigate('admin')}
+            style={{ background: '#fff', color: '#9a3412', border: '1.5px solid #fdba74', borderRadius: 10, padding: '11px 16px', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
+          >
+            🧑 Invite Co-Parent
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function WeeklySnapshotStrip({ kids, kidsLoaded, onNavigate }) {
   const [reports, setReports] = useState(null)
 
@@ -2180,7 +2547,7 @@ function WeeklySnapshotStrip({ kids, kidsLoaded, onNavigate }) {
   )
 }
 
-function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
+function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNavigate }) {
   const [pendingItems, setPendingItems] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const kidsById = kidLookup(kids)
@@ -2227,6 +2594,12 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
         <div style={{ fontSize: '0.92rem', color: '#64748b', marginTop: 3 }}>Here's what's happening with your family today.</div>
       </div>
 
+      {kidsLoaded && kids.length === 0 ? (
+        <FirstFamilySetupBanner isCoGuardian={isCoGuardian} onNavigate={onNavigate} />
+      ) : (
+        <CoGuardianInviteBanner userId={userId} isCoGuardian={isCoGuardian} onNavigate={onNavigate} />
+      )}
+
       <div
         role={pendingCount > 0 ? 'button' : undefined}
         tabIndex={pendingCount > 0 ? 0 : undefined}
@@ -2256,10 +2629,10 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} />
-        <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} />
-        <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} />
-        <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} />
+        <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} tourId="home-chores-tile" />
+        <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} tourId="home-shop-tile" />
+        <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} tourId="home-futureready-tile" />
+        <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} tourId="home-kids-tile" />
       </div>
 
       <WeeklySnapshotStrip kids={kids} kidsLoaded={kidsLoaded} onNavigate={onNavigate} />
@@ -2302,13 +2675,17 @@ export default function GuardianDashboard() {
       .catch(() => {})
   }
 
+  // Re-fetches on every tab switch (not just on mount) -- KidsTab keeps its
+  // own independent kids list, so adding a child there wouldn't otherwise be
+  // reflected here until a full reload, leaving the home screen's "no kids
+  // yet" banner stuck on even after the first child was added.
   useEffect(() => {
     api.getKids()
       .then(data => setKids(Array.isArray(data) ? data : []))
       .catch(() => {})
       .finally(() => setKidsLoaded(true))
     refreshWallets()
-  }, [])
+  }, [tab])
 
   return (
     <div className="app-container">
@@ -2337,7 +2714,7 @@ export default function GuardianDashboard() {
           </div>
         )}
 
-        {tab === 'home' && <GuardianHomeScreen name={user.name} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} />}
+        {tab === 'home' && <GuardianHomeScreen name={user.name} userId={user.id} isCoGuardian={!!user.coGuardianOf} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} />}
 
         {tab !== 'home' && kids.length > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: '10px 14px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>

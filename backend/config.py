@@ -39,6 +39,7 @@ LIMIT_EXTRA_SHOP_ITEMS = 10
 
 ACTIVATION_TOKEN_TTL_HOURS = 24
 RESET_TOKEN_TTL_HOURS = 1
+COGUARDIAN_INVITE_TTL_HOURS = 24 * 7
 
 # ── Google Sign-In ───────────────────────────────────────────────────────────
 # Public-facing Client ID from Google Cloud Console (OAuth consent screen ->

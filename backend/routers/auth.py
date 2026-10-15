@@ -14,7 +14,7 @@ from email_utils import send_activation_email, send_reset_email, send_username_e
 from geolocation import get_client_ip, get_location_from_ip, record_login_location
 from google_auth_utils import verify_google_token
 from helpers import calculate_age, delete_family, delete_lone_user, generate_username_from_email, now, safe_user
-from models import DBUser
+from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
 from schemas import (
     ActivateBody, ChangeOwnPasswordBody, ForgotPasswordBody, ForgotUsernameBody,
@@ -74,6 +74,8 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
         fail("Username already taken")
     if db.query(DBUser).filter(DBUser.email == body.email.lower().strip()).first():
         fail("Email address already registered")
+    if db.query(DBCoGuardianInvite).filter(DBCoGuardianInvite.email == body.email.lower().strip()).first():
+        fail("This email has a pending co-guardian invite — use the link in that email to join the family instead of registering separately.")
     if len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
     check_password_complexity(body.password)
