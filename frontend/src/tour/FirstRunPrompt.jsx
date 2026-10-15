@@ -36,7 +36,7 @@ export default function FirstRunPrompt({ userId, tourId }) {
         <div style={{ fontSize: '2.2rem', marginBottom: 10 }}>🧭</div>
         <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1e293b', marginBottom: 8 }}>Want a quick guided tour?</div>
         <p style={{ fontSize: '0.88rem', color: '#64748b', lineHeight: 1.6, marginBottom: 20 }}>
-          We'll walk you through adding your first child, inviting a co-parent, and reviewing chores — takes about a minute.
+          We'll walk you through setting up your family, adding chores, and a few other handy features — takes about two minutes.
         </p>
         <button onClick={accept} className="login-btn" style={{ marginBottom: 10 }}>
           Yes, show me →
