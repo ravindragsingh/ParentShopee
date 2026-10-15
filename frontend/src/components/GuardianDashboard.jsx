@@ -970,13 +970,49 @@ function CoGuardianTab() {
   // Revoke
   const [revoking, setRevoking] = useState(false)
 
+  // Invite by email -- an alternative to the create form above for when the
+  // co-parent isn't physically at this device
+  const [invite, setInvite] = useState(null)
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [sendingInvite, setSendingInvite] = useState(false)
+  const [inviteError, setInviteError] = useState('')
+  const [cancelling, setCancelling] = useState(false)
+
   useEffect(() => { loadInfo() }, [])
 
   async function loadInfo() {
     setLoading(true); setError('')
-    try { setInfo(await api.getCoGuardian()) }
+    try {
+      const [coGuardianInfo, inviteInfo] = await Promise.all([api.getCoGuardian(), api.getCoGuardianInvite()])
+      setInfo(coGuardianInfo)
+      setInvite(inviteInfo.pending)
+    }
     catch (err) { setError(err.message) }
     finally { setLoading(false) }
+  }
+
+  async function handleSendInvite(e) {
+    e.preventDefault()
+    setInviteError('')
+    if (!inviteEmail.trim()) { setInviteError('Email is required.'); return }
+    setSendingInvite(true)
+    try {
+      await api.sendCoGuardianInvite(inviteEmail.trim())
+      setInviteEmail('')
+      loadInfo()
+    } catch (err) {
+      setInviteError(err.message)
+    } finally {
+      setSendingInvite(false)
+    }
+  }
+
+  async function handleCancelInvite() {
+    if (!window.confirm(`Cancel the pending invite to ${invite.email}?`)) return
+    setCancelling(true)
+    try { await api.cancelCoGuardianInvite(); loadInfo() }
+    catch (err) { setError(err.message) }
+    finally { setCancelling(false) }
   }
 
   async function handleAdd(e) {
@@ -1048,8 +1084,22 @@ function CoGuardianTab() {
 
   return (
     <div>
-      {/* Add co-guardian form */}
-      {!info?.coGuardian && (
+      {/* Pending email invite -- mutually exclusive with the two add options below */}
+      {!info?.coGuardian && invite && (
+        <div className="form-card" data-tour="admin-coguardian-section">
+          <div className="form-title">Invite Pending</div>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 12 }}>
+            Waiting on <strong>{invite.email}</strong> to accept — expires{' '}
+            {new Date(invite.expiresAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}.
+          </p>
+          <button className="btn btn-outline btn-sm" disabled={cancelling} onClick={handleCancelInvite}>
+            {cancelling ? 'Cancelling...' : 'Cancel Invite'}
+          </button>
+        </div>
+      )}
+
+      {/* Add co-guardian directly, or invite them by email instead */}
+      {!info?.coGuardian && !invite && (
         <div className="form-card" data-tour="admin-coguardian-section">
           <div className="form-title">Add Co-Guardian</div>
           <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
@@ -1079,6 +1129,26 @@ function CoGuardianTab() {
             </div>
             <button type="submit" className="btn btn-primary" disabled={adding}>
               {adding ? 'Creating...' : 'Create Co-Guardian'}
+            </button>
+          </form>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '18px 0' }}>
+            <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
+            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>OR</span>
+            <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
+          </div>
+
+          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.92rem', marginBottom: 6 }}>Invite by Email</div>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 12 }}>
+            Not at the same device? Send an invite — they'll set up their own name and PIN from their own phone.
+          </p>
+          {inviteError && <div className="error-msg">{inviteError}</div>}
+          <form onSubmit={handleSendInvite} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+            <div className="form-group" style={{ flex: 1, marginBottom: 0 }}>
+              <input type="email" value={inviteEmail} onChange={e => setInviteEmail(e.target.value)} placeholder="co-parent@example.com" />
+            </div>
+            <button type="submit" className="btn btn-outline" disabled={sendingInvite}>
+              {sendingInvite ? 'Sending...' : 'Send Invite'}
             </button>
           </form>
         </div>

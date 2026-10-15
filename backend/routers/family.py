@@ -5,12 +5,17 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import Session
 
+from config import COGUARDIAN_INVITE_TTL_HOURS, EMAIL_RE
 from database import get_db
 from deps import create_session, require_guardian
+from email_utils import send_coguardian_invite_email
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
-from models import DBUser
+from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
-from schemas import CoGuardianBody, ProfileEnterBody, RecoverPinBody, UpdatePinBody
+from schemas import (
+    CoGuardianBody, CoGuardianInviteAcceptBody, CoGuardianInviteBody,
+    ProfileEnterBody, RecoverPinBody, UpdatePinBody,
+)
 from security import check_pin_complexity
 
 router = APIRouter()
@@ -92,6 +97,129 @@ def remove_co_guardian(db: Session = Depends(get_db), user: DBUser = Depends(req
     db.delete(co_guardian)
     db.commit()
     return ok({"message": "Co-guardian account removed"})
+
+
+# ── Co-guardian invite-by-email ──────────────────────────────────────────────
+# An alternative to add_co_guardian above for when the co-parent isn't
+# physically at this device: the guardian sends an email instead of typing in
+# a name+PIN themselves, the co-parent fills that in on their own device, and
+# ends up with the exact same kind of profile either way. Accepting also logs
+# that device in (see accept_coguardian_invite) so the co-parent never needs
+# to know the family's own username/password to use their own phone.
+
+def _pending_invite_for(db: Session, family_id: str) -> DBCoGuardianInvite | None:
+    return db.query(DBCoGuardianInvite).filter(DBCoGuardianInvite.family_id == family_id).first()
+
+
+@router.get("/api/family/co-guardian/invite")
+def get_coguardian_invite(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    if user.co_guardian_of:
+        return ok({"pending": None})
+    invite = _pending_invite_for(db, user.id)
+    if not invite:
+        return ok({"pending": None})
+    return ok({"pending": {"email": invite.email, "expiresAt": invite.expires_at}})
+
+
+@router.post("/api/family/co-guardian/invite")
+def send_coguardian_invite(body: CoGuardianInviteBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    if user.co_guardian_of:
+        fail("Co-guardians cannot invite another co-guardian")
+    if db.query(DBUser).filter(DBUser.co_guardian_of == user.id, DBUser.role == "guardian").first():
+        fail("You already have a co-guardian. Remove them first.")
+    if _pending_invite_for(db, user.id):
+        fail("You already have a pending invite. Cancel it before sending another.")
+    email = body.email.strip().lower()
+    if not EMAIL_RE.match(email):
+        fail("Please enter a valid email address")
+    # Prevent the confusing case where this email could also just register its
+    # own independent account while an invite is outstanding for it.
+    if db.query(DBUser).filter(DBUser.email == email).first():
+        fail("An account with this email already exists.")
+
+    invite = DBCoGuardianInvite(
+        id=str(uuid4()),
+        family_id=user.id,
+        email=email,
+        token=str(uuid4()),
+        created_at=now(),
+        expires_at=(datetime.now(timezone.utc) + timedelta(hours=COGUARDIAN_INVITE_TTL_HOURS)).isoformat(),
+    )
+    db.add(invite)
+    db.commit()
+
+    if not send_coguardian_invite_email(email, user.name, invite.token):
+        db.delete(invite)
+        db.commit()
+        fail("Couldn't send the invite email. Please try again shortly.", 500)
+    return ok({"email": email, "expiresAt": invite.expires_at}, 201)
+
+
+@router.delete("/api/family/co-guardian/invite")
+def cancel_coguardian_invite(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    if user.co_guardian_of:
+        fail("Co-guardians cannot manage invites")
+    invite = _pending_invite_for(db, user.id)
+    if not invite:
+        fail("No pending invite found")
+    db.delete(invite)
+    db.commit()
+    return ok({"message": "Invite cancelled"})
+
+
+@router.get("/api/family/co-guardian/invite/preview")
+def preview_coguardian_invite(token: str, db: Session = Depends(get_db)):
+    """Public (no auth) -- lets the accept page show whose family this is
+    before the co-parent fills in their own name/PIN."""
+    invite = db.query(DBCoGuardianInvite).filter(DBCoGuardianInvite.token == token).first()
+    if not invite:
+        fail("This invite link is invalid or has already been used.", 404)
+    if datetime.fromisoformat(invite.expires_at) < datetime.now(timezone.utc):
+        fail("This invite link has expired. Ask your co-parent to send a new one.", 410)
+    guardian = db.query(DBUser).filter(DBUser.id == invite.family_id).first()
+    return ok({"guardianName": guardian.name if guardian else "your co-parent"})
+
+
+@router.post("/api/family/co-guardian/invite/accept")
+def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, db: Session = Depends(get_db)):
+    """Public (no auth) -- the co-parent has no session yet. Creates the same
+    kind of profile add_co_guardian does, then logs this device in (mints a
+    session the same way /api/auth/login does) so it works going forward
+    exactly like the guardian's own device, without ever needing the
+    family's username/password."""
+    invite = db.query(DBCoGuardianInvite).filter(DBCoGuardianInvite.token == body.token).first()
+    if not invite:
+        fail("This invite link is invalid or has already been used.", 404)
+    if datetime.fromisoformat(invite.expires_at) < datetime.now(timezone.utc):
+        fail("This invite link has expired. Ask your co-parent to send a new one.", 410)
+    if db.query(DBUser).filter(DBUser.co_guardian_of == invite.family_id, DBUser.role == "guardian").first():
+        db.delete(invite)
+        db.commit()
+        fail("This family already has a co-guardian.")
+    if len(body.name.strip()) < 2:
+        fail("Name must be at least 2 characters")
+    check_pin_complexity(body.pin)
+
+    username, password = generate_inert_credentials()
+    co_guardian = DBUser(
+        id=str(uuid4()),
+        name=body.name.strip(),
+        username=username,
+        password=password,
+        role="guardian",
+        co_guardian_of=invite.family_id,
+        avatar=body.avatar or "🧑",
+        pin=body.pin,
+        pin_auto_generated="0",
+        created_at=now(),
+    )
+    db.add(co_guardian)
+    db.delete(invite)
+    db.commit()
+    db.refresh(co_guardian)
+
+    token = create_session(db, co_guardian.id)
+    return ok({"token": token, "user": safe_user(co_guardian)}, 201)
 
 
 # ── Netflix-style profile picker ────────────────────────────────────────────────

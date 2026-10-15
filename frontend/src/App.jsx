@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
-import Login, { ActivatePage, ResetPasswordPage } from './components/Login.jsx'
+import Login, { ActivatePage, ResetPasswordPage, CoGuardianInvitePage } from './components/Login.jsx'
 import ProfilePicker from './components/ProfilePicker.jsx'
 import GuardianDashboard from './components/GuardianDashboard.jsx'
 import KidDashboard from './components/KidDashboard.jsx'
@@ -72,6 +72,7 @@ export default function App() {
           <Route path="/delete-account" element={<DeleteAccountPage />} />
           <Route path="/activate"       element={<ActivatePage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/coguardian-invite" element={<CoGuardianInvitePage />} />
           <Route path="/profiles"  element={<ProfilePickerRoute />} />
           <Route path="/dashboard" element={<DashboardRoute />} />
           <Route path="*"           element={<Navigate to="/" replace />} />

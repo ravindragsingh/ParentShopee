@@ -62,6 +62,15 @@ class CoGuardianBody(BaseModel):
     pin: str
     avatar: Optional[str] = "🧑"
 
+class CoGuardianInviteBody(BaseModel):
+    email: str
+
+class CoGuardianInviteAcceptBody(BaseModel):
+    token: str
+    name: str
+    pin: str
+    avatar: Optional[str] = "🧑"
+
 class ProfileEnterBody(BaseModel):
     pin: Optional[str] = None
 

@@ -3,8 +3,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from config import (
-    ACTIVATION_TOKEN_TTL_HOURS, EMAIL_FROM, FRONTEND_URL, RESET_TOKEN_TTL_HOURS,
-    SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER,
+    ACTIVATION_TOKEN_TTL_HOURS, COGUARDIAN_INVITE_TTL_HOURS, EMAIL_FROM, FRONTEND_URL,
+    RESET_TOKEN_TTL_HOURS, SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER,
 )
 from models import DBUser
 
@@ -70,3 +70,19 @@ def send_username_email(user: DBUser) -> bool:
         f"If you didn't request this, you can safely ignore this email.\n"
     )
     return send_email(user.email, subject, body_text)
+
+
+def send_coguardian_invite_email(email: str, guardian_name: str, token: str) -> bool:
+    link = f"{FRONTEND_URL}/coguardian-invite?token={token}"
+    subject = f"{guardian_name} invited you to co-manage their family on Reward Ur Kids"
+    body_text = (
+        f"Hi,\n\n"
+        f"{guardian_name} has invited you to join their family on Reward Ur Kids as a "
+        f"co-guardian. You'll be able to manage chores, rewards, and your kids' wallets "
+        f"together, with the same access as {guardian_name}.\n\n"
+        f"Accept the invite here:\n\n"
+        f"    {link}\n\n"
+        f"This link expires in {COGUARDIAN_INVITE_TTL_HOURS // 24} days. If you weren't "
+        f"expecting this, you can safely ignore this email.\n"
+    )
+    return send_email(email, subject, body_text)
