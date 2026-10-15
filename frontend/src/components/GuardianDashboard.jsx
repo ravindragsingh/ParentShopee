@@ -17,6 +17,8 @@ import AppNavbar from './AppNavbar.jsx'
 import PasswordField from './PasswordField.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
+import { useTour } from '../tour/TourContext.jsx'
+import { isTourDisabled, setTourEnabled } from '../tour/tourStorage.js'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1048,7 +1050,7 @@ function CoGuardianTab() {
     <div>
       {/* Add co-guardian form */}
       {!info?.coGuardian && (
-        <div className="form-card">
+        <div className="form-card" data-tour="admin-coguardian-section">
           <div className="form-title">Add Co-Guardian</div>
           <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
             Add a profile for another guardian (partner, spouse, etc.) to your family. They get the same access as you —
@@ -1169,6 +1171,14 @@ function AdminPanelTab() {
     const enabled = e.target.checked
     setTipsEnabled(user.id, enabled)
     setTipsEnabledState(enabled)
+  }
+
+  const { startTour } = useTour()
+  const [tourEnabled, setTourEnabledState] = useState(() => !isTourDisabled(user.id))
+  function handleToggleTour(e) {
+    const enabled = e.target.checked
+    setTourEnabled(user.id, enabled)
+    setTourEnabledState(enabled)
   }
 
   const isPrimaryGuardian = !user.coGuardianOf
@@ -1327,6 +1337,18 @@ function AdminPanelTab() {
           <input type="checkbox" checked={tipsEnabled} onChange={handleToggleTips} />
           Show a daily tip when I open my dashboard
         </label>
+      </div>
+
+      {/* Guided Tour */}
+      <div className="form-card" style={{ maxWidth: 500 }}>
+        <div className="form-title">🧭 Guided Tour</div>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.875rem', color: '#334155', cursor: 'pointer', marginBottom: 14 }}>
+          <input type="checkbox" checked={tourEnabled} onChange={handleToggleTour} />
+          Offer a guided tour the first time I open my dashboard
+        </label>
+        <button className="btn btn-outline btn-sm" onClick={() => startTour('guardianOnboarding')}>
+          ▶ Replay Getting Started Tour
+        </button>
       </div>
 
       {/* Sign out */}
@@ -1611,7 +1633,7 @@ function KidsTab() {
             My Children <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 400 }}>({kids.length}/10)</span>
           </div>
           {kids.length < 10 && (
-            <button className="btn btn-primary btn-sm" onClick={() => { setShowAddForm(v => !v); setAddError('') }}>
+            <button className="btn btn-primary btn-sm" data-tour="kids-add-button" onClick={() => { setShowAddForm(v => !v); setAddError('') }}>
               {showAddForm ? 'Cancel' : '+ Add Child'}
             </button>
           )}
@@ -2007,10 +2029,11 @@ function KidsTab() {
 
 // ─── Home screen ──────────────────────────────────────────────────────────────
 
-function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick }) {
+function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick, tourId }) {
   return (
     <button
       onClick={onClick}
+      data-tour={tourId}
       style={{
         position: 'relative',
         display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
@@ -2256,10 +2279,10 @@ function GuardianHomeScreen({ name, kids, kidsLoaded, onNavigate }) {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} />
+        <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} tourId="home-chores-tile" />
         <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} />
         <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} />
-        <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} />
+        <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} tourId="home-kids-tile" />
       </div>
 
       <WeeklySnapshotStrip kids={kids} kidsLoaded={kidsLoaded} onNavigate={onNavigate} />

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { useTour } from '../tour/TourContext.jsx'
+import { hasSeenPrompt } from '../tour/tourStorage.js'
 
 const GUARDIAN_TIPS = [
   "Set up recurring chores (daily, weekly, or monthly) once and they'll auto-generate from then on — no need to re-add the same chore every day.",
@@ -58,16 +60,22 @@ export function setTipsEnabled(userId, enabled) {
 export default function TipOfTheDayModal({ user }) {
   const [tip, setTip] = useState(null)
   const [dontShowAgain, setDontShowAgain] = useState(false)
+  const { activeTourId } = useTour()
 
   useEffect(() => {
     if (!user?.id || (user.role !== 'guardian' && user.role !== 'kid')) return
     if (areTipsDisabled(user.id)) return
+    // Never stack on top of the guided tour (same first-dashboard-visit
+    // trigger as its own prompt) -- re-checks once the tour ends/is
+    // skipped, so today's tip is deferred, not lost.
+    if (activeTourId) return
+    if (user.role === 'guardian' && !hasSeenPrompt(user.id)) return
     const today = new Date().toISOString().slice(0, 10)
     const key = `tipLastShown_${user.id}`
     if (localStorage.getItem(key) === today) return
     localStorage.setItem(key, today)
     setTip(pickRandomTip(user.role))
-  }, [user?.id, user?.role])
+  }, [user?.id, user?.role, activeTourId])
 
   function dismiss() {
     if (dontShowAgain) setTipsEnabled(user.id, false)

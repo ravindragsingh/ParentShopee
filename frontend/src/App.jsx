@@ -10,6 +10,9 @@ import PrivacyPolicyPage from './components/PrivacyPolicyPage.jsx'
 import DeleteAccountPage from './components/DeleteAccountPage.jsx'
 import TipOfTheDayModal from './components/TipOfTheDayModal.jsx'
 import AppDownloadBanner from './components/AppDownloadBanner.jsx'
+import { TourProvider } from './tour/TourContext.jsx'
+import TourOverlay from './tour/TourOverlay.jsx'
+import FirstRunPrompt from './tour/FirstRunPrompt.jsx'
 
 function Loading() {
   return <div className="loading-text" style={{ marginTop: '20vh', fontSize: '1.2rem' }}>Loading...</div>
@@ -41,8 +44,18 @@ function DashboardRoute() {
   // profile (even "continue as me") before reaching its dashboard.
   if (user.role !== 'admin' && !profileEntered) return <Navigate to="/profiles" replace />
   if (user.role === 'admin')  return <AdminDashboard />
-  if (user.role === 'guardian') return <><TipOfTheDayModal user={user} /><GuardianDashboard /></>
-  if (user.role === 'kid')    return <><TipOfTheDayModal user={user} /><KidDashboard /></>
+  // Shared by both roles so TipOfTheDayModal can always safely call
+  // useTour() (to avoid stacking on top of a guided tour) even though only
+  // guardians have a tour defined today -- a future kid tour just needs its
+  // own FirstRunPrompt added here, no engine changes.
+  if (user.role === 'guardian' || user.role === 'kid') return (
+    <TourProvider userId={user.id}>
+      <TipOfTheDayModal user={user} />
+      {user.role === 'guardian' && <FirstRunPrompt userId={user.id} tourId="guardianOnboarding" />}
+      <TourOverlay userId={user.id} />
+      {user.role === 'guardian' ? <GuardianDashboard /> : <KidDashboard />}
+    </TourProvider>
+  )
   return <div className="loading-text">Unknown role: {user.role}</div>
 }
 
