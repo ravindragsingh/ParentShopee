@@ -1210,12 +1210,20 @@ function CoGuardianTab() {
               {showPwdForm ? 'Cancel' : '🔑 Change PIN'}
             </button>
             {!invite && (
-              <button
-                className="btn btn-outline btn-sm"
-                onClick={() => { setShowResendForm(v => !v); setResendError('') }}
-              >
-                {showResendForm ? 'Cancel' : '📧 Resend Device Access'}
-              </button>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <button
+                  className="btn btn-outline btn-sm"
+                  onClick={() => { setShowResendForm(v => !v); setResendError('') }}
+                >
+                  {showResendForm ? 'Cancel' : '📧 Resend Device Access'}
+                </button>
+                <span
+                  title={`Use this if ${info.coGuardian.name} loses their phone or clears their browser. They have no password of their own — just a PIN tied to that one device — so this emails a fresh one-time link that gets their existing profile working again elsewhere, with the same name, PIN and access as before.`}
+                  style={{ cursor: 'help', color: '#94a3b8', fontSize: '0.95rem', lineHeight: 1 }}
+                >
+                  ⓘ
+                </span>
+              </span>
             )}
             <button className="btn btn-red btn-sm" onClick={handleRevoke} disabled={revoking}>
               {revoking ? 'Removing...' : 'Remove Co-Guardian'}
