@@ -35,6 +35,14 @@ export const TOURS = {
         target: '[data-tour="kids-add-button"]',
       },
       {
+        id: 'menu-admin-panel',
+        title: 'The ☰ menu',
+        text: 'This is where your account-level settings live — tap "Admin Panel" to manage your password, PIN, and invite a co-parent.',
+        path: '/dashboard',
+        autoClick: '[data-tour="hamburger-menu-button"]',
+        target: '[data-tour="menu-item-admin"]',
+      },
+      {
         id: 'admin-coguardian',
         title: 'Invite your co-parent',
         text: "If another parent helps manage things, invite them here — they'll get their own PIN with the same access as you.",
@@ -42,11 +50,12 @@ export const TOURS = {
         target: '[data-tour="admin-coguardian-section"]',
       },
       {
-        id: 'switch-profile',
+        id: 'menu-switch-profile',
         title: 'Switching between family members',
-        text: 'This device is shared — tap here, then "Switch Profile", whenever someone else (another parent, or one of your kids) wants to use their own profile. Everyone unlocks their own with their own PIN.',
+        text: 'This device is shared — tap "Switch Profile" whenever someone else (another parent, or one of your kids) wants to use their own. Everyone unlocks their own with their own PIN.',
         path: '/dashboard',
-        target: '[data-tour="hamburger-menu-button"]',
+        autoClick: '[data-tour="hamburger-menu-button"]',
+        target: '[data-tour="menu-item-switch-profile"]',
       },
       {
         id: 'chores-tile',

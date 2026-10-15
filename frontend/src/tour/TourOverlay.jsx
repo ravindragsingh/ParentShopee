@@ -87,7 +87,7 @@ export default function TourOverlay({ userId }) {
   }
 
   return createPortal(
-    <div style={{ position: 'fixed', inset: 0, zIndex: 10000 }}>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 100000 }}>
       {hasTarget && rect ? (
         <>
           <div style={band({ top: 0, left: 0, width: '100%', height: Math.max(0, rect.top - PAD) })} />
