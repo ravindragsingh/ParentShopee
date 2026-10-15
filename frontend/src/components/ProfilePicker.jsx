@@ -472,6 +472,10 @@ function AddCoGuardianForm({ onDone, onCancel }) {
   const [inviteError, setInviteError] = useState('')
   const [sendingInvite, setSendingInvite] = useState(false)
   const [cancelling, setCancelling] = useState(false)
+  // Which of the two add methods is showing -- presented as a clear
+  // either/or pick rather than one long scroll with a faint "OR" in the
+  // middle of it (same pattern as the Admin Panel's own Add Co-Guardian).
+  const [addMode, setAddMode] = useState('choose')
 
   const loadInvite = () => {
     api.getCoGuardianInvite()
@@ -541,10 +545,57 @@ function AddCoGuardianForm({ onDone, onCancel }) {
     )
   }
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
+  if (addMode === 'choose') {
+    return (
+      <div>
         <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Co-Guardian</div>
+        <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
+          Add a profile for another guardian (partner, spouse, etc.) to your family. They get the same access as you.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 14 }}>
+          <button
+            type="button"
+            onClick={() => setAddMode('direct')}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+              background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12,
+              padding: '14px 16px', cursor: 'pointer',
+            }}
+          >
+            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>➕</span>
+            <span>
+              <span style={{ display: 'block', fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>Add Directly</span>
+              <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginTop: 2 }}>You set their name and PIN right now, on this device.</span>
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setAddMode('invite')}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+              background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12,
+              padding: '14px 16px', cursor: 'pointer',
+            }}
+          >
+            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>📧</span>
+            <span>
+              <span style={{ display: 'block', fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>Invite by Email</span>
+              <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginTop: 2 }}>Not at the same device? They set up their own name and PIN from their own phone.</span>
+            </span>
+          </button>
+        </div>
+        <button type="button" className="login-btn-outline" onClick={onCancel}>Cancel</button>
+      </div>
+    )
+  }
+
+  if (addMode === 'direct') {
+    return (
+      <form onSubmit={handleSubmit}>
+        <button type="button" onClick={() => setAddMode('choose')} style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', padding: 0, marginBottom: 14 }}>
+          ← Back
+        </button>
+        <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Directly</div>
         {error && <div className="error-msg">{error}</div>}
         <div className="form-group" style={{ marginBottom: 10 }}>
           <label>Full Name *</label>
@@ -567,16 +618,17 @@ function AddCoGuardianForm({ onDone, onCancel }) {
         <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
         <button type="submit" className="login-btn" disabled={saving}>{saving ? 'Creating...' : 'Create Co-Guardian'}</button>
       </form>
+    )
+  }
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '18px 0' }}>
-        <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
-        <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>OR</span>
-        <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
-      </div>
-
-      <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.92rem', marginBottom: 6 }}>Invite by Email</div>
+  return (
+    <div>
+      <button type="button" onClick={() => setAddMode('choose')} style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', padding: 0, marginBottom: 14 }}>
+        ← Back
+      </button>
+      <div className="login-title" style={{ fontSize: '1.1rem' }}>Invite by Email</div>
       <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 12 }}>
-        Not at the same device? Send an invite — they'll set up their own name and PIN from their own phone.
+        Send an invite — they'll set up their own name and PIN from their own phone, with the same access as you.
       </p>
       {inviteError && <div className="error-msg">{inviteError}</div>}
       <form onSubmit={handleSendInvite} style={{ marginBottom: 14 }}>
@@ -587,8 +639,6 @@ function AddCoGuardianForm({ onDone, onCancel }) {
           {sendingInvite ? 'Sending...' : 'Send Invite'}
         </button>
       </form>
-
-      <button type="button" className="login-btn-outline" onClick={onCancel}>Cancel</button>
     </div>
   )
 }

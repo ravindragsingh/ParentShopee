@@ -1022,6 +1022,10 @@ function CoGuardianTab() {
   const [sendingInvite, setSendingInvite] = useState(false)
   const [inviteError, setInviteError] = useState('')
   const [cancelling, setCancelling] = useState(false)
+  // Which of the two add methods is showing -- 'choose' presents them as a
+  // clear either/or pick rather than one long scroll with a faint "OR" in
+  // the middle of it.
+  const [addMode, setAddMode] = useState('choose')
 
   // Resend device access -- for an EXISTING co-guardian who's lost their
   // device or cleared their browser (they have no password, just a PIN tied
@@ -1168,13 +1172,59 @@ function CoGuardianTab() {
         </div>
       )}
 
-      {/* Add co-guardian directly, or invite them by email instead */}
-      {!info?.coGuardian && !invite && (
+      {/* Add co-guardian directly, or invite them by email instead -- shown
+          as a clear either/or pick first, not one long scroll with a faint
+          "OR" buried in the middle of it. */}
+      {!info?.coGuardian && !invite && addMode === 'choose' && (
         <div className="form-card" data-tour="admin-coguardian-section">
           <div className="form-title">Add Co-Guardian</div>
           <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
-            Add a profile for another guardian (partner, spouse, etc.) to your family. They get the same access as you —
-            they can manage children, chores, shop and wallets — unlocked with their own 6-digit PIN from the profile picker. Only one co-guardian per family.
+            Add a profile for another guardian (partner, spouse, etc.) to your family. They get the same access as you.
+            Only one co-guardian per family.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <button
+              type="button"
+              onClick={() => setAddMode('direct')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+                background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12,
+                padding: '14px 16px', cursor: 'pointer',
+              }}
+            >
+              <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>➕</span>
+              <span>
+                <span style={{ display: 'block', fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>Add Directly</span>
+                <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginTop: 2 }}>You set their name and PIN right now, on this device.</span>
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setAddMode('invite')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+                background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12,
+                padding: '14px 16px', cursor: 'pointer',
+              }}
+            >
+              <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>📧</span>
+              <span>
+                <span style={{ display: 'block', fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>Invite by Email</span>
+                <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginTop: 2 }}>Not at the same device? They set up their own name and PIN from their own phone.</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {!info?.coGuardian && !invite && addMode === 'direct' && (
+        <div className="form-card" data-tour="admin-coguardian-section">
+          <button type="button" onClick={() => setAddMode('choose')} style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', padding: 0, marginBottom: 14 }}>
+            ← Back
+          </button>
+          <div className="form-title">Add Directly</div>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
+            They get the same access as you — they can manage children, chores, shop and wallets — unlocked with their own 6-digit PIN from the profile picker.
           </p>
           {addError && <div className="error-msg">{addError}</div>}
           <form onSubmit={handleAdd}>
@@ -1201,16 +1251,17 @@ function CoGuardianTab() {
               {adding ? 'Creating...' : 'Create Co-Guardian'}
             </button>
           </form>
+        </div>
+      )}
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '18px 0' }}>
-            <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
-            <span style={{ fontSize: '0.78rem', color: '#94a3b8', fontWeight: 600 }}>OR</span>
-            <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
-          </div>
-
-          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.92rem', marginBottom: 6 }}>Invite by Email</div>
+      {!info?.coGuardian && !invite && addMode === 'invite' && (
+        <div className="form-card" data-tour="admin-coguardian-section">
+          <button type="button" onClick={() => setAddMode('choose')} style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', padding: 0, marginBottom: 14 }}>
+            ← Back
+          </button>
+          <div className="form-title">Invite by Email</div>
           <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 12 }}>
-            Not at the same device? Send an invite — they'll set up their own name and PIN from their own phone.
+            Send an invite — they'll set up their own name and PIN from their own phone, with the same access as you.
           </p>
           {inviteError && <div className="error-msg">{inviteError}</div>}
           <form onSubmit={handleSendInvite} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
