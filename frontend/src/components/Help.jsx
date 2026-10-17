@@ -278,7 +278,9 @@ export const LOGIN_HELP_CARDS = [
   { icon: '🎁', title: 'Award Bonus & Remove Points', text: "Guardians can award or deduct points any time — not just for completing chores — with a short message explaining why, saved right into the child's wallet history." },
   { icon: '🛍️', title: 'Spend in Shop', text: 'Kids redeem their points for rewards the guardian has set up — screen time, picking dinner, and more.' },
   { icon: '🚀', title: 'Future-Ready Lessons', text: 'Short, interactive lessons on investing, AI, entrepreneurship, communication, and more — automatically matched to each child\'s age, with points for passing the quiz.' },
-  { icon: '💬', title: 'Stay Connected', text: 'Guardians and kids can message each other inside the app. Add a co-guardian from the Admin Panel so both guardians share full family access.' },
+  { icon: '💬', title: 'Stay Connected', text: 'Guardians and kids can message each other inside the app.' },
+  { icon: '👪', title: 'Add a Co-Guardian — Two Ways', text: "From the Admin Panel, either set up your co-parent's profile yourself on this device, or invite them by email so they set up their own name and PIN from their own phone. If they ever lose that device, you can resend access without starting over." },
+  { icon: '🧭', title: 'Guided Tour', text: "New guardians get an optional, step-by-step walkthrough of the app the first time they log in — spotlighting exactly where to add a child, invite a co-parent, and add a chore. Replay it anytime from the Admin Panel." },
 ]
 
 // kept for any legacy import — no longer rendered on the login page
