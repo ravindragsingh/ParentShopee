@@ -11,6 +11,7 @@ import { HelpTab } from './Help.jsx'
 import SettingsPanel from './Settings.jsx'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
+import AppFooter from './AppFooter.jsx'
 import FutureReadyTab from '../futureready/FutureReadyTab.jsx'
 
 // ─── Daily chore row (highlighted within the merged Chores list) ────────────
@@ -574,6 +575,7 @@ export default function KidDashboard() {
         {tab === 'contact'  && <ContactUs />}
         {tab === 'settings' && <SettingsPanel />}
       </div>
+      <AppFooter role="kid" onNavigate={setTab} />
     </div>
   )
 }
