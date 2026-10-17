@@ -5,8 +5,12 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
+import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
 import { DEMO_USERNAME, DEMO_PASSWORD, DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
+import { EmojiPicker } from './ChoreCard.jsx'
+
+const COGUARDIAN_INVITE_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
 
 // ── User Agreement content — shared by the in-app modal and the public
 // /privacy page (needed as a hosted URL for app store submissions) ────────────
@@ -188,6 +192,9 @@ function RegisterForm({ onBack }) {
         <p className="login-subtitle" style={{ marginBottom: 8 }}>{registered.message}</p>
         <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 22 }}>
           We sent an activation link to <strong>{registered.email}</strong>. Click it to activate your account, then sign in.
+        </p>
+        <p style={{ fontSize: '0.8rem', color: '#78716c', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 10, padding: '10px 14px', marginBottom: 22 }}>
+          👪 Once you're signed in, you can invite your co-parent to help manage chores and rewards together.
         </p>
         <button onClick={onBack} className="login-btn-outline">
           Back to Sign In <span aria-hidden="true">→</span>
@@ -1062,6 +1069,132 @@ export function ResetPasswordPage() {
             <>
               <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>⚠️</div>
               <h1 className="login-title">Something Went Wrong</h1>
+              <p className="login-subtitle">{message}</p>
+              <button className="login-btn" onClick={() => navigate('/')}>
+                Go to Sign In <span aria-hidden="true">→</span>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Co-guardian invite accept page (/coguardian-invite?token=...) ──────────────
+// Reached from the email a guardian sends via "Invite by email" in the Admin
+// Panel -- an alternative to them typing in a name+PIN directly. Submitting
+// logs this device in the same way a real username/password login would
+// (see routers/family.py's accept_coguardian_invite), so the co-parent never
+// needs the family's own credentials to use their own phone going forward.
+
+export function CoGuardianInvitePage() {
+  const navigate = useNavigate()
+  const { login } = useAuth()
+  const token = new URLSearchParams(window.location.search).get('token')
+  const [status, setStatus] = useState(token ? 'loading' : 'error')
+  const [message, setMessage] = useState(token ? '' : 'This invite link is missing its token.')
+  const [guardianName, setGuardianName] = useState('')
+  const [kind, setKind] = useState('new') // 'new' | 'recovery'
+
+  const [name, setName] = useState('')
+  const [avatar, setAvatar] = useState('🧑')
+  const [pin, setPin] = useState('')
+  const [confirmPin, setConfirmPin] = useState('')
+  const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (!token) return
+    api.previewCoGuardianInvite(token)
+      .then(data => {
+        setGuardianName(data.guardianName)
+        setKind(data.kind)
+        setStatus('form')
+      })
+      .catch(err => {
+        setStatus('error')
+        setMessage(err.message)
+      })
+  }, [token])
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    if (kind === 'new') {
+      if (!name.trim()) { setError('Name is required.'); return }
+      const pinCheck = checkPinComplexity(pin)
+      if (!pinCheck.ok) { setError(pinCheck.message); return }
+      if (pin !== confirmPin) { setError('PINs do not match.'); return }
+    }
+    setSubmitting(true)
+    try {
+      const data = await api.acceptCoGuardianInvite(
+        kind === 'new' ? { token, name: name.trim(), pin, avatar } : { token }
+      )
+      login(data.user, data.token)
+      navigate('/profiles')
+    } catch (err) {
+      setError(err.message)
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
+      <div className="login-shell">
+        <div className="login-card" style={{ textAlign: status === 'form' ? 'left' : 'center' }}>
+          {status === 'loading' && (
+            <p style={{ fontSize: '0.95rem', color: '#64748b' }}>Checking your invite…</p>
+          )}
+          {status === 'form' && kind === 'recovery' && (
+            <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '2.2rem', marginBottom: 10 }}>👋</div>
+              <h1 className="login-title">Welcome Back</h1>
+              <p className="login-subtitle">
+                This gets your existing co-guardian profile working again on this device — your name, PIN and access are unchanged.
+              </p>
+              {error && <div className="error-msg">{error}</div>}
+              <button type="submit" className="login-btn" disabled={submitting}>
+                {submitting ? 'Restoring access...' : 'Continue'}
+              </button>
+            </form>
+          )}
+          {status === 'form' && kind === 'new' && (
+            <form onSubmit={handleSubmit}>
+              <h1 className="login-title">Join {guardianName}'s Family</h1>
+              <p className="login-subtitle">
+                Set up your co-guardian profile — you'll get the same access as {guardianName}.
+              </p>
+              {error && <div className="error-msg">{error}</div>}
+              <div className="form-group" style={{ marginBottom: 10 }}>
+                <label>Full Name *</label>
+                <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. John Smith" />
+              </div>
+              <div className="form-group" style={{ marginBottom: 10 }}>
+                <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
+                <EmojiPicker emojis={COGUARDIAN_INVITE_AVATARS} value={avatar} onChange={setAvatar} />
+              </div>
+              <div className="form-row" style={{ marginBottom: 6 }}>
+                <div className="form-group">
+                  <label>6-digit PIN *</label>
+                  <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
+                </div>
+                <div className="form-group">
+                  <label>Confirm PIN *</label>
+                  <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+                </div>
+              </div>
+              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 16 }}>{PIN_REQUIREMENTS_HINT}</div>
+              <button type="submit" className="login-btn" disabled={submitting}>
+                {submitting ? 'Joining...' : 'Join Family'}
+              </button>
+            </form>
+          )}
+          {status === 'error' && (
+            <>
+              <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>⚠️</div>
+              <h1 className="login-title">Invite Not Available</h1>
               <p className="login-subtitle">{message}</p>
               <button className="login-btn" onClick={() => navigate('/')}>
                 Go to Sign In <span aria-hidden="true">→</span>

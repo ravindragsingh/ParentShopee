@@ -46,6 +46,43 @@ function ProfileTile({ profile, busy, onClick }) {
   )
 }
 
+// Shown in place of the easy-to-miss dashed "+" tile only while the family
+// has no kids yet -- the single moment a brand-new guardian genuinely needs
+// pointing at "add a child" / "invite a co-parent" rather than just quietly
+// offered it. Disappears for good the moment the first kid profile exists.
+function FirstFamilySetupCard({ hasCoGuardian, onAddKid, onAddCoGuardian }) {
+  return (
+    <div style={{
+      background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 16,
+      padding: '18px 20px', marginBottom: 18, textAlign: 'center',
+    }}>
+      <div style={{ fontSize: '1.6rem', marginBottom: 6 }}>👪</div>
+      <div style={{ fontWeight: 800, color: '#9a3412', fontSize: '1rem', marginBottom: 4 }}>
+        Let's set up your family
+      </div>
+      <div style={{ fontSize: '0.85rem', color: '#78716c', marginBottom: 14 }}>
+        Add your first child so they can start earning points, or invite your co-parent to help manage everything together.
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <button
+          onClick={onAddKid}
+          style={{ background: '#ea580c', color: '#fff', border: 'none', borderRadius: 10, padding: '11px 16px', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
+        >
+          🧒 Add Your First Child
+        </button>
+        {!hasCoGuardian && (
+          <button
+            onClick={onAddCoGuardian}
+            style={{ background: '#fff', color: '#9a3412', border: '1.5px solid #fdba74', borderRadius: 10, padding: '11px 16px', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}
+          >
+            🧑 Invite Co-Parent
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function AddProfileTile({ onClick, disabled }) {
   return (
     <button
@@ -206,8 +243,10 @@ export default function ProfilePicker() {
 
           {!loading && !error && needsSetup.length > 0 && !dismissedNotice && (
             <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '12px 16px', marginBottom: 18, fontSize: '0.85rem', color: '#92400e' }}>
-              <div style={{ fontWeight: 700, marginBottom: 6 }}>⚠️ New PINs were set up for your family</div>
-              <div style={{ marginBottom: 8 }}>We generated a temporary PIN for each profile below. Note these down (or change them anytime from the Admin Panel / Kids tab):</div>
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>🔒 Your profile has its own PIN</div>
+              <div style={{ marginBottom: 8 }}>
+                Signing in gets you into your family's account — but since this device may be shared, each profile (including yours) is also locked behind its own 6-digit PIN. Here's your temporary one for now; change it anytime from the Admin Panel:
+              </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10 }}>
                 {needsSetup.map(p => (
                   <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', background: '#fff', borderRadius: 6, padding: '4px 10px' }}>
@@ -222,11 +261,21 @@ export default function ProfilePicker() {
 
           {!loading && !error && !addMode && (
             <>
+              {kidsCount === 0 && (
+                <FirstFamilySetupCard
+                  hasCoGuardian={hasCoGuardian}
+                  onAddKid={() => setAddMode('kid')}
+                  onAddCoGuardian={() => setAddMode('coguardian')}
+                />
+              )}
+
               <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 4 }}>
                 {profiles.map(p => (
                   <ProfileTile key={p.id} profile={p} busy={entering} onClick={() => handleTileClick(p)} />
                 ))}
-                <AddProfileTile onClick={() => setAddMode('choose')} disabled={kidsCount >= 10 && hasCoGuardian} />
+                {kidsCount > 0 && (
+                  <AddProfileTile onClick={() => setAddMode('choose')} disabled={kidsCount >= 10 && hasCoGuardian} />
+                )}
               </div>
 
               {pinFor && !recoverMode && (
@@ -413,6 +462,29 @@ function AddCoGuardianForm({ onDone, onCancel }) {
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
 
+  // Mutually exclusive with the direct form below -- same pending-invite
+  // check the Admin Panel's "Invite by Email" option uses, so this screen
+  // (reached from the profile picker's own "Add Profile" tile, separately
+  // from the Admin Panel) stays consistent with it.
+  const [invite, setInvite] = useState(null)
+  const [inviteLoaded, setInviteLoaded] = useState(false)
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [inviteError, setInviteError] = useState('')
+  const [sendingInvite, setSendingInvite] = useState(false)
+  const [cancelling, setCancelling] = useState(false)
+  // Which of the two add methods is showing -- presented as a clear
+  // either/or pick rather than one long scroll with a faint "OR" in the
+  // middle of it (same pattern as the Admin Panel's own Add Co-Guardian).
+  const [addMode, setAddMode] = useState('choose')
+
+  const loadInvite = () => {
+    api.getCoGuardianInvite()
+      .then(data => setInvite(data.pending))
+      .catch(() => setInvite(null))
+      .finally(() => setInviteLoaded(true))
+  }
+  useEffect(() => { loadInvite() }, [])
+
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
@@ -431,31 +503,142 @@ function AddCoGuardianForm({ onDone, onCancel }) {
     }
   }
 
+  async function handleSendInvite(e) {
+    e.preventDefault()
+    setInviteError('')
+    if (!inviteEmail.trim()) { setInviteError('Email is required.'); return }
+    setSendingInvite(true)
+    try {
+      await api.sendCoGuardianInvite(inviteEmail.trim())
+      setInviteEmail('')
+      loadInvite()
+    } catch (err) {
+      setInviteError(err.message)
+    } finally {
+      setSendingInvite(false)
+    }
+  }
+
+  async function handleCancelInvite() {
+    setCancelling(true)
+    try { await api.cancelCoGuardianInvite(); loadInvite() }
+    catch (err) { setInviteError(err.message) }
+    finally { setCancelling(false) }
+  }
+
+  if (!inviteLoaded) return <div className="loading-text">Loading…</div>
+
+  if (invite) {
+    return (
+      <div>
+        <div className="login-title" style={{ fontSize: '1.1rem' }}>Invite Pending</div>
+        {inviteError && <div className="error-msg">{inviteError}</div>}
+        <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
+          Waiting on <strong>{invite.email}</strong> to accept — expires{' '}
+          {new Date(invite.expiresAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}.
+        </p>
+        <button className="login-btn-outline" disabled={cancelling} onClick={handleCancelInvite}>
+          {cancelling ? 'Cancelling...' : 'Cancel Invite'}
+        </button>
+        <button type="button" className="login-btn-outline" style={{ marginTop: 8 }} onClick={onCancel}>Back</button>
+      </div>
+    )
+  }
+
+  if (addMode === 'choose') {
+    return (
+      <div>
+        <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Co-Guardian</div>
+        <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 16 }}>
+          Add a profile for another guardian (partner, spouse, etc.) to your family. They get the same access as you.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 14 }}>
+          <button
+            type="button"
+            onClick={() => setAddMode('direct')}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+              background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12,
+              padding: '14px 16px', cursor: 'pointer',
+            }}
+          >
+            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>➕</span>
+            <span>
+              <span style={{ display: 'block', fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>Add Directly</span>
+              <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginTop: 2 }}>You set their name and PIN right now, on this device.</span>
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setAddMode('invite')}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
+              background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12,
+              padding: '14px 16px', cursor: 'pointer',
+            }}
+          >
+            <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>📧</span>
+            <span>
+              <span style={{ display: 'block', fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>Invite by Email</span>
+              <span style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginTop: 2 }}>Not at the same device? They set up their own name and PIN from their own phone.</span>
+            </span>
+          </button>
+        </div>
+        <button type="button" className="login-btn-outline" onClick={onCancel}>Cancel</button>
+      </div>
+    )
+  }
+
+  if (addMode === 'direct') {
+    return (
+      <form onSubmit={handleSubmit}>
+        <button type="button" onClick={() => setAddMode('choose')} style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', padding: 0, marginBottom: 14 }}>
+          ← Back
+        </button>
+        <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Directly</div>
+        {error && <div className="error-msg">{error}</div>}
+        <div className="form-group" style={{ marginBottom: 10 }}>
+          <label>Full Name *</label>
+          <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. John Smith" />
+        </div>
+        <div className="form-group" style={{ marginBottom: 10 }}>
+          <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
+          <EmojiPicker emojis={COGUARDIAN_AVATARS} value={avatar} onChange={setAvatar} />
+        </div>
+        <div className="form-row" style={{ marginBottom: 6 }}>
+          <div className="form-group">
+            <label>6-digit PIN *</label>
+            <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
+          </div>
+          <div className="form-group">
+            <label>Confirm PIN *</label>
+            <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+          </div>
+        </div>
+        <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
+        <button type="submit" className="login-btn" disabled={saving}>{saving ? 'Creating...' : 'Create Co-Guardian'}</button>
+      </form>
+    )
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="login-title" style={{ fontSize: '1.1rem' }}>Add Co-Guardian</div>
-      {error && <div className="error-msg">{error}</div>}
-      <div className="form-group" style={{ marginBottom: 10 }}>
-        <label>Full Name *</label>
-        <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. John Smith" />
-      </div>
-      <div className="form-group" style={{ marginBottom: 10 }}>
-        <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
-        <EmojiPicker emojis={COGUARDIAN_AVATARS} value={avatar} onChange={setAvatar} />
-      </div>
-      <div className="form-row" style={{ marginBottom: 6 }}>
-        <div className="form-group">
-          <label>6-digit PIN *</label>
-          <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
+    <div>
+      <button type="button" onClick={() => setAddMode('choose')} style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer', padding: 0, marginBottom: 14 }}>
+        ← Back
+      </button>
+      <div className="login-title" style={{ fontSize: '1.1rem' }}>Invite by Email</div>
+      <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 12 }}>
+        Send an invite — they'll set up their own name and PIN from their own phone, with the same access as you.
+      </p>
+      {inviteError && <div className="error-msg">{inviteError}</div>}
+      <form onSubmit={handleSendInvite} style={{ marginBottom: 14 }}>
+        <div className="form-group" style={{ marginBottom: 10 }}>
+          <input type="email" value={inviteEmail} onChange={e => setInviteEmail(e.target.value)} placeholder="co-parent@example.com" />
         </div>
-        <div className="form-group">
-          <label>Confirm PIN *</label>
-          <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
-        </div>
-      </div>
-      <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
-      <button type="submit" className="login-btn" disabled={saving}>{saving ? 'Creating...' : 'Create Co-Guardian'}</button>
-      <button type="button" className="login-btn-outline" style={{ marginTop: 8 }} onClick={onCancel}>Cancel</button>
-    </form>
+        <button type="submit" className="login-btn-outline" disabled={sendingInvite}>
+          {sendingInvite ? 'Sending...' : 'Send Invite'}
+        </button>
+      </form>
+    </div>
   )
 }

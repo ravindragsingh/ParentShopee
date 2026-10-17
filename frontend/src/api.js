@@ -142,6 +142,12 @@ export const api = {
   addCoGuardian:            (body)       => request('POST',   '/api/family/co-guardian', body),
   updateCoGuardianPin:      (pin)        => request('PUT',    '/api/family/co-guardian/pin', { pin }),
   removeCoGuardian:         ()           => request('DELETE', '/api/family/co-guardian'),
+  getCoGuardianInvite:      ()           => request('GET',    '/api/family/co-guardian/invite'),
+  sendCoGuardianInvite:     (email)      => request('POST',   '/api/family/co-guardian/invite', { email }),
+  cancelCoGuardianInvite:   ()           => request('DELETE', '/api/family/co-guardian/invite'),
+  previewCoGuardianInvite:  (token)      => request('GET',    `/api/family/co-guardian/invite/preview?token=${encodeURIComponent(token)}`),
+  acceptCoGuardianInvite:   (body)       => request('POST',   '/api/family/co-guardian/invite/accept', body),
+  resendCoGuardianAccess:   (email)      => request('POST',   '/api/family/co-guardian/resend-access', { email }),
 
   // Netflix-style profile picker — both calls use the "device" token
   // (the family's real login), not whichever profile is currently active.

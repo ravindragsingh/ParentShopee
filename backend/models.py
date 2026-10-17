@@ -260,3 +260,24 @@ class DBSession(Base):
     user_id      = Column(String, nullable=False, index=True)
     created_at   = Column(String, nullable=False)
     last_used_at = Column(String, nullable=False)
+
+
+class DBCoGuardianInvite(Base):
+    """A pending email invite for a co-guardian to self-register, as an
+    alternative to the guardian creating that profile directly (see
+    add_co_guardian in routers/family.py). One row per family at a time --
+    enforced in the router, not here. The co-guardian's actual DBUser row
+    only gets created once they accept; this is deleted at that point (or
+    when the guardian cancels it, or it's replaced by a resend)."""
+    __tablename__ = "coguardian_invites"
+    id         = Column(String, primary_key=True)
+    family_id  = Column(String, nullable=False, index=True)  # primary guardian's id
+    email      = Column(String, nullable=False)
+    token      = Column(String, unique=True, nullable=False, index=True)
+    created_at = Column(String, nullable=False)
+    expires_at = Column(String, nullable=False)
+    # Set only for a "resend device access" link (see resend_coguardian_access
+    # in routers/family.py) -- the id of the co-guardian profile that ALREADY
+    # exists and just needs a fresh session, as opposed to a normal invite
+    # (NULL here) which creates a brand-new profile on accept.
+    existing_user_id = Column(String, nullable=True)

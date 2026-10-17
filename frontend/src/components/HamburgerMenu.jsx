@@ -45,6 +45,12 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  // Close whenever the active tab changes, however it changed -- not just
+  // from clicking a menu item (which already closes it inline below), but
+  // also from any other navigation source, so a stale open dropdown never
+  // lingers over different content.
+  useEffect(() => { setOpen(false) }, [tab])
+
   // Re-sync position on visual-viewport resize/scroll (rotation, zoom, soft-keyboard)
   useEffect(() => {
     if (!open || isMobile) return
@@ -167,6 +173,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
           {items.map((item, i) => (
             <button
               key={item.id}
+              data-tour={`menu-item-${item.id}`}
               onClick={() => handleItemClick(item)}
               style={{
                 width: '100%',
@@ -218,6 +225,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
         {items.map((item, i) => (
           <button
             key={item.id}
+            data-tour={`menu-item-${item.id}`}
             onClick={() => handleItemClick(item)}
             style={{
               width: '100%',
@@ -258,6 +266,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
         className={`tab-btn${isMenuTab ? activeClass : ''}`}
         onClick={handleToggle}
         title="More"
+        data-tour="hamburger-menu-button"
         style={{
           fontSize: '1.35rem',
           padding: '10px 16px',
