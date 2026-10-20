@@ -109,7 +109,7 @@
               "outcome": "Spending does change how much you have — $6 minus $2 leaves $4, not $6."
             },
             {
-              "emoji": "💵",
+              "emoji": "🪙",
               "label": "$8",
               "good": false,
               "outcome": "Spending reduces your money, it doesn't increase it — $6 minus $2 leaves $4."
@@ -1543,7 +1543,7 @@
               "outcome": "Stock prices actually change for many reasons, including whether results meet, beat, or fall short of what investors expected."
             },
             {
-              "emoji": "📊",
+              "emoji": "📈",
               "label": "Strong sales always guarantee a rising price",
               "good": false,
               "outcome": "Strong sales don't always guarantee a rising price — if investors expected even better results, the price could still fall."
@@ -2247,7 +2247,7 @@
               "outcome": "All three shares count toward your total value — 3 shares at $40 each adds up to $120."
             },
             {
-              "emoji": "💵",
+              "emoji": "🧮",
               "label": "$43, by just adding the numbers together",
               "good": false,
               "outcome": "The value comes from multiplying shares by price, not adding them — 3 shares at $40 each equals $120."
@@ -3024,7 +3024,7 @@
               "outcome": "Practicing actually has real benefit — it helps build good habits before investing real money."
             },
             {
-              "emoji": "🙅",
+              "emoji": "🎲",
               "label": "This guarantees they will not lose money later",
               "good": false,
               "outcome": "Practicing doesn't guarantee against future losses — it helps build habits, but risk doesn't disappear."

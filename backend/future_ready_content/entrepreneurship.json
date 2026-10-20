@@ -402,13 +402,13 @@
               "outcome": "Exactly right! Five cups at $1 each adds up to $5."
             },
             {
-              "emoji": "💵",
+              "emoji": "🪙",
               "label": "$1",
               "good": false,
               "outcome": "That's the price of just one cup — five cups at $1 each adds up to $5 total."
             },
             {
-              "emoji": "💵",
+              "emoji": "🧮",
               "label": "$10",
               "good": false,
               "outcome": "That would be if cups cost $2 each — at $1 each, five cups adds up to $5."
@@ -1052,13 +1052,13 @@
               "outcome": "Exactly right! $12 earned minus $4 spent leaves you with $8."
             },
             {
-              "emoji": "💵",
+              "emoji": "📒",
               "label": "$12",
               "good": false,
               "outcome": "That's before subtracting your $4 in supply costs — you'd have $8 left after spending."
             },
             {
-              "emoji": "💵",
+              "emoji": "🧾",
               "label": "$16",
               "good": false,
               "outcome": "That would mean adding instead of subtracting — $12 minus $4 spent leaves $8."
@@ -1467,13 +1467,13 @@
               "outcome": "Exactly right! $15 for ingredients plus $5 for bags and labels adds up to $20 in startup costs."
             },
             {
-              "emoji": "💵",
+              "emoji": "🧾",
               "label": "$15",
               "good": false,
               "outcome": "That's just the ingredient cost — adding the $5 for bags and labels brings the total to $20."
             },
             {
-              "emoji": "💵",
+              "emoji": "🪙",
               "label": "$5",
               "good": false,
               "outcome": "That's just the bags and labels cost — adding the $15 for ingredients brings the total to $20."

@@ -1222,7 +1222,7 @@
       {
         "emoji": "🛍️",
         "title": "Can a bigger pack sometimes be a better deal?",
-        "text": "Yes, because the total price is not the only number that matters. A 10-pack for $5 costs 50 cents each, while a 4-pack for $3 costs 75 cents each. The bigger pack is a better deal only if you will actually use it.",
+        "text": "Yes, because the total price is not the only number that matters. A 10-pack for $5 costs 50 cents each, while a 5-pack for $3 costs 60 cents each. The bigger pack is a better deal only if you will actually use it.",
         "widget": "scenario-picker",
         "widgetConfig": {
           "scenario": "A 10-pack costs $5 and a 5-pack costs $3. Which is the better deal per item?",
@@ -2705,7 +2705,7 @@
               "outcome": "Exactly right! Money and time spent on useful education can increase future opportunities, but a course isn't automatically valuable — compare cost with what it realistically provides."
             },
             {
-              "emoji": "📚",
+              "emoji": "💸",
               "label": "Yes, any course is always worth any price",
               "good": false,
               "outcome": "Not every course is automatically worth its price — comparing the cost with the real skills and opportunities it provides matters."
