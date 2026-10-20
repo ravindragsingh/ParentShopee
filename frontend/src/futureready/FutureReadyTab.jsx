@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
+import { useAuth } from '../context/AuthContext.jsx'
 import LessonModule from './LessonModule.jsx'
 import { topicMeta } from './topicMeta.js'
 
@@ -23,6 +24,36 @@ function partLabel(title) {
   return idx === -1 ? null : title.slice(idx + 1).trim()
 }
 
+const readTogetherKey = userId => `frReadTogetherDismissed_${userId}`
+
+// The youngest lessons (ageMax 6 and under) run ~25 words of running text a
+// slide -- too dense for most kids that age to read on their own, and
+// read-aloud isn't on by default. Rather than change the content or the
+// audio default, this just tells whoever's with the kid that this one's
+// meant to be read together. Age bands are a guardian-only concept a kid
+// never sees (see partLabel above), so the wording below never says "4-6".
+function ReadTogetherBanner({ userId, show, onDismiss }) {
+  if (!show) return null
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 12, background: '#fff7ed', border: '1px solid #fed7aa',
+      borderRadius: 10, padding: '10px 14px', marginBottom: 18,
+    }}>
+      <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>👪</span>
+      <div style={{ flex: 1, fontSize: '0.85rem', color: '#78350f' }}>
+        One of these is a bit newer — grab a grown-up to read it with you!
+      </div>
+      <button
+        onClick={onDismiss}
+        aria-label="Dismiss"
+        style={{ background: 'none', border: 'none', color: '#c2824f', fontSize: '1.1rem', cursor: 'pointer', padding: 4, flexShrink: 0 }}
+      >
+        ✕
+      </button>
+    </div>
+  )
+}
+
 function groupByTopic(modules) {
   const byTopic = new Map()
   for (const m of modules) {
@@ -33,11 +64,15 @@ function groupByTopic(modules) {
 }
 
 export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsumeStart }) {
+  const { user } = useAuth()
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [playingModule, setPlayingModule] = useState(null)
   const [justEarned, setJustEarned] = useState(null)
+  const [readTogetherDismissed, setReadTogetherDismissed] = useState(
+    () => localStorage.getItem(readTogetherKey(user?.id)) === '1'
+  )
 
   const loadModules = useCallback(async () => {
     setLoading(true)
@@ -92,6 +127,15 @@ export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsu
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
         Short, fun lessons that build real-world skills. Read through each one, take the quiz, and earn points for what you learn.
       </div>
+
+      <ReadTogetherBanner
+        userId={user?.id}
+        show={!readTogetherDismissed && modules.some(m => m.ageMax <= 6 && !m.completed)}
+        onDismiss={() => {
+          setReadTogetherDismissed(true)
+          localStorage.setItem(readTogetherKey(user?.id), '1')
+        }}
+      />
 
       {justEarned !== null && (
         <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#166534', fontSize: '0.9rem', fontWeight: 700 }}>
