@@ -1606,7 +1606,7 @@
       {
         "emoji": "🗺️",
         "title": "Planning the steps",
-        "text": "Once you've picked a solution, mapping out the order of steps needed to do it makes the plan much likely to succeed. For example, if you decide to organize a class fundraiser, mapping out the order — get permission first, then plan the activity, then advertise it, then run it — keeps you from accidentally skipping something important like getting permission.",
+        "text": "Once you've picked a solution, mapping out the order of steps needed to do it makes the plan much more likely to succeed. For example, if you decide to organize a class fundraiser, mapping out the order — get permission first, then plan the activity, then advertise it, then run it — keeps you from accidentally skipping something important like getting permission.",
         "widget": "sequence-order",
         "widgetConfig": {
           "prompt": "You're organizing a class fundraiser — tap the steps in the right order",
@@ -2000,7 +2000,7 @@
       {
         "emoji": "🎯",
         "title": "Focusing on what you can control",
-        "text": "Some parts of a problem are out of your control. Focusing your energy on the parts you can influence tends to be much productive. For example, you can't control whether it rains on the day of your outdoor event, but you can control having a backup indoor plan ready — focusing your energy there is much useful than worrying about the weather.",
+        "text": "Some parts of a problem are out of your control. Focusing your energy on the parts you can influence tends to be much more productive. For example, you can't control whether it rains on the day of your outdoor event, but you can control having a backup indoor plan ready — focusing your energy there is much more useful than worrying about the weather.",
         "widget": "scenario-picker",
         "widgetConfig": {
           "scenario": "It might rain on the day of your outdoor event. What's the more productive thing to focus on?",
@@ -2256,7 +2256,7 @@
           "Nothing is ever within your control"
         ],
         "correctIndex": 0,
-        "explanation": "Worrying about the weather wastes energy you can't use to change anything. Focusing instead on a solid backup indoor plan is something you can control, which makes that effort much productive."
+        "explanation": "Worrying about the weather wastes energy you can't use to change anything. Focusing instead on a solid backup indoor plan is something you can control, which makes that effort much more productive."
       },
       {
         "question": "Why test selling 5 bracelets to classmates before committing to 100 at a big fair?",
@@ -2386,7 +2386,7 @@
       {
         "emoji": "🔍",
         "title": "Reflecting on mistakes",
-        "text": "Looking back at what went wrong after a mistake, and being specific about it, teaches you much than simply feeling bad about it. For example, if a group project fell behind schedule, figuring out exactly where it slipped — was it unclear roles, or a missed deadline — helps you avoid the same slip on the next project.",
+        "text": "Looking back at what went wrong after a mistake, and being specific about it, teaches you much more than simply feeling bad about it. For example, if a group project fell behind schedule, figuring out exactly where it slipped — was it unclear roles, or a missed deadline — helps you avoid the same slip on the next project.",
         "widget": "scenario-picker",
         "widgetConfig": {
           "scenario": "You made a mistake while solving a problem. What helps you improve next time?",
@@ -2473,7 +2473,7 @@
       {
         "emoji": "🔁",
         "title": "Trying again with a change",
-        "text": "If a first attempt falls short, trying again with one specific, intentional change is much useful than simply repeating the exact same approach and hoping for a different result. For example, if a lemonade stand made little money on a slow street corner, moving to a busier corner next time is a specific change worth testing, rather than simply setting up in the same spot again.",
+        "text": "If a first attempt falls short, trying again with one specific, intentional change is much more useful than simply repeating the exact same approach and hoping for a different result. For example, if a lemonade stand made little money on a slow street corner, moving to a busier corner next time is a specific change worth testing, rather than simply setting up in the same spot again.",
         "widget": "scenario-picker",
         "widgetConfig": {
           "scenario": "A lemonade stand made little money on a slow street corner. What's smarter than just setting up in the same spot again?",
@@ -2531,7 +2531,7 @@
       {
         "emoji": "🎓",
         "title": "Turning a mistake into a rule for next time",
-        "text": "Turning a specific mistake into a concrete rule makes the lesson much more likely to stick than simply feeling bad about it. For example, after forgetting to charge a laptop before a presentation, the rule \"charge devices the night before, every time\" is much useful than simply resolving to \"be more careful.\"",
+        "text": "Turning a specific mistake into a concrete rule makes the lesson much more likely to stick than simply feeling bad about it. For example, after forgetting to charge a laptop before a presentation, the rule \"charge devices the night before, every time\" is much more useful than simply resolving to \"be more careful.\"",
         "widget": "scenario-picker",
         "widgetConfig": {
           "scenario": "You forgot to charge a laptop before a presentation. Which response is more useful: a concrete rule or just feeling bad?",
@@ -2642,7 +2642,7 @@
           "Just feeling bad about it and moving on"
         ],
         "correctIndex": 0,
-        "explanation": "Looking back at exactly where a plan went wrong teaches you much than simply feeling bad about it. Learning it fell behind because of unclear roles, not a missed deadline, tells you specifically what to fix next time."
+        "explanation": "Looking back at exactly where a plan went wrong teaches you much more than simply feeling bad about it. Learning it fell behind because of unclear roles, not a missed deadline, tells you specifically what to fix next time."
       },
       {
         "question": "You have a week to prepare for a debate. Why set rough time limits for research, practice, and rebuttals?",
@@ -2669,7 +2669,7 @@
           "Move to a busier corner as a specific, intentional change"
         ],
         "correctIndex": 1,
-        "explanation": "If a first attempt falls short, making one specific, intentional change is much useful than repeating the same approach and hoping for a different result. Moving to a busier corner is a concrete change worth testing."
+        "explanation": "If a first attempt falls short, making one specific, intentional change is much more useful than repeating the same approach and hoping for a different result. Moving to a busier corner is a concrete change worth testing."
       },
       {
         "question": "Why jot down a quick note like \"homework right after school works better than after dinner\"?",
@@ -2687,7 +2687,7 @@
           "Making a concrete rule: \"charge devices the night before, every time\""
         ],
         "correctIndex": 1,
-        "explanation": "Turning a specific mistake into a concrete rule makes the lesson much likely to stick. A rule like charging devices the night before is much more useful than vaguely resolving to \"be more careful.\""
+        "explanation": "Turning a specific mistake into a concrete rule makes the lesson much more likely to stick. A rule like charging devices the night before is much more useful than vaguely resolving to \"be more careful.\""
       },
       {
         "question": "You prepare well for a tryout but still don't make the team. What's true here?",
@@ -2958,7 +2958,7 @@
               "outcome": "Exactly right! A symptom is the visible effect, while the cause is what's producing it underneath — treating only the symptom never fixes the real problem."
             },
             {
-              "emoji": "🐌",
+              "emoji": "🔄",
               "label": "Yes, restarting daily fixes everything",
               "good": false,
               "outcome": "Restarting daily only treats the visible symptom — it doesn't address whatever is actually causing the slowdown."
@@ -3129,7 +3129,7 @@
       {
         "emoji": "🤝",
         "title": "Collaborative problem solving",
-        "text": "Complex problems often benefit from multiple perspectives — dividing a big problem among a team can be much effective than solving it entirely alone. For example, organizing a school event alone means one person handling logistics, marketing, and budget — but splitting those three areas among three people, each focusing on their strength, usually produces a much better result.",
+        "text": "Complex problems often benefit from multiple perspectives — dividing a big problem among a team can be much more effective than solving it entirely alone. For example, organizing a school event alone means one person handling logistics, marketing, and budget — but splitting those three areas among three people, each focusing on their strength, usually produces a much better result.",
         "widget": "scenario-picker",
         "widgetConfig": {
           "scenario": "A complex problem might benefit from multiple perspectives. What's a good approach?",
@@ -3405,7 +3405,7 @@
           "Insisting one person handle everything alone"
         ],
         "correctIndex": 0,
-        "explanation": "Complex problems often benefit from multiple perspectives, since dividing a big problem among a team can be much effective than one person alone. Splitting logistics, marketing, and budget among three people playing to their strengths usually works better."
+        "explanation": "Complex problems often benefit from multiple perspectives, since dividing a big problem among a team can be much more effective than one person alone. Splitting logistics, marketing, and budget among three people playing to their strengths usually works better."
       },
       {
         "question": "A rough presentation draft is improved over two or three rounds instead of expected to be perfect immediately. What is this called?",
@@ -3556,7 +3556,7 @@
               "outcome": "Exactly right! Confirmation bias is the tendency to notice evidence that supports what you already believe, while ignoring evidence that doesn't, which can quietly steer you toward the wrong solution."
             },
             {
-              "emoji": "🔍",
+              "emoji": "🎭",
               "label": "Completely objective, unbiased thinking",
               "good": false,
               "outcome": "This isn't objective thinking — only noticing evidence that supports what you already believe is exactly what confirmation bias is."
@@ -3701,7 +3701,7 @@
               "outcome": "Exactly right! The first number or idea encountered tends to unfairly influence judgment of everything that comes after it, even when that first piece of information wasn't especially reliable."
             },
             {
-              "emoji": "⚓",
+              "emoji": "⚖️",
               "label": "A completely fair, unbiased judgment",
               "good": false,
               "outcome": "This isn't a fair, unbiased judgment — letting the first price seen unfairly influence your sense of a fair price is anchoring bias."

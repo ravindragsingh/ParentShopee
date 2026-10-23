@@ -6,6 +6,7 @@ import { EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
 import { DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
+import GoogleCredentialButton from './GoogleCredentialButton.jsx'
 
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -219,6 +220,27 @@ export default function ProfilePicker() {
     }
   }
 
+  // Google-only guardians have no password to re-enter (their `password`
+  // column is an inert placeholder from signup), so they re-prove identity
+  // with a fresh Google credential instead -- validated the same way as the
+  // password path before it's sent.
+  async function handleGoogleRecover(credential) {
+    setRecoverError('')
+    const pinCheck = checkPinComplexity(recoverNewPin)
+    if (!pinCheck.ok) { setRecoverError(pinCheck.message); return }
+    if (recoverNewPin !== recoverConfirmPin) { setRecoverError('PINs do not match.'); return }
+    setEntering(true)
+    try {
+      const data = await api.recoverPinGoogle(credential, recoverNewPin)
+      enterProfile(data.user, data.token)
+      navigate('/dashboard')
+    } catch (err) {
+      setRecoverError(err.message)
+    } finally {
+      setEntering(false)
+    }
+  }
+
   function handleSignOut() {
     logout()
     navigate('/')
@@ -228,6 +250,7 @@ export default function ProfilePicker() {
   // The primary guardian is always first in the list the backend returns.
   const familyName = profiles?.[0]?.name
   const primaryGuardianId = profiles?.[0]?.id
+  const primaryGuardianIsGoogle = profiles?.[0]?.isGoogleAccount
 
   return (
     <div className="login-wrapper">
@@ -309,25 +332,32 @@ export default function ProfilePicker() {
               )}
 
               {pinFor && recoverMode && (
-                <form onSubmit={handleRecoverSubmit} style={{ marginTop: 20, borderTop: '1px solid #e5e7eb', paddingTop: 18 }}>
+                <form
+                  onSubmit={primaryGuardianIsGoogle ? (e) => e.preventDefault() : handleRecoverSubmit}
+                  style={{ marginTop: 20, borderTop: '1px solid #e5e7eb', paddingTop: 18 }}
+                >
                   <div className="login-title" style={{ fontSize: '1.05rem', textAlign: 'center' }}>Reset Your PIN</div>
                   <p style={{ fontSize: '0.82rem', color: '#64748b', textAlign: 'center', marginBottom: 14 }}>
-                    Enter your account password to confirm it's you, then choose a new PIN.
+                    {primaryGuardianIsGoogle
+                      ? 'Choose a new PIN, then confirm it\'s you with Google.'
+                      : 'Enter your account password to confirm it\'s you, then choose a new PIN.'}
                   </p>
                   {recoverError && <div className="error-msg">{recoverError}</div>}
-                  <div className="form-group" style={{ marginBottom: 10 }}>
-                    <label>Account Password</label>
-                    <PasswordField
-                      autoFocus
-                      value={recoverPassword}
-                      onChange={e => setRecoverPassword(e.target.value)}
-                      placeholder="Your sign-in password"
-                    />
-                  </div>
+                  {!primaryGuardianIsGoogle && (
+                    <div className="form-group" style={{ marginBottom: 10 }}>
+                      <label>Account Password</label>
+                      <PasswordField
+                        autoFocus
+                        value={recoverPassword}
+                        onChange={e => setRecoverPassword(e.target.value)}
+                        placeholder="Your sign-in password"
+                      />
+                    </div>
+                  )}
                   <div className="form-row" style={{ marginBottom: 6 }}>
                     <div className="form-group">
                       <label>New 6-digit PIN</label>
-                      <input inputMode="numeric" maxLength={6} value={recoverNewPin} onChange={e => setRecoverNewPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
+                      <input autoFocus={primaryGuardianIsGoogle} inputMode="numeric" maxLength={6} value={recoverNewPin} onChange={e => setRecoverNewPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
                     </div>
                     <div className="form-group">
                       <label>Confirm PIN</label>
@@ -335,9 +365,24 @@ export default function ProfilePicker() {
                     </div>
                   </div>
                   <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
-                  <button type="submit" className="login-btn" disabled={entering}>
-                    {entering ? 'Resetting...' : 'Reset PIN & Sign In'}
-                  </button>
+                  {primaryGuardianIsGoogle ? (
+                    (() => {
+                      const pinReady = checkPinComplexity(recoverNewPin).ok && recoverNewPin === recoverConfirmPin
+                      return pinReady ? (
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                          <GoogleCredentialButton onCredential={handleGoogleRecover} />
+                        </div>
+                      ) : (
+                        <div style={{ fontSize: '0.8rem', color: '#94a3b8', textAlign: 'center', padding: '10px 0' }}>
+                          Enter and confirm a matching PIN above to continue with Google.
+                        </div>
+                      )
+                    })()
+                  ) : (
+                    <button type="submit" className="login-btn" disabled={entering}>
+                      {entering ? 'Resetting...' : 'Reset PIN & Sign In'}
+                    </button>
+                  )}
                   <button type="button" className="login-btn-outline" style={{ marginTop: 8 }} onClick={() => { setRecoverMode(false); setRecoverError('') }}>
                     Back
                   </button>

@@ -816,7 +816,7 @@
               "outcome": "AI actually can make mistakes, especially with unusual or confusing examples."
             },
             {
-              "emoji": "🐑",
+              "emoji": "🎲",
               "label": "Unusual examples always help AI perform better",
               "good": false,
               "outcome": "Unusual examples can actually confuse an AI rather than help it — they're a common source of mistakes."
@@ -897,7 +897,7 @@
               "outcome": "Exactly right! A robot is a physical machine, and AI is software — a robot doesn't automatically have AI inside it."
             },
             {
-              "emoji": "🤖",
+              "emoji": "⚙️",
               "label": "Yes, every robot automatically counts as AI",
               "good": false,
               "outcome": "Not every robot uses AI — a robot without smart software is just a machine, not AI."
@@ -1610,7 +1610,7 @@
               "outcome": "The quality of training data actually affects results a lot — narrow or poor data leads to poor performance."
             },
             {
-              "emoji": "🌹",
+              "emoji": "🌼",
               "label": "More roses in training always helps with every flower",
               "good": false,
               "outcome": "More roses wouldn't help with other flowers — the system needs variety in its training data to handle them well."

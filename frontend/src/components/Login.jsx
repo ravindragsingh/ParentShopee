@@ -73,7 +73,7 @@ export function LegalAgreementSections() {
   )
 }
 
-function UserAgreementModal({ onClose }) {
+export function UserAgreementModal({ onClose }) {
   return createPortal(
     <div
       onClick={onClose}
@@ -940,7 +940,7 @@ function TryDemoLink() {
 
 // ── How It Works modal ───────────────────────────────────────────────────────
 
-function HowItWorksModal({ onClose }) {
+export function HowItWorksModal({ onClose }) {
   const navigate = useNavigate()
   return createPortal(
     <div

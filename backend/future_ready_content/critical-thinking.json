@@ -300,7 +300,7 @@
           "For no reason at all"
         ],
         "correctIndex": 0,
-        "explanation": "When you ask “why?”, your brain looks for a reason., like asking why leaves change color in fall."
+        "explanation": "When you ask “why?”, your brain looks for a reason, like asking why leaves change color in fall."
       },
       {
         "question": "Is it okay to ask a question when something feels confusing?",
@@ -318,7 +318,7 @@
           "Assume it's scary right away"
         ],
         "correctIndex": 0,
-        "explanation": "Looking carefully gives you more information before you decide. what's really there. A scary bug might just be a friendly ladybug."
+        "explanation": "Looking carefully gives you more information before you decide what's really there. A scary bug might just be a friendly ladybug."
       },
       {
         "question": "A ball and a block — are they the same shape?",
@@ -363,7 +363,7 @@
           "No, guess after just the first word"
         ],
         "correctIndex": 0,
-        "explanation": "Hearing the whole story gives you more information before you decide. helps you understand it. The middle can change everything."
+        "explanation": "Hearing the whole story gives you more information before you decide. It helps you understand it. The middle can change everything."
       },
       {
         "question": "You hear something surprising. What should you do?",
@@ -1428,7 +1428,7 @@
               "outcome": "Exactly right! A few tries can look like a pattern even when it's really just luck — a bigger sample usually gives you a more reliable picture."
             },
             {
-              "emoji": "🪙",
+              "emoji": "🎰",
               "label": "Yes, three heads in a row proves the coin is unfair",
               "good": false,
               "outcome": "Three heads in a row doesn't prove the coin is unfair — a small number of tries can look like a pattern just by luck."
@@ -3378,7 +3378,7 @@
               "outcome": "Exactly right! A logical fallacy is a flaw in reasoning, like attacking a person instead of their argument — that's exactly what this response does."
             },
             {
-              "emoji": "🎯",
+              "emoji": "👎",
               "label": "This is a strong, valid rebuttal",
               "good": false,
               "outcome": "This isn't a valid rebuttal — it attacks the person instead of addressing the actual argument, which is a logical fallacy."
@@ -3436,7 +3436,7 @@
               "outcome": "Exactly — a slippery slope argument assumes a chain of extreme consequences without actually showing why each step would necessarily follow."
             },
             {
-              "emoji": "🤷",
+              "emoji": "🙄",
               "label": "It's a solid, logical prediction",
               "good": false,
               "outcome": "It skips over whether each step would actually happen — that's the flaw in a slippery slope argument."
@@ -3465,7 +3465,7 @@
               "outcome": "Exactly right! Circular reasoning is an argument that just restates its own conclusion as if that were proof, going in a loop without ever landing on real, independent evidence."
             },
             {
-              "emoji": "🔁",
+              "emoji": "🧾",
               "label": "It is solid, independent evidence",
               "good": false,
               "outcome": "This isn't solid, independent evidence — it's circular reasoning, just restating the conclusion as if it were proof."
@@ -3639,7 +3639,7 @@
               "outcome": "Exactly right! A pattern based on just a few examples can be pure coincidence rather than a real trend — bigger samples are generally more trustworthy."
             },
             {
-              "emoji": "📊",
+              "emoji": "👥",
               "label": "Yes, three people is plenty to prove a trend",
               "good": false,
               "outcome": "Three people isn't enough to prove a trend — a small sample like this can easily be coincidence."

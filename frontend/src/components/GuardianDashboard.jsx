@@ -14,6 +14,7 @@ import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
+import AppFooter from './AppFooter.jsx'
 import PasswordField from './PasswordField.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
@@ -2782,6 +2783,7 @@ export default function GuardianDashboard() {
         {tab === 'help'      && <HelpTab role="guardian" />}
         {tab === 'contact'   && <ContactUs />}
       </div>
+      <AppFooter role="guardian" onNavigate={setTab} />
     </div>
   )
 }
