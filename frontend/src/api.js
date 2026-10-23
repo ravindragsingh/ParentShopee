@@ -157,6 +157,8 @@ export const api = {
     request('POST', `/api/family/profiles/${profileId}/enter`, { pin }, localStorage.getItem('device_token')),
   recoverPin: (password, newPin) =>
     request('POST', '/api/family/profiles/recover-pin', { password, newPin }, localStorage.getItem('device_token')),
+  recoverPinGoogle: (credential, newPin) =>
+    request('POST', '/api/family/profiles/recover-pin-google', { credential, newPin }, localStorage.getItem('device_token')),
 
   // Recurring chore templates
   createRecurring: (body) => request('POST',   '/api/recurring', body),

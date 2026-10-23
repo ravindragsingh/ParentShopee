@@ -9,12 +9,14 @@ from config import COGUARDIAN_INVITE_TTL_HOURS, EMAIL_RE
 from database import get_db
 from deps import create_session, require_guardian
 from email_utils import send_coguardian_invite_email, send_coguardian_recovery_email
+from google_auth_utils import verify_google_token
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
 from schemas import (
     CoGuardianBody, CoGuardianInviteAcceptBody, CoGuardianInviteBody,
-    ProfileEnterBody, RecoverPinBody, ResendCoGuardianAccessBody, UpdatePinBody,
+    ProfileEnterBody, RecoverPinBody, RecoverPinGoogleBody,
+    ResendCoGuardianAccessBody, UpdatePinBody,
 )
 from security import check_pin_complexity
 
@@ -308,6 +310,11 @@ def list_family_profiles(db: Session = Depends(get_db), user: DBUser = Depends(r
             # this endpoint for their own family — can actually learn and
             # share it. Never included once the guardian has set their own.
             "tempPin": u.pin if needs_setup else None,
+            # Lets the profile picker offer "confirm with Google" instead of a
+            # password field when recovering a forgotten PIN -- a Google-only
+            # guardian's `password` column is an inert random placeholder they
+            # never saw (see google_complete), so asking for it would be a dead end.
+            "isGoogleAccount": bool(u.google_id),
         }
 
     profiles = [profile_dict(guardian, guardian.pin is not None)]
@@ -387,6 +394,36 @@ def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: D
         # 400, not 401 -- same reasoning as the wrong-PIN case in enter_profile:
         # this is a mistyped secret, not an invalid/expired device session.
         fail("Incorrect password", 400)
+    check_pin_complexity(body.newPin)
+
+    user.pin = body.newPin
+    user.pin_auto_generated = "0"
+    user.pin_attempts = 0
+    user.pin_locked_until = None
+    db.commit()
+    db.refresh(user)
+
+    token = create_session(db, user.id)
+    return ok({"token": token, "user": safe_user(user)})
+
+
+@router.post("/api/family/profiles/recover-pin-google")
+def recover_own_pin_google(body: RecoverPinGoogleBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    # Same recovery as recover_own_pin above, but for guardians who signed up
+    # via Google: their `password` column is an inert random placeholder they
+    # never saw, so the password-based flow is a dead end for them. A fresh
+    # Google credential re-proves identity the same way the original sign-in
+    # did, as long as it resolves to the exact Google account already linked
+    # to this family -- not just any Google account.
+    if user.co_guardian_of:
+        fail("Only the primary guardian can recover their PIN this way", 403)
+    if not user.google_id:
+        fail("This account doesn't sign in with Google. Use your account password to reset your PIN instead.", 400)
+
+    claims = verify_google_token(body.credential)
+    if claims["sub"] != user.google_id:
+        fail("That Google account doesn't match the one linked to your family.", 401)
+
     check_pin_complexity(body.newPin)
 
     user.pin = body.newPin

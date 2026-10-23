@@ -83,6 +83,10 @@ class RecoverPinBody(BaseModel):
     password: str
     newPin: str
 
+class RecoverPinGoogleBody(BaseModel):
+    credential: str   # fresh Google Identity Services ID token (JWT)
+    newPin: str
+
 class BonusPointsBody(BaseModel):
     points: float
     reason: Optional[str] = "Bonus points"
