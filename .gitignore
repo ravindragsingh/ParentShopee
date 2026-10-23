@@ -33,3 +33,7 @@ Thumbs.db
 frontend/android/keystore.properties
 frontend/android/app/*.keystore
 frontend/android/app/*.jks
+
+# iOS simulator/Xcode derived data — regenerated on every build, not source
+frontend/ios/App/build_sim/
+frontend/ios/App/DerivedData/
