@@ -1,0 +1,162 @@
+{
+  "creativity-4-6": {
+    "activities": [
+      {
+        "emoji": "🖍️",
+        "title": "Finish My Drawing",
+        "description": "Draw a simple squiggle or shape on paper and have your child turn it into something -- an animal, a monster, a car.",
+        "materials": ["Paper, crayons or markers"],
+        "duration": "15 min",
+        "steps": [
+          "Draw a random squiggle or circle",
+          "Ask them to turn it into a picture of anything they want",
+          "Have them tell you a one-sentence story about it"
+        ]
+      },
+      {
+        "emoji": "🎭",
+        "title": "Pretend Play Swap",
+        "description": "Act out a familiar story together, but swap roles halfway through -- the wolf becomes kind, the hero becomes silly.",
+        "materials": ["None needed"],
+        "duration": "15-20 min",
+        "steps": [
+          "Pick a familiar story or make one up",
+          "Act it out together, each playing a character",
+          "Halfway through, swap roles and keep going"
+        ]
+      },
+      {
+        "emoji": "🎶",
+        "title": "Make Up a Silly Song",
+        "description": "Pick a everyday routine, like brushing teeth, and make up a short silly song about it together.",
+        "materials": ["None needed"],
+        "duration": "10 min",
+        "steps": [
+          "Pick a daily routine as the topic",
+          "Hum a simple tune and take turns adding a line",
+          "Sing the finished song together"
+        ]
+      }
+    ]
+  },
+  "creativity-7-9": {
+    "activities": [
+      {
+        "emoji": "📖",
+        "title": "Story Dice",
+        "description": "Write 6 random words on paper slips, pick 3, and build a short story together using all of them.",
+        "materials": ["Paper, pen"],
+        "duration": "15-20 min",
+        "steps": [
+          "Write 6 random words (object, animal, place)",
+          "Pick 3 at random",
+          "Build a short story together that uses all three"
+        ]
+      },
+      {
+        "emoji": "🏗️",
+        "title": "Build Something New",
+        "description": "Using household items, build an invention that solves a made-up problem, like \"a machine that feeds the dog.\"",
+        "materials": ["Cardboard, tape, household odds and ends"],
+        "duration": "30 min",
+        "steps": [
+          "Pick a silly problem to solve",
+          "Build a contraption out of things around the house",
+          "Explain how it works, even if it's imaginary"
+        ]
+      },
+      {
+        "emoji": "🎨",
+        "title": "Comic Strip",
+        "description": "Fold a paper into 4 panels and draw a tiny comic strip together about something that happened today.",
+        "materials": ["Paper, pencil or markers"],
+        "duration": "20 min",
+        "steps": [
+          "Fold paper into 4 boxes",
+          "Pick a small moment from today",
+          "Draw it as a 4-panel comic, one event per box"
+        ]
+      }
+    ]
+  },
+  "creativity-10-13": {
+    "activities": [
+      {
+        "emoji": "🎬",
+        "title": "Mini Movie",
+        "description": "Write and film a 1-minute video together on a phone -- a mini mystery, commercial, or news report.",
+        "materials": ["A phone with a camera"],
+        "duration": "30-40 min",
+        "steps": [
+          "Pick a simple idea -- a commercial for a pretend product, or a mini mystery",
+          "Plan 3-4 short scenes",
+          "Film it together and watch it back"
+        ]
+      },
+      {
+        "emoji": "🖋️",
+        "title": "Alternate Ending",
+        "description": "Pick a book or movie you both know and rewrite the ending together -- what would you change?",
+        "materials": ["None needed"],
+        "duration": "15-20 min",
+        "steps": [
+          "Pick a story you both know well",
+          "Talk about the real ending",
+          "Make up a different ending together and explain why it's better or worse"
+        ]
+      },
+      {
+        "emoji": "🎼",
+        "title": "Remix a Rhythm",
+        "description": "Using household objects as instruments (pots, pencils, hands), compose a short rhythm pattern together.",
+        "materials": ["Pots, pans, or anything that makes a sound"],
+        "duration": "15 min",
+        "steps": [
+          "Pick 2-3 household \"instruments\"",
+          "Take turns adding a beat to build a pattern",
+          "Perform the finished rhythm together"
+        ]
+      }
+    ]
+  },
+  "creativity-13-17": {
+    "activities": [
+      {
+        "emoji": "📸",
+        "title": "Photo Essay",
+        "description": "Pick a theme (like \"small joys\" or \"our neighborhood\") and take 5 photos together that tell a story about it.",
+        "materials": ["A phone camera"],
+        "duration": "30 min",
+        "steps": [
+          "Agree on a theme",
+          "Take 5 photos that fit it, out and about or at home",
+          "Pick your favorite 3 and talk about why they work"
+        ]
+      },
+      {
+        "emoji": "✍️",
+        "title": "Collaborative Short Story",
+        "description": "Write a story together one paragraph at a time, each person continuing where the other left off, with no planning allowed.",
+        "materials": ["Paper or a shared notes doc"],
+        "duration": "20-30 min",
+        "steps": [
+          "Write an opening paragraph",
+          "Pass it back and forth, each adding a paragraph without discussing ahead",
+          "Read the finished story out loud together"
+        ]
+      },
+      {
+        "emoji": "🎧",
+        "title": "Design a Playlist",
+        "description": "Build a themed playlist together (like \"songs for a road trip\") and each explain why you picked your songs.",
+        "materials": ["A music app"],
+        "duration": "20 min",
+        "steps": [
+          "Pick a theme for the playlist",
+          "Each add 3-4 songs that fit it",
+          "Listen through and talk about what each song adds"
+        ]
+      }
+    ]
+  }
+}

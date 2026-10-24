@@ -18,6 +18,7 @@ import AppFooter from './AppFooter.jsx'
 import PasswordField from './PasswordField.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
+import GuardianActivityIdeasTab from '../activityideas/GuardianActivityIdeasTab.jsx'
 import { useTour } from '../tour/TourContext.jsx'
 import { isTourDisabled, setTourEnabled } from '../tour/tourStorage.js'
 
@@ -2633,6 +2634,7 @@ function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNa
         <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} tourId="home-chores-tile" />
         <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} tourId="home-shop-tile" />
         <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} tourId="home-futureready-tile" />
+        <HomeNavTile icon="🧸" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Activity Ideas" text="Things to try together" onClick={() => onNavigate('activityideas')} />
         <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} tourId="home-kids-tile" />
       </div>
 
@@ -2702,13 +2704,13 @@ export default function GuardianDashboard() {
       <div className="main-content">
         {tab !== 'home' && (
           <div className="tabs">
-            {['home', 'chores', 'shop', 'futureready', 'kids'].map(t => (
+            {['home', 'chores', 'shop', 'futureready', 'activityideas', 'kids'].map(t => (
               <button
                 key={t}
                 className={`tab-btn${tab === t ? ' active guardian' : ''}`}
                 onClick={() => setTab(t)}
               >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'futureready' ? 'Future-Ready' : 'Kids'}
+                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'futureready' ? 'Future-Ready' : t === 'activityideas' ? 'Activity Ideas' : 'Kids'}
               </button>
             ))}
           </div>
@@ -2776,6 +2778,7 @@ export default function GuardianDashboard() {
         {tab === 'chores'    && <ChoresTab kids={kids} />}
         {tab === 'shop'      && <ShopTab kids={kids} />}
         {tab === 'futureready' && <GuardianFutureReadyTab />}
+        {tab === 'activityideas' && <GuardianActivityIdeasTab />}
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}
         {tab === 'messages'  && <MessagesTab />}

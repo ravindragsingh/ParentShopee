@@ -1,0 +1,162 @@
+{
+  "emotional-4-6": {
+    "activities": [
+      {
+        "emoji": "🙂",
+        "title": "Feelings Faces",
+        "description": "Take turns making a face for a feeling (happy, sad, surprised, scared) and guessing which one the other is showing.",
+        "materials": ["None needed"],
+        "duration": "10 min",
+        "steps": [
+          "Whisper a feeling to yourself, then make that face",
+          "Have your child guess the feeling",
+          "Swap turns and keep going"
+        ]
+      },
+      {
+        "emoji": "🫂",
+        "title": "Kindness Catch",
+        "description": "Toss a soft ball back and forth, and each time you catch it, say one kind thing about the other person.",
+        "materials": ["A soft ball or beanbag"],
+        "duration": "10 min",
+        "steps": [
+          "Toss the ball to each other",
+          "Whoever catches it says something kind about the other person",
+          "Keep going for several rounds"
+        ]
+      },
+      {
+        "emoji": "🌬️",
+        "title": "Balloon Breathing",
+        "description": "Practice slow, calming breaths together by pretending to blow up a balloon in your belly, then slowly letting it out.",
+        "materials": ["None needed"],
+        "duration": "5 min",
+        "steps": [
+          "Place a hand on your belly",
+          "Breathe in slowly like filling a balloon",
+          "Breathe out slowly like letting the air out"
+        ]
+      }
+    ]
+  },
+  "emotional-7-9": {
+    "activities": [
+      {
+        "emoji": "📓",
+        "title": "Three Good Things",
+        "description": "Before bed, each share three good things that happened today, however small, and why they mattered.",
+        "materials": ["None needed"],
+        "duration": "5-10 min",
+        "steps": [
+          "Each think of 3 good moments from today",
+          "Share them and say why each one felt good",
+          "Make it a regular bedtime habit"
+        ]
+      },
+      {
+        "emoji": "🎭",
+        "title": "What Would You Do?",
+        "description": "Talk through a few \"what would you do?\" social scenarios, like a friend being left out, and discuss kind responses together.",
+        "materials": ["None needed"],
+        "duration": "15 min",
+        "steps": [
+          "Describe a simple social situation",
+          "Ask what they'd do and why",
+          "Talk through other options together, no wrong answers"
+        ]
+      },
+      {
+        "emoji": "🌈",
+        "title": "Worry Jar",
+        "description": "Write down a worry on a slip of paper and put it in a jar together, then talk about one small step to deal with it.",
+        "materials": ["Paper, a jar or box"],
+        "duration": "10-15 min",
+        "steps": [
+          "Write down something on their mind",
+          "Put it in the jar together",
+          "Talk through one small, doable next step"
+        ]
+      }
+    ]
+  },
+  "emotional-10-13": {
+    "activities": [
+      {
+        "emoji": "🧭",
+        "title": "Values Compass",
+        "description": "Talk together about 3-4 things they really value (honesty, fairness, fun) and how those show up in their daily choices.",
+        "materials": ["None needed"],
+        "duration": "15-20 min",
+        "steps": [
+          "Ask them to name a few things that matter most to them",
+          "Talk through a recent decision and which value it connects to",
+          "Notice together where values sometimes conflict, and how they chose"
+        ]
+      },
+      {
+        "emoji": "🤝",
+        "title": "Conflict Replay",
+        "description": "Talk through a recent disagreement (with a friend or sibling) and replay it, exploring a different way it could have gone.",
+        "materials": ["None needed"],
+        "duration": "15 min",
+        "steps": [
+          "Pick a recent disagreement, calmly",
+          "Walk through what each side wanted",
+          "Brainstorm a version where both sides feel better about the outcome"
+        ]
+      },
+      {
+        "emoji": "📵",
+        "title": "Tech-Free Check-In",
+        "description": "Spend 15 minutes phone-free together just talking about how their week is actually going, no fixing, just listening.",
+        "materials": ["None needed -- just put phones away"],
+        "duration": "15 min",
+        "steps": [
+          "Put all devices in another room",
+          "Ask open questions and really listen",
+          "Resist jumping in with advice unless they ask for it"
+        ]
+      }
+    ]
+  },
+  "emotional-13-17": {
+    "activities": [
+      {
+        "emoji": "🪞",
+        "title": "Strengths Interview",
+        "description": "Take turns interviewing each other about a recent challenge and what strength helped you get through it.",
+        "materials": ["None needed"],
+        "duration": "15-20 min",
+        "steps": [
+          "Think of a recent challenge, big or small",
+          "Interview each other about what helped you handle it",
+          "Name the specific strength you used"
+        ]
+      },
+      {
+        "emoji": "🌱",
+        "title": "Future Self Letter",
+        "description": "Each write a short letter to yourself one year from now, then (optionally) share a part of it with each other.",
+        "materials": ["Paper and pen"],
+        "duration": "20 min",
+        "steps": [
+          "Write a letter to your future self, one year ahead",
+          "Include a hope, a worry, and something you're proud of now",
+          "Seal it and agree on a date to open it together"
+        ]
+      },
+      {
+        "emoji": "💬",
+        "title": "Hard Topic, Safe Space",
+        "description": "Pick one topic that's been hard to bring up and have a calm, no-judgment conversation about it together.",
+        "materials": ["None needed"],
+        "duration": "20-30 min",
+        "steps": [
+          "Agree ahead of time this is a listening conversation, not a lecture",
+          "Let them share first, without interrupting",
+          "Share your own perspective calmly, and thank them for being honest"
+        ]
+      }
+    ]
+  }
+}

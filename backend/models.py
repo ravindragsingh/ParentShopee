@@ -246,6 +246,23 @@ class DBLearningCompletion(Base):
     completed_at    = Column(String, nullable=False)
 
 
+class DBActivityLog(Base):
+    """A kid's write-up of trying one Activity Ideas module -- unlike
+    Future-Ready's instant quiz-based DBLearningCompletion, this sits
+    "pending" until the guardian reviews the note and approves it, same
+    accountability model as a chore. Approving creates the matching
+    DBLearningCompletion row (and pays out points) exactly once; rejecting
+    just leaves this row rejected so the kid can submit a fresh log."""
+    __tablename__ = "activity_logs"
+    id           = Column(String, primary_key=True)
+    kid_id       = Column(String, nullable=False, index=True)
+    module_id    = Column(String, nullable=False, index=True)
+    note         = Column(String, nullable=False)
+    status       = Column(String, default="pending")  # "pending" / "approved" / "rejected"
+    submitted_at = Column(String, nullable=False)
+    reviewed_at  = Column(String, nullable=True)
+
+
 class DBSession(Base):
     """A login session's Bearer token, keyed on the token itself (it's already
     an unguessable UUID, so it doubles as the primary key). DB-backed rather

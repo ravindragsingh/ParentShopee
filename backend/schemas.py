@@ -210,3 +210,6 @@ class LearningPointsUpdate(BaseModel):
 class LearningCompleteBody(BaseModel):
     score: int
     total: int
+
+class ActivityLogBody(BaseModel):
+    note: str

@@ -84,7 +84,12 @@ def module_dict(m: DBLearningModule, points: float, enabled: bool = None, comple
 
 @router.get("/api/future-ready")
 def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    modules = db.query(DBLearningModule).filter(DBLearningModule.is_active == "1").order_by(DBLearningModule.order_index).all()
+    # Scoped to this section explicitly -- DBLearningModule is shared with
+    # Activity Ideas (see routers/activity_ideas.py), so without this filter
+    # every activity-idea module would leak into the Future-Ready catalog too.
+    modules = db.query(DBLearningModule).filter(
+        DBLearningModule.is_active == "1", DBLearningModule.section == "future-ready"
+    ).order_by(DBLearningModule.order_index).all()
     family_id = _family_id_for(user)
     settings = _family_settings(db, family_id)
     if user.role == "kid":

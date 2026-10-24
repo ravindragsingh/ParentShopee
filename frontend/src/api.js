@@ -105,6 +105,16 @@ export const api = {
   completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),
   resetLearningCompletion: (moduleId, kidId) => request('DELETE', `/api/future-ready/${moduleId}/completion/${kidId}`),
 
+  // Activity Ideas
+  getActivityModules: () => request('GET', '/api/activity-ideas'),
+  getActivityContent: (moduleId) => request('GET', `/api/activity-ideas/${moduleId}/content`),
+  setActivityVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/activity-ideas/${moduleId}/visibility`, { enabled, kidIds }),
+  setActivityPoints: (moduleId, points) => request('PUT', `/api/activity-ideas/${moduleId}/points`, { points }),
+  submitActivityLog: (moduleId, note) => request('POST', `/api/activity-ideas/${moduleId}/log`, { note }),
+  approveActivityLog: (logId) => request('POST', `/api/activity-ideas/logs/${logId}/approve`),
+  rejectActivityLog: (logId) => request('POST', `/api/activity-ideas/logs/${logId}/reject`),
+  resetActivityCompletion: (moduleId, kidId) => request('DELETE', `/api/activity-ideas/${moduleId}/completion/${kidId}`),
+
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
   getAllWallets: () => request('GET', '/api/wallet'),
