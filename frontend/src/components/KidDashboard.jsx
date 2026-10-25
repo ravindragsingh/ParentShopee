@@ -11,7 +11,7 @@ import { HelpTab } from './Help.jsx'
 import SettingsPanel from './Settings.jsx'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
-import AppFooter from './AppFooter.jsx'
+import BottomNav from './BottomNav.jsx'
 import FutureReadyTab from '../futureready/FutureReadyTab.jsx'
 import ActivityIdeasTab from '../activityideas/ActivityIdeasTab.jsx'
 
@@ -553,20 +553,6 @@ export default function KidDashboard() {
       </AppNavbar>
 
       <div className="main-content">
-        {tab !== 'home' && (
-          <div className="tabs">
-            {['home', 'chores', 'shop', 'futureready', 'activityideas', 'wallet'].map(t => (
-              <button
-                key={t}
-                className={`tab-btn${tab === t ? ' active kid' : ''}`}
-                onClick={() => setTab(t)}
-              >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'futureready' ? 'Future-Ready' : t === 'activityideas' ? 'Activity Ideas' : 'Wallet'}
-              </button>
-            ))}
-          </div>
-        )}
-
         {tab === 'home'     && <KidHomeScreen name={user.name} userId={user.id} balance={balance} onNavigate={setTab} onOpenModule={openModule} />}
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
@@ -578,7 +564,19 @@ export default function KidDashboard() {
         {tab === 'contact'  && <ContactUs />}
         {tab === 'settings' && <SettingsPanel />}
       </div>
-      <AppFooter role="kid" onNavigate={setTab} />
+      <BottomNav
+        variant="kid"
+        active={tab}
+        onChange={setTab}
+        items={[
+          { key: 'home', icon: '🏠', label: 'Home' },
+          { key: 'chores', icon: '📋', label: 'Chores' },
+          { key: 'shop', icon: '🎁', label: 'Shop' },
+          { key: 'futureready', icon: '🚀', label: 'Learn' },
+          { key: 'activityideas', icon: '🧸', label: 'Ideas' },
+          { key: 'wallet', icon: '👛', label: 'Wallet' },
+        ]}
+      />
     </div>
   )
 }

@@ -1,14 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
+import { useTour } from '../tour/TourContext.jsx'
+import { HowItWorksModal, UserAgreementModal } from './Login.jsx'
 
 export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchProfile }) {
   const [open, setOpen] = useState(false)
   const [pos, setPos] = useState({ top: 0, right: 0 })
   const [unreadCount, setUnreadCount] = useState(0)
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640)
+  const [showHowItWorks, setShowHowItWorks] = useState(false)
+  const [showTerms, setShowTerms] = useState(false)
   const btnRef  = useRef(null)
   const dropRef = useRef(null)
+  const navigate = useNavigate()
+  const { startTour } = useTour()
 
   const menuTabIds = role === 'guardian'
     ? ['admin', 'messages', 'help', 'contact']
@@ -124,6 +131,14 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
     { id: 'help',     icon: '❓', label: 'Help'        },
     { id: 'contact',  icon: '📩', label: 'Contact Us'  },
     ...(role !== 'guardian' ? [{ id: 'settings', icon: '⚙️', label: 'Settings' }] : []),
+    // Folded in from the old scrolling page footer (AppFooter) -- that sat
+    // inline at the very end of each page's content, so reaching "Terms of
+    // Use" meant scrolling past everything else. The hamburger is already
+    // the app's "everything else" menu and is reachable from anywhere.
+    { id: 'how-it-works', icon: 'ℹ️', label: 'How It Works' },
+    { id: 'blog',         icon: '📖', label: 'Blog' },
+    { id: 'terms',        icon: '📋', label: 'Terms of Use' },
+    ...(role === 'guardian' ? [{ id: 'guided-tour', icon: '🧭', label: 'Guided Tour' }] : []),
     ...(onSwitchProfile ? [{ id: 'switch-profile', icon: '🔄', label: 'Switch Profile' }] : []),
     ...(onLogout ? [{ id: 'logout', icon: '🚪', label: 'Sign Out' }] : []),
   ]
@@ -137,6 +152,26 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
     if (item.id === 'switch-profile') {
       setOpen(false)
       onSwitchProfile?.()
+      return
+    }
+    if (item.id === 'how-it-works') {
+      setOpen(false)
+      setShowHowItWorks(true)
+      return
+    }
+    if (item.id === 'terms') {
+      setOpen(false)
+      setShowTerms(true)
+      return
+    }
+    if (item.id === 'blog') {
+      setOpen(false)
+      navigate('/blog')
+      return
+    }
+    if (item.id === 'guided-tour') {
+      setOpen(false)
+      startTour('guardianOnboarding')
       return
     }
     setTab(item.id)
@@ -170,39 +205,47 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
         </div>
 
         <div style={{ flex: 1, overflowY: 'auto', padding: '4px 0 8px' }}>
-          {items.map((item, i) => (
-            <button
-              key={item.id}
-              data-tour={`menu-item-${item.id}`}
-              onClick={() => handleItemClick(item)}
-              style={{
-                width: '100%',
-                textAlign: 'left',
-                padding: '16px 18px',
-                background: tab === item.id ? accentBg : 'white',
-                border: 'none',
-                borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
-                cursor: 'pointer',
-                color: tab === item.id ? accent : '#334155',
-                fontWeight: tab === item.id ? 700 : 600,
-                fontSize: '0.95rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-              }}
-            >
-              <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
-              {item.label}
-              {item.id === 'messages' && hasNotification && (
-                <span style={{ marginLeft: 'auto', background: '#ef4444', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
-                  New
-                </span>
-              )}
-              {tab === item.id && (
-                <span style={{ marginLeft: 'auto', width: 8, height: 8, borderRadius: '50%', background: accent, flexShrink: 0 }} />
-              )}
-            </button>
-          ))}
+          {items.map((item, i) => {
+            const isTour = item.id === 'guided-tour'
+            return (
+              <button
+                key={item.id}
+                data-tour={`menu-item-${item.id}`}
+                onClick={() => handleItemClick(item)}
+                style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '16px 18px',
+                  background: isTour ? '#f5f3ff' : tab === item.id ? accentBg : 'white',
+                  border: 'none',
+                  borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
+                  cursor: 'pointer',
+                  color: isTour ? '#6d28d9' : tab === item.id ? accent : '#334155',
+                  fontWeight: isTour || tab === item.id ? 700 : 600,
+                  fontSize: '0.95rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                }}
+              >
+                <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
+                {item.label}
+                {item.id === 'messages' && hasNotification && (
+                  <span style={{ marginLeft: 'auto', background: '#ef4444', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
+                    New
+                  </span>
+                )}
+                {isTour && (
+                  <span style={{ marginLeft: 'auto', background: '#7c3aed', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
+                    ✨ Try it
+                  </span>
+                )}
+                {!isTour && tab === item.id && (
+                  <span style={{ marginLeft: 'auto', width: 8, height: 8, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+                )}
+              </button>
+            )
+          })}
         </div>
       </div>
     ) : (
@@ -222,39 +265,47 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
           animation: 'fadeSlideDown 0.15s ease',
         }}
       >
-        {items.map((item, i) => (
-          <button
-            key={item.id}
-            data-tour={`menu-item-${item.id}`}
-            onClick={() => handleItemClick(item)}
-            style={{
-              width: '100%',
-              textAlign: 'left',
-              padding: '14px 18px',
-              background: tab === item.id ? accentBg : 'white',
-              border: 'none',
-              borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
-              cursor: 'pointer',
-              color: tab === item.id ? accent : '#334155',
-              fontWeight: tab === item.id ? 700 : 500,
-              fontSize: '0.93rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-            }}
-          >
-            <span style={{ fontSize: '1.05rem' }}>{item.icon}</span>
-            {item.label}
-            {item.id === 'messages' && hasNotification && (
-              <span style={{ marginLeft: 'auto', background: '#ef4444', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
-                New
-              </span>
-            )}
-            {tab === item.id && (
-              <span style={{ marginLeft: 'auto', width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0 }} />
-            )}
-          </button>
-        ))}
+        {items.map((item, i) => {
+          const isTour = item.id === 'guided-tour'
+          return (
+            <button
+              key={item.id}
+              data-tour={`menu-item-${item.id}`}
+              onClick={() => handleItemClick(item)}
+              style={{
+                width: '100%',
+                textAlign: 'left',
+                padding: '14px 18px',
+                background: isTour ? '#f5f3ff' : tab === item.id ? accentBg : 'white',
+                border: 'none',
+                borderBottom: i < items.length - 1 ? '1px solid #f1f5f9' : 'none',
+                cursor: 'pointer',
+                color: isTour ? '#6d28d9' : tab === item.id ? accent : '#334155',
+                fontWeight: isTour ? 700 : tab === item.id ? 700 : 500,
+                fontSize: '0.93rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+              }}
+            >
+              <span style={{ fontSize: '1.05rem' }}>{item.icon}</span>
+              {item.label}
+              {item.id === 'messages' && hasNotification && (
+                <span style={{ marginLeft: 'auto', background: '#ef4444', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
+                  New
+                </span>
+              )}
+              {isTour && (
+                <span style={{ marginLeft: 'auto', background: '#7c3aed', color: 'white', borderRadius: 999, padding: '2px 8px', fontSize: '0.72rem', fontWeight: 700, lineHeight: 1.2 }}>
+                  ✨ Try it
+                </span>
+              )}
+              {!isTour && tab === item.id && (
+                <span style={{ marginLeft: 'auto', width: 7, height: 7, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+              )}
+            </button>
+          )
+        })}
       </div>
     )
   ) : null
@@ -301,6 +352,8 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
       {/* Portal renders dropdown directly into document.body —
           completely escapes any ancestor overflow, transform, or stacking context */}
       {createPortal(dropdown, document.body)}
+      {showHowItWorks && <HowItWorksModal onClose={() => setShowHowItWorks(false)} />}
+      {showTerms && <UserAgreementModal onClose={() => setShowTerms(false)} />}
     </>
   )
 }

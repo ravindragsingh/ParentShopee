@@ -14,7 +14,7 @@ import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
-import AppFooter from './AppFooter.jsx'
+import BottomNav from './BottomNav.jsx'
 import PasswordField from './PasswordField.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
@@ -2702,20 +2702,6 @@ export default function GuardianDashboard() {
       />
 
       <div className="main-content">
-        {tab !== 'home' && (
-          <div className="tabs">
-            {['home', 'chores', 'shop', 'futureready', 'activityideas', 'kids'].map(t => (
-              <button
-                key={t}
-                className={`tab-btn${tab === t ? ' active guardian' : ''}`}
-                onClick={() => setTab(t)}
-              >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'futureready' ? 'Future-Ready' : t === 'activityideas' ? 'Activity Ideas' : 'Kids'}
-              </button>
-            ))}
-          </div>
-        )}
-
         {tab === 'home' && <GuardianHomeScreen name={user.name} userId={user.id} isCoGuardian={!!user.coGuardianOf} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} />}
 
         {tab !== 'home' && kids.length > 0 && (
@@ -2785,7 +2771,19 @@ export default function GuardianDashboard() {
         {tab === 'help'      && <HelpTab role="guardian" />}
         {tab === 'contact'   && <ContactUs />}
       </div>
-      <AppFooter role="guardian" onNavigate={setTab} />
+      <BottomNav
+        variant="guardian"
+        active={tab}
+        onChange={setTab}
+        items={[
+          { key: 'home', icon: '🏠', label: 'Home' },
+          { key: 'chores', icon: '✅', label: 'Chores' },
+          { key: 'shop', icon: '🛍️', label: 'Shop' },
+          { key: 'futureready', icon: '🚀', label: 'Learn' },
+          { key: 'activityideas', icon: '🧸', label: 'Ideas' },
+          { key: 'kids', icon: '👨‍👩‍👧', label: 'Kids' },
+        ]}
+      />
     </div>
   )
 }
