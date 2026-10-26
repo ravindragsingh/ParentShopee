@@ -1286,6 +1286,11 @@ export default function AdminDashboard() {
                   <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 3 }}>Primary Guardian</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                     <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{family.guardian.name}</span>
+                    {family.guardian.isGoogleAccount ? (
+                      <span style={{ background: '#eff6ff', color: '#1d4ed8', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🔵 Google sign-in</span>
+                    ) : (
+                      <span style={{ background: '#f8fafc', color: '#64748b', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🔑 Password sign-up</span>
+                    )}
                     {family.guardian.isSuspended && <span style={{ background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🚫 Suspended</span>}
                     <button style={editBtnStyle} onClick={e => openEditUser(e, family.guardian, family.familyId)}>✏️ Edit</button>
                     <button style={family.guardian.isSuspended ? unsuspendBtnStyle : suspendBtnStyle} onClick={e => handleToggleSuspend(e, family.guardian, family.familyId)} disabled={suspendBusyId === family.guardian.id}>
