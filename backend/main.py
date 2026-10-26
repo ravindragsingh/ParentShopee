@@ -107,6 +107,7 @@ def startup():
             ("users",      "pin_auto_generated",        "VARCHAR"),
             ("users",      "google_id",                 "VARCHAR"),
             ("users",      "push_token",                "VARCHAR"),
+            ("users",      "last_login_platform",        "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
             ("wallets",    "savings_balance",         "FLOAT"),
             ("family_learning_settings", "points_override", "FLOAT"),

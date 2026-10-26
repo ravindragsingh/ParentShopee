@@ -1,13 +1,20 @@
+import { Capacitor } from '@capacitor/core'
+
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4001'
 
 function getToken() {
   return localStorage.getItem('token')
 }
 
+// Capacitor.getPlatform() reports 'web', 'android', or 'ios' based on which
+// shell is actually running the code -- a Capacitor WebView's User-Agent
+// often looks just like a mobile browser's, so the backend can't reliably
+// tell these apart on its own (see geolocation.get_client_platform).
 function authHeaders(tokenOverride) {
   const token = tokenOverride || getToken()
   return {
     'Content-Type': 'application/json',
+    'X-Client-Platform': Capacitor.getPlatform(),
     ...(token ? { Authorization: `Bearer ${token}` } : {})
   }
 }

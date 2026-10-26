@@ -40,6 +40,11 @@ function formatLastLogin(iso) {
   return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
 }
 
+const PLATFORM_LABEL = { web: '🌐 Browser', android: '🤖 Android app', ios: '🍎 iOS app' }
+function platformLabel(platform) {
+  return PLATFORM_LABEL[platform] || null
+}
+
 const suspendBtnStyle = {
   background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 6,
   padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#c2410c', flexShrink: 0,
@@ -1313,6 +1318,9 @@ export default function AdminDashboard() {
                         <> {(family.guardian.lastLoginCity || family.guardian.lastLoginCountry) ? '· ' : ''}{formatLastLogin(family.guardian.lastLoginAt)}</>
                       )}
                     </div>
+                  )}
+                  {platformLabel(family.guardian.lastLoginPlatform) && (
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{platformLabel(family.guardian.lastLoginPlatform)}</div>
                   )}
                 </div>
 

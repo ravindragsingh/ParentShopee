@@ -24,6 +24,7 @@ class DBUser(Base):
     last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_at      = Column(String, nullable=True)  # ISO timestamp of most recent login
+    last_login_platform = Column(String, nullable=True)  # "web" / "android" / "ios", from the most recent login
     # Live count of custom (non-sample) chores/shop items currently in use,
     # shared by co-guardian -- recomputed from what's actually in the DB on
     # every server startup (see seed.reconcile_custom_item_counts) and kept
