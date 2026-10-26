@@ -573,7 +573,7 @@ export default function KidDashboard() {
           { key: 'chores', icon: '📋', label: 'Chores' },
           { key: 'shop', icon: '🎁', label: 'Shop' },
           { key: 'futureready', icon: '🚀', label: 'Learn' },
-          { key: 'activityideas', icon: '🧸', label: 'Ideas' },
+          { key: 'activityideas', icon: '🧸', label: 'Activity' },
           { key: 'wallet', icon: '👛', label: 'Wallet' },
         ]}
       />

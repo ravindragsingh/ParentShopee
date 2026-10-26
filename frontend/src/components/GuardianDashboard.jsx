@@ -2780,7 +2780,7 @@ export default function GuardianDashboard() {
           { key: 'chores', icon: '✅', label: 'Chores' },
           { key: 'shop', icon: '🛍️', label: 'Shop' },
           { key: 'futureready', icon: '🚀', label: 'Learn' },
-          { key: 'activityideas', icon: '🧸', label: 'Ideas' },
+          { key: 'activityideas', icon: '🧸', label: 'Activity' },
           { key: 'kids', icon: '👨‍👩‍👧', label: 'Kids' },
         ]}
       />
