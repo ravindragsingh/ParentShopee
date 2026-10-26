@@ -5,7 +5,10 @@
         "emoji": "🦶",
         "title": "Animal Walk Relay",
         "description": "Take turns moving across the room like different animals -- hop like a frog, waddle like a duck, crawl like a bear.",
-        "materials": ["None needed -- open floor space"],
+        "example": "Hopping like a frog, waddling like a penguin, then crawling like a bear across the living room.",
+        "materials": [
+          "None needed -- open floor space"
+        ],
         "duration": "10 min",
         "steps": [
           "Pick an animal and show the movement",
@@ -17,7 +20,10 @@
         "emoji": "🧵",
         "title": "Threading Beads",
         "description": "String large beads or pasta onto a shoelace to build fine motor control and hand-eye coordination.",
-        "materials": ["Large beads or dried pasta, a shoelace or string"],
+        "example": "A red-blue-red-blue pattern bracelet made from 20 beads on a shoelace.",
+        "materials": [
+          "Large beads or dried pasta, a shoelace or string"
+        ],
         "duration": "15 min",
         "steps": [
           "Give them a string and a pile of beads or pasta",
@@ -29,7 +35,10 @@
         "emoji": "🎯",
         "title": "Sock Toss Target",
         "description": "Set up a laundry basket or box and take turns tossing rolled-up socks in from different distances.",
-        "materials": ["A basket or box, a few pairs of socks"],
+        "example": "3 rolled-up sock \"balls\" landed in the laundry basket from 6 feet away, 2 out of 3 in.",
+        "materials": [
+          "A basket or box, a few pairs of socks"
+        ],
         "duration": "10 min",
         "steps": [
           "Roll socks into balls",
@@ -45,7 +54,10 @@
         "emoji": "🤸",
         "title": "Backyard Obstacle Course",
         "description": "Build a simple obstacle course with household items -- hop over a pillow, crawl under a chair, balance on a line of tape.",
-        "materials": ["Pillows, chairs, tape, or chalk"],
+        "example": "Hop over a pillow, crawl under a chair, balance along a strip of tape -- finished in 22 seconds.",
+        "materials": [
+          "Pillows, chairs, tape, or chalk"
+        ],
         "duration": "20-30 min",
         "steps": [
           "Set up 4-5 stations around a room or yard",
@@ -57,7 +69,10 @@
         "emoji": "⚽",
         "title": "Juggle Challenge",
         "description": "Practice keeping a balloon or soft ball in the air using only hands, then feet, counting how many touches in a row.",
-        "materials": ["A balloon or soft ball"],
+        "example": "Kept a balloon off the ground for 34 hits with hands, then 12 with feet only.",
+        "materials": [
+          "A balloon or soft ball"
+        ],
         "duration": "15 min",
         "steps": [
           "Count how many times you can keep it off the ground",
@@ -69,7 +84,10 @@
         "emoji": "🧗",
         "title": "Freeze Dance Balance",
         "description": "Play music and dance, but when it stops, freeze in a balance pose (one foot, arms out) for 5 seconds.",
-        "materials": ["Music player"],
+        "example": "Froze mid-spin on one foot with arms out like an airplane for a full 5-second count.",
+        "materials": [
+          "Music player"
+        ],
         "duration": "15 min",
         "steps": [
           "Play music and dance around",
@@ -85,7 +103,10 @@
         "emoji": "🏃",
         "title": "Design Your Own Workout",
         "description": "Have your child design a short circuit of exercises (jumping jacks, push-ups, stretches) and lead you through it.",
-        "materials": ["None needed"],
+        "example": "10 jumping jacks, 5 wall push-ups, and a 20-second plank, repeated twice.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "15-20 min",
         "steps": [
           "Have them list 4-5 simple exercises",
@@ -97,7 +118,10 @@
         "emoji": "🚴",
         "title": "Map a Bike or Walk Route",
         "description": "Plan a short bike ride or walk together, picking a route and a destination worth the trip.",
-        "materials": ["A map app, bikes or walking shoes"],
+        "example": "Biked to the corner store for a treat, then took a longer route home past the park.",
+        "materials": [
+          "A map app, bikes or walking shoes"
+        ],
         "duration": "30-45 min",
         "steps": [
           "Pick a nearby destination (park, store, friend's house)",
@@ -109,7 +133,10 @@
         "emoji": "🥏",
         "title": "Target Toss Tournament",
         "description": "Set up a few targets at different distances and run a mini tournament tossing a frisbee or ball at them.",
-        "materials": ["A frisbee or ball, a few target markers"],
+        "example": "3 hula-hoop targets set at 5, 10, and 15 feet -- the closest was worth 1 point, the farthest worth 3.",
+        "materials": [
+          "A frisbee or ball, a few target markers"
+        ],
         "duration": "20 min",
         "steps": [
           "Set 3 targets at different distances",
@@ -125,7 +152,10 @@
         "emoji": "🏋️",
         "title": "Try a New Sport Together",
         "description": "Pick a sport or activity neither of you has done before (badminton, rock climbing, yoga) and try it together.",
-        "materials": ["Depends on the activity chosen"],
+        "example": "Neither had played badminton before -- after 20 minutes they'd rallied 8 hits in a row.",
+        "materials": [
+          "Depends on the activity chosen"
+        ],
         "duration": "45-60 min",
         "steps": [
           "Pick something genuinely new to both of you",
@@ -137,7 +167,10 @@
         "emoji": "🧘",
         "title": "Guided Stretch Session",
         "description": "Follow a short beginner stretching or yoga routine together to unwind after a long day.",
-        "materials": ["A mat or towel, a quiet space"],
+        "example": "Toe touches, side bends, and a seated forward fold, each held for a slow count of 20.",
+        "materials": [
+          "A mat or towel, a quiet space"
+        ],
         "duration": "15-20 min",
         "steps": [
           "Pick 5-6 simple stretches",
@@ -149,7 +182,10 @@
         "emoji": "🏆",
         "title": "Set a Fitness Goal Together",
         "description": "Pick a small, achievable fitness goal (a 5-minute plank, a mile walk) and track progress toward it over a week.",
-        "materials": ["A notebook or notes app to track progress"],
+        "example": "The goal was a 2-minute plank by Sunday -- started at 40 seconds, added 10 seconds every other day.",
+        "materials": [
+          "A notebook or notes app to track progress"
+        ],
         "duration": "Ongoing, ~10 min/day",
         "steps": [
           "Agree on one small, specific goal",

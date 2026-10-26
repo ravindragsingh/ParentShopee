@@ -492,7 +492,7 @@ function KidHomeScreen({ name, userId, balance, onNavigate, onOpenModule }) {
         <HomeNavTile icon="📋" iconColor="#2563eb" bg="#eff6ff" border="#bfdbfe" label="My Tasks" text="Earn points" badge={taskCount} onClick={() => onNavigate('chores')} />
         <HomeNavTile icon="🎁" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="My Rewards" text="Spend points" onClick={() => onNavigate('shop')} />
         <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learn & grow" onClick={() => onNavigate('futureready')} />
-        <HomeNavTile icon="🧸" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Activity Ideas" text="Try something fun" onClick={() => onNavigate('activityideas')} />
+        <HomeNavTile icon="🧸" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Quests" text="Try something fun" onClick={() => onNavigate('activityideas')} />
         <HomeNavTile icon="👛" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="My Wallet" text="See savings" onClick={() => onNavigate('wallet')} />
       </div>
 
@@ -573,7 +573,7 @@ export default function KidDashboard() {
           { key: 'chores', icon: '📋', label: 'Chores' },
           { key: 'shop', icon: '🎁', label: 'Shop' },
           { key: 'futureready', icon: '🚀', label: 'Learn' },
-          { key: 'activityideas', icon: '🧸', label: 'Activity' },
+          { key: 'activityideas', icon: '🧸', label: 'Quests' },
           { key: 'wallet', icon: '👛', label: 'Wallet' },
         ]}
       />

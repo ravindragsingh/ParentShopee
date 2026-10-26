@@ -280,31 +280,35 @@ export default function GuardianActivityIdeasTab() {
     return <ActivitySetView module={previewModule} onExit={() => setPreviewModule(null)} previewMode />
   }
 
-  if (loading) return <div className="loading-text">Loading Activity Ideas…</div>
+  if (loading) return <div className="loading-text">Loading Quests…</div>
 
   const categories = groupByCategory(modules)
 
   return (
     <div>
-      <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🧸 Activity Ideas</h3>
+      <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🧸 Quests</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
-        Simple, age-appropriate activities you can try with your kids -- no screens required. Turn on the sets you want available and set how many points each one earns. Preview any set yourself first.
+        Simple, age-appropriate activities you can try with your kids -- no screens required. Turn on the quests you want available and set how many points each one earns. Preview any quest yourself first.
       </div>
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
       {categories.length === 0 ? (
-        <div className="empty-text">No activity sets available yet.</div>
+        <div className="empty-text">No quests available yet.</div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {categories.map(category => {
+          {categories.map((category, catIndex) => {
             const meta = categoryMeta(category.category)
             const enabledCount = category.modules.filter(m => m.enabled).length
             const categoryIsNew = category.modules.some(m => m.isNew)
             const pendingCount = category.modules.reduce((n, m) => n + (m.pendingLogs?.length || 0), 0)
             const isOpen = openCategory === category.category
             return (
-              <div key={category.category} style={{ border: `1px solid ${meta.border}`, borderRadius: 16, overflow: 'hidden', background: '#fff' }}>
+              <div
+                key={category.category}
+                className="pop-in"
+                style={{ border: `1px solid ${meta.border}`, borderRadius: 16, overflow: 'hidden', background: '#fff', animationDelay: `${catIndex * 0.06}s`, animationFillMode: 'backwards' }}
+              >
                 <button
                   onClick={() => setOpenCategory(c => c === category.category ? null : category.category)}
                   style={{

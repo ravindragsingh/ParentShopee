@@ -6,12 +6,21 @@ import { api } from '../api.js'
 // guardian before points pay out) and a guardian's preview (read-only, via
 // `previewMode`). No slides/quiz to paginate through like Future-Ready's
 // LessonModule, so this is just a single scrollable list.
-function ActivityCard({ activity }) {
+//
+// `index` only drives the entrance animation's stagger delay -- each card
+// pops in a beat after the last one, reusing the same .pop-in keyframe the
+// rest of the app already uses for a lightweight "something just appeared"
+// cue (see styles.css), rather than inventing a new animation just for this.
+function ActivityCard({ activity, index }) {
   return (
-    <div style={{
-      background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16,
-      padding: '18px 20px', boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-    }}>
+    <div
+      className="pop-in"
+      style={{
+        background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16,
+        padding: '18px 20px', boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+        animationDelay: `${index * 0.08}s`, animationFillMode: 'backwards',
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
         <span style={{ fontSize: '1.5rem' }}>{activity.emoji}</span>
         <span style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b' }}>{activity.title}</span>
@@ -33,6 +42,17 @@ function ActivityCard({ activity }) {
         <ol style={{ margin: 0, paddingLeft: 20, fontSize: '0.85rem', color: '#334155', lineHeight: 1.6 }}>
           {activity.steps.map((s, i) => <li key={i}>{s}</li>)}
         </ol>
+      )}
+      {activity.example && (
+        <div style={{
+          display: 'flex', alignItems: 'flex-start', gap: 8, marginTop: 12,
+          background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '8px 12px',
+        }}>
+          <span style={{ fontSize: '0.95rem', flexShrink: 0 }}>💡</span>
+          <span style={{ fontSize: '0.82rem', color: '#78350f', lineHeight: 1.5 }}>
+            <strong>Example:</strong> {activity.example}
+          </span>
+        </div>
       )}
     </div>
   )
@@ -86,18 +106,28 @@ export default function ActivitySetView({ module, onExit, onLogSubmitted, previe
         <div className="loading-text">Loading…</div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {(content.activities || []).map((activity, i) => <ActivityCard key={i} activity={activity} />)}
+          {(content.activities || []).map((activity, i) => <ActivityCard key={i} activity={activity} index={i} />)}
         </div>
       )}
 
       {!previewMode && content && (
         <div style={{ marginTop: 20 }}>
           {module.completed ? (
-            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '14px 16px', textAlign: 'center', color: '#166534', fontWeight: 700, fontSize: '0.9rem' }}>
-              ✅ Done — your guardian approved this and you earned {module.points} pts!
+            // Mirrors Future-Ready's quiz-passed celebration (same classes,
+            // see styles.css) -- this is the equivalent "you just earned
+            // points" moment here, so it gets the same full treatment.
+            <div className="result-celebration" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '18px 16px', textAlign: 'center' }}>
+              <div className="mega-confetti" aria-hidden="true">
+                {['🎉', '✨', '⭐', '🎊', '🎈', '🌟', '💫', '🏆'].map((p, i) => (
+                  <span key={i} className={`confetti-piece mc-${i}`}>{p}</span>
+                ))}
+              </div>
+              <div style={{ color: '#166534', fontWeight: 700, fontSize: '0.9rem' }}>
+                ✅ Done — your guardian approved this and you earned {module.points} pts!
+              </div>
             </div>
           ) : isPending ? (
-            <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '14px 16px', textAlign: 'center', color: '#92400e', fontWeight: 700, fontSize: '0.9rem' }}>
+            <div className="pop-in" style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '14px 16px', textAlign: 'center', color: '#92400e', fontWeight: 700, fontSize: '0.9rem' }}>
               ⏳ Sent to your guardian — you'll get your {module.points} pts once they take a look.
             </div>
           ) : (

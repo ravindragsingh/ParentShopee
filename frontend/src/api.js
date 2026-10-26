@@ -112,7 +112,7 @@ export const api = {
   completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),
   resetLearningCompletion: (moduleId, kidId) => request('DELETE', `/api/future-ready/${moduleId}/completion/${kidId}`),
 
-  // Activity Ideas
+  // Quests (formerly "Activity Ideas" -- internal names/routes kept as-is, only the user-facing name changed)
   getActivityModules: () => request('GET', '/api/activity-ideas'),
   getActivityContent: (moduleId) => request('GET', `/api/activity-ideas/${moduleId}/content`),
   setActivityVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/activity-ideas/${moduleId}/visibility`, { enabled, kidIds }),

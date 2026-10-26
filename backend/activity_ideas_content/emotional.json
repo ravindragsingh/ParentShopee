@@ -5,7 +5,10 @@
         "emoji": "🙂",
         "title": "Feelings Faces",
         "description": "Take turns making a face for a feeling (happy, sad, surprised, scared) and guessing which one the other is showing.",
-        "materials": ["None needed"],
+        "example": "Dad scrunched up his face in mock horror, and Priya guessed \"surprised!\" on the first try.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "10 min",
         "steps": [
           "Whisper a feeling to yourself, then make that face",
@@ -17,7 +20,10 @@
         "emoji": "🫂",
         "title": "Kindness Catch",
         "description": "Toss a soft ball back and forth, and each time you catch it, say one kind thing about the other person.",
-        "materials": ["A soft ball or beanbag"],
+        "example": "Every catch came with something kind -- \"you always help me find my shoes\" or \"you make me laugh.\"",
+        "materials": [
+          "A soft ball or beanbag"
+        ],
         "duration": "10 min",
         "steps": [
           "Toss the ball to each other",
@@ -29,7 +35,10 @@
         "emoji": "🌬️",
         "title": "Balloon Breathing",
         "description": "Practice slow, calming breaths together by pretending to blow up a balloon in your belly, then slowly letting it out.",
-        "materials": ["None needed"],
+        "example": "Three slow belly-breaths before bed, imagining a balloon filling up and slowly letting the air out.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "5 min",
         "steps": [
           "Place a hand on your belly",
@@ -45,7 +54,10 @@
         "emoji": "📓",
         "title": "Three Good Things",
         "description": "Before bed, each share three good things that happened today, however small, and why they mattered.",
-        "materials": ["None needed"],
+        "example": "\"My friend shared her snack,\" \"I landed that skateboard trick,\" \"dinner was my favorite.\"",
+        "materials": [
+          "None needed"
+        ],
         "duration": "5-10 min",
         "steps": [
           "Each think of 3 good moments from today",
@@ -57,7 +69,10 @@
         "emoji": "🎭",
         "title": "What Would You Do?",
         "description": "Talk through a few \"what would you do?\" social scenarios, like a friend being left out, and discuss kind responses together.",
-        "materials": ["None needed"],
+        "example": "Talked through a friend being left out at recess -- decided inviting them over was kinder than ignoring it.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "15 min",
         "steps": [
           "Describe a simple social situation",
@@ -69,7 +84,10 @@
         "emoji": "🌈",
         "title": "Worry Jar",
         "description": "Write down a worry on a slip of paper and put it in a jar together, then talk about one small step to deal with it.",
-        "materials": ["Paper, a jar or box"],
+        "example": "Wrote down \"scared about the spelling test\" and agreed the next step was practicing 5 words a night.",
+        "materials": [
+          "Paper, a jar or box"
+        ],
         "duration": "10-15 min",
         "steps": [
           "Write down something on their mind",
@@ -85,7 +103,10 @@
         "emoji": "🧭",
         "title": "Values Compass",
         "description": "Talk together about 3-4 things they really value (honesty, fairness, fun) and how those show up in their daily choices.",
-        "materials": ["None needed"],
+        "example": "Realized \"fairness\" was behind the decision to split the last cookie evenly with a sibling.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "15-20 min",
         "steps": [
           "Ask them to name a few things that matter most to them",
@@ -97,7 +118,10 @@
         "emoji": "🤝",
         "title": "Conflict Replay",
         "description": "Talk through a recent disagreement (with a friend or sibling) and replay it, exploring a different way it could have gone.",
-        "materials": ["None needed"],
+        "example": "Replayed an argument over a video game turn, and agreed next time they'd set a timer instead of arguing.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "15 min",
         "steps": [
           "Pick a recent disagreement, calmly",
@@ -109,7 +133,10 @@
         "emoji": "📵",
         "title": "Tech-Free Check-In",
         "description": "Spend 15 minutes phone-free together just talking about how their week is actually going, no fixing, just listening.",
-        "materials": ["None needed -- just put phones away"],
+        "example": "Learned a friend group chat had been stressful all week -- just listening helped more than advice would have.",
+        "materials": [
+          "None needed -- just put phones away"
+        ],
         "duration": "15 min",
         "steps": [
           "Put all devices in another room",
@@ -125,7 +152,10 @@
         "emoji": "🪞",
         "title": "Strengths Interview",
         "description": "Take turns interviewing each other about a recent challenge and what strength helped you get through it.",
-        "materials": ["None needed"],
+        "example": "Realized \"patience\" was the strength that helped get through a hard math assignment.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "15-20 min",
         "steps": [
           "Think of a recent challenge, big or small",
@@ -137,7 +167,10 @@
         "emoji": "🌱",
         "title": "Future Self Letter",
         "description": "Each write a short letter to yourself one year from now, then (optionally) share a part of it with each other.",
-        "materials": ["Paper and pen"],
+        "example": "Wrote \"I hope you still play guitar\" and sealed it to open again next birthday.",
+        "materials": [
+          "Paper and pen"
+        ],
         "duration": "20 min",
         "steps": [
           "Write a letter to your future self, one year ahead",
@@ -149,7 +182,10 @@
         "emoji": "💬",
         "title": "Hard Topic, Safe Space",
         "description": "Pick one topic that's been hard to bring up and have a calm, no-judgment conversation about it together.",
-        "materials": ["None needed"],
+        "example": "Talked calmly about a dropping grade -- turned out the real issue was a tough new seating arrangement in class.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "20-30 min",
         "steps": [
           "Agree ahead of time this is a listening conversation, not a lecture",

@@ -324,12 +324,14 @@ def startup():
     finally:
         db3.close()
 
-    # Seed the Activity Ideas catalog -- same upsert-plus-soft-deactivate
-    # pattern as Future-Ready above, sharing the same DBLearningModule /
-    # DBFamilyLearningSetting / DBLearningCompletion tables (see models.py
-    # and routers/activity_ideas.py) with section="activity-ideas" instead.
-    # No slides/quiz here -- content is just a short list of hands-on ideas
-    # a guardian can try with their kid; "topic" doubles as the category.
+    # Seed the Quests catalog ("Activity Ideas" internally -- the module/
+    # route/table names below keep that name, only the user-facing label
+    # changed) -- same upsert-plus-soft-deactivate pattern as Future-Ready
+    # above, sharing the same DBLearningModule / DBFamilyLearningSetting /
+    # DBLearningCompletion tables (see models.py and routers/activity_ideas.py)
+    # with section="activity-ideas" instead. No slides/quiz here -- content is
+    # just a short list of hands-on ideas a guardian can try with their kid;
+    # "topic" doubles as the category.
     db4 = SessionLocal()
     try:
         content_dir = os.path.join(os.path.dirname(__file__), "activity_ideas_content")
@@ -345,7 +347,7 @@ def startup():
             ("emotional", "Emotional Intelligence", "❤️"),
         ]
         ACTIVITY_AGE_BANDS = [(4, 6), (7, 9), (10, 13), (13, 17)]
-        ACTIVITY_POINTS = 8  # flat per activity-set completion -- no quiz to scale off of
+        ACTIVITY_POINTS = 8  # flat per quest completion -- no quiz to scale off of
 
         catalog2 = []
         order_index2 = 1
@@ -355,7 +357,7 @@ def startup():
                 if module_id not in content_by_id:
                     continue
                 catalog2.append(dict(
-                    id=module_id, section="activity-ideas", section_title="Activity Ideas", section_emoji="🧸",
+                    id=module_id, section="activity-ideas", section_title="Quests", section_emoji="🧸",
                     topic=category_key, topic_title=category_title, topic_emoji=category_emoji,
                     age_min=age_min, age_max=age_max, title=f"Ages {age_min}–{age_max}",
                     points=ACTIVITY_POINTS, order_index=order_index2,

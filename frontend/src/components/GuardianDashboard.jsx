@@ -2634,7 +2634,7 @@ function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNa
         <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} tourId="home-chores-tile" />
         <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} tourId="home-shop-tile" />
         <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} tourId="home-futureready-tile" />
-        <HomeNavTile icon="🧸" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Activity Ideas" text="Things to try together" onClick={() => onNavigate('activityideas')} />
+        <HomeNavTile icon="🧸" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Quests" text="Things to try together" onClick={() => onNavigate('activityideas')} />
         <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} tourId="home-kids-tile" />
       </div>
 
@@ -2780,7 +2780,7 @@ export default function GuardianDashboard() {
           { key: 'chores', icon: '✅', label: 'Chores' },
           { key: 'shop', icon: '🛍️', label: 'Shop' },
           { key: 'futureready', icon: '🚀', label: 'Learn' },
-          { key: 'activityideas', icon: '🧸', label: 'Activity' },
+          { key: 'activityideas', icon: '🧸', label: 'Quests' },
           { key: 'kids', icon: '👨‍👩‍👧', label: 'Kids' },
         ]}
       />

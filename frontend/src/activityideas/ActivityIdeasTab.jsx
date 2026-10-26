@@ -24,12 +24,16 @@ function groupByCategory(modules) {
   return [...byCategory.values()]
 }
 
-function CategoryCard({ meta, emoji, title, isNew, children }) {
+function CategoryCard({ meta, emoji, title, isNew, index, children }) {
   return (
-    <div style={{
-      border: `1px solid ${meta.border}`, background: meta.bg, borderRadius: 18, padding: '20px 18px',
-      display: 'flex', flexDirection: 'column', gap: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-    }}>
+    <div
+      className="pop-in"
+      style={{
+        border: `1px solid ${meta.border}`, background: meta.bg, borderRadius: 18, padding: '20px 18px',
+        display: 'flex', flexDirection: 'column', gap: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
+        animationDelay: `${index * 0.08}s`, animationFillMode: 'backwards',
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <div style={{
           width: 52, height: 52, borderRadius: 16, background: '#fff', border: `1px solid ${meta.border}`,
@@ -85,13 +89,13 @@ export default function ActivityIdeasTab({ onBalanceChange }) {
     return <ActivitySetView module={openModule} onExit={() => setOpenModule(null)} onLogSubmitted={handleLogSubmitted} />
   }
 
-  if (loading) return <div className="loading-text">Loading Activity Ideas…</div>
+  if (loading) return <div className="loading-text">Loading Quests…</div>
 
   const categories = groupByCategory(modules)
 
   return (
     <div>
-      <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🧸 Activity Ideas</h3>
+      <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🧸 Quests</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
         Fun things to try together. Pick one, give it a go, and tell your guardian about it to earn points.
       </div>
@@ -105,15 +109,15 @@ export default function ActivityIdeasTab({ onBalanceChange }) {
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
       {categories.length === 0 ? (
-        <div className="empty-text">Nothing here yet — ask your guardian to turn on an activity set for you.</div>
+        <div className="empty-text">Nothing here yet — ask your guardian to turn on a quest for you.</div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
-          {categories.map(category => {
+          {categories.map((category, catIndex) => {
             const meta = categoryMeta(category.category)
             const categoryIsNew = category.modules.some(m => m.isNew)
             const doneCount = category.modules.filter(m => m.completed).length
             return (
-              <CategoryCard key={category.category} meta={meta} emoji={category.emoji} title={category.title} isNew={categoryIsNew}>
+              <CategoryCard key={category.category} meta={meta} emoji={category.emoji} title={category.title} isNew={categoryIsNew} index={catIndex}>
                 <div style={{ fontSize: '0.75rem', fontWeight: 700, color: meta.color }}>{doneCount}/{category.modules.length} tried</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 'auto' }}>
                   {category.modules.map(m => {

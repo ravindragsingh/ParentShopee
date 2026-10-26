@@ -156,8 +156,8 @@ def get_activity_content(module_id: str, db: Session = Depends(get_db), user: DB
     module = db.query(DBLearningModule).filter(
         DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.section == SECTION
     ).first()
-    if not module: fail("Activity set not found", 404)
-    if not module.content: fail("This activity set isn't ready yet.", 404)
+    if not module: fail("Quest not found", 404)
+    if not module.content: fail("This quest isn't ready yet.", 404)
     if user.role == "kid":
         family_id = _family_id_for(user)
         setting = db.query(DBFamilyLearningSetting).filter(
@@ -181,7 +181,7 @@ def _get_or_create_setting(db: Session, family_id: str, module_id: str) -> DBFam
 @router.put("/api/activity-ideas/{module_id}/visibility")
 def set_activity_visibility(module_id: str, body: LearningVisibilityUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.section == SECTION).first()
-    if not module: fail("Activity set not found", 404)
+    if not module: fail("Quest not found", 404)
 
     family_id = get_family_id(user)
     setting = _get_or_create_setting(db, family_id, module_id)
@@ -194,7 +194,7 @@ def set_activity_visibility(module_id: str, body: LearningVisibilityUpdate, db: 
 @router.put("/api/activity-ideas/{module_id}/points")
 def set_activity_points(module_id: str, body: LearningPointsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.section == SECTION).first()
-    if not module: fail("Activity set not found", 404)
+    if not module: fail("Quest not found", 404)
     if body.points <= 0: fail("Points must be greater than 0")
 
     family_id = get_family_id(user)
@@ -213,7 +213,7 @@ def reset_activity_completion(module_id: str, kid_id: str, db: Session = Depends
     completion = db.query(DBLearningCompletion).filter(
         DBLearningCompletion.kid_id == kid_id, DBLearningCompletion.module_id == module_id
     ).first()
-    if not completion: fail("This kid hasn't completed that activity set", 404)
+    if not completion: fail("This kid hasn't completed that quest", 404)
 
     db.delete(completion)
     db.commit()
@@ -225,7 +225,7 @@ def submit_activity_log(module_id: str, body: ActivityLogBody, db: Session = Dep
     module = db.query(DBLearningModule).filter(
         DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.section == SECTION
     ).first()
-    if not module: fail("Activity set not found", 404)
+    if not module: fail("Quest not found", 404)
     family_id = _family_id_for(user)
     setting = db.query(DBFamilyLearningSetting).filter(
         DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == module_id
@@ -253,7 +253,7 @@ def submit_activity_log(module_id: str, body: ActivityLogBody, db: Session = Dep
     db.commit()
     notify_guardians_of_kid(
         db, user,
-        title="🧸 Activity logged!",
+        title="🧸 Quest logged!",
         body=f"{user.name} tried \"{module.title}\" ({module.topic_title}) -- tap to review.",
         data={"type": "activity_log_submitted", "logId": log.id},
     )
@@ -270,7 +270,7 @@ def approve_activity_log(log_id: str, db: Session = Depends(get_db), user: DBUse
     if log.status != "pending": fail("Only pending logs can be approved")
 
     module = db.query(DBLearningModule).filter(DBLearningModule.id == log.module_id).first()
-    if not module: fail("Activity set not found", 404)
+    if not module: fail("Quest not found", 404)
     setting = db.query(DBFamilyLearningSetting).filter(
         DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == log.module_id
     ).first()
@@ -288,14 +288,14 @@ def approve_activity_log(log_id: str, db: Session = Depends(get_db), user: DBUse
         points_awarded=points, completed_at=now(),
     ))
     db.add(DBTransaction(id=str(uuid4()), kid_id=log.kid_id, type="earned",
-                         amount=points, description=f"Tried activity set: {module.topic_title} ({module.title})", timestamp=now()))
+                         amount=points, description=f"Completed quest: {module.topic_title} ({module.title})", timestamp=now()))
     log.status = "approved"
     log.reviewed_at = now()
     db.commit()
     db.refresh(wallet)
     notify_kid(
         db, log.kid_id,
-        title="✅ Activity approved!",
+        title="✅ Quest approved!",
         body=f"\"{module.title}\" was approved -- you earned {points:g} pts!",
         data={"type": "activity_log_approved", "moduleId": module.id},
     )
@@ -317,7 +317,7 @@ def reject_activity_log(log_id: str, db: Session = Depends(get_db), user: DBUser
     module = db.query(DBLearningModule).filter(DBLearningModule.id == log.module_id).first()
     notify_kid(
         db, log.kid_id,
-        title="Activity log needs another try",
+        title="Quest needs another try",
         body=f"Your guardian asked you to try \"{module.title if module else log.module_id}\" again before it counts.",
         data={"type": "activity_log_rejected", "moduleId": log.module_id},
     )

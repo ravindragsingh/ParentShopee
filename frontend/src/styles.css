@@ -108,6 +108,15 @@
 .mega-confetti .mc-6 { left: 58%; top: 18%; --tx: -20px; --ty: 90px; --rot: -55deg; animation-delay: 0.18s; }
 .mega-confetti .mc-7 { left: 78%; top: 22%; --tx: 10px;  --ty: 80px; --rot: 45deg; animation-delay: 0.08s; }
 
+html {
+  /* Tells the browser's own "scroll this into view" behavior (e.g. focusing
+     an input while the on-screen keyboard appears) to treat the bottom nav's
+     height as off-limits -- otherwise a focused field near the end of a
+     short page can land exactly behind the fixed bar, which the browser has
+     no way to know about on its own (see BottomNav.jsx). */
+  scroll-padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px));
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: linear-gradient(160deg, #f0fdfa 0%, #fff7ed 40%, #f0fdf4 100%);
@@ -1253,6 +1262,11 @@ body {
 
   .main-content {
     padding: 14px 10px;
+    /* This shorthand would otherwise reset padding-bottom back down from the
+       base rule's reserved bottom-nav space (see .main-content above) right
+       on the phone-sized screens that bar actually appears full-width on --
+       re-apply it here instead of just the flat 14px every side gets. */
+    padding-bottom: calc(14px + 66px + env(safe-area-inset-bottom, 0px));
   }
 
   .tabs {

@@ -5,7 +5,10 @@
         "emoji": "🧩",
         "title": "Shape Sorting Hunt",
         "description": "Walk around the house together and find objects that match a shape you call out -- circle, square, triangle.",
-        "materials": ["None needed -- use objects already around the house"],
+        "example": "Mia found a clock (circle) on the wall, a window (square), and a slice of toast (triangle)!",
+        "materials": [
+          "None needed -- use objects already around the house"
+        ],
         "duration": "10-15 min",
         "steps": [
           "Call out a shape, like \"circle\"",
@@ -17,7 +20,10 @@
         "emoji": "🃏",
         "title": "Memory Match",
         "description": "Lay out pairs of matching cards face-down and take turns flipping two at a time to find pairs.",
-        "materials": ["A deck of cards, or paper cut into matching pairs"],
+        "example": "Jayden remembered where the matching dinosaur cards were and got 4 pairs in a row.",
+        "materials": [
+          "A deck of cards, or paper cut into matching pairs"
+        ],
         "duration": "10 min",
         "steps": [
           "Lay 8-12 cards face-down in a grid",
@@ -29,7 +35,10 @@
         "emoji": "🎵",
         "title": "Copy My Pattern",
         "description": "Clap a short rhythm or sequence of sounds and have your child copy it back, building the pattern longer each round.",
-        "materials": ["None needed"],
+        "example": "Dad clapped clap-clap-pause-clap, and Zoe copied it perfectly, then added one more clap.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "5-10 min",
         "steps": [
           "Clap a simple 2-3 beat pattern",
@@ -45,7 +54,10 @@
         "emoji": "🧮",
         "title": "Grocery Math",
         "description": "At the store or looking at a receipt, have your child estimate the total cost before you check out, then compare.",
-        "materials": ["A shopping trip or receipt"],
+        "example": "Priya guessed the 5 items would total about $18 -- the real total was $19.40, close!",
+        "materials": [
+          "A shopping trip or receipt"
+        ],
         "duration": "15-20 min",
         "steps": [
           "Pick 5 items and ask them to round each price and add them up in their head",
@@ -57,7 +69,10 @@
         "emoji": "🔍",
         "title": "Spot the Difference",
         "description": "Take two photos of the same room a few minutes apart after moving a few small objects, then have your child find what changed.",
-        "materials": ["A phone camera"],
+        "example": "Liam spotted that the remote moved and a cushion flipped over, but missed the moved mug.",
+        "materials": [
+          "A phone camera"
+        ],
         "duration": "10 min",
         "steps": [
           "Photograph a room or table",
@@ -69,7 +84,10 @@
         "emoji": "🗺️",
         "title": "Treasure Map Logic",
         "description": "Draw a simple grid map and hide a small prize, then give step-by-step directional clues for your child to follow.",
-        "materials": ["Paper, pencil, a small treat or toy"],
+        "example": "Noah followed \"5 steps north, 3 steps east\" and found the hidden sticker behind the couch.",
+        "materials": [
+          "Paper, pencil, a small treat or toy"
+        ],
         "duration": "15-20 min",
         "steps": [
           "Draw a grid of a room or yard",
@@ -85,7 +103,10 @@
         "emoji": "♟️",
         "title": "Strategy Game Night",
         "description": "Play a strategy board or card game together and talk through the reasoning behind each move.",
-        "materials": ["Any strategy game -- chess, checkers, or a card game you own"],
+        "example": "Grandpa and Ethan played checkers, and Ethan explained why he was setting up a double-jump.",
+        "materials": [
+          "Any strategy game -- chess, checkers, or a card game you own"
+        ],
         "duration": "30 min",
         "steps": [
           "Pick a game that involves planning ahead",
@@ -97,7 +118,10 @@
         "emoji": "📰",
         "title": "Headline Detective",
         "description": "Read a news headline together and guess what the article is about before reading it, then check how close the guess was.",
-        "materials": ["A kid-appropriate news site or paper"],
+        "example": "Before reading, Ava guessed an article about a \"robot chef\" was about a restaurant -- it was actually a cooking competition.",
+        "materials": [
+          "A kid-appropriate news site or paper"
+        ],
         "duration": "15 min",
         "steps": [
           "Pick a headline and cover the article",
@@ -109,7 +133,10 @@
         "emoji": "🧠",
         "title": "20 Questions, Harder Mode",
         "description": "Play 20 Questions but require every question to be a yes/no question that narrows down a category logically.",
-        "materials": ["None needed"],
+        "example": "Sam guessed \"the Eiffel Tower\" in 14 yes/no questions by narrowing down place, then country, then landmark.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "10-15 min",
         "steps": [
           "One person thinks of a person, place, or thing",
@@ -125,7 +152,10 @@
         "emoji": "💬",
         "title": "Debate a Topic",
         "description": "Pick a low-stakes topic and each take an opposing side, arguing your case for a few minutes before switching sides.",
-        "materials": ["None needed"],
+        "example": "Mom argued pineapple belongs on pizza, Jordan argued it doesn't -- then they swapped and argued the opposite side.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "15-20 min",
         "steps": [
           "Agree on a light topic (best pizza topping, ideal weekend)",
@@ -137,7 +167,10 @@
         "emoji": "🧩",
         "title": "Budget a Fictional Trip",
         "description": "Plan a fictional weekend trip together within a set budget, researching real costs for travel, food, and activities.",
-        "materials": ["Internet access, paper or a notes app"],
+        "example": "Maya planned a $500 weekend in Seattle, finding a $120 train ticket, a cheap hostel, and one paid museum visit.",
+        "materials": [
+          "Internet access, paper or a notes app"
+        ],
         "duration": "30-45 min",
         "steps": [
           "Set a total budget and a destination",
@@ -149,7 +182,10 @@
         "emoji": "🔢",
         "title": "Teach It Back",
         "description": "Have your teen pick something they learned recently in school and explain it to you as if you knew nothing about it.",
-        "materials": ["None needed"],
+        "example": "Alex explained the water cycle to Dad using a cup of water and a plate to show evaporation and rain.",
+        "materials": [
+          "None needed"
+        ],
         "duration": "10-15 min",
         "steps": [
           "Ask them to choose a recent school topic",
