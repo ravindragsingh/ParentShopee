@@ -7,14 +7,14 @@ from sqlalchemy.orm import Session
 from database import get_db
 from deps import require_auth, require_guardian, require_kid
 from helpers import get_family_id, now
-from models import DBActivityLog, DBFamilyLearningSetting, DBLearningCompletion, DBLearningModule, DBTransaction, DBUser, DBWallet
+from models import DBFamilyLearningSetting, DBLearningCompletion, DBLearningModule, DBQuestLog, DBTransaction, DBUser, DBWallet
 from push_utils import notify_guardians_of_kid, notify_kid
 from responses import fail, ok
-from schemas import ActivityLogBody, LearningPointsUpdate, LearningVisibilityUpdate
+from schemas import LearningPointsUpdate, LearningVisibilityUpdate, QuestLogBody
 
 router = APIRouter()
 
-SECTION = "activity-ideas"
+SECTION = "quest"
 
 # Same "New" badge window as Future-Ready -- see future_ready.py's
 # NEW_BADGE_DAYS for why 14 days.
@@ -24,12 +24,12 @@ NEW_BADGE_DAYS = 14
 # with Future-Ready (see models.py) -- same catalog/visibility shape, just a
 # different `section` value. Unlike Future-Ready's instant quiz-based payout,
 # a completion here is only ever created by a guardian approving a
-# DBActivityLog (see submit_activity_log/approve_activity_log below) -- a
-# kid self-reporting a tap with nothing to verify felt too easy to spam, so
-# this borrows Chores' review-queue model instead. score/total stay fixed at
-# 1/1 as a "done" sentinel: there's nothing to actually score.
-ACTIVITY_SCORE = 1
-ACTIVITY_TOTAL = 1
+# DBQuestLog (see submit_quest_log/approve_quest_log below) -- a kid
+# self-reporting a tap with nothing to verify felt too easy to spam, so this
+# borrows Chores' review-queue model instead. score/total stay fixed at 1/1
+# as a "done" sentinel: there's nothing to actually score.
+QUEST_SCORE = 1
+QUEST_TOTAL = 1
 
 
 def _is_new(m: DBLearningModule) -> bool:
@@ -89,7 +89,7 @@ def module_dict(m: DBLearningModule, points: float, enabled: bool = None, comple
     return d
 
 
-def _log_dict(log: DBActivityLog, kid_name: str = None) -> dict:
+def _log_dict(log: DBQuestLog, kid_name: str = None) -> dict:
     d = {"id": log.id, "moduleId": log.module_id, "note": log.note, "status": log.status, "submittedAt": log.submitted_at}
     if kid_name is not None:
         d["kidId"] = log.kid_id
@@ -97,8 +97,8 @@ def _log_dict(log: DBActivityLog, kid_name: str = None) -> dict:
     return d
 
 
-@router.get("/api/activity-ideas")
-def get_activity_modules(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+@router.get("/api/quests")
+def get_quests(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     modules = db.query(DBLearningModule).filter(
         DBLearningModule.is_active == "1", DBLearningModule.section == SECTION
     ).order_by(DBLearningModule.order_index).all()
@@ -111,7 +111,7 @@ def get_activity_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
         # Most recent log per module, so a rejected-then-resubmitted log
         # doesn't leave a stale rejection showing after the new one lands.
         my_logs_by_module = {}
-        for log in db.query(DBActivityLog).filter(DBActivityLog.kid_id == user.id).order_by(DBActivityLog.submitted_at).all():
+        for log in db.query(DBQuestLog).filter(DBQuestLog.kid_id == user.id).order_by(DBQuestLog.submitted_at).all():
             my_logs_by_module[log.module_id] = log
         return ok([
             module_dict(
@@ -135,9 +135,9 @@ def get_activity_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
                 "kidId": c.kid_id, "kidName": kid_names.get(c.kid_id, "?"),
                 "completedAt": c.completed_at,
             })
-        for log in db.query(DBActivityLog).filter(
-            DBActivityLog.kid_id.in_(kid_names.keys()), DBActivityLog.status == "pending"
-        ).order_by(DBActivityLog.submitted_at).all():
+        for log in db.query(DBQuestLog).filter(
+            DBQuestLog.kid_id.in_(kid_names.keys()), DBQuestLog.status == "pending"
+        ).order_by(DBQuestLog.submitted_at).all():
             pending_by_module.setdefault(log.module_id, []).append(_log_dict(log, kid_names.get(log.kid_id, "?")))
     return ok([
         module_dict(
@@ -151,8 +151,8 @@ def get_activity_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
     ])
 
 
-@router.get("/api/activity-ideas/{module_id}/content")
-def get_activity_content(module_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
+@router.get("/api/quests/{module_id}/content")
+def get_quest_content(module_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     module = db.query(DBLearningModule).filter(
         DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.section == SECTION
     ).first()
@@ -178,8 +178,8 @@ def _get_or_create_setting(db: Session, family_id: str, module_id: str) -> DBFam
     return setting
 
 
-@router.put("/api/activity-ideas/{module_id}/visibility")
-def set_activity_visibility(module_id: str, body: LearningVisibilityUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+@router.put("/api/quests/{module_id}/visibility")
+def set_quest_visibility(module_id: str, body: LearningVisibilityUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.section == SECTION).first()
     if not module: fail("Quest not found", 404)
 
@@ -191,8 +191,8 @@ def set_activity_visibility(module_id: str, body: LearningVisibilityUpdate, db: 
     return ok(module_dict(module, _effective_points(module, setting), enabled=body.enabled, enabled_kid_ids=body.kidIds or None))
 
 
-@router.put("/api/activity-ideas/{module_id}/points")
-def set_activity_points(module_id: str, body: LearningPointsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+@router.put("/api/quests/{module_id}/points")
+def set_quest_points(module_id: str, body: LearningPointsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.section == SECTION).first()
     if not module: fail("Quest not found", 404)
     if body.points <= 0: fail("Points must be greater than 0")
@@ -204,8 +204,8 @@ def set_activity_points(module_id: str, body: LearningPointsUpdate, db: Session 
     return ok(module_dict(module, body.points, enabled=setting.enabled == "1"))
 
 
-@router.delete("/api/activity-ideas/{module_id}/completion/{kid_id}")
-def reset_activity_completion(module_id: str, kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+@router.delete("/api/quests/{module_id}/completion/{kid_id}")
+def reset_quest_completion(module_id: str, kid_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
     kid = db.query(DBUser).filter(DBUser.id == kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
     if not kid: fail("Kid not found", 404)
@@ -220,8 +220,8 @@ def reset_activity_completion(module_id: str, kid_id: str, db: Session = Depends
     return ok({"reset": True})
 
 
-@router.post("/api/activity-ideas/{module_id}/log")
-def submit_activity_log(module_id: str, body: ActivityLogBody, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
+@router.post("/api/quests/{module_id}/log")
+def submit_quest_log(module_id: str, body: QuestLogBody, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
     module = db.query(DBLearningModule).filter(
         DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.section == SECTION
     ).first()
@@ -242,27 +242,27 @@ def submit_activity_log(module_id: str, body: ActivityLogBody, db: Session = Dep
     ).first()
     if already:
         fail("You've already completed this one.")
-    pending = db.query(DBActivityLog).filter(
-        DBActivityLog.kid_id == user.id, DBActivityLog.module_id == module_id, DBActivityLog.status == "pending"
+    pending = db.query(DBQuestLog).filter(
+        DBQuestLog.kid_id == user.id, DBQuestLog.module_id == module_id, DBQuestLog.status == "pending"
     ).first()
     if pending:
         fail("You've already sent this one to your guardian -- wait for them to review it.")
 
-    log = DBActivityLog(id=str(uuid4()), kid_id=user.id, module_id=module_id, note=note, status="pending", submitted_at=now())
+    log = DBQuestLog(id=str(uuid4()), kid_id=user.id, module_id=module_id, note=note, status="pending", submitted_at=now())
     db.add(log)
     db.commit()
     notify_guardians_of_kid(
         db, user,
         title="🧸 Quest logged!",
         body=f"{user.name} tried \"{module.title}\" ({module.topic_title}) -- tap to review.",
-        data={"type": "activity_log_submitted", "logId": log.id},
+        data={"type": "quest_log_submitted", "logId": log.id},
     )
     return ok(_log_dict(log))
 
 
-@router.post("/api/activity-ideas/logs/{log_id}/approve")
-def approve_activity_log(log_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
-    log = db.query(DBActivityLog).filter(DBActivityLog.id == log_id).first()
+@router.post("/api/quests/logs/{log_id}/approve")
+def approve_quest_log(log_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    log = db.query(DBQuestLog).filter(DBQuestLog.id == log_id).first()
     if not log: fail("Log not found", 404)
     family_id = get_family_id(user)
     kid = db.query(DBUser).filter(DBUser.id == log.kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
@@ -284,7 +284,7 @@ def approve_activity_log(log_id: str, db: Session = Depends(get_db), user: DBUse
 
     wallet.balance += points
     db.add(DBLearningCompletion(
-        kid_id=log.kid_id, module_id=log.module_id, score=ACTIVITY_SCORE, total=ACTIVITY_TOTAL,
+        kid_id=log.kid_id, module_id=log.module_id, score=QUEST_SCORE, total=QUEST_TOTAL,
         points_awarded=points, completed_at=now(),
     ))
     db.add(DBTransaction(id=str(uuid4()), kid_id=log.kid_id, type="earned",
@@ -297,14 +297,14 @@ def approve_activity_log(log_id: str, db: Session = Depends(get_db), user: DBUse
         db, log.kid_id,
         title="✅ Quest approved!",
         body=f"\"{module.title}\" was approved -- you earned {points:g} pts!",
-        data={"type": "activity_log_approved", "moduleId": module.id},
+        data={"type": "quest_log_approved", "moduleId": module.id},
     )
     return ok({"pointsAwarded": points, "newBalance": wallet.balance})
 
 
-@router.post("/api/activity-ideas/logs/{log_id}/reject")
-def reject_activity_log(log_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
-    log = db.query(DBActivityLog).filter(DBActivityLog.id == log_id).first()
+@router.post("/api/quests/logs/{log_id}/reject")
+def reject_quest_log(log_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    log = db.query(DBQuestLog).filter(DBQuestLog.id == log_id).first()
     if not log: fail("Log not found", 404)
     family_id = get_family_id(user)
     kid = db.query(DBUser).filter(DBUser.id == log.kid_id, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
@@ -319,6 +319,6 @@ def reject_activity_log(log_id: str, db: Session = Depends(get_db), user: DBUser
         db, log.kid_id,
         title="Quest needs another try",
         body=f"Your guardian asked you to try \"{module.title if module else log.module_id}\" again before it counts.",
-        data={"type": "activity_log_rejected", "moduleId": log.module_id},
+        data={"type": "quest_log_rejected", "moduleId": log.module_id},
     )
     return ok({"rejected": True})

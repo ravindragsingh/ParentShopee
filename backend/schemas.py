@@ -211,5 +211,5 @@ class LearningCompleteBody(BaseModel):
     score: int
     total: int
 
-class ActivityLogBody(BaseModel):
+class QuestLogBody(BaseModel):
     note: str

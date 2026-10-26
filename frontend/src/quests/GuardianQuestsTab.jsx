@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import Toggle from '../futureready/Toggle.jsx'
-import ActivitySetView from './ActivitySetView.jsx'
+import QuestView from './QuestView.jsx'
 import { categoryMeta } from './categoryMeta.js'
 
 function NewBadge() {
@@ -91,7 +91,7 @@ function CompletionStatus({ completions, disabled, onRedo }) {
 }
 
 // A kid's note waiting for review -- approving pays out points immediately
-// (see approve_activity_log), rejecting just lets them try again and
+// (see approve_quest_log), rejecting just lets them try again and
 // resubmit, same spirit as rejecting a chore back to "open".
 function PendingLogReview({ logs, disabled, onApprove, onReject }) {
   if (!logs || logs.length === 0) return null
@@ -167,7 +167,7 @@ function groupByCategory(modules) {
   return [...byCategory.values()]
 }
 
-export default function GuardianActivityIdeasTab() {
+export default function GuardianQuestsTab() {
   const [modules, setModules] = useState([])
   const [kids, setKids] = useState([])
   const [loading, setLoading] = useState(true)
@@ -180,7 +180,7 @@ export default function GuardianActivityIdeasTab() {
     setLoading(true)
     setError('')
     try {
-      const data = await api.getActivityModules()
+      const data = await api.getQuests()
       setModules(Array.isArray(data) ? data : [])
     } catch (err) {
       setError(err.message)
@@ -197,7 +197,7 @@ export default function GuardianActivityIdeasTab() {
     setError('')
     try {
       const enabled = !module.enabled
-      await api.setActivityVisibility(module.id, enabled, module.enabledKidIds ?? null)
+      await api.setQuestVisibility(module.id, enabled, module.enabledKidIds ?? null)
       setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabled } : m))
     } catch (err) {
       setError(err.message)
@@ -210,7 +210,7 @@ export default function GuardianActivityIdeasTab() {
     setSavingId(module.id)
     setError('')
     try {
-      await api.setActivityVisibility(module.id, true, kidIds)
+      await api.setQuestVisibility(module.id, true, kidIds)
       setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabledKidIds: kidIds } : m))
     } catch (err) {
       setError(err.message)
@@ -224,7 +224,7 @@ export default function GuardianActivityIdeasTab() {
     setSavingId(module.id)
     setError('')
     try {
-      await api.resetActivityCompletion(module.id, completion.kidId)
+      await api.resetQuestCompletion(module.id, completion.kidId)
       setModules(ms => ms.map(m => m.id === module.id
         ? { ...m, completions: (m.completions ?? []).filter(c => c.kidId !== completion.kidId) }
         : m))
@@ -239,7 +239,7 @@ export default function GuardianActivityIdeasTab() {
     setSavingId(module.id)
     setError('')
     try {
-      await api.approveActivityLog(log.id)
+      await api.approveQuestLog(log.id)
       await loadModules()
     } catch (err) {
       setError(err.message)
@@ -252,7 +252,7 @@ export default function GuardianActivityIdeasTab() {
     setSavingId(module.id)
     setError('')
     try {
-      await api.rejectActivityLog(log.id)
+      await api.rejectQuestLog(log.id)
       setModules(ms => ms.map(m => m.id === module.id
         ? { ...m, pendingLogs: (m.pendingLogs ?? []).filter(l => l.id !== log.id) }
         : m))
@@ -267,7 +267,7 @@ export default function GuardianActivityIdeasTab() {
     setSavingId(module.id)
     setError('')
     try {
-      await api.setActivityPoints(module.id, points)
+      await api.setQuestPoints(module.id, points)
       setModules(ms => ms.map(m => m.id === module.id ? { ...m, points } : m))
     } catch (err) {
       setError(err.message)
@@ -277,7 +277,7 @@ export default function GuardianActivityIdeasTab() {
   }
 
   if (previewModule) {
-    return <ActivitySetView module={previewModule} onExit={() => setPreviewModule(null)} previewMode />
+    return <QuestView module={previewModule} onExit={() => setPreviewModule(null)} previewMode />
   }
 
   if (loading) return <div className="loading-text">Loading Quests…</div>

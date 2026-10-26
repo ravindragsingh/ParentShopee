@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
-import ActivitySetView from './ActivitySetView.jsx'
+import QuestView from './QuestView.jsx'
 import { categoryMeta } from './categoryMeta.js'
 
 function NewBadge() {
@@ -52,7 +52,7 @@ function CategoryCard({ meta, emoji, title, isNew, index, children }) {
   )
 }
 
-export default function ActivityIdeasTab({ onBalanceChange }) {
+export default function QuestsTab({ onBalanceChange }) {
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -63,7 +63,7 @@ export default function ActivityIdeasTab({ onBalanceChange }) {
     setLoading(true)
     setError('')
     try {
-      const data = await api.getActivityModules()
+      const data = await api.getQuests()
       setModules(Array.isArray(data) ? data : [])
     } catch (err) {
       setError(err.message)
@@ -77,8 +77,8 @@ export default function ActivityIdeasTab({ onBalanceChange }) {
   useEffect(() => { loadModules(); onBalanceChange && onBalanceChange() }, [loadModules])
 
   function handleLogSubmitted() {
-    // Points land only once a guardian approves the log (see ActivitySetView),
-    // so there's nothing for onBalanceChange to refresh yet -- just a
+    // Points land only once a guardian approves the log (see QuestView), so
+    // there's nothing for onBalanceChange to refresh yet -- just a
     // confirmation that it's on its way to them.
     setJustSent(true)
     setTimeout(() => setJustSent(false), 4000)
@@ -86,7 +86,7 @@ export default function ActivityIdeasTab({ onBalanceChange }) {
   }
 
   if (openModule) {
-    return <ActivitySetView module={openModule} onExit={() => setOpenModule(null)} onLogSubmitted={handleLogSubmitted} />
+    return <QuestView module={openModule} onExit={() => setOpenModule(null)} onLogSubmitted={handleLogSubmitted} />
   }
 
   if (loading) return <div className="loading-text">Loading Quests…</div>

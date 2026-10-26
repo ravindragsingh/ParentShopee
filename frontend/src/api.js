@@ -112,15 +112,15 @@ export const api = {
   completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),
   resetLearningCompletion: (moduleId, kidId) => request('DELETE', `/api/future-ready/${moduleId}/completion/${kidId}`),
 
-  // Quests (formerly "Activity Ideas" -- internal names/routes kept as-is, only the user-facing name changed)
-  getActivityModules: () => request('GET', '/api/activity-ideas'),
-  getActivityContent: (moduleId) => request('GET', `/api/activity-ideas/${moduleId}/content`),
-  setActivityVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/activity-ideas/${moduleId}/visibility`, { enabled, kidIds }),
-  setActivityPoints: (moduleId, points) => request('PUT', `/api/activity-ideas/${moduleId}/points`, { points }),
-  submitActivityLog: (moduleId, note) => request('POST', `/api/activity-ideas/${moduleId}/log`, { note }),
-  approveActivityLog: (logId) => request('POST', `/api/activity-ideas/logs/${logId}/approve`),
-  rejectActivityLog: (logId) => request('POST', `/api/activity-ideas/logs/${logId}/reject`),
-  resetActivityCompletion: (moduleId, kidId) => request('DELETE', `/api/activity-ideas/${moduleId}/completion/${kidId}`),
+  // Quests
+  getQuests: () => request('GET', '/api/quests'),
+  getQuestContent: (moduleId) => request('GET', `/api/quests/${moduleId}/content`),
+  setQuestVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/quests/${moduleId}/visibility`, { enabled, kidIds }),
+  setQuestPoints: (moduleId, points) => request('PUT', `/api/quests/${moduleId}/points`, { points }),
+  resetQuestCompletion: (moduleId, kidId) => request('DELETE', `/api/quests/${moduleId}/completion/${kidId}`),
+  submitQuestLog: (moduleId, note) => request('POST', `/api/quests/${moduleId}/log`, { note }),
+  approveQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/approve`),
+  rejectQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/reject`),
 
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),

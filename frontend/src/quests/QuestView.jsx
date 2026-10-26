@@ -58,7 +58,7 @@ function ActivityCard({ activity, index }) {
   )
 }
 
-export default function ActivitySetView({ module, onExit, onLogSubmitted, previewMode }) {
+export default function QuestView({ module, onExit, onLogSubmitted, previewMode }) {
   const [content, setContent] = useState(null)
   const [error, setError] = useState('')
   const [note, setNote] = useState('')
@@ -67,7 +67,7 @@ export default function ActivitySetView({ module, onExit, onLogSubmitted, previe
 
   useEffect(() => {
     let cancelled = false
-    api.getActivityContent(module.id)
+    api.getQuestContent(module.id)
       .then(data => { if (!cancelled) setContent(data) })
       .catch(err => { if (!cancelled) setError(err.message) })
     return () => { cancelled = true }
@@ -78,7 +78,7 @@ export default function ActivitySetView({ module, onExit, onLogSubmitted, previe
     setSubmitting(true)
     setError('')
     try {
-      await api.submitActivityLog(module.id, note)
+      await api.submitQuestLog(module.id, note)
       setJustSubmitted(true)
       onLogSubmitted && onLogSubmitted()
     } catch (err) {

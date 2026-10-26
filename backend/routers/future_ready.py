@@ -85,7 +85,7 @@ def module_dict(m: DBLearningModule, points: float, enabled: bool = None, comple
 @router.get("/api/future-ready")
 def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     # Scoped to this section explicitly -- DBLearningModule is shared with
-    # Activity Ideas (see routers/activity_ideas.py), so without this filter
+    # Quests (see routers/quests.py), so without this filter
     # every activity-idea module would leak into the Future-Ready catalog too.
     modules = db.query(DBLearningModule).filter(
         DBLearningModule.is_active == "1", DBLearningModule.section == "future-ready"
