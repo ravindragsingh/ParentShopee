@@ -1218,6 +1218,7 @@ export function CoGuardianInvitePage() {
 const CORE_FEATURES = [
   { icon: '✅', title: 'Chores',  text: 'Turn daily tasks into points',  color: '#ccec13', bg: '#f0fdf4', border: '#bbf7d0' },
   { icon: '🎁', title: 'Rewards', text: 'Save points for bigger goals',  color: '#994cf0', bg: '#fdf2f8', border: '#fbcfe8' },
+  { icon: '🧸', title: 'Family Activities', text: 'Hands-on things to try together', color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4' },
 ]
 
 const FUTURE_READY_FEATURES = [
@@ -1225,6 +1226,7 @@ const FUTURE_READY_FEATURES = [
   { icon: '🤖', title: 'AI Learning',    text: 'Age-based lessons made simple',    color: '#ffffff', bg: '#dbebf4', border: '#ddd6fe' },
   { icon: '🛡️', title: 'Digital Safety', text: 'Explore and stay safe online',     color: '#0f86b9', bg: '#fef2f2', border: '#fecaca' },
   { icon: '🎤', title: 'Public Speaking',text: 'Build confidence step by step',    color: '#0be064', bg: '#ecfeff', border: '#a5f3fc' },
+  { icon: '🎩', title: 'Manners',        text: 'Learn everyday respect and kindness', color: '#475569', bg: '#f8fafc', border: '#cbd5e1' },
 ]
 
 const FEATURE_CARDS = [...CORE_FEATURES, ...FUTURE_READY_FEATURES]
