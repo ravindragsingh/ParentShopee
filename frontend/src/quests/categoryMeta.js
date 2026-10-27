@@ -6,6 +6,7 @@ const CATEGORY_META = {
   creativity: { color: '#db2777', bg: '#fdf2f8', border: '#fbcfe8', description: 'Art, storytelling, and imaginative play.' },
   physical: { color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4', description: 'Movement, coordination, and active play.' },
   emotional: { color: '#dc2626', bg: '#fef2f2', border: '#fecaca', description: 'Feelings, empathy, and connecting together.' },
+  stem: { color: '#2563eb', bg: '#eff6ff', border: '#bfdbfe', description: 'Simple experiments, building, and discovery.' },
 }
 
 const DEFAULT_META = { color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4', description: '' }

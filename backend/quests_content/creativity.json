@@ -45,6 +45,37 @@
           "Hum a simple tune and take turns adding a line",
           "Sing the finished song together"
         ]
+      },
+      {
+        "emoji": "🧦",
+        "title": "Sock Puppet Show",
+        "description": "Turn an old sock into a puppet and put on a two-minute show together.",
+        "example": "Ruby's sock puppet \"Mr. Wiggles\" told a silly knock-knock joke and took a bow.",
+        "materials": [
+          "An old sock",
+          "Markers or buttons (optional)"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Decorate a sock as a puppet",
+          "Make up a tiny character",
+          "Perform a short show together"
+        ]
+      },
+      {
+        "emoji": "🎨",
+        "title": "Color Mixing Magic",
+        "description": "Mix primary-color paints or playdough to discover new colors together.",
+        "example": "Mixing blue and yellow playdough, Noah was amazed to discover green appearing as he kneaded it.",
+        "materials": [
+          "Paint or playdough in red, blue, and yellow"
+        ],
+        "duration": "10-15 min",
+        "steps": [
+          "Start with two primary colors",
+          "Mix them together slowly",
+          "Guess the new color before it fully blends"
+        ]
       }
     ]
   },
@@ -93,6 +124,36 @@
           "Fold paper into 4 boxes",
           "Pick a small moment from today",
           "Draw it as a 4-panel comic, one event per box"
+        ]
+      },
+      {
+        "emoji": "💃",
+        "title": "Freeze Dance Story",
+        "description": "Take turns dancing out a scene from a story while the other guesses what's happening.",
+        "example": "Dad acted out \"climbing a beanstalk,\" and Ella guessed it in two tries.",
+        "materials": [
+          "Music player"
+        ],
+        "duration": "15 min",
+        "steps": [
+          "Pick a simple story scene",
+          "Act it out through dance",
+          "Have the other person guess what's happening"
+        ]
+      },
+      {
+        "emoji": "🎲",
+        "title": "Design a Board Game",
+        "description": "Invent simple rules for a brand-new board game using paper and dice.",
+        "example": "Their game \"Dragon's Path\" had a rule where landing on a red square sent you back three spaces.",
+        "materials": [
+          "Paper, markers, a die or dice"
+        ],
+        "duration": "25-30 min",
+        "steps": [
+          "Draw a simple path board",
+          "Invent 2-3 rules together",
+          "Play a round to test it out"
         ]
       }
     ]
@@ -143,6 +204,36 @@
           "Take turns adding a beat to build a pattern",
           "Perform the finished rhythm together"
         ]
+      },
+      {
+        "emoji": "📰",
+        "title": "Found Poetry",
+        "description": "Cut out words from a magazine or newspaper and arrange them into a short poem together.",
+        "example": "Their found poem accidentally rhymed \"moonlight\" with \"delight,\" and they kept it in on purpose.",
+        "materials": [
+          "An old magazine or newspaper, scissors, glue, paper"
+        ],
+        "duration": "20 min",
+        "steps": [
+          "Cut out 10-15 interesting words or phrases",
+          "Arrange them into a short poem",
+          "Glue them down and read it aloud"
+        ]
+      },
+      {
+        "emoji": "✏️",
+        "title": "Design a Logo",
+        "description": "Invent a pretend business together and sketch a logo for it.",
+        "example": "Their pretend bakery \"Flour Power\" got a logo with a cape-wearing croissant.",
+        "materials": [
+          "Paper, pencils or markers"
+        ],
+        "duration": "20 min",
+        "steps": [
+          "Invent a silly pretend business",
+          "Brainstorm what makes it special",
+          "Sketch a logo for it together"
+        ]
       }
     ]
   },
@@ -191,6 +282,36 @@
           "Pick a theme for the playlist",
           "Each add 3-4 songs that fit it",
           "Listen through and talk about what each song adds"
+        ]
+      },
+      {
+        "emoji": "🎸",
+        "title": "Cover Song Remix",
+        "description": "Pick a favorite song and reimagine it in a totally different style together.",
+        "example": "Turning an upbeat pop song into a slow acoustic version changed the whole mood of it.",
+        "materials": [
+          "A phone or instrument, the original song to reference"
+        ],
+        "duration": "20-30 min",
+        "steps": [
+          "Pick a song you both know",
+          "Decide on a totally different style for it",
+          "Perform or hum your version together"
+        ]
+      },
+      {
+        "emoji": "🎬",
+        "title": "Pitch a Show",
+        "description": "Invent a TV show idea together -- characters, premise, and a one-sentence pitch.",
+        "example": "Their pitch: \"A detective agency run entirely by retired superheroes who've lost their powers.\"",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Brainstorm a genre and setting",
+          "Invent 2-3 main characters",
+          "Write a one-sentence pitch together"
         ]
       }
     ]

@@ -45,6 +45,36 @@
           "Breathe in slowly like filling a balloon",
           "Breathe out slowly like letting the air out"
         ]
+      },
+      {
+        "emoji": "🖼️",
+        "title": "Gratitude Drawing",
+        "description": "Draw a picture of something you're thankful for and explain why.",
+        "example": "Zoe drew her dog and explained \"because he always makes me laugh when I'm sad.\"",
+        "materials": [
+          "Paper, crayons or markers"
+        ],
+        "duration": "10-15 min",
+        "steps": [
+          "Think of something you're thankful for",
+          "Draw a picture of it",
+          "Share why it matters to you"
+        ]
+      },
+      {
+        "emoji": "🫧",
+        "title": "Calm Down Jar",
+        "description": "Make a glitter jar together and shake it, watching it settle as a calming trick.",
+        "example": "Watching the glitter slowly settle helped Liam calm down after a frustrating moment at school.",
+        "materials": [
+          "A clear jar or bottle, water, glitter, glue"
+        ],
+        "duration": "15 min",
+        "steps": [
+          "Mix water, a bit of glue, and glitter in a jar",
+          "Seal it tightly",
+          "Shake it and watch together whenever you need to calm down"
+        ]
       }
     ]
   },
@@ -93,6 +123,36 @@
           "Write down something on their mind",
           "Put it in the jar together",
           "Talk through one small, doable next step"
+        ]
+      },
+      {
+        "emoji": "🌡️",
+        "title": "Feelings Thermometer",
+        "description": "Draw a thermometer scale from calm to upset, and talk about where today's feelings land.",
+        "example": "Marking \"a little frustrated\" on the scale opened up a conversation about a tricky homework assignment.",
+        "materials": [
+          "Paper, pencil"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Draw a simple thermometer scale",
+          "Mark where you feel today",
+          "Talk about what's behind that feeling"
+        ]
+      },
+      {
+        "emoji": "💬",
+        "title": "Compliment Circle",
+        "description": "Take turns giving each other one genuine compliment and explaining why.",
+        "example": "\"You always help me when I'm stuck on something\" made Dad's day.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Take turns giving a genuine compliment",
+          "Explain why you picked it",
+          "Notice how it feels to give and receive one"
         ]
       }
     ]
@@ -143,6 +203,36 @@
           "Ask open questions and really listen",
           "Resist jumping in with advice unless they ask for it"
         ]
+      },
+      {
+        "emoji": "💌",
+        "title": "Gratitude Letter",
+        "description": "Write a short thank-you note to someone who's helped you, and consider sending it.",
+        "example": "Writing to a grandparent about a favorite memory together turned into a longer, heartfelt letter than planned.",
+        "materials": [
+          "Paper and pen, or a notes app"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Pick someone who's helped you recently",
+          "Write a short note about why you're grateful",
+          "Decide together whether to send it"
+        ]
+      },
+      {
+        "emoji": "🔄",
+        "title": "Perspective Swap",
+        "description": "Talk through a recent disagreement from the OTHER person's point of view.",
+        "example": "Arguing their sibling's side of a recent disagreement helped them realize it wasn't as one-sided as it felt.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "15 min",
+        "steps": [
+          "Pick a recent disagreement, calmly",
+          "Each argue the OTHER side's point of view",
+          "Talk about what that changed, if anything"
+        ]
       }
     ]
   },
@@ -191,6 +281,36 @@
           "Agree ahead of time this is a listening conversation, not a lecture",
           "Let them share first, without interrupting",
           "Share your own perspective calmly, and thank them for being honest"
+        ]
+      },
+      {
+        "emoji": "🧘",
+        "title": "Stress Debrief",
+        "description": "Talk through one stressful moment from the week and what helped (or would help) most.",
+        "example": "Talking through a stressful exam week revealed that just having someone to vent to helped more than advice did.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Pick one stressful moment from the week",
+          "Talk through what happened and how it felt",
+          "Discuss what helped, or what might help next time"
+        ]
+      },
+      {
+        "emoji": "🧭",
+        "title": "Values in Action",
+        "description": "Talk about a recent choice and which personal value it reflected.",
+        "example": "Choosing to stay late and help a friend study reflected \"loyalty\" more than they'd realized in the moment.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "15 min",
+        "steps": [
+          "Pick a recent decision, big or small",
+          "Talk about what value was behind it",
+          "Notice if that value shows up in other choices too"
         ]
       }
     ]

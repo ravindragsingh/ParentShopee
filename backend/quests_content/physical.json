@@ -45,6 +45,36 @@
           "Set a basket a few feet away",
           "Take turns tossing in, stepping back a little each round"
         ]
+      },
+      {
+        "emoji": "🎈",
+        "title": "Balloon Keep-Up",
+        "description": "Keep a balloon from touching the ground using only hands, counting taps together.",
+        "example": "They kept the balloon up for 27 taps in a row before it finally touched down.",
+        "materials": [
+          "A balloon"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Blow up a balloon",
+          "Tap it back and forth without letting it fall",
+          "Count together and try to beat your record"
+        ]
+      },
+      {
+        "emoji": "🙆",
+        "title": "Simon Says Stretch",
+        "description": "Play Simon Says with silly stretches and balances instead of regular moves.",
+        "example": "\"Simon says touch your toes!\" had everyone giggling trying to balance.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Call out silly stretches and balances",
+          "Only move if you say \"Simon says\" first",
+          "Take turns being the leader"
+        ]
       }
     ]
   },
@@ -93,6 +123,36 @@
           "Play music and dance around",
           "Pause the music randomly",
           "Freeze in a one-foot balance pose until the music starts again"
+        ]
+      },
+      {
+        "emoji": "🦘",
+        "title": "Hopscotch Remix",
+        "description": "Draw a hopscotch grid with chalk and invent a new twist on the rules together.",
+        "example": "Their twist: hop on one foot but say a animal name out loud on every square.",
+        "materials": [
+          "Sidewalk chalk, a small stone or beanbag"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Draw a hopscotch grid",
+          "Invent one new rule together",
+          "Play a few rounds with the new twist"
+        ]
+      },
+      {
+        "emoji": "🪀",
+        "title": "Jump Rope Challenge",
+        "description": "Practice jump rope tricks together, counting consecutive jumps.",
+        "example": "Charlie beat their own record, reaching 34 jumps in a row without tripping.",
+        "materials": [
+          "A jump rope"
+        ],
+        "duration": "15 min",
+        "steps": [
+          "Take turns jumping rope",
+          "Count consecutive jumps out loud",
+          "Try a new trick, like jumping on one foot"
         ]
       }
     ]
@@ -143,6 +203,36 @@
           "Score points for each hit",
           "Play best of 3 rounds"
         ]
+      },
+      {
+        "emoji": "🥇",
+        "title": "Backyard Olympics",
+        "description": "Invent 3 silly backyard events (like a spoon-and-egg race) and keep score together.",
+        "example": "Event 2, the \"sock slide race,\" turned out to be the family favorite.",
+        "materials": [
+          "Whatever's around the house -- spoons, cones, a stopwatch"
+        ],
+        "duration": "30 min",
+        "steps": [
+          "Invent 3 silly physical events",
+          "Take turns competing in each",
+          "Keep score and crown a winner"
+        ]
+      },
+      {
+        "emoji": "💃",
+        "title": "Dance Routine",
+        "description": "Learn a short dance routine from a video together and perform it.",
+        "example": "It took 4 tries to get the routine's spin move right, but they nailed it by the end.",
+        "materials": [
+          "A phone or device to watch a tutorial"
+        ],
+        "duration": "20-30 min",
+        "steps": [
+          "Find a short beginner dance tutorial",
+          "Practice it together in sections",
+          "Perform the finished routine"
+        ]
       }
     ]
   },
@@ -191,6 +281,36 @@
           "Agree on one small, specific goal",
           "Check in together each day and log progress",
           "Celebrate when you hit it, even if it takes longer than a week"
+        ]
+      },
+      {
+        "emoji": "🥾",
+        "title": "Trail Walk or Hike",
+        "description": "Plan and go on a short hike or nature trail walk together.",
+        "example": "They spotted a hawk and three different kinds of wildflowers on their 40-minute trail walk.",
+        "materials": [
+          "Comfortable shoes, water"
+        ],
+        "duration": "45-60 min",
+        "steps": [
+          "Pick a nearby trail or park path",
+          "Plan a route and rough distance",
+          "Walk it together and notice what you see along the way"
+        ]
+      },
+      {
+        "emoji": "🤝",
+        "title": "Partner Workout",
+        "description": "Try partner exercises together, like mirrored squats or resistance-band stretches.",
+        "example": "Mirrored squats turned into a laughing match when they kept falling out of sync.",
+        "materials": [
+          "None needed, or a resistance band"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Pick 3-4 partner-friendly exercises",
+          "Try to stay in sync with each other",
+          "Repeat for a second round at your own pace"
         ]
       }
     ]

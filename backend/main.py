@@ -357,6 +357,7 @@ def startup():
             ("creativity", "Creativity & Imagination", "🎨"),
             ("physical", "Physical & Motor Skills", "🤸"),
             ("emotional", "Emotional Intelligence", "❤️"),
+            ("stem", "STEM Exploration", "🔬"),
         ]
         QUEST_AGE_BANDS = [(4, 6), (7, 9), (10, 13), (13, 17)]
         QUEST_POINTS = 8  # flat per quest completion -- no quiz to scale off of
