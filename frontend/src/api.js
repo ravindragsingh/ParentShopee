@@ -207,6 +207,7 @@ export const api = {
   adminAdjustWallet:       (kidId, body)    => request('POST', `/api/admin/kid/${kidId}/wallet/adjust`, body),
   adminSuspendUser:        (userId)        => request('POST', `/api/admin/user/${userId}/suspend`),
   adminUnsuspendUser:      (userId)        => request('POST', `/api/admin/user/${userId}/unsuspend`),
+  adminIssueTempPin:       (userId)        => request('POST', `/api/admin/user/${userId}/issue-temp-pin`),
   adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),
   adminResolveTicket:      (id)            => request('POST', `/api/admin/tickets/${id}/resolve`),
   adminReopenTicket:       (id)            => request('POST', `/api/admin/tickets/${id}/reopen`),

@@ -12,7 +12,7 @@ from deps import require_admin
 from email_utils import send_email
 from helpers import (
     chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, generate_inert_credentials,
-    get_ticket_notification_email, get_ticket_replies, now, safe_user, ticket_dict,
+    generate_temp_pin, get_ticket_notification_email, get_ticket_replies, now, safe_user, ticket_dict,
 )
 from models import DBChore, DBRecurringTemplate, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
@@ -152,6 +152,27 @@ def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends
     db.commit()
     db.refresh(target)
     return ok(safe_user(target))
+
+
+@router.post("/api/admin/user/{user_id}/issue-temp-pin")
+def admin_issue_temp_pin(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    """Resets a user's PIN to a fresh random one and flags it the same way the
+    one-time PIN migration does (`pin_auto_generated`), so the family sees the
+    existing "here's your temporary PIN" notice on their profile picker next
+    time they sign in -- same recovery path, just admin-triggered for cases
+    the guardian can't do it themselves (locked out, lost access, etc.)."""
+    target = db.query(DBUser).filter(DBUser.id == user_id).first()
+    if not target:
+        fail("User not found", 404)
+    if target.role == "admin":
+        fail("Admin accounts don't use a PIN", 403)
+    target.pin = generate_temp_pin()
+    target.pin_auto_generated = "1"
+    target.pin_attempts = 0
+    target.pin_locked_until = None
+    db.commit()
+    db.refresh(target)
+    return ok({"pin": target.pin, "user": safe_user(target)})
 
 
 @router.post("/api/admin/user/{user_id}/suspend")

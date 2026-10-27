@@ -1,3 +1,4 @@
+import random
 import re
 from datetime import date, datetime, timezone
 from uuid import uuid4
@@ -53,6 +54,15 @@ def generate_inert_credentials() -> tuple:
     stay NOT NULL/unique columns though, so give them harmless, never-shown,
     never-usable placeholder values rather than risking a schema rebuild."""
     return f"profile-{uuid4().hex[:12]}", str(uuid4())
+
+def generate_temp_pin() -> str:
+    """A fresh 6-digit PIN that always passes check_pin_complexity (not all one
+    digit, not a straight sequential run), for admin-issued temporary PINs."""
+    while True:
+        pin = f"{random.randint(0, 999999):06d}"
+        if len(set(pin)) == 1 or pin in "0123456789" or pin in "9876543210":
+            continue
+        return pin
 
 def delete_kid(db: Session, kid: DBUser):
     db.query(DBWallet).filter(DBWallet.kid_id == kid.id).delete(synchronize_session=False)
