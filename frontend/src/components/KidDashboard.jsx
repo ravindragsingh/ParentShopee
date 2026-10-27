@@ -506,13 +506,16 @@ export default function KidDashboard() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = searchParams.get('tab') || 'home'
-  const learnSection = searchParams.get('section') || 'futureready'
+  const learnSection = searchParams.get('section') || null
   const startModuleId = searchParams.get('module')
   const setTab = useCallback(next => {
     setSearchParams(next === 'home' ? {} : { tab: next })
   }, [setSearchParams])
   const setLearnSection = useCallback(next => {
-    setSearchParams({ tab: 'learn', section: next })
+    // next is null when going "back" to the picker -- must be omitted
+    // entirely rather than passed through, since URLSearchParams would
+    // otherwise stringify it to the literal text "null".
+    setSearchParams(next ? { tab: 'learn', section: next } : { tab: 'learn' })
   }, [setSearchParams])
   // "Continue Learning" on the home screen always deep-links into
   // Future-Ready specifically -- Quests has no equivalent shortcut yet.
