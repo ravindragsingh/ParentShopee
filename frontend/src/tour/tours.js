@@ -87,11 +87,11 @@ export const TOURS = {
         target: '[data-tour="home-shop-tile"]',
       },
       {
-        id: 'futureready-tile',
-        title: 'Free bonus: Future-Ready lessons',
-        text: 'Short, age-appropriate lessons on money, AI, online safety, and more — included free, and your kids earn points for finishing them too.',
+        id: 'learngrow-tile',
+        title: 'Free bonus: Learn & Grow',
+        text: 'Future-Ready lessons on money, AI, online safety, and more, plus hands-on Quests to try together — all included free, and your kids earn points for finishing them too.',
         path: '/dashboard',
-        target: '[data-tour="home-futureready-tile"]',
+        target: '[data-tour="home-learngrow-tile"]',
       },
       {
         id: 'done',

@@ -12,8 +12,7 @@ import SettingsPanel from './Settings.jsx'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
 import BottomNav from './BottomNav.jsx'
-import FutureReadyTab from '../futureready/FutureReadyTab.jsx'
-import QuestsTab from '../quests/QuestsTab.jsx'
+import LearnGrowTab from '../learn/LearnGrowTab.jsx'
 
 // ─── Daily chore row (highlighted within the merged Chores list) ────────────
 
@@ -491,8 +490,7 @@ function KidHomeScreen({ name, userId, balance, onNavigate, onOpenModule }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <HomeNavTile icon="📋" iconColor="#2563eb" bg="#eff6ff" border="#bfdbfe" label="My Tasks" text="Earn points" badge={taskCount} onClick={() => onNavigate('chores')} />
         <HomeNavTile icon="🎁" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="My Rewards" text="Spend points" onClick={() => onNavigate('shop')} />
-        <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learn & grow" onClick={() => onNavigate('futureready')} />
-        <HomeNavTile icon="🧸" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Quests" text="Try something fun" onClick={() => onNavigate('quests')} />
+        <HomeNavTile icon="🌱" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Learn & Grow" text="Lessons & quests" onClick={() => onNavigate('learn')} />
         <HomeNavTile icon="👛" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="My Wallet" text="See savings" onClick={() => onNavigate('wallet')} />
       </div>
 
@@ -508,15 +506,21 @@ export default function KidDashboard() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = searchParams.get('tab') || 'home'
+  const learnSection = searchParams.get('section') || 'futureready'
   const startModuleId = searchParams.get('module')
   const setTab = useCallback(next => {
     setSearchParams(next === 'home' ? {} : { tab: next })
   }, [setSearchParams])
+  const setLearnSection = useCallback(next => {
+    setSearchParams({ tab: 'learn', section: next })
+  }, [setSearchParams])
+  // "Continue Learning" on the home screen always deep-links into
+  // Future-Ready specifically -- Quests has no equivalent shortcut yet.
   const openModule = useCallback(moduleId => {
-    setSearchParams({ tab: 'futureready', module: moduleId })
+    setSearchParams({ tab: 'learn', section: 'futureready', module: moduleId })
   }, [setSearchParams])
   const clearStartModule = useCallback(() => {
-    setSearchParams({ tab: 'futureready' })
+    setSearchParams({ tab: 'learn', section: 'futureready' })
   }, [setSearchParams])
   useEffect(() => { window.scrollTo(0, 0) }, [tab])
   const [balance, setBalance] = useState(null)
@@ -556,8 +560,7 @@ export default function KidDashboard() {
         {tab === 'home'     && <KidHomeScreen name={user.name} userId={user.id} balance={balance} onNavigate={setTab} onOpenModule={openModule} />}
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
-        {tab === 'futureready' && <FutureReadyTab onBalanceChange={refreshBalance} startModuleId={startModuleId} onConsumeStart={clearStartModule} />}
-        {tab === 'quests' && <QuestsTab onBalanceChange={refreshBalance} />}
+        {tab === 'learn' && <LearnGrowTab section={learnSection} onSectionChange={setLearnSection} onBalanceChange={refreshBalance} startModuleId={startModuleId} onConsumeStart={clearStartModule} />}
         {tab === 'wallet'   && <KidWalletView kidId={user.id} onBalanceChange={refreshBalance} />}
         {tab === 'messages' && <MessagesTab />}
         {tab === 'help'     && <HelpTab role="kid" />}
@@ -572,8 +575,7 @@ export default function KidDashboard() {
           { key: 'home', icon: '🏠', label: 'Home' },
           { key: 'chores', icon: '📋', label: 'Chores' },
           { key: 'shop', icon: '🎁', label: 'Shop' },
-          { key: 'futureready', icon: '🚀', label: 'Learn' },
-          { key: 'quests', icon: '🧸', label: 'Quests' },
+          { key: 'learn', icon: '🌱', label: 'Learn' },
           { key: 'wallet', icon: '👛', label: 'Wallet' },
         ]}
       />
