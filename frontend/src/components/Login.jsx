@@ -1429,10 +1429,10 @@ function HeroSplit({ onSignIn, onCreateAccount }) {
           borderRadius: 999, padding: '6px 16px', fontSize: '0.74rem', fontWeight: 800,
           letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(13,148,136,0.3)', marginBottom: 8,
         }}>
-          🚀 FUTURE-READY SKILLS · FREE
+          🌱 LEARN &amp; GROW · FREE
         </div>
         <p style={{ fontSize: '0.84rem', color: '#78716c', margin: '0 0 26px', maxWidth: 460, lineHeight: 1.5 }}>
-          Money, AI, online safety &amp; public speaking — real-world skills kids won't get from a typical chore app.
+          Money, AI, online safety &amp; public speaking lessons, plus hands-on Quests to try together — real-world skills kids won't get from a typical chore app.
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginBottom: 6 }}>
