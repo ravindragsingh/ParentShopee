@@ -1386,7 +1386,8 @@ function TopNav({ onSignIn, onShowHelp }) {
       <img
         src="/branding/RewardURKids_Website_Compact_Logo.png"
         alt="Reward Ur Kids — Small Tasks. Big Smiles."
-        style={{ height: 38, display: 'block' }}
+        onClick={() => scrollToId('landing-top')}
+        style={{ height: 38, display: 'block', cursor: 'pointer' }}
       />
       <div className="landing-nav-links" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
         <button style={navLinkStyle(true)} onClick={() => scrollToId('landing-top')}>Home</button>
