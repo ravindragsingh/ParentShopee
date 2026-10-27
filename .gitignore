@@ -28,3 +28,13 @@ frontend/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Native mobile projects -- real source for these only lives on the
+# mobile-app-extra-curicular branch (which has its own, narrower .gitignore
+# for just the generated/sensitive bits within them). On every other branch
+# they're pure build-artifact leftovers from switching to that branch
+# locally, not real content for this branch -- ignoring them wholesale here
+# stops a future broad `git add`/`git commit` from ever sweeping in gradle
+# caches, Xcode derived data, or (worse) the release signing keystore again.
+frontend/android/
+frontend/ios/
