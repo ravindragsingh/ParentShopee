@@ -901,6 +901,19 @@ body {
   border: 1px solid rgba(0,0,0,0.04);
 }
 
+/* Marketing landing page's top nav links -- collapses to just logo + Sign In
+   below this width rather than wrapping/squeezing, since there's no good
+   place for a hamburger on a page that has no other persistent chrome. */
+@media (max-width: 720px) {
+  .landing-nav-links {
+    display: none !important;
+  }
+
+  .landing-hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 .login-title {
   text-align: center;
   font-size: 1.3rem;
@@ -1334,14 +1347,3 @@ body {
   }
 }
 
-.pain-point-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-  text-align: left;
-}
-@media (min-width: 640px) {
-  .pain-point-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}

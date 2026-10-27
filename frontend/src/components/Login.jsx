@@ -830,7 +830,7 @@ function LoginForm({ onRegister }) {
 // demo signs in as the family then auto-enters the guardian profile with its
 // seeded demo PIN, in one click. Switching to a kid profile from here also
 // skips the PIN prompt -- see ProfilePicker's isDemo handling.
-function TryDemoLink() {
+function TryDemoLink({ align = 'center' }) {
   const { login, enterProfile } = useAuth()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -853,7 +853,7 @@ function TryDemoLink() {
   }
 
   return (
-    <div style={{ textAlign: 'center', marginTop: 18 }}>
+    <div style={{ textAlign: align, marginTop: 18 }}>
       {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
       <button
         type="button"
@@ -1229,22 +1229,6 @@ const FUTURE_READY_FEATURES = [
 
 const FEATURE_CARDS = [...CORE_FEATURES, ...FUTURE_READY_FEATURES]
 
-function FeatureCard({ icon, title, text, color, bg, border }) {
-  return (
-    <div style={{ background: bg, border: `1px solid ${border}`, borderRadius: 16, padding: '16px 14px', textAlign: 'center' }}>
-      <div style={{
-        width: 44, height: 44, borderRadius: '50%', background: color, color: '#fff',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem',
-        margin: '0 auto 10px', boxShadow: `0 4px 10px ${color}55`,
-      }}>
-        {icon}
-      </div>
-      <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#1e293b', marginBottom: 2 }}>{title}</div>
-      <div style={{ fontSize: '0.76rem', color: '#78716c', lineHeight: 1.4 }}>{text}</div>
-    </div>
-  )
-}
-
 // A small, code-drawn preview of what the app actually looks like once a kid
 // is in it -- no stock photography available, so this leans on the app's own
 // real card style (point balance + savings goal + a mini feature grid)
@@ -1306,25 +1290,6 @@ const PAIN_POINTS = [
   { icon: '💵', title: 'Raise Money-Smart Kids', text: 'Real practice earning, saving, and spending — before they leave home.' },
   { icon: '🗂️', title: 'One App, Whole Family', text: 'Chores, rewards, and Future-Ready lessons in one place — no sticky notes, no spreadsheets.' },
 ]
-
-function PainPointSection() {
-  return (
-    <div style={{ margin: '12px 0 32px' }}>
-      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1e293b', textAlign: 'center', marginBottom: 18 }}>
-        Why Parents Choose Reward Ur Kids
-      </h2>
-      <div className="pain-point-grid">
-        {PAIN_POINTS.map(p => (
-          <div key={p.title} style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16, padding: '18px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-            <div style={{ fontSize: '1.6rem', marginBottom: 8 }}>{p.icon}</div>
-            <div style={{ fontWeight: 800, fontSize: '0.92rem', color: '#1e293b', marginBottom: 4 }}>{p.title}</div>
-            <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>{p.text}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
 
 // Answers reflect actual app behavior (e.g. chores always need guardian
 // approval; only shop purchases have an approval on/off toggle) -- see
@@ -1391,78 +1356,233 @@ function FinalCTA({ onSignIn, onCreateAccount }) {
   )
 }
 
-function LandingHero({ onSignIn, onCreateAccount }) {
+// ── Landing page v2 — top nav + split hero + banded sections ───────────────────
+// Content below is the same copy/features the old single-column landing used
+// (see CORE_FEATURES/FUTURE_READY_FEATURES/PAIN_POINTS/TRUST_ITEMS/LANDING_FAQS
+// above) -- only the layout changed, to a conventional marketing-site format
+// (sticky nav, split hero, numbered steps, feature grid, banner) instead of
+// one long centered column.
+
+function navLinkStyle(active) {
+  return {
+    background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px',
+    fontSize: '0.92rem', fontWeight: 600, color: active ? '#16a34a' : '#475569',
+    borderBottom: active ? '2px solid #16a34a' : '2px solid transparent',
+  }
+}
+
+function TopNav({ onSignIn, onShowHelp }) {
+  const scrollToId = id => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
   return (
-    <div style={{ maxWidth: 760, width: '100%', margin: '0 auto', textAlign: 'center' }}>
+    <nav style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '14px 24px', background: '#fff', borderBottom: '1px solid #f1f5f9',
+      position: 'sticky', top: 0, zIndex: 50,
+    }}>
       <img
-        src="/branding/RewardURKids_Website_Full_Logo.png"
+        src="/branding/RewardURKids_Website_Compact_Logo.png"
         alt="Reward Ur Kids — Small Tasks. Big Smiles."
-        style={{ maxWidth: 200, width: '100%', height: 'auto', display: 'block', margin: '0 auto 18px' }}
+        style={{ height: 38, display: 'block' }}
       />
+      <div className="landing-nav-links" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
+        <button style={navLinkStyle(true)} onClick={() => scrollToId('landing-top')}>Home</button>
+        <button style={navLinkStyle(false)} onClick={onShowHelp}>How It Works</button>
+        <button style={navLinkStyle(false)} onClick={() => scrollToId('landing-features')}>Features</button>
+        <button style={navLinkStyle(false)} onClick={() => scrollToId('landing-why')}>About</button>
+      </div>
+      <button
+        onClick={onSignIn}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6, background: '#fff', color: '#16a34a',
+          border: '1.5px solid #16a34a', borderRadius: 999, padding: '8px 18px',
+          fontSize: '0.88rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
+        }}
+      >
+        👤 Sign In
+      </button>
+    </nav>
+  )
+}
 
-      <h1 style={{ fontSize: '0.95rem', fontWeight: 400, color: '#78716c', margin: '0 auto 14px', lineHeight: 1.5, maxWidth: 560 }}>
-        Parents create chores and rewards, kids earn points for completing tasks, spend those points in their own shop, and learn parent-approved, future-ready skills.
-      </h1>
+function HeroSplit({ onSignIn, onCreateAccount }) {
+  return (
+    <div id="landing-top" className="landing-hero-grid" style={{
+      maxWidth: 1120, margin: '0 auto', padding: '56px 24px 48px',
+      display: 'grid', gridTemplateColumns: 'minmax(0,1.05fr) minmax(0,0.95fr)', gap: 48, alignItems: 'center',
+    }}>
+      <div>
+        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.5px', margin: '0 0 18px', color: '#1e293b' }}>
+          Small Tasks.<br /><span style={{ color: '#16a34a' }}>Big Smiles.</span>
+        </h1>
+        <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.6, maxWidth: 480, margin: '0 0 18px' }}>
+          Parents create chores and rewards, kids earn points for completing tasks, spend those points in their own shop, and learn parent-approved, future-ready skills.
+        </p>
 
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6, maxWidth: '100%', boxSizing: 'border-box',
+          background: 'linear-gradient(135deg, #0d9488, #0f766e)', color: '#fff',
+          borderRadius: 999, padding: '6px 16px', fontSize: '0.74rem', fontWeight: 800,
+          letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(13,148,136,0.3)', marginBottom: 8,
+        }}>
+          🚀 FUTURE-READY SKILLS · FREE
+        </div>
+        <p style={{ fontSize: '0.84rem', color: '#78716c', margin: '0 0 26px', maxWidth: 460, lineHeight: 1.5 }}>
+          Money, AI, online safety &amp; public speaking — real-world skills kids won't get from a typical chore app.
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginBottom: 6 }}>
+          <button
+            onClick={onSignIn}
+            style={{
+              background: '#16a34a', color: '#fff', border: 'none', borderRadius: 999,
+              padding: '13px 30px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
+              boxShadow: '0 6px 16px rgba(22,163,74,0.3)',
+            }}
+          >
+            Sign In →
+          </button>
+          <button
+            onClick={onCreateAccount}
+            style={{
+              background: '#fff', color: '#16a34a', border: '2px solid #16a34a', borderRadius: 999,
+              padding: '11px 28px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
+            }}
+          >
+            Create an Account →
+          </button>
+        </div>
+
+        <TryDemoLink align="left" />
+      </div>
+
+      <div>
+        {PAIN_POINTS.map((p, i) => (
+          <div
+            key={p.title}
+            style={{
+              display: 'flex', alignItems: 'flex-start', gap: 16, padding: '18px 4px',
+              borderBottom: i < PAIN_POINTS.length - 1 ? '1px solid #f1f5f9' : 'none',
+            }}
+          >
+            <div style={{
+              width: 48, height: 48, borderRadius: '50%', background: '#f0fdf4', border: '1px solid #bbf7d0',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.35rem', flexShrink: 0,
+            }}>
+              {p.icon}
+            </div>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1e293b', marginBottom: 3 }}>{p.title}</div>
+              <div style={{ fontSize: '0.86rem', color: '#64748b', lineHeight: 1.5 }}>{p.text}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const HOW_IT_WORKS_STEPS = [
+  { icon: '📋', title: 'Create Tasks', text: 'Add chores and rewards that fit your family.' },
+  { icon: '⭐', title: 'Earn Points', text: 'Kids complete tasks and earn points.' },
+  { icon: '🎁', title: 'Spend Rewards', text: 'Use points in their own shop.' },
+  { icon: '🎓', title: 'Learn Skills', text: 'Build real-world skills for the future.' },
+]
+
+function HowItWorksBand() {
+  return (
+    <div style={{ background: '#f0fdf4', padding: '52px 24px' }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1e293b', margin: '0 0 6px' }}>How It Works</h2>
+        <p style={{ color: '#64748b', margin: '0 0 32px' }}>Simple steps. Big impact.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 18, textAlign: 'left' }}>
+          {HOW_IT_WORKS_STEPS.map((s, i) => (
+            <div key={s.title} style={{ position: 'relative', background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16, padding: '26px 18px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+              <div style={{
+                position: 'absolute', top: 14, left: 14, width: 22, height: 22, borderRadius: '50%',
+                background: '#16a34a', color: '#fff', fontSize: '0.72rem', fontWeight: 800,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {i + 1}
+              </div>
+              <div style={{
+                width: 52, height: 52, borderRadius: '50%', background: '#f0fdf4', border: '1px solid #bbf7d0',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', margin: '10px auto 14px',
+              }}>
+                {s.icon}
+              </div>
+              <div style={{ fontWeight: 800, fontSize: '0.98rem', color: '#1e293b', textAlign: 'center', marginBottom: 4 }}>{s.title}</div>
+              <div style={{ fontSize: '0.82rem', color: '#64748b', textAlign: 'center', lineHeight: 1.5 }}>{s.text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function FeatureGridSection() {
+  return (
+    <div id="landing-features" style={{ background: '#fff', padding: '56px 24px' }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1e293b', margin: '0 0 6px' }}>Everything Parents Need</h2>
+        <p style={{ color: '#64748b', margin: '0 0 32px' }}>Tools to keep kids motivated, engaged and growing.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, textAlign: 'left' }}>
+          {FEATURE_CARDS.map(f => (
+            <div key={f.title} style={{ display: 'flex', alignItems: 'center', gap: 14, border: '1px solid #f1f5f9', borderRadius: 14, padding: '16px 18px' }}>
+              <div style={{
+                width: 48, height: 48, borderRadius: '50%', background: f.color, flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem',
+                boxShadow: `0 4px 10px ${f.color}55`,
+              }}>
+                {f.icon}
+              </div>
+              <div>
+                <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#1e293b' }}>{f.title}</div>
+                <div style={{ fontSize: '0.82rem', color: '#64748b' }}>{f.text}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function WhyChooseBanner() {
+  return (
+    <div id="landing-why" style={{ background: '#fff', padding: '0 24px 56px' }}>
       <div style={{
-        display: 'inline-flex', alignItems: 'center', gap: 6, maxWidth: '100%', boxSizing: 'border-box',
-        background: 'linear-gradient(135deg, #0d9488, #0f766e)', color: '#fff',
-        borderRadius: 999, padding: '6px 16px', fontSize: '0.72rem', fontWeight: 800,
-        letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(13,148,136,0.3)', marginBottom: 6,
-        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+        maxWidth: 1120, margin: '0 auto', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 18,
+        padding: '22px 28px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
+        textAlign: 'center', flexWrap: 'wrap',
       }}>
-        🚀 FUTURE-READY SKILLS · FREE
-      </div>
-      <p style={{ fontSize: '0.76rem', color: '#78716c', margin: '0 auto 20px', maxWidth: 480, lineHeight: 1.5 }}>
-        Money, AI, online safety &amp; public speaking — real-world skills kids won't get from a typical chore app.
-      </p>
-
-      {/* Primary action -- kept right under the fold-defining content (logo,
-          headline, badge) so a visitor never has to scroll to find it. The
-          feature grid and app preview are supporting detail below. */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 10 }}>
-        <button
-          onClick={onSignIn}
-          style={{
-            background: '#16a34a', color: '#fff', border: 'none', borderRadius: 999,
-            padding: '13px 30px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
-            boxShadow: '0 6px 16px rgba(22,163,74,0.3)',
-          }}
-        >
-          Sign In →
-        </button>
-        <button
-          onClick={onCreateAccount}
-          style={{
-            background: '#fff', color: '#16a34a', border: '2px solid #16a34a', borderRadius: 999,
-            padding: '11px 28px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
-          }}
-        >
-          Create an Account →
-        </button>
-      </div>
-
-      <TryDemoLink />
-
-      <div style={{ margin: '32px 0 28px', textAlign: 'left' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10, marginBottom: 20 }}>
-          {CORE_FEATURES.map(f => <FeatureCard key={f.title} {...f} />)}
-        </div>
-        <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f766e', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: 10, textAlign: 'center' }}>
-          🚀 Future-Ready — included free
-        </div>
-        <div className="future-ready-grid">
-          {FUTURE_READY_FEATURES.map(f => <FeatureCard key={f.title} {...f} />)}
+        <span style={{ fontSize: '1.5rem' }}>🌱</span>
+        <div>
+          <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#166534' }}>Why Parents Choose Reward Ur Kids</div>
+          <div style={{ fontSize: '0.85rem', color: '#16a34a', marginTop: 2 }}>Real tasks. Real rewards. Real growth.</div>
         </div>
       </div>
+    </div>
+  )
+}
 
-      <PainPointSection />
+function LandingHero({ onSignIn, onCreateAccount, onShowHelp }) {
+  return (
+    <div style={{ background: '#fff' }}>
+      <TopNav onSignIn={onSignIn} onShowHelp={onShowHelp} />
+      <HeroSplit onSignIn={onSignIn} onCreateAccount={onCreateAccount} />
+      <HowItWorksBand />
+      <FeatureGridSection />
+      <WhyChooseBanner />
 
-      <AppPreviewCard />
-
-      <TrustStrip />
-      <FAQSection />
-      <FinalCTA onSignIn={onSignIn} onCreateAccount={onCreateAccount} />
+      <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 24px 56px' }}>
+        <AppPreviewCard />
+        <TrustStrip />
+        <FAQSection />
+        <FinalCTA onSignIn={onSignIn} onCreateAccount={onCreateAccount} />
+      </div>
     </div>
   )
 }
@@ -1486,6 +1606,20 @@ export default function Login() {
     boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
   }
 
+  if (showLanding) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#fff' }}>
+        {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}
+        {showLegal && <UserAgreementModal onClose={() => setShowLegal(false)} />}
+        <LandingHero
+          onSignIn={() => { setMode('login'); setShowLanding(false) }}
+          onCreateAccount={() => { setMode('register'); setShowLanding(false) }}
+          onShowHelp={() => setShowHelp(true)}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
       {/* Fixed top-right nav buttons -- offset below the app-download banner
@@ -1499,14 +1633,6 @@ export default function Login() {
       {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}
       {showLegal && <UserAgreementModal onClose={() => setShowLegal(false)} />}
 
-      {showLanding ? (
-        <div style={{ marginTop: 56 }}>
-          <LandingHero
-            onSignIn={() => { setMode('login'); setShowLanding(false) }}
-            onCreateAccount={() => { setMode('register'); setShowLanding(false) }}
-          />
-        </div>
-      ) : (
       <div className="login-shell">
         <button
           type="button"
@@ -1548,7 +1674,6 @@ export default function Login() {
           </>
         )}
       </div>
-      )}
     </div>
   )
 }
