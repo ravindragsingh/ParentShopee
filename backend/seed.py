@@ -18,8 +18,12 @@ def seed_db(db: Session):
     today = date.today()
 
     for u in [
-        DBUser(id="parent1", name="Mom",     username="parent1", password="pass1", role="guardian", email="mom@family.com", date_of_birth="1980-03-10", gender="female", created_at=now(), pin="246810", pin_auto_generated="0"),
-        DBUser(id="parent2", name="Dad",     username="parent2", password="pass2", role="guardian", email="dad@family.com", date_of_birth="1978-07-22", gender="male", created_at=now(), pin="864203", pin_auto_generated="0"),
+        # Firebase requires at least 6 characters for a password, so these are
+        # one longer than the "pass1"/"pass2" kid/demo-PIN convention used
+        # elsewhere -- see frontend/src/utils/demoAccount.js (DEMO_PASSWORD
+        # must match this exactly) and tests/api.test.js.
+        DBUser(id="parent1", name="Mom",     username="parent1", password="pass1234", role="guardian", email="mom@family.com", date_of_birth="1980-03-10", gender="female", created_at=now(), pin="246810", pin_auto_generated="0"),
+        DBUser(id="parent2", name="Dad",     username="parent2", password="pass2345", role="guardian", email="dad@family.com", date_of_birth="1978-07-22", gender="male", created_at=now(), pin="864203", pin_auto_generated="0"),
         DBUser(id="kid1",    name="Alice",   username="kid1",    password="pass1", role="kid",    guardian_id="parent1", avatar="🐱", created_at=now(), pin="123456", pin_auto_generated="0", birth_month=6, birth_year=2020),
         DBUser(id="kid2",    name="Bob",     username="kid2",    password="pass1", role="kid",    guardian_id="parent1", avatar="🐶", created_at=now(), pin="284917", pin_auto_generated="0", birth_month=1, birth_year=2017),
         DBUser(id="kid3",    name="Charlie", username="kid3",    password="pass1", role="kid",    guardian_id="parent2", avatar="🦁", created_at=now(), pin="573920", pin_auto_generated="0"),
@@ -77,9 +81,9 @@ def seed_db(db: Session):
 # someone changes the password while poking at a public demo login), without
 # touching any of their chores/shop items/wallet history.
 DEMO_ACCOUNTS = [
-    dict(id="parent1", name="Mom",   username="parent1", password="pass1", role="guardian",
+    dict(id="parent1", name="Mom",   username="parent1", password="pass1234", role="guardian",
          email="mom@family.com", date_of_birth="1980-03-10", gender="female", pin="246810", pin_auto_generated="0"),
-    dict(id="parent2", name="Dad",   username="parent2", password="pass2", role="guardian",
+    dict(id="parent2", name="Dad",   username="parent2", password="pass2345", role="guardian",
          email="dad@family.com", date_of_birth="1978-07-22", gender="male", pin="864203", pin_auto_generated="0"),
     dict(id="kid1", name="Alice", username="kid1", password="pass1", role="kid", guardian_id="parent1",
          avatar="🐱", pin="123456", pin_auto_generated="0", birth_month=6, birth_year=2020),

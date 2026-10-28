@@ -10,6 +10,7 @@ class DBUser(Base):
     username      = Column(String, unique=True, nullable=False, index=True)
     password      = Column(String, nullable=False)
     google_id     = Column(String, unique=True, nullable=True, index=True)  # set for guardians who signed up/in via Google
+    firebase_uid  = Column(String, unique=True, nullable=True, index=True)  # Firebase Auth uid -- guardians only; see firebase_app.py
     role          = Column(String, nullable=False)   # guardian | kid
     email         = Column(String, nullable=True)
     date_of_birth = Column(String, nullable=True)

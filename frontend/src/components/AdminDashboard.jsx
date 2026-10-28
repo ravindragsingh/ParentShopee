@@ -2,9 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
-import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
-import PasswordField from './PasswordField.jsx'
 
 const STATUS_STYLE = {
   open:     { bg: '#f0fdfa', color: '#0d9488' },
@@ -84,7 +82,6 @@ function EditModal({ target, familyKids, onSave, onClose }) {
     // user fields
     name:          d.name          || '',
     email:         d.email         || '',
-    password:      '',
     pin:           '',
     avatar:        d.avatar        || '🐶',
     birthMonth:    d.birthMonth    || '',
@@ -113,10 +110,6 @@ function EditModal({ target, familyKids, onSave, onClose }) {
           const pinCheck = checkPinComplexity(form.pin)
           if (!pinCheck.ok) { setError(pinCheck.message); setSaving(false); return }
         }
-        if (!isProfile && form.password) {
-          const pwCheck = checkPasswordComplexity(form.password)
-          if (!pwCheck.ok) { setError(pwCheck.message); setSaving(false); return }
-        }
         if ((form.birthMonth && !form.birthYear) || (!form.birthMonth && form.birthYear)) {
           setError('Birth month and year must both be set, or both left blank.')
           setSaving(false)
@@ -124,7 +117,6 @@ function EditModal({ target, familyKids, onSave, onClose }) {
         }
         const body = { name: form.name }
         if (!isProfile && form.email)  body.email    = form.email
-        if (!isProfile && form.password) body.password = form.password
         if (isProfile && form.pin)     body.pin      = form.pin
         if (isProfile)                 body.avatar   = form.avatar
         if (form.birthMonth && form.birthYear) {
@@ -225,15 +217,8 @@ function EditModal({ target, familyKids, onSave, onClose }) {
                   )}
                 </div>
               ) : (
-                <div style={{ marginBottom: 6 }}>
-                  <label style={labelStyle}>
-                    New Password{' '}
-                    <span style={{ fontWeight: 400, color: '#94a3b8' }}>(leave blank to keep current)</span>
-                  </label>
-                  <PasswordField value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" style={inputStyle} />
-                  {form.password && (
-                    <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
-                  )}
+                <div style={{ marginBottom: 6, fontSize: '0.78rem', color: '#94a3b8' }}>
+                  Password resets are sent by email — use "📧 Send Password Reset" from the Members tab instead of setting one here.
                 </div>
               )}
               {isProfile && (
@@ -1033,6 +1018,8 @@ export default function AdminDashboard() {
   const [suspendBusyId, setSuspendBusyId] = useState(null)
   const [tempPinBusyId, setTempPinBusyId] = useState(null)
   const [tempPinResult, setTempPinResult] = useState(null)
+  const [resetPwdBusyId, setResetPwdBusyId] = useState(null)
+  const [resetPwdMessage, setResetPwdMessage] = useState('')
 
   useEffect(() => { loadFamilies() }, [])
 
@@ -1163,6 +1150,21 @@ export default function AdminDashboard() {
       setError(err.message)
     } finally {
       setTempPinBusyId(null)
+    }
+  }
+
+  async function handleSendPasswordReset(e, member) {
+    e.stopPropagation()
+    if (!window.confirm(`Send a password reset link to ${member.name} (${member.email})?`)) return
+    setResetPwdBusyId(member.id)
+    setResetPwdMessage('')
+    try {
+      const data = await api.adminSendPasswordReset(member.id)
+      setResetPwdMessage(data.message)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setResetPwdBusyId(null)
     }
   }
 
@@ -1386,6 +1388,12 @@ export default function AdminDashboard() {
         </div>
 
         {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem' }}>{error}</div>}
+        {resetPwdMessage && (
+          <div style={{ background: '#f0fdfa', color: '#0d9488', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+            <span>📧 {resetPwdMessage}</span>
+            <button onClick={() => setResetPwdMessage('')} style={{ background: 'none', border: 'none', color: '#0d9488', cursor: 'pointer', fontWeight: 700 }}>✕</button>
+          </div>
+        )}
         {loading && <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>Loading families…</div>}
 
         {!loading && filtered.length === 0 && (
@@ -1603,6 +1611,15 @@ export default function AdminDashboard() {
                               >
                                 ✏️ Edit
                               </button>
+                              {member._label === 'Primary Guardian' && (
+                                <button
+                                  style={{ ...tempPinBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
+                                  onClick={e => handleSendPasswordReset(e, member)}
+                                  disabled={resetPwdBusyId === member.id}
+                                >
+                                  📧 {resetPwdBusyId === member.id ? 'Sending…' : 'Send Password Reset'}
+                                </button>
+                              )}
                               <button
                                 style={{ ...tempPinBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
                                 onClick={e => handleIssueTempPin(e, member, family.familyId)}

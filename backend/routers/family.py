@@ -9,13 +9,13 @@ from config import COGUARDIAN_INVITE_TTL_HOURS, EMAIL_RE
 from database import get_db
 from deps import create_session, require_guardian
 from email_utils import send_coguardian_invite_email, send_coguardian_recovery_email
-from google_auth_utils import verify_google_token
+from firebase_app import verify_firebase_token
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
 from schemas import (
     CoGuardianBody, CoGuardianInviteAcceptBody, CoGuardianInviteBody,
-    ProfileEnterBody, RecoverPinBody, RecoverPinGoogleBody,
+    ProfileEnterBody, RecoverPinBody,
     ResendCoGuardianAccessBody, UpdatePinBody,
 )
 from security import check_pin_complexity
@@ -317,7 +317,13 @@ def list_family_profiles(db: Session = Depends(get_db), user: DBUser = Depends(r
             "isGoogleAccount": bool(u.google_id),
         }
 
-    profiles = [profile_dict(guardian, guardian.pin is not None)]
+    guardian_profile = profile_dict(guardian, guardian.pin is not None)
+    # Needed client-side to re-authenticate with Firebase for PIN recovery
+    # (signInWithEmailAndPassword needs an email) -- zero risk to surface,
+    # since it's the guardian's own email on their own authenticated family
+    # session, same scope as tempPin/isGoogleAccount above.
+    guardian_profile["email"] = guardian.email
+    profiles = [guardian_profile]
     if co_guardian:
         profiles.append(profile_dict(co_guardian, True))
     for kid in kids:
@@ -384,46 +390,17 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
 def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     # Recovery for a forgotten PIN, primary guardian only — kids and the co-guardian
     # get their PIN reset by the primary guardian instead (Kids tab / Admin Panel),
-    # same as before. Re-proving the real account password is what makes this
-    # safe to skip the PIN for: it's the one secret only the primary guardian
-    # knows, so it can't be used to bypass another profile's PIN on a shared
-    # device the way just clicking "forgot PIN" without a check could.
+    # same as before. This used to branch on how the guardian signed up (a local
+    # password check vs. a Google credential check); now that every guardian
+    # authenticates through Firebase, proving a *fresh* Firebase ID token (the
+    # frontend re-prompts for a password or re-runs Google sign-in to get one,
+    # same UX as before) is identity proof regardless of which provider it came
+    # from -- so this one endpoint covers both cases where two used to exist.
     if user.co_guardian_of:
         fail("Only the primary guardian can recover their PIN this way", 403)
-    if body.password != user.password:
-        # 400, not 401 -- same reasoning as the wrong-PIN case in enter_profile:
-        # this is a mistyped secret, not an invalid/expired device session.
-        fail("Incorrect password", 400)
-    check_pin_complexity(body.newPin)
-
-    user.pin = body.newPin
-    user.pin_auto_generated = "0"
-    user.pin_attempts = 0
-    user.pin_locked_until = None
-    db.commit()
-    db.refresh(user)
-
-    token = create_session(db, user.id)
-    return ok({"token": token, "user": safe_user(user)})
-
-
-@router.post("/api/family/profiles/recover-pin-google")
-def recover_own_pin_google(body: RecoverPinGoogleBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
-    # Same recovery as recover_own_pin above, but for guardians who signed up
-    # via Google: their `password` column is an inert random placeholder they
-    # never saw, so the password-based flow is a dead end for them. A fresh
-    # Google credential re-proves identity the same way the original sign-in
-    # did, as long as it resolves to the exact Google account already linked
-    # to this family -- not just any Google account.
-    if user.co_guardian_of:
-        fail("Only the primary guardian can recover their PIN this way", 403)
-    if not user.google_id:
-        fail("This account doesn't sign in with Google. Use your account password to reset your PIN instead.", 400)
-
-    claims = verify_google_token(body.credential)
-    if claims["sub"] != user.google_id:
-        fail("That Google account doesn't match the one linked to your family.", 401)
-
+    decoded = verify_firebase_token(body.idToken)
+    if decoded["uid"] != user.firebase_uid:
+        fail("That sign-in doesn't match this family's account.", 401)
     check_pin_complexity(body.newPin)
 
     user.pin = body.newPin

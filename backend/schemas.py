@@ -23,6 +23,26 @@ class GoogleCompleteBody(BaseModel):
     dateOfBirth: str
     gender: str
 
+class ResolveLoginIdentifierBody(BaseModel):
+    identifier: str   # username or email
+
+class FirebaseSessionBody(BaseModel):
+    idToken: str   # Firebase Auth ID token (JWT), from the client SDK
+
+class RegisterPrecheckBody(BaseModel):
+    name: str
+    email: str
+    username: str
+    dateOfBirth: str
+    gender: str
+
+class RegisterFinalizeBody(BaseModel):
+    idToken: str
+    name: str
+    dateOfBirth: str
+    gender: str
+    username: Optional[str] = None   # omitted for Google sign-ups (auto-generated from email)
+
 class ActivateBody(BaseModel):
     token: str
 
@@ -32,10 +52,6 @@ class ResendActivationBody(BaseModel):
 class ForgotPasswordBody(BaseModel):
     username: str
     email: str
-
-class ResetPasswordBody(BaseModel):
-    token: str
-    password: str
 
 class ForgotUsernameBody(BaseModel):
     email: str
@@ -80,11 +96,7 @@ class ProfileEnterBody(BaseModel):
     pin: Optional[str] = None
 
 class RecoverPinBody(BaseModel):
-    password: str
-    newPin: str
-
-class RecoverPinGoogleBody(BaseModel):
-    credential: str   # fresh Google Identity Services ID token (JWT)
+    idToken: str   # fresh Firebase Auth ID token (JWT) -- password or Google sign-in, either works
     newPin: str
 
 class BonusPointsBody(BaseModel):
@@ -114,9 +126,6 @@ class MessageBody(BaseModel):
     receiver_id: str
     content: str
     quote_content: Optional[str] = None
-
-class ChangeOwnPasswordBody(BaseModel):
-    password: str
 
 class ChoreCreate(BaseModel):
     title: str
@@ -181,8 +190,7 @@ class DailyChoreSettingsUpdate(BaseModel):
 class AdminUserUpdate(BaseModel):
     name:       Optional[str] = None
     email:      Optional[str] = None
-    password:   Optional[str] = None   # primary guardian accounts only
-    pin:        Optional[str] = None   # kid / co-guardian profiles only
+    pin:        Optional[str] = None   # kid / co-guardian profiles only -- guardian passwords go through /send-password-reset now
     avatar:     Optional[str] = None
     birthMonth: Optional[int] = None   # 1-12 -- guardians and kids alike
     birthYear:  Optional[int] = None

@@ -6,9 +6,40 @@ import { api } from '../api.js'
 import { LOGIN_HELP_CARDS } from './Help.jsx'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
-import { DEMO_USERNAME, DEMO_PASSWORD, DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
+import { DEMO_EMAIL, DEMO_PASSWORD, DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
 import { EmojiPicker } from './ChoreCard.jsx'
+import { auth, googleProvider } from '../firebase.js'
+import {
+  confirmPasswordReset, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signInWithPopup, verifyPasswordResetCode,
+} from 'firebase/auth'
+
+// Firebase's own error messages are written for developers, not parents --
+// this maps the handful of codes our flows can actually hit to copy that
+// matches the tone of the rest of the app's error messages.
+function friendlyFirebaseError(err) {
+  switch (err?.code) {
+    case 'auth/email-already-in-use':
+      return 'An account with this email already exists. Please sign in instead.'
+    case 'auth/invalid-email':
+      return 'Please enter a valid email address.'
+    case 'auth/weak-password':
+      return 'Password must be at least 6 characters.'
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential':
+      return 'Invalid username/email or password.'
+    case 'auth/too-many-requests':
+      return 'Too many attempts. Please wait a moment and try again.'
+    case 'auth/popup-closed-by-user':
+      return 'Sign-in was cancelled.'
+    case 'auth/account-exists-with-different-credential':
+      return 'An account with this email already exists. Please sign in with your username and password instead.'
+    default:
+      return err?.message || 'Something went wrong. Please try again.'
+  }
+}
 
 const COGUARDIAN_INVITE_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
 
@@ -168,17 +199,30 @@ function RegisterForm({ onBack }) {
     }
     setLoading(true)
     try {
-      const data = await api.register({
+      // 1. Validate every business rule BEFORE touching Firebase, so a
+      // rejected registration never leaves a dangling Firebase Auth user
+      // with no app account behind it.
+      await api.registerPrecheck({
         name: form.name.trim(),
         email: form.email.trim(),
         username: form.username.trim(),
-        password: form.password,
         dateOfBirth: form.dateOfBirth,
         gender: form.gender,
       })
+      // 2. Create the real credential in Firebase.
+      const cred = await createUserWithEmailAndPassword(auth, form.email.trim(), form.password)
+      const idToken = await cred.user.getIdToken()
+      // 3. Finalize: create the DBUser row, linked to this Firebase uid.
+      const data = await api.registerFinalize({
+        idToken,
+        name: form.name.trim(),
+        dateOfBirth: form.dateOfBirth,
+        gender: form.gender,
+        username: form.username.trim(),
+      })
       setRegistered({ email: data.email, message: data.message })
     } catch (err) {
-      setError(err.message)
+      setError(err.code ? friendlyFirebaseError(err) : err.message)
     } finally {
       setLoading(false)
     }
@@ -488,16 +532,18 @@ function ForgotUsernamePanel({ onShowPasswordRecovery }) {
 
 // ── Google Sign-In ───────────────────────────────────────────────────────────
 
-// Renders Google's own button via the Identity Services script (loaded in
-// index.html). Signing in mints a normal device session exactly like password
-// login, so everything downstream (profile picker, PIN flow) is unaffected.
-// A first-time Google sign-in has no birthdate/gender on file (Google doesn't
-// provide them), so the backend replies with needsProfile instead of a
-// session, and this component asks for just those two fields before finishing.
+// Signs in via Firebase's Google provider (a popup, replacing the old raw
+// Google Identity Services widget). A fresh Google identity mints a normal
+// device session exactly like password login, so everything downstream
+// (profile picker, PIN flow) is unaffected. A first-time Google sign-in has
+// no birthdate/gender on file (Google doesn't provide them) -- Firebase
+// auto-creates the credential regardless, but /api/auth/firebase-session
+// reports back `no_account` since there's no DBUser for it yet, and this
+// component asks for just those two fields before finishing via
+// register/finalize (same endpoint password sign-up's second step uses).
 function GoogleSignInButton() {
   const { login } = useAuth()
-  const buttonRef = useRef(null)
-  const [needsProfile, setNeedsProfile] = useState(null) // { credential, email, name } | null
+  const [needsProfile, setNeedsProfile] = useState(null) // { email, name } | null
   const [dateOfBirth, setDateOfBirth] = useState('')
   const [gender, setGender] = useState('')
   const [agreed, setAgreed] = useState(false)
@@ -505,47 +551,28 @@ function GoogleSignInButton() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
-
-  const handleCredentialResponse = useCallback(async (response) => {
+  async function handleGoogleClick() {
     setError('')
     setLoading(true)
     try {
-      const data = await api.googleLogin(response.credential)
-      if (data.needsProfile) {
-        setNeedsProfile({ credential: response.credential, email: data.email, name: data.name })
-      } else {
+      const cred = await signInWithPopup(auth, googleProvider)
+      const idToken = await cred.user.getIdToken()
+      try {
+        const data = await api.firebaseSession(idToken)
         login(data.user, data.token)
+      } catch (err) {
+        if (err.code === 'no_account') {
+          setNeedsProfile({ email: cred.user.email, name: cred.user.displayName })
+        } else {
+          throw err
+        }
       }
     } catch (err) {
-      setError(err.message || 'Google sign-in failed. Please try again.')
+      setError(err.code?.startsWith('auth/') ? friendlyFirebaseError(err) : (err.message || 'Google sign-in failed. Please try again.'))
     } finally {
       setLoading(false)
     }
-  }, [login])
-
-  useEffect(() => {
-    if (!clientId) return
-    // index.html loads the GSI script with async/defer, so on a first visit
-    // (nothing cached yet) it can still be mid-download when this effect
-    // first runs -- window.google isn't defined yet, the check below used to
-    // just bail out with nothing to retry it, and the button silently never
-    // appeared. A refresh "fixed" it only because the browser's HTTP cache
-    // made the script available fast enough the next time. Poll instead of
-    // assuming it's already there.
-    let cancelled = false
-    function tryRender() {
-      if (cancelled) return
-      if (!window.google?.accounts?.id || !buttonRef.current) {
-        setTimeout(tryRender, 100)
-        return
-      }
-      window.google.accounts.id.initialize({ client_id: clientId, callback: handleCredentialResponse })
-      window.google.accounts.id.renderButton(buttonRef.current, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
-    }
-    tryRender()
-    return () => { cancelled = true }
-  }, [clientId, handleCredentialResponse])
+  }
 
   async function handleCompleteProfile(e) {
     e.preventDefault()
@@ -555,7 +582,16 @@ function GoogleSignInButton() {
     if (!agreed) { setError('Please agree to the User Agreement to continue.'); return }
     setLoading(true)
     try {
-      const data = await api.googleComplete(needsProfile.credential, dateOfBirth, gender)
+      // auth.currentUser is already the Google-signed-in user from the popup
+      // step -- re-fetch a fresh token rather than reusing the first one, in
+      // case filling out this form took a while.
+      const idToken = await auth.currentUser.getIdToken()
+      const data = await api.registerFinalize({
+        idToken,
+        name: needsProfile.name || needsProfile.email,
+        dateOfBirth,
+        gender,
+      })
       login(data.user, data.token)
     } catch (err) {
       setError(err.message || 'Could not finish creating your account.')
@@ -563,8 +599,6 @@ function GoogleSignInButton() {
       setLoading(false)
     }
   }
-
-  if (!clientId) return null // Google sign-in not configured on this deployment yet
 
   if (needsProfile) {
     return (
@@ -640,7 +674,16 @@ function GoogleSignInButton() {
   return (
     <div>
       {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
-      <div ref={buttonRef} style={{ display: 'flex', justifyContent: 'center' }} />
+      <button
+        type="button"
+        className="login-btn-outline"
+        onClick={handleGoogleClick}
+        disabled={loading}
+        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+      >
+        <span aria-hidden="true" style={{ fontWeight: 800 }}>G</span>
+        {loading ? 'Connecting...' : 'Continue with Google'}
+      </button>
     </div>
   )
 }
@@ -683,13 +726,23 @@ function LoginForm({ onRegister }) {
     }
     setLoading(true)
     try {
-      const data = await api.login(username.trim(), password.trim())
+      // The form still takes a single "username or email" field -- resolve it
+      // to a real email first, since Firebase's client SDK needs one. An
+      // unknown identifier resolves to a harmless fake email that Firebase
+      // will reject the same way it rejects a wrong password, so this step
+      // never reveals whether the identifier exists.
+      const { email } = await api.resolveLoginIdentifier(username.trim())
+      const cred = await signInWithEmailAndPassword(auth, email, password.trim())
+      const idToken = await cred.user.getIdToken()
+      const data = await api.firebaseSession(idToken)
       if (remember) localStorage.setItem('remembered_username', username.trim())
       else localStorage.removeItem('remembered_username')
       login(data.user, data.token)
     } catch (err) {
       if (err.code === 'account_not_activated') {
         setShowActivationModal(true)
+      } else if (err.code?.startsWith('auth/')) {
+        setError(friendlyFirebaseError(err))
       } else {
         setError(err.message || 'Login failed. Please try again.')
       }
@@ -840,7 +893,9 @@ function TryDemoLink({ align = 'center' }) {
     setError('')
     setLoading(true)
     try {
-      const data = await api.login(DEMO_USERNAME, DEMO_PASSWORD)
+      const cred = await signInWithEmailAndPassword(auth, DEMO_EMAIL, DEMO_PASSWORD)
+      const idToken = await cred.user.getIdToken()
+      const data = await api.firebaseSession(idToken)
       login(data.user, data.token)
       const profileData = await api.enterProfile(data.user.id, DEMO_PROFILE_PINS[data.user.id])
       enterProfile(profileData.user, profileData.token)
@@ -998,13 +1053,27 @@ export function ActivatePage() {
 
 export function ResetPasswordPage() {
   const navigate = useNavigate()
-  const token = new URLSearchParams(window.location.search).get('token')
+  // Firebase's own link shape (see generate_password_reset_link's
+  // action_code_settings in backend/routers/auth.py) -- the token/expiry are
+  // entirely Firebase's concern now, this page just completes the reset
+  // client-side via the SDK, no backend call involved.
+  const oobCode = new URLSearchParams(window.location.search).get('oobCode')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [status, setStatus] = useState(token ? 'form' : 'error') // form | success | error
-  const [message, setMessage] = useState(token ? '' : 'This password reset link is missing its token.')
+  const [status, setStatus] = useState(oobCode ? 'checking' : 'error') // checking | form | success | error
+  const [message, setMessage] = useState(oobCode ? '' : 'This password reset link is missing its code.')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!oobCode) return
+    verifyPasswordResetCode(auth, oobCode)
+      .then(() => setStatus('form'))
+      .catch(() => {
+        setStatus('error')
+        setMessage('This password reset link is invalid or has expired. Please request a new one.')
+      })
+  }, [oobCode])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -1020,11 +1089,11 @@ export function ResetPasswordPage() {
     }
     setLoading(true)
     try {
-      const data = await api.resetPassword(token, password)
+      await confirmPasswordReset(auth, oobCode, password)
       setStatus('success')
-      setMessage(data.message)
+      setMessage('Your password has been reset. You can sign in with your new password now.')
     } catch (err) {
-      setError(err.message)
+      setError(err.code?.startsWith('auth/') ? friendlyFirebaseError(err) : err.message)
     } finally {
       setLoading(false)
     }
@@ -1034,6 +1103,9 @@ export function ResetPasswordPage() {
     <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
       <div className="login-shell">
         <div className="login-card" style={{ textAlign: status === 'form' ? 'left' : 'center' }}>
+          {status === 'checking' && (
+            <p className="login-subtitle">Checking your reset link...</p>
+          )}
           {status === 'form' && (
             <>
               <h1 className="login-title">Reset Password</h1>

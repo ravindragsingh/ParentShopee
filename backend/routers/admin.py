@@ -5,11 +5,12 @@ from typing import Optional
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from config import EMAIL_RE, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
+from config import EMAIL_RE, FRONTEND_URL, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
 from deps import require_admin
-from email_utils import send_email
+from email_utils import send_email, send_reset_email
+from firebase_app import get_firebase_app
 from helpers import (
     chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, generate_inert_credentials,
     generate_temp_pin, get_ticket_notification_email, get_ticket_replies, now, safe_user, ticket_dict,
@@ -19,7 +20,7 @@ from responses import fail, ok
 from schemas import (
     AddKidBody, AdminChoreUpdate, AdminLimitsUpdate, AdminUserUpdate, CoGuardianBody, TicketReplyBody, WalletAdjustBody,
 )
-from security import check_password_complexity, check_pin_complexity
+from security import check_pin_complexity
 
 router = APIRouter()
 
@@ -134,9 +135,6 @@ def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends
         target.pin_auto_generated = "0"
         target.pin_attempts = 0
         target.pin_locked_until = None
-    if body.password is not None and body.password and not is_profile:
-        check_password_complexity(body.password)
-        target.password = body.password
     if body.avatar is not None:
         target.avatar = body.avatar
     if body.birthMonth is not None or body.birthYear is not None:
@@ -173,6 +171,40 @@ def admin_issue_temp_pin(user_id: str, db: Session = Depends(get_db), user: DBUs
     db.commit()
     db.refresh(target)
     return ok({"pin": target.pin, "user": safe_user(target)})
+
+
+@router.post("/api/admin/user/{user_id}/send-password-reset")
+def admin_send_password_reset(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+    """Guardian equivalent of issue-temp-pin above, now that Firebase owns
+    guardian credentials: an admin can no longer set a guardian's password
+    directly (there's nothing local left to overwrite, and the admin should
+    never handle a plaintext password anyway) -- instead this emails the same
+    Firebase-generated reset link forgot_password sends, for cases where the
+    guardian is locked out and can't request it themselves."""
+    target = db.query(DBUser).filter(DBUser.id == user_id).first()
+    if not target:
+        fail("User not found", 404)
+    is_profile = target.role == "kid" or target.co_guardian_of
+    if is_profile or target.role == "admin":
+        fail("This account doesn't sign in with a password", 403)
+    if not target.firebase_uid or not target.email:
+        fail("This account isn't set up for password reset yet", 400)
+    app = get_firebase_app()
+    if not app:
+        fail("Password reset is not configured on this server.", 503)
+    try:
+        from firebase_admin import auth as firebase_auth
+        link = firebase_auth.generate_password_reset_link(
+            target.email,
+            action_code_settings=firebase_auth.ActionCodeSettings(url=f"{FRONTEND_URL}/reset-password", handle_code_in_app=True),
+            app=app,
+        )
+    except Exception as e:
+        print(f"[admin] WARNING: failed to generate Firebase password reset link: {e}")
+        fail("Couldn't generate a reset link. Please try again shortly.", 500)
+    if not send_reset_email(target, link):
+        fail("Couldn't send the reset email. Please try again shortly.", 500)
+    return ok({"message": f"Password reset link sent to {target.email}."})
 
 
 @router.post("/api/admin/user/{user_id}/suspend")

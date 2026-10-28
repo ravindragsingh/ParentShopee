@@ -17,6 +17,8 @@ import AppNavbar from './AppNavbar.jsx'
 import BottomNav from './BottomNav.jsx'
 import PasswordField from './PasswordField.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
+import { auth } from '../firebase.js'
+import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth'
 import GuardianLearnGrowTab from '../learn/GuardianLearnGrowTab.jsx'
 import { useTour } from '../tour/TourContext.jsx'
 import { isTourDisabled, setTourEnabled } from '../tour/tourStorage.js'
@@ -1386,6 +1388,7 @@ function CoGuardianTab() {
 function AdminPanelTab() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [currentPwd, setCurrentPwd] = useState('')
   const [newPwd, setNewPwd] = useState('')
   const [confirmPwd, setConfirmPwd] = useState('')
   const [pwdError, setPwdError] = useState('')
@@ -1441,11 +1444,17 @@ function AdminPanelTab() {
     if (newPwd !== confirmPwd) { setPwdError('Passwords do not match.'); return }
     setSaving(true)
     try {
-      await api.changeOwnPassword(newPwd)
+      // Firebase owns the password now (see src/firebase.js); updating it is
+      // entirely client-side, no backend call. Re-authenticating first (rather
+      // than relying on whatever Firebase session happens to still be live)
+      // both proves it's really them and avoids an auth/requires-recent-login
+      // error if their last Firebase sign-in was a while ago.
+      await signInWithEmailAndPassword(auth, user.email, currentPwd)
+      await updatePassword(auth.currentUser, newPwd)
       setPwdSuccess('Password updated successfully.')
-      setNewPwd(''); setConfirmPwd('')
+      setCurrentPwd(''); setNewPwd(''); setConfirmPwd('')
     } catch (err) {
-      setPwdError(err.message)
+      setPwdError(err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' ? 'Current password is incorrect.' : (err.message || 'Could not update password.'))
     } finally {
       setSaving(false)
     }
@@ -1501,13 +1510,23 @@ function AdminPanelTab() {
           )}
         </div>
 
-        {/* Change password — primary guardian only; co-guardian/kids sign in with a PIN, not a password */}
-        {isPrimaryGuardian && (
+        {/* Change password — primary guardian only; co-guardian/kids sign in with a PIN,
+            not a password. Google-only guardians have no password to change here --
+            their account signs in through Google, not a local credential. */}
+        {isPrimaryGuardian && !user.isGoogleAccount && (
           <div className="form-card" style={{ marginBottom: 16 }}>
             <div className="form-title">Change Password</div>
             <form onSubmit={handleChangePwd}>
               {pwdError   && <div className="error-msg">{pwdError}</div>}
               {pwdSuccess && <div className="success-msg">{pwdSuccess}</div>}
+              <div className="form-group" style={{ marginBottom: 12 }}>
+                <label>Current Password</label>
+                <PasswordField
+                  value={currentPwd}
+                  onChange={e => setCurrentPwd(e.target.value)}
+                  placeholder="Your current password"
+                />
+              </div>
               <div className="form-group" style={{ marginBottom: 12 }}>
                 <label>New Password</label>
                 <PasswordField
