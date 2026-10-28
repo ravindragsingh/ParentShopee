@@ -649,9 +649,10 @@ function GoogleSignInButton() {
     if (!agreed) { setError('Please agree to the User Agreement to continue.'); return }
     setLoading(true)
     try {
-      // auth.currentUser is already the Google-signed-in user from the popup
-      // step -- re-fetch a fresh token rather than reusing the first one, in
-      // case filling out this form took a while.
+      // auth.currentUser is already the Google-signed-in user, from either
+      // handleGoogleClick (web popup) or handleIdToken (native credential
+      // exchange) -- re-fetch a fresh token rather than reusing the first
+      // one, in case filling out this form took a while.
       const idToken = await auth.currentUser.getIdToken()
       const data = await api.registerFinalize({
         idToken,
