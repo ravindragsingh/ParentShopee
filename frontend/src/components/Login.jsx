@@ -1550,7 +1550,9 @@ function TopNav({ onSignIn, onShowHelp }) {
   return (
     <nav style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '14px 24px', background: '#fff', borderBottom: '1px solid #f1f5f9',
+      padding: '14px 24px', paddingTop: 'max(14px, var(--sa-inset-top))',
+      paddingLeft: 'max(24px, var(--sa-inset-left))', paddingRight: 'max(24px, var(--sa-inset-right))',
+      background: '#fff', borderBottom: '1px solid #f1f5f9',
       position: 'sticky', top: 0, zIndex: 50,
     }}>
       <img
