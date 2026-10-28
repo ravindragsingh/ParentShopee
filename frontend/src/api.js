@@ -1,13 +1,20 @@
+import { Capacitor } from '@capacitor/core'
+
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4001'
 
 function getToken() {
   return localStorage.getItem('token')
 }
 
+// Capacitor.getPlatform() reports 'web', 'android', or 'ios' based on which
+// shell is actually running the code -- a Capacitor WebView's User-Agent
+// often looks just like a mobile browser's, so the backend can't reliably
+// tell these apart on its own (see geolocation.get_client_platform).
 function authHeaders(tokenOverride) {
   const token = tokenOverride || getToken()
   return {
     'Content-Type': 'application/json',
+    'X-Client-Platform': Capacitor.getPlatform(),
     ...(token ? { Authorization: `Bearer ${token}` } : {})
   }
 }
@@ -52,25 +59,26 @@ async function request(method, path, body, tokenOverride) {
 }
 
 export const api = {
-  // Auth
-  login: (username, password) =>
-    request('POST', '/api/auth/login', { username, password }),
-  register: (body) =>
-    request('POST', '/api/auth/register', body),
+  // Auth -- guardian identity is Firebase's job now (see src/firebase.js);
+  // these endpoints only resolve a login identifier to an email, exchange a
+  // verified Firebase ID token for our own app session, or run the business
+  // validation around registration. See routers/auth.py for the full flow.
+  resolveLoginIdentifier: (identifier) =>
+    request('POST', '/api/auth/resolve-login-identifier', { identifier }),
+  firebaseSession: (idToken) =>
+    request('POST', '/api/auth/firebase-session', { idToken }),
+  registerPrecheck: (body) =>
+    request('POST', '/api/auth/register/precheck', body),
+  registerFinalize: (body) =>
+    request('POST', '/api/auth/register/finalize', body),
   activateAccount: (token) =>
     request('POST', '/api/auth/activate', { token }),
   resendActivation: (username) =>
     request('POST', '/api/auth/resend-activation', { username }),
   forgotPassword: (username, email) =>
     request('POST', '/api/auth/forgot-password', { username, email }),
-  resetPassword: (token, password) =>
-    request('POST', '/api/auth/reset-password', { token, password }),
   forgotUsername: (email) =>
     request('POST', '/api/auth/forgot-username', { email }),
-  googleLogin: (credential) =>
-    request('POST', '/api/auth/google', { credential }),
-  googleComplete: (credential, dateOfBirth, gender) =>
-    request('POST', '/api/auth/google/complete', { credential, dateOfBirth, gender }),
 
   // Add-limits
   getLimits: () => request('GET', '/api/limits'),
@@ -105,6 +113,16 @@ export const api = {
   completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),
   resetLearningCompletion: (moduleId, kidId) => request('DELETE', `/api/future-ready/${moduleId}/completion/${kidId}`),
 
+  // Quests
+  getQuests: () => request('GET', '/api/quests'),
+  getQuestContent: (moduleId) => request('GET', `/api/quests/${moduleId}/content`),
+  setQuestVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/quests/${moduleId}/visibility`, { enabled, kidIds }),
+  setQuestPoints: (moduleId, points) => request('PUT', `/api/quests/${moduleId}/points`, { points }),
+  resetQuestCompletion: (moduleId, kidId) => request('DELETE', `/api/quests/${moduleId}/completion/${kidId}`),
+  submitQuestLog: (moduleId, note) => request('POST', `/api/quests/${moduleId}/log`, { note }),
+  approveQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/approve`),
+  rejectQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/reject`),
+
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
   getAllWallets: () => request('GET', '/api/wallet'),
@@ -121,7 +139,6 @@ export const api = {
   getKidReport:      (kidId, period)      => request('GET', `/api/kids/${kidId}/report?period=${period}`),
 
   // Account
-  changeOwnPassword: (password) => request('PUT', '/api/auth/password', { password }),
   updateMyPin:       (pin)      => request('PUT', '/api/auth/pin', { pin }),
   deleteOwnAccount:  (tokenOverride) => request('DELETE', '/api/auth/account', undefined, tokenOverride),
   registerPushToken: (token)    => request('PUT', '/api/auth/push-token', { token }),
@@ -155,10 +172,8 @@ export const api = {
     request('GET', '/api/family/profiles', undefined, localStorage.getItem('device_token')),
   enterProfile: (profileId, pin) =>
     request('POST', `/api/family/profiles/${profileId}/enter`, { pin }, localStorage.getItem('device_token')),
-  recoverPin: (password, newPin) =>
-    request('POST', '/api/family/profiles/recover-pin', { password, newPin }, localStorage.getItem('device_token')),
-  recoverPinGoogle: (credential, newPin) =>
-    request('POST', '/api/family/profiles/recover-pin-google', { credential, newPin }, localStorage.getItem('device_token')),
+  recoverPin: (idToken, newPin) =>
+    request('POST', '/api/family/profiles/recover-pin', { idToken, newPin }, localStorage.getItem('device_token')),
 
   // Recurring chore templates
   createRecurring: (body) => request('POST',   '/api/recurring', body),
@@ -190,6 +205,8 @@ export const api = {
   adminAdjustWallet:       (kidId, body)    => request('POST', `/api/admin/kid/${kidId}/wallet/adjust`, body),
   adminSuspendUser:        (userId)        => request('POST', `/api/admin/user/${userId}/suspend`),
   adminUnsuspendUser:      (userId)        => request('POST', `/api/admin/user/${userId}/unsuspend`),
+  adminIssueTempPin:       (userId)        => request('POST', `/api/admin/user/${userId}/issue-temp-pin`),
+  adminSendPasswordReset:  (userId)        => request('POST', `/api/admin/user/${userId}/send-password-reset`),
   adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),
   adminResolveTicket:      (id)            => request('POST', `/api/admin/tickets/${id}/resolve`),
   adminReopenTicket:       (id)            => request('POST', `/api/admin/tickets/${id}/reopen`),

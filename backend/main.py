@@ -14,7 +14,7 @@ import models  # noqa: F401 — import ensures all tables are registered on Base
 from database import SessionLocal, engine, Base
 from seed import backfill_sample_ids, ensure_demo_accounts, reconcile_custom_item_counts, seed_db
 from models import DBUser
-from routers import admin, auth, chores, contact, daily_chores, family, future_ready, kids, messages, shop, wallet
+from routers import admin, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -58,6 +58,7 @@ app.include_router(messages.router)
 app.include_router(admin.router)
 app.include_router(daily_chores.router)
 app.include_router(future_ready.router)
+app.include_router(quests.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -66,6 +67,20 @@ def startup():
     import random
     from datetime import datetime, timezone
     from sqlalchemy import text
+
+    # Must run before create_all: once create_all sees DBQuestLog's current
+    # __tablename__ ("quest_logs"), it creates that table fresh, and renaming
+    # onto an already-existing table fails -- silently orphaning any real
+    # data in the old "activity_logs" table from before the "Activity Ideas"
+    # -> "Quest" rename. Only matters for a database that predates the
+    # rename; harmless (caught below) otherwise.
+    with engine.connect() as conn:
+        try:
+            conn.execute(text("ALTER TABLE activity_logs RENAME TO quest_logs"))
+            conn.commit()
+        except Exception:
+            conn.rollback()
+
     Base.metadata.create_all(bind=engine)
     # Add columns that may be missing from older databases
     _ts_now = datetime.now(timezone.utc).isoformat()
@@ -105,7 +120,9 @@ def startup():
             ("users",      "pin_locked_until",          "VARCHAR"),
             ("users",      "pin_auto_generated",        "VARCHAR"),
             ("users",      "google_id",                 "VARCHAR"),
+            ("users",      "firebase_uid",              "VARCHAR"),
             ("users",      "push_token",                "VARCHAR"),
+            ("users",      "last_login_platform",        "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
             ("wallets",    "savings_balance",         "FLOAT"),
             ("family_learning_settings", "points_override", "FLOAT"),
@@ -313,10 +330,69 @@ def startup():
                 # every module would look "new" again after each deploy.
                 db3.add(DBLearningModule(is_active="1", created_at=_ts_now, **fields))
         active_ids = [c["id"] for c in catalog]
-        db3.query(DBLearningModule).filter(DBLearningModule.id.notin_(active_ids)).update({"is_active": "0"}, synchronize_session=False)
+        # Scoped to this section -- Quests rows (seeded separately, right
+        # below) live in the same table and must not get swept up here.
+        db3.query(DBLearningModule).filter(
+            DBLearningModule.section == "future-ready", DBLearningModule.id.notin_(active_ids)
+        ).update({"is_active": "0"}, synchronize_session=False)
         db3.commit()
     finally:
         db3.close()
+
+    # Seed the Quests catalog -- same upsert-plus-soft-deactivate pattern as
+    # Future-Ready above, sharing the same DBLearningModule /
+    # DBFamilyLearningSetting / DBLearningCompletion tables (see models.py
+    # and routers/quests.py) with section="quest" instead. No slides/quiz
+    # here -- content is just a short list of hands-on ideas a guardian can
+    # try with their kid; "topic" doubles as the category.
+    db4 = SessionLocal()
+    try:
+        content_dir = os.path.join(os.path.dirname(__file__), "quests_content")
+        content_by_id = {}
+        for fname in sorted(glob.glob(os.path.join(content_dir, "*.json"))):
+            with open(fname, encoding="utf-8") as f:
+                content_by_id.update(json.load(f))
+
+        CATEGORIES = [
+            ("cognitive", "Cognitive Development", "🧠"),
+            ("creativity", "Creativity & Imagination", "🎨"),
+            ("physical", "Physical & Motor Skills", "🤸"),
+            ("emotional", "Emotional Intelligence", "❤️"),
+            ("stem", "STEM Exploration", "🔬"),
+        ]
+        QUEST_AGE_BANDS = [(4, 6), (7, 9), (10, 13), (13, 17)]
+        QUEST_POINTS = 8  # flat per quest completion -- no quiz to scale off of
+
+        catalog2 = []
+        order_index2 = 1
+        for category_key, category_title, category_emoji in CATEGORIES:
+            for age_min, age_max in QUEST_AGE_BANDS:
+                module_id = f"{category_key}-{age_min}-{age_max}"
+                if module_id not in content_by_id:
+                    continue
+                catalog2.append(dict(
+                    id=module_id, section="quest", section_title="Quests", section_emoji="🧸",
+                    topic=category_key, topic_title=category_title, topic_emoji=category_emoji,
+                    age_min=age_min, age_max=age_max, title=f"Ages {age_min}–{age_max}",
+                    points=QUEST_POINTS, order_index=order_index2,
+                ))
+                order_index2 += 1
+
+        for fields in catalog2:
+            fields = {**fields, "content": content_by_id.get(fields["id"])}
+            existing = db4.query(DBLearningModule).filter(DBLearningModule.id == fields["id"]).first()
+            if existing:
+                for key, value in fields.items():
+                    setattr(existing, key, value)
+            else:
+                db4.add(DBLearningModule(is_active="1", created_at=_ts_now, **fields))
+        active_ids2 = [c["id"] for c in catalog2]
+        db4.query(DBLearningModule).filter(
+            DBLearningModule.section == "quest", DBLearningModule.id.notin_(active_ids2)
+        ).update({"is_active": "0"}, synchronize_session=False)
+        db4.commit()
+    finally:
+        db4.close()
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 

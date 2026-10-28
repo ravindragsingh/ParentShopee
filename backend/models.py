@@ -10,6 +10,7 @@ class DBUser(Base):
     username      = Column(String, unique=True, nullable=False, index=True)
     password      = Column(String, nullable=False)
     google_id     = Column(String, unique=True, nullable=True, index=True)  # set for guardians who signed up/in via Google
+    firebase_uid  = Column(String, unique=True, nullable=True, index=True)  # Firebase Auth uid -- guardians only; see firebase_app.py
     role          = Column(String, nullable=False)   # guardian | kid
     email         = Column(String, nullable=True)
     date_of_birth = Column(String, nullable=True)
@@ -24,6 +25,7 @@ class DBUser(Base):
     last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_at      = Column(String, nullable=True)  # ISO timestamp of most recent login
+    last_login_platform = Column(String, nullable=True)  # "web" / "android" / "ios", from the most recent login
     # Live count of custom (non-sample) chores/shop items currently in use,
     # shared by co-guardian -- recomputed from what's actually in the DB on
     # every server startup (see seed.reconcile_custom_item_counts) and kept
@@ -244,6 +246,23 @@ class DBLearningCompletion(Base):
     total           = Column(Integer, nullable=False)
     points_awarded  = Column(Float, nullable=False)
     completed_at    = Column(String, nullable=False)
+
+
+class DBQuestLog(Base):
+    """A kid's write-up of trying one Quest module -- unlike Future-Ready's
+    instant quiz-based DBLearningCompletion, this sits "pending" until the
+    guardian reviews the note and approves it, same accountability model as
+    a chore. Approving creates the matching DBLearningCompletion row (and
+    pays out points) exactly once; rejecting just leaves this row rejected
+    so the kid can submit a fresh log."""
+    __tablename__ = "quest_logs"
+    id           = Column(String, primary_key=True)
+    kid_id       = Column(String, nullable=False, index=True)
+    module_id    = Column(String, nullable=False, index=True)
+    note         = Column(String, nullable=False)
+    status       = Column(String, default="pending")  # "pending" / "approved" / "rejected"
+    submitted_at = Column(String, nullable=False)
+    reviewed_at  = Column(String, nullable=True)
 
 
 class DBSession(Base):

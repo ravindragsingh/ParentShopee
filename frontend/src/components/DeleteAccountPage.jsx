@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
 import { setStatusBarForLightBg } from '../utils/nativeChrome.js'
+import { auth } from '../firebase.js'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 // Public, unauthenticated page for requesting account deletion -- needed as
 // a standalone URL for app store submissions (Google Play requires a way to
@@ -33,11 +35,14 @@ export default function DeleteAccountPage() {
     }
     setLoading(true)
     try {
-      const loginData = await api.login(username.trim(), password)
+      const { email } = await api.resolveLoginIdentifier(username.trim())
+      const cred = await signInWithEmailAndPassword(auth, email, password)
+      const idToken = await cred.user.getIdToken()
+      const loginData = await api.firebaseSession(idToken)
       const result = await api.deleteOwnAccount(loginData.token)
       setDoneMessage(result.message)
     } catch (err) {
-      setError(err.message)
+      setError(err.code?.startsWith('auth/') ? 'Incorrect username or password.' : err.message)
     } finally {
       setLoading(false)
     }

@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 
 from config import (
     ACTIVATION_TOKEN_TTL_HOURS, COGUARDIAN_INVITE_TTL_HOURS, EMAIL_FROM, FRONTEND_URL,
-    RESET_TOKEN_TTL_HOURS, SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER,
+    SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER,
 )
 from models import DBUser
 
@@ -47,16 +47,17 @@ def send_activation_email(user: DBUser) -> bool:
     return send_email(user.email, subject, body_text)
 
 
-def send_reset_email(user: DBUser) -> bool:
-    link = f"{FRONTEND_URL}/reset-password?token={user.reset_token}"
+def send_reset_email(user: DBUser, link: str) -> bool:
+    """`link` is a Firebase password-reset link (see firebase_app.py /
+    routers/auth.py forgot_password) -- Firebase owns the token/expiry now,
+    this just keeps the branded email wrapper around it."""
     subject = "Reset your Reward Ur Kids password"
     body_text = (
         f"Hi {user.name},\n\n"
         f"We received a request to reset the password for your Reward Ur Kids account "
         f"(username: {user.username}). Click the link below to choose a new password:\n\n"
         f"    {link}\n\n"
-        f"This link expires in {RESET_TOKEN_TTL_HOURS} hour. If you didn't request this, "
-        f"you can safely ignore this email — your password won't be changed.\n"
+        f"If you didn't request this, you can safely ignore this email — your password won't be changed.\n"
     )
     return send_email(user.email, subject, body_text)
 

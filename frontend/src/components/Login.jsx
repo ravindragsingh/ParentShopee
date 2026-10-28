@@ -8,9 +8,40 @@ import { LOGIN_HELP_CARDS } from './Help.jsx'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import { consumePendingAndroidGoogleSignIn, isNativeGoogleSignInAvailable, nativeGoogleSignIn } from '../utils/nativeGoogleAuth.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
-import { DEMO_USERNAME, DEMO_PASSWORD, DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
+import { DEMO_EMAIL, DEMO_PASSWORD, DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
 import { EmojiPicker } from './ChoreCard.jsx'
+import { auth, googleProvider } from '../firebase.js'
+import {
+  confirmPasswordReset, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithCredential,
+  signInWithEmailAndPassword, signInWithPopup, verifyPasswordResetCode,
+} from 'firebase/auth'
+
+// Firebase's own error messages are written for developers, not parents --
+// this maps the handful of codes our flows can actually hit to copy that
+// matches the tone of the rest of the app's error messages.
+function friendlyFirebaseError(err) {
+  switch (err?.code) {
+    case 'auth/email-already-in-use':
+      return 'An account with this email already exists. Please sign in instead.'
+    case 'auth/invalid-email':
+      return 'Please enter a valid email address.'
+    case 'auth/weak-password':
+      return 'Password must be at least 6 characters.'
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+    case 'auth/invalid-credential':
+      return 'Invalid username/email or password.'
+    case 'auth/too-many-requests':
+      return 'Too many attempts. Please wait a moment and try again.'
+    case 'auth/popup-closed-by-user':
+      return 'Sign-in was cancelled.'
+    case 'auth/account-exists-with-different-credential':
+      return 'An account with this email already exists. Please sign in with your username and password instead.'
+    default:
+      return err?.message || 'Something went wrong. Please try again.'
+  }
+}
 
 const COGUARDIAN_INVITE_AVATARS = ['🧑', '👨', '👩', '🧔', '👱', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '🧓']
 
@@ -170,17 +201,30 @@ function RegisterForm({ onBack }) {
     }
     setLoading(true)
     try {
-      const data = await api.register({
+      // 1. Validate every business rule BEFORE touching Firebase, so a
+      // rejected registration never leaves a dangling Firebase Auth user
+      // with no app account behind it.
+      await api.registerPrecheck({
         name: form.name.trim(),
         email: form.email.trim(),
         username: form.username.trim(),
-        password: form.password,
         dateOfBirth: form.dateOfBirth,
         gender: form.gender,
       })
+      // 2. Create the real credential in Firebase.
+      const cred = await createUserWithEmailAndPassword(auth, form.email.trim(), form.password)
+      const idToken = await cred.user.getIdToken()
+      // 3. Finalize: create the DBUser row, linked to this Firebase uid.
+      const data = await api.registerFinalize({
+        idToken,
+        name: form.name.trim(),
+        dateOfBirth: form.dateOfBirth,
+        gender: form.gender,
+        username: form.username.trim(),
+      })
       setRegistered({ email: data.email, message: data.message })
     } catch (err) {
-      setError(err.message)
+      setError(err.code ? friendlyFirebaseError(err) : err.message)
     } finally {
       setLoading(false)
     }
@@ -490,16 +534,18 @@ function ForgotUsernamePanel({ onShowPasswordRecovery }) {
 
 // ── Google Sign-In ───────────────────────────────────────────────────────────
 
-// Renders Google's own button via the Identity Services script (loaded in
-// index.html). Signing in mints a normal device session exactly like password
-// login, so everything downstream (profile picker, PIN flow) is unaffected.
-// A first-time Google sign-in has no birthdate/gender on file (Google doesn't
-// provide them), so the backend replies with needsProfile instead of a
-// session, and this component asks for just those two fields before finishing.
+// Signs in via Firebase's Google provider (a popup, replacing the old raw
+// Google Identity Services widget). A fresh Google identity mints a normal
+// device session exactly like password login, so everything downstream
+// (profile picker, PIN flow) is unaffected. A first-time Google sign-in has
+// no birthdate/gender on file (Google doesn't provide them) -- Firebase
+// auto-creates the credential regardless, but /api/auth/firebase-session
+// reports back `no_account` since there's no DBUser for it yet, and this
+// component asks for just those two fields before finishing via
+// register/finalize (same endpoint password sign-up's second step uses).
 function GoogleSignInButton() {
   const { login } = useAuth()
-  const buttonRef = useRef(null)
-  const [needsProfile, setNeedsProfile] = useState(null) // { credential, email, name } | null
+  const [needsProfile, setNeedsProfile] = useState(null) // { email, name } | null
   const [dateOfBirth, setDateOfBirth] = useState('')
   const [gender, setGender] = useState('')
   const [agreed, setAgreed] = useState(false)
@@ -507,24 +553,57 @@ function GoogleSignInButton() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
   const isNative = Capacitor.isNativePlatform()
   const nativeAvailable = isNativeGoogleSignInAvailable()
 
-  // Shared by both paths: the web widget hands back { credential }, the
-  // native plugin hands back a raw ID token string -- both end up here.
-  const handleIdToken = useCallback(async (idToken) => {
+  // Web: Firebase's own popup flow signs straight into Firebase, no separate
+  // credential-exchange step needed.
+  async function handleGoogleClick() {
     setError('')
     setLoading(true)
     try {
-      const data = await api.googleLogin(idToken)
-      if (data.needsProfile) {
-        setNeedsProfile({ credential: idToken, email: data.email, name: data.name })
-      } else {
+      const cred = await signInWithPopup(auth, googleProvider)
+      const idToken = await cred.user.getIdToken()
+      try {
+        const data = await api.firebaseSession(idToken)
         login(data.user, data.token)
+      } catch (err) {
+        if (err.code === 'no_account') {
+          setNeedsProfile({ email: cred.user.email, name: cred.user.displayName })
+        } else {
+          throw err
+        }
       }
     } catch (err) {
-      setError(err.message || 'Google sign-in failed. Please try again.')
+      setError(err.code?.startsWith('auth/') ? friendlyFirebaseError(err) : (err.message || 'Google sign-in failed. Please try again.'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Native: nativeGoogleSignIn() (see nativeGoogleAuth.js -- iOS plugin /
+  // Android PKCE browser flow, untouched) hands back a raw Google ID token,
+  // not a Firebase session -- exchange it for one via signInWithCredential,
+  // then the rest is identical to the web path above.
+  const handleIdToken = useCallback(async (googleIdToken) => {
+    setError('')
+    setLoading(true)
+    try {
+      const credential = GoogleAuthProvider.credential(googleIdToken)
+      const cred = await signInWithCredential(auth, credential)
+      const idToken = await cred.user.getIdToken()
+      try {
+        const data = await api.firebaseSession(idToken)
+        login(data.user, data.token)
+      } catch (err) {
+        if (err.code === 'no_account') {
+          setNeedsProfile({ email: cred.user.email, name: cred.user.displayName })
+        } else {
+          throw err
+        }
+      }
+    } catch (err) {
+      setError(err.code?.startsWith('auth/') ? friendlyFirebaseError(err) : (err.message || 'Google sign-in failed. Please try again.'))
     } finally {
       setLoading(false)
     }
@@ -562,31 +641,6 @@ function GoogleSignInButton() {
       .catch(err => setError(err.message || 'Google sign-in failed. Please try again.'))
   }, [isNative, handleIdToken])
 
-  useEffect(() => {
-    // The web widget can't work inside a native app WebView (Google blocks
-    // it) -- native platforms use the custom button below instead.
-    if (isNative || !clientId) return
-    // index.html loads the GSI script with async/defer, so on a first visit
-    // (nothing cached yet) it can still be mid-download when this effect
-    // first runs -- window.google isn't defined yet, the check below used to
-    // just bail out with nothing to retry it, and the button silently never
-    // appeared. A refresh "fixed" it only because the browser's HTTP cache
-    // made the script available fast enough the next time. Poll instead of
-    // assuming it's already there.
-    let cancelled = false
-    function tryRender() {
-      if (cancelled) return
-      if (!window.google?.accounts?.id || !buttonRef.current) {
-        setTimeout(tryRender, 100)
-        return
-      }
-      window.google.accounts.id.initialize({ client_id: clientId, callback: (response) => handleIdToken(response.credential) })
-      window.google.accounts.id.renderButton(buttonRef.current, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
-    }
-    tryRender()
-    return () => { cancelled = true }
-  }, [isNative, clientId, handleIdToken])
-
   async function handleCompleteProfile(e) {
     e.preventDefault()
     setError('')
@@ -595,7 +649,16 @@ function GoogleSignInButton() {
     if (!agreed) { setError('Please agree to the User Agreement to continue.'); return }
     setLoading(true)
     try {
-      const data = await api.googleComplete(needsProfile.credential, dateOfBirth, gender)
+      // auth.currentUser is already the Google-signed-in user from the popup
+      // step -- re-fetch a fresh token rather than reusing the first one, in
+      // case filling out this form took a while.
+      const idToken = await auth.currentUser.getIdToken()
+      const data = await api.registerFinalize({
+        idToken,
+        name: needsProfile.name || needsProfile.email,
+        dateOfBirth,
+        gender,
+      })
       login(data.user, data.token)
     } catch (err) {
       setError(err.message || 'Could not finish creating your account.')
@@ -605,7 +668,7 @@ function GoogleSignInButton() {
   }
 
   // Not configured for this platform yet -- hide rather than show a button that would fail.
-  if (isNative ? !nativeAvailable : !clientId) return null
+  if (isNative && !nativeAvailable) return null
 
   if (needsProfile) {
     return (
@@ -708,7 +771,16 @@ function GoogleSignInButton() {
   return (
     <div>
       {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
-      <div ref={buttonRef} style={{ display: 'flex', justifyContent: 'center' }} />
+      <button
+        type="button"
+        className="login-btn-outline"
+        onClick={handleGoogleClick}
+        disabled={loading}
+        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+      >
+        <span aria-hidden="true" style={{ fontWeight: 800 }}>G</span>
+        {loading ? 'Connecting...' : 'Continue with Google'}
+      </button>
     </div>
   )
 }
@@ -751,13 +823,23 @@ function LoginForm({ onRegister }) {
     }
     setLoading(true)
     try {
-      const data = await api.login(username.trim(), password.trim())
+      // The form still takes a single "username or email" field -- resolve it
+      // to a real email first, since Firebase's client SDK needs one. An
+      // unknown identifier resolves to a harmless fake email that Firebase
+      // will reject the same way it rejects a wrong password, so this step
+      // never reveals whether the identifier exists.
+      const { email } = await api.resolveLoginIdentifier(username.trim())
+      const cred = await signInWithEmailAndPassword(auth, email, password.trim())
+      const idToken = await cred.user.getIdToken()
+      const data = await api.firebaseSession(idToken)
       if (remember) localStorage.setItem('remembered_username', username.trim())
       else localStorage.removeItem('remembered_username')
       login(data.user, data.token)
     } catch (err) {
       if (err.code === 'account_not_activated') {
         setShowActivationModal(true)
+      } else if (err.code?.startsWith('auth/')) {
+        setError(friendlyFirebaseError(err))
       } else {
         setError(err.message || 'Login failed. Please try again.')
       }
@@ -898,7 +980,7 @@ function LoginForm({ onRegister }) {
 // demo signs in as the family then auto-enters the guardian profile with its
 // seeded demo PIN, in one click. Switching to a kid profile from here also
 // skips the PIN prompt -- see ProfilePicker's isDemo handling.
-function TryDemoLink() {
+function TryDemoLink({ align = 'center' }) {
   const { login, enterProfile } = useAuth()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -908,7 +990,9 @@ function TryDemoLink() {
     setError('')
     setLoading(true)
     try {
-      const data = await api.login(DEMO_USERNAME, DEMO_PASSWORD)
+      const cred = await signInWithEmailAndPassword(auth, DEMO_EMAIL, DEMO_PASSWORD)
+      const idToken = await cred.user.getIdToken()
+      const data = await api.firebaseSession(idToken)
       login(data.user, data.token)
       const profileData = await api.enterProfile(data.user.id, DEMO_PROFILE_PINS[data.user.id])
       enterProfile(profileData.user, profileData.token)
@@ -921,7 +1005,7 @@ function TryDemoLink() {
   }
 
   return (
-    <div style={{ textAlign: 'center', marginTop: 18 }}>
+    <div style={{ textAlign: align, marginTop: 18 }}>
       {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
       <button
         type="button"
@@ -1066,13 +1150,27 @@ export function ActivatePage() {
 
 export function ResetPasswordPage() {
   const navigate = useNavigate()
-  const token = new URLSearchParams(window.location.search).get('token')
+  // Firebase's own link shape (see generate_password_reset_link's
+  // action_code_settings in backend/routers/auth.py) -- the token/expiry are
+  // entirely Firebase's concern now, this page just completes the reset
+  // client-side via the SDK, no backend call involved.
+  const oobCode = new URLSearchParams(window.location.search).get('oobCode')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [status, setStatus] = useState(token ? 'form' : 'error') // form | success | error
-  const [message, setMessage] = useState(token ? '' : 'This password reset link is missing its token.')
+  const [status, setStatus] = useState(oobCode ? 'checking' : 'error') // checking | form | success | error
+  const [message, setMessage] = useState(oobCode ? '' : 'This password reset link is missing its code.')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!oobCode) return
+    verifyPasswordResetCode(auth, oobCode)
+      .then(() => setStatus('form'))
+      .catch(() => {
+        setStatus('error')
+        setMessage('This password reset link is invalid or has expired. Please request a new one.')
+      })
+  }, [oobCode])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -1088,11 +1186,11 @@ export function ResetPasswordPage() {
     }
     setLoading(true)
     try {
-      const data = await api.resetPassword(token, password)
+      await confirmPasswordReset(auth, oobCode, password)
       setStatus('success')
-      setMessage(data.message)
+      setMessage('Your password has been reset. You can sign in with your new password now.')
     } catch (err) {
-      setError(err.message)
+      setError(err.code?.startsWith('auth/') ? friendlyFirebaseError(err) : err.message)
     } finally {
       setLoading(false)
     }
@@ -1102,6 +1200,9 @@ export function ResetPasswordPage() {
     <div className="login-wrapper" style={{ flexDirection: 'column', gap: 0, padding: '24px 16px' }}>
       <div className="login-shell">
         <div className="login-card" style={{ textAlign: status === 'form' ? 'left' : 'center' }}>
+          {status === 'checking' && (
+            <p className="login-subtitle">Checking your reset link...</p>
+          )}
           {status === 'form' && (
             <>
               <h1 className="login-title">Reset Password</h1>
@@ -1286,6 +1387,7 @@ export function CoGuardianInvitePage() {
 const CORE_FEATURES = [
   { icon: '✅', title: 'Chores',  text: 'Turn daily tasks into points',  color: '#ccec13', bg: '#f0fdf4', border: '#bbf7d0' },
   { icon: '🎁', title: 'Rewards', text: 'Save points for bigger goals',  color: '#994cf0', bg: '#fdf2f8', border: '#fbcfe8' },
+  { icon: '🧸', title: 'Family Activities', text: 'Hands-on things to try together', color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4' },
 ]
 
 const FUTURE_READY_FEATURES = [
@@ -1293,25 +1395,10 @@ const FUTURE_READY_FEATURES = [
   { icon: '🤖', title: 'AI Learning',    text: 'Age-based lessons made simple',    color: '#ffffff', bg: '#dbebf4', border: '#ddd6fe' },
   { icon: '🛡️', title: 'Digital Safety', text: 'Explore and stay safe online',     color: '#0f86b9', bg: '#fef2f2', border: '#fecaca' },
   { icon: '🎤', title: 'Public Speaking',text: 'Build confidence step by step',    color: '#0be064', bg: '#ecfeff', border: '#a5f3fc' },
+  { icon: '🎩', title: 'Manners',        text: 'Learn everyday respect and kindness', color: '#475569', bg: '#f8fafc', border: '#cbd5e1' },
 ]
 
 const FEATURE_CARDS = [...CORE_FEATURES, ...FUTURE_READY_FEATURES]
-
-function FeatureCard({ icon, title, text, color, bg, border }) {
-  return (
-    <div style={{ background: bg, border: `1px solid ${border}`, borderRadius: 16, padding: '16px 14px', textAlign: 'center' }}>
-      <div style={{
-        width: 44, height: 44, borderRadius: '50%', background: color, color: '#fff',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem',
-        margin: '0 auto 10px', boxShadow: `0 4px 10px ${color}55`,
-      }}>
-        {icon}
-      </div>
-      <div style={{ fontWeight: 800, fontSize: '0.9rem', color: '#1e293b', marginBottom: 2 }}>{title}</div>
-      <div style={{ fontSize: '0.76rem', color: '#78716c', lineHeight: 1.4 }}>{text}</div>
-    </div>
-  )
-}
 
 // A small, code-drawn preview of what the app actually looks like once a kid
 // is in it -- no stock photography available, so this leans on the app's own
@@ -1374,25 +1461,6 @@ const PAIN_POINTS = [
   { icon: '💵', title: 'Raise Money-Smart Kids', text: 'Real practice earning, saving, and spending — before they leave home.' },
   { icon: '🗂️', title: 'One App, Whole Family', text: 'Chores, rewards, and Future-Ready lessons in one place — no sticky notes, no spreadsheets.' },
 ]
-
-function PainPointSection() {
-  return (
-    <div style={{ margin: '12px 0 32px' }}>
-      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1e293b', textAlign: 'center', marginBottom: 18 }}>
-        Why Parents Choose Reward Ur Kids
-      </h2>
-      <div className="pain-point-grid">
-        {PAIN_POINTS.map(p => (
-          <div key={p.title} style={{ background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16, padding: '18px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-            <div style={{ fontSize: '1.6rem', marginBottom: 8 }}>{p.icon}</div>
-            <div style={{ fontWeight: 800, fontSize: '0.92rem', color: '#1e293b', marginBottom: 4 }}>{p.title}</div>
-            <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>{p.text}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
 
 // Answers reflect actual app behavior (e.g. chores always need guardian
 // approval; only shop purchases have an approval on/off toggle) -- see
@@ -1459,78 +1527,234 @@ function FinalCTA({ onSignIn, onCreateAccount }) {
   )
 }
 
-function LandingHero({ onSignIn, onCreateAccount }) {
+// ── Landing page v2 — top nav + split hero + banded sections ───────────────────
+// Content below is the same copy/features the old single-column landing used
+// (see CORE_FEATURES/FUTURE_READY_FEATURES/PAIN_POINTS/TRUST_ITEMS/LANDING_FAQS
+// above) -- only the layout changed, to a conventional marketing-site format
+// (sticky nav, split hero, numbered steps, feature grid, banner) instead of
+// one long centered column.
+
+function navLinkStyle(active) {
+  return {
+    background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px',
+    fontSize: '0.92rem', fontWeight: 600, color: active ? '#16a34a' : '#475569',
+    borderBottom: active ? '2px solid #16a34a' : '2px solid transparent',
+  }
+}
+
+function TopNav({ onSignIn, onShowHelp }) {
+  const scrollToId = id => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
   return (
-    <div style={{ maxWidth: 760, width: '100%', margin: '0 auto', textAlign: 'center' }}>
+    <nav style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '14px 24px', background: '#fff', borderBottom: '1px solid #f1f5f9',
+      position: 'sticky', top: 0, zIndex: 50,
+    }}>
       <img
-        src="/branding/RewardURKids_Website_Full_Logo.png"
+        src="/branding/RewardURKids_Website_Compact_Logo.png"
         alt="Reward Ur Kids — Small Tasks. Big Smiles."
-        style={{ maxWidth: 200, width: '100%', height: 'auto', display: 'block', margin: '0 auto 18px' }}
+        onClick={() => scrollToId('landing-top')}
+        style={{ height: 38, display: 'block', cursor: 'pointer' }}
       />
+      <div className="landing-nav-links" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
+        <button style={navLinkStyle(true)} onClick={() => scrollToId('landing-top')}>Home</button>
+        <button style={navLinkStyle(false)} onClick={onShowHelp}>How It Works</button>
+        <button style={navLinkStyle(false)} onClick={() => scrollToId('landing-features')}>Features</button>
+        <button style={navLinkStyle(false)} onClick={() => scrollToId('landing-why')}>About</button>
+      </div>
+      <button
+        onClick={onSignIn}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6, background: '#fff', color: '#16a34a',
+          border: '1.5px solid #16a34a', borderRadius: 999, padding: '8px 18px',
+          fontSize: '0.88rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
+        }}
+      >
+        👤 Sign In
+      </button>
+    </nav>
+  )
+}
 
-      <h1 style={{ fontSize: '0.95rem', fontWeight: 400, color: '#78716c', margin: '0 auto 14px', lineHeight: 1.5, maxWidth: 560 }}>
-        Parents create chores and rewards, kids earn points for completing tasks, spend those points in their own shop, and learn parent-approved, future-ready skills.
-      </h1>
+function HeroSplit({ onSignIn, onCreateAccount }) {
+  return (
+    <div id="landing-top" className="landing-hero-grid" style={{
+      maxWidth: 1120, margin: '0 auto', padding: '56px 24px 48px',
+      display: 'grid', gridTemplateColumns: 'minmax(0,1.05fr) minmax(0,0.95fr)', gap: 48, alignItems: 'center',
+    }}>
+      <div>
+        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.5px', margin: '0 0 18px', color: '#1e293b' }}>
+          Small Tasks.<br /><span style={{ color: '#16a34a' }}>Big Smiles.</span>
+        </h1>
+        <p style={{ fontSize: '1.05rem', color: '#64748b', lineHeight: 1.6, maxWidth: 480, margin: '0 0 18px' }}>
+          Parents create chores and rewards, kids earn points for completing tasks, spend those points in their own shop, and learn parent-approved, future-ready skills.
+        </p>
 
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6, maxWidth: '100%', boxSizing: 'border-box',
+          background: 'linear-gradient(135deg, #0d9488, #0f766e)', color: '#fff',
+          borderRadius: 999, padding: '6px 16px', fontSize: '0.74rem', fontWeight: 800,
+          letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(13,148,136,0.3)', marginBottom: 8,
+        }}>
+          🌱 LEARN &amp; GROW · FREE
+        </div>
+        <p style={{ fontSize: '0.84rem', color: '#78716c', margin: '0 0 26px', maxWidth: 460, lineHeight: 1.5 }}>
+          Money, AI, online safety &amp; public speaking lessons, plus hands-on Quests to try together — real-world skills kids won't get from a typical chore app.
+        </p>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginBottom: 6 }}>
+          <button
+            onClick={onSignIn}
+            style={{
+              background: '#16a34a', color: '#fff', border: 'none', borderRadius: 999,
+              padding: '13px 30px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
+              boxShadow: '0 6px 16px rgba(22,163,74,0.3)',
+            }}
+          >
+            Sign In →
+          </button>
+          <button
+            onClick={onCreateAccount}
+            style={{
+              background: '#fff', color: '#16a34a', border: '2px solid #16a34a', borderRadius: 999,
+              padding: '11px 28px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
+            }}
+          >
+            Create an Account →
+          </button>
+        </div>
+
+        <TryDemoLink align="left" />
+      </div>
+
+      <div>
+        {PAIN_POINTS.map((p, i) => (
+          <div
+            key={p.title}
+            style={{
+              display: 'flex', alignItems: 'flex-start', gap: 16, padding: '18px 4px',
+              borderBottom: i < PAIN_POINTS.length - 1 ? '1px solid #f1f5f9' : 'none',
+            }}
+          >
+            <div style={{
+              width: 48, height: 48, borderRadius: '50%', background: '#f0fdf4', border: '1px solid #bbf7d0',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.35rem', flexShrink: 0,
+            }}>
+              {p.icon}
+            </div>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1e293b', marginBottom: 3 }}>{p.title}</div>
+              <div style={{ fontSize: '0.86rem', color: '#64748b', lineHeight: 1.5 }}>{p.text}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const HOW_IT_WORKS_STEPS = [
+  { icon: '📋', title: 'Create Tasks', text: 'Add chores and rewards that fit your family.' },
+  { icon: '⭐', title: 'Earn Points', text: 'Kids complete tasks and earn points.' },
+  { icon: '🎁', title: 'Spend Rewards', text: 'Use points in their own shop.' },
+  { icon: '🎓', title: 'Learn Skills', text: 'Build real-world skills for the future.' },
+]
+
+function HowItWorksBand() {
+  return (
+    <div style={{ background: '#f0fdf4', padding: '52px 24px' }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1e293b', margin: '0 0 6px' }}>How It Works</h2>
+        <p style={{ color: '#64748b', margin: '0 0 32px' }}>Simple steps. Big impact.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 18, textAlign: 'left' }}>
+          {HOW_IT_WORKS_STEPS.map((s, i) => (
+            <div key={s.title} style={{ position: 'relative', background: '#fff', border: '1px solid #f1f5f9', borderRadius: 16, padding: '26px 18px', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+              <div style={{
+                position: 'absolute', top: 14, left: 14, width: 22, height: 22, borderRadius: '50%',
+                background: '#16a34a', color: '#fff', fontSize: '0.72rem', fontWeight: 800,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                {i + 1}
+              </div>
+              <div style={{
+                width: 52, height: 52, borderRadius: '50%', background: '#f0fdf4', border: '1px solid #bbf7d0',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', margin: '10px auto 14px',
+              }}>
+                {s.icon}
+              </div>
+              <div style={{ fontWeight: 800, fontSize: '0.98rem', color: '#1e293b', textAlign: 'center', marginBottom: 4 }}>{s.title}</div>
+              <div style={{ fontSize: '0.82rem', color: '#64748b', textAlign: 'center', lineHeight: 1.5 }}>{s.text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function FeatureGridSection() {
+  return (
+    <div id="landing-features" style={{ background: '#fff', padding: '56px 24px' }}>
+      <div style={{ maxWidth: 1120, margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1e293b', margin: '0 0 6px' }}>Everything Parents Need</h2>
+        <p style={{ color: '#64748b', margin: '0 0 32px' }}>Tools to keep kids motivated, engaged and growing.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, textAlign: 'left' }}>
+          {FEATURE_CARDS.map(f => (
+            <div key={f.title} style={{ display: 'flex', alignItems: 'center', gap: 14, border: '1px solid #f1f5f9', borderRadius: 14, padding: '16px 18px' }}>
+              <div style={{
+                width: 48, height: 48, borderRadius: '50%', background: f.color, flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem',
+                boxShadow: `0 4px 10px ${f.color}55`,
+              }}>
+                {f.icon}
+              </div>
+              <div>
+                <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#1e293b' }}>{f.title}</div>
+                <div style={{ fontSize: '0.82rem', color: '#64748b' }}>{f.text}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function WhyChooseBanner() {
+  return (
+    <div id="landing-why" style={{ background: '#fff', padding: '0 24px 56px' }}>
       <div style={{
-        display: 'inline-flex', alignItems: 'center', gap: 6, maxWidth: '100%', boxSizing: 'border-box',
-        background: 'linear-gradient(135deg, #0d9488, #0f766e)', color: '#fff',
-        borderRadius: 999, padding: '6px 16px', fontSize: '0.72rem', fontWeight: 800,
-        letterSpacing: '0.02em', boxShadow: '0 4px 14px rgba(13,148,136,0.3)', marginBottom: 6,
-        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+        maxWidth: 1120, margin: '0 auto', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 18,
+        padding: '22px 28px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
+        textAlign: 'center', flexWrap: 'wrap',
       }}>
-        🚀 FUTURE-READY SKILLS · FREE
-      </div>
-      <p style={{ fontSize: '0.76rem', color: '#78716c', margin: '0 auto 20px', maxWidth: 480, lineHeight: 1.5 }}>
-        Money, AI, online safety &amp; public speaking — real-world skills kids won't get from a typical chore app.
-      </p>
-
-      {/* Primary action -- kept right under the fold-defining content (logo,
-          headline, badge) so a visitor never has to scroll to find it. The
-          feature grid and app preview are supporting detail below. */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12, marginBottom: 10 }}>
-        <button
-          onClick={onSignIn}
-          style={{
-            background: '#16a34a', color: '#fff', border: 'none', borderRadius: 999,
-            padding: '13px 30px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
-            boxShadow: '0 6px 16px rgba(22,163,74,0.3)',
-          }}
-        >
-          Sign In →
-        </button>
-        <button
-          onClick={onCreateAccount}
-          style={{
-            background: '#fff', color: '#16a34a', border: '2px solid #16a34a', borderRadius: 999,
-            padding: '11px 28px', fontSize: '0.95rem', fontWeight: 800, cursor: 'pointer',
-          }}
-        >
-          Create an Account →
-        </button>
-      </div>
-
-      <TryDemoLink />
-
-      <div style={{ margin: '32px 0 28px', textAlign: 'left' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10, marginBottom: 20 }}>
-          {CORE_FEATURES.map(f => <FeatureCard key={f.title} {...f} />)}
-        </div>
-        <div style={{ fontSize: '0.78rem', fontWeight: 800, color: '#0f766e', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: 10, textAlign: 'center' }}>
-          🚀 Future-Ready — included free
-        </div>
-        <div className="future-ready-grid">
-          {FUTURE_READY_FEATURES.map(f => <FeatureCard key={f.title} {...f} />)}
+        <span style={{ fontSize: '1.5rem' }}>🌱</span>
+        <div>
+          <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#166534' }}>Why Parents Choose Reward Ur Kids</div>
+          <div style={{ fontSize: '0.85rem', color: '#16a34a', marginTop: 2 }}>Real tasks. Real rewards. Real growth.</div>
         </div>
       </div>
+    </div>
+  )
+}
 
-      <PainPointSection />
+function LandingHero({ onSignIn, onCreateAccount, onShowHelp }) {
+  return (
+    <div style={{ background: '#fff' }}>
+      <TopNav onSignIn={onSignIn} onShowHelp={onShowHelp} />
+      <HeroSplit onSignIn={onSignIn} onCreateAccount={onCreateAccount} />
+      <HowItWorksBand />
+      <FeatureGridSection />
+      <WhyChooseBanner />
 
-      <AppPreviewCard />
-
-      <TrustStrip />
-      <FAQSection />
-      <FinalCTA onSignIn={onSignIn} onCreateAccount={onCreateAccount} />
+      <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 24px 56px' }}>
+        <AppPreviewCard />
+        <TrustStrip />
+        <FAQSection />
+        <FinalCTA onSignIn={onSignIn} onCreateAccount={onCreateAccount} />
+      </div>
     </div>
   )
 }
@@ -1552,6 +1776,20 @@ export default function Login() {
     borderRadius: 8, padding: '7px 16px', cursor: 'pointer',
     fontWeight: 600, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 6,
     boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+  }
+
+  if (showLanding) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#fff' }}>
+        {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}
+        {showLegal && <UserAgreementModal onClose={() => setShowLegal(false)} />}
+        <LandingHero
+          onSignIn={() => { setMode('login'); setShowLanding(false) }}
+          onCreateAccount={() => { setMode('register'); setShowLanding(false) }}
+          onShowHelp={() => setShowHelp(true)}
+        />
+      </div>
+    )
   }
 
   return (
@@ -1577,14 +1815,6 @@ export default function Login() {
       {showHelp && <HowItWorksModal onClose={() => setShowHelp(false)} />}
       {showLegal && <UserAgreementModal onClose={() => setShowLegal(false)} />}
 
-      {showLanding ? (
-        <div style={{ marginTop: 56 }}>
-          <LandingHero
-            onSignIn={() => { setMode('login'); setShowLanding(false) }}
-            onCreateAccount={() => { setMode('register'); setShowLanding(false) }}
-          />
-        </div>
-      ) : (
       <div className="login-shell">
         <button
           type="button"
@@ -1626,7 +1856,6 @@ export default function Login() {
           </>
         )}
       </div>
-      )}
     </div>
   )
 }
