@@ -110,6 +110,10 @@ class WalletAdjustBody(BaseModel):
 class SavingsTransferBody(BaseModel):
     amount: float           # always positive; direction is which endpoint you call
 
+class WalletGoalBody(BaseModel):
+    name: Optional[str] = None     # null/empty clears the goal, alongside target
+    target: Optional[float] = None
+
 class BehaviourBody(BaseModel):
     points: int  # positive = award, negative = remove
 

@@ -128,6 +128,7 @@ export const api = {
   getAllWallets: () => request('GET', '/api/wallet'),
   depositToSavings: (amount) => request('POST', '/api/wallet/savings/deposit', { amount }),
   withdrawFromSavings: (amount) => request('POST', '/api/wallet/savings/withdraw', { amount }),
+  setWalletGoal: (name, target) => request('PUT', '/api/wallet/goal', { name, target }),
 
   // Users & kids management
   getKids:           ()                    => request('GET',  '/api/users/kids'),

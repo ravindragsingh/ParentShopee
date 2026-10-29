@@ -340,30 +340,29 @@ export function KidChoreCard({ chore, onRefresh, variant = 'card' }) {
 
   if (variant === 'row') {
     const isPending = chore.status === 'pending'
+    const isComplete = chore.status === 'complete'
+    const isExpired = chore.status === 'expired'
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: `1px solid ${isPending ? '#fed7aa' : '#e2e8f0'}`, borderRadius: 10, padding: '10px 14px' }}>
-        {isPending ? (
-          <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>⏳</span>
-        ) : (
-          <input
-            type="checkbox"
-            checked={chore.status === 'complete'}
-            disabled={loading || chore.status !== 'open'}
-            onChange={handleComplete}
-            style={{ width: 20, height: 20, accentColor: '#0d9488', cursor: (loading || chore.status !== 'open') ? 'default' : 'pointer', flexShrink: 0 }}
-          />
-        )}
-        <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{chore.imageEmoji || '📋'}</span>
-        <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ fontWeight: 600, color: chore.status === 'complete' ? '#94a3b8' : '#1e293b', textDecoration: chore.status === 'complete' ? 'line-through' : 'none' }}>
-            {chore.title}
-          </span>
-          {isPending && <span style={{ display: 'block', fontSize: '0.72rem', color: '#c2410c', fontWeight: 700 }}>⏳ Waiting for approval</span>}
-          {chore.status === 'expired' && <span style={{ display: 'block', fontSize: '0.72rem', color: '#64748b', fontWeight: 700 }}>⌛ Expired</span>}
-          {error && <span style={{ display: 'block', color: '#dc2626', fontSize: '0.72rem' }}>{error}</span>}
+      <div className="kid-row">
+        <span className="kid-row-icon">{chore.imageEmoji || '📋'}</span>
+        <span className="kid-row-body">
+          <span className={`kid-row-title${isComplete ? ' done' : ''}`}>{chore.title}</span>
+          <span className="kid-row-points">⭐ +{chore.points} points</span>
+          {error && <span style={{ display: 'block', color: '#dc2626', fontSize: '0.72rem', marginTop: 2 }}>{error}</span>}
         </span>
-        <DueDateBadge dueDate={chore.dueDate} status={chore.status} />
-        <span className="points-badge">{chore.points} pts</span>
+        <span className="kid-row-action">
+          {isComplete ? (
+            <span className="kid-check-circle">✓</span>
+          ) : isPending ? (
+            <span className="kid-pill-pending">⏳ Pending</span>
+          ) : isExpired ? (
+            <span className="kid-pill-expired">⌛ Expired</span>
+          ) : (
+            <button className="kid-pill-btn" onClick={handleComplete} disabled={loading}>
+              {loading ? '...' : 'Done'}
+            </button>
+          )}
+        </span>
       </div>
     )
   }

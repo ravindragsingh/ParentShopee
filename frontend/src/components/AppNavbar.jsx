@@ -24,7 +24,7 @@ export default function AppNavbar({
       </div>
       <div className="navbar-user">
         {avatar && <span className={variant === 'kid' ? 'kid-avatar lg' : ''}>{avatar}</span>}
-        <span>Hi, {userName}!</span>
+        {variant !== 'kid' && <span>Hi, {userName}!</span>}
         {children}
         {setTab && (
           <HamburgerMenu tab={tab} setTab={setTab} role={role} onLogout={onLogout} onSwitchProfile={onSwitchProfile} />

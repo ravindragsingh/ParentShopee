@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { KidChoreCard } from './ChoreCard.jsx'
-import { SectionTile } from './DailyChoresCard.jsx'
 import { KidShopItem } from './ShopItem.jsx'
 import { KidWalletView } from './WalletView.jsx'
 import MessagesTab from './Messages.jsx'
@@ -18,44 +17,43 @@ import LearnGrowTab from '../learn/LearnGrowTab.jsx'
 
 function DailyChoreRow({ item, busy, onToggle }) {
   const isPending = item.status === 'pending'
+  const isComplete = item.status === 'complete'
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fffbeb', border: `1px solid ${isPending ? '#fed7aa' : '#fde68a'}`, borderRadius: 10, padding: '10px 14px' }}>
-      {isPending ? (
-        <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>⏳</span>
-      ) : (
-        <input
-          type="checkbox"
-          checked={item.status === 'complete'}
-          disabled={busy}
-          onChange={onToggle}
-          style={{ width: 20, height: 20, accentColor: '#d97706', cursor: busy ? 'default' : 'pointer', flexShrink: 0 }}
-        />
-      )}
-      <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{item.imageEmoji}</span>
-      <span style={{ flex: 1, minWidth: 0 }}>
-        <span style={{ fontWeight: 600, color: '#1e293b' }}>{item.title}</span>
-        {isPending && <span style={{ display: 'block', fontSize: '0.72rem', color: '#c2410c', fontWeight: 700 }}>⏳ Waiting for approval</span>}
+    <div className="kid-row">
+      <span className="kid-row-icon">{item.imageEmoji}</span>
+      <span className="kid-row-body">
+        <span className={`kid-row-title${isComplete ? ' done' : ''}`}>{item.title}</span>
+        <span className="kid-row-points">⭐ +{item.points} points · 📅 Daily</span>
       </span>
-      <span style={{ fontSize: '0.72rem', background: '#fde68a', color: '#92400e', borderRadius: 6, padding: '1px 7px', fontWeight: 700, flexShrink: 0 }}>📅 Daily</span>
-      <span className="points-badge">{item.points} pts</span>
+      <span className="kid-row-action">
+        {isComplete ? (
+          <span className="kid-check-circle">✓</span>
+        ) : isPending ? (
+          <span className="kid-pill-pending">⏳ Pending</span>
+        ) : (
+          <button className="kid-pill-btn" onClick={onToggle} disabled={busy}>
+            {busy ? '...' : 'Done'}
+          </button>
+        )}
+      </span>
     </div>
   )
 }
 
-// ─── Chores Tab ─────────────────────────────────────────────────────────────
+// ─── Shared chore data (used by both the Home widget and the Chores tab) ───
+// One fetch + one set of status filters, so the "what's due today" badge
+// count, the home-screen preview list, and the Chores tab's Today list can
+// never drift out of sync with each other.
 
-function KidChoresTab({ userId, onBalanceChange }) {
+function useKidChores(userId) {
   const [chores, setChores] = useState([])
   const [dailyItems, setDailyItems] = useState([])
   const [dailyDeductionEnabled, setDailyDeductionEnabled] = useState(false)
   const [dailyBusyId, setDailyBusyId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [choresExpanded, setChoresExpanded] = useState(false)
-  const [completeExpanded, setCompleteExpanded] = useState(false)
-  const [expiredExpanded, setExpiredExpanded] = useState(false)
 
-  const loadChores = useCallback(async () => {
+  const reload = useCallback(async () => {
     setLoading(true)
     setError('')
     try {
@@ -70,9 +68,9 @@ function KidChoresTab({ userId, onBalanceChange }) {
     }
   }, [])
 
-  useEffect(() => { loadChores() }, [loadChores])
+  useEffect(() => { reload() }, [reload])
 
-  async function handleDailyToggle(item) {
+  async function toggleDaily(item, onBalanceChange) {
     setDailyBusyId(item.id)
     try {
       const res = await api.toggleDailyChore(item.id)
@@ -85,120 +83,122 @@ function KidChoresTab({ userId, onBalanceChange }) {
     }
   }
 
-  // Available: open chores assigned to me or to nobody
-  const available = chores.filter(c =>
-    c.status === 'open' &&
-    (!c.assignedKidId || c.assignedKidId === userId)
-  )
-
-  // My pending: chores I marked complete, awaiting guardian approval
-  const myPending = chores.filter(c =>
-    c.status === 'pending' &&
-    (c.completedByKidId === userId || c.assignedKidId === userId)
-  )
-
-  // My completed: chores I completed and guardian approved
-  const myCompleted = chores.filter(c =>
-    c.status === 'complete' &&
-    (c.completedByKidId === userId || c.assignedKidId === userId)
-  )
-
-  // Expired: chores assigned to me (or any kid) that expired
-  const myExpired = chores.filter(c =>
-    c.status === 'expired' &&
-    (!c.assignedKidId || c.assignedKidId === userId)
-  )
-
-  // Daily chore items — merged into the same list, just visually highlighted
+  const available = chores.filter(c => c.status === 'open' && (!c.assignedKidId || c.assignedKidId === userId))
+  const myPending = chores.filter(c => c.status === 'pending' && (c.completedByKidId === userId || c.assignedKidId === userId))
+  const myCompleted = chores.filter(c => c.status === 'complete' && (c.completedByKidId === userId || c.assignedKidId === userId))
+  const myExpired = chores.filter(c => c.status === 'expired' && (!c.assignedKidId || c.assignedKidId === userId))
   const dailyAvailable = dailyItems.filter(i => i.status === 'open')
   const dailyPending = dailyItems.filter(i => i.status === 'pending')
+  const dailyComplete = dailyItems.filter(i => i.status === 'complete')
   const dailyAtRiskPoints = dailyAvailable.reduce((sum, i) => sum + i.points, 0)
 
-  const totalCount = available.length + myPending.length + dailyAvailable.length + dailyPending.length
+  // Today: everything the kid can act on right now, pending-approval items
+  // first so they're not missed, same ordering the old merged list used.
+  const todayItems = [
+    ...dailyPending.map(item => ({ kind: 'daily', item })),
+    ...myPending.map(chore => ({ kind: 'chore', chore })),
+    ...dailyAvailable.map(item => ({ kind: 'daily', item })),
+    ...available.map(chore => ({ kind: 'chore', chore })),
+  ]
+  // For the home screen's preview widget only -- shows today's already-done
+  // daily chores too (with a checkmark), not just what's left to do.
+  const todayItemsWithDone = [...dailyComplete.map(item => ({ kind: 'daily', item })), ...todayItems]
   const totalPendingCount = myPending.length + dailyPending.length
+
+  return {
+    loading, error, reload,
+    dailyDeductionEnabled, dailyAtRiskPoints, dailyBusyId, toggleDaily,
+    todayItems, todayItemsWithDone, totalCount: todayItems.length, totalPendingCount,
+    dailyTotal: dailyItems.length, dailyDoneCount: dailyComplete.length,
+    myCompleted, myExpired,
+  }
+}
+
+function TodayChoreRow({ entry, onRefresh, dailyBusyId, onToggleDaily }) {
+  return entry.kind === 'daily'
+    ? <DailyChoreRow item={entry.item} busy={dailyBusyId === entry.item.id} onToggle={() => onToggleDaily(entry.item)} />
+    : <KidChoreCard chore={entry.chore} onRefresh={onRefresh} variant="row" />
+}
+
+// ─── Chores Tab ─────────────────────────────────────────────────────────────
+
+function KidChoresTab({ userId, onBalanceChange }) {
+  const {
+    loading, error, reload,
+    dailyDeductionEnabled, dailyAtRiskPoints, dailyBusyId, toggleDaily,
+    todayItems, totalCount, totalPendingCount,
+    myCompleted, myExpired,
+  } = useKidChores(userId)
+  const [view, setView] = useState('today') // 'today' | 'history'
 
   if (loading) return <div className="loading-text">Loading chores...</div>
   if (error) return <div className="error-msg">{error}</div>
 
+  const historyCount = myCompleted.length + myExpired.length
+
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
-      <SectionTile
-        icon="✨"
-        iconColor="#0d9488"
-        title="Chores"
-        badges={[
-          <span key="total" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0d9488', background: '#ccfbf1', borderRadius: 999, padding: '2px 9px' }}>
-            {totalCount} total
-          </span>,
-          totalPendingCount > 0 && (
-            <span key="pending" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#c2410c', background: '#fed7aa', borderRadius: 999, padding: '2px 9px' }}>
-              ⏳ {totalPendingCount} awaiting approval
-            </span>
-          ),
-        ].filter(Boolean)}
-        expanded={choresExpanded}
-        onToggle={() => setChoresExpanded(v => !v)}
-      >
-        {totalCount === 0 ? (
-          <div className="empty-text">No available chores right now.</div>
-        ) : (
-          <div>
-            {dailyDeductionEnabled && dailyAvailable.length > 0 && (
-              <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', color: '#991b1b', fontSize: '0.85rem', fontWeight: 600, marginBottom: 12 }}>
-                ⚠️ Don't forget your Daily Chores — anything left unchecked by the end of the day loses its points ({dailyAtRiskPoints} pts at risk right now). Check it off today to keep them!
-              </div>
-            )}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {dailyPending.map(item => (
-                <DailyChoreRow key={`daily-${item.id}`} item={item} busy={dailyBusyId === item.id} onToggle={() => handleDailyToggle(item)} />
-              ))}
-              {myPending.map(chore => (
-                <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />
-              ))}
-              {dailyAvailable.map(item => (
-                <DailyChoreRow key={`daily-${item.id}`} item={item} busy={dailyBusyId === item.id} onToggle={() => handleDailyToggle(item)} />
-              ))}
-              {available.map(chore => (
-                <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />
-              ))}
+    <div className="kid-chores-content">
+      <div className="segmented-control">
+        <button className={view === 'today' ? 'active' : ''} onClick={() => setView('today')}>
+          ✨ Today{totalCount > 0 ? ` (${totalCount})` : ''}
+        </button>
+        <button className={view === 'history' ? 'active' : ''} onClick={() => setView('history')}>
+          🗂️ History{historyCount > 0 ? ` (${historyCount})` : ''}
+        </button>
+      </div>
+
+      {view === 'today' ? (
+        <div>
+          {totalPendingCount > 0 && (
+            <div className="info-banner pending">
+              ⏳ {totalPendingCount} chore{totalPendingCount > 1 ? 's' : ''} waiting for a guardian to approve.
             </div>
-          </div>
-        )}
-      </SectionTile>
-
-      <SectionTile
-        icon="🏆"
-        iconColor="#10b981"
-        title="My Completed"
-        badges={[<span key="count" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#047857', background: '#d1fae5', borderRadius: 999, padding: '2px 9px' }}>{myCompleted.length}</span>]}
-        expanded={completeExpanded}
-        onToggle={() => setCompleteExpanded(v => !v)}
-      >
-        {myCompleted.length === 0 ? (
-          <div className="empty-text">No approved chores yet. Keep it up!</div>
+          )}
+          {dailyDeductionEnabled && dailyAtRiskPoints > 0 && (
+            <div className="info-banner warn">
+              ⚠️ Don't forget your Daily Chores — anything left unchecked by the end of the day loses its points ({dailyAtRiskPoints} pts at risk right now).
+            </div>
+          )}
+          {todayItems.length === 0 ? (
+            <div className="empty-state-card">🎉 All done for today! Check back tomorrow for new chores.</div>
+          ) : (
+            <div className="kid-flat-card">
+              <div className="kid-row-list">
+                {todayItems.map(entry => (
+                  <TodayChoreRow
+                    key={entry.kind === 'daily' ? `daily-${entry.item.id}` : entry.chore.id}
+                    entry={entry} onRefresh={reload} dailyBusyId={dailyBusyId}
+                    onToggleDaily={item => toggleDaily(item, onBalanceChange)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        historyCount === 0 ? (
+          <div className="empty-state-card">Nothing here yet — completed and expired chores will show up here.</div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {myCompleted.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />)}
+          <div className="kid-flat-card">
+            {myCompleted.length > 0 && (
+              <>
+                <div className="list-subheader">🏆 Completed ({myCompleted.length})</div>
+                <div className="kid-row-list">
+                  {myCompleted.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={reload} variant="row" />)}
+                </div>
+              </>
+            )}
+            {myExpired.length > 0 && (
+              <>
+                <div className="list-subheader">⌛ Expired ({myExpired.length})</div>
+                <div className="kid-row-list">
+                  {myExpired.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={reload} variant="row" />)}
+                </div>
+              </>
+            )}
           </div>
-        )}
-      </SectionTile>
-
-      <SectionTile
-        icon="⌛"
-        iconColor="#94a3b8"
-        title="Expired"
-        badges={[<span key="count" style={{ fontSize: '0.75rem', fontWeight: 700, color: '#475569', background: '#f1f5f9', borderRadius: 999, padding: '2px 9px' }}>{myExpired.length}</span>]}
-        expanded={expiredExpanded}
-        onToggle={() => setExpiredExpanded(v => !v)}
-      >
-        {myExpired.length === 0 ? (
-          <div className="empty-text">No expired chores.</div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {myExpired.map(chore => <KidChoreCard key={chore.id} chore={chore} onRefresh={loadChores} variant="row" />)}
-          </div>
-        )}
-      </SectionTile>
+        )
+      )}
     </div>
   )
 }
@@ -328,48 +328,8 @@ function getGreeting() {
 
 // ─── Home screen ──────────────────────────────────────────────────────────────
 
-// Always-increasing round-number goals so the progress bar has something to
-// aim for even though the app has no explicit savings-goal feature.
-const POINT_MILESTONES = [10, 25, 50, 100, 200, 500, 1000, 2000, 5000, 10000]
-
-function nextMilestone(balance) {
-  return POINT_MILESTONES.find(m => m > balance) ?? (Math.ceil((balance + 100) / 100) * 100)
-}
-
-function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        position: 'relative',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
-        background: bg, border: `1px solid ${border}`, borderRadius: 18,
-        padding: '20px 14px', cursor: 'pointer',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-      }}
-    >
-      {badge > 0 && (
-        <span style={{
-          position: 'absolute', top: 10, right: 10, minWidth: 22, height: 22, padding: '0 5px',
-          borderRadius: 999, background: '#dc2626', color: '#fff', fontSize: '0.72rem', fontWeight: 800,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 6px rgba(220,38,38,0.4)',
-        }}>
-          {badge > 99 ? '99+' : badge}
-        </span>
-      )}
-      <span style={{
-        width: 56, height: 56, borderRadius: '50%', background: iconColor, color: '#fff',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem',
-        marginBottom: 10, boxShadow: `0 4px 10px ${iconColor}55`,
-      }}>
-        {icon}
-      </span>
-      <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>{label}</span>
-      <span style={{ fontSize: '0.76rem', color: '#78716c', marginTop: 3, lineHeight: 1.35 }}>{text}</span>
-    </button>
-  )
-}
-
+// One stat in the available/saved/lifetime points breakdown -- shared markup
+// between the compact home card and the bigger hero on the Wallet tab.
 // Future-Ready modules come back ordered by the catalog's order_index, so the
 // first one without a completion is exactly "pick up where you left off".
 function nextIncompleteModule(modules) {
@@ -394,107 +354,150 @@ function ContinueLearningCard({ onOpenModule }) {
 
   if (!next) {
     return (
-      <div style={{
-        background: '#f5f3ff', border: '1px solid #ddd6fe', borderRadius: 18,
-        padding: '18px 20px', marginTop: 16, textAlign: 'center',
-      }}>
+      <div className="kid-flat-card" style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '1.4rem', marginBottom: 4 }}>🎓</div>
-        <div style={{ fontWeight: 800, color: '#5b21b6', fontSize: '0.95rem' }}>You've finished every Future-Ready lesson!</div>
-        <div style={{ fontSize: '0.78rem', color: '#7c3aed', marginTop: 3 }}>Check back for new ones soon.</div>
+        <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>You've finished every Future-Ready lesson!</div>
+        <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 3 }}>Check back for new ones soon.</div>
       </div>
     )
   }
 
   return (
-    <button
-      onClick={() => onOpenModule(next.id)}
-      style={{
-        display: 'flex', alignItems: 'center', gap: 14, width: '100%', textAlign: 'left',
-        background: '#f5f3ff', border: '1px solid #ddd6fe', borderRadius: 18,
-        padding: '16px 18px', marginTop: 16, cursor: 'pointer',
-      }}
-    >
-      <span style={{
-        width: 48, height: 48, borderRadius: '50%', background: '#7c3aed', color: '#fff', flexShrink: 0,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem',
-      }}>
-        {next.topicEmoji || '🚀'}
-      </span>
+    <button className="kid-explore-card" onClick={() => onOpenModule(next.id)}>
+      <span className="kid-explore-icon">{next.topicEmoji || '🚀'}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#7c3aed', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-          {modules.some(m => m.completed) ? 'Continue Learning' : 'Start Learning'}
+        <div className="kid-explore-title">
+          {modules.some(m => m.completed) ? 'Continue Learning' : 'Explore Future-Ready Skills'}
         </div>
-        <div style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem', marginTop: 2 }}>{next.topicTitle}</div>
-        <div style={{ fontSize: '0.78rem', color: '#78716c', marginTop: 2 }}>{next.title} · earn {next.points} pts</div>
+        <div className="kid-explore-sub">{next.topicTitle} · {next.title} · earn {next.points} pts</div>
       </div>
-      <span style={{ fontSize: '1.3rem', color: '#a78bfa', flexShrink: 0 }}>→</span>
+      <span className="kid-explore-chevron">›</span>
     </button>
   )
 }
 
-function KidHomeScreen({ name, userId, balance, onNavigate, onOpenModule }) {
+function ExploreQuestsCard({ onOpenQuests }) {
+  return (
+    <button className="kid-explore-card" onClick={onOpenQuests} style={{ marginTop: 12 }}>
+      <span className="kid-explore-icon">🧸</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="kid-explore-title">Explore Quests</div>
+        <div className="kid-explore-sub">Hands-on things to try together</div>
+      </div>
+      <span className="kid-explore-chevron">›</span>
+    </button>
+  )
+}
+
+function KidHomeScreen({ name, userId, wallet, onNavigate, onOpenModule, onOpenQuests, onBalanceChange }) {
   const [message] = useState(
     () => MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)]
   )
   const greeting = getGreeting()
-  const bal = balance ?? 0
-  const goal = nextMilestone(bal)
-  const progressPct = Math.min(100, Math.round((bal / goal) * 100))
+  const bal = wallet?.balance ?? 0
+  const saved = wallet?.savingsBalance ?? 0
+  const goalName = wallet?.goalName
+  const goalTarget = wallet?.goalTarget
+  const goalPct = goalTarget ? Math.min(100, Math.round((saved / goalTarget) * 100)) : 0
 
-  // Same "needs attention" definition as the Chores tab: open chores I can do,
-  // plus anything I've already marked complete and am waiting on approval for.
-  const [taskCount, setTaskCount] = useState(null)
-  useEffect(() => {
-    let cancelled = false
-    Promise.all([api.getChores(), api.getDailyChores()])
-      .then(([chores, dailyData]) => {
-        if (cancelled) return
-        const choreList = Array.isArray(chores) ? chores : []
-        const dailyItems = Array.isArray(dailyData?.items) ? dailyData.items : []
-        const available = choreList.filter(c => c.status === 'open' && (!c.assignedKidId || c.assignedKidId === userId)).length
-        const myPending = choreList.filter(c => c.status === 'pending' && (c.completedByKidId === userId || c.assignedKidId === userId)).length
-        const dailyAvailable = dailyItems.filter(i => i.status === 'open').length
-        const dailyPending = dailyItems.filter(i => i.status === 'pending').length
-        setTaskCount(available + myPending + dailyAvailable + dailyPending)
-      })
-      .catch(() => setTaskCount(null))
-    return () => { cancelled = true }
-  }, [userId])
+  const {
+    loading, todayItemsWithDone, totalCount, dailyTotal, dailyDoneCount, dailyBusyId, toggleDaily, reload,
+  } = useKidChores(userId)
+  const [showAllChores, setShowAllChores] = useState(false)
+  const visibleItems = showAllChores ? todayItemsWithDone : todayItemsWithDone.slice(0, 4)
+  const hasMoreChores = todayItemsWithDone.length > 4
+  // "Today's Chores" tracks the kid's daily routine (the only chores with a
+  // real done-today/not-done-yet state) -- regular one-off chores don't
+  // reset daily so they don't have a clean "X of Y today" number.
+  const hasDailyChores = dailyTotal > 0
+  const dailyRemaining = Math.max(0, dailyTotal - dailyDoneCount)
 
   return (
-    <div>
-      <div style={{ marginBottom: 18 }}>
-        <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1e293b', display: 'flex', alignItems: 'center', gap: 8 }}>
-          Hi {name}! <span style={{ fontSize: '1.25rem' }}>{greeting.icon}</span>
+    <div className="kid-home-grid">
+      <div>
+        <div className="kid-hero-card">
+          <div className="kid-hero-title">Hi, {name}! <span>{greeting.icon}</span></div>
+          <div className="kid-hero-sub">{message}</div>
         </div>
-        <div style={{ fontSize: '0.92rem', color: '#64748b', marginTop: 3 }}>{message}</div>
+
+        <div className="kid-stat-row">
+          <div className="kid-stat-card">
+            <div className="kid-stat-label">Today's Chores</div>
+            {hasDailyChores ? (
+              <>
+                <div className="kid-stat-value">{dailyDoneCount}/{dailyTotal}</div>
+                <div className="kid-stat-bar-track"><div className="kid-stat-bar-fill" style={{ width: `${Math.round((dailyDoneCount / dailyTotal) * 100)}%` }} /></div>
+                <div className="kid-stat-caption">{dailyRemaining > 0 ? `${dailyRemaining} more to go!` : 'All done for today! 🎉'}</div>
+              </>
+            ) : (
+              <>
+                <div className="kid-stat-value">{totalCount}</div>
+                <div className="kid-stat-caption">{totalCount > 0 ? 'chores to do' : 'All clear! 🎉'}</div>
+              </>
+            )}
+          </div>
+          <div className="kid-stat-card">
+            <div className="kid-stat-label">My Points</div>
+            <div className="kid-stat-value points">⭐ {bal}</div>
+            <div className="kid-stat-caption good">Keep earning!</div>
+          </div>
+        </div>
+
+        <div className="kid-flat-card">
+          <div className="kid-section-header">
+            <span className="kid-section-title">My Chores</span>
+            <button className="home-today-header-btn" onClick={() => onNavigate('chores')}>Today →</button>
+          </div>
+          {loading ? (
+            <div className="loading-text">Loading...</div>
+          ) : visibleItems.length === 0 ? (
+            <div className="empty-text">🎉 All done for today!</div>
+          ) : (
+            <>
+              <div className="kid-row-list">
+                {visibleItems.map(entry => (
+                  <TodayChoreRow
+                    key={entry.kind === 'daily' ? `daily-${entry.item.id}` : entry.chore.id}
+                    entry={entry} onRefresh={reload} dailyBusyId={dailyBusyId}
+                    onToggleDaily={item => toggleDaily(item, onBalanceChange)}
+                  />
+                ))}
+              </div>
+              {hasMoreChores && (
+                <button className="kid-expand-btn" onClick={() => setShowAllChores(v => !v)}>
+                  {showAllChores ? 'Show less ▲' : `View all ${todayItemsWithDone.length} chores ▼`}
+                </button>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
-      <div style={{
-        background: '#fff', borderRadius: 20, padding: '26px 22px',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.06)', textAlign: 'center', marginBottom: 22,
-        border: '1px solid #f1f5f9',
-      }}>
-        <div style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: 700, letterSpacing: '0.02em', marginBottom: 6 }}>YOUR POINTS</div>
-        <div style={{ fontSize: '2.8rem', fontWeight: 800, color: '#059669', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, lineHeight: 1 }}>
-          {bal} <span style={{ fontSize: '1.9rem' }}>⭐</span>
+      <div>
+        <div className="kid-flat-card">
+          <div className="kid-goal-header">
+            <span className="kid-section-title">🎁 My Reward Goal</span>
+            {goalName && goalTarget && <span className="kid-section-tag">{goalPct}% saved</span>}
+          </div>
+          {goalName && goalTarget ? (
+            <>
+              <div className="kid-goal-row">
+                <span className="kid-goal-icon">🎯</span>
+                <div>
+                  <div className="kid-goal-name">{goalName}</div>
+                  <div className="kid-goal-amounts">{saved} / {goalTarget} points</div>
+                </div>
+              </div>
+              <div className="kid-goal-bar-track"><div className="kid-goal-bar-fill" style={{ width: `${goalPct}%` }} /></div>
+            </>
+          ) : (
+            <button className="kid-goal-empty-btn" onClick={() => onNavigate('wallet')}>🎯 Set a savings goal →</button>
+          )}
         </div>
-        <div style={{ height: 9, background: '#f1f5f9', borderRadius: 999, marginTop: 18, overflow: 'hidden' }}>
-          <div style={{ height: '100%', width: `${progressPct}%`, background: 'linear-gradient(90deg,#10b981,#059669)', borderRadius: 999, transition: 'width 0.4s ease' }} />
-        </div>
-        <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: 9 }}>
-          Keep it up! {Math.max(0, goal - bal)} pts to {goal}
-        </div>
-      </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <HomeNavTile icon="📋" iconColor="#2563eb" bg="#eff6ff" border="#bfdbfe" label="My Tasks" text="Earn points" badge={taskCount} onClick={() => onNavigate('chores')} />
-        <HomeNavTile icon="🎁" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="My Rewards" text="Spend points" onClick={() => onNavigate('shop')} />
-        <HomeNavTile icon="🌱" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Learn & Grow" text="Lessons & quests" onClick={() => onNavigate('learn')} />
-        <HomeNavTile icon="👛" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="My Wallet" text="See savings" onClick={() => onNavigate('wallet')} />
+        <ContinueLearningCard onOpenModule={onOpenModule} />
+        <ExploreQuestsCard onOpenQuests={onOpenQuests} />
       </div>
-
-      <ContinueLearningCard onOpenModule={onOpenModule} />
     </div>
   )
 }
@@ -526,22 +529,22 @@ export default function KidDashboard() {
     setSearchParams({ tab: 'learn', section: 'futureready' })
   }, [setSearchParams])
   useEffect(() => { window.scrollTo(0, 0) }, [tab])
-  const [balance, setBalance] = useState(null)
+  const [wallet, setWallet] = useState(null)
 
   useEffect(() => {
     api.getWallet(user.id)
-      .then(data => setBalance(data?.balance ?? 0))
+      .then(data => setWallet(data))
       .catch(() => {})
   }, [user.id, tab])
 
-  function refreshBalance() {
+  function refreshWallet() {
     api.getWallet(user.id)
-      .then(data => setBalance(data?.balance ?? 0))
+      .then(data => setWallet(data))
       .catch(() => {})
   }
 
   return (
-    <div className="app-container">
+    <div className="app-container kid-theme">
       <AppNavbar
         variant="kid"
         userName={user.name}
@@ -552,19 +555,19 @@ export default function KidDashboard() {
         setTab={setTab}
         role="kid"
       >
-        {balance !== null && (
+        {wallet !== null && (
           <span style={{ background: '#ecfdf5', border: '1.5px solid #6ee7b7', borderRadius: 20, padding: '4px 12px', fontSize: '0.82rem', fontWeight: 700, color: '#059669' }}>
-            ⭐ {balance} pts
+            ⭐ {wallet.balance} pts
           </span>
         )}
       </AppNavbar>
 
       <div className="main-content">
-        {tab === 'home'     && <KidHomeScreen name={user.name} userId={user.id} balance={balance} onNavigate={setTab} onOpenModule={openModule} />}
-        {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshBalance} />}
+        {tab === 'home'     && <KidHomeScreen name={user.name} userId={user.id} wallet={wallet} onNavigate={setTab} onOpenModule={openModule} onOpenQuests={() => setLearnSection('quests')} onBalanceChange={refreshWallet} />}
+        {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshWallet} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
-        {tab === 'learn' && <LearnGrowTab section={learnSection} onSectionChange={setLearnSection} onBalanceChange={refreshBalance} startModuleId={startModuleId} onConsumeStart={clearStartModule} />}
-        {tab === 'wallet'   && <KidWalletView kidId={user.id} onBalanceChange={refreshBalance} />}
+        {tab === 'learn' && <LearnGrowTab section={learnSection} onSectionChange={setLearnSection} onBalanceChange={refreshWallet} startModuleId={startModuleId} onConsumeStart={clearStartModule} />}
+        {tab === 'wallet'   && <KidWalletView kidId={user.id} onBalanceChange={refreshWallet} />}
         {tab === 'messages' && <MessagesTab />}
         {tab === 'help'     && <HelpTab role="kid" />}
         {tab === 'contact'  && <ContactUs />}
@@ -576,10 +579,10 @@ export default function KidDashboard() {
         onChange={setTab}
         items={[
           { key: 'home', icon: '🏠', label: 'Home' },
-          { key: 'chores', icon: '📋', label: 'Chores' },
-          { key: 'shop', icon: '🎁', label: 'Shop' },
-          { key: 'learn', icon: '🌱', label: 'Learn' },
+          { key: 'chores', icon: '✅', label: 'Chores' },
           { key: 'wallet', icon: '👛', label: 'Wallet' },
+          { key: 'shop', icon: '🎁', label: 'Rewards' },
+          { key: 'learn', icon: '🚀', label: 'Skills' },
         ]}
       />
     </div>

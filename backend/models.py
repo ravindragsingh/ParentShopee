@@ -123,6 +123,8 @@ class DBWallet(Base):
     kid_id          = Column(String, primary_key=True)
     balance         = Column(Float,  default=0)   # spendable -- only this funds shop/game purchases
     savings_balance = Column(Float,  default=0)   # set aside by the kid; not spendable until moved back
+    goal_name       = Column(String, nullable=True)  # what the kid is saving savings_balance toward
+    goal_target     = Column(Float,  nullable=True)  # points needed to reach goal_name; null = no goal set
 
 
 class DBTransaction(Base):

@@ -206,7 +206,14 @@ body {
 }
 
 .navbar.kid {
-  background: linear-gradient(135deg, #10b981 0%, #06b6d4 60%, #0d9488 100%);
+  /* Was a full-bleed 3-stop gradient across the whole bar; dialed back to a
+     short, mostly-solid teal sweep so the vivid color lives in the content
+     below (balance card, goal bar) instead of the chrome. */
+  background: linear-gradient(120deg, #0d9488 0%, #0f9c8f 100%);
+}
+
+.app-container.kid-theme {
+  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .navbar-brand {
@@ -333,7 +340,7 @@ body {
 }
 
 .bottom-nav.guardian .bottom-nav-item.active { color: #ea580c; }
-.bottom-nav.kid .bottom-nav-item.active { color: #059669; }
+.bottom-nav.kid .bottom-nav-item.active { color: #0d9488; }
 
 /* Tabs */
 .tabs {
@@ -1261,6 +1268,169 @@ body {
   align-items: center;
   gap: 4px;
   border: 1px solid #6ee7b7;
+}
+
+/* ── Kid dashboard: flat minimal design ───────────────────────────────────── */
+
+/* Home screen: single column on mobile, "what to do" + "goals" two-up on desktop. */
+.kid-home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* Solid-teal greeting banner -- the one deliberately bold color block on the
+   page; everything else below is flat neutral gray so it doesn't compete. */
+.kid-hero-card {
+  background: #0d9488; color: #fff; border-radius: 26px;
+  padding: 26px 24px; margin-bottom: 16px;
+}
+.kid-hero-title { font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.kid-hero-sub { font-size: 0.92rem; opacity: 0.92; margin-top: 6px; }
+
+/* Today's Chores / My Points stat pair, and reused as the 3-way points
+   breakdown on the Wallet tab (3 cards in the same row instead of 2). */
+.kid-stat-row { display: flex; gap: 12px; margin-bottom: 16px; }
+.kid-stat-card { flex: 1; min-width: 0; background: #f1f5f9; border-radius: 20px; padding: 18px 16px; }
+.kid-stat-label { font-size: 0.8rem; color: #64748b; font-weight: 700; margin-bottom: 10px; }
+.kid-stat-value { font-size: 1.85rem; font-weight: 800; color: #1e293b; line-height: 1; }
+.kid-stat-value.points { display: flex; align-items: center; gap: 7px; }
+.kid-stat-bar-track { height: 7px; background: #e2e8f0; border-radius: 999px; margin-top: 12px; overflow: hidden; }
+.kid-stat-bar-fill { height: 100%; background: #0d9488; border-radius: 999px; transition: width 0.4s ease; }
+.kid-stat-caption { font-size: 0.8rem; color: #94a3b8; margin-top: 9px; font-weight: 600; }
+.kid-stat-caption.good { color: #16a34a; }
+/* Smaller variant used for the 3-up wallet row so long labels like "Lifetime
+   Earned" don't force the cards to wrap awkwardly. */
+.kid-stat-card.compact { padding: 14px 10px; text-align: center; }
+.kid-stat-card.compact .kid-stat-label { margin-bottom: 6px; font-size: 0.68rem; letter-spacing: 0.02em; text-transform: uppercase; }
+.kid-stat-card.compact .kid-stat-value { font-size: 1.3rem; }
+
+/* Generic flat gray section container (chores list, reward goal, etc). */
+.kid-flat-card { background: #f1f5f9; border-radius: 22px; padding: 18px 18px; margin-bottom: 16px; }
+.kid-section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+.kid-section-title { font-size: 1.05rem; font-weight: 800; color: #1e293b; }
+.kid-section-tag { font-size: 0.8rem; color: #94a3b8; font-weight: 600; }
+
+/* Chore rows -- shared by the home-screen "My Chores" widget and the Chores
+   tab's Today/History lists so completion state always looks the same. */
+.kid-row-list { display: flex; flex-direction: column; gap: 2px; }
+.kid-row { display: flex; align-items: center; gap: 12px; padding: 9px 2px; }
+.kid-row-icon {
+  width: 44px; height: 44px; border-radius: 13px; background: #fff; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.kid-row-body { flex: 1; min-width: 0; }
+.kid-row-title { font-weight: 700; color: #1e293b; font-size: 0.94rem; }
+.kid-row-title.done { color: #94a3b8; text-decoration: line-through; }
+.kid-row-points { display: block; font-size: 0.78rem; color: #b45309; margin-top: 3px; }
+.kid-row-action { flex-shrink: 0; }
+
+.kid-check-circle {
+  width: 28px; height: 28px; border-radius: 50%; background: #dcfce7; border: 2px solid #86efac;
+  color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; font-weight: 800;
+}
+.kid-pill-btn {
+  background: #fff; border: 1.5px solid #5eead4; color: #0d9488; font-weight: 700;
+  font-size: 0.78rem; padding: 7px 16px; border-radius: 999px; cursor: pointer; white-space: nowrap;
+}
+.kid-pill-btn:disabled { opacity: 0.55; cursor: default; }
+.kid-pill-pending { background: #fff7ed; color: #c2410c; border: 1.5px solid #fed7aa; font-size: 0.72rem; font-weight: 700; padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
+.kid-pill-expired { background: #e2e8f0; color: #64748b; font-size: 0.72rem; font-weight: 700; padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
+
+.home-today-header-btn { background: none; border: none; color: #0d9488; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+
+.kid-expand-btn {
+  display: block; width: 100%; text-align: center; background: none; border: none;
+  color: #0d9488; font-weight: 700; font-size: 0.82rem; cursor: pointer;
+  padding: 10px 0 2px; margin-top: 4px;
+}
+
+/* Reward goal card -- the one place a warm orange/pink accent shows up, so
+   the thing the kid is actively working toward stands out from the rest of
+   the flat gray page. */
+.kid-goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.kid-goal-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.kid-goal-icon {
+  width: 50px; height: 50px; border-radius: 14px; background: #fde68a; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+}
+.kid-goal-name { font-weight: 700; color: #1e293b; font-size: 0.95rem; }
+.kid-goal-amounts { font-size: 0.8rem; color: #94a3b8; margin-top: 2px; }
+.kid-goal-bar-track { height: 9px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+.kid-goal-bar-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #f97316); border-radius: 999px; transition: width 0.4s ease; }
+.kid-goal-edit-btn { background: none; border: none; color: #c2410c; font-weight: 700; font-size: 0.78rem; cursor: pointer; }
+.kid-goal-empty-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;
+  background: #fff; border: 1.5px dashed #cbd5e1; color: #64748b; border-radius: 14px;
+  padding: 14px; font-weight: 700; font-size: 0.86rem; cursor: pointer;
+}
+.kid-goal-form input {
+  padding: 9px 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 0.88rem; background: #fff;
+}
+.kid-goal-form input[type="text"] { flex: 1; min-width: 120px; }
+.kid-goal-form input[type="number"] { width: 110px; }
+.kid-goal-form button[type="submit"] {
+  background: linear-gradient(135deg, #f59e0b, #f97316); color: #fff; border: none;
+  border-radius: 10px; padding: 9px 16px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+}
+.kid-goal-form button[type="button"] {
+  background: none; border: 1px solid #e2e8f0; border-radius: 10px; padding: 9px 14px;
+  font-weight: 700; font-size: 0.85rem; color: #94a3b8; cursor: pointer;
+}
+
+/* Flat "explore / continue learning" card -- rocket icon tile, chevron. */
+.kid-explore-card {
+  display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+  background: #f1f5f9; border: none; border-radius: 20px; padding: 18px; cursor: pointer;
+}
+.kid-explore-icon {
+  width: 46px; height: 46px; border-radius: 13px; background: #fff; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.kid-explore-title { font-weight: 800; color: #1e293b; font-size: 0.95rem; }
+.kid-explore-sub { font-size: 0.8rem; color: #64748b; margin-top: 2px; }
+.kid-explore-chevron { font-size: 1.2rem; color: #94a3b8; flex-shrink: 0; }
+
+/* Today / History segmented control on the Chores tab. */
+.segmented-control {
+  display: flex; gap: 4px; background: #e2e8f0; border-radius: 12px; padding: 4px; margin-bottom: 14px;
+}
+.segmented-control button {
+  flex: 1; padding: 9px 10px; border-radius: 9px; border: none; cursor: pointer;
+  font-size: 0.86rem; font-weight: 700; color: #64748b; background: transparent;
+}
+.segmented-control button.active { background: #fff; color: #0d9488; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+
+.info-banner {
+  border-radius: 10px; padding: 10px 14px; font-size: 0.85rem; font-weight: 600; margin-bottom: 12px;
+}
+.info-banner.pending { background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; }
+.info-banner.warn { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+
+.list-subheader { font-size: 0.78rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.03em; margin: 14px 0 8px; }
+.list-subheader:first-child { margin-top: 0; }
+
+.empty-state-card {
+  text-align: center; padding: 30px 16px; color: #94a3b8; font-size: 0.9rem;
+  background: #f1f5f9; border-radius: 16px;
+}
+
+@media (min-width: 641px) {
+  .kid-home-grid {
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 24px;
+  }
+
+  /* The Chores tab has no natural second column -- center it as a single
+     comfortably-wide column instead of stretching to the full dashboard
+     width, so it still reads as a deliberate "centered dashboard" layout. */
+  .kid-chores-content {
+    max-width: 640px;
+    margin: 0 auto;
+  }
 }
 
 /* ── Mobile responsive ────────────────────────────────────────────── */

@@ -125,6 +125,8 @@ def startup():
             ("users",      "last_login_platform",        "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
             ("wallets",    "savings_balance",         "FLOAT"),
+            ("wallets",    "goal_name",               "VARCHAR"),
+            ("wallets",    "goal_target",             "FLOAT"),
             ("family_learning_settings", "points_override", "FLOAT"),
             ("learning_modules", "content", "JSON"),
             ("learning_modules", "created_at", "VARCHAR"),

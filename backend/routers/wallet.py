@@ -1,16 +1,30 @@
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
+from content_filter import check_content
 from database import get_db
 from deps import require_auth, require_kid
 from helpers import get_family_id, now
 from models import DBTransaction, DBUser, DBWallet
 from responses import fail, ok
-from schemas import SavingsTransferBody
+from schemas import SavingsTransferBody, WalletGoalBody
 
 router = APIRouter()
+
+# Transaction types that represent the kid actually earning points, as opposed
+# to spending (spent/deduct/behaviour_deduct) or just moving points between
+# balance and savings (saved/withdrawn, net zero to total wealth either way).
+_EARNING_TYPES = ("earned", "bonus", "behaviour")
+
+
+def _lifetime_earned(db: Session, kid_id: str) -> float:
+    total = db.query(func.coalesce(func.sum(DBTransaction.amount), 0)).filter(
+        DBTransaction.kid_id == kid_id, DBTransaction.type.in_(_EARNING_TYPES),
+    ).scalar()
+    return float(total or 0)
 
 
 @router.get("/api/wallet")
@@ -28,6 +42,7 @@ def get_all_wallets(db: Session = Depends(get_db), user: DBUser = Depends(requir
         result.append({"kidId": k.id, "name": k.name,
                         "balance": wallet.balance if wallet else 0,
                         "savingsBalance": wallet.savings_balance if wallet else 0,
+                        "lifetimeEarned": _lifetime_earned(db, k.id),
                         "transactionCount": tx_count})
     return ok(result)
 
@@ -46,9 +61,39 @@ def get_wallet(kid_id: str, db: Session = Depends(get_db), user: DBUser = Depend
     return ok({"kidId": kid_id, "name": kid.name,
                "balance": wallet.balance if wallet else 0,
                "savingsBalance": wallet.savings_balance if wallet else 0,
+               "lifetimeEarned": _lifetime_earned(db, kid_id),
+               "goalName": wallet.goal_name if wallet else None,
+               "goalTarget": wallet.goal_target if wallet else None,
                "transactions": [{"id": t.id, "type": t.type, "amount": t.amount,
                                   "description": t.description, "timestamp": t.timestamp}
                                  for t in txs]})
+
+
+@router.put("/api/wallet/goal")
+def set_wallet_goal(body: WalletGoalBody, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
+    """Kids set their own savings goal -- a motivational label + target tied to
+    their existing savings_balance, not a real-money action, so no guardian
+    approval is needed. Passing no name/target clears the goal."""
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == user.id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=user.id, balance=0, savings_balance=0)
+        db.add(wallet)
+
+    if not body.name and not body.target:
+        wallet.goal_name = None
+        wallet.goal_target = None
+    else:
+        if not body.name or len(body.name.strip()) < 2:
+            fail("Goal name must be at least 2 characters")
+        check_content(body.name)
+        if not body.target or body.target <= 0:
+            fail("Goal target must be a positive number of points")
+        wallet.goal_name = body.name.strip()
+        wallet.goal_target = body.target
+
+    db.commit()
+    db.refresh(wallet)
+    return ok({"goalName": wallet.goal_name, "goalTarget": wallet.goal_target})
 
 
 @router.post("/api/wallet/savings/deposit")
