@@ -317,12 +317,15 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 9px 2px 8px;
+  margin: 5px 3px;
+  padding: 6px 2px;
   border: none;
+  border-radius: 13px;
   background: none;
   cursor: pointer;
   color: #94a3b8;
   min-width: 0;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .bottom-nav-icon {
@@ -339,8 +342,8 @@ body {
   max-width: 100%;
 }
 
-.bottom-nav.guardian .bottom-nav-item.active { color: #ea580c; }
-.bottom-nav.kid .bottom-nav-item.active { color: #0d9488; }
+.bottom-nav.guardian .bottom-nav-item.active { color: #ea580c; background: #fff7ed; }
+.bottom-nav.kid .bottom-nav-item.active { color: #0d9488; background: #f0fdfa; }
 
 /* Tabs */
 .tabs {

@@ -489,6 +489,7 @@ function KidHomeScreen({ name, userId, wallet, onNavigate, onOpenModule, onOpenQ
                 </div>
               </div>
               <div className="kid-goal-bar-track"><div className="kid-goal-bar-fill" style={{ width: `${goalPct}%` }} /></div>
+              <button className="kid-goal-edit-btn" style={{ marginTop: 10 }} onClick={() => onNavigate('wallet')}>Edit goal</button>
             </>
           ) : (
             <button className="kid-goal-empty-btn" onClick={() => onNavigate('wallet')}>🎯 Set a savings goal →</button>
@@ -582,7 +583,7 @@ export default function KidDashboard() {
           { key: 'chores', icon: '✅', label: 'Chores' },
           { key: 'wallet', icon: '👛', label: 'Wallet' },
           { key: 'shop', icon: '🎁', label: 'Rewards' },
-          { key: 'learn', icon: '🚀', label: 'Skills' },
+          { key: 'learn', icon: '🌱', label: 'Learn' },
         ]}
       />
     </div>
