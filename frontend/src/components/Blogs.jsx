@@ -5,6 +5,112 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const POSTS = [
   {
+    id: 11,
+    slug: 'why-teaching-kids-manners-matters',
+    title: 'Why Teaching Kids Good Manners Matters More Than Ever',
+    subtitle: "A simple \"please\" or \"thank you\" looks small, but it's one of the earliest lessons in empathy a child ever learns — and it quietly shapes a kinder society and a happier home.",
+    date: 'October 2026',
+    readTime: '6 min read',
+    emoji: '🙏',
+    tags: ['Manners', 'Parenting', 'Character Building', 'Family Values'],
+    content: [
+      {
+        type: 'intro',
+        text: "Manners often get dismissed as old-fashioned formality — a relic of an era obsessed with etiquette for its own sake, out of place in a world that moves faster and talks more casually than it used to. But strip away the formality and what's actually left is something far more important than etiquette: manners are a child's earliest, most repeated practice in noticing another person and responding to them with care. That's not politeness for its own sake. That's empathy, rehearsed daily, starting before a child can even explain why it matters.",
+      },
+      {
+        type: 'intro',
+        text: "Every \"please\" acknowledges someone's time. Every \"thank you\" acknowledges their effort. Every \"excuse me\" acknowledges their space. A child who says these words a thousand times before the age of ten isn't just being well-behaved — they're wiring in a reflex that, by adulthood, becomes instinctive. And that instinct ends up running far deeper than table manners ever suggested it would.",
+      },
+      {
+        type: 'h2',
+        text: 'What Manners Actually Teach, Underneath the Politeness',
+      },
+      {
+        type: 'p',
+        text: "Most of what looks like a rule about manners is really a rule about perspective-taking in disguise. Asking before taking a toy instead of grabbing it requires a child to first register that someone else wants it too. Saying \"thank you\" requires noticing that someone just spent effort on their behalf. None of this is really about sounding polished — it's about a child practicing, in small low-stakes moments, the exact mental habit that every healthy relationship depends on: pausing to consider somebody else.",
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: 'They Build a Pause Before Action — the Root of Self-Control',
+        text: "Asking instead of grabbing, waiting for a turn instead of interrupting — every basic manner forces a half-second pause between impulse and action. That pause is the exact mechanism behind impulse control, and a child who practices it hundreds of times over childhood gets noticeably better at it everywhere else too, not just at the dinner table.",
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: 'They Make Empathy a Habit Instead of an Occasional Feeling',
+        text: "Empathy is easy to feel for a few seconds and easy to forget the next. Manners turn it into something practiced constantly — noticing when someone needs a \"sorry,\" a \"thank you,\" or a moment of someone else's attention — until noticing other people stops being an effort and starts being automatic.",
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: 'They Teach Kids to Lose, Wait, and Recover Gracefully',
+        text: "Saying \"good game\" after losing, waiting patiently in a line, accepting \"no\" without a meltdown — these are manners too, and they're quietly some of the best resilience training a child ever gets. A kid who practices handling small disappointments politely grows into an adult who handles big ones the same way.",
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: 'They Teach Real Accountability, Not Just an Apology Script',
+        text: "A genuine \"I'm sorry\" — not a word dragged out under pressure, but one a child means — is one of the hardest manners to teach and one of the most valuable. It's the first rehearsal of owning a mistake instead of excusing it, a skill that matters just as much in a boardroom thirty years later as it does on a playground today.",
+      },
+      {
+        type: 'h2',
+        text: 'How Manners, Multiplied by Millions of Kids, Build a Better Society',
+      },
+      {
+        type: 'p',
+        text: "A society runs on thousands of tiny, unscripted exchanges of courtesy between people who will never meet again — holding a door, waiting a turn, listening without interrupting, saying thank you to someone whose job is easy to overlook. None of this is written into law. It's held together entirely by habits people learned as children and never stopped practicing. Raise enough kids who skip that practice, and a community doesn't collapse dramatically — it just gets a little colder, a little more impatient, a little less willing to extend trust to a stranger. Raise enough kids who were taught to notice and respect the people around them, and the opposite happens, just as quietly.",
+      },
+      {
+        type: 'scenario',
+        items: [
+          { time: 'Without manners', text: "A child who was never expected to say please, wait a turn, or acknowledge someone else's effort grows into an adult who doesn't either — not out of cruelty, but because the habit was never built. Small frictions pile up everywhere: interrupted conversations, unacknowledged help, impatience with strangers who are simply doing their job." },
+          { time: 'With manners', text: "A child who practiced noticing other people for years does it without thinking by adulthood — thanking a coworker, listening before responding, apologizing without being told to. None of it feels like effort anymore. It's just how they move through the world." },
+          { time: 'Multiplied across a society', text: "One polite adult barely changes a room. But a generation of them changes classrooms, workplaces, checkout lines, and city streets — not through any policy, just through millions of small, repeated moments of people choosing to consider each other first." },
+        ],
+      },
+      {
+        type: 'h2',
+        text: 'Why Manners Bring Happiness and Prosperity Home',
+      },
+      {
+        type: 'p',
+        text: "Inside a single family, the same math plays out on a smaller, more personal scale. A home where \"please,\" \"thank you,\" and \"I'm sorry\" are used often is a home with less friction — fewer conversations that start with a demand instead of a request, fewer moments where effort goes unacknowledged and quietly resentful, fewer arguments that escalate because nobody paused to really listen first. None of that shows up as one dramatic improvement. It shows up as dozens of small ones, every single day, which is exactly how family happiness actually accumulates.",
+      },
+      {
+        type: 'p',
+        text: "The prosperity side is just as real, even if it's less talked about. Teachers remember the student who says thank you. Coaches give the respectful kid another chance. Employers, years later, promote the person who's easy to work with over the one who's merely talented. None of this is about charm for its own sake — it's that people consistently extend trust, patience, and opportunity to those who make them feel considered. A child raised with real manners isn't just pleasant to be around. They're quietly building the exact reputation that opens doors for the rest of their life.",
+      },
+      {
+        type: 'h2',
+        text: 'Making Manners Stick, Without Turning Into a Nag',
+      },
+      {
+        type: 'steps',
+        items: [
+          'Model it constantly yourself — kids absorb how you treat a waiter or a frustrated sibling far more than they absorb any lecture about manners',
+          'Explain the why, not just the rule — "we say thank you because Grandma spent an hour making that" sticks far better than "say thank you" on its own',
+          'Catch it and name it specifically — "I noticed you waited for your turn without being asked" teaches more than a generic "good job" ever will',
+          'Practice the hard moments on purpose — losing a game, waiting in a line, apologizing — in calm settings, long before it matters in a tense one',
+          'Hold the same standard at home as in public — manners that only come out for guests teach performance, not character',
+        ],
+      },
+      {
+        type: 'p',
+        text: "That last point is where most households quietly struggle — not because parents don't value manners, but because the day-to-day moment of noticing and acknowledging good behaviour slips by unrecognized, especially on a busy evening. It's the same gap Reward Ur Kids was built to close for chores, and the app's bonus and behaviour points work just as well here: a parent can recognize a genuine \"thank you,\" a kind word to a sibling, or a sincere apology on the spot, the same visible, immediate way they'd approve a finished chore. The lesson stops being an abstract expectation and becomes something a child actually sees noticed and celebrated — which, for a habit built on being noticed in the first place, turns out to be exactly the right kind of reinforcement.",
+      },
+      {
+        type: 'quote',
+        text: "Manners cost a family nothing to teach and pay that family back for the rest of a child's life — in a calmer home now, and in a kinder, more trusted adult later. Few lessons offer a return like that for so small an investment.",
+      },
+      {
+        type: 'hashtags',
+        tags: ['#GoodManners', '#Parenting', '#CharacterBuilding', '#RaisingKindKids', '#FamilyValues', '#RewardUrKids'],
+      },
+    ],
+  },
+  {
     id: 10,
     slug: 'why-teaching-kids-to-invest-matters',
     title: 'Why Teaching Kids to Invest Matters More Than Teaching Them to Save',
