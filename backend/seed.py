@@ -1,10 +1,13 @@
+import glob
+import json
+import os
 from datetime import date, timedelta
 from uuid import uuid4
 
 from sqlalchemy.orm import Session
 
 from helpers import now
-from models import DBChore, DBRecurringTemplate, DBShopItem, DBTransaction, DBUser, DBWallet
+from models import DBChore, DBContentTopic, DBLearningModule, DBRecurringTemplate, DBShopItem, DBTransaction, DBUser, DBWallet
 from sample_items import is_sample_shop_item, sample_chore_id_for_title
 
 
@@ -167,4 +170,135 @@ def reconcile_custom_item_counts(db: Session) -> None:
             + sum(1 for t in templates if t.sample_id is None)
         )
         owner.shop_items_added_count = sum(1 for s in shop_items if not is_sample_shop_item(s.name))
+    db.commit()
+
+
+# Future-Ready topics as they existed before content became admin-managed --
+# kept only as one-time migration input for migrate_legacy_learning_content
+# below. New topics are created through the admin Content panel now, not by
+# editing this list.
+_LEGACY_FUTURE_READY_TOPICS = [
+    # (file_slug, topic_key, topic_title, topic_emoji)
+    ("investing", "investing-for-kids", "Investing for Kids", "📈"),
+    ("ai", "ai-for-kids", "AI for Kids", "🤖"),
+    ("entrepreneurship", "entrepreneurship", "Entrepreneurship", "💡"),
+    ("critical-thinking", "critical-thinking", "Critical Thinking", "🧠"),
+    ("communication", "communication", "Communication", "💬"),
+    ("digital-safety", "digital-safety", "Digital Safety", "🔒"),
+    ("problem-solving", "problem-solving", "Problem Solving", "🧩"),
+    ("leadership", "leadership", "Leadership", "👑"),
+    ("negotiation", "negotiation", "Negotiation Skills", "🤝"),
+    ("public-speaking", "public-speaking", "Public Speaking", "🎤"),
+    ("sight-words", "sight-words", "Sight Words", "🔤"),
+    ("money-value", "money-value", "Value of Money", "💰"),
+    ("making-friends", "making-friends", "Making Friends", "🧑‍🤝‍🧑"),
+    ("manners", "manners", "Manners", "🎩"),
+]
+# Fixed age bands -- unlike the topics/categories above, these are NOT legacy
+# migration-only input. Per the admin Content panel's design, age bands stay
+# backend-defined for now (not admin-editable); a new module an admin creates
+# still has to pick one of these via a dropdown. Imported by
+# routers/admin_content.py for exactly that.
+AGE_BANDS = [(4, 6, 10), (7, 9, 12), (10, 13, 15), (13, 17, 18)]  # (age_min, age_max, points per part)
+
+_LEGACY_QUEST_CATEGORIES = [
+    # (category_key, category_title, category_emoji)
+    ("cognitive", "Cognitive Development", "🧠"),
+    ("creativity", "Creativity & Imagination", "🎨"),
+    ("physical", "Physical & Motor Skills", "🤸"),
+    ("emotional", "Emotional Intelligence", "❤️"),
+    ("stem", "STEM Exploration", "🔬"),
+]
+# Same non-legacy status as AGE_BANDS above -- fixed, still used when an
+# admin creates a new Quest module, not just for this one-time migration.
+QUEST_AGE_BANDS = [(4, 6), (7, 9), (10, 13), (13, 17)]
+QUEST_POINTS = 8  # flat per quest completion -- no quiz to scale off of
+
+
+def _insert_topic_if_missing(db: Session, topic_id: str, section: str, title: str, emoji: str, order_index: int) -> None:
+    if db.query(DBContentTopic).get(topic_id):
+        return
+    db.add(DBContentTopic(id=topic_id, section=section, title=title, emoji=emoji, order_index=order_index))
+
+
+def migrate_legacy_learning_content(db: Session) -> None:
+    """One-time import of the old hand-edited JSON catalogs
+    (future_ready_content/*.json, quests_content/*.json) and the topics/
+    categories/age-bands that used to be hardcoded here, into DBContentTopic
+    + DBLearningModule rows. Insert-only-if-missing -- unlike the old
+    upsert-and-clobber seeding this replaces, this NEVER touches a row that
+    already exists, so it's safe to leave running on every boot forever
+    without overwriting anything an admin has since edited through the
+    Content panel. Once every legacy row exists in the DB (immediately after
+    this first runs), every later call is just an existence-check no-op.
+
+    Also means nothing auto-retires anymore if it's dropped from these
+    legacy lists -- deactivating a module/topic is now a deliberate admin
+    action (see routers/admin_content.py), not something this sync does for
+    you, since the DB -- not these lists -- is the real catalog now."""
+    _ts_now = now()
+
+    # --- Future-Ready ---
+    for order_index, (file_slug, topic_key, topic_title, topic_emoji) in enumerate(_LEGACY_FUTURE_READY_TOPICS, start=1):
+        _insert_topic_if_missing(db, topic_key, "future-ready", topic_title, topic_emoji, order_index)
+    db.commit()
+
+    content_dir = os.path.join(os.path.dirname(__file__), "future_ready_content")
+    content_by_id = {}
+    for fname in sorted(glob.glob(os.path.join(content_dir, "*.json"))):
+        with open(fname, encoding="utf-8") as f:
+            content_by_id.update(json.load(f))
+
+    order_index = 0
+    for file_slug, topic_key, topic_title, topic_emoji in _LEGACY_FUTURE_READY_TOPICS:
+        bands = [(4, 6, 10)] if file_slug == "sight-words" else AGE_BANDS
+        for age_min, age_max, points in bands:
+            band_prefix = f"{file_slug}-{age_min}-{age_max}-p"
+            part_ids = sorted(
+                (k for k in content_by_id if k.startswith(band_prefix) and k[len(band_prefix):].isdigit()),
+                key=lambda k: int(k[len(band_prefix):]),
+            )
+            for part_id in part_ids:
+                part_num = int(part_id[len(band_prefix):])
+                part_title = f"Ages {age_min}–{age_max} · Part {part_num}" if len(part_ids) > 1 else f"Ages {age_min}–{age_max}"
+                order_index += 1
+                if db.query(DBLearningModule).get(part_id):
+                    continue  # already migrated (or admin-created with this id) -- never touch it
+                db.add(DBLearningModule(
+                    id=part_id, section="future-ready", section_title="Future-Ready", section_emoji="🚀",
+                    topic=topic_key, topic_title=topic_title, topic_emoji=topic_emoji,
+                    age_min=age_min, age_max=age_max, title=part_title, points=points, order_index=order_index,
+                    is_active="1", status="published", is_premium="0",
+                    content=content_by_id.get(part_id), created_at=_ts_now,
+                ))
+    db.commit()
+
+    # --- Quests ---
+    for order_index, (category_key, category_title, category_emoji) in enumerate(_LEGACY_QUEST_CATEGORIES, start=1):
+        _insert_topic_if_missing(db, category_key, "quest", category_title, category_emoji, order_index)
+    db.commit()
+
+    content_dir = os.path.join(os.path.dirname(__file__), "quests_content")
+    content_by_id = {}
+    for fname in sorted(glob.glob(os.path.join(content_dir, "*.json"))):
+        with open(fname, encoding="utf-8") as f:
+            content_by_id.update(json.load(f))
+
+    order_index = 0
+    for category_key, category_title, category_emoji in _LEGACY_QUEST_CATEGORIES:
+        for age_min, age_max in QUEST_AGE_BANDS:
+            module_id = f"{category_key}-{age_min}-{age_max}"
+            if module_id not in content_by_id:
+                continue
+            order_index += 1
+            if db.query(DBLearningModule).get(module_id):
+                continue
+            db.add(DBLearningModule(
+                id=module_id, section="quest", section_title="Quests", section_emoji="🧸",
+                topic=category_key, topic_title=category_title, topic_emoji=category_emoji,
+                age_min=age_min, age_max=age_max, title=f"Ages {age_min}–{age_max}",
+                points=QUEST_POINTS, order_index=order_index,
+                is_active="1", status="published", is_premium="0",
+                content=content_by_id.get(module_id), created_at=_ts_now,
+            ))
     db.commit()

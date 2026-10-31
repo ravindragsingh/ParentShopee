@@ -100,7 +100,7 @@ def _log_dict(log: DBQuestLog, kid_name: str = None) -> dict:
 @router.get("/api/quests")
 def get_quests(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     modules = db.query(DBLearningModule).filter(
-        DBLearningModule.is_active == "1", DBLearningModule.section == SECTION
+        DBLearningModule.is_active == "1", DBLearningModule.status == "published", DBLearningModule.section == SECTION
     ).order_by(DBLearningModule.order_index).all()
     family_id = _family_id_for(user)
     settings = _family_settings(db, family_id)
@@ -154,7 +154,8 @@ def get_quests(db: Session = Depends(get_db), user: DBUser = Depends(require_aut
 @router.get("/api/quests/{module_id}/content")
 def get_quest_content(module_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     module = db.query(DBLearningModule).filter(
-        DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.section == SECTION
+        DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.status == "published",
+        DBLearningModule.section == SECTION
     ).first()
     if not module: fail("Quest not found", 404)
     if not module.content: fail("This quest isn't ready yet.", 404)
@@ -223,7 +224,8 @@ def reset_quest_completion(module_id: str, kid_id: str, db: Session = Depends(ge
 @router.post("/api/quests/{module_id}/log")
 def submit_quest_log(module_id: str, body: QuestLogBody, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
     module = db.query(DBLearningModule).filter(
-        DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.section == SECTION
+        DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.status == "published",
+        DBLearningModule.section == SECTION
     ).first()
     if not module: fail("Quest not found", 404)
     family_id = _family_id_for(user)

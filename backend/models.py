@@ -208,15 +208,37 @@ class DBLearningModule(Base):
     points      = Column(Float, nullable=False)
     order_index = Column(Integer, default=0)
     is_active   = Column(String, default="1")           # "1"/"0"
+    status      = Column(String, default="draft")       # "draft"/"published" -- separate axis
+    # from is_active: is_active is the soft-delete flag, status is whether an
+    # admin has finished authoring it yet. Only "published" rows are ever
+    # served to kids/guardians (see future_ready.py / quests.py filters).
+    is_premium  = Column(String, default="0")           # "1"/"0" -- groundwork for a
+    # future subscription tier; no entitlement/payment gating implemented yet.
     content     = Column(JSON, nullable=True)            # {"slides": [...], "quiz": [...]}
     # ^ served live via GET /api/future-ready/{id}/content instead of being
     # bundled into the frontend, so a content-only change (new topic, edited
-    # slides/quiz) is just a backend redeploy -- no app rebuild or store
-    # submission, even for the native mobile app. Hand-authored directly in
-    # backend/future_ready_content/<topic>.json, loaded at startup.
+    # slides/quiz) is just a backend change -- no app rebuild or store
+    # submission, even for the native mobile app. Authored through the admin
+    # Content panel (routers/admin_content.py), which writes straight into
+    # this row -- no redeploy needed. backend/future_ready_content/*.json is
+    # legacy, one-time migration input only (see seed.migrate_legacy_learning_content).
     created_at  = Column(String, nullable=True)  # ISO timestamp, set once when the
     # row is first created (not touched on later catalog re-syncs) -- powers the
     # "New" badge; NULL for rows that predate this column, correctly read as "not new".
+
+
+class DBContentTopic(Base):
+    """Admin-managed catalog of Future-Ready topics / Quest categories --
+    replaces the old hardcoded TOPICS/CATEGORIES tuples in main.py. A
+    DBLearningModule.topic is a loose string reference to this table's id,
+    same no-FK-constraint convention used everywhere else in this schema."""
+    __tablename__ = "content_topics"
+    id          = Column(String, primary_key=True)   # slug, e.g. "investing-for-kids"
+    section     = Column(String, nullable=False)      # "future-ready" / "quest"
+    title       = Column(String, nullable=False)
+    emoji       = Column(String, default="📘")
+    order_index = Column(Integer, default=0)
+    is_active   = Column(String, default="1")          # "1"/"0"
 
 
 class DBFamilyLearningSetting(Base):

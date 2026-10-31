@@ -1,44 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../context/AuthContext.jsx'
-import CompoundGrowthWidget from './CompoundGrowthWidget.jsx'
-import SaveVsInvestWidget from './SaveVsInvestWidget.jsx'
-import RiskRewardSimulator from './RiskRewardSimulator.jsx'
-import DiversificationPuzzle from './DiversificationPuzzle.jsx'
-import RuleOf72Widget from './RuleOf72Widget.jsx'
-import NeedVsWantSort from './NeedVsWantSort.jsx'
-import SortPuzzle from './SortPuzzle.jsx'
-import ScenarioPicker from './ScenarioPicker.jsx'
-import MatchingPairs from './MatchingPairs.jsx'
-import BudgetSplitWidget from './BudgetSplitWidget.jsx'
-import ProfitCalculatorWidget from './ProfitCalculatorWidget.jsx'
-import SequenceOrder from './SequenceOrder.jsx'
-import WordScramble from './WordScramble.jsx'
-import SliderGuess from './SliderGuess.jsx'
-import OddOneOut from './OddOneOut.jsx'
-
-// Maps a slide's optional "widget" key to the interactive component that
-// renders below its text -- data-driven so a new interactive slide only
-// needs a new entry here, not a new slide "type" switch spread everywhere.
-// The first six are topic-specific (investing); the last four are generic,
-// config-driven widgets reused across every other Future-Ready topic.
-const SLIDE_WIDGETS = {
-  'compound-growth': CompoundGrowthWidget,
-  'save-vs-invest': SaveVsInvestWidget,
-  'risk-reward': RiskRewardSimulator,
-  'diversification': DiversificationPuzzle,
-  'rule-of-72': RuleOf72Widget,
-  'need-vs-want': NeedVsWantSort,
-  'sort-puzzle': SortPuzzle,
-  'scenario-picker': ScenarioPicker,
-  'matching-pairs': MatchingPairs,
-  'budget-split': BudgetSplitWidget,
-  'profit-calculator': ProfitCalculatorWidget,
-  'sequence-order': SequenceOrder,
-  'word-scramble': WordScramble,
-  'slider-guess': SliderGuess,
-  'odd-one-out': OddOneOut,
-}
+import SlideCard from './SlideCard.jsx'
 
 const audioKey = userId => `frAudioEnabled_${userId}`
 
@@ -255,19 +218,7 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
               animation: 'slideCardIn 0.25s ease', '--slide-dir': navDir > 0 ? '16px' : '-16px',
             }}
           >
-            <div style={{ fontSize: '2.6rem', marginBottom: 12 }}>{content.slides[slideIndex].emoji}</div>
-            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1e293b', marginBottom: 10 }}>
-              {content.slides[slideIndex].title}
-            </div>
-            <p style={{ fontSize: '0.95rem', color: '#475569', lineHeight: 1.7, margin: 0 }}>
-              {content.slides[slideIndex].text}
-            </p>
-            {content.slides[slideIndex].widget && SLIDE_WIDGETS[content.slides[slideIndex].widget] && (
-              (() => {
-                const Widget = SLIDE_WIDGETS[content.slides[slideIndex].widget]
-                return <Widget config={content.slides[slideIndex].widgetConfig} onResult={handleWidgetResult} />
-              })()
-            )}
+            <SlideCard slide={content.slides[slideIndex]} onResult={handleWidgetResult} />
           </div>
           {streak >= 2 && (
             <div style={{ textAlign: 'center', marginBottom: 10 }}>

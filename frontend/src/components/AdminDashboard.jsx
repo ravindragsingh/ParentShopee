@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
+import AdminContentPanel from './AdminContentPanel.jsx'
 
 const STATUS_STYLE = {
   open:     { bg: '#f0fdfa', color: '#0d9488' },
@@ -1296,6 +1297,7 @@ export default function AdminDashboard() {
           {[
             { id: 'families', label: '🏠 Families' },
             { id: 'tickets',  label: '🎫 Support Tickets' },
+            { id: 'content',  label: '📚 Future-Ready & Quests' },
           ].map(tab => (
             <button
               key={tab.id}
@@ -1312,6 +1314,8 @@ export default function AdminDashboard() {
         </div>
 
         {view === 'tickets' && <TicketsPanel />}
+
+        {view === 'content' && <AdminContentPanel />}
 
         {view === 'families' && <>
 

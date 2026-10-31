@@ -88,7 +88,8 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
     # Quests (see routers/quests.py), so without this filter
     # every activity-idea module would leak into the Future-Ready catalog too.
     modules = db.query(DBLearningModule).filter(
-        DBLearningModule.is_active == "1", DBLearningModule.section == "future-ready"
+        DBLearningModule.is_active == "1", DBLearningModule.status == "published",
+        DBLearningModule.section == "future-ready"
     ).order_by(DBLearningModule.order_index).all()
     family_id = _family_id_for(user)
     settings = _family_settings(db, family_id)
@@ -136,7 +137,9 @@ def get_learning_modules(db: Session = Depends(get_db), user: DBUser = Depends(r
 
 @router.get("/api/future-ready/{module_id}/content")
 def get_learning_content(module_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.is_active == "1").first()
+    module = db.query(DBLearningModule).filter(
+        DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.status == "published",
+    ).first()
     if not module: fail("Module not found", 404)
     if not module.content: fail("This lesson isn't ready yet.", 404)
     if user.role == "kid":
@@ -213,7 +216,9 @@ def reset_learning_completion(module_id: str, kid_id: str, db: Session = Depends
 
 @router.post("/api/future-ready/{module_id}/complete")
 def complete_learning_module(module_id: str, body: LearningCompleteBody, db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
-    module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.is_active == "1").first()
+    module = db.query(DBLearningModule).filter(
+        DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.status == "published",
+    ).first()
     if not module: fail("Module not found", 404)
     family_id = _family_id_for(user)
     setting = db.query(DBFamilyLearningSetting).filter(

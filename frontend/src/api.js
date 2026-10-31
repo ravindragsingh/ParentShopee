@@ -212,4 +212,18 @@ export const api = {
   adminResolveTicket:      (id)            => request('POST', `/api/admin/tickets/${id}/resolve`),
   adminReopenTicket:       (id)            => request('POST', `/api/admin/tickets/${id}/reopen`),
   adminReplyTicket:        (id, message)   => request('POST', `/api/admin/tickets/${id}/reply`, { message }),
+
+  // Admin -- Future-Ready / Quests content management
+  adminContentAgeBands:    (section)              => request('GET', `/api/admin/content/age-bands?section=${section}`),
+  adminListContentTopics:  (section)              => request('GET', `/api/admin/content/topics?section=${section}`),
+  adminCreateContentTopic: (body)                 => request('POST', '/api/admin/content/topics', body),
+  adminUpdateContentTopic: (topicId, body)        => request('PUT', `/api/admin/content/topics/${topicId}`, body),
+  adminDeleteContentTopic: (topicId)              => request('DELETE', `/api/admin/content/topics/${topicId}`),
+  adminListContentModules: (topic)                => request('GET', `/api/admin/content/modules?topic=${topic}`),
+  adminCreateContentModule: (body)                => request('POST', '/api/admin/content/modules', body),
+  adminGetContentModule:   (moduleId)             => request('GET', `/api/admin/content/modules/${moduleId}`),
+  adminUpdateContentModule: (moduleId, body)      => request('PUT', `/api/admin/content/modules/${moduleId}`, body),
+  adminUpdateModuleContent: (moduleId, content)   => request('PUT', `/api/admin/content/modules/${moduleId}/content`, { content }),
+  adminUpdateModuleStatus: (moduleId, status)     => request('PUT', `/api/admin/content/modules/${moduleId}/status`, { status }),
+  adminDeleteContentModule: (moduleId)            => request('DELETE', `/api/admin/content/modules/${moduleId}`),
 }

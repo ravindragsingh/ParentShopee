@@ -225,3 +225,40 @@ class LearningCompleteBody(BaseModel):
 
 class QuestLogBody(BaseModel):
     note: str
+
+class AdminTopicCreate(BaseModel):
+    id: str              # slug, admin-supplied
+    section: str          # "future-ready" | "quest"
+    title: str
+    emoji: Optional[str] = "📘"
+
+class AdminTopicUpdate(BaseModel):
+    title:      Optional[str] = None
+    emoji:      Optional[str] = None
+    orderIndex: Optional[int] = None
+    isActive:   Optional[bool] = None
+
+class AdminModuleCreate(BaseModel):
+    id: str               # slug, admin-supplied (e.g. "ai-4-6-p3")
+    section: str           # "future-ready" | "quest"
+    topic: str             # DBContentTopic.id
+    ageMin: int
+    ageMax: int
+    title: str
+    points: float
+    orderIndex: Optional[int] = None
+
+class AdminModuleMetaUpdate(BaseModel):
+    title:      Optional[str] = None
+    points:     Optional[float] = None
+    ageMin:     Optional[int] = None
+    ageMax:     Optional[int] = None
+    orderIndex: Optional[int] = None
+    isPremium:  Optional[bool] = None
+    isActive:   Optional[bool] = None   # lets an admin undo a deactivation
+
+class AdminModuleContentUpdate(BaseModel):
+    content: dict          # {"slides":[...],"quiz":[...]} or {"activities":[...]} -- shape not enforced here
+
+class AdminModuleStatusUpdate(BaseModel):
+    status: str            # "draft" | "published"
