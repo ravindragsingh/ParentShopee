@@ -246,10 +246,16 @@ function TopicList({ section, onOpenTopic }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: 12 }}>
         {topics.map(t => (
           <div key={t.id} style={{ border: '1px solid #e2e8f0', borderRadius: 12, padding: '14px 16px', background: t.isActive ? '#fff' : '#f8fafc', opacity: t.isActive ? 1 : 0.6 }}>
-            <div onClick={() => onOpenTopic(t)} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
               <span style={{ fontSize: '1.4rem' }}>{t.emoji}</span>
               <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>{t.title}</div>
             </div>
+            <button
+              onClick={() => onOpenTopic(t)}
+              style={{ width: '100%', textAlign: 'left', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 8, padding: '8px 12px', marginBottom: 8, cursor: 'pointer', color: '#0d9488', fontWeight: 700, fontSize: '0.82rem' }}
+            >
+              📋 View Modules <span>→</span>
+            </button>
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={() => { setFormTopic(t); setShowForm(true) }} style={editBtnStyle}>✏️ Edit</button>
               {t.isActive
