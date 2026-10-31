@@ -1561,7 +1561,10 @@ function PostView({ post }) {
         >
           ← Back
         </button>
-        <div style={{ background: '#fff', borderRadius: 8, padding: '3px 8px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}>
+        <div
+          onClick={() => navigate('/')}
+          style={{ background: '#fff', borderRadius: 8, padding: '3px 8px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)', cursor: 'pointer' }}
+        >
           <img src="/branding/RewardURKids_Website_Compact_Logo.png" alt="Reward Ur Kids" style={{ height: 20, display: 'block' }} />
         </div>
         <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem', fontWeight: 600 }}>· Blog</span>
@@ -1618,7 +1621,10 @@ function BlogList() {
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       {/* Nav */}
       <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
-        <div style={{ background: '#fff', borderRadius: 10, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}>
+        <div
+          onClick={() => navigate('/')}
+          style={{ background: '#fff', borderRadius: 10, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)', cursor: 'pointer' }}
+        >
           <img src="/branding/RewardURKids_Website_Compact_Logo.png" alt="Reward Ur Kids" style={{ height: 24, display: 'block' }} />
         </div>
         <button

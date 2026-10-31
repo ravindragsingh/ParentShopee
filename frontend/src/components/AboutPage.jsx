@@ -55,7 +55,10 @@ export default function AboutPage() {
         >
           ← Back
         </button>
-        <div style={{ background: '#fff', borderRadius: 8, padding: '3px 8px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}>
+        <div
+          onClick={() => navigate('/')}
+          style={{ background: '#fff', borderRadius: 8, padding: '3px 8px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)', cursor: 'pointer' }}
+        >
           <img src="/branding/RewardURKids_Website_Compact_Logo.png" alt="Reward Ur Kids" style={{ height: 20, display: 'block' }} />
         </div>
         <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem', fontWeight: 600 }}>· About</span>
