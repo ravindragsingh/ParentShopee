@@ -1446,6 +1446,7 @@ function navLinkStyle(active) {
 }
 
 function TopNav({ onSignIn, onShowHelp }) {
+  const navigate = useNavigate()
   const scrollToId = id => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
@@ -1465,7 +1466,8 @@ function TopNav({ onSignIn, onShowHelp }) {
         <button style={navLinkStyle(true)} onClick={() => scrollToId('landing-top')}>Home</button>
         <button style={navLinkStyle(false)} onClick={onShowHelp}>How It Works</button>
         <button style={navLinkStyle(false)} onClick={() => scrollToId('landing-features')}>Features</button>
-        <button style={navLinkStyle(false)} onClick={() => scrollToId('landing-why')}>About</button>
+        <button style={navLinkStyle(false)} onClick={() => navigate('/about')}>About</button>
+        <button style={navLinkStyle(false)} onClick={() => navigate('/blog')}>Blogs</button>
       </div>
       <button
         onClick={onSignIn}

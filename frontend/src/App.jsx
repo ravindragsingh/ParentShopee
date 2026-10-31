@@ -6,6 +6,7 @@ import GuardianDashboard from './components/GuardianDashboard.jsx'
 import KidDashboard from './components/KidDashboard.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import Blogs from './components/Blogs.jsx'
+import AboutPage from './components/AboutPage.jsx'
 import PrivacyPolicyPage from './components/PrivacyPolicyPage.jsx'
 import DeleteAccountPage from './components/DeleteAccountPage.jsx'
 import TipOfTheDayModal from './components/TipOfTheDayModal.jsx'
@@ -68,6 +69,7 @@ export default function App() {
           <Route path="/"           element={<LoginRoute />} />
           <Route path="/blog"       element={<Blogs />} />
           <Route path="/blog/:slug" element={<Blogs />} />
+          <Route path="/about"      element={<AboutPage />} />
           <Route path="/privacy"    element={<PrivacyPolicyPage />} />
           <Route path="/delete-account" element={<DeleteAccountPage />} />
           <Route path="/activate"       element={<ActivatePage />} />
