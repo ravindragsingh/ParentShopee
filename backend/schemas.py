@@ -199,6 +199,15 @@ class AdminUserUpdate(BaseModel):
     birthMonth: Optional[int] = None   # 1-12 -- guardians and kids alike
     birthYear:  Optional[int] = None
 
+class AdminContentAdminCreate(BaseModel):
+    name:     str
+    username: str
+    email:    str
+
+class AdminContentAdminUpdate(BaseModel):
+    name:     Optional[str] = None
+    username: Optional[str] = None
+
 class AdminChoreUpdate(BaseModel):
     title:         Optional[str]   = None
     description:   Optional[str]   = None

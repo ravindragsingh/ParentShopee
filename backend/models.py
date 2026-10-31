@@ -11,7 +11,10 @@ class DBUser(Base):
     password      = Column(String, nullable=False)
     google_id     = Column(String, unique=True, nullable=True, index=True)  # set for guardians who signed up/in via Google
     firebase_uid  = Column(String, unique=True, nullable=True, index=True)  # Firebase Auth uid -- guardians only; see firebase_app.py
-    role          = Column(String, nullable=False)   # guardian | kid
+    role          = Column(String, nullable=False)   # guardian | kid | admin
+    admin_scope   = Column(String, nullable=True)   # admins only: NULL/"full" = unrestricted,
+    # "content" = can only reach the Future-Ready/Quests admin panel (routers/admin_content.py),
+    # never routers/admin.py's families/users/tickets endpoints -- see deps.require_full_admin.
     email         = Column(String, nullable=True)
     date_of_birth = Column(String, nullable=True)
     gender        = Column(String, nullable=True)

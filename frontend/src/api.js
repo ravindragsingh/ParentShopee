@@ -226,4 +226,13 @@ export const api = {
   adminUpdateModuleContent: (moduleId, content)   => request('PUT', `/api/admin/content/modules/${moduleId}/content`, { content }),
   adminUpdateModuleStatus: (moduleId, status)     => request('PUT', `/api/admin/content/modules/${moduleId}/status`, { status }),
   adminDeleteContentModule: (moduleId)            => request('DELETE', `/api/admin/content/modules/${moduleId}`),
+
+  // Admin -- content-admin account management (full admin only)
+  adminListContentAdmins:   ()              => request('GET', '/api/admin/content-admins'),
+  adminCreateContentAdmin:  (body)          => request('POST', '/api/admin/content-admins', body),
+  adminUpdateContentAdmin:  (userId, body)  => request('PUT', `/api/admin/content-admins/${userId}`, body),
+  adminSuspendContentAdmin: (userId)        => request('POST', `/api/admin/content-admins/${userId}/suspend`),
+  adminUnsuspendContentAdmin: (userId)      => request('POST', `/api/admin/content-admins/${userId}/unsuspend`),
+  adminDeleteContentAdmin:  (userId)        => request('DELETE', `/api/admin/content-admins/${userId}`),
+  adminResendContentAdminReset: (userId)    => request('POST', `/api/admin/content-admins/${userId}/send-password-reset`),
 }

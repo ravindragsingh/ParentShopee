@@ -87,3 +87,13 @@ def require_admin(user: DBUser = Depends(require_auth)) -> DBUser:
     if user.role != "admin":
         fail("Forbidden — admin only", 403)
     return user
+
+def require_full_admin(user: DBUser = Depends(require_auth)) -> DBUser:
+    """Like require_admin, but also excludes a content-scoped admin (see
+    DBUser.admin_scope) -- for routers/admin.py's families/users/tickets
+    endpoints, which a content-only admin should never reach. Content
+    management (routers/admin_content.py) stays on plain require_admin,
+    since that's exactly what both scopes should have access to."""
+    if user.role != "admin" or user.admin_scope == "content":
+        fail("Forbidden — admin only", 403)
+    return user

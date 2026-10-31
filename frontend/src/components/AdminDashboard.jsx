@@ -990,10 +990,179 @@ function AdminTicketCard({ ticket: t, busy, onToggleResolved, onReplied }) {
 
 // ── Admin Dashboard ────────────────────────────────────────────────────────────
 
+// ── Content-admin accounts (full-admin only) ────────────────────────────────
+
+function ContentAdminFormModal({ admin, onSave, onClose }) {
+  const isEdit = !!admin
+  const [name, setName] = useState(admin?.name || '')
+  const [username, setUsername] = useState(admin?.username || '')
+  const [email, setEmail] = useState(admin?.email || '')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setSaving(true)
+    setError('')
+    try {
+      if (isEdit) {
+        await api.adminUpdateContentAdmin(admin.id, { name, username })
+      } else {
+        await api.adminCreateContentAdmin({ name, username, email })
+      }
+      onSave()
+    } catch (err) {
+      setError(err.message)
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 440, boxShadow: '0 20px 60px rgba(0,0,0,0.22)' }}>
+        <div style={{ padding: '16px 22px 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>{isEdit ? 'Edit Content Admin' : 'New Content Admin'}</div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+        <form onSubmit={handleSubmit} style={{ padding: '18px 22px' }}>
+          {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>{error}</div>}
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Full Name</label>
+            <input value={name} onChange={e => setName(e.target.value)} style={inputStyle} required />
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Username</label>
+            <input value={username} onChange={e => setUsername(e.target.value)} style={inputStyle} required />
+          </div>
+          {!isEdit && (
+            <div style={{ marginBottom: 6 }}>
+              <label style={labelStyle}>Email <span style={{ fontWeight: 400, color: '#94a3b8' }}>(they'll get a link here to set their password)</span></label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} style={inputStyle} required />
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+            <button type="button" onClick={onClose} style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem' }}>Cancel</button>
+            <button type="submit" disabled={saving} style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
+              {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Create & Send Setup Email'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+function ContentAdminsPanel() {
+  const [admins, setAdmins] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
+  const [formAdmin, setFormAdmin] = useState(null)
+  const [showForm, setShowForm] = useState(false)
+  const [busyId, setBusyId] = useState(null)
+
+  const load = useCallback(() => {
+    setLoading(true)
+    setError('')
+    api.adminListContentAdmins().then(setAdmins).catch(err => setError(err.message)).finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  async function handleToggleSuspend(a) {
+    setBusyId(a.id)
+    try {
+      if (a.isSuspended) await api.adminUnsuspendContentAdmin(a.id)
+      else await api.adminSuspendContentAdmin(a.id)
+      await load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  async function handleResend(a) {
+    setBusyId(a.id)
+    setMessage('')
+    try {
+      const res = await api.adminResendContentAdminReset(a.id)
+      setMessage(res.message)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  async function handleDelete(a) {
+    if (!window.confirm(`Delete content admin "${a.name}"? This removes their login entirely -- it can't be undone.`)) return
+    setBusyId(a.id)
+    try {
+      await api.adminDeleteContentAdmin(a.id)
+      await load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  if (loading) return <div className="loading-text">Loading content admins...</div>
+
+  return (
+    <div>
+      <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: 14, maxWidth: 560 }}>
+        Content admins can only manage Future-Ready &amp; Quests content -- they never see families, users, or support tickets.
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
+        <button onClick={() => { setFormAdmin(null); setShowForm(true) }} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem' }}>+ New Content Admin</button>
+      </div>
+      {error && <div className="error-msg" style={{ marginBottom: 14 }}>{error}</div>}
+      {message && (
+        <div style={{ background: '#f0fdfa', color: '#0d9488', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+          <span>📧 {message}</span>
+          <button onClick={() => setMessage('')} style={{ background: 'none', border: 'none', color: '#0d9488', cursor: 'pointer', fontWeight: 700 }}>✕</button>
+        </div>
+      )}
+      {admins.length === 0 ? (
+        <div className="empty-text">No content admins yet.</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {admins.map(a => (
+            <div key={a.id} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', opacity: a.isSuspended ? 0.6 : 1 }}>
+              <div>
+                <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>
+                  {a.name} {a.isSuspended && <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#c2410c', background: '#fff7ed', borderRadius: 999, padding: '2px 8px', marginLeft: 6 }}>Suspended</span>}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>@{a.username} · {a.email}</div>
+              </div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <button onClick={() => { setFormAdmin(a); setShowForm(true) }} disabled={busyId === a.id} style={editBtnStyle}>✏️ Edit</button>
+                <button onClick={() => handleResend(a)} disabled={busyId === a.id} style={editBtnStyle}>📧 Resend Setup Email</button>
+                <button onClick={() => handleToggleSuspend(a)} disabled={busyId === a.id} style={a.isSuspended ? editBtnStyle : suspendBtnStyle}>{a.isSuspended ? 'Unsuspend' : 'Suspend'}</button>
+                <button onClick={() => handleDelete(a)} disabled={busyId === a.id} style={deleteBtnStyle}>Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {showForm && (
+        <ContentAdminFormModal
+          admin={formAdmin}
+          onSave={() => { setShowForm(false); load() }}
+          onClose={() => setShowForm(false)}
+        />
+      )}
+    </div>
+  )
+}
+
 export default function AdminDashboard() {
   const { user, logout } = useAuth()
+  const isContentOnly = user?.adminScope === 'content'
   const [searchParams, setSearchParams] = useSearchParams()
-  const view = searchParams.get('view') || 'families'  // 'families' | 'tickets'
+  const view = searchParams.get('view') || (isContentOnly ? 'content' : 'families')  // 'families' | 'tickets' | 'content' | 'admins'
   const setView = useCallback(next => {
     setSearchParams(next === 'families' ? {} : { view: next })
   }, [setSearchParams])
@@ -1022,7 +1191,7 @@ export default function AdminDashboard() {
   const [resetPwdBusyId, setResetPwdBusyId] = useState(null)
   const [resetPwdMessage, setResetPwdMessage] = useState('')
 
-  useEffect(() => { loadFamilies() }, [])
+  useEffect(() => { if (!isContentOnly) loadFamilies() }, [])
 
   async function loadFamilies() {
     try {
@@ -1292,13 +1461,18 @@ export default function AdminDashboard() {
 
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '22px 16px' }}>
 
-        {/* View tabs */}
+        {/* View tabs -- a content-scoped admin only ever gets the Content
+            tab, not just hidden but genuinely absent, so there's no way to
+            even attempt navigating into families/tickets/admins. */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 20, borderBottom: '1px solid #e2e8f0' }}>
-          {[
+          {(isContentOnly ? [
+            { id: 'content', label: '📚 Future-Ready & Quests' },
+          ] : [
             { id: 'families', label: '🏠 Families' },
             { id: 'tickets',  label: '🎫 Support Tickets' },
             { id: 'content',  label: '📚 Future-Ready & Quests' },
-          ].map(tab => (
+            { id: 'admins',   label: '🛡️ Admins' },
+          ]).map(tab => (
             <button
               key={tab.id}
               onClick={() => setView(tab.id)}
@@ -1313,11 +1487,13 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {view === 'tickets' && <TicketsPanel />}
+        {view === 'tickets' && !isContentOnly && <TicketsPanel />}
 
         {view === 'content' && <AdminContentPanel />}
 
-        {view === 'families' && <>
+        {view === 'admins' && !isContentOnly && <ContentAdminsPanel />}
+
+        {view === 'families' && !isContentOnly && <>
 
         {/* Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 22 }}>

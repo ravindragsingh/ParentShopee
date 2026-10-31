@@ -3,12 +3,13 @@ from uuid import uuid4
 from typing import Optional
 
 from fastapi import APIRouter, Depends
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from config import EMAIL_RE, FRONTEND_URL, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_ITEMS
 from content_filter import check_content
 from database import get_db
-from deps import require_admin
+from deps import require_full_admin
 from email_utils import send_email, send_reset_email
 from firebase_app import get_firebase_app
 from helpers import (
@@ -18,7 +19,8 @@ from helpers import (
 from models import DBChore, DBRecurringTemplate, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import (
-    AddKidBody, AdminChoreUpdate, AdminLimitsUpdate, AdminUserUpdate, CoGuardianBody, TicketReplyBody, WalletAdjustBody,
+    AddKidBody, AdminChoreUpdate, AdminContentAdminCreate, AdminContentAdminUpdate, AdminLimitsUpdate,
+    AdminUserUpdate, CoGuardianBody, TicketReplyBody, WalletAdjustBody,
 )
 from security import check_pin_complexity
 
@@ -26,7 +28,7 @@ router = APIRouter()
 
 
 @router.get("/api/admin/families")
-def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     primary_guardians = db.query(DBUser).filter(
         DBUser.role == "guardian",
         DBUser.co_guardian_of == None,
@@ -73,7 +75,7 @@ def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(re
 
 
 @router.get("/api/admin/family/{family_id}/chores")
-def admin_family_chores(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_family_chores(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     chores = db.query(DBChore).filter(
         DBChore.family_id == family_id,
     ).order_by(DBChore.created_at.desc()).limit(100).all()
@@ -81,7 +83,7 @@ def admin_family_chores(family_id: str, db: Session = Depends(get_db), user: DBU
 
 
 @router.put("/api/admin/family/{family_id}/limits")
-def admin_update_family_limits(family_id: str, body: AdminLimitsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_update_family_limits(family_id: str, body: AdminLimitsUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     """Raise (or clear back to the site-wide default) a family's custom
     chores/shop-items cap. Set a field to null to remove the override."""
     guardian = db.query(DBUser).filter(DBUser.id == family_id, DBUser.role == "guardian", DBUser.co_guardian_of == None).first()
@@ -111,7 +113,7 @@ def admin_update_family_limits(family_id: str, body: AdminLimitsUpdate, db: Sess
 
 
 @router.put("/api/admin/user/{user_id}")
-def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     target = db.query(DBUser).filter(DBUser.id == user_id).first()
     if not target:
         fail("User not found", 404)
@@ -153,7 +155,7 @@ def admin_update_user(user_id: str, body: AdminUserUpdate, db: Session = Depends
 
 
 @router.post("/api/admin/user/{user_id}/issue-temp-pin")
-def admin_issue_temp_pin(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_issue_temp_pin(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     """Resets a user's PIN to a fresh random one and flags it the same way the
     one-time PIN migration does (`pin_auto_generated`), so the family sees the
     existing "here's your temporary PIN" notice on their profile picker next
@@ -174,7 +176,7 @@ def admin_issue_temp_pin(user_id: str, db: Session = Depends(get_db), user: DBUs
 
 
 @router.post("/api/admin/user/{user_id}/send-password-reset")
-def admin_send_password_reset(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_send_password_reset(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     """Guardian equivalent of issue-temp-pin above, now that Firebase owns
     guardian credentials: an admin can no longer set a guardian's password
     directly (there's nothing local left to overwrite, and the admin should
@@ -208,7 +210,7 @@ def admin_send_password_reset(user_id: str, db: Session = Depends(get_db), user:
 
 
 @router.post("/api/admin/user/{user_id}/suspend")
-def admin_suspend_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_suspend_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     target = db.query(DBUser).filter(DBUser.id == user_id).first()
     if not target:
         fail("User not found", 404)
@@ -221,7 +223,7 @@ def admin_suspend_user(user_id: str, db: Session = Depends(get_db), user: DBUser
 
 
 @router.post("/api/admin/user/{user_id}/unsuspend")
-def admin_unsuspend_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_unsuspend_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     target = db.query(DBUser).filter(DBUser.id == user_id).first()
     if not target:
         fail("User not found", 404)
@@ -232,7 +234,7 @@ def admin_unsuspend_user(user_id: str, db: Session = Depends(get_db), user: DBUs
 
 
 @router.delete("/api/admin/user/{user_id}")
-def admin_delete_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_delete_user(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     target = db.query(DBUser).filter(DBUser.id == user_id).first()
     if not target:
         fail("User not found", 404)
@@ -252,7 +254,7 @@ def admin_delete_user(user_id: str, db: Session = Depends(get_db), user: DBUser 
 
 
 @router.post("/api/admin/family/{family_id}/kids")
-def admin_add_kid(family_id: str, body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_add_kid(family_id: str, body: AddKidBody, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     """Mirrors POST /api/kids (the guardian's own "add a child" endpoint) but
     targets any family by id instead of the logged-in guardian's own."""
     guardian = db.query(DBUser).filter(DBUser.id == family_id, DBUser.role == "guardian", DBUser.co_guardian_of == None).first()
@@ -294,7 +296,7 @@ def admin_add_kid(family_id: str, body: AddKidBody, db: Session = Depends(get_db
 
 
 @router.post("/api/admin/family/{family_id}/co-guardian")
-def admin_add_co_guardian(family_id: str, body: CoGuardianBody, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_add_co_guardian(family_id: str, body: CoGuardianBody, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     """Mirrors POST /api/family/co-guardian but targets any family by id."""
     guardian = db.query(DBUser).filter(DBUser.id == family_id, DBUser.role == "guardian", DBUser.co_guardian_of == None).first()
     if not guardian:
@@ -325,7 +327,7 @@ def admin_add_co_guardian(family_id: str, body: CoGuardianBody, db: Session = De
 
 
 @router.post("/api/admin/kid/{kid_id}/wallet/adjust")
-def admin_adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     """Mirrors POST /api/kids/{kid_id}/wallet/adjust (the guardian's own points
     adjustment endpoint) but isn't restricted to the logged-in guardian's
     family -- an admin can target any kid directly."""
@@ -356,7 +358,7 @@ def admin_adjust_wallet(kid_id: str, body: WalletAdjustBody, db: Session = Depen
 
 
 @router.put("/api/admin/chore/{chore_id}")
-def admin_update_chore(chore_id: str, body: AdminChoreUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_update_chore(chore_id: str, body: AdminChoreUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     chore = db.query(DBChore).filter(DBChore.id == chore_id).first()
     if not chore:
         fail("Chore not found", 404)
@@ -386,7 +388,7 @@ def admin_update_chore(chore_id: str, body: AdminChoreUpdate, db: Session = Depe
 
 
 @router.get("/api/admin/family/{family_id}/transactions")
-def admin_family_transactions(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_family_transactions(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
     kid_ids = [k.id for k in kids]
     if not kid_ids:
@@ -414,7 +416,7 @@ def admin_family_transactions(family_id: str, db: Session = Depends(get_db), use
 
 
 @router.get("/api/admin/tickets")
-def admin_list_tickets(status: Optional[str] = None, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_list_tickets(status: Optional[str] = None, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     q = db.query(DBSupportTicket)
     if status:
         if status not in ("open", "resolved"):
@@ -425,7 +427,7 @@ def admin_list_tickets(status: Optional[str] = None, db: Session = Depends(get_d
 
 
 @router.post("/api/admin/tickets/{ticket_id}/resolve")
-def admin_resolve_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_resolve_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     ticket = db.query(DBSupportTicket).filter(DBSupportTicket.id == ticket_id).first()
     if not ticket:
         fail("Ticket not found", 404)
@@ -437,7 +439,7 @@ def admin_resolve_ticket(ticket_id: str, db: Session = Depends(get_db), user: DB
 
 
 @router.post("/api/admin/tickets/{ticket_id}/reopen")
-def admin_reopen_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_reopen_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     ticket = db.query(DBSupportTicket).filter(DBSupportTicket.id == ticket_id).first()
     if not ticket:
         fail("Ticket not found", 404)
@@ -449,7 +451,7 @@ def admin_reopen_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBU
 
 
 @router.post("/api/admin/tickets/{ticket_id}/reply")
-def admin_reply_ticket(ticket_id: str, body: TicketReplyBody, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
+def admin_reply_ticket(ticket_id: str, body: TicketReplyBody, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     if not body.message.strip():
         fail("Reply message is required")
     ticket = db.query(DBSupportTicket).filter(DBSupportTicket.id == ticket_id).first()
@@ -474,3 +476,167 @@ def admin_reply_ticket(ticket_id: str, body: TicketReplyBody, db: Session = Depe
         )
 
     return ok(ticket_dict(ticket, get_ticket_replies(db, ticket_id)))
+
+
+# ── Content-admin accounts (restricted to Future-Ready/Quests only) ────────────
+# A content-admin is a DBUser with role="admin", admin_scope="content" (see
+# deps.require_full_admin) -- it signs in exactly like a guardian/full admin,
+# through Firebase, but every endpoint here is scoped so it can never touch
+# a full admin's row. All of these sit behind require_full_admin already
+# (this whole router is), so only a full admin can reach any of them.
+
+def _content_admin_dict(u: DBUser) -> dict:
+    return {
+        "id": u.id, "name": u.name, "username": u.username, "email": u.email,
+        "isSuspended": u.is_suspended == "1", "createdAt": u.created_at,
+    }
+
+
+@router.get("/api/admin/content-admins")
+def admin_list_content_admins(db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    admins = db.query(DBUser).filter(DBUser.role == "admin", DBUser.admin_scope == "content").all()
+    return ok([_content_admin_dict(a) for a in admins])
+
+
+@router.post("/api/admin/content-admins")
+def admin_create_content_admin(body: AdminContentAdminCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    if len(body.name.strip()) < 2:
+        fail("Name must be at least 2 characters")
+    username = body.username.strip().lower()
+    if not username:
+        fail("Username is required")
+    email = body.email.strip().lower()
+    if not EMAIL_RE.match(email):
+        fail("Please enter a valid email address")
+    if db.query(DBUser).filter(func.lower(DBUser.username) == username).first():
+        fail("Username already taken")
+    if db.query(DBUser).filter(DBUser.email == email).first():
+        fail("Email address already registered")
+
+    app = get_firebase_app()
+    if not app:
+        fail("This isn't configured on this server.", 503)
+    from firebase_admin import auth as firebase_auth
+    try:
+        # Firebase requires some password at creation time even though this
+        # account will only ever sign in via the reset link emailed below --
+        # same "inert, never actually used" convention as a Google-only
+        # guardian's local password column (see auth.py's google_complete).
+        fb_user = firebase_auth.create_user(email=email, password=str(uuid4()), email_verified=True, app=app)
+    except firebase_auth.EmailAlreadyExistsError:
+        fail("That email is already in use by another account.", 409)
+    except Exception as e:
+        print(f"[admin] WARNING: failed to create Firebase user for content-admin: {e}")
+        fail("Couldn't create the account. Please try again shortly.", 500)
+
+    try:
+        admin_user = DBUser(
+            id=str(uuid4()), name=body.name.strip(), username=username, password=str(uuid4()),
+            role="admin", admin_scope="content", email=email, firebase_uid=fb_user.uid,
+            is_active="1", is_suspended="0", created_at=now(),
+        )
+        db.add(admin_user)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        # Never leave a Firebase credential behind with no matching app
+        # account -- same orphan-prevention pattern as auth.py's
+        # _firebase_delete_orphan, inlined here since it's the only caller.
+        try:
+            firebase_auth.delete_user(fb_user.uid, app=app)
+        except Exception as cleanup_err:
+            print(f"[admin] WARNING: failed to delete orphaned Firebase user {fb_user.uid}: {cleanup_err}")
+        print(f"[admin] WARNING: failed to create content-admin DBUser row: {e}")
+        fail("Couldn't create the account. Please try again shortly.", 500)
+
+    _send_content_admin_reset_email(admin_user, app)
+    return ok(_content_admin_dict(admin_user), 201)
+
+
+def _send_content_admin_reset_email(target: DBUser, app) -> None:
+    """Shared by create and the resend endpoint below -- same link-generation
+    pattern as admin_send_password_reset above, just not refusing admin
+    targets (that refusal exists for the generic endpoint, not this one)."""
+    from firebase_admin import auth as firebase_auth
+    try:
+        link = firebase_auth.generate_password_reset_link(
+            target.email,
+            action_code_settings=firebase_auth.ActionCodeSettings(url=f"{FRONTEND_URL}/reset-password", handle_code_in_app=True),
+            app=app,
+        )
+    except Exception as e:
+        print(f"[admin] WARNING: failed to generate Firebase password reset link: {e}")
+        fail("Account created, but couldn't generate a reset link. Use \"Resend setup email\" to try again.", 500)
+    if not send_reset_email(target, link):
+        fail("Account created, but couldn't send the setup email. Use \"Resend setup email\" to try again.", 500)
+
+
+@router.post("/api/admin/content-admins/{user_id}/send-password-reset")
+def admin_resend_content_admin_reset(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id, DBUser.role == "admin", DBUser.admin_scope == "content").first()
+    if not target:
+        fail("Content admin not found", 404)
+    app = get_firebase_app()
+    if not app:
+        fail("This isn't configured on this server.", 503)
+    _send_content_admin_reset_email(target, app)
+    return ok({"message": f"Setup email sent to {target.email}."})
+
+
+@router.put("/api/admin/content-admins/{user_id}")
+def admin_update_content_admin(user_id: str, body: AdminContentAdminUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id, DBUser.role == "admin", DBUser.admin_scope == "content").first()
+    if not target:
+        fail("Content admin not found", 404)
+    if body.name is not None:
+        if len(body.name.strip()) < 2:
+            fail("Name must be at least 2 characters")
+        target.name = body.name.strip()
+    if body.username is not None:
+        username = body.username.strip().lower()
+        if not username:
+            fail("Username is required")
+        existing = db.query(DBUser).filter(func.lower(DBUser.username) == username, DBUser.id != user_id).first()
+        if existing:
+            fail("Username already taken")
+        target.username = username
+    db.commit()
+    return ok(_content_admin_dict(target))
+
+
+@router.post("/api/admin/content-admins/{user_id}/suspend")
+def admin_suspend_content_admin(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id, DBUser.role == "admin", DBUser.admin_scope == "content").first()
+    if not target:
+        fail("Content admin not found", 404)
+    target.is_suspended = "1"
+    db.commit()
+    return ok(_content_admin_dict(target))
+
+
+@router.post("/api/admin/content-admins/{user_id}/unsuspend")
+def admin_unsuspend_content_admin(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id, DBUser.role == "admin", DBUser.admin_scope == "content").first()
+    if not target:
+        fail("Content admin not found", 404)
+    target.is_suspended = "0"
+    db.commit()
+    return ok(_content_admin_dict(target))
+
+
+@router.delete("/api/admin/content-admins/{user_id}")
+def admin_delete_content_admin(user_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    target = db.query(DBUser).filter(DBUser.id == user_id, DBUser.role == "admin", DBUser.admin_scope == "content").first()
+    if not target:
+        fail("Content admin not found", 404)
+    if target.firebase_uid:
+        app = get_firebase_app()
+        if app:
+            from firebase_admin import auth as firebase_auth
+            try:
+                firebase_auth.delete_user(target.firebase_uid, app=app)
+            except Exception as e:
+                print(f"[admin] WARNING: failed to delete Firebase user {target.firebase_uid}: {e}")
+    db.delete(target)
+    db.commit()
+    return ok({"deleted": True})

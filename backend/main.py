@@ -122,6 +122,7 @@ def startup():
             ("users",      "firebase_uid",              "VARCHAR"),
             ("users",      "push_token",                "VARCHAR"),
             ("users",      "last_login_platform",        "VARCHAR"),
+            ("users",      "admin_scope",                 "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
             ("wallets",    "savings_balance",         "FLOAT"),
             ("wallets",    "goal_name",               "VARCHAR"),
