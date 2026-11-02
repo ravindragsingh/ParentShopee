@@ -12,7 +12,7 @@ from database import get_db
 from deps import create_session, require_auth, require_guardian
 from email_utils import send_activation_email, send_reset_email, send_username_email
 from firebase_app import get_firebase_app, verify_firebase_token
-from geolocation import get_client_ip, get_client_platform, get_location_from_ip, record_login_location
+from geolocation import get_client_ip, get_client_platform, get_client_timezone, get_location_from_ip, record_login_location
 from google_auth_utils import verify_google_token
 from helpers import calculate_age, delete_family, delete_lone_user, generate_username_from_email, now, safe_user
 from models import DBCoGuardianInvite, DBUser
@@ -62,6 +62,9 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
     user.last_login_at = now()
     user.last_active_at = user.last_login_at
     user.last_login_platform = get_client_platform(request)
+    client_tz = get_client_timezone(request)
+    if client_tz:
+        user.timezone = client_tz
     db.commit()
     db.refresh(user)
     token = create_session(db, user.id)
@@ -203,6 +206,9 @@ def firebase_session(body: FirebaseSessionBody, request: StarletteRequest, backg
     user.last_login_at = now()
     user.last_active_at = user.last_login_at
     user.last_login_platform = get_client_platform(request)
+    client_tz = get_client_timezone(request)
+    if client_tz:
+        user.timezone = client_tz
     db.commit()
     db.refresh(user)
     token = create_session(db, user.id)
@@ -313,6 +319,7 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, db:
         pin=temp_pin,
         pin_auto_generated="1",
         created_at=now(),
+        timezone=get_client_timezone(request),
     )
     db.add(user)
     db.commit()
@@ -361,6 +368,9 @@ def google_login(body: GoogleAuthBody, request: StarletteRequest, background_tas
     user.last_login_at = now()
     user.last_active_at = user.last_login_at
     user.last_login_platform = get_client_platform(request)
+    client_tz = get_client_timezone(request)
+    if client_tz:
+        user.timezone = client_tz
     db.commit()
     db.refresh(user)
     token = create_session(db, user.id)
@@ -413,6 +423,7 @@ def google_complete(body: GoogleCompleteBody, request: StarletteRequest, backgro
         pin_auto_generated="1",
         created_at=now(),
         last_login_platform=get_client_platform(request),
+        timezone=get_client_timezone(request),
     )
     db.add(user)
     db.commit()

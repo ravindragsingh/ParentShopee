@@ -6,8 +6,8 @@ from uuid import uuid4
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
-from helpers import now
-from models import DBChore, DBRecurringTemplate
+from helpers import now, today_str_for_timezone
+from models import DBChore, DBRecurringTemplate, DBUser
 
 # GET /api/chores used to run expiry + recurring-instance generation on every
 # single call. Under load that meant every read also did several writes/commits,
@@ -22,12 +22,25 @@ _last_maintenance_at: dict = {}
 MAINTENANCE_THROTTLE_SECONDS = 120
 
 
+def _family_today_str(db: Session, family_id: str) -> str:
+    """"Today" in the family's own timezone -- sourced from the primary
+    guardian's stored timezone (see DBUser.timezone / routers/auth.py login
+    capture), since due dates and recurring schedules are guardian-set, a
+    shared-family-calendar concept, unlike daily chores which use each kid's
+    own timezone (see daily_chore_logic._kid_today_str). `family_id` here is
+    always already the guardian's own user id (see helpers.get_family_id),
+    so this looks them up directly rather than via get_family_owner, which
+    expects a full user object instead of a bare id."""
+    owner = db.query(DBUser).filter(DBUser.id == family_id).first()
+    return today_str_for_timezone(owner.timezone if owner else None)
+
+
 def maybe_run_maintenance(db: Session, family_id: str) -> None:
     last_run = _last_maintenance_at.get(family_id)
     if last_run is not None and time.monotonic() - last_run < MAINTENANCE_THROTTLE_SECONDS:
         return
     _last_maintenance_at[family_id] = time.monotonic()
-    check_and_expire_chores(db)
+    check_and_expire_chores(db, family_id)
     for t in db.query(DBRecurringTemplate).filter(
         DBRecurringTemplate.family_id == family_id,
         DBRecurringTemplate.is_active == "1",
@@ -35,17 +48,31 @@ def maybe_run_maintenance(db: Session, family_id: str) -> None:
         generate_instances(db, t)
 
 
-def check_and_expire_chores(db: Session):
-    today = date.today().isoformat()
+def check_and_expire_chores(db: Session, family_id: str):
+    today_str = _family_today_str(db, family_id)
     db.query(DBChore).filter(
+        DBChore.family_id == family_id,
         DBChore.status.in_(["open", "pending"]),
         DBChore.due_date.isnot(None),
-        DBChore.due_date < today,
+        DBChore.due_date < today_str,
     ).update({"status": "expired", "expired_at": now()}, synchronize_session=False)
+    # Self-heals any chore this same global-UTC-date bug previously expired too
+    # early for a family ahead of UTC (e.g. India, UTC+5:30) -- once this fix is
+    # live the invariant "an expired chore's due_date is always < today" holds
+    # going forward, so any currently-expired chore violating it can only be a
+    # leftover mistake from the old logic, never a legitimate expiry. We can't
+    # recover whether it was "open" or "pending" before that mistake (status
+    # history isn't kept), so it uniformly reverts to "open".
+    db.query(DBChore).filter(
+        DBChore.family_id == family_id,
+        DBChore.status == "expired",
+        DBChore.due_date.isnot(None),
+        DBChore.due_date >= today_str,
+    ).update({"status": "open", "expired_at": None}, synchronize_session=False)
     db.commit()
 
 def get_visible_chores(db: Session, family_id: str = None, cutoff_hours: int = 72):
-    today_str = date.today().isoformat()
+    today_str = _family_today_str(db, family_id) if family_id else date.today().isoformat()
     ts = (datetime.now(timezone.utc) - timedelta(hours=cutoff_hours)).isoformat()
     q = db.query(DBChore).filter(
         # A guardian-deleted single day of an active recurring chore -- kept
@@ -69,8 +96,8 @@ def get_visible_chores(db: Session, family_id: str = None, cutoff_hours: int = 7
     return q.all()
 
 def generate_instances(db: Session, template: DBRecurringTemplate):
-    today = date.today()
-    today_str = today.isoformat()
+    today_str = _family_today_str(db, template.family_id)
+    today = date.fromisoformat(today_str)
     # Remove any stale open instances scheduled beyond today
     db.query(DBChore).filter(
         DBChore.template_id == template.id,

@@ -1,12 +1,10 @@
-from datetime import datetime
 from uuid import uuid4
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from daily_chore_samples import MAX_DAILY_CHORE_ITEMS, get_daily_chore_bank
-from helpers import calculate_approx_age, now
+from helpers import calculate_approx_age, now, today_str_for_timezone
 from models import DBDailyChoreItem, DBTransaction, DBUser, DBWallet
 
 
@@ -19,15 +17,7 @@ def _kid_today_str(kid: DBUser) -> str:
     showing as "done" for hours into their own new day, since the server's
     calendar date hadn't rolled over yet. Falls back to UTC only if this
     kid's profile has never reported a timezone."""
-    tz = None
-    if kid.timezone:
-        try:
-            tz = ZoneInfo(kid.timezone)
-        except (ZoneInfoNotFoundError, ValueError):
-            tz = None
-    if tz is None:
-        tz = ZoneInfo("UTC")
-    return datetime.now(tz).date().isoformat()
+    return today_str_for_timezone(kid.timezone)
 
 
 def ensure_daily_chores_seeded(db: Session, kid: DBUser) -> None:
