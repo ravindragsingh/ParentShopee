@@ -23,6 +23,26 @@ class GoogleCompleteBody(BaseModel):
     dateOfBirth: str
     gender: str
 
+class ResolveLoginIdentifierBody(BaseModel):
+    identifier: str   # username or email
+
+class FirebaseSessionBody(BaseModel):
+    idToken: str   # Firebase Auth ID token (JWT), from the client SDK
+
+class RegisterPrecheckBody(BaseModel):
+    name: str
+    email: str
+    username: str
+    dateOfBirth: str
+    gender: str
+
+class RegisterFinalizeBody(BaseModel):
+    idToken: str
+    name: str
+    dateOfBirth: str
+    gender: str
+    username: Optional[str] = None   # omitted for Google sign-ups (auto-generated from email)
+
 class ActivateBody(BaseModel):
     token: str
 
@@ -32,10 +52,6 @@ class ResendActivationBody(BaseModel):
 class ForgotPasswordBody(BaseModel):
     username: str
     email: str
-
-class ResetPasswordBody(BaseModel):
-    token: str
-    password: str
 
 class ForgotUsernameBody(BaseModel):
     email: str
@@ -80,11 +96,7 @@ class ProfileEnterBody(BaseModel):
     pin: Optional[str] = None
 
 class RecoverPinBody(BaseModel):
-    password: str
-    newPin: str
-
-class RecoverPinGoogleBody(BaseModel):
-    credential: str   # fresh Google Identity Services ID token (JWT)
+    idToken: str   # fresh Firebase Auth ID token (JWT) -- password or Google sign-in, either works
     newPin: str
 
 class BonusPointsBody(BaseModel):
@@ -97,6 +109,10 @@ class WalletAdjustBody(BaseModel):
 
 class SavingsTransferBody(BaseModel):
     amount: float           # always positive; direction is which endpoint you call
+
+class WalletGoalBody(BaseModel):
+    name: Optional[str] = None     # null/empty clears the goal, alongside target
+    target: Optional[float] = None
 
 class BehaviourBody(BaseModel):
     points: int  # positive = award, negative = remove
@@ -114,9 +130,6 @@ class MessageBody(BaseModel):
     receiver_id: str
     content: str
     quote_content: Optional[str] = None
-
-class ChangeOwnPasswordBody(BaseModel):
-    password: str
 
 class ChoreCreate(BaseModel):
     title: str
@@ -181,11 +194,19 @@ class DailyChoreSettingsUpdate(BaseModel):
 class AdminUserUpdate(BaseModel):
     name:       Optional[str] = None
     email:      Optional[str] = None
-    password:   Optional[str] = None   # primary guardian accounts only
-    pin:        Optional[str] = None   # kid / co-guardian profiles only
+    pin:        Optional[str] = None   # kid / co-guardian profiles only -- guardian passwords go through /send-password-reset now
     avatar:     Optional[str] = None
     birthMonth: Optional[int] = None   # 1-12 -- guardians and kids alike
     birthYear:  Optional[int] = None
+
+class AdminContentAdminCreate(BaseModel):
+    name:     str
+    username: str
+    email:    str
+
+class AdminContentAdminUpdate(BaseModel):
+    name:     Optional[str] = None
+    username: Optional[str] = None
 
 class AdminChoreUpdate(BaseModel):
     title:         Optional[str]   = None
@@ -210,3 +231,43 @@ class LearningPointsUpdate(BaseModel):
 class LearningCompleteBody(BaseModel):
     score: int
     total: int
+
+class QuestLogBody(BaseModel):
+    note: str
+
+class AdminTopicCreate(BaseModel):
+    id: str              # slug, admin-supplied
+    section: str          # "future-ready" | "quest"
+    title: str
+    emoji: Optional[str] = "📘"
+
+class AdminTopicUpdate(BaseModel):
+    title:      Optional[str] = None
+    emoji:      Optional[str] = None
+    orderIndex: Optional[int] = None
+    isActive:   Optional[bool] = None
+
+class AdminModuleCreate(BaseModel):
+    id: str               # slug, admin-supplied (e.g. "ai-4-6-p3")
+    section: str           # "future-ready" | "quest"
+    topic: str             # DBContentTopic.id
+    ageMin: int
+    ageMax: int
+    title: str
+    points: float
+    orderIndex: Optional[int] = None
+
+class AdminModuleMetaUpdate(BaseModel):
+    title:      Optional[str] = None
+    points:     Optional[float] = None
+    ageMin:     Optional[int] = None
+    ageMax:     Optional[int] = None
+    orderIndex: Optional[int] = None
+    isPremium:  Optional[bool] = None
+    isActive:   Optional[bool] = None   # lets an admin undo a deactivation
+
+class AdminModuleContentUpdate(BaseModel):
+    content: dict          # {"slides":[...],"quiz":[...]} or {"activities":[...]} -- shape not enforced here
+
+class AdminModuleStatusUpdate(BaseModel):
+    status: str            # "draft" | "published"

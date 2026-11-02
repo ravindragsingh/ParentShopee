@@ -1,5 +1,3 @@
-import glob
-import json
 import os
 from uuid import uuid4
 
@@ -12,9 +10,9 @@ from starlette.responses import Response as StarletteResponse
 
 import models  # noqa: F401 — import ensures all tables are registered on Base before create_all()
 from database import SessionLocal, engine, Base
-from seed import backfill_sample_ids, ensure_demo_accounts, reconcile_custom_item_counts, seed_db
+from seed import backfill_sample_ids, ensure_demo_accounts, migrate_legacy_learning_content, reconcile_custom_item_counts, seed_db
 from models import DBUser
-from routers import admin, auth, chores, contact, daily_chores, family, future_ready, kids, messages, shop, wallet
+from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -56,8 +54,10 @@ app.include_router(wallet.router)
 app.include_router(contact.router)
 app.include_router(messages.router)
 app.include_router(admin.router)
+app.include_router(admin_content.router)
 app.include_router(daily_chores.router)
 app.include_router(future_ready.router)
+app.include_router(quests.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -66,6 +66,20 @@ def startup():
     import random
     from datetime import datetime, timezone
     from sqlalchemy import text
+
+    # Must run before create_all: once create_all sees DBQuestLog's current
+    # __tablename__ ("quest_logs"), it creates that table fresh, and renaming
+    # onto an already-existing table fails -- silently orphaning any real
+    # data in the old "activity_logs" table from before the "Activity Ideas"
+    # -> "Quest" rename. Only matters for a database that predates the
+    # rename; harmless (caught below) otherwise.
+    with engine.connect() as conn:
+        try:
+            conn.execute(text("ALTER TABLE activity_logs RENAME TO quest_logs"))
+            conn.commit()
+        except Exception:
+            conn.rollback()
+
     Base.metadata.create_all(bind=engine)
     # Add columns that may be missing from older databases
     _ts_now = datetime.now(timezone.utc).isoformat()
@@ -105,12 +119,19 @@ def startup():
             ("users",      "pin_locked_until",          "VARCHAR"),
             ("users",      "pin_auto_generated",        "VARCHAR"),
             ("users",      "google_id",                 "VARCHAR"),
+            ("users",      "firebase_uid",              "VARCHAR"),
             ("users",      "push_token",                "VARCHAR"),
+            ("users",      "last_login_platform",        "VARCHAR"),
+            ("users",      "admin_scope",                 "VARCHAR"),
             ("daily_chore_items", "status",           "VARCHAR"),
             ("wallets",    "savings_balance",         "FLOAT"),
+            ("wallets",    "goal_name",               "VARCHAR"),
+            ("wallets",    "goal_target",             "FLOAT"),
             ("family_learning_settings", "points_override", "FLOAT"),
             ("learning_modules", "content", "JSON"),
             ("learning_modules", "created_at", "VARCHAR"),
+            ("learning_modules", "status", "VARCHAR"),
+            ("learning_modules", "is_premium", "VARCHAR"),
             ("family_learning_settings", "enabled_kid_ids", "VARCHAR"),
         ]:
             try:
@@ -154,6 +175,13 @@ def startup():
         # from this point on gets created_at automatically, in the catalog
         # loop below, on its first-ever insert.
         conn.execute(text(f"UPDATE learning_modules SET created_at='{_ts_now}' WHERE topic='public-speaking' AND created_at IS NULL"))
+        # One-time promotion of every pre-existing module (migrated from the
+        # legacy JSON catalogs) to published/non-premium -- the column default
+        # only applies to rows inserted after the column exists, so rows from
+        # before this change need an explicit backfill. Never touches a row
+        # that already has a status, so an admin-created draft is never flipped.
+        conn.execute(text("UPDATE learning_modules SET status='published' WHERE status IS NULL"))
+        conn.execute(text("UPDATE learning_modules SET is_premium='0' WHERE is_premium IS NULL"))
         # Back-fill new counters to 0 for existing users
         conn.execute(text("UPDATE users SET chores_added_count=0 WHERE chores_added_count IS NULL"))
         conn.execute(text("UPDATE users SET shop_items_added_count=0 WHERE shop_items_added_count IS NULL"))
@@ -238,83 +266,15 @@ def startup():
         finally:
             db2.close()
 
-    # Seed the Future-Ready catalog -- same upsert-plus-soft-deactivate pattern
-    # as the games catalog: every server start syncs the DB rows to this list,
-    # backfilling any field changes on existing rows and deactivating anything
-    # no longer offered (keeping the row so past completions still resolve).
-    from models import DBLearningModule
+    # One-time import of the legacy Future-Ready/Quests JSON catalogs into
+    # DBContentTopic/DBLearningModule rows -- insert-only-if-missing, never
+    # overwrites a row that already exists (including one an admin has since
+    # edited through the Content panel). See seed.migrate_legacy_learning_content
+    # for the full explanation; content is admin-managed from here on, this
+    # is purely a migration step for databases that predate the Content panel.
     db3 = SessionLocal()
     try:
-        # Lesson content (slides + quiz) lives in these JSON files -- one per
-        # topic, hand-authored directly here -- rather than bundled into the
-        # frontend, so editing or adding a lesson is a backend-only redeploy.
-        # See the Column(JSON) comment on DBLearningModule.content.
-        content_dir = os.path.join(os.path.dirname(__file__), "future_ready_content")
-        content_by_id = {}
-        for fname in sorted(glob.glob(os.path.join(content_dir, "*.json"))):
-            with open(fname, encoding="utf-8") as f:
-                content_by_id.update(json.load(f))
-
-        # A band's lesson can be split across several "Part N" modules --
-        # e.g. "ai-4-6-p1", "ai-4-6-p2" -- each its own quiz and points, so a
-        # kid working through a big topic gets a payout every ~10 questions
-        # instead of one all-or-nothing quiz at the very end. How many parts
-        # a band has is discovered from content_by_id rather than hardcoded
-        # here, since that can (and does) vary per topic/band -- adding or
-        # splitting a part is purely a content-file change, no code change.
-        # (file slug, kid-facing topic-grouping key, topic title, topic emoji)
-        TOPICS = [
-            ("investing", "investing-for-kids", "Investing for Kids", "📈"),
-            ("ai", "ai-for-kids", "AI for Kids", "🤖"),
-            ("entrepreneurship", "entrepreneurship", "Entrepreneurship", "💡"),
-            ("critical-thinking", "critical-thinking", "Critical Thinking", "🧠"),
-            ("communication", "communication", "Communication", "💬"),
-            ("digital-safety", "digital-safety", "Digital Safety", "🔒"),
-            ("problem-solving", "problem-solving", "Problem Solving", "🧩"),
-            ("leadership", "leadership", "Leadership", "👑"),
-            ("negotiation", "negotiation", "Negotiation Skills", "🤝"),
-            ("public-speaking", "public-speaking", "Public Speaking", "🎤"),
-            ("sight-words", "sight-words", "Sight Words", "🔤"),
-            ("money-value", "money-value", "Value of Money", "💰"),
-            ("making-friends", "making-friends", "Making Friends", "🧑‍🤝‍🧑"),
-            ("manners", "manners", "Manners", "🎩"),
-        ]
-        AGE_BANDS = [(4, 6, 10), (7, 9, 12), (10, 13, 15), (13, 17, 18)]  # (age_min, age_max, points per part)
-
-        catalog = []
-        order_index = 1
-        for file_slug, topic_key, topic_title, topic_emoji in TOPICS:
-            bands = [(4, 6, 10)] if file_slug == "sight-words" else AGE_BANDS
-            for age_min, age_max, points in bands:
-                band_prefix = f"{file_slug}-{age_min}-{age_max}-p"
-                part_ids = sorted(
-                    (k for k in content_by_id if k.startswith(band_prefix) and k[len(band_prefix):].isdigit()),
-                    key=lambda k: int(k[len(band_prefix):]),
-                )
-                for part_id in part_ids:
-                    part_num = int(part_id[len(band_prefix):])
-                    part_title = f"Ages {age_min}–{age_max} · Part {part_num}" if len(part_ids) > 1 else f"Ages {age_min}–{age_max}"
-                    catalog.append(dict(
-                        id=part_id, section="future-ready", section_title="Future-Ready", section_emoji="🚀",
-                        topic=topic_key, topic_title=topic_title, topic_emoji=topic_emoji,
-                        age_min=age_min, age_max=age_max, title=part_title, points=points, order_index=order_index,
-                    ))
-                    order_index += 1
-
-        for fields in catalog:
-            fields = {**fields, "content": content_by_id.get(fields["id"])}
-            existing = db3.query(DBLearningModule).filter(DBLearningModule.id == fields["id"]).first()
-            if existing:
-                for key, value in fields.items():
-                    setattr(existing, key, value)
-            else:
-                # created_at is only ever set here, on first creation -- a later
-                # catalog re-sync (every server start) must never touch it, or
-                # every module would look "new" again after each deploy.
-                db3.add(DBLearningModule(is_active="1", created_at=_ts_now, **fields))
-        active_ids = [c["id"] for c in catalog]
-        db3.query(DBLearningModule).filter(DBLearningModule.id.notin_(active_ids)).update({"is_active": "0"}, synchronize_session=False)
-        db3.commit()
+        migrate_legacy_learning_content(db3)
     finally:
         db3.close()
 

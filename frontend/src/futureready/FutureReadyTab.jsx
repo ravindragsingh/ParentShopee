@@ -63,7 +63,7 @@ function groupByTopic(modules) {
   return [...byTopic.values()]
 }
 
-export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsumeStart }) {
+export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsumeStart, onDetailChange }) {
   const { user } = useAuth()
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
@@ -88,6 +88,11 @@ export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsu
   }, [])
 
   useEffect(() => { loadModules() }, [loadModules])
+
+  // LessonModule renders its own "← Back" header -- tell LearnGrowTab to
+  // hide its own back button while a single lesson is open, so there's
+  // never two stacked back buttons on screen at once.
+  useEffect(() => { onDetailChange && onDetailChange(!!playingModule) }, [playingModule, onDetailChange])
 
   // Deep-link from the home screen's "Continue Learning" card: jump straight
   // into the requested module once the catalog is loaded, then clear the

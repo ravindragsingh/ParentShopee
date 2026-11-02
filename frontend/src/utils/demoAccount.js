@@ -4,7 +4,10 @@
 // app -- used to skip the PIN prompt when switching between demo profiles,
 // since a public demo shouldn't ask a visitor to know/guess a PIN.
 export const DEMO_USERNAME = 'parent1'
-export const DEMO_PASSWORD = 'pass1'
+// Firebase sign-in needs an email, not the username -- see backend/seed.py.
+export const DEMO_EMAIL = 'mom@family.com'
+// One character longer than the old "pass1" -- Firebase requires at least 6.
+export const DEMO_PASSWORD = 'pass1234'
 
 export const DEMO_PROFILE_PINS = {
   parent1: '246810',

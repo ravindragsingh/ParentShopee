@@ -60,6 +60,97 @@ function BalanceTile({ icon, label, amount, iconBg, tileBg }) {
   )
 }
 
+// One stat in the available/saved/lifetime points breakdown.
+function PointsStat({ icon, label, value }) {
+  return (
+    <div className="kid-stat-card compact">
+      <div className="kid-stat-label">{label}</div>
+      <div className="kid-stat-value">{icon} {value}</div>
+    </div>
+  )
+}
+
+// Real savings-goal UI: the kid names what they're saving for and a target
+// point total, then sees a progress bar tied to their actual savings_balance.
+// No guardian approval needed -- it's a motivational label on points they
+// already have, not a spend.
+function GoalCard({ wallet, onChanged }) {
+  const hasGoal = !!(wallet.goalName && wallet.goalTarget)
+  const [editing, setEditing] = useState(!hasGoal)
+  const [name, setName] = useState(wallet.goalName || '')
+  const [target, setTarget] = useState(wallet.goalTarget || '')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+
+  const savings = wallet.savingsBalance ?? 0
+  const pct = wallet.goalTarget ? Math.min(100, Math.round((savings / wallet.goalTarget) * 100)) : 0
+
+  async function handleSave(e) {
+    e.preventDefault()
+    if (!name.trim() || name.trim().length < 2) { setError('Give your goal a name (2+ characters).'); return }
+    const t = Number(target)
+    if (!t || t <= 0) { setError('Enter a target greater than zero.'); return }
+    setBusy(true)
+    setError('')
+    try {
+      await onChanged({ name: name.trim(), target: t })
+      setEditing(false)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  async function handleClear() {
+    setBusy(true)
+    setError('')
+    try {
+      await onChanged({ name: null, target: null })
+      setName('')
+      setTarget('')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  if (!editing && hasGoal) {
+    return (
+      <div className="kid-flat-card">
+        <div className="kid-goal-header">
+          <span className="kid-section-title">🎁 My Reward Goal</span>
+          <span className="kid-section-tag">{pct}% saved</span>
+        </div>
+        <div className="kid-goal-row">
+          <span className="kid-goal-icon">🎯</span>
+          <div>
+            <div className="kid-goal-name">{wallet.goalName}</div>
+            <div className="kid-goal-amounts">{savings} / {wallet.goalTarget} points{pct >= 100 ? ' — 🎉 Goal reached!' : ''}</div>
+          </div>
+        </div>
+        <div className="kid-goal-bar-track"><div className="kid-goal-bar-fill" style={{ width: `${pct}%` }} /></div>
+        <button className="kid-goal-edit-btn" style={{ marginTop: 10 }} onClick={() => { setEditing(true); setName(wallet.goalName); setTarget(wallet.goalTarget) }}>Edit goal</button>
+      </div>
+    )
+  }
+
+  return (
+    <form className="kid-flat-card kid-goal-form" onSubmit={handleSave}>
+      <div className="kid-goal-header"><span className="kid-section-title">🎁 Set a Reward Goal</span></div>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <input type="text" placeholder="e.g. LEGO Set" value={name} onChange={e => setName(e.target.value)} />
+        <input type="number" min="1" step="1" placeholder="Target pts" value={target} onChange={e => setTarget(e.target.value)} />
+        <button type="submit" disabled={busy}>{busy ? 'Saving...' : 'Set Goal'}</button>
+        {hasGoal && <button type="button" onClick={() => setEditing(false)}>Cancel</button>}
+      </div>
+      {hasGoal && <button type="button" onClick={handleClear} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '0.76rem', marginTop: 8, cursor: 'pointer', textDecoration: 'underline' }}>Clear goal</button>}
+      {error && <div className="error-msg" style={{ marginTop: 8 }}>{error}</div>}
+    </form>
+  )
+}
+
 // Move points between a kid's spendable balance and their savings. Shopping
 // only ever spends `balance` -- savings is just points set aside, not usable
 // for purchases until moved back.
@@ -95,8 +186,8 @@ function SavingsCard({ wallet, onChanged }) {
   }
 
   return (
-    <div className="form-card" style={{ background: 'linear-gradient(135deg, #f5f3ff, #f0fdfa)', border: '1px solid #ede9fe' }}>
-      <div style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
+    <div className="kid-flat-card">
+      <div className="kid-section-title" style={{ marginBottom: 14 }}>
         🐷 Your Piggy Bank
       </div>
 
@@ -218,12 +309,21 @@ export function KidWalletView({ kidId, onBalanceChange }) {
     .sort((a, b) => new Date(b.timestamp || b.createdAt) - new Date(a.timestamp || a.createdAt))
     .slice(0, 15)
 
+  async function handleGoalChange({ name, target }) {
+    await api.setWalletGoal(name, target)
+    await loadWallet()
+    onBalanceChange && onBalanceChange()
+  }
+
   return (
     <div>
-      <div className="balance-display">
-        <div className="balance-label">⭐ Your Balance ⭐</div>
-        <div className="balance-amount">{wallet.balance} pts</div>
+      <div className="kid-stat-row">
+        <PointsStat icon="⭐" label="Available" value={wallet.balance} />
+        <PointsStat icon="🐷" label="Saved" value={wallet.savingsBalance ?? 0} />
+        <PointsStat icon="🏆" label="Lifetime" value={wallet.lifetimeEarned ?? 0} />
       </div>
+
+      <GoalCard wallet={wallet} onChanged={handleGoalChange} />
 
       <SavingsCard wallet={wallet} onChanged={() => { loadWallet(); onBalanceChange && onBalanceChange() }} />
 

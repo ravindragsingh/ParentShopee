@@ -6,7 +6,8 @@ import { EmojiPicker, KID_AVATARS } from './ChoreCard.jsx'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
 import { DEMO_PROFILE_PINS } from '../utils/demoAccount.js'
 import PasswordField from './PasswordField.jsx'
-import GoogleCredentialButton from './GoogleCredentialButton.jsx'
+import { auth, googleProvider } from '../firebase.js'
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 
 const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -202,6 +203,10 @@ export default function ProfilePicker() {
     }
   }
 
+  // Re-proving identity now always goes through Firebase -- a fresh password
+  // sign-in or a fresh Google sign-in both produce an ID token the backend
+  // can verify against this family's firebase_uid (see
+  // routers/family.py recover_own_pin), so one endpoint covers both cases.
   async function handleRecoverSubmit(e) {
     e.preventDefault()
     setRecoverError('')
@@ -210,11 +215,13 @@ export default function ProfilePicker() {
     if (recoverNewPin !== recoverConfirmPin) { setRecoverError('PINs do not match.'); return }
     setEntering(true)
     try {
-      const data = await api.recoverPin(recoverPassword, recoverNewPin)
+      const cred = await signInWithEmailAndPassword(auth, primaryGuardianEmail, recoverPassword)
+      const idToken = await cred.user.getIdToken()
+      const data = await api.recoverPin(idToken, recoverNewPin)
       enterProfile(data.user, data.token)
       navigate('/dashboard')
     } catch (err) {
-      setRecoverError(err.message)
+      setRecoverError(err.code?.startsWith('auth/') ? 'Incorrect password' : err.message)
     } finally {
       setEntering(false)
     }
@@ -222,16 +229,18 @@ export default function ProfilePicker() {
 
   // Google-only guardians have no password to re-enter (their `password`
   // column is an inert placeholder from signup), so they re-prove identity
-  // with a fresh Google credential instead -- validated the same way as the
+  // with a fresh Google sign-in instead -- validated the same way as the
   // password path before it's sent.
-  async function handleGoogleRecover(credential) {
+  async function handleGoogleRecover() {
     setRecoverError('')
     const pinCheck = checkPinComplexity(recoverNewPin)
     if (!pinCheck.ok) { setRecoverError(pinCheck.message); return }
     if (recoverNewPin !== recoverConfirmPin) { setRecoverError('PINs do not match.'); return }
     setEntering(true)
     try {
-      const data = await api.recoverPinGoogle(credential, recoverNewPin)
+      const cred = await signInWithPopup(auth, googleProvider)
+      const idToken = await cred.user.getIdToken()
+      const data = await api.recoverPin(idToken, recoverNewPin)
       enterProfile(data.user, data.token)
       navigate('/dashboard')
     } catch (err) {
@@ -251,6 +260,7 @@ export default function ProfilePicker() {
   const familyName = profiles?.[0]?.name
   const primaryGuardianId = profiles?.[0]?.id
   const primaryGuardianIsGoogle = profiles?.[0]?.isGoogleAccount
+  const primaryGuardianEmail = profiles?.[0]?.email
 
   return (
     <div className="login-wrapper">
@@ -369,9 +379,9 @@ export default function ProfilePicker() {
                     (() => {
                       const pinReady = checkPinComplexity(recoverNewPin).ok && recoverNewPin === recoverConfirmPin
                       return pinReady ? (
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
-                          <GoogleCredentialButton onCredential={handleGoogleRecover} />
-                        </div>
+                        <button type="button" className="login-btn" disabled={entering} onClick={handleGoogleRecover}>
+                          {entering ? 'Confirming...' : 'Confirm with Google'}
+                        </button>
                       ) : (
                         <div style={{ fontSize: '0.8rem', color: '#94a3b8', textAlign: 'center', padding: '10px 0' }}>
                           Enter and confirm a matching PIN above to continue with Google.

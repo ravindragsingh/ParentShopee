@@ -17,6 +17,20 @@ def get_client_ip(request: StarletteRequest) -> str:
     return request.client.host if request.client else ""
 
 
+_VALID_PLATFORMS = {"web", "android", "ios"}
+
+
+def get_client_platform(request: StarletteRequest) -> str:
+    """Which shell the request came from, as reported by the frontend's own
+    Capacitor.getPlatform() (see frontend/src/api.js) -- not something the
+    server can reliably infer from the User-Agent alone, since a Capacitor
+    WebView's UA often looks just like a mobile browser's. Defaults to "web"
+    for requests from a frontend build old enough to predate this header,
+    which is the correct guess for anything that isn't a wrapped native app."""
+    platform = (request.headers.get("x-client-platform") or "").strip().lower()
+    return platform if platform in _VALID_PLATFORMS else "web"
+
+
 def get_location_from_ip(ip: str) -> dict:
     """Best-effort IP geolocation for admin filtering. Never raises — registration
     must succeed even if the lookup fails or the service is unreachable."""

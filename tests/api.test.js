@@ -2,7 +2,7 @@
 
 // Regression suite against the real backend (backend/main.py, FastAPI) --
 // spawned fresh by globalSetup.js against a throwaway SQLite database, using
-// the same seed_db() data every install gets (parent1/pass1 guardian with
+// the same seed_db() data every install gets (parent1/pass1234 guardian with
 // kid1/kid2). Kid-level tests create their own dedicated kid with a known
 // PIN via the API rather than relying on kid1/kid2's PINs, since those are
 // randomly auto-generated per install (see the "Try Demo" PIN drift bug
@@ -12,7 +12,7 @@ const { login, api } = require('./setup');
 
 describe('Auth', () => {
   test('guardian can log in with valid credentials', async () => {
-    const { token, user } = await login('parent1', 'pass1');
+    const { token, user } = await login('parent1', 'pass1234');
     expect(token).toBeTruthy();
     expect(user.username).toBe('parent1');
     expect(user.role).toBe('guardian');
@@ -31,7 +31,7 @@ describe('Kids', () => {
   let guardianToken;
 
   beforeAll(async () => {
-    ({ token: guardianToken } = await login('parent1', 'pass1'));
+    ({ token: guardianToken } = await login('parent1', 'pass1234'));
   });
 
   test('guardian can list existing kids', async () => {
@@ -68,7 +68,7 @@ describe('Chore lifecycle: create -> complete -> approve -> wallet credited', ()
   const KID_PIN = '246801';
 
   beforeAll(async () => {
-    ({ token: guardianToken } = await login('parent1', 'pass1'));
+    ({ token: guardianToken } = await login('parent1', 'pass1234'));
 
     const kidRes = await api('/kids', 'POST', {
       name: 'Chore Test Kid', pin: KID_PIN, avatar: '🧸', birthMonth: 3, birthYear: 2017,
@@ -124,7 +124,7 @@ describe('Shop purchase debits the wallet', () => {
   const KID_PIN = '975310';
 
   beforeAll(async () => {
-    ({ token: guardianToken } = await login('parent1', 'pass1'));
+    ({ token: guardianToken } = await login('parent1', 'pass1234'));
 
     const kidRes = await api('/kids', 'POST', {
       name: 'Shop Test Kid', pin: KID_PIN, avatar: '🛍️', birthMonth: 9, birthYear: 2015,

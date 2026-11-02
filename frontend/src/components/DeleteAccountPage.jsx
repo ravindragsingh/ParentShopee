@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api.js'
 import { setStatusBarForLightBg } from '../utils/nativeChrome.js'
+import { auth } from '../firebase.js'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 // Public, unauthenticated page for requesting account deletion -- needed as
 // a standalone URL for app store submissions (Google Play requires a way to
@@ -33,19 +35,25 @@ export default function DeleteAccountPage() {
     }
     setLoading(true)
     try {
-      const loginData = await api.login(username.trim(), password)
+      const { email } = await api.resolveLoginIdentifier(username.trim())
+      const cred = await signInWithEmailAndPassword(auth, email, password)
+      const idToken = await cred.user.getIdToken()
+      const loginData = await api.firebaseSession(idToken)
       const result = await api.deleteOwnAccount(loginData.token)
       setDoneMessage(result.message)
     } catch (err) {
-      setError(err.message)
+      setError(err.code?.startsWith('auth/') ? 'Incorrect username or password.' : err.message)
     } finally {
       setLoading(false)
     }
   }
 
   const headerBar = (
-    <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
-      <div style={{ background: '#fff', borderRadius: 10, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}>
+    <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', paddingTop: 'max(14px, env(safe-area-inset-top, 0px))', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
+      <div
+        onClick={() => navigate('/')}
+        style={{ background: '#fff', borderRadius: 10, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)', cursor: 'pointer' }}
+      >
         <img src="/branding/RewardURKids_Website_Compact_Logo.png" alt="Reward Ur Kids" style={{ height: 24, display: 'block' }} />
       </div>
       <button

@@ -1,0 +1,319 @@
+{
+  "cognitive-4-6": {
+    "activities": [
+      {
+        "emoji": "🧩",
+        "title": "Shape Sorting Hunt",
+        "description": "Walk around the house together and find objects that match a shape you call out -- circle, square, triangle.",
+        "example": "Mia found a clock (circle) on the wall, a window (square), and a slice of toast (triangle)!",
+        "materials": [
+          "None needed -- use objects already around the house"
+        ],
+        "duration": "10-15 min",
+        "steps": [
+          "Call out a shape, like \"circle\"",
+          "Race to find 3 things around the room shaped like it",
+          "Swap shapes and go again"
+        ]
+      },
+      {
+        "emoji": "🃏",
+        "title": "Memory Match",
+        "description": "Lay out pairs of matching cards face-down and take turns flipping two at a time to find pairs.",
+        "example": "Jayden remembered where the matching dinosaur cards were and got 4 pairs in a row.",
+        "materials": [
+          "A deck of cards, or paper cut into matching pairs"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Lay 8-12 cards face-down in a grid",
+          "Each person flips two cards per turn",
+          "If they match, keep them; if not, flip back and pass the turn"
+        ]
+      },
+      {
+        "emoji": "🎵",
+        "title": "Copy My Pattern",
+        "description": "Clap a short rhythm or sequence of sounds and have your child copy it back, building the pattern longer each round.",
+        "example": "Dad clapped clap-clap-pause-clap, and Zoe copied it perfectly, then added one more clap.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "5-10 min",
+        "steps": [
+          "Clap a simple 2-3 beat pattern",
+          "Have your child repeat it exactly",
+          "Add one more beat each round they get right"
+        ]
+      },
+      {
+        "emoji": "🫙",
+        "title": "Counting Jar",
+        "description": "Fill a jar with small objects like buttons or pom-poms and count them together, then guess-and-check how many are in a new jar.",
+        "example": "Mia guessed 20 buttons were in the jar -- the real count was 23, close enough to celebrate!",
+        "materials": [
+          "A clear jar",
+          "Small objects like buttons, beads, or pom-poms"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Fill a jar with small objects",
+          "Count them together one at a time",
+          "Try a new jar and guess first, then count to check"
+        ]
+      },
+      {
+        "emoji": "🔍",
+        "title": "Same or Different?",
+        "description": "Hold up two similar objects and ask if they're the same or different, and how.",
+        "example": "Comparing two leaves, Theo noticed one had a jagged edge and the other was smooth.",
+        "materials": [
+          "Pairs of similar household objects"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Find two similar objects (two spoons, two leaves)",
+          "Ask what's the same and what's different",
+          "Swap for a new pair and go again"
+        ]
+      }
+    ]
+  },
+  "cognitive-7-9": {
+    "activities": [
+      {
+        "emoji": "🧮",
+        "title": "Grocery Math",
+        "description": "At the store or looking at a receipt, have your child estimate the total cost before you check out, then compare.",
+        "example": "Priya guessed the 5 items would total about $18 -- the real total was $19.40, close!",
+        "materials": [
+          "A shopping trip or receipt"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Pick 5 items and ask them to round each price and add them up in their head",
+          "Check the real total together",
+          "Talk about how close the estimate was"
+        ]
+      },
+      {
+        "emoji": "🔍",
+        "title": "Spot the Difference",
+        "description": "Take two photos of the same room a few minutes apart after moving a few small objects, then have your child find what changed.",
+        "example": "Liam spotted that the remote moved and a cushion flipped over, but missed the moved mug.",
+        "materials": [
+          "A phone camera"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Photograph a room or table",
+          "Move 3-5 small objects while they're not looking",
+          "Photograph again and have them spot every change"
+        ]
+      },
+      {
+        "emoji": "🗺️",
+        "title": "Treasure Map Logic",
+        "description": "Draw a simple grid map and hide a small prize, then give step-by-step directional clues for your child to follow.",
+        "example": "Noah followed \"5 steps north, 3 steps east\" and found the hidden sticker behind the couch.",
+        "materials": [
+          "Paper, pencil, a small treat or toy"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Draw a grid of a room or yard",
+          "Hide something and mark clues like \"3 steps north, 2 steps east\"",
+          "Let them follow the clues to find it"
+        ]
+      },
+      {
+        "emoji": "🧱",
+        "title": "Pattern Block Builder",
+        "description": "Build a repeating pattern with blocks or LEGO, then have your child continue it correctly.",
+        "example": "Dad started red-blue-blue-red-blue-blue, and Ava correctly continued it for 6 more pieces.",
+        "materials": [
+          "Blocks, LEGO, or any small objects in a few colors"
+        ],
+        "duration": "10-15 min",
+        "steps": [
+          "Build a short repeating pattern",
+          "Have them continue it",
+          "Take turns starting a new pattern"
+        ]
+      },
+      {
+        "emoji": "🎒",
+        "title": "Mystery Bag",
+        "description": "Place a few objects in a bag and have your child guess what's inside by touch alone, describing clues.",
+        "example": "Feeling something round and bumpy, Leo guessed \"a golf ball\" -- it was a lime!",
+        "materials": [
+          "A bag or pillowcase, a few household objects"
+        ],
+        "duration": "10 min",
+        "steps": [
+          "Place 3-4 objects in a bag without looking",
+          "Reach in and describe what it feels like",
+          "Guess the object, then check"
+        ]
+      }
+    ]
+  },
+  "cognitive-10-13": {
+    "activities": [
+      {
+        "emoji": "♟️",
+        "title": "Strategy Game Night",
+        "description": "Play a strategy board or card game together and talk through the reasoning behind each move.",
+        "example": "Grandpa and Ethan played checkers, and Ethan explained why he was setting up a double-jump.",
+        "materials": [
+          "Any strategy game -- chess, checkers, or a card game you own"
+        ],
+        "duration": "30 min",
+        "steps": [
+          "Pick a game that involves planning ahead",
+          "Before each move, ask them to explain their thinking out loud",
+          "After the game, talk about one move they'd replay differently"
+        ]
+      },
+      {
+        "emoji": "📰",
+        "title": "Headline Detective",
+        "description": "Read a news headline together and guess what the article is about before reading it, then check how close the guess was.",
+        "example": "Before reading, Ava guessed an article about a \"robot chef\" was about a restaurant -- it was actually a cooking competition.",
+        "materials": [
+          "A kid-appropriate news site or paper"
+        ],
+        "duration": "15 min",
+        "steps": [
+          "Pick a headline and cover the article",
+          "Predict what happened and why",
+          "Read the article and compare notes"
+        ]
+      },
+      {
+        "emoji": "🧠",
+        "title": "20 Questions, Harder Mode",
+        "description": "Play 20 Questions but require every question to be a yes/no question that narrows down a category logically.",
+        "example": "Sam guessed \"the Eiffel Tower\" in 14 yes/no questions by narrowing down place, then country, then landmark.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "10-15 min",
+        "steps": [
+          "One person thinks of a person, place, or thing",
+          "The other asks only yes/no questions to narrow it down",
+          "Try to guess correctly before running out of questions"
+        ]
+      },
+      {
+        "emoji": "🧩",
+        "title": "Riddle Relay",
+        "description": "Take turns stumping each other with riddles or brain teasers, explaining the logic behind the answer.",
+        "example": "Sam's riddle about a clock took Mom three guesses, and they talked through why each wrong guess made sense too.",
+        "materials": [
+          "None needed -- or a book of riddles"
+        ],
+        "duration": "10-15 min",
+        "steps": [
+          "Take turns asking a riddle",
+          "Give a few guesses before revealing the answer",
+          "Explain the logic once it's solved"
+        ]
+      },
+      {
+        "emoji": "📅",
+        "title": "Budget the Week",
+        "description": "Plan a realistic weekly allowance budget together across categories like snacks, savings, and fun.",
+        "example": "With $10 for the week, Priya put $4 toward savings, $3 toward a snack, and kept $3 flexible.",
+        "materials": [
+          "Paper or a notes app"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Agree on a weekly amount",
+          "Split it across a few categories together",
+          "Check in at the end of the week on how it went"
+        ]
+      }
+    ]
+  },
+  "cognitive-13-17": {
+    "activities": [
+      {
+        "emoji": "💬",
+        "title": "Debate a Topic",
+        "description": "Pick a low-stakes topic and each take an opposing side, arguing your case for a few minutes before switching sides.",
+        "example": "Mom argued pineapple belongs on pizza, Jordan argued it doesn't -- then they swapped and argued the opposite side.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Agree on a light topic (best pizza topping, ideal weekend)",
+          "Each person argues one side for 2 minutes",
+          "Switch sides and argue the opposite"
+        ]
+      },
+      {
+        "emoji": "🧩",
+        "title": "Budget a Fictional Trip",
+        "description": "Plan a fictional weekend trip together within a set budget, researching real costs for travel, food, and activities.",
+        "example": "Maya planned a $500 weekend in Seattle, finding a $120 train ticket, a cheap hostel, and one paid museum visit.",
+        "materials": [
+          "Internet access, paper or a notes app"
+        ],
+        "duration": "30-45 min",
+        "steps": [
+          "Set a total budget and a destination",
+          "Look up realistic costs for transport, food, and one activity",
+          "Adjust the plan until it fits the budget"
+        ]
+      },
+      {
+        "emoji": "🔢",
+        "title": "Teach It Back",
+        "description": "Have your teen pick something they learned recently in school and explain it to you as if you knew nothing about it.",
+        "example": "Alex explained the water cycle to Dad using a cup of water and a plate to show evaporation and rain.",
+        "materials": [
+          "None needed"
+        ],
+        "duration": "10-15 min",
+        "steps": [
+          "Ask them to choose a recent school topic",
+          "Have them explain it simply, as if teaching a younger kid",
+          "Ask follow-up questions to deepen their explanation"
+        ]
+      },
+      {
+        "emoji": "🧮",
+        "title": "Logic Puzzle Challenge",
+        "description": "Solve a logic grid puzzle or sudoku together, talking through the reasoning out loud.",
+        "example": "Working through a sudoku, Jordan explained why a 7 had to go in one specific square by elimination.",
+        "materials": [
+          "A logic puzzle or sudoku book, or one printed online"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Pick a puzzle suited to the skill level",
+          "Work through it together, narrating the reasoning",
+          "Try a harder one next time"
+        ]
+      },
+      {
+        "emoji": "🔎",
+        "title": "Fact-Check It",
+        "description": "Pick a claim you saw online and research together whether it's actually true.",
+        "example": "A viral claim about a \"5-second rule\" turned out to be mostly false once they looked up the actual research.",
+        "materials": [
+          "Internet access"
+        ],
+        "duration": "15-20 min",
+        "steps": [
+          "Pick a claim or headline that seems surprising",
+          "Look up what reliable sources say",
+          "Talk about how to spot misinformation next time"
+        ]
+      }
+    ]
+  }
+}

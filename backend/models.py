@@ -10,7 +10,11 @@ class DBUser(Base):
     username      = Column(String, unique=True, nullable=False, index=True)
     password      = Column(String, nullable=False)
     google_id     = Column(String, unique=True, nullable=True, index=True)  # set for guardians who signed up/in via Google
-    role          = Column(String, nullable=False)   # guardian | kid
+    firebase_uid  = Column(String, unique=True, nullable=True, index=True)  # Firebase Auth uid -- guardians only; see firebase_app.py
+    role          = Column(String, nullable=False)   # guardian | kid | admin
+    admin_scope   = Column(String, nullable=True)   # admins only: NULL/"full" = unrestricted,
+    # "content" = can only reach the Future-Ready/Quests admin panel (routers/admin_content.py),
+    # never routers/admin.py's families/users/tickets endpoints -- see deps.require_full_admin.
     email         = Column(String, nullable=True)
     date_of_birth = Column(String, nullable=True)
     gender        = Column(String, nullable=True)
@@ -24,6 +28,7 @@ class DBUser(Base):
     last_login_country = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_city    = Column(String, nullable=True)  # best-effort, from IP on most recent login
     last_login_at      = Column(String, nullable=True)  # ISO timestamp of most recent login
+    last_login_platform = Column(String, nullable=True)  # "web" / "android" / "ios", from the most recent login
     # Live count of custom (non-sample) chores/shop items currently in use,
     # shared by co-guardian -- recomputed from what's actually in the DB on
     # every server startup (see seed.reconcile_custom_item_counts) and kept
@@ -121,6 +126,8 @@ class DBWallet(Base):
     kid_id          = Column(String, primary_key=True)
     balance         = Column(Float,  default=0)   # spendable -- only this funds shop/game purchases
     savings_balance = Column(Float,  default=0)   # set aside by the kid; not spendable until moved back
+    goal_name       = Column(String, nullable=True)  # what the kid is saving savings_balance toward
+    goal_target     = Column(Float,  nullable=True)  # points needed to reach goal_name; null = no goal set
 
 
 class DBTransaction(Base):
@@ -204,15 +211,37 @@ class DBLearningModule(Base):
     points      = Column(Float, nullable=False)
     order_index = Column(Integer, default=0)
     is_active   = Column(String, default="1")           # "1"/"0"
+    status      = Column(String, default="draft")       # "draft"/"published" -- separate axis
+    # from is_active: is_active is the soft-delete flag, status is whether an
+    # admin has finished authoring it yet. Only "published" rows are ever
+    # served to kids/guardians (see future_ready.py / quests.py filters).
+    is_premium  = Column(String, default="0")           # "1"/"0" -- groundwork for a
+    # future subscription tier; no entitlement/payment gating implemented yet.
     content     = Column(JSON, nullable=True)            # {"slides": [...], "quiz": [...]}
     # ^ served live via GET /api/future-ready/{id}/content instead of being
     # bundled into the frontend, so a content-only change (new topic, edited
-    # slides/quiz) is just a backend redeploy -- no app rebuild or store
-    # submission, even for the native mobile app. Hand-authored directly in
-    # backend/future_ready_content/<topic>.json, loaded at startup.
+    # slides/quiz) is just a backend change -- no app rebuild or store
+    # submission, even for the native mobile app. Authored through the admin
+    # Content panel (routers/admin_content.py), which writes straight into
+    # this row -- no redeploy needed. backend/future_ready_content/*.json is
+    # legacy, one-time migration input only (see seed.migrate_legacy_learning_content).
     created_at  = Column(String, nullable=True)  # ISO timestamp, set once when the
     # row is first created (not touched on later catalog re-syncs) -- powers the
     # "New" badge; NULL for rows that predate this column, correctly read as "not new".
+
+
+class DBContentTopic(Base):
+    """Admin-managed catalog of Future-Ready topics / Quest categories --
+    replaces the old hardcoded TOPICS/CATEGORIES tuples in main.py. A
+    DBLearningModule.topic is a loose string reference to this table's id,
+    same no-FK-constraint convention used everywhere else in this schema."""
+    __tablename__ = "content_topics"
+    id          = Column(String, primary_key=True)   # slug, e.g. "investing-for-kids"
+    section     = Column(String, nullable=False)      # "future-ready" / "quest"
+    title       = Column(String, nullable=False)
+    emoji       = Column(String, default="📘")
+    order_index = Column(Integer, default=0)
+    is_active   = Column(String, default="1")          # "1"/"0"
 
 
 class DBFamilyLearningSetting(Base):
@@ -244,6 +273,23 @@ class DBLearningCompletion(Base):
     total           = Column(Integer, nullable=False)
     points_awarded  = Column(Float, nullable=False)
     completed_at    = Column(String, nullable=False)
+
+
+class DBQuestLog(Base):
+    """A kid's write-up of trying one Quest module -- unlike Future-Ready's
+    instant quiz-based DBLearningCompletion, this sits "pending" until the
+    guardian reviews the note and approves it, same accountability model as
+    a chore. Approving creates the matching DBLearningCompletion row (and
+    pays out points) exactly once; rejecting just leaves this row rejected
+    so the kid can submit a fresh log."""
+    __tablename__ = "quest_logs"
+    id           = Column(String, primary_key=True)
+    kid_id       = Column(String, nullable=False, index=True)
+    module_id    = Column(String, nullable=False, index=True)
+    note         = Column(String, nullable=False)
+    status       = Column(String, default="pending")  # "pending" / "approved" / "rejected"
+    submitted_at = Column(String, nullable=False)
+    reviewed_at  = Column(String, nullable=True)
 
 
 class DBSession(Base):

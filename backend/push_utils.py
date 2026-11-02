@@ -1,34 +1,8 @@
-import json
-
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
-from config import FIREBASE_SERVICE_ACCOUNT_JSON
+from firebase_app import get_firebase_app
 from models import DBUser
-
-_firebase_app = None
-_firebase_init_attempted = False
-
-
-def _get_firebase_app():
-    """Lazily initializes the Firebase Admin SDK on first use. Returns None
-    (never raises) if it isn't configured or fails to initialize, so callers
-    can just skip sending rather than deal with import-time failures."""
-    global _firebase_app, _firebase_init_attempted
-    if _firebase_init_attempted:
-        return _firebase_app
-    _firebase_init_attempted = True
-    if not FIREBASE_SERVICE_ACCOUNT_JSON:
-        return None
-    try:
-        import firebase_admin
-        from firebase_admin import credentials
-        cred = credentials.Certificate(json.loads(FIREBASE_SERVICE_ACCOUNT_JSON))
-        _firebase_app = firebase_admin.initialize_app(cred)
-    except Exception as e:
-        print(f"[push] WARNING: failed to initialize Firebase Admin SDK: {e}")
-        _firebase_app = None
-    return _firebase_app
 
 
 def send_push(token: str, title: str, body: str, data: dict = None) -> None:
@@ -37,7 +11,7 @@ def send_push(token: str, title: str, body: str, data: dict = None) -> None:
     must never break the chore-completion/approval flow it's attached to."""
     if not token:
         return
-    app = _get_firebase_app()
+    app = get_firebase_app()
     if not app:
         return
     try:

@@ -14,10 +14,12 @@ import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
 import AppNavbar from './AppNavbar.jsx'
-import AppFooter from './AppFooter.jsx'
+import BottomNav from './BottomNav.jsx'
 import PasswordField from './PasswordField.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
-import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
+import { auth } from '../firebase.js'
+import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth'
+import GuardianLearnGrowTab from '../learn/GuardianLearnGrowTab.jsx'
 import { useTour } from '../tour/TourContext.jsx'
 import { isTourDisabled, setTourEnabled } from '../tour/tourStorage.js'
 
@@ -1386,6 +1388,7 @@ function CoGuardianTab() {
 function AdminPanelTab() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [currentPwd, setCurrentPwd] = useState('')
   const [newPwd, setNewPwd] = useState('')
   const [confirmPwd, setConfirmPwd] = useState('')
   const [pwdError, setPwdError] = useState('')
@@ -1441,11 +1444,17 @@ function AdminPanelTab() {
     if (newPwd !== confirmPwd) { setPwdError('Passwords do not match.'); return }
     setSaving(true)
     try {
-      await api.changeOwnPassword(newPwd)
+      // Firebase owns the password now (see src/firebase.js); updating it is
+      // entirely client-side, no backend call. Re-authenticating first (rather
+      // than relying on whatever Firebase session happens to still be live)
+      // both proves it's really them and avoids an auth/requires-recent-login
+      // error if their last Firebase sign-in was a while ago.
+      await signInWithEmailAndPassword(auth, user.email, currentPwd)
+      await updatePassword(auth.currentUser, newPwd)
       setPwdSuccess('Password updated successfully.')
-      setNewPwd(''); setConfirmPwd('')
+      setCurrentPwd(''); setNewPwd(''); setConfirmPwd('')
     } catch (err) {
-      setPwdError(err.message)
+      setPwdError(err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' ? 'Current password is incorrect.' : (err.message || 'Could not update password.'))
     } finally {
       setSaving(false)
     }
@@ -1501,13 +1510,23 @@ function AdminPanelTab() {
           )}
         </div>
 
-        {/* Change password — primary guardian only; co-guardian/kids sign in with a PIN, not a password */}
-        {isPrimaryGuardian && (
+        {/* Change password — primary guardian only; co-guardian/kids sign in with a PIN,
+            not a password. Google-only guardians have no password to change here --
+            their account signs in through Google, not a local credential. */}
+        {isPrimaryGuardian && !user.isGoogleAccount && (
           <div className="form-card" style={{ marginBottom: 16 }}>
             <div className="form-title">Change Password</div>
             <form onSubmit={handleChangePwd}>
               {pwdError   && <div className="error-msg">{pwdError}</div>}
               {pwdSuccess && <div className="success-msg">{pwdSuccess}</div>}
+              <div className="form-group" style={{ marginBottom: 12 }}>
+                <label>Current Password</label>
+                <PasswordField
+                  value={currentPwd}
+                  onChange={e => setCurrentPwd(e.target.value)}
+                  placeholder="Your current password"
+                />
+              </div>
               <div className="form-group" style={{ marginBottom: 12 }}>
                 <label>New Password</label>
                 <PasswordField
@@ -2632,7 +2651,7 @@ function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNa
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} tourId="home-chores-tile" />
         <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} tourId="home-shop-tile" />
-        <HomeNavTile icon="🚀" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Future-Ready" text="Learning modules" onClick={() => onNavigate('futureready')} tourId="home-futureready-tile" />
+        <HomeNavTile icon="🌱" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Learn & Grow" text="Lessons & quests" onClick={() => onNavigate('learn')} tourId="home-learngrow-tile" />
         <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} tourId="home-kids-tile" />
       </div>
 
@@ -2701,20 +2720,6 @@ export default function GuardianDashboard() {
       />
 
       <div className="main-content">
-        {tab !== 'home' && (
-          <div className="tabs">
-            {['home', 'chores', 'shop', 'futureready', 'kids'].map(t => (
-              <button
-                key={t}
-                className={`tab-btn${tab === t ? ' active guardian' : ''}`}
-                onClick={() => setTab(t)}
-              >
-                {t === 'home' ? '🏠 Home' : t === 'chores' ? 'Chores' : t === 'shop' ? 'Shop' : t === 'futureready' ? 'Future-Ready' : 'Kids'}
-              </button>
-            ))}
-          </div>
-        )}
-
         {tab === 'home' && <GuardianHomeScreen name={user.name} userId={user.id} isCoGuardian={!!user.coGuardianOf} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} />}
 
         {tab !== 'home' && kids.length > 0 && (
@@ -2776,14 +2781,25 @@ export default function GuardianDashboard() {
 
         {tab === 'chores'    && <ChoresTab kids={kids} />}
         {tab === 'shop'      && <ShopTab kids={kids} />}
-        {tab === 'futureready' && <GuardianFutureReadyTab />}
+        {tab === 'learn' && <GuardianLearnGrowTab />}
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}
         {tab === 'messages'  && <MessagesTab />}
         {tab === 'help'      && <HelpTab role="guardian" />}
         {tab === 'contact'   && <ContactUs />}
       </div>
-      <AppFooter role="guardian" onNavigate={setTab} />
+      <BottomNav
+        variant="guardian"
+        active={tab}
+        onChange={setTab}
+        items={[
+          { key: 'home', icon: '🏠', label: 'Home' },
+          { key: 'chores', icon: '✅', label: 'Chores' },
+          { key: 'shop', icon: '🛍️', label: 'Shop' },
+          { key: 'learn', icon: '🌱', label: 'Learn' },
+          { key: 'kids', icon: '👨‍👩‍👧', label: 'Kids' },
+        ]}
+      />
     </div>
   )
 }

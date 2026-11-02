@@ -2,9 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
-import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
-import PasswordField from './PasswordField.jsx'
+import AdminContentPanel from './AdminContentPanel.jsx'
 
 const STATUS_STYLE = {
   open:     { bg: '#f0fdfa', color: '#0d9488' },
@@ -40,6 +39,11 @@ function formatLastLogin(iso) {
   return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
 }
 
+const PLATFORM_LABEL = { web: '🌐 Browser', android: '🤖 Android app', ios: '🍎 iOS app' }
+function platformLabel(platform) {
+  return PLATFORM_LABEL[platform] || null
+}
+
 const suspendBtnStyle = {
   background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 6,
   padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#c2410c', flexShrink: 0,
@@ -62,6 +66,10 @@ const deleteBtnStyle = {
   background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6,
   padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#dc2626', flexShrink: 0,
 }
+const tempPinBtnStyle = {
+  background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 6,
+  padding: '4px 12px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#1d4ed8', flexShrink: 0,
+}
 
 // ── Edit modal ────────────────────────────────────────────────────────────────
 
@@ -75,7 +83,6 @@ function EditModal({ target, familyKids, onSave, onClose }) {
     // user fields
     name:          d.name          || '',
     email:         d.email         || '',
-    password:      '',
     pin:           '',
     avatar:        d.avatar        || '🐶',
     birthMonth:    d.birthMonth    || '',
@@ -104,10 +111,6 @@ function EditModal({ target, familyKids, onSave, onClose }) {
           const pinCheck = checkPinComplexity(form.pin)
           if (!pinCheck.ok) { setError(pinCheck.message); setSaving(false); return }
         }
-        if (!isProfile && form.password) {
-          const pwCheck = checkPasswordComplexity(form.password)
-          if (!pwCheck.ok) { setError(pwCheck.message); setSaving(false); return }
-        }
         if ((form.birthMonth && !form.birthYear) || (!form.birthMonth && form.birthYear)) {
           setError('Birth month and year must both be set, or both left blank.')
           setSaving(false)
@@ -115,7 +118,6 @@ function EditModal({ target, familyKids, onSave, onClose }) {
         }
         const body = { name: form.name }
         if (!isProfile && form.email)  body.email    = form.email
-        if (!isProfile && form.password) body.password = form.password
         if (isProfile && form.pin)     body.pin      = form.pin
         if (isProfile)                 body.avatar   = form.avatar
         if (form.birthMonth && form.birthYear) {
@@ -216,15 +218,8 @@ function EditModal({ target, familyKids, onSave, onClose }) {
                   )}
                 </div>
               ) : (
-                <div style={{ marginBottom: 6 }}>
-                  <label style={labelStyle}>
-                    New Password{' '}
-                    <span style={{ fontWeight: 400, color: '#94a3b8' }}>(leave blank to keep current)</span>
-                  </label>
-                  <PasswordField value={form.password} onChange={set('password')} placeholder="e.g. Sunshine24!" style={inputStyle} />
-                  {form.password && (
-                    <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
-                  )}
+                <div style={{ marginBottom: 6, fontSize: '0.78rem', color: '#94a3b8' }}>
+                  Password resets are sent by email — use "📧 Send Password Reset" from the Members tab instead of setting one here.
                 </div>
               )}
               {isProfile && (
@@ -738,6 +733,59 @@ function ConfirmDeleteModal({ target, onConfirm, onClose }) {
   )
 }
 
+// ── Temp PIN result modal ───────────────────────────────────────────────────────
+
+function TempPinResultModal({ result, onClose }) {
+  const [copied, setCopied] = useState(false)
+  const { member, pin } = result
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(pin)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      // Clipboard access can be blocked (e.g. no HTTPS/permission) -- the PIN
+      // is shown on screen regardless, so this is a convenience, not a need.
+    }
+  }
+
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 420, boxShadow: '0 20px 60px rgba(0,0,0,0.22)', padding: '22px 24px', textAlign: 'center' }}
+      >
+        <div style={{ fontSize: '1.8rem', marginBottom: 8 }}>🔑</div>
+        <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#1e293b', marginBottom: 8 }}>
+          Temporary PIN issued for {member.name}
+        </div>
+        <div style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: 1.5, marginBottom: 16 }}>
+          Share this PIN with the family through a trusted channel (e.g. their support ticket). It replaces their old PIN immediately, and the profile picker will prompt them to set a new one of their own as soon as they sign in with it.
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 18 }}>
+          <span style={{ fontFamily: 'monospace', fontSize: '1.6rem', fontWeight: 800, letterSpacing: 4, color: '#1d4ed8', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 10, padding: '10px 20px' }}>
+            {pin}
+          </span>
+          <button
+            onClick={handleCopy}
+            style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#334155', fontWeight: 600, cursor: 'pointer', fontSize: '0.82rem' }}
+          >
+            {copied ? '✓ Copied' : '📋 Copy'}
+          </button>
+        </div>
+        <button type="button" onClick={onClose}
+          style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem' }}>
+          Done
+        </button>
+      </div>
+    </div>
+  )
+}
+
 // ── Helper components ─────────────────────────────────────────────────────────
 
 function StatCard({ icon, label, value, color }) {
@@ -942,10 +990,179 @@ function AdminTicketCard({ ticket: t, busy, onToggleResolved, onReplied }) {
 
 // ── Admin Dashboard ────────────────────────────────────────────────────────────
 
+// ── Content-admin accounts (full-admin only) ────────────────────────────────
+
+function ContentAdminFormModal({ admin, onSave, onClose }) {
+  const isEdit = !!admin
+  const [name, setName] = useState(admin?.name || '')
+  const [username, setUsername] = useState(admin?.username || '')
+  const [email, setEmail] = useState(admin?.email || '')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setSaving(true)
+    setError('')
+    try {
+      if (isEdit) {
+        await api.adminUpdateContentAdmin(admin.id, { name, username })
+      } else {
+        await api.adminCreateContentAdmin({ name, username, email })
+      }
+      onSave()
+    } catch (err) {
+      setError(err.message)
+      setSaving(false)
+    }
+  }
+
+  return (
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 440, boxShadow: '0 20px 60px rgba(0,0,0,0.22)' }}>
+        <div style={{ padding: '16px 22px 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>{isEdit ? 'Edit Content Admin' : 'New Content Admin'}</div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+        <form onSubmit={handleSubmit} style={{ padding: '18px 22px' }}>
+          {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>{error}</div>}
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Full Name</label>
+            <input value={name} onChange={e => setName(e.target.value)} style={inputStyle} required />
+          </div>
+          <div style={{ marginBottom: 14 }}>
+            <label style={labelStyle}>Username</label>
+            <input value={username} onChange={e => setUsername(e.target.value)} style={inputStyle} required />
+          </div>
+          {!isEdit && (
+            <div style={{ marginBottom: 6 }}>
+              <label style={labelStyle}>Email <span style={{ fontWeight: 400, color: '#94a3b8' }}>(they'll get a link here to set their password)</span></label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} style={inputStyle} required />
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+            <button type="button" onClick={onClose} style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem' }}>Cancel</button>
+            <button type="submit" disabled={saving} style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: saving ? 0.7 : 1 }}>
+              {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Create & Send Setup Email'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+function ContentAdminsPanel() {
+  const [admins, setAdmins] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
+  const [formAdmin, setFormAdmin] = useState(null)
+  const [showForm, setShowForm] = useState(false)
+  const [busyId, setBusyId] = useState(null)
+
+  const load = useCallback(() => {
+    setLoading(true)
+    setError('')
+    api.adminListContentAdmins().then(setAdmins).catch(err => setError(err.message)).finally(() => setLoading(false))
+  }, [])
+
+  useEffect(() => { load() }, [load])
+
+  async function handleToggleSuspend(a) {
+    setBusyId(a.id)
+    try {
+      if (a.isSuspended) await api.adminUnsuspendContentAdmin(a.id)
+      else await api.adminSuspendContentAdmin(a.id)
+      await load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  async function handleResend(a) {
+    setBusyId(a.id)
+    setMessage('')
+    try {
+      const res = await api.adminResendContentAdminReset(a.id)
+      setMessage(res.message)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  async function handleDelete(a) {
+    if (!window.confirm(`Delete content admin "${a.name}"? This removes their login entirely -- it can't be undone.`)) return
+    setBusyId(a.id)
+    try {
+      await api.adminDeleteContentAdmin(a.id)
+      await load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  if (loading) return <div className="loading-text">Loading content admins...</div>
+
+  return (
+    <div>
+      <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: 14, maxWidth: 560 }}>
+        Content admins can only manage Future-Ready &amp; Quests content -- they never see families, users, or support tickets.
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
+        <button onClick={() => { setFormAdmin(null); setShowForm(true) }} style={{ padding: '9px 20px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem' }}>+ New Content Admin</button>
+      </div>
+      {error && <div className="error-msg" style={{ marginBottom: 14 }}>{error}</div>}
+      {message && (
+        <div style={{ background: '#f0fdfa', color: '#0d9488', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+          <span>📧 {message}</span>
+          <button onClick={() => setMessage('')} style={{ background: 'none', border: 'none', color: '#0d9488', cursor: 'pointer', fontWeight: 700 }}>✕</button>
+        </div>
+      )}
+      {admins.length === 0 ? (
+        <div className="empty-text">No content admins yet.</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {admins.map(a => (
+            <div key={a.id} style={{ border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', opacity: a.isSuspended ? 0.6 : 1 }}>
+              <div>
+                <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>
+                  {a.name} {a.isSuspended && <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#c2410c', background: '#fff7ed', borderRadius: 999, padding: '2px 8px', marginLeft: 6 }}>Suspended</span>}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>@{a.username} · {a.email}</div>
+              </div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                <button onClick={() => { setFormAdmin(a); setShowForm(true) }} disabled={busyId === a.id} style={editBtnStyle}>✏️ Edit</button>
+                <button onClick={() => handleResend(a)} disabled={busyId === a.id} style={editBtnStyle}>📧 Resend Setup Email</button>
+                <button onClick={() => handleToggleSuspend(a)} disabled={busyId === a.id} style={a.isSuspended ? editBtnStyle : suspendBtnStyle}>{a.isSuspended ? 'Unsuspend' : 'Suspend'}</button>
+                <button onClick={() => handleDelete(a)} disabled={busyId === a.id} style={deleteBtnStyle}>Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {showForm && (
+        <ContentAdminFormModal
+          admin={formAdmin}
+          onSave={() => { setShowForm(false); load() }}
+          onClose={() => setShowForm(false)}
+        />
+      )}
+    </div>
+  )
+}
+
 export default function AdminDashboard() {
   const { user, logout } = useAuth()
+  const isContentOnly = user?.adminScope === 'content'
   const [searchParams, setSearchParams] = useSearchParams()
-  const view = searchParams.get('view') || 'families'  // 'families' | 'tickets'
+  const view = searchParams.get('view') || (isContentOnly ? 'content' : 'families')  // 'families' | 'tickets' | 'content' | 'admins'
   const setView = useCallback(next => {
     setSearchParams(next === 'families' ? {} : { view: next })
   }, [setSearchParams])
@@ -956,6 +1173,9 @@ export default function AdminDashboard() {
   const [search,        setSearch]        = useState('')
   const [countryFilter, setCountryFilter] = useState('')
   const [cityFilter,    setCityFilter]    = useState('')
+  const [signinFilter,  setSigninFilter]  = useState('')  // '' | 'google' | 'password'
+  const [platformFilter, setPlatformFilter] = useState('')  // '' | 'web' | 'android' | 'ios'
+  const [statusFilter,  setStatusFilter]  = useState('')  // '' | 'active' | 'suspended'
   const [selected,      setSelected]      = useState(null)
   const [detail,        setDetail]        = useState({ chores: [], transactions: [] })
   const [detailLoading, setDetailLoading] = useState(false)
@@ -967,8 +1187,12 @@ export default function AdminDashboard() {
   const [addCoGuardianTarget, setAddCoGuardianTarget] = useState(null)
   const [pointsTarget,  setPointsTarget]  = useState(null)
   const [suspendBusyId, setSuspendBusyId] = useState(null)
+  const [tempPinBusyId, setTempPinBusyId] = useState(null)
+  const [tempPinResult, setTempPinResult] = useState(null)
+  const [resetPwdBusyId, setResetPwdBusyId] = useState(null)
+  const [resetPwdMessage, setResetPwdMessage] = useState('')
 
-  useEffect(() => { loadFamilies() }, [])
+  useEffect(() => { if (!isContentOnly) loadFamilies() }, [])
 
   async function loadFamilies() {
     try {
@@ -1085,6 +1309,36 @@ export default function AdminDashboard() {
     }
   }
 
+  async function handleIssueTempPin(e, member, familyId) {
+    e.stopPropagation()
+    if (!window.confirm(`Issue a new temporary PIN for ${member.name}? Their current PIN will stop working immediately, and they'll see a "here's your temporary PIN" notice next time they open the profile picker.`)) return
+    setTempPinBusyId(member.id)
+    try {
+      const data = await api.adminIssueTempPin(member.id)
+      setTempPinResult({ member, pin: data.pin })
+      await refreshAll(familyId)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setTempPinBusyId(null)
+    }
+  }
+
+  async function handleSendPasswordReset(e, member) {
+    e.stopPropagation()
+    if (!window.confirm(`Send a password reset link to ${member.name} (${member.email})?`)) return
+    setResetPwdBusyId(member.id)
+    setResetPwdMessage('')
+    try {
+      const data = await api.adminSendPasswordReset(member.id)
+      setResetPwdMessage(data.message)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setResetPwdBusyId(null)
+    }
+  }
+
   // Filters match either the account-created location or the most-recent-login
   // location, since existing accounts (created before location tracking) only
   // ever populate the last-login fields.
@@ -1101,6 +1355,12 @@ export default function AdminDashboard() {
   const filtered = families.filter(f => {
     if (countryFilter && f.guardian.country !== countryFilter && f.guardian.lastLoginCountry !== countryFilter) return false
     if (cityFilter && f.guardian.city !== cityFilter && f.guardian.lastLoginCity !== cityFilter) return false
+    if (signinFilter === 'google' && !f.guardian.isGoogleAccount) return false
+    if (signinFilter === 'password' && f.guardian.isGoogleAccount) return false
+    if (platformFilter && f.guardian.lastLoginPlatform !== platformFilter) return false
+    const anySuspended = f.guardian.isSuspended || f.coGuardian?.isSuspended || f.kids.some(k => k.isSuspended)
+    if (statusFilter === 'suspended' && !anySuspended) return false
+    if (statusFilter === 'active' && anySuspended) return false
     if (!search.trim()) return true
     const q = search.toLowerCase()
     return (
@@ -1136,6 +1396,14 @@ export default function AdminDashboard() {
           target={deleteTarget}
           onConfirm={handleDeleteConfirm}
           onClose={() => setDeleteTarget(null)}
+        />
+      )}
+
+      {/* Temp PIN result modal */}
+      {tempPinResult && (
+        <TempPinResultModal
+          result={tempPinResult}
+          onClose={() => setTempPinResult(null)}
         />
       )}
 
@@ -1194,12 +1462,18 @@ export default function AdminDashboard() {
 
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '22px 16px' }}>
 
-        {/* View tabs */}
+        {/* View tabs -- a content-scoped admin only ever gets the Content
+            tab, not just hidden but genuinely absent, so there's no way to
+            even attempt navigating into families/tickets/admins. */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 20, borderBottom: '1px solid #e2e8f0' }}>
-          {[
+          {(isContentOnly ? [
+            { id: 'content', label: '📚 Future-Ready & Quests' },
+          ] : [
             { id: 'families', label: '🏠 Families' },
             { id: 'tickets',  label: '🎫 Support Tickets' },
-          ].map(tab => (
+            { id: 'content',  label: '📚 Future-Ready & Quests' },
+            { id: 'admins',   label: '🛡️ Admins' },
+          ]).map(tab => (
             <button
               key={tab.id}
               onClick={() => setView(tab.id)}
@@ -1214,9 +1488,13 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {view === 'tickets' && <TicketsPanel />}
+        {view === 'tickets' && !isContentOnly && <TicketsPanel />}
 
-        {view === 'families' && <>
+        {view === 'content' && <AdminContentPanel />}
+
+        {view === 'admins' && !isContentOnly && <ContentAdminsPanel />}
+
+        {view === 'families' && !isContentOnly && <>
 
         {/* Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 22 }}>
@@ -1249,25 +1527,59 @@ export default function AdminDashboard() {
             <option value="">📍 All cities</option>
             {cityOptions.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
-          {(countryFilter || cityFilter) && (
+          <select
+            value={signinFilter}
+            onChange={e => setSigninFilter(e.target.value)}
+            style={{ flex: '1 1 160px', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
+          >
+            <option value="">🔑 All sign-in methods</option>
+            <option value="google">🔵 Google sign-in</option>
+            <option value="password">🔑 Password sign-up</option>
+          </select>
+          <select
+            value={platformFilter}
+            onChange={e => setPlatformFilter(e.target.value)}
+            style={{ flex: '1 1 160px', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
+          >
+            <option value="">📱 All platforms</option>
+            <option value="web">🌐 Browser</option>
+            <option value="android">🤖 Android app</option>
+            <option value="ios">🍎 iOS app</option>
+          </select>
+          <select
+            value={statusFilter}
+            onChange={e => setStatusFilter(e.target.value)}
+            style={{ flex: '1 1 160px', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
+          >
+            <option value="">🚦 All statuses</option>
+            <option value="active">✅ Active (no suspensions)</option>
+            <option value="suspended">🚫 Has a suspended member</option>
+          </select>
+          {(countryFilter || cityFilter || signinFilter || platformFilter || statusFilter) && (
             <button
-              onClick={() => { setCountryFilter(''); setCityFilter('') }}
+              onClick={() => { setCountryFilter(''); setCityFilter(''); setSigninFilter(''); setPlatformFilter(''); setStatusFilter('') }}
               style={{ padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', background: '#f8fafc', fontSize: '0.82rem', fontWeight: 600, color: '#64748b', cursor: 'pointer' }}
             >
-              ✕ Clear location
+              ✕ Clear filters
             </button>
           )}
           <div style={{ flexBasis: '100%', fontSize: '0.72rem', color: '#94a3b8' }}>
-            Location filters match a family's account-created location or their most recent login location.
+            Location, sign-in, and platform filters match the primary guardian's own account.
           </div>
         </div>
 
         {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem' }}>{error}</div>}
+        {resetPwdMessage && (
+          <div style={{ background: '#f0fdfa', color: '#0d9488', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+            <span>📧 {resetPwdMessage}</span>
+            <button onClick={() => setResetPwdMessage('')} style={{ background: 'none', border: 'none', color: '#0d9488', cursor: 'pointer', fontWeight: 700 }}>✕</button>
+          </div>
+        )}
         {loading && <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>Loading families…</div>}
 
         {!loading && filtered.length === 0 && (
           <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>
-            {search || countryFilter || cityFilter ? 'No families match your search/filters.' : 'No families registered yet.'}
+            {search || countryFilter || cityFilter || signinFilter || platformFilter || statusFilter ? 'No families match your search/filters.' : 'No families registered yet.'}
           </div>
         )}
 
@@ -1287,6 +1599,11 @@ export default function AdminDashboard() {
                   <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 3 }}>Primary Guardian</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                     <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.95rem' }}>{family.guardian.name}</span>
+                    {family.guardian.isGoogleAccount ? (
+                      <span style={{ background: '#eff6ff', color: '#1d4ed8', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🔵 Google sign-in</span>
+                    ) : (
+                      <span style={{ background: '#f8fafc', color: '#64748b', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🔑 Password sign-up</span>
+                    )}
                     {family.guardian.isSuspended && <span style={{ background: '#fef2f2', color: '#b91c1c', borderRadius: 6, padding: '1px 8px', fontSize: '0.7rem', fontWeight: 700 }}>🚫 Suspended</span>}
                     <button style={editBtnStyle} onClick={e => openEditUser(e, family.guardian, family.familyId)}>✏️ Edit</button>
                     <button style={family.guardian.isSuspended ? unsuspendBtnStyle : suspendBtnStyle} onClick={e => handleToggleSuspend(e, family.guardian, family.familyId)} disabled={suspendBusyId === family.guardian.id}>
@@ -1309,6 +1626,9 @@ export default function AdminDashboard() {
                         <> {(family.guardian.lastLoginCity || family.guardian.lastLoginCountry) ? '· ' : ''}{formatLastLogin(family.guardian.lastLoginAt)}</>
                       )}
                     </div>
+                  )}
+                  {platformLabel(family.guardian.lastLoginPlatform) && (
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{platformLabel(family.guardian.lastLoginPlatform)}</div>
                   )}
                 </div>
 
@@ -1465,12 +1785,28 @@ export default function AdminDashboard() {
                                 <div style={{ fontSize: '0.78rem', color: '#0d9488', fontWeight: 700, marginTop: 2 }}>{member.balance} pts</div>
                               )}
                             </div>
-                            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                            <div style={{ display: 'flex', gap: 8, flexShrink: 0, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                               <button
                                 style={{ ...editBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
                                 onClick={e => openEditUser(e, member, family.familyId)}
                               >
                                 ✏️ Edit
+                              </button>
+                              {member._label === 'Primary Guardian' && (
+                                <button
+                                  style={{ ...tempPinBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
+                                  onClick={e => handleSendPasswordReset(e, member)}
+                                  disabled={resetPwdBusyId === member.id}
+                                >
+                                  📧 {resetPwdBusyId === member.id ? 'Sending…' : 'Send Password Reset'}
+                                </button>
+                              )}
+                              <button
+                                style={{ ...tempPinBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
+                                onClick={e => handleIssueTempPin(e, member, family.familyId)}
+                                disabled={tempPinBusyId === member.id}
+                              >
+                                🔑 {tempPinBusyId === member.id ? 'Issuing…' : 'Temp PIN'}
                               </button>
                               <button
                                 style={{ ...(member.isSuspended ? unsuspendBtnStyle : suspendBtnStyle), padding: '8px 18px', fontSize: '0.85rem' }}

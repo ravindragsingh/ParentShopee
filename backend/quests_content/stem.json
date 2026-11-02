@@ -1,0 +1,198 @@
+{
+  "stem-4-6": {
+    "activities": [
+      {
+        "emoji": "🛁",
+        "title": "Sink or Float",
+        "description": "Test which household objects sink or float in a bowl of water, guessing first.",
+        "example": "A rubber duck floated as guessed, but a metal spoon sinking surprised nobody -- until a hollow ball also sank!",
+        "materials": ["A bowl or sink of water", "5-6 small household objects"],
+        "duration": "15 min",
+        "steps": ["Gather a few small objects", "Guess if each will sink or float", "Drop it in and check"]
+      },
+      {
+        "emoji": "🌈",
+        "title": "Rainbow in a Jar",
+        "description": "Layer different-density liquids to make a colorful rainbow jar.",
+        "example": "The honey sank straight to the bottom while the oil floated clearly on top, with soapy water in between.",
+        "materials": ["A clear jar", "Honey, dish soap, water, vegetable oil", "Food coloring (optional)"],
+        "duration": "15-20 min",
+        "steps": ["Pour honey in first, then dish soap", "Slowly add colored water, then oil", "Watch the layers separate by weight"]
+      },
+      {
+        "emoji": "👤",
+        "title": "Shadow Hunt",
+        "description": "Go outside and trace or observe shadows at different times of day.",
+        "example": "Tracing the same tree's shadow at 10am and 2pm, they noticed it had moved and gotten shorter.",
+        "materials": ["Sidewalk chalk (optional)"],
+        "duration": "10 min, twice in a day",
+        "steps": ["Find your shadow outside in the morning", "Trace or mark where it falls", "Check again later and compare"]
+      },
+      {
+        "emoji": "🧊",
+        "title": "Ice Melt Race",
+        "description": "Freeze two ice cubes and race to melt them using different methods.",
+        "example": "Salt melted the ice cube almost twice as fast as warm water did.",
+        "materials": ["Ice cubes", "Salt, warm water, or sunlight to test"],
+        "duration": "15-20 min",
+        "steps": ["Freeze a few ice cubes ahead of time", "Try melting each one a different way", "See which method wins the race"]
+      },
+      {
+        "emoji": "🫧",
+        "title": "Bubble Science",
+        "description": "Mix a simple bubble solution and experiment with different-shaped wands.",
+        "example": "A wand bent into a square still blew round bubbles every time -- a fun surprise.",
+        "materials": ["Dish soap, water, a bit of sugar", "Pipe cleaners or straws for wands"],
+        "duration": "15-20 min",
+        "steps": ["Mix dish soap, water, and a pinch of sugar", "Bend a pipe cleaner into different shapes", "Blow bubbles and see what shape they come out"]
+      }
+    ]
+  },
+  "stem-7-9": {
+    "activities": [
+      {
+        "emoji": "🌋",
+        "title": "Baking Soda Volcano",
+        "description": "Build a mini volcano and trigger a baking-soda-and-vinegar eruption.",
+        "example": "Adding red food coloring made the eruption look like real lava, much to everyone's delight.",
+        "materials": ["Baking soda, vinegar, dish soap", "A small container, clay or play-dough to shape a volcano"],
+        "duration": "20-25 min",
+        "steps": ["Shape a mini volcano around a small container", "Add baking soda, dish soap, and food coloring inside", "Pour in vinegar and watch it erupt"]
+      },
+      {
+        "emoji": "✈️",
+        "title": "Paper Airplane Lab",
+        "description": "Build 3 different paper airplane designs and test which flies farthest.",
+        "example": "The simplest dart design flew farther than the fancy one with folded wings.",
+        "materials": ["Paper", "A tape measure or long string"],
+        "duration": "20 min",
+        "steps": ["Fold 3 different airplane designs", "Launch each one the same way", "Measure and compare how far each flew"]
+      },
+      {
+        "emoji": "🧲",
+        "title": "Magnet Hunt",
+        "description": "Use a magnet to search the house for which objects are magnetic and which aren't.",
+        "example": "Fridge magnets stuck to a metal spoon but not to an aluminum can -- a surprising discovery.",
+        "materials": ["A magnet"],
+        "duration": "15 min",
+        "steps": ["Walk around with a magnet", "Test different objects", "Make two piles: magnetic and not"]
+      },
+      {
+        "emoji": "🥚",
+        "title": "Egg Drop Challenge",
+        "description": "Build a tiny cushioned container to protect an egg dropped from a height.",
+        "example": "A cotton-ball-padded cup survived a drop from the stairs, but round two from the balcony cracked it.",
+        "materials": ["A raw egg", "Cushioning materials -- cotton, bubble wrap, cups"],
+        "duration": "25-30 min",
+        "steps": ["Build a protective container for an egg", "Drop it from a safe height outside", "Check if it survived and try to improve the design"]
+      },
+      {
+        "emoji": "🌱",
+        "title": "Plant a Seed",
+        "description": "Plant a seed together and track its growth over the next few weeks.",
+        "example": "By day 9, the bean sprout had pushed its first tiny leaves through the soil.",
+        "materials": ["A seed (bean seeds sprout fast)", "Soil, a small pot or cup"],
+        "duration": "15 min to plant, then daily check-ins",
+        "steps": ["Plant a seed in soil", "Water it and place it somewhere sunny", "Check on it every day and track its growth"]
+      }
+    ]
+  },
+  "stem-10-13": {
+    "activities": [
+      {
+        "emoji": "🏹",
+        "title": "Build a Catapult",
+        "description": "Build a simple catapult from craft sticks and rubber bands, then test distance.",
+        "example": "After adjusting the rubber band tension, their mini marshmallow flew nearly 6 feet.",
+        "materials": ["Craft sticks, rubber bands, a plastic spoon", "Small soft objects to launch (marshmallows, pom-poms)"],
+        "duration": "25-30 min",
+        "steps": ["Build a small catapult from sticks and rubber bands", "Launch a soft object and measure the distance", "Adjust the design and try to beat your record"]
+      },
+      {
+        "emoji": "💻",
+        "title": "Code a Simple Animation",
+        "description": "Use a free kid-friendly coding tool to make a character move.",
+        "example": "It took a few tries, but they got their cat character to walk across the screen and meow.",
+        "materials": ["A computer or tablet with internet access"],
+        "duration": "30 min",
+        "steps": ["Open a beginner coding tool together", "Pick a character and make it move", "Add a sound or a second action"]
+      },
+      {
+        "emoji": "⚡",
+        "title": "Static Electricity Experiment",
+        "description": "Use a balloon to pick up small paper bits and talk about why it works.",
+        "example": "After rubbing the balloon on a sweater, it picked up tiny paper bits from across the table.",
+        "materials": ["A balloon", "Small torn bits of tissue paper"],
+        "duration": "10-15 min",
+        "steps": ["Rub a balloon on hair or fabric", "Hold it near small paper bits", "Talk about why the static charge pulls them"]
+      },
+      {
+        "emoji": "🔋",
+        "title": "Build a Circuit",
+        "description": "Use a simple battery-and-bulb kit to light up a small bulb.",
+        "example": "Connecting the wires the wrong way kept the bulb dark, until they flipped the battery around.",
+        "materials": ["A battery, a small bulb, wires (or a basic electronics kit)"],
+        "duration": "20 min",
+        "steps": ["Connect a battery to a small bulb with wires", "Troubleshoot if it doesn't light up right away", "Try adding a switch if you have one"]
+      },
+      {
+        "emoji": "⛅",
+        "title": "Weather Tracker",
+        "description": "Track and chart the weather each day for a week, looking for patterns.",
+        "example": "By Friday, they noticed the temperature had dropped every single day that week.",
+        "materials": ["Paper or a notebook"],
+        "duration": "5 min/day for a week",
+        "steps": ["Check the weather each day at the same time", "Record temperature and conditions", "Look back at the end of the week for patterns"]
+      }
+    ]
+  },
+  "stem-13-17": {
+    "activities": [
+      {
+        "emoji": "💧",
+        "title": "DIY Water Filter",
+        "description": "Build a simple layered water filter from sand, gravel, and cloth, and test it on dirty water.",
+        "example": "The filtered water came out noticeably clearer than the muddy water they started with.",
+        "materials": ["A plastic bottle, sand, gravel, cloth or cotton", "A cup of deliberately dirtied water"],
+        "duration": "30-40 min",
+        "steps": ["Layer cloth, sand, and gravel in a cut bottle", "Pour dirty water through it slowly", "Compare the before and after"]
+      },
+      {
+        "emoji": "📱",
+        "title": "Build a Simple App Idea",
+        "description": "Sketch out on paper how a simple app would work -- screens, buttons, and flow.",
+        "example": "Their homework-reminder app idea had just 3 screens, but they mapped out exactly how each button worked.",
+        "materials": ["Paper, pencil"],
+        "duration": "30 min",
+        "steps": ["Pick a simple problem an app could solve", "Sketch each screen it would need", "Draw arrows showing how buttons connect the screens"]
+      },
+      {
+        "emoji": "🧪",
+        "title": "Chemical Reaction Lab",
+        "description": "Try a safe kitchen-chemistry reaction and explain the science.",
+        "example": "The \"elephant toothpaste\" reaction foamed up so fast it nearly overflowed the tray.",
+        "materials": ["Hydrogen peroxide, dish soap, yeast (for elephant toothpaste) -- or any safe kitchen reaction"],
+        "duration": "20-30 min",
+        "steps": ["Pick a safe reaction to try (research it together first)", "Set up the materials somewhere easy to clean", "Try it and talk through what's chemically happening"]
+      },
+      {
+        "emoji": "💡",
+        "title": "Energy Audit",
+        "description": "Walk through the house together finding ways to save energy, and estimate the impact.",
+        "example": "Switching 5 old bulbs to LEDs was the single biggest change they found.",
+        "materials": ["A notepad"],
+        "duration": "30 min",
+        "steps": ["Walk through each room looking for energy waste", "List ways to reduce it", "Pick one change to actually make this week"]
+      },
+      {
+        "emoji": "🤖",
+        "title": "Build a Simple Robot",
+        "description": "Use a beginner robotics kit, or just design one on paper, together.",
+        "example": "Their paper-designed \"robot\" had a claw arm, solar panel, and a surprisingly detailed wiring diagram.",
+        "materials": ["A beginner robotics kit, or just paper and pencil"],
+        "duration": "30-45 min",
+        "steps": ["Decide what the robot should do", "Build it with a kit, or sketch and label the design on paper", "Explain how each part would work"]
+      }
+    ]
+  }
+}
