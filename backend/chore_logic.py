@@ -56,13 +56,14 @@ def check_and_expire_chores(db: Session, family_id: str):
         DBChore.due_date.isnot(None),
         DBChore.due_date < today_str,
     ).update({"status": "expired", "expired_at": now()}, synchronize_session=False)
-    # Self-heals any chore this same global-UTC-date bug previously expired too
-    # early for a family ahead of UTC (e.g. India, UTC+5:30) -- once this fix is
-    # live the invariant "an expired chore's due_date is always < today" holds
-    # going forward, so any currently-expired chore violating it can only be a
-    # leftover mistake from the old logic, never a legitimate expiry. We can't
-    # recover whether it was "open" or "pending" before that mistake (status
-    # history isn't kept), so it uniformly reverts to "open".
+    # Self-heals any chore the old server-UTC-date logic already wrongly
+    # expired for a family whose local date disagreed with the server's --
+    # once this fix is live the invariant "an expired chore's due_date is
+    # always < today" holds going forward, so any currently-expired chore
+    # violating it can only be a leftover mistake from the old logic, never
+    # a legitimate expiry. We can't recover whether it was "open" or
+    # "pending" before that mistake (status history isn't kept), so it
+    # uniformly reverts to "open".
     db.query(DBChore).filter(
         DBChore.family_id == family_id,
         DBChore.status == "expired",
