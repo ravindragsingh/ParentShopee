@@ -1447,38 +1447,64 @@ function navLinkStyle(active) {
 
 function TopNav({ onSignIn, onShowHelp }) {
   const navigate = useNavigate()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const scrollToId = id => {
+    setMobileMenuOpen(false)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
+  const mobileLinkStyle = {
+    background: 'none', border: 'none', textAlign: 'left', padding: '12px 4px',
+    fontSize: '0.95rem', fontWeight: 600, color: '#334155', cursor: 'pointer',
+    borderBottom: '1px solid #f1f5f9',
+  }
   return (
-    <nav style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '14px 24px', background: '#fff', borderBottom: '1px solid #f1f5f9',
-      position: 'sticky', top: 0, zIndex: 50,
-    }}>
-      <img
-        src="/branding/RewardURKids_Website_Compact_Logo.png"
-        alt="Reward Ur Kids — Small Tasks. Big Smiles."
-        onClick={() => scrollToId('landing-top')}
-        style={{ height: 38, display: 'block', cursor: 'pointer' }}
-      />
-      <div className="landing-nav-links" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-        <button style={navLinkStyle(true)} onClick={() => scrollToId('landing-top')}>Home</button>
-        <button style={navLinkStyle(false)} onClick={onShowHelp}>How It Works</button>
-        <button style={navLinkStyle(false)} onClick={() => scrollToId('landing-features')}>Features</button>
-        <button style={navLinkStyle(false)} onClick={() => navigate('/about')}>About</button>
-        <button style={navLinkStyle(false)} onClick={() => navigate('/blog')}>Blogs</button>
+    <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: '#fff', borderBottom: '1px solid #f1f5f9' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px' }}>
+        <img
+          src="/branding/RewardURKids_Website_Compact_Logo.png"
+          alt="Reward Ur Kids — Small Tasks. Big Smiles."
+          onClick={() => scrollToId('landing-top')}
+          style={{ height: 38, display: 'block', cursor: 'pointer' }}
+        />
+        <div className="landing-nav-links" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
+          <button style={navLinkStyle(true)} onClick={() => scrollToId('landing-top')}>Home</button>
+          <button style={navLinkStyle(false)} onClick={onShowHelp}>How It Works</button>
+          <button style={navLinkStyle(false)} onClick={() => scrollToId('landing-features')}>Features</button>
+          <button style={navLinkStyle(false)} onClick={() => navigate('/about')}>About</button>
+          <button style={navLinkStyle(false)} onClick={() => navigate('/blog')}>Blogs</button>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <button
+            onClick={onSignIn}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6, background: '#fff', color: '#16a34a',
+              border: '1.5px solid #16a34a', borderRadius: 999, padding: '8px 18px',
+              fontSize: '0.88rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
+            }}
+          >
+            👤 Sign In
+          </button>
+          <button
+            className="landing-mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(v => !v)}
+            aria-label="Menu"
+            style={{
+              background: 'none', border: '1px solid #e2e8f0', borderRadius: 8, width: 38, height: 38,
+              fontSize: '1.2rem', cursor: 'pointer', color: '#334155', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            {mobileMenuOpen ? '✕' : '☰'}
+          </button>
+        </div>
       </div>
-      <button
-        onClick={onSignIn}
-        style={{
-          display: 'flex', alignItems: 'center', gap: 6, background: '#fff', color: '#16a34a',
-          border: '1.5px solid #16a34a', borderRadius: 999, padding: '8px 18px',
-          fontSize: '0.88rem', fontWeight: 700, cursor: 'pointer', flexShrink: 0,
-        }}
-      >
-        👤 Sign In
-      </button>
+      <div className={`landing-mobile-menu-panel${mobileMenuOpen ? ' open' : ''}`} style={{ flexDirection: 'column', padding: '0 24px 10px' }}>
+        <button style={mobileLinkStyle} onClick={() => scrollToId('landing-top')}>Home</button>
+        <button style={mobileLinkStyle} onClick={() => { setMobileMenuOpen(false); onShowHelp() }}>How It Works</button>
+        <button style={mobileLinkStyle} onClick={() => scrollToId('landing-features')}>Features</button>
+        <button style={mobileLinkStyle} onClick={() => { setMobileMenuOpen(false); navigate('/about') }}>About</button>
+        <button style={{ ...mobileLinkStyle, borderBottom: 'none' }} onClick={() => { setMobileMenuOpen(false); navigate('/blog') }}>Blogs</button>
+      </div>
     </nav>
   )
 }

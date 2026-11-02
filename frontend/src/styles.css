@@ -911,12 +911,23 @@ body {
   border: 1px solid rgba(0,0,0,0.04);
 }
 
-/* Marketing landing page's top nav links -- collapses to just logo + Sign In
-   below this width rather than wrapping/squeezing, since there's no good
-   place for a hamburger on a page that has no other persistent chrome. */
+/* Marketing landing page's top nav links -- collapses to logo + Sign In +
+   a hamburger below this width rather than wrapping/squeezing. The links
+   themselves (Home/How It Works/Features/About/Blogs) move into the
+   dropdown panel below instead of disappearing entirely. */
+.landing-mobile-menu-btn { display: none; }
+.landing-mobile-menu-panel { display: none; }
 @media (max-width: 720px) {
   .landing-nav-links {
     display: none !important;
+  }
+
+  .landing-mobile-menu-btn {
+    display: inline-flex !important;
+  }
+
+  .landing-mobile-menu-panel.open {
+    display: flex !important;
   }
 
   .landing-hero-grid {
