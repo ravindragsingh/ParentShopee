@@ -1553,8 +1553,11 @@ function PostView({ post }) {
   const navigate = useNavigate()
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
-      {/* Top nav */}
-      <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', display: 'flex', alignItems: 'center', gap: 16, boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
+      {/* Top nav -- paddingTop accounts for the Android status bar (time/signal
+          icons) sitting on top of this edge-to-edge WebView; env() is 0 on
+          web/iOS where the OS already reserves that space, so max() keeps
+          the normal 14px there and only grows on Android. */}
+      <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', paddingTop: 'max(14px, env(safe-area-inset-top, 0px))', display: 'flex', alignItems: 'center', gap: 16, boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
         <button
           onClick={() => navigate('/blog')}
           style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', color: '#fff', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 6 }}
@@ -1619,8 +1622,8 @@ function BlogList() {
   const navigate = useNavigate()
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
-      {/* Nav */}
-      <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
+      {/* Nav -- see PostView's identical paddingTop comment above */}
+      <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', paddingTop: 'max(14px, env(safe-area-inset-top, 0px))', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
         <div
           onClick={() => navigate('/')}
           style={{ background: '#fff', borderRadius: 10, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)', cursor: 'pointer' }}

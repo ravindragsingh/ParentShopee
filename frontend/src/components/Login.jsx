@@ -1459,7 +1459,7 @@ function TopNav({ onSignIn, onShowHelp }) {
   }
   return (
     <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: '#fff', borderBottom: '1px solid #f1f5f9' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', paddingTop: 'max(14px, env(safe-area-inset-top, 0px))' }}>
         <img
           src="/branding/RewardURKids_Website_Compact_Logo.png"
           alt="Reward Ur Kids — Small Tasks. Big Smiles."
