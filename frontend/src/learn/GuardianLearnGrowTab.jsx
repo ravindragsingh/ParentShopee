@@ -14,6 +14,12 @@ const SECTIONS = [
 
 export default function GuardianLearnGrowTab() {
   const [section, setSection] = useState(null)
+  // GuardianFutureReadyTab/GuardianQuestsTab render their own "← Back"
+  // header the moment a single lesson/quest preview is open (LessonModule/
+  // QuestView) -- this tracks that so the section-level back button below
+  // hides itself then, instead of stacking two back buttons that go to
+  // different places.
+  const [inDetail, setInDetail] = useState(false)
 
   if (!section) {
     return (
@@ -47,10 +53,12 @@ export default function GuardianLearnGrowTab() {
 
   return (
     <div>
-      <button onClick={() => setSection(null)} style={{ background: 'none', border: 'none', color: '#64748b', fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: 14, padding: 0 }}>
-        ← Back
-      </button>
-      {section === 'quests' ? <GuardianQuestsTab /> : <GuardianFutureReadyTab />}
+      {!inDetail && (
+        <button onClick={() => setSection(null)} style={{ background: 'none', border: 'none', color: '#64748b', fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: 14, padding: 0 }}>
+          ← Back
+        </button>
+      )}
+      {section === 'quests' ? <GuardianQuestsTab onDetailChange={setInDetail} /> : <GuardianFutureReadyTab onDetailChange={setInDetail} />}
     </div>
   )
 }

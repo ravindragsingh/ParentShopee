@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import FutureReadyTab from '../futureready/FutureReadyTab.jsx'
 import QuestsTab from '../quests/QuestsTab.jsx'
 
@@ -47,18 +48,26 @@ function SectionPicker({ onPick }) {
 }
 
 export default function LearnGrowTab({ section, onSectionChange, onBalanceChange, startModuleId, onConsumeStart }) {
+  // FutureReadyTab/QuestsTab render their own "← Back" header the moment a
+  // single lesson/quest is open (LessonModule/QuestView) -- this tracks that
+  // so the section-level back button below hides itself then, instead of
+  // stacking two back buttons that go to different places.
+  const [inDetail, setInDetail] = useState(false)
+
   if (!section) {
     return <SectionPicker onPick={onSectionChange} />
   }
 
   return (
     <div>
-      <button onClick={() => onSectionChange(null)} style={{ background: 'none', border: 'none', color: '#64748b', fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: 14, padding: 0 }}>
-        ← Back
-      </button>
+      {!inDetail && (
+        <button onClick={() => onSectionChange(null)} style={{ background: 'none', border: 'none', color: '#64748b', fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: 14, padding: 0 }}>
+          ← Back
+        </button>
+      )}
       {section === 'quests'
-        ? <QuestsTab onBalanceChange={onBalanceChange} />
-        : <FutureReadyTab onBalanceChange={onBalanceChange} startModuleId={startModuleId} onConsumeStart={onConsumeStart} />}
+        ? <QuestsTab onBalanceChange={onBalanceChange} onDetailChange={setInDetail} />
+        : <FutureReadyTab onBalanceChange={onBalanceChange} startModuleId={startModuleId} onConsumeStart={onConsumeStart} onDetailChange={setInDetail} />}
     </div>
   )
 }

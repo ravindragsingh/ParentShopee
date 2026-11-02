@@ -161,7 +161,7 @@ function PointsEditor({ points, disabled, onSave }) {
   )
 }
 
-export default function GuardianFutureReadyTab() {
+export default function GuardianFutureReadyTab({ onDetailChange } = {}) {
   const { user } = useAuth()
   const [modules, setModules] = useState([])
   const [kids, setKids] = useState([])
@@ -186,6 +186,11 @@ export default function GuardianFutureReadyTab() {
   }, [])
 
   useEffect(() => { loadModules() }, [loadModules])
+
+  // LessonModule renders its own "← Back" header -- tell GuardianLearnGrowTab
+  // to hide its own back button while a preview is open, so there's never
+  // two stacked back buttons on screen at once.
+  useEffect(() => { onDetailChange && onDetailChange(!!previewModule) }, [previewModule, onDetailChange])
   useEffect(() => { api.getKids().then(setKids).catch(() => {}) }, [])
 
   async function handleToggle(module) {

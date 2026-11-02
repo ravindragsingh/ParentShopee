@@ -167,7 +167,7 @@ function groupByCategory(modules) {
   return [...byCategory.values()]
 }
 
-export default function GuardianQuestsTab() {
+export default function GuardianQuestsTab({ onDetailChange } = {}) {
   const [modules, setModules] = useState([])
   const [kids, setKids] = useState([])
   const [loading, setLoading] = useState(true)
@@ -191,6 +191,11 @@ export default function GuardianQuestsTab() {
 
   useEffect(() => { loadModules() }, [loadModules])
   useEffect(() => { api.getKids().then(setKids).catch(() => {}) }, [])
+
+  // QuestView renders its own "← Back" header -- tell GuardianLearnGrowTab
+  // to hide its own back button while a preview is open, so there's never
+  // two stacked back buttons on screen at once.
+  useEffect(() => { onDetailChange && onDetailChange(!!previewModule) }, [previewModule, onDetailChange])
 
   async function handleToggle(module) {
     setSavingId(module.id)

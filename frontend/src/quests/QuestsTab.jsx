@@ -52,7 +52,7 @@ function CategoryCard({ meta, emoji, title, isNew, index, children }) {
   )
 }
 
-export default function QuestsTab({ onBalanceChange }) {
+export default function QuestsTab({ onBalanceChange, onDetailChange }) {
   const [modules, setModules] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -75,6 +75,11 @@ export default function QuestsTab({ onBalanceChange }) {
   // Also catches up the kid's balance badge elsewhere in the app, in case a
   // guardian approved an earlier log while this tab wasn't open.
   useEffect(() => { loadModules(); onBalanceChange && onBalanceChange() }, [loadModules])
+
+  // QuestView renders its own "← Back" header -- tell LearnGrowTab to hide
+  // its own back button while a single quest is open, so there's never two
+  // stacked back buttons on screen at once.
+  useEffect(() => { onDetailChange && onDetailChange(!!openModule) }, [openModule, onDetailChange])
 
   function handleLogSubmitted() {
     // Points land only once a guardian approves the log (see QuestView), so
