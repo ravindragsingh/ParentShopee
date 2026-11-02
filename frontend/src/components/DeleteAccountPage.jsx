@@ -49,7 +49,7 @@ export default function DeleteAccountPage() {
   }
 
   const headerBar = (
-    <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', paddingTop: 'max(14px, env(safe-area-inset-top, 0px))', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
+    <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', paddingTop: 'max(14px, var(--sa-inset-top, 0px))', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
       <div
         onClick={() => navigate('/')}
         style={{ background: '#fff', borderRadius: 10, padding: '4px 10px', display: 'inline-flex', alignItems: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.15)', cursor: 'pointer' }}

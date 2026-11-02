@@ -48,7 +48,7 @@ export default function AboutPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       {/* Top nav */}
-      <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', paddingTop: 'max(14px, env(safe-area-inset-top, 0px))', display: 'flex', alignItems: 'center', gap: 16, boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
+      <div style={{ background: 'linear-gradient(135deg,#0f766e,#0d9488)', padding: '14px 24px', paddingTop: 'max(14px, var(--sa-inset-top, 0px))', display: 'flex', alignItems: 'center', gap: 16, boxShadow: '0 2px 10px rgba(0,0,0,0.12)' }}>
         <button
           onClick={() => navigate('/')}
           style={{ background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.35)', color: '#fff', borderRadius: 8, padding: '6px 14px', cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: 6 }}
