@@ -1,5 +1,6 @@
-from datetime import date
+from datetime import datetime
 from uuid import uuid4
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -7,6 +8,26 @@ from sqlalchemy.orm import Session
 from daily_chore_samples import MAX_DAILY_CHORE_ITEMS, get_daily_chore_bank
 from helpers import calculate_approx_age, now
 from models import DBDailyChoreItem, DBTransaction, DBUser, DBWallet
+
+
+def _kid_today_str(kid: DBUser) -> str:
+    """"Today" in the kid's own device timezone (see DBUser.timezone /
+    routers/family.enter_profile), not the server's -- the server runs on
+    UTC (Render), which used to make the daily reset land at UTC midnight
+    regardless of where the family actually is. For a family well ahead of
+    UTC (e.g. India, UTC+5:30) that meant yesterday's completed chores kept
+    showing as "done" for hours into their own new day, since the server's
+    calendar date hadn't rolled over yet. Falls back to UTC only if this
+    kid's profile has never reported a timezone."""
+    tz = None
+    if kid.timezone:
+        try:
+            tz = ZoneInfo(kid.timezone)
+        except (ZoneInfoNotFoundError, ValueError):
+            tz = None
+    if tz is None:
+        tz = ZoneInfo("UTC")
+    return datetime.now(tz).date().isoformat()
 
 
 def ensure_daily_chores_seeded(db: Session, kid: DBUser) -> None:
@@ -34,7 +55,7 @@ def resolve_daily_chores(db: Session, kid: DBUser) -> None:
     until a guardian approves or rejects it, same as regular chores never time
     out; "complete" (already approved) just clears back to "open" for the new
     day without any further point change."""
-    today_str = date.today().isoformat()
+    today_str = _kid_today_str(kid)
     items = db.query(DBDailyChoreItem).filter(
         DBDailyChoreItem.kid_id == kid.id,
         DBDailyChoreItem.is_active == "1",
