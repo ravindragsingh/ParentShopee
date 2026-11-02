@@ -96,7 +96,7 @@ function TopicFormModal({ topic, section, onSave, onClose }) {
   }
 
   return (
-    <ModalShell title={isEdit ? 'Edit Topic' : 'New Topic'} subtitle={section === 'quest' ? 'Quest category' : 'Future-Ready topic'} onClose={onClose}>
+    <ModalShell title={isEdit ? 'Edit Topic' : 'New Topic'} subtitle={section === 'quest' ? 'Quest category' : section === 'reading-log' ? 'Reading Log genre' : 'Future-Ready topic'} onClose={onClose}>
       <form onSubmit={handleSubmit}>
         {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>{error}</div>}
         {!isEdit && (
@@ -556,6 +556,9 @@ function ModuleEditor({ section, module: initialModule, onBack }) {
   const [slides, setSlides] = useState([])
   const [quiz, setQuiz] = useState([])
   const [activities, setActivities] = useState([])
+  const [bookAuthor, setBookAuthor] = useState('')
+  const [bookDescription, setBookDescription] = useState('')
+  const [bookCoverEmoji, setBookCoverEmoji] = useState('📖')
   const [previewIndex, setPreviewIndex] = useState(0)
   const [savingContent, setSavingContent] = useState(false)
   const [contentError, setContentError] = useState('')
@@ -577,6 +580,9 @@ function ModuleEditor({ section, module: initialModule, onBack }) {
       setSlides(full.content?.slides || [])
       setQuiz(full.content?.quiz || [])
       setActivities(full.content?.activities || [])
+      setBookAuthor(full.content?.author || '')
+      setBookDescription(full.content?.description || '')
+      setBookCoverEmoji(full.content?.coverEmoji || '📖')
     }).catch(err => setError(err.message)).finally(() => setLoading(false))
   }, [initialModule.id])
 
@@ -608,7 +614,9 @@ function ModuleEditor({ section, module: initialModule, onBack }) {
     setContentError('')
     setContentSaved(false)
     try {
-      const content = section === 'quest' ? { activities } : { slides, quiz }
+      const content = section === 'quest' ? { activities }
+        : section === 'reading-log' ? { author: bookAuthor, description: bookDescription, coverEmoji: bookCoverEmoji }
+        : { slides, quiz }
       const updated = await api.adminUpdateModuleContent(module.id, content)
       setModule(m => ({ ...m, content: updated.content }))
       setContentSaved(true)
@@ -697,6 +705,16 @@ function ModuleEditor({ section, module: initialModule, onBack }) {
           ))}
           <button type="button" onClick={() => setActivities(list => [...list, { emoji: '🧩', title: '', description: '', example: '', materials: [], duration: '', steps: [] }])} style={{ ...editBtnStyle, marginBottom: 20 }}>+ Add activity</button>
         </div>
+      ) : section === 'reading-log' ? (
+        <div style={{ maxWidth: 420 }}>
+          <div style={{ fontWeight: 700, color: '#1e293b', marginBottom: 10 }}>Book details</div>
+          <label style={labelStyle}>Cover emoji</label>
+          <input value={bookCoverEmoji} onChange={e => setBookCoverEmoji(e.target.value)} style={{ ...inputStyle, marginBottom: 12, maxWidth: 80 }} />
+          <label style={labelStyle}>Author</label>
+          <input value={bookAuthor} onChange={e => setBookAuthor(e.target.value)} style={{ ...inputStyle, marginBottom: 12 }} />
+          <label style={labelStyle}>Description</label>
+          <textarea value={bookDescription} onChange={e => setBookDescription(e.target.value)} rows={4} style={{ ...inputStyle, marginBottom: 12, resize: 'vertical' }} />
+        </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(260px, 340px)', gap: 20, alignItems: 'start' }}>
           <div>
@@ -763,7 +781,7 @@ export default function AdminContentPanel() {
   return (
     <div>
       <div style={{ display: 'flex', gap: 4, marginBottom: 18, background: '#f1f5f9', borderRadius: 10, padding: 4, width: 'fit-content' }}>
-        {[{ id: 'future-ready', label: '🚀 Future-Ready' }, { id: 'quest', label: '🧸 Quests' }].map(s => (
+        {[{ id: 'future-ready', label: '🚀 Future-Ready' }, { id: 'quest', label: '🧸 Quests' }, { id: 'reading-log', label: '📖 Reading Log' }].map(s => (
           <button
             key={s.id}
             onClick={() => openSection(s.id)}

@@ -1466,11 +1466,11 @@ export default function AdminDashboard() {
             even attempt navigating into families/tickets/admins. */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 20, borderBottom: '1px solid #e2e8f0' }}>
           {(isContentOnly ? [
-            { id: 'content', label: '📚 Future-Ready & Quests' },
+            { id: 'content', label: '📚 Content' },
           ] : [
             { id: 'families', label: '🏠 Families' },
             { id: 'tickets',  label: '🎫 Support Tickets' },
-            { id: 'content',  label: '📚 Future-Ready & Quests' },
+            { id: 'content',  label: '📚 Content' },
             { id: 'admins',   label: '🛡️ Admins' },
           ]).map(tab => (
             <button

@@ -139,6 +139,16 @@ export const api = {
   approveQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/approve`),
   rejectQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/reject`),
 
+  // Reading Log
+  getReadingLog: () => request('GET', '/api/reading-log'),
+  getReadingLogContent: (moduleId) => request('GET', `/api/reading-log/${moduleId}/content`),
+  setReadingLogVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/reading-log/${moduleId}/visibility`, { enabled, kidIds }),
+  setReadingLogPoints: (moduleId, points) => request('PUT', `/api/reading-log/${moduleId}/points`, { points }),
+  resetReadingLogCompletion: (moduleId, kidId) => request('DELETE', `/api/reading-log/${moduleId}/completion/${kidId}`),
+  submitReadingLog: (moduleId, note) => request('POST', `/api/reading-log/${moduleId}/log`, { note }),
+  approveReadingLog: (logId) => request('POST', `/api/reading-log/logs/${logId}/approve`),
+  rejectReadingLog: (logId) => request('POST', `/api/reading-log/logs/${logId}/reject`),
+
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
   getAllWallets: () => request('GET', '/api/wallet'),

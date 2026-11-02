@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
 import GuardianQuestsTab from '../quests/GuardianQuestsTab.jsx'
+import GuardianReadingLogTab from '../reading/GuardianReadingLogTab.jsx'
 
 // Guardian-side counterpart to LearnGrowTab.jsx -- see that file's comment
 // for why Future-Ready and Quests share one nav slot (with a picker screen,
@@ -10,6 +11,7 @@ import GuardianQuestsTab from '../quests/GuardianQuestsTab.jsx'
 const SECTIONS = [
   { key: 'futureready', icon: '🚀', label: 'Future-Ready', text: 'Manage lessons on money, AI, safety & more', color: '#ea580c', bg: '#f5f3ff', border: '#ddd6fe' },
   { key: 'quests', icon: '🧸', label: 'Quests', text: 'Manage hands-on things to try together', color: '#ea580c', bg: '#f0fdfa', border: '#99f6e4' },
+  { key: 'reading', icon: '📖', label: 'Reading Log', text: 'Manage books kids can log for points', color: '#ea580c', bg: '#fff7ed', border: '#fed7aa' },
 ]
 
 export default function GuardianLearnGrowTab() {
@@ -58,7 +60,11 @@ export default function GuardianLearnGrowTab() {
           ← Back
         </button>
       )}
-      {section === 'quests' ? <GuardianQuestsTab onDetailChange={setInDetail} /> : <GuardianFutureReadyTab onDetailChange={setInDetail} />}
+      {section === 'quests'
+        ? <GuardianQuestsTab onDetailChange={setInDetail} />
+        : section === 'reading'
+        ? <GuardianReadingLogTab onDetailChange={setInDetail} />
+        : <GuardianFutureReadyTab onDetailChange={setInDetail} />}
     </div>
   )
 }

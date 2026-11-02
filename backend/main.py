@@ -12,7 +12,7 @@ import models  # noqa: F401 — import ensures all tables are registered on Base
 from database import SessionLocal, engine, Base
 from seed import backfill_sample_ids, ensure_demo_accounts, migrate_legacy_learning_content, reconcile_custom_item_counts, seed_db
 from models import DBUser
-from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, shop, wallet
+from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, reading_log, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -58,6 +58,7 @@ app.include_router(admin_content.router)
 app.include_router(daily_chores.router)
 app.include_router(future_ready.router)
 app.include_router(quests.router)
+app.include_router(reading_log.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
