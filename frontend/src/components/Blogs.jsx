@@ -5,6 +5,110 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const POSTS = [
   {
+    id: 12,
+    slug: 'how-to-get-kids-excited-about-reading',
+    title: 'How to Get Kids Excited About Reading, Not Just Assigned It',
+    subtitle: "Reading becomes a habit the same way chores do — not by assigning more of it, but by making the choice, the progress, and the finish line visible to the kid doing it.",
+    date: 'November 2026',
+    readTime: '6 min read',
+    emoji: '📚',
+    tags: ['Reading', 'Literacy', 'Parenting', 'Child Development'],
+    content: [
+      {
+        type: 'intro',
+        text: "Reading time has a way of turning into homework in disguise. \"Go read for twenty minutes\" gets almost exactly the same resistance as \"go clean your room\" — not because kids secretly dislike stories, but because this version of reading comes with no choice, no visible progress, and no clear end point. It's the part of the day that feels most like an assignment and least like a book.",
+      },
+      {
+        type: 'intro',
+        text: "Kids who read consistently almost always have three things in common: they picked the book themselves, they can see how far they've gotten, and finishing actually feels like something. None of that requires a stricter rule about reading time. It requires making reading function more like an activity a kid wants to return to, instead of one more box to check before bed.",
+      },
+      {
+        type: 'h2',
+        text: "Why Telling a Kid to \"Read More\" Rarely Works",
+      },
+      {
+        type: 'p',
+        text: "Reading is invisible in a way chores aren't. A messy room visibly becomes a tidy one; a task gets physically checked off. A kid curled up with a book for ten minutes looks identical to a kid staring at the ceiling for ten minutes from the outside — and feels similarly shapeless on the inside too, if there's no sense of progress building up. Telling a kid to \"read more\" asks them to build a habit around an activity that currently gives them no feedback at all: no number going up, no visible finish line, nothing to point at afterward and say, \"I did that.\"",
+      },
+      {
+        type: 'h2',
+        text: 'What Actually Gets Kids Reading',
+      },
+      {
+        type: 'scenario',
+        items: [
+          { time: 'The assigned-reading routine', text: "Every evening becomes the same small negotiation — a required book, a required twenty minutes, a parent reminding and re-reminding. The kid treats it exactly like a chore they didn't choose, because structurally, that's exactly what it is." },
+          { time: 'The chosen-and-tracked routine', text: "The kid picks their own book — something that actually interests them, not something assigned — and watches a simple progress bar fill in as they go. Progress is visible well before the book is even half finished." },
+          { time: 'The result', text: "The same kid who needed reminding every single night starts asking to log their reading instead of being asked to. The book hasn't changed. What's visible has." },
+        ],
+      },
+      {
+        type: 'h2',
+        text: 'Four Things That Turn Reading Into Something a Kid Wants to Do',
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: 'Real Choice Beats Any Assigned List',
+        text: "Literacy research keeps landing on the same finding: a child's own interest predicts how much they read far better than reading level or \"appropriateness\" does. A ten-year-old who picks a slightly-too-easy graphic novel they're genuinely excited about will read more of it than the same kid handed a well-reviewed book they didn't choose.",
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: 'Visible Progress Turns an Abstract Task Into a Concrete One',
+        text: "A page count or a percent-complete bar does for reading what a checklist already does for chores — it gives an otherwise invisible activity a number that can visibly go up. Kids don't need to be told they're making progress when they can watch it fill in themselves.",
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: 'Finishing Needs a Real Moment, Not Just a Checkmark',
+        text: "The jump from \"almost done\" to \"finished\" is where motivation either compounds or quietly fades. A book that just gets closed and shelved teaches nothing about persistence; a book that ends with a kid being genuinely recognized for finishing it teaches that seeing something through is worth noticing.",
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: 'Small, Repeatable Goals Beat One Big Expectation',
+        text: "\"Read every single day\" is a rule that breaks the first time life gets in the way — and once it breaks, it tends to stay broken. \"Read on most days this week\" survives a missed Tuesday just fine. The goal that bends a little is usually the one that actually lasts.",
+      },
+      {
+        type: 'h2',
+        text: "How Reward Ur Kids' Reading Log Puts This Into Practice",
+      },
+      {
+        type: 'p',
+        text: "This is exactly what the Reading Log — Reward Ur Kids' newest addition to Learn & Grow — is built around. A kid can search for any real book (title, author, cover art, and page count pulled in automatically) or pick from a shortlist their guardian has recommended, so there's always a legitimate starting point even for a reluctant reader. From there, logging a session is as simple as entering minutes or pages read, and a real progress bar fills in as they go — the same kind of visible feedback a chore's checklist already gives.",
+      },
+      {
+        type: 'feature',
+        icon: '📖',
+        title: 'A Real Progress Bar, a Real Finish Line',
+        text: "Finishing a book sends it to a guardian for a quick approval and a points reward, turning \"I finished my book\" into a small, celebrated moment instead of a quiet non-event — and a weekly reading-goal bar makes \"did we read this week\" visible at a glance, instead of something a guardian has to remember to ask about at bedtime.",
+      },
+      {
+        type: 'h2',
+        text: 'Building the Habit, One Week at a Time',
+      },
+      {
+        type: 'steps',
+        items: [
+          'Let your kid choose the very first book themselves, even if it looks too easy — motivation matters more than difficulty in the first few weeks',
+          "Set a small weekly goal like three days instead of a daily must-do, so one missed evening doesn't feel like the habit failed",
+          'Log the first few sessions together, so checking in on progress becomes a quick shared ritual instead of one more thing to remember',
+          'Make a real moment out of "finished" — ask what happened in the book, not just approve the points',
+          'Mix in a book or two you recommend alongside their own picks, so new genres get a foot in the door without ever feeling assigned',
+        ],
+      },
+      {
+        type: 'quote',
+        text: "Kids don't resist reading. They resist reading that doesn't feel like theirs, with no sense of how far they've come. Give a kid real choice and a progress bar that's actually theirs to fill, and the habit tends to take care of itself.",
+      },
+      {
+        type: 'hashtags',
+        tags: ['#ReadingHabits', '#KidsAndBooks', '#Literacy', '#Parenting', '#RewardUrKids'],
+      },
+    ],
+  },
+  {
     id: 11,
     slug: 'why-teaching-kids-manners-matters',
     title: 'Why Teaching Kids Good Manners Matters More Than Ever',
