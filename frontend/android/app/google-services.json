@@ -12,7 +12,20 @@
           "package_name": "com.rewardurkids.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1093823710496-atom4il0gqsvnvjqrn9r3iv4i342aagb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rewardurkids.app",
+            "certificate_hash": "3c8b6457a1fe71fb463c82f4b5eced2837f21c03"
+          }
+        },
+        {
+          "client_id": "1093823710496-0k370fq8i8evfcdpva2rst1uu32p2l2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCeW0aj4T1PwBw2mFKJtuNLcIjoHOeovp4"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093823710496-0k370fq8i8evfcdpva2rst1uu32p2l2d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1093823710496-glnmrr98l0n6ga958v6qgg1g7q9l3vcp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rewardurkids.app"
+              }
+            }
+          ]
         }
       }
     }
