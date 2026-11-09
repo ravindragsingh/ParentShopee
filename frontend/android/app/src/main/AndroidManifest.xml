@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -54,4 +54,13 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- @capacitor/local-notifications declares this unconditionally in its
+         own AAR manifest for apps that use isExactNotification: true. This
+         app never does (see src/utils/localNotifications.js): a daily
+         reminder doesn't need to-the-minute precision, and SCHEDULE_EXACT_ALARM
+         is a Play Console "special access" permission that needs justification
+         even if the code path that would use it is dead. Removed outright
+         rather than carrying an unused sensitive permission into review. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />
 </manifest>

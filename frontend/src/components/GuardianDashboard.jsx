@@ -22,6 +22,8 @@ import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth'
 import GuardianLearnGrowTab from '../learn/GuardianLearnGrowTab.jsx'
 import { useTour } from '../tour/TourContext.jsx'
 import { isTourDisabled, setTourEnabled } from '../tour/tourStorage.js'
+import { isChoreReminderDisabled, setChoreReminderEnabled } from '../utils/choreReminderStorage.js'
+import { isLocalNotificationsAvailable, scheduleChoreReminder, cancelChoreReminder } from '../utils/localNotifications.js'
 
 // ─── Sample chore templates ──────────────────────────────────────────────────
 
@@ -1421,6 +1423,26 @@ function AdminPanelTab() {
     setTourEnabledState(enabled)
   }
 
+  const [reminderEnabled, setReminderEnabledState] = useState(() => !isChoreReminderDisabled(user.id, 'guardian'))
+  const [reminderError, setReminderError] = useState('')
+  async function handleToggleReminder(e) {
+    const enabled = e.target.checked
+    setReminderError('')
+    if (enabled) {
+      const ok = await scheduleChoreReminder(user.id, 'guardian', {
+        title: '👀 Chores waiting', body: 'You have chores to review today.', hour: 19, minute: 0,
+      })
+      if (!ok) {
+        setReminderError("Notifications are blocked — enable them in your phone's Settings app.")
+        return
+      }
+    } else {
+      await cancelChoreReminder(user.id, 'guardian')
+    }
+    setChoreReminderEnabled(user.id, 'guardian', enabled)
+    setReminderEnabledState(enabled)
+  }
+
   const isPrimaryGuardian = !user.coGuardianOf
 
   async function handleDeleteAccount() {
@@ -1606,6 +1628,18 @@ function AdminPanelTab() {
           ▶ Replay Getting Started Tour
         </button>
       </div>
+
+      {/* Chore reminder */}
+      {isLocalNotificationsAvailable() && (
+        <div className="form-card" style={{ maxWidth: 500 }}>
+          <div className="form-title">🔔 Daily Reminder</div>
+          {reminderError && <div className="error-msg" style={{ marginBottom: 10 }}>{reminderError}</div>}
+          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.875rem', color: '#334155', cursor: 'pointer' }}>
+            <input type="checkbox" checked={reminderEnabled} onChange={handleToggleReminder} />
+            Remind me to review pending chores every day
+          </label>
+        </div>
+      )}
 
       {/* Sign out */}
       <div className="form-card" style={{ maxWidth: 500 }}>

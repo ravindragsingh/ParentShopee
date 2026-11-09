@@ -1,17 +1,39 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
+import { isChoreReminderDisabled, setChoreReminderEnabled } from '../utils/choreReminderStorage.js'
+import { isLocalNotificationsAvailable, scheduleChoreReminder, cancelChoreReminder } from '../utils/localNotifications.js'
 
 // Kid Dashboard only now — the guardian's equivalent lives in GuardianDashboard's
 // Admin Panel tab, which also covers the password/PIN they actually have.
 export default function SettingsPanel() {
   const { user, logout } = useAuth()
   const [tipsEnabled, setTipsEnabledState] = useState(() => !areTipsDisabled(user.id))
+  const [reminderEnabled, setReminderEnabledState] = useState(() => !isChoreReminderDisabled(user.id, 'kid'))
+  const [reminderError, setReminderError] = useState('')
 
   function handleToggleTips(e) {
     const enabled = e.target.checked
     setTipsEnabled(user.id, enabled)
     setTipsEnabledState(enabled)
+  }
+
+  async function handleToggleReminder(e) {
+    const enabled = e.target.checked
+    setReminderError('')
+    if (enabled) {
+      const ok = await scheduleChoreReminder(user.id, 'kid', {
+        title: '🧹 Chore time!', body: "Don't forget to check your chores today!", hour: 17, minute: 0,
+      })
+      if (!ok) {
+        setReminderError("Notifications are blocked — enable them in your phone's Settings app.")
+        return
+      }
+    } else {
+      await cancelChoreReminder(user.id, 'kid')
+    }
+    setChoreReminderEnabled(user.id, 'kid', enabled)
+    setReminderEnabledState(enabled)
   }
 
   return (
@@ -58,6 +80,18 @@ export default function SettingsPanel() {
           Show a daily tip when I open my dashboard
         </label>
       </div>
+
+      {/* Chore reminder */}
+      {isLocalNotificationsAvailable() && (
+        <div className="form-card" style={{ marginBottom: 16 }}>
+          <div className="form-title">🔔 Daily Reminder</div>
+          {reminderError && <div className="error-msg" style={{ marginBottom: 10 }}>{reminderError}</div>}
+          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.875rem', color: '#334155', cursor: 'pointer' }}>
+            <input type="checkbox" checked={reminderEnabled} onChange={handleToggleReminder} />
+            Remind me to check my chores every day
+          </label>
+        </div>
+      )}
 
       {/* Sign out */}
       <div className="form-card">
