@@ -1,4 +1,6 @@
+import asyncio
 import os
+import traceback
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException
@@ -9,7 +11,9 @@ from starlette.requests import Request as StarletteRequest
 from starlette.responses import Response as StarletteResponse
 
 import models  # noqa: F401 — import ensures all tables are registered on Base before create_all()
+from config import CONTACT_EMAIL
 from database import SessionLocal, engine, Base
+from email_utils import send_email
 from seed import backfill_sample_ids, ensure_demo_accounts, migrate_legacy_learning_content, reconcile_custom_item_counts, seed_db
 from models import DBUser
 from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, shop, wallet
@@ -42,6 +46,27 @@ async def _flatten_http_exception(request: StarletteRequest, exc: HTTPException)
     if isinstance(exc.detail, dict):
         return JSONResponse(status_code=exc.status_code, content=exc.detail)
     return JSONResponse(status_code=exc.status_code, content={"success": False, "error": str(exc.detail)})
+
+@app.exception_handler(Exception)
+async def _handle_unexpected_exception(request: StarletteRequest, exc: Exception):
+    """Genuine unhandled exceptions (bugs, DB errors, etc.) -- NOT fail()-raised
+    HTTPExceptions, those are handled above and are expected 4xx/5xx, not crashes.
+    These previously fell through to Starlette's default 500 handler completely
+    unreported. Alerts CONTACT_EMAIL so a crash doesn't go unnoticed; the email send
+    runs in a separate thread so a slow/failed SMTP send never delays the error
+    response or masks the original exception."""
+    trace = traceback.format_exc()
+    print(f"[error] Unhandled exception on {request.method} {request.url.path}:\n{trace}")
+
+    def _notify():
+        send_email(
+            CONTACT_EMAIL,
+            f"[Reward Ur Kids] API error: {request.method} {request.url.path}",
+            f"An unhandled exception occurred:\n\n{request.method} {request.url.path}\n\n{trace}\n",
+        )
+    asyncio.create_task(asyncio.to_thread(_notify))
+
+    return JSONResponse(status_code=500, content={"success": False, "error": "Something went wrong. Please try again."})
 
 # ── Routers ────────────────────────────────────────────────────────────────────
 

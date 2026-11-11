@@ -3,7 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from config import (
-    ACTIVATION_TOKEN_TTL_HOURS, COGUARDIAN_INVITE_TTL_HOURS, EMAIL_FROM, FRONTEND_URL,
+    ACTIVATION_TOKEN_TTL_HOURS, COGUARDIAN_INVITE_TTL_HOURS, CONTACT_EMAIL, EMAIL_FROM, FRONTEND_URL,
     SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER,
 )
 from models import DBUser
@@ -45,6 +45,20 @@ def send_activation_email(user: DBUser) -> bool:
         f"this account, you can safely ignore this email.\n"
     )
     return send_email(user.email, subject, body_text)
+
+
+def send_new_signup_notification(user: DBUser) -> bool:
+    """Internal alert to the team inbox whenever a new guardian account is created,
+    so signups are visible without digging through the admin panel."""
+    subject = f"New Reward Ur Kids signup: {user.email}"
+    body_text = (
+        f"A new account was just created:\n\n"
+        f"    Name:     {user.name}\n"
+        f"    Username: {user.username}\n"
+        f"    Email:    {user.email}\n"
+        f"    Role:     {user.role}\n"
+    )
+    return send_email(CONTACT_EMAIL, subject, body_text)
 
 
 def send_reset_email(user: DBUser, link: str) -> bool:
