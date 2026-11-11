@@ -10,7 +10,7 @@ from starlette.requests import Request as StarletteRequest
 from config import ACTIVATION_TOKEN_TTL_HOURS, EMAIL_RE, FRONTEND_URL
 from database import get_db
 from deps import create_session, require_auth, require_guardian
-from email_utils import send_activation_email, send_reset_email, send_username_email
+from email_utils import send_activation_email, send_new_signup_notification, send_reset_email, send_username_email
 from firebase_app import get_firebase_app, verify_firebase_token
 from geolocation import get_client_ip, get_client_platform, get_client_timezone, get_location_from_ip, record_login_location
 from google_auth_utils import verify_google_token
@@ -73,7 +73,7 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
 
 
 @router.post("/api/auth/register")
-def register(body: RegisterBody, request: StarletteRequest, db: Session = Depends(get_db)):
+def register(body: RegisterBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     if not EMAIL_RE.match(body.email):
         fail("Please enter a valid email address")
     try:
@@ -123,6 +123,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
     db.add(user)
     db.commit()
     db.refresh(user)
+    background_tasks.add_task(send_new_signup_notification, user)
 
     if not send_activation_email(user):
         fail("Account created, but we couldn't send the activation email. Please try 'Resend activation email' from the sign-in page.", 500)
@@ -245,7 +246,7 @@ def register_precheck(body: RegisterPrecheckBody, db: Session = Depends(get_db))
 
 
 @router.post("/api/auth/register/finalize")
-def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, db: Session = Depends(get_db)):
+def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     """Second half of registration: takes the ID token for a Firebase user that
     either (a) the frontend just created with createUserWithEmailAndPassword
     right after a successful precheck, or (b) Firebase created automatically on
@@ -324,6 +325,7 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, db:
     db.add(user)
     db.commit()
     db.refresh(user)
+    background_tasks.add_task(send_new_signup_notification, user)
 
     if is_google:
         token = create_session(db, user.id)
@@ -428,6 +430,7 @@ def google_complete(body: GoogleCompleteBody, request: StarletteRequest, backgro
     db.add(user)
     db.commit()
     db.refresh(user)
+    background_tasks.add_task(send_new_signup_notification, user)
 
     token = create_session(db, user.id)
     background_tasks.add_task(record_login_location, user.id, get_client_ip(request))
