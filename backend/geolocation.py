@@ -1,5 +1,6 @@
 import json
 import urllib.request
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from starlette.requests import Request as StarletteRequest
 
@@ -29,6 +30,26 @@ def get_client_platform(request: StarletteRequest) -> str:
     which is the correct guess for anything that isn't a wrapped native app."""
     platform = (request.headers.get("x-client-platform") or "").strip().lower()
     return platform if platform in _VALID_PLATFORMS else "web"
+
+
+def get_client_timezone(request: StarletteRequest) -> str | None:
+    """The device's own IANA timezone (e.g. "Asia/Kolkata"), as reported by the
+    frontend's Intl.DateTimeFormat().resolvedOptions().timeZone (see
+    frontend/src/api.js) -- not something the server can infer from the
+    request at all. Validated against the real tz database rather than
+    stored blindly, since this ends up driving day-boundary logic (see
+    daily_chore_logic.py) where a garbage value would be worse than none.
+    None (not a default like get_client_platform's "web") for a missing or
+    invalid header, so callers can tell "no timezone known yet" apart from
+    an actual zone and fall back to UTC themselves."""
+    tz_name = (request.headers.get("x-client-timezone") or "").strip()
+    if not tz_name:
+        return None
+    try:
+        ZoneInfo(tz_name)
+    except (ZoneInfoNotFoundError, ValueError):
+        return None
+    return tz_name
 
 
 def get_location_from_ip(ip: str) -> dict:

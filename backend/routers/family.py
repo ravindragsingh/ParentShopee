@@ -4,12 +4,14 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends
 from sqlalchemy import and_, or_
 from sqlalchemy.orm import Session
+from starlette.requests import Request as StarletteRequest
 
 from config import COGUARDIAN_INVITE_TTL_HOURS, EMAIL_RE
 from database import get_db
 from deps import create_session, require_guardian
 from email_utils import send_coguardian_invite_email, send_coguardian_recovery_email
 from firebase_app import verify_firebase_token
+from geolocation import get_client_timezone
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
@@ -333,7 +335,7 @@ def list_family_profiles(db: Session = Depends(get_db), user: DBUser = Depends(r
 
 
 @router.post("/api/family/profiles/{profile_id}/enter")
-def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+def enter_profile(profile_id: str, body: ProfileEnterBody, request: StarletteRequest, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     family_id = get_family_id(user)
 
     if profile_id == family_id:
@@ -348,6 +350,15 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, db: Session = Depends
         ).first()
     if not profile:
         fail("Profile not found", 404)
+
+    # This is the actual moment "the device logs in as this profile" -- the
+    # one place that can honestly capture which timezone to use for this
+    # profile's own day-boundary logic (see daily_chore_logic.py). A missing
+    # or invalid header leaves whatever was stored before untouched, rather
+    # than clobbering a known-good value with None.
+    client_tz = get_client_timezone(request)
+    if client_tz:
+        profile.timezone = client_tz
 
     if family_id == DEMO_FAMILY_ID:
         profile.pin_attempts = 0

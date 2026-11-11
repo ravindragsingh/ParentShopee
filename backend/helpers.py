@@ -2,6 +2,7 @@ import random
 import re
 from datetime import date, datetime, timezone
 from uuid import uuid4
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
@@ -17,6 +18,24 @@ from sample_items import is_sample_shop_item
 
 def now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+def today_str_for_timezone(tz_name: str | None) -> str:
+    """"Today" in the given IANA timezone name (e.g. "Asia/Kolkata"), falling
+    back to UTC for a missing or invalid one. Shared by daily_chore_logic.py
+    (per-kid, via DBUser.timezone) and chore_logic.py (per-family, via the
+    primary guardian's own stored timezone) so every day-boundary decision
+    in the app resolves "today" the same safe way instead of the server's
+    own date.today(), which previously only ever reflected UTC (Render's
+    container timezone) -- unrelated to where any given family actually is."""
+    tz = None
+    if tz_name:
+        try:
+            tz = ZoneInfo(tz_name)
+        except (ZoneInfoNotFoundError, ValueError):
+            tz = None
+    if tz is None:
+        tz = ZoneInfo("UTC")
+    return datetime.now(tz).date().isoformat()
 
 def calculate_age(dob_str: str) -> int:
     dob = date.fromisoformat(dob_str)

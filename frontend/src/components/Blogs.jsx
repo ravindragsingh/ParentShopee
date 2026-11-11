@@ -6,6 +6,110 @@ import { setStatusBarForLightBg } from '../utils/nativeChrome.js'
 
 const POSTS = [
   {
+    id: 12,
+    slug: 'how-to-get-kids-excited-about-reading',
+    title: "Why Your Kid Fights Reading Time (And It's Not the Book)",
+    subtitle: "Most reading battles have nothing to do with the story. They're about being handed a task with no choice in it, no visible progress, and no finish line in sight.",
+    date: 'November 2026',
+    readTime: '6 min read',
+    emoji: '📚',
+    tags: ['Reading', 'Literacy', 'Parenting', 'Child Development'],
+    content: [
+      {
+        type: 'intro',
+        text: "It's 8:05 pm. The book has been open to the same page for ten minutes. Your kid has inspected the ceiling, the dog, and a loose thread on the blanket — anything but the words in front of them. You've already said \"just a few more pages\" twice. Nobody in this room is enjoying themselves.",
+      },
+      {
+        type: 'intro',
+        text: "Here's the part that's easy to miss in that moment: it's almost never the story that's the problem. A kid who stalls out on \"twenty minutes of reading\" will often happily read a comic, a game wiki, even the back of a cereal box — anything that wasn't assigned to them. The fight was never really about books. It's about being handed a task with no choice in it, no visible progress, and no end in sight.",
+      },
+      {
+        type: 'h2',
+        text: 'The Real Reason "Just Read More" Doesn\'t Land',
+      },
+      {
+        type: 'p',
+        text: "Compare it to a chore for a second. Tell a kid to tidy their room and there's a before and an after — you can watch the mess shrink. Tell the same kid to read for twenty minutes and... nothing visibly changes. No number goes up. No pile gets smaller. A kid deep in a great book looks identical, from across the room, to a kid staring blankly at a page. And if there's no sense of progress building up, it can start to feel exactly the same on the inside too. \"Read more\" asks a kid to build a habit around an activity that, right now, gives them zero feedback.",
+      },
+      {
+        type: 'h2',
+        text: 'What Actually Changes the Story',
+      },
+      {
+        type: 'scenario',
+        items: [
+          { time: 'Tuesday, the old way', text: "Same negotiation as every other night — a required book, a required twenty minutes, a parent asking \"did you actually read, or just stare at it?\" The kid resents the ritual more than the reading." },
+          { time: 'Tuesday, three weeks later', text: "The kid picked this book. Nobody assigned it. A little bar is creeping toward \"finished,\" and watching it inch forward has become its own small satisfaction — a loading bar that actually means something." },
+          { time: 'What actually changed', text: "Not the kid. Not even really the book. What changed is that reading stopped being invisible." },
+        ],
+      },
+      {
+        type: 'h2',
+        text: 'Four Things That Actually Move the Needle',
+      },
+      {
+        type: 'benefit',
+        number: 1,
+        title: 'Let Them Pick, Even If You Wouldn\'t',
+        text: "The single biggest lever in getting a kid to read more isn't the \"right\" book — it's whose idea it was. A slightly-too-easy graphic novel a kid chose themselves beats a critically acclaimed classic they didn't, every single time. Hand over the choice before you worry about the quality.",
+      },
+      {
+        type: 'benefit',
+        number: 2,
+        title: 'Make the Invisible Visible',
+        text: "A page count, a percentage, a bar inching toward full — any of these turn a shapeless activity into something with a number attached. Kids don't need a pep talk about progress. They need to be able to see it.",
+      },
+      {
+        type: 'benefit',
+        number: 3,
+        title: "Don't Let \"Finished\" Pass Quietly",
+        text: "Closing the last page and shelving the book isn't a celebration — it's just where the story happened to stop. The moment a kid finishes something they chose and stuck with deserves an actual reaction, not a silent checkmark.",
+      },
+      {
+        type: 'benefit',
+        number: 4,
+        title: 'Build a Goal That Survives a Bad Week',
+        text: "\"Every single day\" breaks the first time there's a soccer game, a sick day, or a late night — and once it breaks, it tends to stay broken. \"Most days this week\" survives a missed Tuesday just fine. Build the goal that bends.",
+      },
+      {
+        type: 'h2',
+        text: 'Where Reward Ur Kids Fits In',
+      },
+      {
+        type: 'p',
+        text: "This is more or less the exact gap the new Reading Log was built to close. A kid can search for a real book — cover art, author, and page count pulled in automatically — or pick from a shortlist a guardian's already recommended, so there's never a blank-page moment of \"I don't know what to read.\" Logging a session takes seconds: minutes or pages, whichever's easier that day. And the progress bar does what no pep talk can — it just sits there, visibly filling in.",
+      },
+      {
+        type: 'feature',
+        icon: '📖',
+        title: 'A Bar That Actually Moves',
+        text: "Finish a book and it goes to a guardian for a quick approval and a points reward — a real moment, not a silent shelf. A weekly streak shows at a glance whether reading happened this week, so nobody has to ask at bedtime and guess from a tired shrug.",
+      },
+      {
+        type: 'h2',
+        text: 'Starting This Week',
+      },
+      {
+        type: 'steps',
+        items: [
+          "Let the first pick be entirely theirs — yes, even if it's \"too easy\"",
+          'Aim for most days, not every day, so one skipped evening never sinks the whole week',
+          'Sit with them for the first few logs so it becomes a two-minute ritual, not a chore of its own',
+          'Make a small deal out of "finished" — ask one real question about how it ended',
+          "Slip in a recommendation of your own once the habit's already running, not before",
+        ],
+      },
+      {
+        type: 'quote',
+        text: "A kid who hated reading time twenty minutes ago didn't suddenly fall in love with books. They just stopped being handed an invisible task with no finish line — and it turns out that was most of the problem all along.",
+      },
+      {
+        type: 'hashtags',
+        tags: ['#ReadingHabits', '#KidsAndBooks', '#Literacy', '#Parenting', '#RewardUrKids'],
+      },
+    ],
+  },
+  {
     id: 11,
     slug: 'why-teaching-kids-manners-matters',
     title: 'Why Teaching Kids Good Manners Matters More Than Ever',

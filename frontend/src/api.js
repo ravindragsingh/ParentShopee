@@ -6,6 +6,21 @@ function getToken() {
   return localStorage.getItem('token')
 }
 
+// Computed once per page load, not per request -- a device's timezone doesn't
+// change mid-session, and Intl.DateTimeFormat().resolvedOptions() is the one
+// reliable way to ask "what timezone is this device actually in" (the server
+// has no way to know on its own). Wrapped in try/catch since very old/locked
+// -down WebViews can lack full Intl support -- a missing header just means
+// the backend falls back to UTC (see geolocation.get_client_timezone), same
+// as it already does for any request from a frontend build old enough to
+// predate this entirely.
+let _clientTimezone
+try {
+  _clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+} catch {
+  _clientTimezone = ''
+}
+
 // Capacitor.getPlatform() reports 'web', 'android', or 'ios' based on which
 // shell is actually running the code -- a Capacitor WebView's User-Agent
 // often looks just like a mobile browser's, so the backend can't reliably
@@ -15,6 +30,7 @@ function authHeaders(tokenOverride) {
   return {
     'Content-Type': 'application/json',
     'X-Client-Platform': Capacitor.getPlatform(),
+    ...(_clientTimezone ? { 'X-Client-Timezone': _clientTimezone } : {}),
     ...(token ? { Authorization: `Bearer ${token}` } : {})
   }
 }
