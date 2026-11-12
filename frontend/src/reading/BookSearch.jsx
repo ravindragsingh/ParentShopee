@@ -58,7 +58,7 @@ export default function BookSearch({ onPick, ctaLabel = 'Select', placeholder = 
       {results.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12, maxHeight: 360, overflowY: 'auto' }}>
           {results.map(r => (
-            <div key={r.volumeId} style={{ border: expandedId === r.volumeId ? '1px solid #99f6e4' : '1px solid #e2e8f0', borderRadius: 10, background: '#fff', overflow: 'hidden' }}>
+            <div key={r.volumeId} style={{ border: expandedId === r.volumeId ? '1px solid #99f6e4' : '1px solid #e2e8f0', borderRadius: 10, background: '#fff' }}>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center', padding: '8px 10px' }}>
                 {r.thumbnailUrl ? (
                   <img src={r.thumbnailUrl} alt="" style={{ width: 40, height: 56, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }} />
