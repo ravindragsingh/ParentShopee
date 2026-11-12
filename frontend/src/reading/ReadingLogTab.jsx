@@ -78,6 +78,12 @@ export default function ReadingLogTab({ onBalanceChange, onDetailChange }) {
   if (loading) return <div className="loading-text">Loading Reading Log…</div>
 
   const sorted = [...logs].sort((a, b) => (STATUS_ORDER[a.status] ?? 9) - (STATUS_ORDER[b.status] ?? 9))
+  // The books that actually need the kid to do something right now (log
+  // today's reading, or start one their guardian assigned) -- surfaced as a
+  // shortcut at the very top so they don't have to scroll past the buddy,
+  // stats, and bookshelf (which can grow long once several books are
+  // finished) just to reach the one thing they came here to do.
+  const readyToLog = logs.filter(l => l.status === 'in_progress' || l.status === 'assigned')
 
   return (
     <div>
@@ -85,6 +91,38 @@ export default function ReadingLogTab({ onBalanceChange, onDetailChange }) {
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
         Pick a book, log what you read each day, then tell your guardian about it to earn points.
       </div>
+
+      {readyToLog.length > 0 && (
+        <div style={{ marginBottom: 18 }}>
+          <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#64748b', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+            ⚡ Ready to log
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {readyToLog.map(log => (
+              <button
+                key={log.id}
+                onClick={() => setOpenLog(log)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left',
+                  background: '#f0fdfa', border: '1.5px solid #99f6e4', borderRadius: 12, padding: '10px 14px', cursor: 'pointer',
+                }}
+              >
+                {log.thumbnailUrl ? (
+                  <img src={log.thumbnailUrl} alt="" style={{ width: 32, height: 44, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }} />
+                ) : (
+                  <div style={{ width: 32, height: 44, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', background: '#fff', borderRadius: 4 }}>📖</div>
+                )}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{log.title}</div>
+                  <div style={{ fontSize: '0.74rem', color: '#0f766e', fontWeight: 600 }}>
+                    {log.status === 'in_progress' ? 'Log today\'s reading →' : 'Start reading →'}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <ReadingBuddy buddy={stats?.buddy} />
       <StatsStrip stats={stats} />
