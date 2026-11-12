@@ -310,6 +310,10 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, bac
         gender=body.gender,
         country=location["country"],
         city=location["city"],
+        # Set now even for the non-Google (not-yet-active) branch -- it's harmless
+        # to record which device/platform the signup itself came from, and this
+        # is the only place that ever would for that branch (no session minted yet).
+        last_login_platform=get_client_platform(request),
         # Google already verified the email; a password sign-up still goes through
         # our own branded activation email, same as before this migration.
         is_active="1" if is_google else "0",
