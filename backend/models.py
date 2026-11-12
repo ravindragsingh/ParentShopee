@@ -358,3 +358,63 @@ class DBCoGuardianInvite(Base):
     # exists and just needs a fresh session, as opposed to a normal invite
     # (NULL here) which creates a brand-new profile on accept.
     existing_user_id = Column(String, nullable=True)
+
+
+class DBReadingLog(Base):
+    """One book a kid is reading/has read -- either assigned by a guardian or
+    self-started by the kid, found via live Google Books search rather than
+    an admin-curated catalog (unlike Future-Ready/Quests' DBLearningModule).
+    Book metadata is snapshotted here at assign/start time so it still
+    displays even if Google's data changes or the API is briefly down later.
+    status: assigned -> in_progress (first daily entry) -> pending_approval
+    (kid marks complete + writes a summary) -> approved (points credited) --
+    a guardian's reject sends pending_approval back to in_progress so the kid
+    can add more entries and resubmit, never a dead end."""
+    __tablename__ = "reading_logs"
+    id                = Column(String, primary_key=True)
+    kid_id            = Column(String, nullable=False, index=True)
+    family_id         = Column(String, nullable=False, index=True)  # primary guardian's id, for guardian-side queries
+    assigned_by       = Column(String, nullable=False)   # "parent" | "kid"
+    google_volume_id  = Column(String, nullable=True)
+    title             = Column(String, nullable=False)
+    author            = Column(String, nullable=True)
+    thumbnail_url     = Column(String, nullable=True)
+    description       = Column(String, nullable=True)
+    points            = Column(Float, default=10)
+    status            = Column(String, default="assigned", index=True)
+    summary           = Column(String, nullable=True)   # kid's up-to-1000-char summary, written at completion
+    # Open Library's number_of_pages_median at assign/start time (a median
+    # across editions, so approximate) -- drives the pages-read progress bar.
+    # NULL when Open Library had no page count for this book; the progress
+    # bar just doesn't render then rather than showing a bogus total.
+    total_pages       = Column(Integer, nullable=True)
+    # Classified from Open Library's subject tags at assign/start time (see
+    # reading_level.classify_genre) and an optional crowdsourced grade-level
+    # hint (reading_level.extract_grade_hint) -- both feed the Reading Level
+    # algorithm's quality score once this book is approved. Snapshotted here
+    # rather than reclassified later so a kid's level history doesn't shift
+    # retroactively if Open Library's tags change.
+    genre             = Column(String, nullable=True)
+    grade_level_hint  = Column(Integer, nullable=True)
+    # "standard" | "picture_book" | "board_book" | "easy_reader" | "graphic_novel"
+    # (see reading_level.detect_format) -- a low-text-density format dampens
+    # the page-based difficulty fallback used when grade_level_hint is NULL,
+    # so a long graphic novel doesn't out-score a short, dense novel.
+    reading_format    = Column(String, nullable=True)
+    created_at        = Column(String, nullable=False)
+    submitted_at      = Column(String, nullable=True)    # when the kid marked it complete
+    resolved_at       = Column(String, nullable=True)    # when a guardian approved it
+
+
+class DBReadingLogEntry(Base):
+    """One day's free-text reading note for a DBReadingLog -- the "what did
+    you read today" trail a guardian can review before approving. `pages` is
+    optional (a kid may just not know/bother) -- summed across entries for
+    the per-book progress bar and across all of a kid's books for their
+    lifetime pages-read stat."""
+    __tablename__ = "reading_log_entries"
+    id              = Column(String, primary_key=True)
+    reading_log_id  = Column(String, nullable=False, index=True)
+    note            = Column(String, nullable=False)
+    pages           = Column(Integer, nullable=True)
+    created_at      = Column(String, nullable=False)

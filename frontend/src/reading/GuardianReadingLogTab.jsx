@@ -1,132 +1,27 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
-import Toggle from '../futureready/Toggle.jsx'
-import BookView from './BookView.jsx'
-import { genreMeta } from './genreMeta.js'
+import BookSearch from './BookSearch.jsx'
+import ProgressBar from './ProgressBar.jsx'
+import StatsStrip from './StatsStrip.jsx'
 
-function NewBadge() {
-  return (
-    <span style={{
-      fontSize: '0.68rem', fontWeight: 800, borderRadius: 999, padding: '2px 8px',
-      background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', flexShrink: 0,
-      textTransform: 'uppercase', letterSpacing: '0.03em',
-    }}>
-      New
-    </span>
-  )
+const STATUS_META = {
+  assigned:         { label: '📌 Assigned',   color: '#64748b', bg: '#f8fafc', border: '#e2e8f0' },
+  in_progress:      { label: '📖 Reading',    color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4' },
+  pending_approval: { label: '⏳ Needs review', color: '#b45309', bg: '#fffbeb', border: '#fde68a' },
+  approved:         { label: '✅ Done',       color: '#166534', bg: '#f0fdf4', border: '#bbf7d0' },
 }
+// Review-worthy logs float to the top regardless of when they were created.
+const STATUS_ORDER = { pending_approval: 0, in_progress: 1, assigned: 2, approved: 3 }
 
-// Same pattern as Quests' KidPicker/CompletionStatus/PointsEditor (see
-// GuardianQuestsTab.jsx) -- duplicated rather than shared since those
-// aren't exported from that file and the two features' data, while
-// similarly shaped, are conceptually separate catalogs.
-function KidPicker({ kids, selectedIds, disabled, onChange }) {
-  const isAll = selectedIds === null
-
-  function toggle(kidId) {
-    const current = isAll ? kids.map(k => k.id) : selectedIds
-    const next = current.includes(kidId) ? current.filter(id => id !== kidId) : [...current, kidId]
-    if (next.length === 0) return
-    onChange(next.length === kids.length ? null : next)
-  }
-
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6, width: '100%', marginTop: 2 }}>
-      <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>For:</span>
-      {kids.map(k => {
-        const checked = isAll || selectedIds.includes(k.id)
-        return (
-          <button
-            key={k.id}
-            type="button"
-            disabled={disabled}
-            onClick={() => toggle(k.id)}
-            style={{
-              fontSize: '0.74rem', fontWeight: 600, borderRadius: 999, padding: '3px 10px',
-              border: `1px solid ${checked ? '#0d9488' : '#e2e8f0'}`,
-              background: checked ? '#f0fdfa' : '#fff',
-              color: checked ? '#0f766e' : '#94a3b8',
-              cursor: disabled ? 'default' : 'pointer',
-            }}
-          >
-            {k.avatar} {k.name}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
-function CompletionStatus({ completions, disabled, onRedo }) {
-  if (!completions || completions.length === 0) return null
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6, width: '100%', marginTop: 2 }}>
-      <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Read:</span>
-      {completions.map(c => (
-        <span
-          key={c.kidId}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.74rem', fontWeight: 600,
-            borderRadius: 999, padding: '3px 6px 3px 10px', background: '#f0fdf4',
-            border: '1px solid #bbf7d0', color: '#166534',
-          }}
-        >
-          ✅ {c.kidName}
-          <button
-            type="button"
-            title={`Let ${c.kidName} log this again`}
-            disabled={disabled}
-            onClick={() => onRedo(c)}
-            style={{
-              background: 'none', border: 'none', cursor: disabled ? 'default' : 'pointer',
-              fontSize: '0.85rem', color: '#166534', padding: '2px 4px', lineHeight: 1,
-            }}
-          >
-            ↺
-          </button>
-        </span>
-      ))}
-    </div>
-  )
-}
-
-// A kid's note waiting for review -- approving pays out points immediately
-// (see approve_reading_log), rejecting just lets them try again and
-// resubmit, same spirit as rejecting a chore back to "open".
-function PendingLogReview({ logs, disabled, onApprove, onReject }) {
-  if (!logs || logs.length === 0) return null
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', marginTop: 4 }}>
-      {logs.map(log => (
-        <div key={log.id} style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 12px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#92400e' }}>⏳ {log.kidName} says:</span>
-            <div style={{ display: 'flex', gap: 6 }}>
-              <button
-                type="button"
-                disabled={disabled}
-                onClick={() => onApprove(log)}
-                className="btn btn-sm"
-                style={{ background: '#16a34a', color: '#fff', border: 'none' }}
-              >
-                ✅ Approve
-              </button>
-              <button
-                type="button"
-                disabled={disabled}
-                onClick={() => onReject(log)}
-                className="btn btn-sm btn-outline"
-              >
-                Try again
-              </button>
-            </div>
-          </div>
-          <div style={{ fontSize: '0.85rem', color: '#78350f', marginTop: 6, fontStyle: 'italic' }}>"{log.note}"</div>
-        </div>
-      ))}
-    </div>
-  )
-}
+// Groups the four raw statuses into the buckets a guardian actually thinks
+// in when looking for a book: "not finished yet" (assigned + reading), plus
+// the two end states.
+const STATUS_FILTERS = [
+  { key: 'all', label: 'All' },
+  { key: 'active', label: '📌📖 Not done & reading', statuses: ['assigned', 'in_progress'] },
+  { key: 'pending_approval', label: '⏳ Needs review', statuses: ['pending_approval'] },
+  { key: 'approved', label: '✅ Done', statuses: ['approved'] },
+]
 
 function PointsEditor({ points, disabled, onSave }) {
   const [value, setValue] = useState(String(points))
@@ -153,35 +48,209 @@ function PointsEditor({ points, disabled, onSave }) {
         onKeyDown={e => { if (e.key === 'Enter') e.currentTarget.blur() }}
         style={{ width: 54, padding: '4px 6px', border: '1px solid #e2e8f0', borderRadius: 6, fontSize: '0.82rem', textAlign: 'right' }}
       />
-      <span style={{ fontSize: '0.76rem', color: '#94a3b8' }}>pts on completion</span>
+      <span style={{ fontSize: '0.76rem', color: '#94a3b8' }}>pts</span>
     </div>
   )
 }
 
-function groupByGenre(modules) {
-  const byGenre = new Map()
-  for (const m of modules) {
-    if (!byGenre.has(m.category)) byGenre.set(m.category, { category: m.category, title: m.categoryTitle, emoji: m.categoryEmoji, modules: [] })
-    byGenre.get(m.category).modules.push(m)
+function AssignPanel({ book, kids, onCancel, onAssigned }) {
+  const [kidId, setKidId] = useState(kids[0]?.id || '')
+  const [points, setPoints] = useState(10)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handleAssign() {
+    if (!kidId) { setError('Pick a kid to assign this to.'); return }
+    setSaving(true)
+    setError('')
+    try {
+      await api.assignReadingLog({
+        kidId, volumeId: book.volumeId, title: book.title, author: book.author,
+        thumbnailUrl: book.thumbnailUrl, description: book.description, totalPages: book.totalPages || null,
+        genre: book.genre || null, gradeLevel: book.gradeLevel || null, format: book.format || null,
+        points: Number(points),
+      })
+      onAssigned()
+    } catch (err) {
+      setError(err.message)
+      setSaving(false)
+    }
   }
-  return [...byGenre.values()]
+
+  return (
+    <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '12px 14px', marginTop: 10 }}>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 10 }}>
+        {book.thumbnailUrl && <img src={book.thumbnailUrl} alt="" style={{ width: 32, height: 44, objectFit: 'cover', borderRadius: 4 }} />}
+        <div>
+          <div style={{ fontWeight: 700, fontSize: '0.86rem', color: '#1e293b' }}>{book.title}</div>
+          {book.totalPages && <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>📄 ~{book.totalPages} pages</div>}
+        </div>
+      </div>
+      {error && <div className="error-msg" style={{ marginBottom: 10 }}>{error}</div>}
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+        <select value={kidId} onChange={e => setKidId(e.target.value)} style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.85rem' }}>
+          {kids.map(k => <option key={k.id} value={k.id}>{k.avatar} {k.name}</option>)}
+        </select>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <input type="number" min="1" value={points} onChange={e => setPoints(e.target.value)} style={{ width: 56, padding: '6px 8px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.85rem' }} />
+          <span style={{ fontSize: '0.78rem', color: '#64748b' }}>pts on completion</span>
+        </div>
+        <button type="button" className="btn btn-sm btn-primary" disabled={saving} onClick={handleAssign}>
+          {saving ? 'Assigning…' : '✓ Assign'}
+        </button>
+        <button type="button" className="btn btn-sm btn-outline" onClick={onCancel}>Cancel</button>
+      </div>
+    </div>
+  )
 }
 
-export default function GuardianReadingLogTab({ onDetailChange } = {}) {
-  const [modules, setModules] = useState([])
+// Shown for ANY book status, not just pending_approval -- a guardian should
+// be able to see what their kid has been logging day to day without waiting
+// for the final summary. Approve/Reject only appear once it's actually
+// awaiting a decision.
+function EntriesPanel({ log, disabled, onApprove, onReject }) {
+  const [entries, setEntries] = useState(null)
+  useEffect(() => {
+    api.getReadingLogEntries(log.id).then(setEntries).catch(() => setEntries([]))
+  }, [log.id])
+
+  const pending = log.status === 'pending_approval'
+
+  return (
+    <div style={{ marginTop: 10, background: pending ? '#fffbeb' : '#f8fafc', border: `1px solid ${pending ? '#fde68a' : '#e2e8f0'}`, borderRadius: 10, padding: '12px 14px' }}>
+      {log.totalPages && (
+        <div style={{ marginBottom: 12 }}>
+          <ProgressBar pagesRead={log.pagesRead || 0} totalPages={log.totalPages} compact />
+        </div>
+      )}
+      <div style={{ fontSize: '0.78rem', fontWeight: 700, color: pending ? '#92400e' : '#475569', marginBottom: 6 }}>
+        📅 Daily log ({entries?.length ?? '…'})
+      </div>
+      {entries === null ? (
+        <div className="loading-text">Loading…</div>
+      ) : entries.length === 0 ? (
+        <div style={{ fontSize: '0.82rem', color: '#78716c' }}>No daily entries yet.</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10 }}>
+          {entries.map(e => (
+            <div key={e.id} style={{ fontSize: '0.82rem', color: pending ? '#78350f' : '#475569' }}>
+              <strong>{new Date(e.createdAt).toLocaleDateString()}:</strong> {e.note}
+              {e.pages ? <span style={{ color: '#94a3b8' }}> · 📄 {e.pages} pages</span> : null}
+            </div>
+          ))}
+        </div>
+      )}
+      {log.summary && (
+        <>
+          <div style={{ fontSize: '0.78rem', fontWeight: 700, color: pending ? '#92400e' : '#475569', margin: '10px 0 4px' }}>📝 Summary</div>
+          <div style={{ fontSize: '0.84rem', color: pending ? '#78350f' : '#475569', fontStyle: 'italic', marginBottom: 10 }}>"{log.summary}"</div>
+        </>
+      )}
+      {pending && (
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button type="button" className="btn btn-sm" disabled={disabled} onClick={onApprove} style={{ background: '#16a34a', color: '#fff', border: 'none' }}>
+            ✅ Approve
+          </button>
+          <button type="button" className="btn btn-sm btn-outline" disabled={disabled} onClick={onReject}>
+            Send back
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function LogRow({ log, disabled, onPointsChange, onApprove, onReject, onRemove }) {
+  const [open, setOpen] = useState(log.status === 'pending_approval')
+  const meta = STATUS_META[log.status] || STATUS_META.assigned
+  const canExpand = log.status === 'pending_approval' || (log.entryCount || 0) > 0
+
+  return (
+    <div style={{ background: '#fff', border: `1px solid ${meta.border}`, borderRadius: 10, padding: '10px 14px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {log.thumbnailUrl ? (
+          <img src={log.thumbnailUrl} alt="" style={{ width: 32, height: 44, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }} />
+        ) : (
+          <div style={{ width: 32, height: 44, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', background: '#f8fafc', borderRadius: 4 }}>📖</div>
+        )}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#1e293b' }}>{log.title}</div>
+          <div style={{ fontSize: '0.74rem', color: '#94a3b8' }}>
+            {log.author ? `by ${log.author}` : ''} {log.assignedBy === 'kid' ? '· self-started' : ''}
+            {(log.entryCount || 0) > 0 && ` · ${log.entryCount} day${log.entryCount === 1 ? '' : 's'} logged`}
+          </div>
+        </div>
+        <span style={{ fontSize: '0.72rem', fontWeight: 700, borderRadius: 999, padding: '3px 10px', background: meta.bg, color: meta.color, border: `1px solid ${meta.border}`, flexShrink: 0 }}>
+          {meta.label}
+        </span>
+        {log.status !== 'approved' ? (
+          <PointsEditor points={log.points} disabled={disabled} onSave={onPointsChange} />
+        ) : (
+          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#166534', flexShrink: 0 }}>⭐ {log.points} pts</span>
+        )}
+        {(log.status === 'assigned' || log.status === 'in_progress') && (
+          <button type="button" title="Remove" onClick={onRemove} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.9rem' }}>🗑️</button>
+        )}
+        {canExpand && (
+          <button type="button" onClick={() => setOpen(v => !v)} style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', fontSize: '1rem' }}>
+            {open ? '▲' : '▼'}
+          </button>
+        )}
+      </div>
+      {!open && log.totalPages && (
+        <div style={{ marginTop: 10 }}>
+          <ProgressBar pagesRead={log.pagesRead || 0} totalPages={log.totalPages} compact />
+        </div>
+      )}
+      {canExpand && open && (
+        <EntriesPanel log={log} disabled={disabled} onApprove={onApprove} onReject={onReject} />
+      )}
+    </div>
+  )
+}
+
+function KidGroup({ kid, logs, busyId, onPointsChange, onApprove, onReject, onRemove }) {
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+        <span style={{ fontSize: '1.3rem' }}>{kid.avatar}</span>
+        <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '0.95rem' }}>{kid.name}</span>
+      </div>
+      <StatsStrip kidId={kid.id} compact />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {logs.map(log => (
+          <LogRow
+            key={log.id}
+            log={log}
+            disabled={busyId === log.id}
+            onPointsChange={pts => onPointsChange(log, pts)}
+            onApprove={() => onApprove(log)}
+            onReject={() => onReject(log)}
+            onRemove={() => onRemove(log)}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default function GuardianReadingLogTab() {
+  const [logs, setLogs] = useState([])
   const [kids, setKids] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [savingId, setSavingId] = useState(null)
-  const [openGenre, setOpenGenre] = useState(null)
-  const [previewModule, setPreviewModule] = useState(null)
+  const [busyId, setBusyId] = useState(null)
+  const [pickedBook, setPickedBook] = useState(null)
+  const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
 
-  const loadModules = useCallback(async () => {
+  const load = useCallback(async () => {
     setLoading(true)
     setError('')
     try {
-      const data = await api.getReadingLog()
-      setModules(Array.isArray(data) ? data : [])
+      const [logsData, kidsData] = await Promise.all([api.getReadingLog(), api.getKids()])
+      setLogs(Array.isArray(logsData) ? logsData : [])
+      setKids(Array.isArray(kidsData) ? kidsData : [])
     } catch (err) {
       setError(err.message)
     } finally {
@@ -189,230 +258,159 @@ export default function GuardianReadingLogTab({ onDetailChange } = {}) {
     }
   }, [])
 
-  useEffect(() => { loadModules() }, [loadModules])
-  useEffect(() => { api.getKids().then(setKids).catch(() => {}) }, [])
+  useEffect(() => { load() }, [load])
 
-  // BookView renders its own "← Back" header -- tell GuardianLearnGrowTab
-  // to hide its own back button while a preview is open, so there's never
-  // two stacked back buttons on screen at once.
-  useEffect(() => { onDetailChange && onDetailChange(!!previewModule) }, [previewModule, onDetailChange])
-
-  async function handleToggle(module) {
-    setSavingId(module.id)
-    setError('')
+  async function handlePointsChange(log, points) {
+    setBusyId(log.id)
     try {
-      const enabled = !module.enabled
-      await api.setReadingLogVisibility(module.id, enabled, module.enabledKidIds ?? null)
-      setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabled } : m))
+      await api.setReadingLogPoints(log.id, points)
+      setLogs(ls => ls.map(l => l.id === log.id ? { ...l, points } : l))
     } catch (err) {
       setError(err.message)
     } finally {
-      setSavingId(null)
+      setBusyId(null)
     }
   }
 
-  async function handleKidsChange(module, kidIds) {
-    setSavingId(module.id)
-    setError('')
-    try {
-      await api.setReadingLogVisibility(module.id, true, kidIds)
-      setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabledKidIds: kidIds } : m))
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setSavingId(null)
-    }
-  }
-
-  async function handleRedo(module, completion) {
-    if (!window.confirm(`Let ${completion.kidName} log "${module.title}" again? They'll be able to earn points for it again.`)) return
-    setSavingId(module.id)
-    setError('')
-    try {
-      await api.resetReadingLogCompletion(module.id, completion.kidId)
-      setModules(ms => ms.map(m => m.id === module.id
-        ? { ...m, completions: (m.completions ?? []).filter(c => c.kidId !== completion.kidId) }
-        : m))
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setSavingId(null)
-    }
-  }
-
-  async function handleApproveLog(module, log) {
-    setSavingId(module.id)
-    setError('')
+  async function handleApprove(log) {
+    setBusyId(log.id)
     try {
       await api.approveReadingLog(log.id)
-      await loadModules()
+      await load()
     } catch (err) {
       setError(err.message)
     } finally {
-      setSavingId(null)
+      setBusyId(null)
     }
   }
 
-  async function handleRejectLog(module, log) {
-    setSavingId(module.id)
-    setError('')
+  async function handleReject(log) {
+    setBusyId(log.id)
     try {
       await api.rejectReadingLog(log.id)
-      setModules(ms => ms.map(m => m.id === module.id
-        ? { ...m, pendingLogs: (m.pendingLogs ?? []).filter(l => l.id !== log.id) }
-        : m))
+      await load()
     } catch (err) {
       setError(err.message)
     } finally {
-      setSavingId(null)
+      setBusyId(null)
     }
   }
 
-  async function handlePointsChange(module, points) {
-    setSavingId(module.id)
-    setError('')
+  async function handleRemove(log) {
+    if (!window.confirm(`Remove "${log.title}"?`)) return
+    setBusyId(log.id)
     try {
-      await api.setReadingLogPoints(module.id, points)
-      setModules(ms => ms.map(m => m.id === module.id ? { ...m, points } : m))
+      await api.removeReadingLog(log.id)
+      setLogs(ls => ls.filter(l => l.id !== log.id))
     } catch (err) {
       setError(err.message)
     } finally {
-      setSavingId(null)
+      setBusyId(null)
     }
-  }
-
-  if (previewModule) {
-    return <BookView module={previewModule} onExit={() => setPreviewModule(null)} previewMode />
   }
 
   if (loading) return <div className="loading-text">Loading Reading Log…</div>
 
-  const genres = groupByGenre(modules)
+  const activeFilter = STATUS_FILTERS.find(f => f.key === statusFilter)
+  const trimmedSearch = search.trim().toLowerCase()
+  const filteredLogs = logs.filter(l => {
+    if (activeFilter?.statuses && !activeFilter.statuses.includes(l.status)) return false
+    if (trimmedSearch && !(`${l.title} ${l.author || ''}`.toLowerCase().includes(trimmedSearch))) return false
+    return true
+  })
+
+  const byKid = kids.map(kid => ({
+    kid,
+    logs: filteredLogs
+      .filter(l => l.kidId === kid.id)
+      .sort((a, b) => (STATUS_ORDER[a.status] ?? 9) - (STATUS_ORDER[b.status] ?? 9)),
+  }))
+  const isFiltering = statusFilter !== 'all' || trimmedSearch.length > 0
 
   return (
     <div>
       <h3 style={{ color: '#334155', margin: '0 0 6px' }}>📖 Reading Log</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
-        Age-appropriate books your kids can log as they read them. Turn on the books you want available and set how many points each one earns. Preview any book yourself first.
+        Search for any book and assign it to a kid, or let them find their own. See what they've logged day by
+        day, then approve their finished summary to pay out points.
       </div>
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
-      {genres.length === 0 ? (
-        <div className="empty-text">No books available yet.</div>
+      {kids.length === 0 ? (
+        <div className="empty-text">Add a kid first before assigning books.</div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {genres.map((genre, genreIndex) => {
-            const meta = genreMeta(genre.category)
-            const enabledCount = genre.modules.filter(m => m.enabled).length
-            const genreIsNew = genre.modules.some(m => m.isNew)
-            const pendingCount = genre.modules.reduce((n, m) => n + (m.pendingLogs?.length || 0), 0)
-            const isOpen = openGenre === genre.category
-            return (
-              <div
-                key={genre.category}
-                className="pop-in"
-                style={{ border: `1px solid ${meta.border}`, borderRadius: 16, overflow: 'hidden', background: '#fff', animationDelay: `${genreIndex * 0.06}s`, animationFillMode: 'backwards' }}
-              >
-                <button
-                  onClick={() => setOpenGenre(c => c === genre.category ? null : genre.category)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 14, width: '100%',
-                    background: meta.bg, border: 'none', padding: '14px 18px', cursor: 'pointer', textAlign: 'left',
-                  }}
-                >
-                  <div style={{
-                    width: 44, height: 44, borderRadius: 12, background: '#fff', border: `1px solid ${meta.border}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', flexShrink: 0,
-                  }}>
-                    {genre.emoji}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontWeight: 800, color: '#1e293b', fontSize: '1rem' }}>{genre.title}</span>
-                      {genreIsNew && <NewBadge />}
-                    </div>
-                    <div style={{ fontSize: '0.78rem', color: '#64748b' }}>{meta.description}</div>
-                  </div>
-                  {pendingCount > 0 && (
-                    <span style={{
-                      fontSize: '0.75rem', fontWeight: 700, borderRadius: 999, padding: '4px 10px', flexShrink: 0,
-                      background: '#fffbeb', color: '#92400e', border: '1px solid #fde68a',
-                    }}>
-                      ⏳ {pendingCount} to review
-                    </span>
-                  )}
-                  <span style={{
-                    fontSize: '0.75rem', fontWeight: 700, borderRadius: 999, padding: '4px 10px', flexShrink: 0,
-                    background: '#fff', color: meta.color, border: `1px solid ${meta.border}`,
-                  }}>
-                    {enabledCount}/{genre.modules.length} on
-                  </span>
-                  <span style={{ color: '#94a3b8', fontSize: '1.1rem', flexShrink: 0 }}>{isOpen ? '▲' : '▼'}</span>
-                </button>
-
-                {isOpen && (
-                  <div style={{ padding: '4px 18px 16px' }}>
-                    {genre.modules.map(m => (
-                      <div
-                        key={m.id}
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0',
-                          borderTop: '1px solid #f1f5f9', flexWrap: 'wrap',
-                        }}
-                      >
-                        <div style={{ minWidth: 90 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, color: '#1e293b', fontSize: '0.9rem' }}>
-                            {m.title}
-                            {m.isNew && <NewBadge />}
-                          </div>
-                        </div>
-                        <div style={{ flex: 1, minWidth: 160 }}>
-                          <PointsEditor
-                            points={m.points}
-                            disabled={savingId === m.id}
-                            onSave={(pts) => handlePointsChange(m, pts)}
-                          />
-                        </div>
-                        <button
-                          className="btn btn-sm btn-outline"
-                          onClick={() => setPreviewModule(m)}
-                        >
-                          ▶️ Preview
-                        </button>
-                        <Toggle
-                          checked={!!m.enabled}
-                          disabled={savingId === m.id}
-                          onChange={() => handleToggle(m)}
-                          color={meta.color}
-                        />
-                        {m.enabled && kids.length > 1 && (
-                          <KidPicker
-                            kids={kids}
-                            selectedIds={m.enabledKidIds ?? null}
-                            disabled={savingId === m.id}
-                            onChange={(kidIds) => handleKidsChange(m, kidIds)}
-                          />
-                        )}
-                        <CompletionStatus
-                          completions={m.completions}
-                          disabled={savingId === m.id}
-                          onRedo={(completion) => handleRedo(m, completion)}
-                        />
-                        <PendingLogReview
-                          logs={m.pendingLogs}
-                          disabled={savingId === m.id}
-                          onApprove={(log) => handleApproveLog(m, log)}
-                          onReject={(log) => handleRejectLog(m, log)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )
-          })}
+        <div className="form-card" style={{ marginBottom: 18 }}>
+          <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#64748b', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+            Find & assign a book
+          </div>
+          <BookSearch
+            ctaLabel="Assign"
+            onPick={book => setPickedBook(p => p?.volumeId === book.volumeId ? null : book)}
+            expandedId={pickedBook?.volumeId}
+            renderExpanded={book => (
+              <AssignPanel
+                book={book}
+                kids={kids}
+                onCancel={() => setPickedBook(null)}
+                onAssigned={() => { setPickedBook(null); load() }}
+              />
+            )}
+          />
         </div>
+      )}
+
+      {logs.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', marginBottom: 14 }}>
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search assigned books by title or author…"
+            style={{ flex: '1 1 220px', padding: '8px 12px', border: '1.5px solid #e2e8f0', borderRadius: 10, fontSize: '0.84rem', boxSizing: 'border-box' }}
+          />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {STATUS_FILTERS.map(f => (
+              <button
+                key={f.key}
+                type="button"
+                onClick={() => setStatusFilter(f.key)}
+                className="btn btn-sm"
+                style={{
+                  borderRadius: 999,
+                  border: `1px solid ${statusFilter === f.key ? '#0d9488' : '#e2e8f0'}`,
+                  background: statusFilter === f.key ? '#0d9488' : '#fff',
+                  color: statusFilter === f.key ? '#fff' : '#64748b',
+                  fontWeight: 600,
+                }}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {byKid.every(g => g.logs.length === 0) ? (
+        <div className="empty-text">
+          {logs.length === 0
+            ? 'No books assigned or started yet.'
+            : isFiltering
+              ? 'No books match your search/filter.'
+              : 'No books assigned or started yet.'}
+        </div>
+      ) : (
+        byKid.map(({ kid, logs: kidLogs }) => kidLogs.length > 0 && (
+          <KidGroup
+            key={kid.id}
+            kid={kid}
+            logs={kidLogs}
+            busyId={busyId}
+            onPointsChange={handlePointsChange}
+            onApprove={handleApprove}
+            onReject={handleReject}
+            onRemove={handleRemove}
+          />
+        ))
       )}
     </div>
   )

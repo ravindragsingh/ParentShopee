@@ -11,7 +11,7 @@ import GuardianReadingLogTab from '../reading/GuardianReadingLogTab.jsx'
 const SECTIONS = [
   { key: 'futureready', icon: '🚀', label: 'Future-Ready', text: 'Manage lessons on money, AI, safety & more', color: '#ea580c', bg: '#f5f3ff', border: '#ddd6fe' },
   { key: 'quests', icon: '🧸', label: 'Quests', text: 'Manage hands-on things to try together', color: '#ea580c', bg: '#f0fdfa', border: '#99f6e4' },
-  { key: 'reading', icon: '📖', label: 'Reading Log', text: 'Manage books kids can log for points', color: '#ea580c', bg: '#fff7ed', border: '#fed7aa' },
+  { key: 'reading', icon: '📖', label: 'Reading Log', text: 'Search, assign, and approve books kids read', color: '#ea580c', bg: '#fff7ed', border: '#fed7aa' },
 ]
 
 export default function GuardianLearnGrowTab() {

@@ -140,14 +140,18 @@ export const api = {
   rejectQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/reject`),
 
   // Reading Log
+  searchBooks: (q) => request('GET', `/api/reading-log/search?q=${encodeURIComponent(q)}`),
   getReadingLog: () => request('GET', '/api/reading-log'),
-  getReadingLogContent: (moduleId) => request('GET', `/api/reading-log/${moduleId}/content`),
-  setReadingLogVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/reading-log/${moduleId}/visibility`, { enabled, kidIds }),
-  setReadingLogPoints: (moduleId, points) => request('PUT', `/api/reading-log/${moduleId}/points`, { points }),
-  resetReadingLogCompletion: (moduleId, kidId) => request('DELETE', `/api/reading-log/${moduleId}/completion/${kidId}`),
-  submitReadingLog: (moduleId, note) => request('POST', `/api/reading-log/${moduleId}/log`, { note }),
-  approveReadingLog: (logId) => request('POST', `/api/reading-log/logs/${logId}/approve`),
-  rejectReadingLog: (logId) => request('POST', `/api/reading-log/logs/${logId}/reject`),
+  getReadingLogStats: (kidId) => request('GET', `/api/reading-log/stats${kidId ? `?kidId=${kidId}` : ''}`),
+  getReadingLogEntries: (logId) => request('GET', `/api/reading-log/${logId}/entries`),
+  assignReadingLog: (body) => request('POST', '/api/reading-log/assign', body),
+  startReadingLog: (body) => request('POST', '/api/reading-log/start', body),
+  addReadingLogEntry: (logId, note, pages) => request('POST', `/api/reading-log/${logId}/entries`, { note, pages: pages || null }),
+  completeReadingLog: (logId, summary) => request('POST', `/api/reading-log/${logId}/complete`, { summary }),
+  setReadingLogPoints: (logId, points) => request('PUT', `/api/reading-log/${logId}/points`, { points }),
+  approveReadingLog: (logId) => request('POST', `/api/reading-log/${logId}/approve`),
+  rejectReadingLog: (logId) => request('POST', `/api/reading-log/${logId}/reject`),
+  removeReadingLog: (logId) => request('DELETE', `/api/reading-log/${logId}`),
 
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),

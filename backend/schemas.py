@@ -243,6 +243,40 @@ class LearningCompleteBody(BaseModel):
 class QuestLogBody(BaseModel):
     note: str
 
+class ReadingLogAssignBody(BaseModel):
+    kidId: str
+    volumeId: Optional[str] = None
+    title: str
+    author: Optional[str] = None
+    thumbnailUrl: Optional[str] = None
+    description: Optional[str] = None
+    totalPages: Optional[int] = None
+    genre: Optional[str] = None
+    gradeLevel: Optional[int] = None
+    format: Optional[str] = None
+    points: float = 10
+
+class ReadingLogStartBody(BaseModel):
+    volumeId: Optional[str] = None
+    title: str
+    author: Optional[str] = None
+    thumbnailUrl: Optional[str] = None
+    description: Optional[str] = None
+    totalPages: Optional[int] = None
+    genre: Optional[str] = None
+    gradeLevel: Optional[int] = None
+    format: Optional[str] = None
+
+class ReadingLogEntryBody(BaseModel):
+    note: str
+    pages: Optional[int] = None
+
+class ReadingLogCompleteBody(BaseModel):
+    summary: str
+
+class ReadingLogPointsBody(BaseModel):
+    points: float
+
 class AdminTopicCreate(BaseModel):
     id: str              # slug, admin-supplied
     section: str          # "future-ready" | "quest"

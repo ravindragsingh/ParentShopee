@@ -1,70 +1,36 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
+import BookSearch from './BookSearch.jsx'
 import BookView from './BookView.jsx'
-import { genreMeta } from './genreMeta.js'
+import Bookshelf from './Bookshelf.jsx'
+import ProgressBar from './ProgressBar.jsx'
+import ReadingBuddy from './ReadingBuddy.jsx'
+import StatsStrip from './StatsStrip.jsx'
 
-function NewBadge() {
-  return (
-    <span style={{
-      fontSize: '0.68rem', fontWeight: 800, borderRadius: 999, padding: '2px 8px',
-      background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', flexShrink: 0,
-      textTransform: 'uppercase', letterSpacing: '0.03em',
-    }}>
-      New
-    </span>
-  )
+const STATUS_META = {
+  assigned:         { label: '📌 New',        color: '#64748b', bg: '#f8fafc', border: '#e2e8f0' },
+  in_progress:      { label: '📖 Reading',    color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4' },
+  pending_approval: { label: '⏳ Sent',       color: '#b45309', bg: '#fffbeb', border: '#fde68a' },
+  approved:         { label: '✅ Done',       color: '#166534', bg: '#f0fdf4', border: '#bbf7d0' },
 }
-
-function groupByGenre(modules) {
-  const byGenre = new Map()
-  for (const m of modules) {
-    if (!byGenre.has(m.category)) byGenre.set(m.category, { category: m.category, title: m.categoryTitle, emoji: m.categoryEmoji, modules: [] })
-    byGenre.get(m.category).modules.push(m)
-  }
-  return [...byGenre.values()]
-}
-
-function GenreCard({ meta, emoji, title, isNew, index, children }) {
-  return (
-    <div
-      className="pop-in"
-      style={{
-        border: `1px solid ${meta.border}`, background: meta.bg, borderRadius: 18, padding: '20px 18px',
-        display: 'flex', flexDirection: 'column', gap: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
-        animationDelay: `${index * 0.08}s`, animationFillMode: 'backwards',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <div style={{
-          width: 52, height: 52, borderRadius: 16, background: '#fff', border: `1px solid ${meta.border}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.7rem', flexShrink: 0,
-        }}>
-          {emoji}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b' }}>{title}</span>
-          {isNew && <NewBadge />}
-        </div>
-      </div>
-      <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>{meta.description}</div>
-      {children}
-    </div>
-  )
-}
+const STATUS_ORDER = { in_progress: 0, assigned: 1, pending_approval: 2, approved: 3 }
 
 export default function ReadingLogTab({ onBalanceChange, onDetailChange }) {
-  const [modules, setModules] = useState([])
+  const [logs, setLogs] = useState([])
+  const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [openModule, setOpenModule] = useState(null)
-  const [justSent, setJustSent] = useState(false)
+  const [openLog, setOpenLog] = useState(null)
+  const [starting, setStarting] = useState(false)
+  const [startError, setStartError] = useState('')
 
-  const loadModules = useCallback(async () => {
+  const loadLogs = useCallback(async () => {
     setLoading(true)
     setError('')
     try {
-      const data = await api.getReadingLog()
-      setModules(Array.isArray(data) ? data : [])
+      const [logsData, statsData] = await Promise.all([api.getReadingLog(), api.getReadingLogStats()])
+      setLogs(Array.isArray(logsData) ? logsData : [])
+      setStats(statsData)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -74,82 +40,104 @@ export default function ReadingLogTab({ onBalanceChange, onDetailChange }) {
 
   // Also catches up the kid's balance badge elsewhere in the app, in case a
   // guardian approved an earlier log while this tab wasn't open.
-  useEffect(() => { loadModules(); onBalanceChange && onBalanceChange() }, [loadModules])
+  useEffect(() => { loadLogs(); onBalanceChange && onBalanceChange() }, [loadLogs])
 
   // BookView renders its own "← Back" header -- tell LearnGrowTab to hide
   // its own back button while a single book is open, so there's never two
   // stacked back buttons on screen at once.
-  useEffect(() => { onDetailChange && onDetailChange(!!openModule) }, [openModule, onDetailChange])
+  useEffect(() => { onDetailChange && onDetailChange(!!openLog) }, [openLog, onDetailChange])
 
-  function handleLogSubmitted() {
-    // Points land only once a guardian approves the log (see BookView), so
-    // there's nothing for onBalanceChange to refresh yet -- just a
-    // confirmation that it's on its way to them.
-    setJustSent(true)
-    setTimeout(() => setJustSent(false), 4000)
-    loadModules()
+  async function handleStart(book) {
+    setStarting(true)
+    setStartError('')
+    try {
+      const log = await api.startReadingLog({
+        volumeId: book.volumeId, title: book.title, author: book.author,
+        thumbnailUrl: book.thumbnailUrl, description: book.description, totalPages: book.totalPages || null,
+        genre: book.genre || null, gradeLevel: book.gradeLevel || null, format: book.format || null,
+      })
+      await loadLogs()
+      setOpenLog(log)
+    } catch (err) {
+      setStartError(err.message)
+    } finally {
+      setStarting(false)
+    }
   }
 
-  if (openModule) {
-    return <BookView module={openModule} onExit={() => setOpenModule(null)} onLogSubmitted={handleLogSubmitted} />
+  if (openLog) {
+    return (
+      <BookView
+        log={openLog}
+        onExit={() => { setOpenLog(null); loadLogs() }}
+        onChanged={updated => setOpenLog(updated)}
+      />
+    )
   }
 
   if (loading) return <div className="loading-text">Loading Reading Log…</div>
 
-  const genres = groupByGenre(modules)
+  const sorted = [...logs].sort((a, b) => (STATUS_ORDER[a.status] ?? 9) - (STATUS_ORDER[b.status] ?? 9))
 
   return (
     <div>
       <h3 style={{ color: '#334155', margin: '0 0 6px' }}>📖 Reading Log</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
-        Pick a book, read it, and tell your guardian what you thought to earn points.
+        Pick a book, log what you read each day, then tell your guardian about it to earn points.
       </div>
 
-      {justSent && (
-        <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#92400e', fontSize: '0.9rem', fontWeight: 700 }}>
-          ⏳ Sent to your guardian — your points will show up once they take a look.
-        </div>
-      )}
+      <ReadingBuddy buddy={stats?.buddy} />
+      <StatsStrip stats={stats} />
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
-      {genres.length === 0 ? (
-        <div className="empty-text">Nothing here yet — ask your guardian to turn on a book for you.</div>
+      <Bookshelf logs={logs} onOpen={setOpenLog} />
+
+      <div className="form-card" style={{ marginBottom: 18 }}>
+        <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#64748b', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+          Not on your list? Find a book
+        </div>
+        {startError && <div className="error-msg" style={{ marginBottom: 10 }}>{startError}</div>}
+        <BookSearch ctaLabel={starting ? 'Starting…' : 'Start reading'} onPick={starting ? () => {} : handleStart} />
+      </div>
+
+      {sorted.length === 0 ? (
+        <div className="empty-text">Nothing here yet — search above or wait for your guardian to assign one.</div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
-          {genres.map((genre, genreIndex) => {
-            const meta = genreMeta(genre.category)
-            const genreIsNew = genre.modules.some(m => m.isNew)
-            const doneCount = genre.modules.filter(m => m.completed).length
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {sorted.map(log => {
+            const meta = STATUS_META[log.status] || STATUS_META.assigned
             return (
-              <GenreCard key={genre.category} meta={meta} emoji={genre.emoji} title={genre.title} isNew={genreIsNew} index={genreIndex}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: meta.color }}>{doneCount}/{genre.modules.length} read</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 'auto' }}>
-                  {genre.modules.map(m => {
-                    const isPending = m.pendingLog?.status === 'pending'
-                    const isRejected = m.pendingLog?.status === 'rejected'
-                    return (
-                      <button
-                        key={m.id}
-                        onClick={() => setOpenModule(m)}
-                        style={{
-                          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
-                          padding: '8px 12px', borderRadius: 10, cursor: 'pointer', textAlign: 'left',
-                          background: m.completed ? '#f0fdf4' : isPending ? '#fffbeb' : '#fff',
-                          border: `1px solid ${m.completed ? '#bbf7d0' : isPending ? '#fde68a' : meta.border}`,
-                        }}
-                      >
-                        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: m.completed ? '#166534' : isPending ? '#92400e' : '#1e293b' }}>
-                          {m.completed ? '✅ ' : isPending ? '⏳ ' : isRejected ? '🔄 ' : ''}{m.title}
-                        </span>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: m.completed ? '#166534' : isPending ? '#92400e' : meta.color }}>
-                          {m.completed ? 'Done' : isPending ? 'Pending' : isRejected ? 'Try again' : `⭐ ${m.points} pts`}
-                        </span>
-                      </button>
-                    )
-                  })}
+              <div
+                key={log.id}
+                onClick={() => setOpenLog(log)}
+                role="button" tabIndex={0}
+                onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setOpenLog(log)}
+                style={{
+                  background: '#fff', border: `1px solid ${meta.border}`, borderRadius: 10, padding: '10px 14px', cursor: 'pointer',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  {log.thumbnailUrl ? (
+                    <img src={log.thumbnailUrl} alt="" style={{ width: 32, height: 44, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }} />
+                  ) : (
+                    <div style={{ width: 32, height: 44, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', background: '#f8fafc', borderRadius: 4 }}>📖</div>
+                  )}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 700, fontSize: '0.88rem', color: '#1e293b' }}>{log.title}</div>
+                    {log.author && <div style={{ fontSize: '0.74rem', color: '#94a3b8' }}>by {log.author}</div>}
+                  </div>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, borderRadius: 999, padding: '3px 10px', background: meta.bg, color: meta.color, border: `1px solid ${meta.border}`, flexShrink: 0 }}>
+                    {meta.label}
+                  </span>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 700, color: meta.color, flexShrink: 0 }}>⭐ {log.points}</span>
                 </div>
-              </GenreCard>
+                {log.totalPages && (
+                  <div style={{ marginTop: 10 }}>
+                    <ProgressBar pagesRead={log.pagesRead || 0} totalPages={log.totalPages} compact />
+                  </div>
+                )}
+              </div>
             )
           })}
         </div>

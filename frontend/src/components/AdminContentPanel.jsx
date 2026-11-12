@@ -781,7 +781,7 @@ export default function AdminContentPanel() {
   return (
     <div>
       <div style={{ display: 'flex', gap: 4, marginBottom: 18, background: '#f1f5f9', borderRadius: 10, padding: 4, width: 'fit-content' }}>
-        {[{ id: 'future-ready', label: '🚀 Future-Ready' }, { id: 'quest', label: '🧸 Quests' }, { id: 'reading-log', label: '📖 Reading Log' }].map(s => (
+        {[{ id: 'future-ready', label: '🚀 Future-Ready' }, { id: 'quest', label: '🧸 Quests' }].map(s => (
           <button
             key={s.id}
             onClick={() => openSection(s.id)}
