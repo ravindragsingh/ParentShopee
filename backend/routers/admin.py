@@ -17,7 +17,10 @@ from helpers import (
     generate_temp_pin, get_ticket_notification_email, get_ticket_replies, notify_user_via_ticket, now,
     referral_payout_dict, safe_user, ticket_dict,
 )
-from models import DBChore, DBRecurringTemplate, DBReferralPayout, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet
+from models import (
+    DBChore, DBLearningCompletion, DBLearningModule, DBQuestLog, DBReadingLog, DBRecurringTemplate,
+    DBReferralPayout, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
+)
 from responses import fail, ok
 from schemas import (
     AddKidBody, AdminChoreUpdate, AdminContentAdminCreate, AdminContentAdminUpdate, AdminLimitsUpdate,
@@ -52,6 +55,22 @@ def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(re
             DBRecurringTemplate.is_active == "1",
         ).count()
 
+        kid_ids_for_family = [k.id for k in kids]
+        learn_grow_counts = {
+            "readingPendingApproval": db.query(DBReadingLog).filter(
+                DBReadingLog.family_id == family_id, DBReadingLog.status == "pending_approval",
+            ).count(),
+            "readingApproved": db.query(DBReadingLog).filter(
+                DBReadingLog.family_id == family_id, DBReadingLog.status == "approved",
+            ).count(),
+            "questPendingApproval": db.query(DBQuestLog).filter(
+                DBQuestLog.kid_id.in_(kid_ids_for_family), DBQuestLog.status == "pending",
+            ).count() if kid_ids_for_family else 0,
+            "lessonsCompleted": db.query(DBLearningCompletion).filter(
+                DBLearningCompletion.kid_id.in_(kid_ids_for_family),
+            ).count() if kid_ids_for_family else 0,
+        }
+
         kid_data = []
         for kid in kids:
             wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
@@ -74,6 +93,7 @@ def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(re
             "kids": kid_data,
             "choreCounts": chore_counts,
             "recurringCount": recurring_count,
+            "learnGrowCounts": learn_grow_counts,
             "choresAddedCount":       int(guardian.chores_added_count or 0),
             "choresLimit":            effective_add_limit(guardian, LIMIT_EXTRA_CHORES, "chores_limit_override"),
             "choresLimitOverride":    guardian.chores_limit_override,
@@ -441,6 +461,81 @@ def admin_family_transactions(family_id: str, db: Session = Depends(get_db), use
             "timestamp": t.timestamp,
         })
     return ok(result)
+
+
+@router.get("/api/admin/family/{family_id}/learn-grow")
+def admin_family_learn_grow(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """Merged Future-Ready / Quests / Reading Log activity feed for one
+    family -- the three Learn & Grow sub-features write to three unrelated
+    tables (only DBReadingLog carries family_id directly; the other two are
+    per-kid and need the kid_id -> guardian_id hop, same join style as
+    admin_family_transactions above), so this stitches them into one
+    chronological list for the admin detail panel."""
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    kid_map = {k.id: k for k in kids}
+    kid_ids = list(kid_map.keys())
+
+    reading_logs = db.query(DBReadingLog).filter(
+        DBReadingLog.family_id == family_id,
+    ).order_by(DBReadingLog.created_at.desc()).limit(100).all()
+
+    quest_logs = db.query(DBQuestLog).filter(
+        DBQuestLog.kid_id.in_(kid_ids),
+    ).order_by(DBQuestLog.submitted_at.desc()).limit(100).all() if kid_ids else []
+
+    # Approving a quest log also writes a DBLearningCompletion row (see
+    # quest_logs.py) -- only surface Future-Ready's own completions here so a
+    # finished quest doesn't show up twice.
+    completions = db.query(DBLearningCompletion).filter(
+        DBLearningCompletion.kid_id.in_(kid_ids),
+    ).order_by(DBLearningCompletion.completed_at.desc()).limit(100).all() if kid_ids else []
+
+    module_ids = {q.module_id for q in quest_logs} | {c.module_id for c in completions}
+    modules = db.query(DBLearningModule).filter(DBLearningModule.id.in_(module_ids)).all() if module_ids else []
+    module_map = {m.id: m for m in modules}
+
+    activity = []
+    for log in reading_logs:
+        kid = kid_map.get(log.kid_id)
+        activity.append({
+            "type": "reading",
+            "kidId": log.kid_id,
+            "kidName": kid.name if kid else "Unknown",
+            "title": log.title,
+            "status": log.status,
+            "points": log.points,
+            "at": log.resolved_at or log.submitted_at or log.created_at,
+        })
+    for q in quest_logs:
+        kid = kid_map.get(q.kid_id)
+        mod = module_map.get(q.module_id)
+        activity.append({
+            "type": "quest",
+            "kidId": q.kid_id,
+            "kidName": kid.name if kid else "Unknown",
+            "title": mod.topic_title if mod else q.module_id,
+            "status": q.status,
+            "points": mod.points if mod else None,
+            "at": q.reviewed_at or q.submitted_at,
+        })
+    for c in completions:
+        mod = module_map.get(c.module_id)
+        if mod and mod.section != "future-ready":
+            continue
+        kid = kid_map.get(c.kid_id)
+        activity.append({
+            "type": "lesson",
+            "kidId": c.kid_id,
+            "kidName": kid.name if kid else "Unknown",
+            "title": mod.topic_title if mod else c.module_id,
+            "status": "completed",
+            "scoreLabel": f"{c.score}/{c.total}",
+            "points": c.points_awarded,
+            "at": c.completed_at,
+        })
+
+    activity.sort(key=lambda a: a["at"] or "", reverse=True)
+    return ok(activity[:150])
 
 
 @router.get("/api/admin/tickets")

@@ -21,6 +21,22 @@ const TXN_STYLE = {
   behaviour_deduct: { color: '#b91c1c', symbol: '-' },
 }
 
+const LEARN_GROW_STATUS_STYLE = {
+  assigned:         { bg: '#f8fafc', color: '#64748b' },
+  in_progress:      { bg: '#f0fdfa', color: '#0d9488' },
+  pending_approval: { bg: '#fffbeb', color: '#b45309' },
+  pending:          { bg: '#fffbeb', color: '#b45309' },
+  approved:         { bg: '#f0fdf4', color: '#166534' },
+  completed:        { bg: '#f0fdf4', color: '#166534' },
+  rejected:         { bg: '#fef2f2', color: '#991b1b' },
+}
+
+const LEARN_GROW_TYPE_META = {
+  reading: { label: '📖 Reading', emoji: '📖' },
+  quest:   { label: '🧸 Quest',   emoji: '🧸' },
+  lesson:  { label: '🚀 Lesson',  emoji: '🚀' },
+}
+
 const KID_AVATARS = ['🐶','🐱','🦁','🐯','🦊','🐻','🐼','🐨','🐸','🦄','🐧','🐬','🦋','🐙','🦖','🦒','🐘','🌟','⭐','🌈']
 
 const MONTH_NAMES = [
@@ -1434,7 +1450,7 @@ export default function AdminDashboard() {
   const [platformFilter, setPlatformFilter] = useState('')  // '' | 'android' | 'ios' | 'android-web' | 'ios-web' | 'web'
   const [statusFilter,  setStatusFilter]  = useState('')  // '' | 'active' | 'suspended'
   const [selected,      setSelected]      = useState(null)
-  const [detail,        setDetail]        = useState({ chores: [], transactions: [] })
+  const [detail,        setDetail]        = useState({ chores: [], transactions: [], learnGrow: [] })
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailTab,     setDetailTab]     = useState('chores')
   const [editTarget,    setEditTarget]    = useState(null)
@@ -1469,11 +1485,12 @@ export default function AdminDashboard() {
     if (familyId) {
       const fresh = data.find(f => f.familyId === familyId)
       if (fresh) setSelected(fresh)
-      const [chores, transactions] = await Promise.all([
+      const [chores, transactions, learnGrow] = await Promise.all([
         api.adminFamilyChores(familyId),
         api.adminFamilyTransactions(familyId),
+        api.adminFamilyLearnGrow(familyId),
       ])
-      setDetail({ chores, transactions })
+      setDetail({ chores, transactions, learnGrow })
     }
   }
 
@@ -1482,15 +1499,16 @@ export default function AdminDashboard() {
     setSelected(family)
     setDetailTab('members')
     setDetailLoading(true)
-    setDetail({ chores: [], transactions: [] })
+    setDetail({ chores: [], transactions: [], learnGrow: [] })
     try {
-      const [chores, transactions] = await Promise.all([
+      const [chores, transactions, learnGrow] = await Promise.all([
         api.adminFamilyChores(family.familyId),
         api.adminFamilyTransactions(family.familyId),
+        api.adminFamilyLearnGrow(family.familyId),
       ])
-      setDetail({ chores, transactions })
+      setDetail({ chores, transactions, learnGrow })
     } catch (e) {
-      setDetail({ chores: [], transactions: [] })
+      setDetail({ chores: [], transactions: [], learnGrow: [] })
     }
     setDetailLoading(false)
   }
@@ -1982,6 +2000,11 @@ export default function AdminDashboard() {
                       🔁 {family.recurringCount} recurring
                     </span>
                   )}
+                  {(family.learnGrowCounts.readingPendingApproval + family.learnGrowCounts.questPendingApproval) > 0 && (
+                    <span style={{ background: '#fffbeb', color: '#b45309', borderRadius: 8, padding: '3px 9px', fontSize: '0.74rem', fontWeight: 700 }}>
+                      🌱 {family.learnGrowCounts.readingPendingApproval + family.learnGrowCounts.questPendingApproval} awaiting review
+                    </span>
+                  )}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                     <span
                       title="Custom chores / shop items used"
@@ -2012,6 +2035,7 @@ export default function AdminDashboard() {
                       { id: 'members',      label: '👥 Members',      count: family.kids.length + 1 + (family.coGuardian ? 1 : 0) },
                       { id: 'chores',       label: '📋 Chores',       count: detail.chores.length },
                       { id: 'transactions', label: '💳 Transactions',  count: detail.transactions.length },
+                      { id: 'learngrow',    label: '🌱 Learn & Grow',  count: detail.learnGrow.length },
                     ].map(tab => (
                       <button
                         key={tab.id}
@@ -2186,6 +2210,43 @@ export default function AdminDashboard() {
                                       <Td style={{ fontWeight: 700, color: c.color }}>{c.symbol}{t.amount} pts</Td>
                                       <Td>{t.description}</Td>
                                       <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{t.timestamp.slice(0, 10)}</Td>
+                                    </tr>
+                                  )
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                    )}
+
+                    {/* Learn & Grow table */}
+                    {!detailLoading && detailTab === 'learngrow' && (
+                      detail.learnGrow.length === 0
+                        ? <div style={{ textAlign: 'center', color: '#94a3b8', padding: 32 }}>No Future-Ready, Quests, or Reading Log activity yet.</div>
+                        : <div style={{ overflowX: 'auto' }}>
+                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                              <thead>
+                                <tr style={{ background: '#f8fafc' }}>
+                                  <Th>Type</Th><Th>Child</Th><Th>Title</Th><Th>Status</Th><Th>Score</Th><Th>Points</Th><Th>Date</Th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {detail.learnGrow.map((item, i) => {
+                                  const kid = family.kids.find(k => k.id === item.kidId)
+                                  const typeMeta = LEARN_GROW_TYPE_META[item.type] || { label: item.type }
+                                  const s = LEARN_GROW_STATUS_STYLE[item.status] || {}
+                                  return (
+                                    <tr key={`${item.type}-${item.kidId}-${i}`}>
+                                      <Td>{typeMeta.label}</Td>
+                                      <Td>{kid ? `${kid.avatar || '👤'} ${kid.name}` : item.kidName}</Td>
+                                      <Td style={{ fontWeight: 600, color: '#1e293b' }}>{item.title}</Td>
+                                      <Td>
+                                        <span style={{ background: s.bg, color: s.color, borderRadius: 6, padding: '2px 8px', fontWeight: 700, fontSize: '0.74rem', textTransform: 'capitalize' }}>
+                                          {(item.status || '').replace('_', ' ')}
+                                        </span>
+                                      </Td>
+                                      <Td>{item.scoreLabel || '—'}</Td>
+                                      <Td style={{ fontWeight: 700, color: '#0d9488' }}>{item.points ?? '—'}</Td>
+                                      <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{(item.at || '').slice(0, 10) || '—'}</Td>
                                     </tr>
                                   )
                                 })}
