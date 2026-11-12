@@ -18,18 +18,30 @@ def get_client_ip(request: StarletteRequest) -> str:
     return request.client.host if request.client else ""
 
 
-_VALID_PLATFORMS = {"web", "android", "ios"}
+_NATIVE_PLATFORMS = {"android", "ios"}
 
 
 def get_client_platform(request: StarletteRequest) -> str:
-    """Which shell the request came from, as reported by the frontend's own
-    Capacitor.getPlatform() (see frontend/src/api.js) -- not something the
-    server can reliably infer from the User-Agent alone, since a Capacitor
-    WebView's UA often looks just like a mobile browser's. Defaults to "web"
-    for requests from a frontend build old enough to predate this header,
-    which is the correct guess for anything that isn't a wrapped native app."""
+    """Which shell/device the request came from, for the admin panel's "how are
+    users accessing this" view. Native app detection comes from the frontend's own
+    Capacitor.getPlatform() (see frontend/src/api.js) -- not something the server
+    can reliably infer from the User-Agent alone, since a Capacitor WebView's UA
+    often looks just like a mobile browser's. For anything that isn't a wrapped
+    native app (header missing, or an old frontend build that predates it), falls
+    back to sub-classifying by User-Agent so a phone browser (Android Chrome,
+    iPhone/iPad Safari) can be told apart from a laptop/desktop browser.
+
+    Returns one of: "android", "ios" (native app), "android-web", "ios-web"
+    (mobile browser), or "web" (desktop/laptop browser, or anything else)."""
     platform = (request.headers.get("x-client-platform") or "").strip().lower()
-    return platform if platform in _VALID_PLATFORMS else "web"
+    if platform in _NATIVE_PLATFORMS:
+        return platform
+    ua = (request.headers.get("user-agent") or "").lower()
+    if "android" in ua:
+        return "android-web"
+    if "iphone" in ua or "ipad" in ua or "ipod" in ua:
+        return "ios-web"
+    return "web"
 
 
 def get_client_timezone(request: StarletteRequest) -> str | None:

@@ -39,7 +39,11 @@ function formatLastLogin(iso) {
   return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
 }
 
-const PLATFORM_LABEL = { web: '🌐 Browser', android: '🤖 Android app', ios: '🍎 iOS app' }
+const PLATFORM_LABEL = {
+  android: '🤖 Android app', ios: '🍎 iOS app',
+  'android-web': '📱 Android browser', 'ios-web': '📱 iPhone/iPad browser',
+  web: '💻 Desktop browser',
+}
 function platformLabel(platform) {
   return PLATFORM_LABEL[platform] || null
 }
@@ -1173,7 +1177,7 @@ export default function AdminDashboard() {
   const [countryFilter, setCountryFilter] = useState('')
   const [cityFilter,    setCityFilter]    = useState('')
   const [signinFilter,  setSigninFilter]  = useState('')  // '' | 'google' | 'password'
-  const [platformFilter, setPlatformFilter] = useState('')  // '' | 'web' | 'android' | 'ios'
+  const [platformFilter, setPlatformFilter] = useState('')  // '' | 'android' | 'ios' | 'android-web' | 'ios-web' | 'web'
   const [statusFilter,  setStatusFilter]  = useState('')  // '' | 'active' | 'suspended'
   const [selected,      setSelected]      = useState(null)
   const [detail,        setDetail]        = useState({ chores: [], transactions: [] })
@@ -1541,9 +1545,11 @@ export default function AdminDashboard() {
             style={{ flex: '1 1 160px', padding: '10px 14px', borderRadius: 10, border: '1px solid #e2e8f0', fontSize: '0.88rem', outline: 'none', background: '#fff', boxSizing: 'border-box' }}
           >
             <option value="">📱 All platforms</option>
-            <option value="web">🌐 Browser</option>
             <option value="android">🤖 Android app</option>
             <option value="ios">🍎 iOS app</option>
+            <option value="android-web">📱 Android browser</option>
+            <option value="ios-web">📱 iPhone/iPad browser</option>
+            <option value="web">💻 Desktop browser</option>
           </select>
           <select
             value={statusFilter}
@@ -1779,6 +1785,9 @@ export default function AdminDashboard() {
                               )}
                               {formatLastLogin(member.lastActiveAt) && (
                                 <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>🟢 Last active: {formatLastLogin(member.lastActiveAt)}</div>
+                              )}
+                              {platformLabel(member.lastLoginPlatform) && (
+                                <div style={{ fontSize: '0.76rem', color: '#94a3b8' }}>{platformLabel(member.lastLoginPlatform)}</div>
                               )}
                               {member.balance !== undefined && (
                                 <div style={{ fontSize: '0.78rem', color: '#0d9488', fontWeight: 700, marginTop: 2 }}>{member.balance} pts</div>
