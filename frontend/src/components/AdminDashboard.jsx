@@ -667,6 +667,104 @@ function AdjustPointsModal({ kid, onSave, onClose }) {
   )
 }
 
+// ── Message user modal ──────────────────────────────────────────────────────────
+// Delivered as a new ticket in the target's own My Tickets (see
+// helpers.notify_user_via_ticket) -- works for kids too, who have no email.
+
+function MessageUserModal({ target, onClose }) {
+  const [subject, setSubject] = useState('')
+  const [message, setMessage] = useState('')
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
+  const [sent, setSent] = useState(false)
+
+  async function handleSend() {
+    if (!subject.trim()) { setError('Subject is required.'); return }
+    if (!message.trim()) { setError('Message is required.'); return }
+    setSending(true)
+    setError('')
+    try {
+      await api.adminMessageUser(target.id, subject.trim(), message.trim())
+      setSent(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSending(false)
+    }
+  }
+
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(15,23,42,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 14, width: '100%', maxWidth: 440, boxShadow: '0 20px 60px rgba(0,0,0,0.22)' }}
+      >
+        <div style={{ padding: '16px 22px 12px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1e293b' }}>✉️ Message {target.name}</div>
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: 2 }}>Delivered to their My Tickets (Contact Support)</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#94a3b8', lineHeight: 1 }}>✕</button>
+        </div>
+
+        <div style={{ padding: '18px 22px' }}>
+          {sent ? (
+            <div style={{ textAlign: 'center', padding: '12px 0' }}>
+              <div style={{ fontSize: '2rem', marginBottom: 8 }}>✅</div>
+              <div style={{ fontWeight: 700, color: '#1e293b', marginBottom: 4 }}>Message sent</div>
+              <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 18 }}>
+                {target.name} will see it next time they open My Tickets.
+              </div>
+              <button type="button" onClick={onClose}
+                style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem' }}>
+                Done
+              </button>
+            </div>
+          ) : (
+            <>
+              {error && (
+                <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>
+                  {error}
+                </div>
+              )}
+
+              <div style={{ marginBottom: 14 }}>
+                <label style={labelStyle}>Subject</label>
+                <input value={subject} onChange={e => setSubject(e.target.value)} style={inputStyle} placeholder="e.g. Your referral reward" />
+              </div>
+
+              <div style={{ marginBottom: 6 }}>
+                <label style={labelStyle}>Message</label>
+                <textarea
+                  value={message}
+                  onChange={e => setMessage(e.target.value)}
+                  rows={5}
+                  style={{ ...inputStyle, resize: 'vertical', minHeight: 110, fontFamily: 'inherit' }}
+                  placeholder="Write your message…"
+                />
+              </div>
+
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 20 }}>
+                <button type="button" onClick={onClose}
+                  style={{ padding: '9px 20px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontWeight: 600, cursor: 'pointer', fontSize: '0.88rem' }}>
+                  Cancel
+                </button>
+                <button type="button" disabled={sending} onClick={handleSend}
+                  style={{ padding: '9px 22px', borderRadius: 8, border: 'none', background: '#0d9488', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.88rem', opacity: sending ? 0.7 : 1 }}>
+                  {sending ? 'Sending…' : 'Send'}
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Delete confirmation modal ───────────────────────────────────────────────────
 
 function ConfirmDeleteModal({ target, onConfirm, onClose }) {
@@ -992,6 +1090,162 @@ function AdminTicketCard({ ticket: t, busy, onToggleResolved, onReplied }) {
   )
 }
 
+const PAYOUT_STATUS_STYLE = {
+  pending:   { bg: '#fffbeb', color: '#b45309' },
+  fulfilled: { bg: '#f0fdf4', color: '#15803d' },
+  rejected:  { bg: '#fef2f2', color: '#b91c1c' },
+}
+
+function ReferralPayoutsPanel() {
+  const [payouts,      setPayouts]      = useState([])
+  const [loading,      setLoading]      = useState(true)
+  const [error,        setError]        = useState('')
+  const [statusFilter, setStatusFilter] = useState('pending')
+  const [busyId,       setBusyId]       = useState(null)
+
+  useEffect(() => { load() }, [statusFilter])
+
+  async function load() {
+    setLoading(true)
+    setError('')
+    try {
+      setPayouts(await api.adminReferralPayouts(statusFilter === 'all' ? undefined : statusFilter))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleFulfill(payout, note) {
+    setBusyId(payout.id)
+    try {
+      await api.adminFulfillReferralPayout(payout.id, note)
+      await load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  async function handleReject(payout, note) {
+    setBusyId(payout.id)
+    try {
+      await api.adminRejectReferralPayout(payout.id, note)
+      await load()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        {['pending', 'fulfilled', 'rejected', 'all'].map(s => (
+          <button
+            key={s}
+            onClick={() => setStatusFilter(s)}
+            style={{
+              padding: '7px 16px', borderRadius: 8, border: `1px solid ${statusFilter === s ? '#0d9488' : '#e2e8f0'}`,
+              background: statusFilter === s ? '#f0fdfa' : '#fff', color: statusFilter === s ? '#0d9488' : '#64748b',
+              fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer', textTransform: 'capitalize',
+            }}
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+
+      {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 16px', marginBottom: 16, fontSize: '0.85rem' }}>{error}</div>}
+      {loading && <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>Loading…</div>}
+      {!loading && payouts.length === 0 && (
+        <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>No {statusFilter !== 'all' ? statusFilter : ''} referral cash-out requests.</div>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {payouts.map(p => (
+          <AdminReferralPayoutCard
+            key={p.id}
+            payout={p}
+            busy={busyId === p.id}
+            onFulfill={note => handleFulfill(p, note)}
+            onReject={note => handleReject(p, note)}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function AdminReferralPayoutCard({ payout: p, busy, onFulfill, onReject }) {
+  const [note, setNote] = useState('')
+  const [acting, setActing] = useState(null) // 'fulfill' | 'reject' | null
+
+  const style = PAYOUT_STATUS_STYLE[p.status]
+
+  return (
+    <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, padding: '14px 18px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 6 }}>
+        <div>
+          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '1rem' }}>${p.amount} — {p.guardianName}</div>
+          <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: 2 }}>{p.guardianEmail || '(no email on file)'}</div>
+        </div>
+        <span style={{ fontSize: '0.74rem', fontWeight: 700, borderRadius: 6, padding: '3px 10px', background: style.bg, color: style.color, textTransform: 'capitalize' }}>
+          {p.status}
+        </span>
+      </div>
+      <div style={{ fontSize: '0.76rem', color: '#94a3b8', display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: p.adminNote ? 8 : 0 }}>
+        <span>Requested: {formatLastLogin(p.createdAt)}</span>
+        {p.resolvedAt && <span>Resolved: {formatLastLogin(p.resolvedAt)}</span>}
+      </div>
+      {p.adminNote && (
+        <div style={{ fontSize: '0.83rem', color: '#334155', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: '8px 12px', marginBottom: 8 }}>
+          {p.adminNote}
+        </div>
+      )}
+
+      {p.status === 'pending' && (
+        acting ? (
+          <div>
+            <textarea
+              value={note}
+              onChange={e => setNote(e.target.value)}
+              placeholder={acting === 'fulfill' ? 'Amazon gift card code / confirmation (shown to the guardian)…' : 'Reason for rejecting (shown to the guardian)…'}
+              rows={2}
+              style={{ width: '100%', resize: 'vertical', marginBottom: 8, padding: '8px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontFamily: 'inherit' }}
+            />
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                onClick={() => (acting === 'fulfill' ? onFulfill(note) : onReject(note))}
+                disabled={busy}
+                className="btn btn-primary"
+                style={{ padding: '6px 16px', fontSize: '0.82rem' }}
+              >
+                {busy ? 'Saving…' : acting === 'fulfill' ? '✓ Confirm Sent' : '🚫 Confirm Reject'}
+              </button>
+              <button onClick={() => { setActing(null); setNote('') }} className="btn" style={{ padding: '6px 16px', fontSize: '0.82rem', background: '#f1f5f9', color: '#475569' }}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button onClick={() => setActing('fulfill')} style={unsuspendBtnStyle}>
+              ✓ Mark Fulfilled
+            </button>
+            <button onClick={() => setActing('reject')} style={suspendBtnStyle}>
+              🚫 Reject
+            </button>
+          </div>
+        )
+      )}
+    </div>
+  )
+}
+
 // ── Admin Dashboard ────────────────────────────────────────────────────────────
 
 // ── Content-admin accounts (full-admin only) ────────────────────────────────
@@ -1166,7 +1420,7 @@ export default function AdminDashboard() {
   const { user, logout } = useAuth()
   const isContentOnly = user?.adminScope === 'content'
   const [searchParams, setSearchParams] = useSearchParams()
-  const view = searchParams.get('view') || (isContentOnly ? 'content' : 'families')  // 'families' | 'tickets' | 'content' | 'admins'
+  const view = searchParams.get('view') || (isContentOnly ? 'content' : 'families')  // 'families' | 'tickets' | 'referrals' | 'content' | 'admins'
   const setView = useCallback(next => {
     setSearchParams(next === 'families' ? {} : { view: next })
   }, [setSearchParams])
@@ -1189,6 +1443,7 @@ export default function AdminDashboard() {
   const [addKidTarget,  setAddKidTarget]  = useState(null)
   const [addCoGuardianTarget, setAddCoGuardianTarget] = useState(null)
   const [pointsTarget,  setPointsTarget]  = useState(null)
+  const [messageTarget, setMessageTarget] = useState(null)
   const [suspendBusyId, setSuspendBusyId] = useState(null)
   const [tempPinBusyId, setTempPinBusyId] = useState(null)
   const [tempPinResult, setTempPinResult] = useState(null)
@@ -1446,6 +1701,14 @@ export default function AdminDashboard() {
         />
       )}
 
+      {/* Message user modal */}
+      {messageTarget && (
+        <MessageUserModal
+          target={messageTarget}
+          onClose={() => setMessageTarget(null)}
+        />
+      )}
+
       {/* Header */}
       <div style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)', padding: '14px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -1474,6 +1737,7 @@ export default function AdminDashboard() {
           ] : [
             { id: 'families', label: '🏠 Families' },
             { id: 'tickets',  label: '🎫 Support Tickets' },
+            { id: 'referrals', label: '🎁 Referral Payouts' },
             { id: 'content',  label: '📚 Future-Ready & Quests' },
             { id: 'admins',   label: '🛡️ Admins' },
           ]).map(tab => (
@@ -1492,6 +1756,8 @@ export default function AdminDashboard() {
         </div>
 
         {view === 'tickets' && !isContentOnly && <TicketsPanel />}
+
+        {view === 'referrals' && !isContentOnly && <ReferralPayoutsPanel />}
 
         {view === 'content' && <AdminContentPanel />}
 
@@ -1634,6 +1900,20 @@ export default function AdminDashboard() {
                   )}
                   {platformLabel(family.guardian.lastLoginPlatform) && (
                     <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>{platformLabel(family.guardian.lastLoginPlatform)}</div>
+                  )}
+                  {(family.guardian.referralCode || family.guardian.referredByName) && (
+                    <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+                      {family.guardian.referralCode && (
+                        <>🎁 {family.guardian.referralCode} · {family.guardian.referralCount} referral{family.guardian.referralCount === 1 ? '' : 's'}
+                          {family.guardian.referralCount > family.guardian.referralCreditsRedeemed && (
+                            <> (${family.guardian.referralCount - family.guardian.referralCreditsRedeemed} pending)</>
+                          )}
+                        </>
+                      )}
+                      {family.guardian.referredByName && (
+                        <div>↗️ Referred by: {family.guardian.referredByName}</div>
+                      )}
+                    </div>
                   )}
                 </div>
 
@@ -1815,6 +2095,12 @@ export default function AdminDashboard() {
                                 disabled={tempPinBusyId === member.id}
                               >
                                 🔑 {tempPinBusyId === member.id ? 'Issuing…' : 'Temp PIN'}
+                              </button>
+                              <button
+                                style={{ ...editBtnStyle, padding: '8px 18px', fontSize: '0.85rem' }}
+                                onClick={e => { e.stopPropagation(); setMessageTarget(member) }}
+                              >
+                                ✉️ Message
                               </button>
                               <button
                                 style={{ ...(member.isSuspended ? unsuspendBtnStyle : suspendBtnStyle), padding: '8px 18px', fontSize: '0.85rem' }}

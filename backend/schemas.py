@@ -42,6 +42,7 @@ class RegisterFinalizeBody(BaseModel):
     dateOfBirth: str
     gender: str
     username: Optional[str] = None   # omitted for Google sign-ups (auto-generated from email)
+    referralCode: Optional[str] = None   # the referring guardian's shareable code, if any
 
 class ActivateBody(BaseModel):
     token: str
@@ -124,6 +125,13 @@ class ContactTicketBody(BaseModel):
     screenshot_b64: Optional[str] = None  # base64 data-URL of attached image
 
 class TicketReplyBody(BaseModel):
+    message: str
+
+class ReferralPayoutActionBody(BaseModel):
+    note: Optional[str] = None   # gift card confirmation code (fulfill) or rejection reason (reject)
+
+class AdminMessageUserBody(BaseModel):
+    subject: str
     message: str
 
 class MessageBody(BaseModel):

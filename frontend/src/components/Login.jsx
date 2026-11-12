@@ -161,8 +161,11 @@ function Section({ title, children }) {
 
 // ── Register form ─────────────────────────────────────────────────────────────
 
-function RegisterForm({ onBack }) {
-  const [form, setForm] = useState({ name: '', email: '', username: '', password: '', confirmPassword: '', dateOfBirth: '', gender: '' })
+function RegisterForm({ onBack, referralCode: referralCodeFromLink = '' }) {
+  // Pre-filled from a referral link's ?ref= param (see ReferralsTab.jsx and
+  // Login()'s searchParams below), but still a plain editable field so
+  // someone who got a code verbally (not via the link) can type it in by hand.
+  const [form, setForm] = useState({ name: '', email: '', username: '', password: '', confirmPassword: '', dateOfBirth: '', gender: '', referralCode: referralCodeFromLink })
   const [agreed, setAgreed] = useState(false)
   const [showAgreement, setShowAgreement] = useState(false)
   const [error, setError] = useState('')
@@ -219,6 +222,7 @@ function RegisterForm({ onBack }) {
         dateOfBirth: form.dateOfBirth,
         gender: form.gender,
         username: form.username.trim(),
+        referralCode: form.referralCode.trim() || undefined,
       })
       setRegistered({ email: data.email, message: data.message })
     } catch (err) {
@@ -291,6 +295,10 @@ function RegisterForm({ onBack }) {
           <label>Confirm Password *</label>
           <PasswordField value={form.confirmPassword} onChange={set('confirmPassword')} placeholder="Repeat password" />
         </div>
+        <div className="form-group" style={{ marginBottom: 16 }}>
+          <label>Referral Code <span style={{ fontWeight: 400, color: '#94a3b8' }}>(optional)</span></label>
+          <input value={form.referralCode} onChange={set('referralCode')} placeholder="e.g. S7NW55Q" style={{ textTransform: 'uppercase' }} />
+        </div>
 
         {/* User Agreement checkbox */}
         <div
@@ -336,7 +344,7 @@ function RegisterForm({ onBack }) {
       </form>
 
       <div className="login-divider">or</div>
-      <GoogleSignInButton />
+      <GoogleSignInButton referralCode={form.referralCode} />
 
       <p style={{ marginTop: 16, textAlign: 'center', fontSize: '0.85rem' }}>
         Already have an account?{' '}
@@ -541,7 +549,7 @@ function ForgotUsernamePanel({ onShowPasswordRecovery }) {
 // reports back `no_account` since there's no DBUser for it yet, and this
 // component asks for just those two fields before finishing via
 // register/finalize (same endpoint password sign-up's second step uses).
-function GoogleSignInButton() {
+function GoogleSignInButton({ referralCode }) {
   const { login } = useAuth()
   const [needsProfile, setNeedsProfile] = useState(null) // { email, name } | null
   const [dateOfBirth, setDateOfBirth] = useState('')
@@ -591,6 +599,7 @@ function GoogleSignInButton() {
         name: needsProfile.name || needsProfile.email,
         dateOfBirth,
         gender,
+        referralCode: referralCode || undefined,
       })
       login(data.user, data.token)
     } catch (err) {
@@ -690,7 +699,7 @@ function GoogleSignInButton() {
 
 // ── Login form ────────────────────────────────────────────────────────────────
 
-function LoginForm({ onRegister }) {
+function LoginForm({ onRegister, referralCode }) {
   const { login } = useAuth()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -859,7 +868,7 @@ function LoginForm({ onRegister }) {
       {!recoveryMode && (
         <>
           <div className="login-divider">or</div>
-          <GoogleSignInButton />
+          <GoogleSignInButton referralCode={referralCode} />
 
           <p style={{ textAlign: 'center', fontSize: '0.85rem', color: '#64748b', marginTop: 16 }}>
             Don't have an account?{' '}
@@ -1694,12 +1703,23 @@ export default function Login() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const mode = searchParams.get('mode') === 'register' ? 'register' : 'login'
-  const setMode = next => setSearchParams(next === 'register' ? { mode: 'register' } : {})
+  // A referral link is just "/?ref=CODE" (there's no separate /register route --
+  // "mode" is what actually switches this screen into the register form) --
+  // preserved across setMode so clicking "Create Account" from the landing
+  // page doesn't wipe it out before RegisterForm ever gets to read it.
+  const referralCode = searchParams.get('ref') || ''
+  const setMode = next => setSearchParams(prev => {
+    const params = next === 'register' ? { mode: 'register' } : {}
+    const ref = prev.get('ref')
+    return ref ? { ...params, ref } : params
+  })
   const [showHelp, setShowHelp] = useState(false)
   const [showLegal, setShowLegal] = useState(false)
   // The marketing landing view is what a fresh visitor sees first -- the
   // actual sign-in/create-account form only renders once they pick one.
-  const [showLanding, setShowLanding] = useState(true)
+  // Skipped for a referral link (?ref=...&mode=register) -- someone who
+  // already followed a link to sign up shouldn't hit an extra click first.
+  const [showLanding, setShowLanding] = useState(!(referralCode && mode === 'register'))
 
   const fixedBtnStyle = {
     background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(8px)',
@@ -1754,8 +1774,8 @@ export default function Login() {
 
         <div className="login-card">
           {mode === 'login'
-            ? <LoginForm onRegister={() => setMode('register')} />
-            : <RegisterForm onBack={() => setMode('login')} />
+            ? <LoginForm onRegister={() => setMode('register')} referralCode={referralCode} />
+            : <RegisterForm onBack={() => setMode('login')} referralCode={referralCode} />
           }
         </div>
 

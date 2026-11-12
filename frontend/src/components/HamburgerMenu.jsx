@@ -18,7 +18,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
   const { startTour } = useTour()
 
   const menuTabIds = role === 'guardian'
-    ? ['admin', 'messages', 'help', 'contact']
+    ? ['admin', 'refer', 'messages', 'help', 'contact']
     : ['messages', 'help', 'contact', 'settings']
 
   const isMenuTab   = menuTabIds.includes(tab)
@@ -127,6 +127,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
 
   const items = [
     ...(role === 'guardian' ? [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }] : []),
+    ...(role === 'guardian' ? [{ id: 'refer', icon: '🎁', label: 'Refer & Earn' }] : []),
     { id: 'messages', icon: '💬', label: 'Messages'   },
     { id: 'help',     icon: '❓', label: 'Help'        },
     { id: 'contact',  icon: '📩', label: 'Contact Us'  },

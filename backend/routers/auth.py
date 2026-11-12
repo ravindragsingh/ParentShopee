@@ -297,6 +297,17 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, bac
     # me" pick; the profile picker's migration-notice banner surfaces it to them.
     temp_pin = f"{random.randint(0, 999999):06d}"
 
+    # A referral only ever earns the referrer a credit once THIS new account
+    # activates (see activate_account) -- recorded now so that later step knows
+    # who to credit, but silently ignored if the code doesn't resolve to a real
+    # primary guardian (a stale/mistyped code shouldn't block signup).
+    referrer = None
+    if body.referralCode:
+        referrer = db.query(DBUser).filter(
+            DBUser.referral_code == body.referralCode.strip().upper(),
+            DBUser.role == "guardian", DBUser.co_guardian_of.is_(None),
+        ).first()
+
     user = DBUser(
         id=str(uuid4()),
         name=body.name.strip(),
@@ -325,6 +336,7 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, bac
         pin_auto_generated="1",
         created_at=now(),
         timezone=get_client_timezone(request),
+        referred_by=referrer.id if referrer else None,
     )
     db.add(user)
     db.commit()
@@ -332,6 +344,11 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, bac
     background_tasks.add_task(send_new_signup_notification, user)
 
     if is_google:
+        # Google already activates the account immediately (no separate
+        # activation step exists for this branch to credit the referral from).
+        if referrer:
+            referrer.referral_count = (referrer.referral_count or 0) + 1
+            db.commit()
         token = create_session(db, user.id)
         return ok({"token": token, "user": safe_user(user)}, 201)
 
@@ -453,6 +470,14 @@ def activate_account(body: ActivateBody, db: Session = Depends(get_db)):
     user.is_active = "1"
     user.activation_token = None
     user.activation_token_expires = None
+    # This is the one and only moment a password sign-up can credit its referrer
+    # -- the "already active" check above guarantees this transition happens at
+    # most once per account, so there's no double-crediting risk from a reused
+    # or retried activation link.
+    if user.referred_by:
+        referrer = db.query(DBUser).filter(DBUser.id == user.referred_by).first()
+        if referrer:
+            referrer.referral_count = (referrer.referral_count or 0) + 1
     db.commit()
     return ok({"message": "Account activated! You can sign in now."})
 
