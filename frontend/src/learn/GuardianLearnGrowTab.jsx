@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext.jsx'
 import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
 import GuardianQuestsTab from '../quests/GuardianQuestsTab.jsx'
 import GuardianReadingLogTab from '../reading/GuardianReadingLogTab.jsx'
+import NewBadge from '../components/NewBadge.jsx'
 
 // Guardian-side counterpart to LearnGrowTab.jsx -- see that file's comment
 // for why Future-Ready and Quests share one nav slot (with a picker screen,
@@ -15,6 +17,7 @@ const SECTIONS = [
 ]
 
 export default function GuardianLearnGrowTab() {
+  const { user } = useAuth()
   const [section, setSection] = useState(null)
   // GuardianFutureReadyTab/GuardianQuestsTab render their own "← Back"
   // header the moment a single lesson/quest preview is open (LessonModule/
@@ -44,7 +47,10 @@ export default function GuardianLearnGrowTab() {
               }}>
                 {s.icon}
               </div>
-              <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#1e293b' }}>{s.label}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#1e293b' }}>{s.label}</div>
+                {s.key === 'reading' && user.readingLogIsNew && <NewBadge />}
+              </div>
               <div style={{ fontSize: '0.82rem', color: '#64748b' }}>{s.text}</div>
             </button>
           ))}

@@ -170,6 +170,8 @@ def startup():
             ("reading_logs", "genre", "VARCHAR"),
             ("reading_logs", "grade_level_hint", "INTEGER"),
             ("reading_logs", "reading_format", "VARCHAR"),
+            ("users", "reading_log_badge_first_seen_at", "VARCHAR"),
+            ("users", "reading_log_badge_logins", "INTEGER"),
         ]:
             try:
                 if "sqlite" in str(engine.url):

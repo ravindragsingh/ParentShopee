@@ -69,6 +69,13 @@ class DBUser(Base):
     referred_by                = Column(String, nullable=True)   # the referrer's (primary guardian's) user id, set at signup
     referral_count             = Column(Integer, default=0)       # lifetime count of referred signups that activated
     referral_credits_redeemed  = Column(Integer, default=0)       # lifetime count already paid out via cash-outs
+    # ── "New" feature badges ─────────────────────────────────────────────────
+    # Drives the guardian-facing "New" label on Reading Log (home screen tile
+    # + Learn & Grow section) -- see helpers.reading_log_is_new_for. Set on
+    # this profile's first-ever enter_profile call after the feature shipped;
+    # NULL means "hasn't been through that yet," so the badge still shows.
+    reading_log_badge_first_seen_at = Column(String, nullable=True)
+    reading_log_badge_logins        = Column(Integer, default=0)
 
 
 class DBChore(Base):

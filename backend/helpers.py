@@ -1,6 +1,6 @@
 import random
 import re
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from uuid import uuid4
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -19,6 +19,33 @@ from sample_items import is_sample_shop_item
 
 def now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+# Guardian-facing "New" badge on Reading Log (home screen tile + Learn &
+# Grow section) -- fades out after whichever of these comes first, per
+# profile, so a guardian who logs in constantly doesn't see it for a whole
+# month, and one who logs in rarely still gets a handful of real looks at it.
+READING_LOG_BADGE_MAX_LOGINS = 5
+READING_LOG_BADGE_MAX_DAYS = 30
+
+def register_reading_log_badge_login(user: DBUser) -> None:
+    """Call once per profile-login (routers/family.enter_profile) to advance
+    this profile's Reading Log "New" badge countdown."""
+    if not user.reading_log_badge_first_seen_at:
+        user.reading_log_badge_first_seen_at = now()
+    user.reading_log_badge_logins = (user.reading_log_badge_logins or 0) + 1
+
+def reading_log_is_new_for(user: DBUser) -> bool:
+    if not user.reading_log_badge_first_seen_at:
+        return True
+    if (user.reading_log_badge_logins or 0) > READING_LOG_BADGE_MAX_LOGINS:
+        return False
+    try:
+        first_seen = datetime.fromisoformat(user.reading_log_badge_first_seen_at)
+    except ValueError:
+        return False
+    if first_seen.tzinfo is None:
+        first_seen = first_seen.replace(tzinfo=timezone.utc)
+    return (datetime.now(timezone.utc) - first_seen) < timedelta(days=READING_LOG_BADGE_MAX_DAYS)
 
 def today_str_for_timezone(tz_name: str | None) -> str:
     """"Today" in the given IANA timezone name (e.g. "Asia/Kolkata"), falling
@@ -170,7 +197,8 @@ def safe_user(u: DBUser) -> dict:
             "referralCode": u.referral_code,
             "referralCount": u.referral_count or 0,
             "referralCreditsRedeemed": u.referral_credits_redeemed or 0,
-            "referredBy": u.referred_by}
+            "referredBy": u.referred_by,
+            "readingLogIsNew": reading_log_is_new_for(u)}
 
 def chore_dict(c: DBChore) -> dict:
     return {"id": c.id, "title": c.title, "description": c.description,
