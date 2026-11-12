@@ -59,6 +59,16 @@ class DBUser(Base):
     pin_locked_until   = Column(String, nullable=True)    # ISO timestamp; PIN entry blocked until this passes
     pin_auto_generated = Column(String, default="0")      # "1" = system-generated during migration, guardian hasn't set their own yet
     push_token         = Column(String, nullable=True)    # FCM token for the device this profile was last active on (native apps only)
+    # ── Referral program ─────────────────────────────────────────────────────
+    # Primary guardians only (never kids/co-guardians) -- shared at the family
+    # level like chores_added_count above. referral_count is a lifetime total
+    # that never decreases; referral_credits_redeemed tracks how much of it has
+    # already been cashed out, so (referral_count - referral_credits_redeemed)
+    # is always "how many $1 credits are available to cash out right now."
+    referral_code             = Column(String, unique=True, nullable=True, index=True)  # shareable code, generated lazily on first view
+    referred_by                = Column(String, nullable=True)   # the referrer's (primary guardian's) user id, set at signup
+    referral_count             = Column(Integer, default=0)       # lifetime count of referred signups that activated
+    referral_credits_redeemed  = Column(Integer, default=0)       # lifetime count already paid out via cash-outs
 
 
 class DBChore(Base):
@@ -194,6 +204,23 @@ class DBSupportTicketReply(Base):
     sender_name = Column(String, nullable=False)
     message     = Column(String, nullable=False)
     created_at  = Column(String, nullable=False)
+
+
+class DBReferralPayout(Base):
+    """One cash-out request for the referral program -- created when a guardian
+    has >=10 unredeemed referral credits and asks to cash out. Fulfilled by hand
+    (admin buys and sends the Amazon gift card, then marks it fulfilled), same
+    manual-review pattern as DBSupportTicket."""
+    __tablename__ = "referral_payouts"
+    id            = Column(String, primary_key=True)
+    guardian_id   = Column(String, nullable=False, index=True)
+    guardian_name = Column(String, nullable=False)   # snapshot at request time
+    guardian_email = Column(String, nullable=True)   # snapshot at request time -- where the gift card gets sent
+    amount        = Column(Integer, nullable=False)  # dollars; also the number of credits this request redeemed
+    status        = Column(String, default="pending")  # pending | fulfilled | rejected
+    admin_note    = Column(String, nullable=True)     # e.g. gift card confirmation code, or rejection reason
+    created_at    = Column(String, nullable=False)
+    resolved_at   = Column(String, nullable=True)
 
 
 class DBLearningModule(Base):

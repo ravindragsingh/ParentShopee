@@ -181,6 +181,10 @@ export const api = {
   getMyTickets:  ()               => request('GET',  '/api/contact/tickets'),
   replyToTicket: (id, message)    => request('POST', `/api/contact/tickets/${id}/reply`, { message }),
 
+  // Referral program
+  getMyReferrals:  ()     => request('GET',  '/api/referrals/me'),
+  cashOutReferrals: ()    => request('POST', '/api/referrals/cash-out'),
+
   // Co-guardian management
   getCoGuardian:            ()           => request('GET',    '/api/family/co-guardian'),
   addCoGuardian:            (body)       => request('POST',   '/api/family/co-guardian', body),
@@ -232,12 +236,16 @@ export const api = {
   adminAdjustWallet:       (kidId, body)    => request('POST', `/api/admin/kid/${kidId}/wallet/adjust`, body),
   adminSuspendUser:        (userId)        => request('POST', `/api/admin/user/${userId}/suspend`),
   adminUnsuspendUser:      (userId)        => request('POST', `/api/admin/user/${userId}/unsuspend`),
+  adminMessageUser:        (userId, subject, message) => request('POST', `/api/admin/user/${userId}/message`, { subject, message }),
   adminIssueTempPin:       (userId)        => request('POST', `/api/admin/user/${userId}/issue-temp-pin`),
   adminSendPasswordReset:  (userId)        => request('POST', `/api/admin/user/${userId}/send-password-reset`),
   adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),
   adminResolveTicket:      (id)            => request('POST', `/api/admin/tickets/${id}/resolve`),
   adminReopenTicket:       (id)            => request('POST', `/api/admin/tickets/${id}/reopen`),
   adminReplyTicket:        (id, message)   => request('POST', `/api/admin/tickets/${id}/reply`, { message }),
+  adminReferralPayouts:        (status)    => request('GET', `/api/admin/referral-payouts${status ? `?status=${status}` : ''}`),
+  adminFulfillReferralPayout:  (id, note)  => request('POST', `/api/admin/referral-payouts/${id}/fulfill`, { note }),
+  adminRejectReferralPayout:   (id, note)  => request('POST', `/api/admin/referral-payouts/${id}/reject`, { note }),
 
   // Admin -- Future-Ready / Quests content management
   adminContentAgeBands:    (section)              => request('GET', `/api/admin/content/age-bands?section=${section}`),

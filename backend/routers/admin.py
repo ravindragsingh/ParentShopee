@@ -14,13 +14,14 @@ from email_utils import send_email, send_reset_email
 from firebase_app import get_firebase_app
 from helpers import (
     chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, generate_inert_credentials,
-    generate_temp_pin, get_ticket_notification_email, get_ticket_replies, now, safe_user, ticket_dict,
+    generate_temp_pin, get_ticket_notification_email, get_ticket_replies, notify_user_via_ticket, now,
+    referral_payout_dict, safe_user, ticket_dict,
 )
-from models import DBChore, DBRecurringTemplate, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet
+from models import DBChore, DBRecurringTemplate, DBReferralPayout, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import (
     AddKidBody, AdminChoreUpdate, AdminContentAdminCreate, AdminContentAdminUpdate, AdminLimitsUpdate,
-    AdminUserUpdate, CoGuardianBody, TicketReplyBody, WalletAdjustBody,
+    AdminMessageUserBody, AdminUserUpdate, CoGuardianBody, ReferralPayoutActionBody, TicketReplyBody, WalletAdjustBody,
 )
 from security import check_pin_complexity
 
@@ -56,9 +57,19 @@ def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(re
             wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
             kid_data.append({**safe_user(kid), "balance": wallet.balance if wallet else 0})
 
+        # Referred-by is just an id on the row (safe_user's referredBy) --
+        # resolve it to a display name here, where a DB session is already
+        # in hand, rather than burdening every other safe_user() call site
+        # with an extra query most of them never need.
+        referred_by_name = None
+        if guardian.referred_by:
+            referrer = db.query(DBUser).filter(DBUser.id == guardian.referred_by).first()
+            if referrer:
+                referred_by_name = referrer.name
+
         result.append({
             "familyId": family_id,
-            "guardian": safe_user(guardian),
+            "guardian": {**safe_user(guardian), "referredByName": referred_by_name},
             "coGuardian": safe_user(co_guardian) if co_guardian else None,
             "kids": kid_data,
             "choreCounts": chore_counts,
@@ -231,6 +242,23 @@ def admin_unsuspend_user(user_id: str, db: Session = Depends(get_db), user: DBUs
     db.commit()
     db.refresh(target)
     return ok(safe_user(target))
+
+
+@router.post("/api/admin/user/{user_id}/message")
+def admin_message_user(user_id: str, body: AdminMessageUserBody, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """Proactive admin -> user message, for anything that doesn't start from
+    the user's own ticket (a referral reward, a policy heads-up, a one-off
+    question) -- delivered as a new ticket so it shows in their My Tickets
+    exactly like a support reply would, and works for kids too (no email)."""
+    target = db.query(DBUser).filter(DBUser.id == user_id).first()
+    if not target:
+        fail("User not found", 404)
+    if not body.subject.strip():
+        fail("Subject is required")
+    if not body.message.strip():
+        fail("Message is required")
+    ticket = notify_user_via_ticket(db, target, body.subject.strip(), body.message.strip())
+    return ok(ticket_dict(ticket, []), 201)
 
 
 @router.delete("/api/admin/user/{user_id}")
@@ -476,6 +504,69 @@ def admin_reply_ticket(ticket_id: str, body: TicketReplyBody, db: Session = Depe
         )
 
     return ok(ticket_dict(ticket, get_ticket_replies(db, ticket_id)))
+
+
+@router.get("/api/admin/referral-payouts")
+def admin_list_referral_payouts(status: Optional[str] = None, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    q = db.query(DBReferralPayout)
+    if status:
+        if status not in ("pending", "fulfilled", "rejected"):
+            fail("status must be 'pending', 'fulfilled', or 'rejected'")
+        q = q.filter(DBReferralPayout.status == status)
+    payouts = q.order_by(DBReferralPayout.created_at.desc()).limit(200).all()
+    return ok([referral_payout_dict(p) for p in payouts])
+
+
+@router.post("/api/admin/referral-payouts/{payout_id}/fulfill")
+def admin_fulfill_referral_payout(payout_id: str, body: ReferralPayoutActionBody, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    payout = db.query(DBReferralPayout).filter(DBReferralPayout.id == payout_id).first()
+    if not payout:
+        fail("Payout request not found", 404)
+    if payout.status != "pending":
+        fail(f"This request is already {payout.status}.")
+    payout.status = "fulfilled"
+    payout.admin_note = (body.note or "").strip() or None
+    payout.resolved_at = now()
+    db.commit()
+    db.refresh(payout)
+
+    # Delivered as a My Tickets message, not a bare email -- it's the one place
+    # every role can actually read, and matches what cash_out_referrals already
+    # told the guardian to expect (see routers/referrals.py).
+    guardian = db.query(DBUser).filter(DBUser.id == payout.guardian_id).first()
+    if guardian:
+        notify_user_via_ticket(
+            db, guardian,
+            subject=f"Your ${payout.amount} referral reward is here! 🎉",
+            message=(
+                f"Thanks for spreading the word about Reward Ur Kids! Your ${payout.amount} "
+                f"Amazon gift card is ready:\n\n"
+                + (payout.admin_note or "Contact support if you don't see a code below.") + "\n"
+            ),
+        )
+
+    return ok(referral_payout_dict(payout))
+
+
+@router.post("/api/admin/referral-payouts/{payout_id}/reject")
+def admin_reject_referral_payout(payout_id: str, body: ReferralPayoutActionBody, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    payout = db.query(DBReferralPayout).filter(DBReferralPayout.id == payout_id).first()
+    if not payout:
+        fail("Payout request not found", 404)
+    if payout.status != "pending":
+        fail(f"This request is already {payout.status}.")
+    # Rejecting (e.g. fraud, duplicate accounts) gives the credits back rather
+    # than just discarding them -- the guardian can still request a legitimate
+    # cash-out later once the dispute is sorted out.
+    guardian = db.query(DBUser).filter(DBUser.id == payout.guardian_id).first()
+    if guardian:
+        guardian.referral_credits_redeemed = max(0, (guardian.referral_credits_redeemed or 0) - payout.amount)
+    payout.status = "rejected"
+    payout.admin_note = (body.note or "").strip() or None
+    payout.resolved_at = now()
+    db.commit()
+    db.refresh(payout)
+    return ok(referral_payout_dict(payout))
 
 
 # ── Content-admin accounts (restricted to Future-Ready/Quests only) ────────────

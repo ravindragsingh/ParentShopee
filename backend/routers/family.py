@@ -11,7 +11,7 @@ from database import get_db
 from deps import create_session, require_guardian
 from email_utils import send_coguardian_invite_email, send_coguardian_recovery_email
 from firebase_app import verify_firebase_token
-from geolocation import get_client_timezone
+from geolocation import get_client_platform, get_client_timezone
 from helpers import generate_inert_credentials, get_family_id, now, safe_user
 from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
@@ -190,7 +190,7 @@ def preview_coguardian_invite(token: str, db: Session = Depends(get_db)):
 
 
 @router.post("/api/family/co-guardian/invite/accept")
-def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, db: Session = Depends(get_db)):
+def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, request: StarletteRequest, db: Session = Depends(get_db)):
     """Public (no auth) -- the co-parent has no session yet. For a fresh
     invite, creates the same kind of profile add_co_guardian does; for a
     recovery link, re-logs in the existing profile unchanged. Either way
@@ -211,6 +211,7 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, db: Session = Dep
             db.delete(invite)
             db.commit()
             fail("This co-guardian profile no longer exists.", 404)
+        co_guardian.last_login_platform = get_client_platform(request)
         db.delete(invite)
         db.commit()
         token = create_session(db, co_guardian.id)
@@ -237,6 +238,7 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, db: Session = Dep
         pin=body.pin,
         pin_auto_generated="0",
         created_at=now(),
+        last_login_platform=get_client_platform(request),
     )
     db.add(co_guardian)
     db.delete(invite)
@@ -363,6 +365,7 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, request: StarletteReq
     if family_id == DEMO_FAMILY_ID:
         profile.pin_attempts = 0
         profile.pin_locked_until = None
+        profile.last_login_platform = get_client_platform(request)
         db.commit()
         db.refresh(profile)
         token = create_session(db, profile.id)
@@ -390,6 +393,7 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, request: StarletteReq
 
     profile.pin_attempts = 0
     profile.pin_locked_until = None
+    profile.last_login_platform = get_client_platform(request)
     db.commit()
     db.refresh(profile)
 
@@ -398,7 +402,7 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, request: StarletteReq
 
 
 @router.post("/api/family/profiles/recover-pin")
-def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+def recover_own_pin(body: RecoverPinBody, request: StarletteRequest, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     # Recovery for a forgotten PIN, primary guardian only — kids and the co-guardian
     # get their PIN reset by the primary guardian instead (Kids tab / Admin Panel),
     # same as before. This used to branch on how the guardian signed up (a local
@@ -418,6 +422,7 @@ def recover_own_pin(body: RecoverPinBody, db: Session = Depends(get_db), user: D
     user.pin_auto_generated = "0"
     user.pin_attempts = 0
     user.pin_locked_until = None
+    user.last_login_platform = get_client_platform(request)
     db.commit()
     db.refresh(user)
 

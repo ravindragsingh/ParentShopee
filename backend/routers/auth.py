@@ -10,7 +10,7 @@ from starlette.requests import Request as StarletteRequest
 from config import ACTIVATION_TOKEN_TTL_HOURS, EMAIL_RE, FRONTEND_URL
 from database import get_db
 from deps import create_session, require_auth, require_guardian
-from email_utils import send_activation_email, send_reset_email, send_username_email
+from email_utils import send_activation_email, send_new_signup_notification, send_reset_email, send_username_email
 from firebase_app import get_firebase_app, verify_firebase_token
 from geolocation import get_client_ip, get_client_platform, get_client_timezone, get_location_from_ip, record_login_location
 from google_auth_utils import verify_google_token
@@ -73,7 +73,7 @@ def login(body: LoginBody, request: StarletteRequest, background_tasks: Backgrou
 
 
 @router.post("/api/auth/register")
-def register(body: RegisterBody, request: StarletteRequest, db: Session = Depends(get_db)):
+def register(body: RegisterBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     if not EMAIL_RE.match(body.email):
         fail("Please enter a valid email address")
     try:
@@ -123,6 +123,7 @@ def register(body: RegisterBody, request: StarletteRequest, db: Session = Depend
     db.add(user)
     db.commit()
     db.refresh(user)
+    background_tasks.add_task(send_new_signup_notification, user)
 
     if not send_activation_email(user):
         fail("Account created, but we couldn't send the activation email. Please try 'Resend activation email' from the sign-in page.", 500)
@@ -245,7 +246,7 @@ def register_precheck(body: RegisterPrecheckBody, db: Session = Depends(get_db))
 
 
 @router.post("/api/auth/register/finalize")
-def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, db: Session = Depends(get_db)):
+def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     """Second half of registration: takes the ID token for a Firebase user that
     either (a) the frontend just created with createUserWithEmailAndPassword
     right after a successful precheck, or (b) Firebase created automatically on
@@ -296,6 +297,17 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, db:
     # me" pick; the profile picker's migration-notice banner surfaces it to them.
     temp_pin = f"{random.randint(0, 999999):06d}"
 
+    # A referral only ever earns the referrer a credit once THIS new account
+    # activates (see activate_account) -- recorded now so that later step knows
+    # who to credit, but silently ignored if the code doesn't resolve to a real
+    # primary guardian (a stale/mistyped code shouldn't block signup).
+    referrer = None
+    if body.referralCode:
+        referrer = db.query(DBUser).filter(
+            DBUser.referral_code == body.referralCode.strip().upper(),
+            DBUser.role == "guardian", DBUser.co_guardian_of.is_(None),
+        ).first()
+
     user = DBUser(
         id=str(uuid4()),
         name=body.name.strip(),
@@ -309,6 +321,10 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, db:
         gender=body.gender,
         country=location["country"],
         city=location["city"],
+        # Set now even for the non-Google (not-yet-active) branch -- it's harmless
+        # to record which device/platform the signup itself came from, and this
+        # is the only place that ever would for that branch (no session minted yet).
+        last_login_platform=get_client_platform(request),
         # Google already verified the email; a password sign-up still goes through
         # our own branded activation email, same as before this migration.
         is_active="1" if is_google else "0",
@@ -320,12 +336,19 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, db:
         pin_auto_generated="1",
         created_at=now(),
         timezone=get_client_timezone(request),
+        referred_by=referrer.id if referrer else None,
     )
     db.add(user)
     db.commit()
     db.refresh(user)
+    background_tasks.add_task(send_new_signup_notification, user)
 
     if is_google:
+        # Google already activates the account immediately (no separate
+        # activation step exists for this branch to credit the referral from).
+        if referrer:
+            referrer.referral_count = (referrer.referral_count or 0) + 1
+            db.commit()
         token = create_session(db, user.id)
         return ok({"token": token, "user": safe_user(user)}, 201)
 
@@ -428,6 +451,7 @@ def google_complete(body: GoogleCompleteBody, request: StarletteRequest, backgro
     db.add(user)
     db.commit()
     db.refresh(user)
+    background_tasks.add_task(send_new_signup_notification, user)
 
     token = create_session(db, user.id)
     background_tasks.add_task(record_login_location, user.id, get_client_ip(request))
@@ -446,6 +470,14 @@ def activate_account(body: ActivateBody, db: Session = Depends(get_db)):
     user.is_active = "1"
     user.activation_token = None
     user.activation_token_expires = None
+    # This is the one and only moment a password sign-up can credit its referrer
+    # -- the "already active" check above guarantees this transition happens at
+    # most once per account, so there's no double-crediting risk from a reused
+    # or retried activation link.
+    if user.referred_by:
+        referrer = db.query(DBUser).filter(DBUser.id == user.referred_by).first()
+        if referrer:
+            referrer.referral_count = (referrer.referral_count or 0) + 1
     db.commit()
     return ok({"message": "Account activated! You can sign in now."})
 
