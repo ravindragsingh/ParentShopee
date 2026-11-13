@@ -1,0 +1,1 @@
+import{r,_ as t}from"./index-58738786.js";const n=r("SplashScreen",{web:()=>t(()=>import("./web-883ba821.js"),["assets/web-883ba821.js","assets/index-58738786.js","assets/index-8bc8924b.css"]).then(e=>new e.SplashScreenWeb)});export{n as SplashScreen};
