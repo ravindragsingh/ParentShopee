@@ -451,9 +451,23 @@ def add_reading_log_entry(log_id: str, body: ReadingLogEntryBody, db: Session = 
     if len(note) > MAX_NOTE_CHARS:
         fail(f"Keep today's note under {MAX_NOTE_CHARS} characters.")
 
-    if body.pages is not None and body.pages < 0:
-        fail("Pages read can't be negative.")
-    entry = DBReadingLogEntry(id=str(uuid4()), reading_log_id=log.id, note=note, pages=body.pages, created_at=now())
+    # Kids naturally know what page they're ON, not how many pages they read
+    # today -- asking for the latter made them type their current page number
+    # anyway, which this endpoint used to take at face value and sum entry
+    # over entry, wildly overcounting. Take the absolute page instead and
+    # derive today's delta against everything already logged for this book.
+    pages_delta = None
+    if body.currentPage is not None:
+        if body.currentPage < 0:
+            fail("Page number can't be negative.")
+        existing_entries = db.query(DBReadingLogEntry).filter(DBReadingLogEntry.reading_log_id == log.id).all()
+        pages_so_far = sum(e.pages or 0 for e in existing_entries)
+        if body.currentPage < pages_so_far:
+            fail(f"You've already logged up to page {pages_so_far} -- enter the page you're on now, not an earlier one.")
+        if log.total_pages and body.currentPage > log.total_pages:
+            fail(f"This book only has {log.total_pages} pages.")
+        pages_delta = body.currentPage - pages_so_far
+    entry = DBReadingLogEntry(id=str(uuid4()), reading_log_id=log.id, note=note, pages=pages_delta, created_at=now())
     db.add(entry)
     if log.status == "assigned":
         log.status = "in_progress"

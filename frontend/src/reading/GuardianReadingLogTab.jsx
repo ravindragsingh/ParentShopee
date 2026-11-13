@@ -135,7 +135,7 @@ function EntriesPanel({ log, disabled, onApprove, onReject }) {
           {entries.map(e => (
             <div key={e.id} style={{ fontSize: '0.82rem', color: pending ? '#78350f' : '#475569' }}>
               <strong>{new Date(e.createdAt).toLocaleDateString()}:</strong> {e.note}
-              {e.pages ? <span style={{ color: '#94a3b8' }}> · 📄 {e.pages} pages</span> : null}
+              {e.pages ? <span style={{ color: '#94a3b8' }}> · 📄 +{e.pages} pages</span> : null}
             </div>
           ))}
         </div>
