@@ -16,7 +16,7 @@ from database import SessionLocal, engine, Base
 from email_utils import send_email
 from seed import backfill_sample_ids, ensure_demo_accounts, migrate_legacy_learning_content, reconcile_custom_item_counts, seed_db
 from models import DBUser
-from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, shop, wallet
+from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, reading_log, referrals, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -83,6 +83,8 @@ app.include_router(admin_content.router)
 app.include_router(daily_chores.router)
 app.include_router(future_ready.router)
 app.include_router(quests.router)
+app.include_router(reading_log.router)
+app.include_router(referrals.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -149,6 +151,10 @@ def startup():
             ("users",      "last_login_platform",        "VARCHAR"),
             ("users",      "admin_scope",                 "VARCHAR"),
             ("users",      "timezone",                    "VARCHAR"),
+            ("users",      "referral_code",               "VARCHAR"),
+            ("users",      "referred_by",                 "VARCHAR"),
+            ("users",      "referral_count",              "INTEGER"),
+            ("users",      "referral_credits_redeemed",   "INTEGER"),
             ("daily_chore_items", "status",           "VARCHAR"),
             ("wallets",    "savings_balance",         "FLOAT"),
             ("wallets",    "goal_name",               "VARCHAR"),
@@ -159,6 +165,14 @@ def startup():
             ("learning_modules", "status", "VARCHAR"),
             ("learning_modules", "is_premium", "VARCHAR"),
             ("family_learning_settings", "enabled_kid_ids", "VARCHAR"),
+            ("reading_logs", "total_pages", "INTEGER"),
+            ("reading_log_entries", "pages", "INTEGER"),
+            ("reading_logs", "genre", "VARCHAR"),
+            ("reading_logs", "grade_level_hint", "INTEGER"),
+            ("reading_logs", "reading_format", "VARCHAR"),
+            ("users", "reading_log_badge_first_seen_at", "VARCHAR"),
+            ("users", "reading_log_badge_logins", "INTEGER"),
+            ("quest_logs", "activity_index", "INTEGER"),
         ]:
             try:
                 if "sqlite" in str(engine.url):

@@ -134,10 +134,24 @@ export const api = {
   getQuestContent: (moduleId) => request('GET', `/api/quests/${moduleId}/content`),
   setQuestVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/quests/${moduleId}/visibility`, { enabled, kidIds }),
   setQuestPoints: (moduleId, points) => request('PUT', `/api/quests/${moduleId}/points`, { points }),
-  resetQuestCompletion: (moduleId, kidId) => request('DELETE', `/api/quests/${moduleId}/completion/${kidId}`),
-  submitQuestLog: (moduleId, note) => request('POST', `/api/quests/${moduleId}/log`, { note }),
+  resetQuestCompletion: (moduleId, kidId, activityIndex) => request('DELETE', `/api/quests/${moduleId}/completion/${kidId}?activity_index=${activityIndex}`),
+  submitQuestLog: (moduleId, note, activityIndex) => request('POST', `/api/quests/${moduleId}/log`, { note, activityIndex }),
   approveQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/approve`),
   rejectQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/reject`),
+
+  // Reading Log
+  searchBooks: (q) => request('GET', `/api/reading-log/search?q=${encodeURIComponent(q)}`),
+  getReadingLog: () => request('GET', '/api/reading-log'),
+  getReadingLogStats: (kidId) => request('GET', `/api/reading-log/stats${kidId ? `?kidId=${kidId}` : ''}`),
+  getReadingLogEntries: (logId) => request('GET', `/api/reading-log/${logId}/entries`),
+  assignReadingLog: (body) => request('POST', '/api/reading-log/assign', body),
+  startReadingLog: (body) => request('POST', '/api/reading-log/start', body),
+  addReadingLogEntry: (logId, note, pages) => request('POST', `/api/reading-log/${logId}/entries`, { note, pages: pages || null }),
+  completeReadingLog: (logId, summary) => request('POST', `/api/reading-log/${logId}/complete`, { summary }),
+  setReadingLogPoints: (logId, points) => request('PUT', `/api/reading-log/${logId}/points`, { points }),
+  approveReadingLog: (logId) => request('POST', `/api/reading-log/${logId}/approve`),
+  rejectReadingLog: (logId) => request('POST', `/api/reading-log/${logId}/reject`),
+  removeReadingLog: (logId) => request('DELETE', `/api/reading-log/${logId}`),
 
   // Wallet
   getWallet: (kidId) => request('GET', `/api/wallet/${kidId}`),
@@ -170,6 +184,10 @@ export const api = {
   submitContact: (body) => request('POST', '/api/contact', body),
   getMyTickets:  ()               => request('GET',  '/api/contact/tickets'),
   replyToTicket: (id, message)    => request('POST', `/api/contact/tickets/${id}/reply`, { message }),
+
+  // Referral program
+  getMyReferrals:  ()     => request('GET',  '/api/referrals/me'),
+  cashOutReferrals: ()    => request('POST', '/api/referrals/cash-out'),
 
   // Co-guardian management
   getCoGuardian:            ()           => request('GET',    '/api/family/co-guardian'),
@@ -213,6 +231,7 @@ export const api = {
   adminFamilies:           ()              => request('GET', '/api/admin/families'),
   adminFamilyChores:       (familyId)      => request('GET', `/api/admin/family/${familyId}/chores`),
   adminFamilyTransactions: (familyId)      => request('GET', `/api/admin/family/${familyId}/transactions`),
+  adminFamilyLearnGrow:    (familyId)      => request('GET', `/api/admin/family/${familyId}/learn-grow`),
   adminUpdateUser:         (userId, body)  => request('PUT', `/api/admin/user/${userId}`, body),
   adminDeleteUser:         (userId)        => request('DELETE', `/api/admin/user/${userId}`),
   adminUpdateChore:        (choreId, body) => request('PUT', `/api/admin/chore/${choreId}`, body),
@@ -222,12 +241,16 @@ export const api = {
   adminAdjustWallet:       (kidId, body)    => request('POST', `/api/admin/kid/${kidId}/wallet/adjust`, body),
   adminSuspendUser:        (userId)        => request('POST', `/api/admin/user/${userId}/suspend`),
   adminUnsuspendUser:      (userId)        => request('POST', `/api/admin/user/${userId}/unsuspend`),
+  adminMessageUser:        (userId, subject, message) => request('POST', `/api/admin/user/${userId}/message`, { subject, message }),
   adminIssueTempPin:       (userId)        => request('POST', `/api/admin/user/${userId}/issue-temp-pin`),
   adminSendPasswordReset:  (userId)        => request('POST', `/api/admin/user/${userId}/send-password-reset`),
   adminTickets:            (status)        => request('GET', `/api/admin/tickets${status ? `?status=${status}` : ''}`),
   adminResolveTicket:      (id)            => request('POST', `/api/admin/tickets/${id}/resolve`),
   adminReopenTicket:       (id)            => request('POST', `/api/admin/tickets/${id}/reopen`),
   adminReplyTicket:        (id, message)   => request('POST', `/api/admin/tickets/${id}/reply`, { message }),
+  adminReferralPayouts:        (status)    => request('GET', `/api/admin/referral-payouts${status ? `?status=${status}` : ''}`),
+  adminFulfillReferralPayout:  (id, note)  => request('POST', `/api/admin/referral-payouts/${id}/fulfill`, { note }),
+  adminRejectReferralPayout:   (id, note)  => request('POST', `/api/admin/referral-payouts/${id}/reject`, { note }),
 
   // Admin -- Future-Ready / Quests content management
   adminContentAgeBands:    (section)              => request('GET', `/api/admin/content/age-bands?section=${section}`),

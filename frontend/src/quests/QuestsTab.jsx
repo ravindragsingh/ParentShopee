@@ -120,14 +120,17 @@ export default function QuestsTab({ onBalanceChange, onDetailChange }) {
           {categories.map((category, catIndex) => {
             const meta = categoryMeta(category.category)
             const categoryIsNew = category.modules.some(m => m.isNew)
-            const doneCount = category.modules.filter(m => m.completed).length
+            const doneActivities = category.modules.reduce((n, m) => n + (m.completedActivityIndices?.length || 0), 0)
+            const totalActivities = category.modules.reduce((n, m) => n + (m.activityCount || 0), 0)
             return (
               <CategoryCard key={category.category} meta={meta} emoji={category.emoji} title={category.title} isNew={categoryIsNew} index={catIndex}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: meta.color }}>{doneCount}/{category.modules.length} tried</div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: meta.color }}>{doneActivities}/{totalActivities} tried</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 'auto' }}>
                   {category.modules.map(m => {
-                    const isPending = m.pendingLog?.status === 'pending'
-                    const isRejected = m.pendingLog?.status === 'rejected'
+                    const doneCount = m.completedActivityIndices?.length || 0
+                    const pendingCount = (m.pendingActivityLogs || []).filter(l => l?.status === 'pending').length
+                    const allDone = m.activityCount > 0 && doneCount === m.activityCount
+                    const totalPoints = (m.activityPoints || []).reduce((s, p) => s + p, 0)
                     return (
                       <button
                         key={m.id}
@@ -135,15 +138,15 @@ export default function QuestsTab({ onBalanceChange, onDetailChange }) {
                         style={{
                           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
                           padding: '8px 12px', borderRadius: 10, cursor: 'pointer', textAlign: 'left',
-                          background: m.completed ? '#f0fdf4' : isPending ? '#fffbeb' : '#fff',
-                          border: `1px solid ${m.completed ? '#bbf7d0' : isPending ? '#fde68a' : meta.border}`,
+                          background: allDone ? '#f0fdf4' : pendingCount > 0 ? '#fffbeb' : '#fff',
+                          border: `1px solid ${allDone ? '#bbf7d0' : pendingCount > 0 ? '#fde68a' : meta.border}`,
                         }}
                       >
-                        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: m.completed ? '#166534' : isPending ? '#92400e' : '#1e293b' }}>
-                          {m.completed ? '✅ ' : isPending ? '⏳ ' : isRejected ? '🔄 ' : ''}{m.title}
+                        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: allDone ? '#166534' : pendingCount > 0 ? '#92400e' : '#1e293b' }}>
+                          {allDone ? '✅ ' : pendingCount > 0 ? '⏳ ' : ''}{m.title}
                         </span>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: m.completed ? '#166534' : isPending ? '#92400e' : meta.color }}>
-                          {m.completed ? 'Done' : isPending ? 'Pending' : isRejected ? 'Try again' : `⭐ ${m.points} pts`}
+                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: allDone ? '#166534' : pendingCount > 0 ? '#92400e' : meta.color }}>
+                          {allDone ? 'All done' : pendingCount > 0 ? `${pendingCount} pending` : `${doneCount}/${m.activityCount} · ⭐ ${totalPoints} pts`}
                         </span>
                       </button>
                     )

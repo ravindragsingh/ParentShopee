@@ -12,7 +12,7 @@ from deps import create_session, require_guardian
 from email_utils import send_coguardian_invite_email, send_coguardian_recovery_email
 from firebase_app import verify_firebase_token
 from geolocation import get_client_platform, get_client_timezone
-from helpers import generate_inert_credentials, get_family_id, now, safe_user
+from helpers import generate_inert_credentials, get_family_id, now, register_reading_log_badge_login, safe_user
 from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
 from schemas import (
@@ -366,6 +366,7 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, request: StarletteReq
         profile.pin_attempts = 0
         profile.pin_locked_until = None
         profile.last_login_platform = get_client_platform(request)
+        register_reading_log_badge_login(profile)
         db.commit()
         db.refresh(profile)
         token = create_session(db, profile.id)
@@ -394,6 +395,7 @@ def enter_profile(profile_id: str, body: ProfileEnterBody, request: StarletteReq
     profile.pin_attempts = 0
     profile.pin_locked_until = None
     profile.last_login_platform = get_client_platform(request)
+    register_reading_log_badge_login(profile)
     db.commit()
     db.refresh(profile)
 

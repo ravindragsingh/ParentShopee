@@ -13,9 +13,11 @@ import { checkFields } from '../utils/wordFilter.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
+import ReferralsTab from './ReferralsTab.jsx'
 import AppNavbar from './AppNavbar.jsx'
 import BottomNav from './BottomNav.jsx'
 import PasswordField from './PasswordField.jsx'
+import NewBadge from './NewBadge.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 import { auth } from '../firebase.js'
 import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth'
@@ -2319,7 +2321,7 @@ function KidsTab() {
 
 // ─── Home screen ──────────────────────────────────────────────────────────────
 
-function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick, tourId }) {
+function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, showNew, onClick, tourId }) {
   return (
     <button
       onClick={onClick}
@@ -2341,6 +2343,7 @@ function HomeNavTile({ icon, iconColor, bg, border, label, text, badge, onClick,
           {badge > 99 ? '99+' : badge}
         </span>
       )}
+      {showNew && <NewBadge style={{ position: 'absolute', top: 10, right: 10 }} />}
       <span style={{
         width: 56, height: 56, borderRadius: '50%', background: iconColor, color: '#fff',
         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem',
@@ -2601,7 +2604,7 @@ function WeeklySnapshotStrip({ kids, kidsLoaded, onNavigate }) {
   )
 }
 
-function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNavigate }) {
+function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNavigate, readingLogIsNew }) {
   const [pendingItems, setPendingItems] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const kidsById = kidLookup(kids)
@@ -2685,7 +2688,7 @@ function GuardianHomeScreen({ name, userId, isCoGuardian, kids, kidsLoaded, onNa
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <HomeNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" border="#99f6e4" label="Chores" text="Review & assign" badge={choresPendingCount} onClick={() => onNavigate('chores')} tourId="home-chores-tile" />
         <HomeNavTile icon="🛍️" iconColor="#d97706" bg="#fffbeb" border="#fde68a" label="Shop" text="Manage rewards" badge={shopPendingCount} onClick={() => onNavigate('shop')} tourId="home-shop-tile" />
-        <HomeNavTile icon="🌱" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Learn & Grow" text="Lessons & quests" onClick={() => onNavigate('learn')} tourId="home-learngrow-tile" />
+        <HomeNavTile icon="🌱" iconColor="#7c3aed" bg="#f5f3ff" border="#ddd6fe" label="Learn & Grow" text="Lessons, quests & reading" showNew={readingLogIsNew} onClick={() => onNavigate('learn')} tourId="home-learngrow-tile" />
         <HomeNavTile icon="👨‍👩‍👧" iconColor="#db2777" bg="#fdf2f8" border="#fbcfe8" label="Kids" text="Profiles & points" onClick={() => onNavigate('kids')} tourId="home-kids-tile" />
       </div>
 
@@ -2754,7 +2757,7 @@ export default function GuardianDashboard() {
       />
 
       <div className="main-content">
-        {tab === 'home' && <GuardianHomeScreen name={user.name} userId={user.id} isCoGuardian={!!user.coGuardianOf} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} />}
+        {tab === 'home' && <GuardianHomeScreen name={user.name} userId={user.id} isCoGuardian={!!user.coGuardianOf} kids={kids} kidsLoaded={kidsLoaded} onNavigate={setTab} readingLogIsNew={user.readingLogIsNew} />}
 
         {tab !== 'home' && kids.length > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: '10px 14px', background: '#f8fafc', borderRadius: 10, border: '1px solid #e2e8f0' }}>
@@ -2818,6 +2821,7 @@ export default function GuardianDashboard() {
         {tab === 'learn' && <GuardianLearnGrowTab />}
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}
+        {tab === 'refer'     && <ReferralsTab />}
         {tab === 'messages'  && <MessagesTab />}
         {tab === 'help'      && <HelpTab role="guardian" />}
         {tab === 'contact'   && <ContactUs />}

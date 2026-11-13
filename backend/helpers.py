@@ -1,6 +1,6 @@
 import random
 import re
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from uuid import uuid4
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -8,8 +8,9 @@ from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL
+from email_utils import send_email
 from models import (
-    DBChore, DBDailyChoreItem, DBMessage, DBRecurringTemplate, DBShopItem,
+    DBChore, DBDailyChoreItem, DBMessage, DBReferralPayout, DBRecurringTemplate, DBShopItem,
     DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
 )
 from responses import fail
@@ -18,6 +19,33 @@ from sample_items import is_sample_shop_item
 
 def now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+# Guardian-facing "New" badge on Reading Log (home screen tile + Learn &
+# Grow section) -- fades out after whichever of these comes first, per
+# profile, so a guardian who logs in constantly doesn't see it for a whole
+# month, and one who logs in rarely still gets a handful of real looks at it.
+READING_LOG_BADGE_MAX_LOGINS = 5
+READING_LOG_BADGE_MAX_DAYS = 30
+
+def register_reading_log_badge_login(user: DBUser) -> None:
+    """Call once per profile-login (routers/family.enter_profile) to advance
+    this profile's Reading Log "New" badge countdown."""
+    if not user.reading_log_badge_first_seen_at:
+        user.reading_log_badge_first_seen_at = now()
+    user.reading_log_badge_logins = (user.reading_log_badge_logins or 0) + 1
+
+def reading_log_is_new_for(user: DBUser) -> bool:
+    if not user.reading_log_badge_first_seen_at:
+        return True
+    if (user.reading_log_badge_logins or 0) > READING_LOG_BADGE_MAX_LOGINS:
+        return False
+    try:
+        first_seen = datetime.fromisoformat(user.reading_log_badge_first_seen_at)
+    except ValueError:
+        return False
+    if first_seen.tzinfo is None:
+        first_seen = first_seen.replace(tzinfo=timezone.utc)
+    return (datetime.now(timezone.utc) - first_seen) < timedelta(days=READING_LOG_BADGE_MAX_DAYS)
 
 def today_str_for_timezone(tz_name: str | None) -> str:
     """"Today" in the given IANA timezone name (e.g. "Asia/Kolkata"), falling
@@ -161,7 +189,16 @@ def safe_user(u: DBUser) -> dict:
             # username/password registration -- see google_complete, which
             # gives a Google-only guardian an inert random password they
             # never saw, vs RegisterBody's real one.
-            "isGoogleAccount": bool(u.google_id)}
+            "isGoogleAccount": bool(u.google_id),
+            # Referral program (see routers/referrals.py) -- only ever set on a
+            # primary guardian's own row, NULL/0 for kids, co-guardians, and any
+            # guardian who hasn't visited Refer & Earn yet. referredBy is the
+            # referrer's user id (admin.py resolves it to a display name).
+            "referralCode": u.referral_code,
+            "referralCount": u.referral_count or 0,
+            "referralCreditsRedeemed": u.referral_credits_redeemed or 0,
+            "referredBy": u.referred_by,
+            "readingLogIsNew": reading_log_is_new_for(u)}
 
 def chore_dict(c: DBChore) -> dict:
     return {"id": c.id, "title": c.title, "description": c.description,
@@ -225,6 +262,34 @@ def get_ticket_replies(db: Session, ticket_id: str) -> list:
         DBSupportTicketReply.ticket_id == ticket_id
     ).order_by(DBSupportTicketReply.created_at.asc()).all()
 
+def notify_user_via_ticket(db: Session, target: DBUser, subject: str, message: str) -> DBSupportTicket:
+    """Admin-initiated message to a specific user (any role), delivered as a new
+    support ticket so it shows up in that user's own "My Tickets" -- the same
+    place they'd already look for a support reply, and the one surface every
+    role (including kids, who have no email) can actually read. The outbound
+    email is just a generic "you have a new message" nudge, never the message
+    content itself (e.g. a gift card code) -- the ticket is the one copy of it."""
+    ticket = DBSupportTicket(
+        id=str(uuid4()), user_id=target.id, user_name=target.name, username=target.username,
+        user_role=target.role, category="Message from Support",
+        subject=subject, message=message, status="open", created_at=now(),
+    )
+    db.add(ticket)
+    db.commit()
+    db.refresh(ticket)
+
+    to_addr = get_ticket_notification_email(db, ticket)
+    if to_addr:
+        send_email(
+            to_addr,
+            f"[Reward Ur Kids] {subject}",
+            f"Hi {target.name},\n\n"
+            f"You have a new message from the Reward Ur Kids team. Sign in and visit "
+            f"My Tickets (Contact Support) to read it.\n",
+        )
+    return ticket
+
+
 def get_ticket_notification_email(db: Session, ticket: DBSupportTicket):
     """The email a reply notification should go to for this ticket's owner --
     the address the account was actually registered with. Kids and
@@ -236,3 +301,27 @@ def get_ticket_notification_email(db: Session, ticket: DBSupportTicket):
     if owner.role == "kid" or owner.co_guardian_of:
         owner = get_family_owner(db, owner)
     return owner.email if owner else None
+
+
+# ── Referral program ─────────────────────────────────────────────────────────
+
+# Excludes visually ambiguous characters (0/O, 1/I/L) since this gets typed by
+# hand off a friend's phone screen as often as it gets shared via link.
+_REFERRAL_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"
+
+
+def generate_referral_code(db: Session) -> str:
+    """A short, shareable, collision-free code for a guardian's referral link.
+    Generated lazily (first time their referral info is requested) rather than
+    for every guardian up front, so existing accounts from before this feature
+    shipped don't all need a backfill migration."""
+    while True:
+        code = "".join(random.choices(_REFERRAL_CODE_ALPHABET, k=7))
+        if not db.query(DBUser).filter(DBUser.referral_code == code).first():
+            return code
+
+
+def referral_payout_dict(p: DBReferralPayout) -> dict:
+    return {"id": p.id, "guardianId": p.guardian_id, "guardianName": p.guardian_name,
+            "guardianEmail": p.guardian_email, "amount": p.amount, "status": p.status,
+            "adminNote": p.admin_note, "createdAt": p.created_at, "resolvedAt": p.resolved_at}

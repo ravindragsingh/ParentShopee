@@ -59,6 +59,23 @@ class DBUser(Base):
     pin_locked_until   = Column(String, nullable=True)    # ISO timestamp; PIN entry blocked until this passes
     pin_auto_generated = Column(String, default="0")      # "1" = system-generated during migration, guardian hasn't set their own yet
     push_token         = Column(String, nullable=True)    # FCM token for the device this profile was last active on (native apps only)
+    # ── Referral program ─────────────────────────────────────────────────────
+    # Primary guardians only (never kids/co-guardians) -- shared at the family
+    # level like chores_added_count above. referral_count is a lifetime total
+    # that never decreases; referral_credits_redeemed tracks how much of it has
+    # already been cashed out, so (referral_count - referral_credits_redeemed)
+    # is always "how many $1 credits are available to cash out right now."
+    referral_code             = Column(String, unique=True, nullable=True, index=True)  # shareable code, generated lazily on first view
+    referred_by                = Column(String, nullable=True)   # the referrer's (primary guardian's) user id, set at signup
+    referral_count             = Column(Integer, default=0)       # lifetime count of referred signups that activated
+    referral_credits_redeemed  = Column(Integer, default=0)       # lifetime count already paid out via cash-outs
+    # ── "New" feature badges ─────────────────────────────────────────────────
+    # Drives the guardian-facing "New" label on Reading Log (home screen tile
+    # + Learn & Grow section) -- see helpers.reading_log_is_new_for. Set on
+    # this profile's first-ever enter_profile call after the feature shipped;
+    # NULL means "hasn't been through that yet," so the badge still shows.
+    reading_log_badge_first_seen_at = Column(String, nullable=True)
+    reading_log_badge_logins        = Column(Integer, default=0)
 
 
 class DBChore(Base):
@@ -196,6 +213,23 @@ class DBSupportTicketReply(Base):
     created_at  = Column(String, nullable=False)
 
 
+class DBReferralPayout(Base):
+    """One cash-out request for the referral program -- created when a guardian
+    has >=10 unredeemed referral credits and asks to cash out. Fulfilled by hand
+    (admin buys and sends the Amazon gift card, then marks it fulfilled), same
+    manual-review pattern as DBSupportTicket."""
+    __tablename__ = "referral_payouts"
+    id            = Column(String, primary_key=True)
+    guardian_id   = Column(String, nullable=False, index=True)
+    guardian_name = Column(String, nullable=False)   # snapshot at request time
+    guardian_email = Column(String, nullable=True)   # snapshot at request time -- where the gift card gets sent
+    amount        = Column(Integer, nullable=False)  # dollars; also the number of credits this request redeemed
+    status        = Column(String, default="pending")  # pending | fulfilled | rejected
+    admin_note    = Column(String, nullable=True)     # e.g. gift card confirmation code, or rejection reason
+    created_at    = Column(String, nullable=False)
+    resolved_at   = Column(String, nullable=True)
+
+
 class DBLearningModule(Base):
     """Catalog of bite-sized interactive lessons under the "Future-Ready" section
     -- one row per age-group module within a topic (e.g. "Investing for Kids"
@@ -290,10 +324,32 @@ class DBQuestLog(Base):
     id           = Column(String, primary_key=True)
     kid_id       = Column(String, nullable=False, index=True)
     module_id    = Column(String, nullable=False, index=True)
+    # Which entry in this module's content.activities[] this log is about --
+    # each activity is independently loggable/approvable/payable (see
+    # DBQuestActivityCompletion) so a kid doesn't have to do all of a
+    # category's activities in one sitting to earn anything. NULL only for
+    # logs created before this column existed (a module-wide log from the
+    # old one-submission-per-module model); those are simply orphaned, not
+    # migrated, since there's no single activity to attribute them to.
+    activity_index = Column(Integer, nullable=True)
     note         = Column(String, nullable=False)
     status       = Column(String, default="pending")  # "pending" / "approved" / "rejected"
     submitted_at = Column(String, nullable=False)
     reviewed_at  = Column(String, nullable=True)
+
+
+class DBQuestActivityCompletion(Base):
+    """One row per kid per (quest module, activity) -- the per-activity
+    analogue of DBLearningCompletion. Kept as its own table rather than
+    reusing DBLearningCompletion because that table's primary key is
+    (kid_id, module_id), with no room for "which activity," and Future-Ready
+    still uses it exactly that way (one module = one completion)."""
+    __tablename__ = "quest_activity_completions"
+    kid_id         = Column(String, primary_key=True)
+    module_id      = Column(String, primary_key=True)
+    activity_index = Column(Integer, primary_key=True)
+    points_awarded = Column(Float, nullable=False)
+    completed_at   = Column(String, nullable=False)
 
 
 class DBSession(Base):
@@ -331,3 +387,63 @@ class DBCoGuardianInvite(Base):
     # exists and just needs a fresh session, as opposed to a normal invite
     # (NULL here) which creates a brand-new profile on accept.
     existing_user_id = Column(String, nullable=True)
+
+
+class DBReadingLog(Base):
+    """One book a kid is reading/has read -- either assigned by a guardian or
+    self-started by the kid, found via live Google Books search rather than
+    an admin-curated catalog (unlike Future-Ready/Quests' DBLearningModule).
+    Book metadata is snapshotted here at assign/start time so it still
+    displays even if Google's data changes or the API is briefly down later.
+    status: assigned -> in_progress (first daily entry) -> pending_approval
+    (kid marks complete + writes a summary) -> approved (points credited) --
+    a guardian's reject sends pending_approval back to in_progress so the kid
+    can add more entries and resubmit, never a dead end."""
+    __tablename__ = "reading_logs"
+    id                = Column(String, primary_key=True)
+    kid_id            = Column(String, nullable=False, index=True)
+    family_id         = Column(String, nullable=False, index=True)  # primary guardian's id, for guardian-side queries
+    assigned_by       = Column(String, nullable=False)   # "parent" | "kid"
+    google_volume_id  = Column(String, nullable=True)
+    title             = Column(String, nullable=False)
+    author            = Column(String, nullable=True)
+    thumbnail_url     = Column(String, nullable=True)
+    description       = Column(String, nullable=True)
+    points            = Column(Float, default=10)
+    status            = Column(String, default="assigned", index=True)
+    summary           = Column(String, nullable=True)   # kid's up-to-1000-char summary, written at completion
+    # Open Library's number_of_pages_median at assign/start time (a median
+    # across editions, so approximate) -- drives the pages-read progress bar.
+    # NULL when Open Library had no page count for this book; the progress
+    # bar just doesn't render then rather than showing a bogus total.
+    total_pages       = Column(Integer, nullable=True)
+    # Classified from Open Library's subject tags at assign/start time (see
+    # reading_level.classify_genre) and an optional crowdsourced grade-level
+    # hint (reading_level.extract_grade_hint) -- both feed the Reading Level
+    # algorithm's quality score once this book is approved. Snapshotted here
+    # rather than reclassified later so a kid's level history doesn't shift
+    # retroactively if Open Library's tags change.
+    genre             = Column(String, nullable=True)
+    grade_level_hint  = Column(Integer, nullable=True)
+    # "standard" | "picture_book" | "board_book" | "easy_reader" | "graphic_novel"
+    # (see reading_level.detect_format) -- a low-text-density format dampens
+    # the page-based difficulty fallback used when grade_level_hint is NULL,
+    # so a long graphic novel doesn't out-score a short, dense novel.
+    reading_format    = Column(String, nullable=True)
+    created_at        = Column(String, nullable=False)
+    submitted_at      = Column(String, nullable=True)    # when the kid marked it complete
+    resolved_at       = Column(String, nullable=True)    # when a guardian approved it
+
+
+class DBReadingLogEntry(Base):
+    """One day's free-text reading note for a DBReadingLog -- the "what did
+    you read today" trail a guardian can review before approving. `pages` is
+    optional (a kid may just not know/bother) -- summed across entries for
+    the per-book progress bar and across all of a kid's books for their
+    lifetime pages-read stat."""
+    __tablename__ = "reading_log_entries"
+    id              = Column(String, primary_key=True)
+    reading_log_id  = Column(String, nullable=False, index=True)
+    note            = Column(String, nullable=False)
+    pages           = Column(Integer, nullable=True)
+    created_at      = Column(String, nullable=False)

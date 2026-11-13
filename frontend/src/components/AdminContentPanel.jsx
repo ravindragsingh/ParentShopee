@@ -96,7 +96,7 @@ function TopicFormModal({ topic, section, onSave, onClose }) {
   }
 
   return (
-    <ModalShell title={isEdit ? 'Edit Topic' : 'New Topic'} subtitle={section === 'quest' ? 'Quest category' : 'Future-Ready topic'} onClose={onClose}>
+    <ModalShell title={isEdit ? 'Edit Topic' : 'New Topic'} subtitle={section === 'quest' ? 'Quest category' : section === 'reading-log' ? 'Reading Log genre' : 'Future-Ready topic'} onClose={onClose}>
       <form onSubmit={handleSubmit}>
         {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>{error}</div>}
         {!isEdit && (
@@ -527,9 +527,23 @@ function ActivityEditorCard({ activity, index, total, onChange, onRemove, onMove
       <label style={labelStyle}>Example</label>
       <textarea value={activity.example || ''} onChange={e => set('example', e.target.value)} style={{ ...inputStyle, minHeight: 50, marginBottom: 10, resize: 'vertical' }} />
       <ListField label="Materials" items={activity.materials || []} onChange={v => set('materials', v)} placeholder="e.g. None needed" />
-      <div style={{ marginBottom: 10 }}>
-        <label style={labelStyle}>Duration</label>
-        <input value={activity.duration || ''} onChange={e => set('duration', e.target.value)} style={inputStyle} placeholder="e.g. 10-15 min" />
+      <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
+        <div style={{ flex: 1 }}>
+          <label style={labelStyle}>Duration</label>
+          <input value={activity.duration || ''} onChange={e => set('duration', e.target.value)} style={inputStyle} placeholder="e.g. 10-15 min" />
+        </div>
+        <div style={{ flex: 1 }}>
+          <label style={labelStyle} title="Leave blank to split the module's total points evenly across its activities">
+            Points (optional)
+          </label>
+          <input
+            type="number" min="0" step="0.5"
+            value={activity.points ?? ''}
+            onChange={e => set('points', e.target.value === '' ? undefined : Number(e.target.value))}
+            style={inputStyle}
+            placeholder="auto"
+          />
+        </div>
       </div>
       <ListField label="Steps" items={activity.steps || []} onChange={v => set('steps', v)} placeholder="Step description" />
     </div>
@@ -556,6 +570,9 @@ function ModuleEditor({ section, module: initialModule, onBack }) {
   const [slides, setSlides] = useState([])
   const [quiz, setQuiz] = useState([])
   const [activities, setActivities] = useState([])
+  const [bookAuthor, setBookAuthor] = useState('')
+  const [bookDescription, setBookDescription] = useState('')
+  const [bookCoverEmoji, setBookCoverEmoji] = useState('📖')
   const [previewIndex, setPreviewIndex] = useState(0)
   const [savingContent, setSavingContent] = useState(false)
   const [contentError, setContentError] = useState('')
@@ -577,6 +594,9 @@ function ModuleEditor({ section, module: initialModule, onBack }) {
       setSlides(full.content?.slides || [])
       setQuiz(full.content?.quiz || [])
       setActivities(full.content?.activities || [])
+      setBookAuthor(full.content?.author || '')
+      setBookDescription(full.content?.description || '')
+      setBookCoverEmoji(full.content?.coverEmoji || '📖')
     }).catch(err => setError(err.message)).finally(() => setLoading(false))
   }, [initialModule.id])
 
@@ -608,7 +628,9 @@ function ModuleEditor({ section, module: initialModule, onBack }) {
     setContentError('')
     setContentSaved(false)
     try {
-      const content = section === 'quest' ? { activities } : { slides, quiz }
+      const content = section === 'quest' ? { activities }
+        : section === 'reading-log' ? { author: bookAuthor, description: bookDescription, coverEmoji: bookCoverEmoji }
+        : { slides, quiz }
       const updated = await api.adminUpdateModuleContent(module.id, content)
       setModule(m => ({ ...m, content: updated.content }))
       setContentSaved(true)
@@ -696,6 +718,16 @@ function ModuleEditor({ section, module: initialModule, onBack }) {
             />
           ))}
           <button type="button" onClick={() => setActivities(list => [...list, { emoji: '🧩', title: '', description: '', example: '', materials: [], duration: '', steps: [] }])} style={{ ...editBtnStyle, marginBottom: 20 }}>+ Add activity</button>
+        </div>
+      ) : section === 'reading-log' ? (
+        <div style={{ maxWidth: 420 }}>
+          <div style={{ fontWeight: 700, color: '#1e293b', marginBottom: 10 }}>Book details</div>
+          <label style={labelStyle}>Cover emoji</label>
+          <input value={bookCoverEmoji} onChange={e => setBookCoverEmoji(e.target.value)} style={{ ...inputStyle, marginBottom: 12, maxWidth: 80 }} />
+          <label style={labelStyle}>Author</label>
+          <input value={bookAuthor} onChange={e => setBookAuthor(e.target.value)} style={{ ...inputStyle, marginBottom: 12 }} />
+          <label style={labelStyle}>Description</label>
+          <textarea value={bookDescription} onChange={e => setBookDescription(e.target.value)} rows={4} style={{ ...inputStyle, marginBottom: 12, resize: 'vertical' }} />
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(260px, 340px)', gap: 20, alignItems: 'start' }}>

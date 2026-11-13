@@ -389,7 +389,35 @@ function ExploreQuestsCard({ onOpenQuests }) {
   )
 }
 
-function KidHomeScreen({ name, userId, wallet, onNavigate, onOpenModule, onOpenQuests, onBalanceChange }) {
+function ExploreReadingLogCard({ onOpenReadingLog }) {
+  const [stats, setStats] = useState(null)
+  useEffect(() => {
+    let cancelled = false
+    api.getReadingLogStats().then(d => { if (!cancelled) setStats(d) }).catch(() => {})
+    return () => { cancelled = true }
+  }, [])
+
+  // The reading buddy's current-stage emoji doubles as this card's icon once
+  // loaded -- more personal than a static book glyph, and a reason to check
+  // in even when there's no streak to show off.
+  return (
+    <button className="kid-explore-card" onClick={onOpenReadingLog} style={{ marginTop: 12 }}>
+      <span className="kid-explore-icon">{stats?.buddy?.emoji || '📖'}</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="kid-explore-title">Reading Log</div>
+        <div className="kid-explore-sub">Log what you're reading for points</div>
+      </div>
+      {stats?.currentStreak > 0 && (
+        <span style={{ fontSize: '0.74rem', fontWeight: 800, color: '#c2410c', background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 999, padding: '3px 9px', flexShrink: 0 }}>
+          🔥 {stats.currentStreak}
+        </span>
+      )}
+      <span className="kid-explore-chevron">›</span>
+    </button>
+  )
+}
+
+function KidHomeScreen({ name, userId, wallet, onNavigate, onOpenModule, onOpenQuests, onOpenReadingLog, onBalanceChange }) {
   const [message] = useState(
     () => MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)]
   )
@@ -498,6 +526,7 @@ function KidHomeScreen({ name, userId, wallet, onNavigate, onOpenModule, onOpenQ
 
         <ContinueLearningCard onOpenModule={onOpenModule} />
         <ExploreQuestsCard onOpenQuests={onOpenQuests} />
+        <ExploreReadingLogCard onOpenReadingLog={onOpenReadingLog} />
       </div>
     </div>
   )
@@ -564,7 +593,7 @@ export default function KidDashboard() {
       </AppNavbar>
 
       <div className="main-content">
-        {tab === 'home'     && <KidHomeScreen name={user.name} userId={user.id} wallet={wallet} onNavigate={setTab} onOpenModule={openModule} onOpenQuests={() => setLearnSection('quests')} onBalanceChange={refreshWallet} />}
+        {tab === 'home'     && <KidHomeScreen name={user.name} userId={user.id} wallet={wallet} onNavigate={setTab} onOpenModule={openModule} onOpenQuests={() => setLearnSection('quests')} onOpenReadingLog={() => setLearnSection('reading')} onBalanceChange={refreshWallet} />}
         {tab === 'chores'   && <KidChoresTab userId={user.id} onBalanceChange={refreshWallet} />}
         {tab === 'shop'     && <KidShopTab userId={user.id} />}
         {tab === 'learn' && <LearnGrowTab section={learnSection} onSectionChange={setLearnSection} onBalanceChange={refreshWallet} startModuleId={startModuleId} onConsumeStart={clearStartModule} />}
