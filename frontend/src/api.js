@@ -134,8 +134,8 @@ export const api = {
   getQuestContent: (moduleId) => request('GET', `/api/quests/${moduleId}/content`),
   setQuestVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/quests/${moduleId}/visibility`, { enabled, kidIds }),
   setQuestPoints: (moduleId, points) => request('PUT', `/api/quests/${moduleId}/points`, { points }),
-  resetQuestCompletion: (moduleId, kidId) => request('DELETE', `/api/quests/${moduleId}/completion/${kidId}`),
-  submitQuestLog: (moduleId, note) => request('POST', `/api/quests/${moduleId}/log`, { note }),
+  resetQuestCompletion: (moduleId, kidId, activityIndex) => request('DELETE', `/api/quests/${moduleId}/completion/${kidId}?activity_index=${activityIndex}`),
+  submitQuestLog: (moduleId, note, activityIndex) => request('POST', `/api/quests/${moduleId}/log`, { note, activityIndex }),
   approveQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/approve`),
   rejectQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/reject`),
 

@@ -527,9 +527,23 @@ function ActivityEditorCard({ activity, index, total, onChange, onRemove, onMove
       <label style={labelStyle}>Example</label>
       <textarea value={activity.example || ''} onChange={e => set('example', e.target.value)} style={{ ...inputStyle, minHeight: 50, marginBottom: 10, resize: 'vertical' }} />
       <ListField label="Materials" items={activity.materials || []} onChange={v => set('materials', v)} placeholder="e.g. None needed" />
-      <div style={{ marginBottom: 10 }}>
-        <label style={labelStyle}>Duration</label>
-        <input value={activity.duration || ''} onChange={e => set('duration', e.target.value)} style={inputStyle} placeholder="e.g. 10-15 min" />
+      <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
+        <div style={{ flex: 1 }}>
+          <label style={labelStyle}>Duration</label>
+          <input value={activity.duration || ''} onChange={e => set('duration', e.target.value)} style={inputStyle} placeholder="e.g. 10-15 min" />
+        </div>
+        <div style={{ flex: 1 }}>
+          <label style={labelStyle} title="Leave blank to split the module's total points evenly across its activities">
+            Points (optional)
+          </label>
+          <input
+            type="number" min="0" step="0.5"
+            value={activity.points ?? ''}
+            onChange={e => set('points', e.target.value === '' ? undefined : Number(e.target.value))}
+            style={inputStyle}
+            placeholder="auto"
+          />
+        </div>
       </div>
       <ListField label="Steps" items={activity.steps || []} onChange={v => set('steps', v)} placeholder="Step description" />
     </div>
