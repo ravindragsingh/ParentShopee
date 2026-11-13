@@ -47,6 +47,7 @@
 		"AppPlugin",
 		"CAPBrowserPlugin",
 		"LocalNotificationsPlugin",
+		"SharePlugin",
 		"SplashScreenPlugin",
 		"StatusBarPlugin",
 		"SocialLoginPlugin"
