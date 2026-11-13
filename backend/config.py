@@ -64,3 +64,23 @@ GOOGLE_ANDROID_CLIENT_ID = os.getenv("GOOGLE_ANDROID_CLIENT_ID")
 FIREBASE_SERVICE_ACCOUNT_JSON = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
 if not FIREBASE_SERVICE_ACCOUNT_JSON:
     print("[push] WARNING: FIREBASE_SERVICE_ACCOUNT_JSON env var is not set — push notifications will be unavailable")
+
+# ── Premium subscriptions (Stripe) ───────────────────────────────────────────
+# Secret API key (Stripe Dashboard -> Developers -> API keys). Server-side
+# only, never exposed to the frontend.
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+if not STRIPE_SECRET_KEY:
+    print("[billing] WARNING: STRIPE_SECRET_KEY env var is not set — premium subscriptions will be unavailable")
+
+# Signing secret for verifying webhook requests actually came from Stripe
+# (Dashboard -> Developers -> Webhooks -> your endpoint -> Signing secret).
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+if not STRIPE_WEBHOOK_SECRET:
+    print("[billing] WARNING: STRIPE_WEBHOOK_SECRET env var is not set — Stripe webhook events will be rejected")
+
+# The recurring Price (Dashboard -> Product catalog) that a Checkout Session
+# subscribes a family to. One tier for now -- a second price id would need a
+# second checkout entry point, not a config change here.
+STRIPE_PREMIUM_PRICE_ID = os.getenv("STRIPE_PREMIUM_PRICE_ID")
+if not STRIPE_PREMIUM_PRICE_ID:
+    print("[billing] WARNING: STRIPE_PREMIUM_PRICE_ID env var is not set — premium subscriptions will be unavailable")

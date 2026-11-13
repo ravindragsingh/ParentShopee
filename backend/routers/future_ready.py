@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from deps import require_auth, require_guardian, require_kid
-from helpers import get_family_id, now
+from helpers import get_family_id, is_family_subscribed, now
 from models import DBFamilyLearningSetting, DBLearningCompletion, DBLearningModule, DBTransaction, DBUser, DBWallet
 from responses import fail, ok
 from schemas import LearningCompleteBody, LearningPointsUpdate, LearningVisibilityUpdate
@@ -72,6 +72,7 @@ def module_dict(m: DBLearningModule, points: float, enabled: bool = None, comple
         "topic": m.topic, "topicTitle": m.topic_title, "topicEmoji": m.topic_emoji,
         "ageMin": m.age_min, "ageMax": m.age_max, "title": m.title, "points": points,
         "isNew": _is_new(m),
+        "isPremium": m.is_premium == "1",
     }
     if enabled is not None:
         d["enabled"] = enabled
@@ -142,6 +143,11 @@ def get_learning_content(module_id: str, db: Session = Depends(get_db), user: DB
     ).first()
     if not module: fail("Module not found", 404)
     if not module.content: fail("This lesson isn't ready yet.", 404)
+    # Premium gate applies to guardians too -- otherwise a guardian could
+    # preview the full lesson without ever subscribing, which defeats the
+    # point of locking it in the first place.
+    if module.is_premium == "1" and not is_family_subscribed(db, user):
+        fail("This is premium content — upgrade to unlock it for your family.", 403, code="premium_required")
     if user.role == "kid":
         # Guardians can preview any module's content before enabling it, but a
         # kid should only ever be able to fetch content for something their
@@ -220,6 +226,8 @@ def complete_learning_module(module_id: str, body: LearningCompleteBody, db: Ses
         DBLearningModule.id == module_id, DBLearningModule.is_active == "1", DBLearningModule.status == "published",
     ).first()
     if not module: fail("Module not found", 404)
+    if module.is_premium == "1" and not is_family_subscribed(db, user):
+        fail("This is premium content — upgrade to unlock it for your family.", 403, code="premium_required")
     family_id = _family_id_for(user)
     setting = db.query(DBFamilyLearningSetting).filter(
         DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == module_id

@@ -189,6 +189,11 @@ export const api = {
   getMyReferrals:  ()     => request('GET',  '/api/referrals/me'),
   cashOutReferrals: ()    => request('POST', '/api/referrals/cash-out'),
 
+  // Premium subscription (Stripe)
+  getBillingStatus:        ()  => request('GET',  '/api/billing/status'),
+  createCheckoutSession:   ()  => request('POST', '/api/billing/checkout'),
+  createBillingPortalSession: () => request('POST', '/api/billing/portal'),
+
   // Co-guardian management
   getCoGuardian:            ()           => request('GET',    '/api/family/co-guardian'),
   addCoGuardian:            (body)       => request('POST',   '/api/family/co-guardian', body),

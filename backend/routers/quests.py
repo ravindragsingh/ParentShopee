@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from deps import require_auth, require_guardian, require_kid
-from helpers import get_family_id, now
+from helpers import get_family_id, is_family_subscribed, now
 from models import DBFamilyLearningSetting, DBLearningCompletion, DBLearningModule, DBQuestLog, DBTransaction, DBUser, DBWallet
 from push_utils import notify_guardians_of_kid, notify_kid
 from responses import fail, ok
@@ -77,6 +77,7 @@ def module_dict(m: DBLearningModule, points: float, enabled: bool = None, comple
         "category": m.topic, "categoryTitle": m.topic_title, "categoryEmoji": m.topic_emoji,
         "ageMin": m.age_min, "ageMax": m.age_max, "title": m.title, "points": points,
         "isNew": _is_new(m),
+        "isPremium": m.is_premium == "1",
     }
     if enabled is not None:
         d["enabled"] = enabled
@@ -159,6 +160,8 @@ def get_quest_content(module_id: str, db: Session = Depends(get_db), user: DBUse
     ).first()
     if not module: fail("Quest not found", 404)
     if not module.content: fail("This quest isn't ready yet.", 404)
+    if module.is_premium == "1" and not is_family_subscribed(db, user):
+        fail("This is premium content — upgrade to unlock it for your family.", 403, code="premium_required")
     if user.role == "kid":
         family_id = _family_id_for(user)
         setting = db.query(DBFamilyLearningSetting).filter(
@@ -228,6 +231,8 @@ def submit_quest_log(module_id: str, body: QuestLogBody, db: Session = Depends(g
         DBLearningModule.section == SECTION
     ).first()
     if not module: fail("Quest not found", 404)
+    if module.is_premium == "1" and not is_family_subscribed(db, user):
+        fail("This is premium content — upgrade to unlock it for your family.", 403, code="premium_required")
     family_id = _family_id_for(user)
     setting = db.query(DBFamilyLearningSetting).filter(
         DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == module_id

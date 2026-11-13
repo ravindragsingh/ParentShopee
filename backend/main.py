@@ -16,7 +16,10 @@ from database import SessionLocal, engine, Base
 from email_utils import send_email
 from seed import backfill_sample_ids, ensure_demo_accounts, migrate_legacy_learning_content, reconcile_custom_item_counts, seed_db
 from models import DBUser
-from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, reading_log, referrals, shop, wallet
+from routers import (
+    admin, admin_content, auth, billing, chores, contact, daily_chores, family, future_ready, kids, messages,
+    quests, reading_log, referrals, shop, wallet,
+)
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -85,6 +88,7 @@ app.include_router(future_ready.router)
 app.include_router(quests.router)
 app.include_router(reading_log.router)
 app.include_router(referrals.router)
+app.include_router(billing.router)
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
@@ -172,6 +176,10 @@ def startup():
             ("reading_logs", "reading_format", "VARCHAR"),
             ("users", "reading_log_badge_first_seen_at", "VARCHAR"),
             ("users", "reading_log_badge_logins", "INTEGER"),
+            ("users", "stripe_customer_id", "VARCHAR"),
+            ("users", "stripe_subscription_id", "VARCHAR"),
+            ("users", "subscription_status", "VARCHAR"),
+            ("users", "subscription_current_period_end", "VARCHAR"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -227,6 +235,7 @@ def startup():
         # Everyone who exists before this feature (or isn't a self-registering guardian)
         # is active by default — only fresh registrations start inactive.
         conn.execute(text("UPDATE users SET is_active='1' WHERE is_active IS NULL"))
+        conn.execute(text("UPDATE users SET subscription_status='inactive' WHERE subscription_status IS NULL"))
         conn.execute(text("UPDATE users SET daily_deduction_enabled='1' WHERE daily_deduction_enabled IS NULL"))
         conn.execute(text("UPDATE users SET shop_approval_enabled='0' WHERE shop_approval_enabled IS NULL"))
         conn.execute(text("UPDATE users SET is_suspended='0' WHERE is_suspended IS NULL"))

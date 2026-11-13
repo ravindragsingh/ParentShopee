@@ -14,6 +14,7 @@ import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator
 import { checkPasswordComplexity, PASSWORD_REQUIREMENTS_HINT } from '../utils/passwordValidator.js'
 import ContactUs from './ContactUs.jsx'
 import ReferralsTab from './ReferralsTab.jsx'
+import PremiumTab from './PremiumTab.jsx'
 import AppNavbar from './AppNavbar.jsx'
 import BottomNav from './BottomNav.jsx'
 import PasswordField from './PasswordField.jsx'
@@ -2787,6 +2788,7 @@ export default function GuardianDashboard() {
         {tab === 'kids'      && <KidsTab />}
         {tab === 'admin'     && <AdminPanelTab />}
         {tab === 'refer'     && <ReferralsTab />}
+        {tab === 'premium'   && <PremiumTab />}
         {tab === 'messages'  && <MessagesTab />}
         {tab === 'help'      && <HelpTab role="guardian" />}
         {tab === 'contact'   && <ContactUs />}

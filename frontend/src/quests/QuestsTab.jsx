@@ -15,6 +15,17 @@ function NewBadge() {
   )
 }
 
+function PremiumLockBadge() {
+  return (
+    <span style={{
+      fontSize: '0.72rem', fontWeight: 700, borderRadius: 999, padding: '4px 10px',
+      background: '#f8fafc', color: '#94a3b8', border: '1px solid #e2e8f0', whiteSpace: 'nowrap',
+    }}>
+      🔒 Premium
+    </span>
+  )
+}
+
 function groupByCategory(modules) {
   const byCategory = new Map()
   for (const m of modules) {
@@ -54,6 +65,7 @@ function CategoryCard({ meta, emoji, title, isNew, index, children }) {
 
 export default function QuestsTab({ onBalanceChange, onDetailChange }) {
   const [modules, setModules] = useState([])
+  const [isPremiumFamily, setIsPremiumFamily] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [openModule, setOpenModule] = useState(null)
@@ -63,8 +75,9 @@ export default function QuestsTab({ onBalanceChange, onDetailChange }) {
     setLoading(true)
     setError('')
     try {
-      const data = await api.getQuests()
+      const [data, billing] = await Promise.all([api.getQuests(), api.getBillingStatus()])
       setModules(Array.isArray(data) ? data : [])
+      setIsPremiumFamily(!!billing?.isPremium)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -128,6 +141,21 @@ export default function QuestsTab({ onBalanceChange, onDetailChange }) {
                   {category.modules.map(m => {
                     const isPending = m.pendingLog?.status === 'pending'
                     const isRejected = m.pendingLog?.status === 'rejected'
+                    const locked = m.isPremium && !isPremiumFamily
+                    if (locked) {
+                      return (
+                        <div
+                          key={m.id}
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
+                            padding: '8px 12px', borderRadius: 10, background: '#f8fafc', border: '1px solid #e2e8f0',
+                          }}
+                        >
+                          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#94a3b8' }}>{m.title}</span>
+                          <PremiumLockBadge />
+                        </div>
+                      )
+                    }
                     return (
                       <button
                         key={m.id}

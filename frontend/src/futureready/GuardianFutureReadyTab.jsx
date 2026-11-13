@@ -351,6 +351,7 @@ export default function GuardianFutureReadyTab({ onDetailChange } = {}) {
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, color: '#1e293b', fontSize: '0.9rem' }}>
                             {m.title}
                             {m.isNew && <NewBadge />}
+                            {m.isPremium && <span title="Premium — requires an active subscription">💎</span>}
                           </div>
                         </div>
                         <div style={{ flex: 1, minWidth: 160 }}>

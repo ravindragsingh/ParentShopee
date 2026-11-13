@@ -83,6 +83,17 @@ def get_family_owner(db: Session, user: DBUser) -> DBUser:
     family_id = user.guardian_id if user.role == "kid" else get_family_id(user)
     return db.query(DBUser).filter(DBUser.id == family_id).first()
 
+# Stripe subscription statuses that should actually grant access -- "past_due"/
+# "unpaid"/"canceled"/"incomplete_expired" all deliberately fall through to
+# locked, same as never having subscribed. Kept in sync by the webhook in
+# routers/billing.py, never trusted from the client.
+_ACTIVE_SUBSCRIPTION_STATUSES = ("active", "trialing")
+
+def is_family_subscribed(db: Session, user: DBUser) -> bool:
+    """Whether `user`'s family (kid or guardian) currently has premium access."""
+    owner = get_family_owner(db, user)
+    return bool(owner and owner.subscription_status in _ACTIVE_SUBSCRIPTION_STATUSES)
+
 def generate_username_from_email(db: Session, email: str) -> str:
     """First-time Google sign-in has no chosen username — derive a reasonable
     default from the email's local part so signup stays one-click; the guardian

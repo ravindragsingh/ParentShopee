@@ -128,6 +128,7 @@ export default function HamburgerMenu({ tab, setTab, role, onLogout, onSwitchPro
   const items = [
     ...(role === 'guardian' ? [{ id: 'admin', icon: '🛡️', label: 'Admin Panel' }] : []),
     ...(role === 'guardian' ? [{ id: 'refer', icon: '🎁', label: 'Refer & Earn' }] : []),
+    ...(role === 'guardian' ? [{ id: 'premium', icon: '💎', label: 'Premium' }] : []),
     { id: 'messages', icon: '💬', label: 'Messages'   },
     { id: 'help',     icon: '❓', label: 'Help'        },
     { id: 'contact',  icon: '📩', label: 'Contact Us'  },

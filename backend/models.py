@@ -76,6 +76,18 @@ class DBUser(Base):
     # NULL means "hasn't been through that yet," so the badge still shows.
     reading_log_badge_first_seen_at = Column(String, nullable=True)
     reading_log_badge_logins        = Column(Integer, default=0)
+    # ── Premium subscription (Stripe) ────────────────────────────────────────
+    # Primary guardians only -- same family-level sharing convention as
+    # chores_added_count/referral_count above. subscription_status mirrors
+    # Stripe's own subscription.status values ("active"/"trialing" are the
+    # only ones that grant access; see helpers.is_family_subscribed), kept in
+    # sync by the webhook in routers/billing.py rather than trusted from the
+    # client. stripe_customer_id is created lazily on first checkout attempt,
+    # not at signup, since most families never subscribe.
+    stripe_customer_id              = Column(String, unique=True, nullable=True, index=True)
+    stripe_subscription_id          = Column(String, nullable=True)
+    subscription_status             = Column(String, default="inactive")
+    subscription_current_period_end = Column(String, nullable=True)  # ISO timestamp
 
 
 class DBChore(Base):

@@ -19,6 +19,17 @@ function NewBadge() {
 // module.title is "Ages X–Y · Part N" when a band has more than one part,
 // or just "Ages X–Y" for a single-part band -- pull out just "Part N" since
 // age bands are a guardian-only concept a kid never sees.
+function PremiumLockBadge() {
+  return (
+    <span style={{
+      fontSize: '0.72rem', fontWeight: 700, borderRadius: 999, padding: '4px 10px',
+      background: '#f8fafc', color: '#94a3b8', border: '1px solid #e2e8f0', whiteSpace: 'nowrap',
+    }}>
+      🔒 Premium
+    </span>
+  )
+}
+
 function partLabel(title) {
   const idx = title.indexOf('·')
   return idx === -1 ? null : title.slice(idx + 1).trim()
@@ -66,6 +77,7 @@ function groupByTopic(modules) {
 export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsumeStart, onDetailChange }) {
   const { user } = useAuth()
   const [modules, setModules] = useState([])
+  const [isPremiumFamily, setIsPremiumFamily] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [playingModule, setPlayingModule] = useState(null)
@@ -78,8 +90,9 @@ export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsu
     setLoading(true)
     setError('')
     try {
-      const data = await api.getFutureReadyModules()
+      const [data, billing] = await Promise.all([api.getFutureReadyModules(), api.getBillingStatus()])
       setModules(Array.isArray(data) ? data : [])
+      setIsPremiumFamily(!!billing?.isPremium)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -161,26 +174,34 @@ export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsu
             // card is one big "Start" button straight into the lesson.
             if (topic.modules.length === 1) {
               const m = topic.modules[0]
+              const locked = m.isPremium && !isPremiumFamily
               return (
                 <TopicCard key={topic.topic} meta={meta} emoji={topic.emoji} title={topic.title} isNew={topicIsNew}>
-                  <button
-                    onClick={() => setPlayingModule(m)}
-                    style={{
-                      marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      paddingTop: 6, background: 'none', border: 'none', cursor: 'pointer', width: '100%', textAlign: 'left',
-                    }}
-                  >
-                    <span style={{
-                      fontSize: '0.75rem', fontWeight: 700, borderRadius: 999, padding: '4px 10px',
-                      background: m.completed ? '#dcfce7' : '#fff', color: m.completed ? '#166534' : meta.color,
-                      border: `1px solid ${m.completed ? '#bbf7d0' : meta.border}`,
-                    }}>
-                      {m.completed ? '✅ Completed' : `⭐ Earn ${m.points} pts`}
-                    </span>
-                    <span style={{ fontSize: '0.82rem', fontWeight: 700, color: meta.color }}>
-                      {m.completed ? 'Review →' : 'Start →'}
-                    </span>
-                  </button>
+                  {locked ? (
+                    <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 6 }}>
+                      <PremiumLockBadge />
+                      <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>Ask your guardian</span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setPlayingModule(m)}
+                      style={{
+                        marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        paddingTop: 6, background: 'none', border: 'none', cursor: 'pointer', width: '100%', textAlign: 'left',
+                      }}
+                    >
+                      <span style={{
+                        fontSize: '0.75rem', fontWeight: 700, borderRadius: 999, padding: '4px 10px',
+                        background: m.completed ? '#dcfce7' : '#fff', color: m.completed ? '#166534' : meta.color,
+                        border: `1px solid ${m.completed ? '#bbf7d0' : meta.border}`,
+                      }}>
+                        {m.completed ? '✅ Completed' : `⭐ Earn ${m.points} pts`}
+                      </span>
+                      <span style={{ fontSize: '0.82rem', fontWeight: 700, color: meta.color }}>
+                        {m.completed ? 'Review →' : 'Start →'}
+                      </span>
+                    </button>
+                  )}
                 </TopicCard>
               )
             }
@@ -193,25 +214,44 @@ export default function FutureReadyTab({ onBalanceChange, startModuleId, onConsu
               <TopicCard key={topic.topic} meta={meta} emoji={topic.emoji} title={topic.title} isNew={topicIsNew}
                 badge={`${doneCount}/${topic.modules.length} done`}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 'auto' }}>
-                  {topic.modules.map(m => (
-                    <button
-                      key={m.id}
-                      onClick={() => setPlayingModule(m)}
-                      style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
-                        padding: '8px 12px', borderRadius: 10, cursor: 'pointer', textAlign: 'left',
-                        background: m.completed ? '#f0fdf4' : '#fff',
-                        border: `1px solid ${m.completed ? '#bbf7d0' : meta.border}`,
-                      }}
-                    >
-                      <span style={{ fontSize: '0.85rem', fontWeight: 700, color: m.completed ? '#166534' : '#1e293b' }}>
-                        {m.completed ? '✅ ' : ''}{partLabel(m.title) || m.title}
-                      </span>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: m.completed ? '#166534' : meta.color }}>
-                        {m.completed ? 'Review' : `⭐ ${m.points} pts`}
-                      </span>
-                    </button>
-                  ))}
+                  {topic.modules.map(m => {
+                    const locked = m.isPremium && !isPremiumFamily
+                    if (locked) {
+                      return (
+                        <div
+                          key={m.id}
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
+                            padding: '8px 12px', borderRadius: 10, background: '#f8fafc', border: '1px solid #e2e8f0',
+                          }}
+                        >
+                          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#94a3b8' }}>
+                            {partLabel(m.title) || m.title}
+                          </span>
+                          <PremiumLockBadge />
+                        </div>
+                      )
+                    }
+                    return (
+                      <button
+                        key={m.id}
+                        onClick={() => setPlayingModule(m)}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
+                          padding: '8px 12px', borderRadius: 10, cursor: 'pointer', textAlign: 'left',
+                          background: m.completed ? '#f0fdf4' : '#fff',
+                          border: `1px solid ${m.completed ? '#bbf7d0' : meta.border}`,
+                        }}
+                      >
+                        <span style={{ fontSize: '0.85rem', fontWeight: 700, color: m.completed ? '#166534' : '#1e293b' }}>
+                          {m.completed ? '✅ ' : ''}{partLabel(m.title) || m.title}
+                        </span>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: m.completed ? '#166534' : meta.color }}>
+                          {m.completed ? 'Review' : `⭐ ${m.points} pts`}
+                        </span>
+                      </button>
+                    )
+                  })}
                 </div>
               </TopicCard>
             )
