@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react'
+import { Share } from '@capacitor/share'
 import { api } from '../api.js'
+
+// The pitch a referral actually gets shared with -- a bare link reads as
+// spam and gives the recipient no reason to tap it, so every share/copy
+// path below sends this instead of data.referralLink on its own.
+function shareMessage(referralLink) {
+  return `🎁 I've been using Reward Ur Kids to turn my kids' chores into a fun points system -- no more nagging! Join me and set up your family in a couple minutes: ${referralLink}`
+}
 
 const STATUS_BADGE = {
   pending:   { label: '⏳ Pending',   bg: '#fffbeb', color: '#b45309' },
@@ -10,7 +18,7 @@ const STATUS_BADGE = {
 export default function ReferralsTab() {
   const [data, setData]   = useState(null)
   const [error, setError] = useState('')
-  const [copied, setCopied] = useState('') // 'code' | 'link' | ''
+  const [copied, setCopied] = useState('') // 'code' | 'message' | ''
   const [cashingOut, setCashingOut] = useState(false)
   const [cashOutSuccess, setCashOutSuccess] = useState(null) // { amount } | null
 
@@ -33,6 +41,23 @@ export default function ReferralsTab() {
     } catch {
       // Clipboard access can be denied (older WebViews, insecure context) --
       // nothing useful to do beyond leaving the text selectable, so just no-op.
+    }
+  }
+
+  // Opens the native share sheet (Messages/WhatsApp/Mail/...) with the same
+  // pitch+link text as the copy button below, so a one-tap share reads just
+  // as well as a pasted one. Falls back to copying that text when the share
+  // sheet isn't available at all (e.g. a desktop browser) -- a cancelled
+  // share (the person just closed the sheet) is left alone, not treated as
+  // a failure.
+  async function handleShare() {
+    const text = shareMessage(data.referralLink)
+    try {
+      await Share.share({ title: 'Join me on Reward Ur Kids', text, dialogTitle: 'Share your referral link' })
+    } catch (err) {
+      if (!/cancel/i.test(err?.message || '')) {
+        await copy(text, 'message')
+      }
     }
   }
 
@@ -84,11 +109,22 @@ export default function ReferralsTab() {
             {copied === 'code' ? '✅ Copied' : '📋 Copy'}
           </button>
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
           <input readOnly value={data.referralLink} style={{ flex: 1, background: '#f8fafc', color: '#64748b', fontSize: '0.8rem' }} onFocus={e => e.target.select()} />
           <button className="btn" style={{ background: '#f1f5f9', color: '#475569', border: 'none', padding: '0 18px' }} onClick={() => copy(data.referralLink, 'link')}>
             {copied === 'link' ? '✅ Copied' : '🔗 Copy Link'}
           </button>
+        </div>
+
+        <button
+          className="btn btn-primary"
+          style={{ width: '100%', padding: '11px', fontSize: '0.92rem', fontWeight: 600, borderRadius: 10, border: 'none' }}
+          onClick={handleShare}
+        >
+          {copied === 'message' ? '✅ Message copied — paste it anywhere' : '📤 Share the invite'}
+        </button>
+        <div style={{ fontSize: '0.74rem', color: '#94a3b8', marginTop: 6, textAlign: 'center' }}>
+          Opens your share sheet with a ready-to-send invite, not just the bare link.
         </div>
       </div>
 
