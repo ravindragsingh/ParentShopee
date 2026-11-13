@@ -46,6 +46,7 @@
 		"FirebaseMessagingPlugin",
 		"AppPlugin",
 		"CAPBrowserPlugin",
+		"LocalNotificationsPlugin",
 		"SplashScreenPlugin",
 		"StatusBarPlugin",
 		"SocialLoginPlugin"
