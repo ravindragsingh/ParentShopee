@@ -270,7 +270,10 @@ class ReadingLogStartBody(BaseModel):
 
 class ReadingLogEntryBody(BaseModel):
     note: str
-    pages: Optional[int] = None
+    # The absolute page the kid is on right now (what they'd actually read off
+    # the book), not how many pages they read today -- see add_reading_log_entry,
+    # which derives that day's delta from this against pages already logged.
+    currentPage: Optional[int] = None
 
 class ReadingLogCompleteBody(BaseModel):
     summary: str
