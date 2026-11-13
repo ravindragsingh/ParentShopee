@@ -1,17 +1,33 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 
-// Shows the small set of hands-on ideas inside one activity module -- used
-// both for a kid's own view (with a note-and-submit log, reviewed by a
-// guardian before points pay out) and a guardian's preview (read-only, via
-// `previewMode`). No slides/quiz to paginate through like Future-Ready's
-// LessonModule, so this is just a single scrollable list.
-//
-// `index` only drives the entrance animation's stagger delay -- each card
-// pops in a beat after the last one, reusing the same .pop-in keyframe the
-// rest of the app already uses for a lightweight "something just appeared"
-// cue (see styles.css), rather than inventing a new animation just for this.
-function ActivityCard({ activity, index }) {
+// Each activity inside a quest module (e.g. "Cognitive Development, Ages
+// 4-6" bundles several hands-on ideas) is independently loggable and earns
+// its own points -- a kid doesn't have to work through the whole category
+// in one sitting to earn anything. `status`/`points`/`onSubmit` carry that
+// one activity's own state; nothing here is shared across activities.
+function ActivityCard({ activity, index, points, status, justSubmitted, onSubmit, previewMode }) {
+  const [note, setNote] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
+
+  const isApproved = status?.kind === 'approved'
+  const isPending = justSubmitted || status?.kind === 'pending'
+  const isRejected = !justSubmitted && status?.kind === 'rejected'
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setSubmitting(true)
+    setError('')
+    try {
+      await onSubmit(note)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <div
       className="pop-in"
@@ -21,9 +37,16 @@ function ActivityCard({ activity, index }) {
         animationDelay: `${index * 0.08}s`, animationFillMode: 'backwards',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-        <span style={{ fontSize: '1.5rem' }}>{activity.emoji}</span>
-        <span style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b' }}>{activity.title}</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: '1.5rem' }}>{activity.emoji}</span>
+          <span style={{ fontWeight: 800, fontSize: '1.02rem', color: '#1e293b' }}>{activity.title}</span>
+        </div>
+        {isApproved && (
+          <span style={{ fontSize: '0.74rem', fontWeight: 700, borderRadius: 999, padding: '3px 10px', background: '#dcfce7', color: '#166534', flexShrink: 0 }}>
+            ✅ Done
+          </span>
+        )}
       </div>
       <div style={{ fontSize: '0.88rem', color: '#475569', lineHeight: 1.5, marginBottom: 10 }}>{activity.description}</div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 10 }}>
@@ -54,6 +77,44 @@ function ActivityCard({ activity, index }) {
           </span>
         </div>
       )}
+
+      {!previewMode && (
+        <div style={{ marginTop: 14 }}>
+          {isApproved ? (
+            <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '8px 12px', textAlign: 'center', color: '#166534', fontWeight: 700, fontSize: '0.85rem' }}>
+              You earned {status.points ?? points} pts for this!
+            </div>
+          ) : isPending ? (
+            <div className="pop-in" style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '8px 12px', textAlign: 'center', color: '#92400e', fontWeight: 700, fontSize: '0.85rem' }}>
+              ⏳ Sent to your guardian — you'll get your {points} pts once they take a look.
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              {isRejected && (
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 10px', marginBottom: 8, color: '#991b1b', fontSize: '0.8rem' }}>
+                  Your guardian asked you to try this one again before it counts.
+                </div>
+              )}
+              {error && <div className="error-msg" style={{ marginBottom: 8, fontSize: '0.8rem' }}>{error}</div>}
+              <textarea
+                value={note}
+                onChange={e => setNote(e.target.value)}
+                placeholder="What did you do or notice?"
+                rows={2}
+                style={{ width: '100%', padding: '8px 10px', border: '1.5px solid #e2e8f0', borderRadius: 8, fontSize: '0.85rem', fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }}
+              />
+              <button
+                type="submit"
+                disabled={submitting || note.trim().length < 3}
+                className="btn btn-sm btn-primary"
+                style={{ marginTop: 8 }}
+              >
+                {submitting ? 'Sending…' : `Log this · earn ${points} pts`}
+              </button>
+            </form>
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -61,9 +122,7 @@ function ActivityCard({ activity, index }) {
 export default function QuestView({ module, onExit, onLogSubmitted, previewMode }) {
   const [content, setContent] = useState(null)
   const [error, setError] = useState('')
-  const [note, setNote] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-  const [justSubmitted, setJustSubmitted] = useState(false)
+  const [justSubmittedIndices, setJustSubmittedIndices] = useState([])
 
   useEffect(() => {
     let cancelled = false
@@ -73,24 +132,19 @@ export default function QuestView({ module, onExit, onLogSubmitted, previewMode 
     return () => { cancelled = true }
   }, [module.id])
 
-  async function handleSubmit(e) {
-    e.preventDefault()
-    setSubmitting(true)
-    setError('')
-    try {
-      await api.submitQuestLog(module.id, note)
-      setJustSubmitted(true)
-      onLogSubmitted && onLogSubmitted()
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setSubmitting(false)
-    }
+  async function handleActivitySubmit(activityIndex, note) {
+    await api.submitQuestLog(module.id, note, activityIndex)
+    setJustSubmittedIndices(list => [...list, activityIndex])
+    onLogSubmitted && onLogSubmitted()
   }
 
-  const pendingLog = module.pendingLog
-  const isPending = (justSubmitted || pendingLog?.status === 'pending')
-  const isRejected = !justSubmitted && pendingLog?.status === 'rejected'
+  function statusFor(activityIndex) {
+    if ((module.completedActivityIndices || []).includes(activityIndex)) return { kind: 'approved' }
+    const log = (module.pendingActivityLogs || [])[activityIndex]
+    if (log?.status === 'pending') return { kind: 'pending' }
+    if (log?.status === 'rejected') return { kind: 'rejected' }
+    return null
+  }
 
   return (
     <div>
@@ -106,57 +160,18 @@ export default function QuestView({ module, onExit, onLogSubmitted, previewMode 
         <div className="loading-text">Loading…</div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {(content.activities || []).map((activity, i) => <ActivityCard key={i} activity={activity} index={i} />)}
-        </div>
-      )}
-
-      {!previewMode && content && (
-        <div style={{ marginTop: 20 }}>
-          {module.completed ? (
-            // Mirrors Future-Ready's quiz-passed celebration (same classes,
-            // see styles.css) -- this is the equivalent "you just earned
-            // points" moment here, so it gets the same full treatment.
-            <div className="result-celebration" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 12, padding: '18px 16px', textAlign: 'center' }}>
-              <div className="mega-confetti" aria-hidden="true">
-                {['🎉', '✨', '⭐', '🎊', '🎈', '🌟', '💫', '🏆'].map((p, i) => (
-                  <span key={i} className={`confetti-piece mc-${i}`}>{p}</span>
-                ))}
-              </div>
-              <div style={{ color: '#166534', fontWeight: 700, fontSize: '0.9rem' }}>
-                ✅ Done — your guardian approved this and you earned {module.points} pts!
-              </div>
-            </div>
-          ) : isPending ? (
-            <div className="pop-in" style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 12, padding: '14px 16px', textAlign: 'center', color: '#92400e', fontWeight: 700, fontSize: '0.9rem' }}>
-              ⏳ Sent to your guardian — you'll get your {module.points} pts once they take a look.
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              {isRejected && (
-                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', marginBottom: 12, color: '#991b1b', fontSize: '0.85rem' }}>
-                  Your guardian asked you to try this again before it counts — give it another go, then log it below.
-                </div>
-              )}
-              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: 6 }}>
-                What did you do or notice?
-              </label>
-              <textarea
-                value={note}
-                onChange={e => setNote(e.target.value)}
-                placeholder="Tell your guardian a bit about it..."
-                rows={3}
-                style={{ width: '100%', padding: '10px 12px', border: '1.5px solid #e2e8f0', borderRadius: 10, fontSize: '0.88rem', fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }}
-              />
-              <button
-                type="submit"
-                disabled={submitting || note.trim().length < 3}
-                className="login-btn"
-                style={{ marginTop: 10 }}
-              >
-                {submitting ? 'Sending…' : `Send to my guardian · earn ${module.points} pts`}
-              </button>
-            </form>
-          )}
+          {(content.activities || []).map((activity, i) => (
+            <ActivityCard
+              key={i}
+              activity={activity}
+              index={i}
+              points={(module.activityPoints || [])[i] ?? module.points}
+              status={statusFor(i)}
+              justSubmitted={justSubmittedIndices.includes(i)}
+              onSubmit={note => handleActivitySubmit(i, note)}
+              previewMode={previewMode}
+            />
+          ))}
         </div>
       )}
     </div>

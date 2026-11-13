@@ -336,10 +336,32 @@ class DBQuestLog(Base):
     id           = Column(String, primary_key=True)
     kid_id       = Column(String, nullable=False, index=True)
     module_id    = Column(String, nullable=False, index=True)
+    # Which entry in this module's content.activities[] this log is about --
+    # each activity is independently loggable/approvable/payable (see
+    # DBQuestActivityCompletion) so a kid doesn't have to do all of a
+    # category's activities in one sitting to earn anything. NULL only for
+    # logs created before this column existed (a module-wide log from the
+    # old one-submission-per-module model); those are simply orphaned, not
+    # migrated, since there's no single activity to attribute them to.
+    activity_index = Column(Integer, nullable=True)
     note         = Column(String, nullable=False)
     status       = Column(String, default="pending")  # "pending" / "approved" / "rejected"
     submitted_at = Column(String, nullable=False)
     reviewed_at  = Column(String, nullable=True)
+
+
+class DBQuestActivityCompletion(Base):
+    """One row per kid per (quest module, activity) -- the per-activity
+    analogue of DBLearningCompletion. Kept as its own table rather than
+    reusing DBLearningCompletion because that table's primary key is
+    (kid_id, module_id), with no room for "which activity," and Future-Ready
+    still uses it exactly that way (one module = one completion)."""
+    __tablename__ = "quest_activity_completions"
+    kid_id         = Column(String, primary_key=True)
+    module_id      = Column(String, primary_key=True)
+    activity_index = Column(Integer, primary_key=True)
+    points_awarded = Column(Float, nullable=False)
+    completed_at   = Column(String, nullable=False)
 
 
 class DBSession(Base):

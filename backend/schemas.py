@@ -242,6 +242,7 @@ class LearningCompleteBody(BaseModel):
 
 class QuestLogBody(BaseModel):
     note: str
+    activityIndex: int
 
 class ReadingLogAssignBody(BaseModel):
     kidId: str

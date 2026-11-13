@@ -509,11 +509,17 @@ def admin_family_learn_grow(family_id: str, db: Session = Depends(get_db), user:
     for q in quest_logs:
         kid = kid_map.get(q.kid_id)
         mod = module_map.get(q.module_id)
+        activities = (mod.content or {}).get("activities", []) if mod and mod.content else []
+        activity_title = (
+            activities[q.activity_index].get("title")
+            if q.activity_index is not None and q.activity_index < len(activities)
+            else None
+        )
         activity.append({
             "type": "quest",
             "kidId": q.kid_id,
             "kidName": kid.name if kid else "Unknown",
-            "title": mod.topic_title if mod else q.module_id,
+            "title": f"{activity_title} ({mod.topic_title})" if activity_title and mod else (mod.topic_title if mod else q.module_id),
             "status": q.status,
             "points": mod.points if mod else None,
             "at": q.reviewed_at or q.submitted_at,

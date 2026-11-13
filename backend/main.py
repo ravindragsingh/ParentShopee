@@ -180,6 +180,7 @@ def startup():
             ("users", "stripe_subscription_id", "VARCHAR"),
             ("users", "subscription_status", "VARCHAR"),
             ("users", "subscription_current_period_end", "VARCHAR"),
+            ("quest_logs", "activity_index", "INTEGER"),
         ]:
             try:
                 if "sqlite" in str(engine.url):

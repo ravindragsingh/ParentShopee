@@ -128,6 +128,33 @@ function PendingLogReview({ logs, disabled, onApprove, onReject }) {
   )
 }
 
+// Each quest module now bundles several independently-loggable activities
+// (see backend/routers/quests.py's module_dict) -- this lists each one with
+// its own point value and its own completions/pending review, nested under
+// the module's enable/points/kid-picker controls.
+function ActivityBreakdown({ module, disabled, onApprove, onReject, onRedo }) {
+  if (!module.activityCount) return null
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%', marginTop: 8, paddingTop: 8, borderTop: '1px dashed #e2e8f0' }}>
+      {Array.from({ length: module.activityCount }).map((_, i) => {
+        const completions = module.activityCompletions?.[i] || []
+        const pendingLogs = module.activityPendingLogs?.[i] || []
+        const title = module.activityTitles?.[i] || `Activity ${i + 1}`
+        const points = module.activityPoints?.[i]
+        return (
+          <div key={i} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#334155', minWidth: 140 }}>
+              {title} <span style={{ color: '#94a3b8', fontWeight: 400 }}>· ⭐ {points} pts</span>
+            </span>
+            <CompletionStatus completions={completions} disabled={disabled} onRedo={c => onRedo(module, i, c)} />
+            <PendingLogReview logs={pendingLogs} disabled={disabled} onApprove={log => onApprove(module, log)} onReject={log => onReject(module, log)} />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 function PointsEditor({ points, disabled, onSave }) {
   const [value, setValue] = useState(String(points))
   useEffect(() => { setValue(String(points)) }, [points])
@@ -224,15 +251,14 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
     }
   }
 
-  async function handleRedo(module, completion) {
-    if (!window.confirm(`Let ${completion.kidName} try "${module.title}" again? They'll be able to earn points for it again.`)) return
+  async function handleRedo(module, activityIndex, completion) {
+    const activityTitle = module.activityTitles?.[activityIndex] || module.title
+    if (!window.confirm(`Let ${completion.kidName} try "${activityTitle}" again? They'll be able to earn points for it again.`)) return
     setSavingId(module.id)
     setError('')
     try {
-      await api.resetQuestCompletion(module.id, completion.kidId)
-      setModules(ms => ms.map(m => m.id === module.id
-        ? { ...m, completions: (m.completions ?? []).filter(c => c.kidId !== completion.kidId) }
-        : m))
+      await api.resetQuestCompletion(module.id, completion.kidId, activityIndex)
+      await loadModules()
     } catch (err) {
       setError(err.message)
     } finally {
@@ -258,9 +284,7 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
     setError('')
     try {
       await api.rejectQuestLog(log.id)
-      setModules(ms => ms.map(m => m.id === module.id
-        ? { ...m, pendingLogs: (m.pendingLogs ?? []).filter(l => l.id !== log.id) }
-        : m))
+      await loadModules()
     } catch (err) {
       setError(err.message)
     } finally {
@@ -306,7 +330,9 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
             const meta = categoryMeta(category.category)
             const enabledCount = category.modules.filter(m => m.enabled).length
             const categoryIsNew = category.modules.some(m => m.isNew)
-            const pendingCount = category.modules.reduce((n, m) => n + (m.pendingLogs?.length || 0), 0)
+            const pendingCount = category.modules.reduce(
+              (n, m) => n + (m.activityPendingLogs || []).reduce((s, logs) => s + (logs?.length || 0), 0), 0
+            )
             const isOpen = openCategory === category.category
             return (
               <div
@@ -361,50 +387,56 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
                           borderTop: '1px solid #f1f5f9', flexWrap: 'wrap',
                         }}
                       >
-                        <div style={{ minWidth: 90 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, color: '#1e293b', fontSize: '0.9rem' }}>
-                            {m.title}
-                            {m.isNew && <NewBadge />}
-                            {m.isPremium && <span title="Premium — requires an active subscription">💎</span>}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 12, width: '100%' }}>
+                          <div style={{ minWidth: 90 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, color: '#1e293b', fontSize: '0.9rem' }}>
+                              {m.title}
+                              {m.isNew && <NewBadge />}
+                              {m.isPremium && <span title="Premium — requires an active subscription">💎</span>}
+                            </div>
+                            {m.activityCount > 1 && (
+                              <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{m.activityCount} activities</div>
+                            )}
                           </div>
-                        </div>
-                        <div style={{ flex: 1, minWidth: 160 }}>
-                          <PointsEditor
-                            points={m.points}
+                          <div style={{ flex: 1, minWidth: 160 }}>
+                            <PointsEditor
+                              points={m.points}
+                              disabled={savingId === m.id}
+                              onSave={(pts) => handlePointsChange(m, pts)}
+                            />
+                            {m.activityCount > 1 && (
+                              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: 2 }}>
+                                total, split across {m.activityCount} activities unless one has its own points set
+                              </div>
+                            )}
+                          </div>
+                          <button
+                            className="btn btn-sm btn-outline"
+                            onClick={() => setPreviewModule(m)}
+                          >
+                            ▶️ Preview
+                          </button>
+                          <Toggle
+                            checked={!!m.enabled}
                             disabled={savingId === m.id}
-                            onSave={(pts) => handlePointsChange(m, pts)}
+                            onChange={() => handleToggle(m)}
+                            color={meta.color}
                           />
+                          {m.enabled && kids.length > 1 && (
+                            <KidPicker
+                              kids={kids}
+                              selectedIds={m.enabledKidIds ?? null}
+                              disabled={savingId === m.id}
+                              onChange={(kidIds) => handleKidsChange(m, kidIds)}
+                            />
+                          )}
                         </div>
-                        <button
-                          className="btn btn-sm btn-outline"
-                          onClick={() => setPreviewModule(m)}
-                        >
-                          ▶️ Preview
-                        </button>
-                        <Toggle
-                          checked={!!m.enabled}
+                        <ActivityBreakdown
+                          module={m}
                           disabled={savingId === m.id}
-                          onChange={() => handleToggle(m)}
-                          color={meta.color}
-                        />
-                        {m.enabled && kids.length > 1 && (
-                          <KidPicker
-                            kids={kids}
-                            selectedIds={m.enabledKidIds ?? null}
-                            disabled={savingId === m.id}
-                            onChange={(kidIds) => handleKidsChange(m, kidIds)}
-                          />
-                        )}
-                        <CompletionStatus
-                          completions={m.completions}
-                          disabled={savingId === m.id}
-                          onRedo={(completion) => handleRedo(m, completion)}
-                        />
-                        <PendingLogReview
-                          logs={m.pendingLogs}
-                          disabled={savingId === m.id}
-                          onApprove={(log) => handleApproveLog(m, log)}
-                          onReject={(log) => handleRejectLog(m, log)}
+                          onApprove={(mod, log) => handleApproveLog(mod, log)}
+                          onReject={(mod, log) => handleRejectLog(mod, log)}
+                          onRedo={(mod, activityIndex, completion) => handleRedo(mod, activityIndex, completion)}
                         />
                       </div>
                     ))}
