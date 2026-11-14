@@ -173,6 +173,8 @@ def startup():
             ("users", "reading_log_badge_first_seen_at", "VARCHAR"),
             ("users", "reading_log_badge_logins", "INTEGER"),
             ("quest_logs", "activity_index", "INTEGER"),
+            ("referral_payouts", "currency", "VARCHAR"),
+            ("referral_payouts", "payout_amount", "FLOAT"),
         ]:
             try:
                 if "sqlite" in str(engine.url):
@@ -234,6 +236,10 @@ def startup():
         conn.execute(text("UPDATE users SET pin_attempts=0 WHERE pin_attempts IS NULL"))
         conn.execute(text("UPDATE users SET pin_auto_generated='0' WHERE pin_auto_generated IS NULL"))
         conn.execute(text("UPDATE wallets SET savings_balance=0 WHERE savings_balance IS NULL"))
+        # Pre-existing referral payouts all predate per-country currencies --
+        # they were all $1/credit USD, so backfill them as such rather than
+        # leaving currency/payout_amount NULL.
+        conn.execute(text("UPDATE referral_payouts SET currency='USD', payout_amount=amount WHERE currency IS NULL"))
         # Demo family sample kids (Alice/Bob) predate birth_month/birth_year
         # being a required field -- set them explicitly so age-based features
         # like Future-Ready work out of the box on any existing database,

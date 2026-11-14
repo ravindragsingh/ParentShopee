@@ -1206,7 +1206,8 @@ function AdminReferralPayoutCard({ payout: p, busy, onFulfill, onReject }) {
     <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, padding: '14px 18px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 6 }}>
         <div>
-          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '1rem' }}>${p.amount} — {p.guardianName}</div>
+          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '1rem' }}>{p.currencySymbol}{p.payoutAmount} — {p.guardianName}</div>
+          <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{p.amount} referral{p.amount === 1 ? '' : 's'}</div>
           <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: 2 }}>{p.guardianEmail || '(no email on file)'}</div>
         </div>
         <span style={{ fontSize: '0.74rem', fontWeight: 700, borderRadius: 6, padding: '3px 10px', background: style.bg, color: style.color, textTransform: 'capitalize' }}>

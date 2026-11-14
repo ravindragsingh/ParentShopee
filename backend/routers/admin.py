@@ -703,11 +703,13 @@ def admin_fulfill_referral_payout(payout_id: str, body: ReferralPayoutActionBody
     # told the guardian to expect (see routers/referrals.py).
     guardian = db.query(DBUser).filter(DBUser.id == payout.guardian_id).first()
     if guardian:
+        payout_display = referral_payout_dict(payout)
+        amount_label = f"{payout_display['currencySymbol']}{payout_display['payoutAmount']:g}"
         notify_user_via_ticket(
             db, guardian,
-            subject=f"Your ${payout.amount} referral reward is here! 🎉",
+            subject=f"Your {amount_label} referral reward is here! 🎉",
             message=(
-                f"Thanks for spreading the word about Reward Ur Kids! Your ${payout.amount} "
+                f"Thanks for spreading the word about Reward Ur Kids! Your {amount_label} "
                 f"Amazon gift card is ready:\n\n"
                 + (payout.admin_note or "Contact support if you don't see a code below.") + "\n"
             ),

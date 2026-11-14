@@ -41,6 +41,25 @@ ACTIVATION_TOKEN_TTL_HOURS = 24
 RESET_TOKEN_TTL_HOURS = 1
 COGUARDIAN_INVITE_TTL_HOURS = 24 * 7
 
+# ── Referral payouts ─────────────────────────────────────────────────────────
+# Per-referral value and minimum cash-out amount, localized by currency. Every
+# currency here is deliberately set so minCashout / perReferral == 10 -- the
+# same referral count (see routers/referrals.py's MIN_CASHOUT_CREDITS) cashes
+# out everywhere, only the money differs. REFERRAL_CURRENCY_BY_COUNTRY maps a
+# guardian's country (see models.DBUser.country/last_login_country, which
+# store ipapi.co's `country_name`, e.g. "India") to one of these codes; a
+# country with no entry (or no known country at all) falls back to USD.
+REFERRAL_CURRENCY_RATES = {
+    "USD": {"symbol": "$",  "perReferral": 1,  "minCashout": 10},
+    "INR": {"symbol": "₹",  "perReferral": 50, "minCashout": 500},
+    "CAD": {"symbol": "C$", "perReferral": 1,  "minCashout": 10},
+}
+REFERRAL_CURRENCY_BY_COUNTRY = {
+    "India":  "INR",
+    "Canada": "CAD",
+}
+REFERRAL_DEFAULT_CURRENCY = "USD"
+
 # ── Google Sign-In ───────────────────────────────────────────────────────────
 # Public-facing Client ID from Google Cloud Console (OAuth consent screen ->
 # Credentials -> "Web application" client). This value is not secret — it's
