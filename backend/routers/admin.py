@@ -15,11 +15,12 @@ from firebase_app import get_firebase_app
 from helpers import (
     chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, generate_inert_credentials,
     generate_temp_pin, get_ticket_notification_email, get_ticket_replies, notify_user_via_ticket, now,
-    referral_payout_dict, safe_user, ticket_dict,
+    purchase_dict, referral_payout_dict, safe_user, shop_dict, ticket_dict,
 )
 from models import (
     DBChore, DBLearningCompletion, DBLearningModule, DBQuestLog, DBReadingLog, DBRecurringTemplate,
-    DBReferralPayout, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
+    DBReferralPayout, DBShopItem, DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser,
+    DBWallet,
 )
 from responses import fail, ok
 from schemas import (
@@ -461,6 +462,34 @@ def admin_family_transactions(family_id: str, db: Session = Depends(get_db), use
             "timestamp": t.timestamp,
         })
     return ok(result)
+
+
+@router.get("/api/admin/family/{family_id}/shop")
+def admin_family_shop(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """What a family has set up in their Shop, plus every purchase request
+    against it -- pending ones a guardian hasn't acted on yet included, not
+    just realized spending (which already shows up generically in the
+    Transactions tab once approved/instant-bought)."""
+    items = db.query(DBShopItem).filter(
+        DBShopItem.family_id == family_id,
+    ).order_by(DBShopItem.created_at.desc()).all()
+
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    kid_map = {k.id: k for k in kids}
+    kid_ids = list(kid_map.keys())
+    purchases = db.query(DBShopPurchase).filter(
+        DBShopPurchase.kid_id.in_(kid_ids),
+    ).order_by(DBShopPurchase.created_at.desc()).limit(100).all() if kid_ids else []
+
+    purchase_result = []
+    for p in purchases:
+        kid = kid_map.get(p.kid_id)
+        purchase_result.append({
+            **purchase_dict(p),
+            "kidName": kid.name if kid else "Unknown",
+            "kidAvatar": kid.avatar if kid else "👤",
+        })
+    return ok({"items": [shop_dict(i) for i in items], "purchases": purchase_result})
 
 
 @router.get("/api/admin/family/{family_id}/learn-grow")
