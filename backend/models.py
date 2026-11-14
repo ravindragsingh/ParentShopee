@@ -216,14 +216,25 @@ class DBSupportTicketReply(Base):
 class DBReferralPayout(Base):
     """One cash-out request for the referral program -- created when a guardian
     has >=10 unredeemed referral credits and asks to cash out. Fulfilled by hand
-    (admin buys and sends the Amazon gift card, then marks it fulfilled), same
+    (admin buys and sends the gift card, then marks it fulfilled), same
     manual-review pattern as DBSupportTicket."""
     __tablename__ = "referral_payouts"
     id            = Column(String, primary_key=True)
     guardian_id   = Column(String, nullable=False, index=True)
     guardian_name = Column(String, nullable=False)   # snapshot at request time
     guardian_email = Column(String, nullable=True)   # snapshot at request time -- where the gift card gets sent
-    amount        = Column(Integer, nullable=False)  # dollars; also the number of credits this request redeemed
+    # The number of referral credits this request redeemed -- NOT a currency
+    # amount (see payout_amount/currency below for what's actually owed).
+    # admin_reject_referral_payout restores exactly this many credits, so its
+    # meaning must stay "credit count" regardless of currency.
+    amount         = Column(Integer, nullable=False)
+    # What `amount` credits were actually worth, frozen at request time from
+    # the guardian's country (see config.REFERRAL_CURRENCY_RATES) -- a
+    # guardian's country can change between requests, so later payouts aren't
+    # recomputed off an old rate. NULL on rows created before this existed;
+    # callers treat that as USD $1/credit (see helpers.referral_payout_dict).
+    currency       = Column(String, nullable=True)
+    payout_amount  = Column(Float, nullable=True)
     status        = Column(String, default="pending")  # pending | fulfilled | rejected
     admin_note    = Column(String, nullable=True)     # e.g. gift card confirmation code, or rejection reason
     created_at    = Column(String, nullable=False)

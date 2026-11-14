@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 
-from config import CONTACT_EMAIL
+from config import CONTACT_EMAIL, REFERRAL_CURRENCY_BY_COUNTRY, REFERRAL_CURRENCY_RATES, REFERRAL_DEFAULT_CURRENCY
 from email_utils import send_email
 from models import (
     DBChore, DBDailyChoreItem, DBMessage, DBReferralPayout, DBRecurringTemplate, DBShopItem,
@@ -321,7 +321,26 @@ def generate_referral_code(db: Session) -> str:
             return code
 
 
+def referral_currency_for(user: DBUser) -> dict:
+    """Which currency a guardian's referral credits pay out in, based on their
+    most-recently-known country (falls back to their registration-time
+    country, then USD if neither is known) -- see config.REFERRAL_CURRENCY_RATES."""
+    country = user.last_login_country or user.country
+    code = REFERRAL_CURRENCY_BY_COUNTRY.get(country, REFERRAL_DEFAULT_CURRENCY)
+    return {"code": code, **REFERRAL_CURRENCY_RATES[code]}
+
+
 def referral_payout_dict(p: DBReferralPayout) -> dict:
+    # currency/payout_amount are NULL on payouts from before per-country
+    # currencies existed -- those were all $1/credit USD (see main.py's
+    # backfill, which already sets this for every pre-existing row; NULL
+    # here only matters for the in-memory object between db.add() and the
+    # next db.commit()/refresh within the same request).
+    currency = p.currency or "USD"
+    rate = REFERRAL_CURRENCY_RATES.get(currency, REFERRAL_CURRENCY_RATES["USD"])
     return {"id": p.id, "guardianId": p.guardian_id, "guardianName": p.guardian_name,
-            "guardianEmail": p.guardian_email, "amount": p.amount, "status": p.status,
-            "adminNote": p.admin_note, "createdAt": p.created_at, "resolvedAt": p.resolved_at}
+            "guardianEmail": p.guardian_email, "amount": p.amount,
+            "currency": currency, "currencySymbol": rate["symbol"],
+            "payoutAmount": p.payout_amount if p.payout_amount is not None else p.amount,
+            "status": p.status, "adminNote": p.admin_note,
+            "createdAt": p.created_at, "resolvedAt": p.resolved_at}

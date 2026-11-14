@@ -1,4 +1,5 @@
 import smtplib
+from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -6,7 +7,7 @@ from config import (
     ACTIVATION_TOKEN_TTL_HOURS, COGUARDIAN_INVITE_TTL_HOURS, CONTACT_EMAIL, EMAIL_FROM, FRONTEND_URL,
     SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER,
 )
-from models import DBUser
+from models import DBSupportTicket, DBUser
 
 
 def send_email(to_addr: str, subject: str, body_text: str) -> bool:
@@ -59,6 +60,47 @@ def send_new_signup_notification(user: DBUser) -> bool:
         f"    Role:     {user.role}\n"
     )
     return send_email(CONTACT_EMAIL, subject, body_text)
+
+
+def send_new_ticket_notification(ticket: DBSupportTicket, user: DBUser, screenshot_bytes: bytes = None) -> bool:
+    """Internal alert to the team inbox whenever a support ticket is submitted --
+    same fire-and-forget background-task pattern as send_new_signup_notification
+    above. The ticket is already persisted by the time this runs, so a slow or
+    failed SMTP send here can never turn an already-successful submission into
+    an error response for the user (the previous inline smtplib call in
+    routers/contact.py did exactly that on any transient SMTP hiccup)."""
+    subject = f"[Reward Ur Kids] {ticket.category}: {ticket.subject}"
+    body_text = (
+        f"New Support Ticket — Reward Ur Kids\n"
+        f"{'='*50}\n\n"
+        f"From    : {user.name} ({user.username})\n"
+        f"Role    : {user.role}\n"
+        f"Email   : {user.email or 'not provided'}\n"
+        f"Category: {ticket.category}\n\n"
+        f"Subject:\n{ticket.subject}\n\n"
+        f"Message:\n{ticket.message}\n"
+    )
+    if not SMTP_USER or not SMTP_PASSWORD:
+        print(f"[email — not configured] To: {CONTACT_EMAIL}\nSubject: {subject}\n{body_text}")
+        return True
+    try:
+        msg = MIMEMultipart()
+        msg["From"] = EMAIL_FROM
+        msg["To"] = CONTACT_EMAIL
+        msg["Subject"] = subject
+        msg.attach(MIMEText(body_text, "plain"))
+        if screenshot_bytes:
+            img_part = MIMEImage(screenshot_bytes)
+            img_part.add_header("Content-Disposition", "attachment", filename="screenshot.png")
+            msg.attach(img_part)
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as srv:
+            srv.starttls()
+            srv.login(SMTP_USER, SMTP_PASSWORD)
+            srv.send_message(msg)
+        return True
+    except Exception as exc:
+        print(f"[email] ticket notification send failed: {exc}")
+        return False
 
 
 def send_reset_email(user: DBUser, link: str) -> bool:

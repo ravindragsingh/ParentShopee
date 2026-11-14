@@ -1206,7 +1206,8 @@ function AdminReferralPayoutCard({ payout: p, busy, onFulfill, onReject }) {
     <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 12, padding: '14px 18px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 6 }}>
         <div>
-          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '1rem' }}>${p.amount} — {p.guardianName}</div>
+          <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '1rem' }}>{p.currencySymbol}{p.payoutAmount} — {p.guardianName}</div>
+          <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>{p.amount} referral{p.amount === 1 ? '' : 's'}</div>
           <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: 2 }}>{p.guardianEmail || '(no email on file)'}</div>
         </div>
         <span style={{ fontSize: '0.74rem', fontWeight: 700, borderRadius: 6, padding: '3px 10px', background: style.bg, color: style.color, textTransform: 'capitalize' }}>
@@ -1451,7 +1452,7 @@ export default function AdminDashboard() {
   const [platformFilter, setPlatformFilter] = useState('')  // '' | 'android' | 'ios' | 'android-web' | 'ios-web' | 'web'
   const [statusFilter,  setStatusFilter]  = useState('')  // '' | 'active' | 'suspended'
   const [selected,      setSelected]      = useState(null)
-  const [detail,        setDetail]        = useState({ chores: [], transactions: [], learnGrow: [] })
+  const [detail,        setDetail]        = useState({ chores: [], transactions: [], shop: { items: [], purchases: [] }, readingLog: [], learnGrow: [] })
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailTab,     setDetailTab]     = useState('chores')
   const [editTarget,    setEditTarget]    = useState(null)
@@ -1486,12 +1487,14 @@ export default function AdminDashboard() {
     if (familyId) {
       const fresh = data.find(f => f.familyId === familyId)
       if (fresh) setSelected(fresh)
-      const [chores, transactions, learnGrow] = await Promise.all([
+      const [chores, transactions, shop, readingLog, learnGrow] = await Promise.all([
         api.adminFamilyChores(familyId),
         api.adminFamilyTransactions(familyId),
+        api.adminFamilyShop(familyId),
+        api.adminFamilyReadingLog(familyId),
         api.adminFamilyLearnGrow(familyId),
       ])
-      setDetail({ chores, transactions, learnGrow })
+      setDetail({ chores, transactions, shop, readingLog, learnGrow })
     }
   }
 
@@ -1500,16 +1503,18 @@ export default function AdminDashboard() {
     setSelected(family)
     setDetailTab('members')
     setDetailLoading(true)
-    setDetail({ chores: [], transactions: [], learnGrow: [] })
+    setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, readingLog: [], learnGrow: [] })
     try {
-      const [chores, transactions, learnGrow] = await Promise.all([
+      const [chores, transactions, shop, readingLog, learnGrow] = await Promise.all([
         api.adminFamilyChores(family.familyId),
         api.adminFamilyTransactions(family.familyId),
+        api.adminFamilyShop(family.familyId),
+        api.adminFamilyReadingLog(family.familyId),
         api.adminFamilyLearnGrow(family.familyId),
       ])
-      setDetail({ chores, transactions, learnGrow })
+      setDetail({ chores, transactions, shop, readingLog, learnGrow })
     } catch (e) {
-      setDetail({ chores: [], transactions: [], learnGrow: [] })
+      setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, readingLog: [], learnGrow: [] })
     }
     setDetailLoading(false)
   }
@@ -1565,7 +1570,7 @@ export default function AdminDashboard() {
     setDeleteTarget(null)
     if (isPrimary) {
       setSelected(null)
-      setDetail({ chores: [], transactions: [] })
+      setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, readingLog: [], learnGrow: [] })
       await loadFamilies()
     } else {
       await refreshAll(family.familyId)
@@ -2036,6 +2041,8 @@ export default function AdminDashboard() {
                       { id: 'members',      label: '👥 Members',      count: family.kids.length + 1 + (family.coGuardian ? 1 : 0) },
                       { id: 'chores',       label: '📋 Chores',       count: detail.chores.length },
                       { id: 'transactions', label: '💳 Transactions',  count: detail.transactions.length },
+                      { id: 'shop',         label: '🛍️ Shop',          count: detail.shop.items.length + detail.shop.purchases.length },
+                      { id: 'readinglog',   label: '📖 Reading Log',   count: detail.readingLog.length },
                       { id: 'learngrow',    label: '🌱 Learn & Grow',  count: detail.learnGrow.length },
                     ].map(tab => (
                       <button
@@ -2211,6 +2218,120 @@ export default function AdminDashboard() {
                                       <Td style={{ fontWeight: 700, color: c.color }}>{c.symbol}{t.amount} pts</Td>
                                       <Td>{t.description}</Td>
                                       <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{t.timestamp.slice(0, 10)}</Td>
+                                    </tr>
+                                  )
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                    )}
+
+                    {/* Shop: items set up + purchase requests */}
+                    {!detailLoading && detailTab === 'shop' && (
+                      <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 24 }}>
+                        <div>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#64748b', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                            Shop items ({detail.shop.items.length})
+                          </div>
+                          {detail.shop.items.length === 0 ? (
+                            <div style={{ textAlign: 'center', color: '#94a3b8', padding: 20 }}>No shop items set up yet.</div>
+                          ) : (
+                            <div style={{ overflowX: 'auto' }}>
+                              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                <thead>
+                                  <tr style={{ background: '#f8fafc' }}>
+                                    <Th>Item</Th><Th>Cost</Th><Th>Description</Th><Th>Added</Th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {detail.shop.items.map(item => (
+                                    <tr key={item.id}>
+                                      <Td>
+                                        <span style={{ marginRight: 5 }}>{item.imageEmoji}</span>
+                                        <span style={{ fontWeight: 600, color: '#1e293b' }}>{item.name}</span>
+                                        {!item.isCustom && <span style={{ marginLeft: 6, fontSize: '0.7rem', background: '#f1f5f9', color: '#64748b', borderRadius: 4, padding: '1px 5px', fontWeight: 700 }}>sample</span>}
+                                      </Td>
+                                      <Td style={{ fontWeight: 700, color: '#0d9488' }}>{item.cost} pts</Td>
+                                      <Td>{item.description || '—'}</Td>
+                                      <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{(item.createdAt || '').slice(0, 10) || '—'}</Td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+                        </div>
+
+                        <div>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#64748b', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                            Purchase requests ({detail.shop.purchases.length})
+                          </div>
+                          {detail.shop.purchases.length === 0 ? (
+                            <div style={{ textAlign: 'center', color: '#94a3b8', padding: 20 }}>No purchase requests yet -- instant (no-approval) buys show up under Transactions instead.</div>
+                          ) : (
+                            <div style={{ overflowX: 'auto' }}>
+                              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                <thead>
+                                  <tr style={{ background: '#f8fafc' }}>
+                                    <Th>Child</Th><Th>Item</Th><Th>Cost</Th><Th>Status</Th><Th>Requested</Th><Th>Resolved</Th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {detail.shop.purchases.map(p => {
+                                    const s = LEARN_GROW_STATUS_STYLE[p.status] || {}
+                                    return (
+                                      <tr key={p.id}>
+                                        <Td><span style={{ marginRight: 4 }}>{p.kidAvatar}</span>{p.kidName}</Td>
+                                        <Td><span style={{ marginRight: 5 }}>{p.imageEmoji}</span>{p.itemName}</Td>
+                                        <Td style={{ fontWeight: 700, color: '#0d9488' }}>{p.cost} pts</Td>
+                                        <Td>
+                                          <span style={{ background: s.bg, color: s.color, borderRadius: 6, padding: '2px 8px', fontWeight: 700, fontSize: '0.74rem', textTransform: 'capitalize' }}>
+                                            {p.status}
+                                          </span>
+                                        </Td>
+                                        <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{(p.createdAt || '').slice(0, 10) || '—'}</Td>
+                                        <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{(p.resolvedAt || '').slice(0, 10) || '—'}</Td>
+                                      </tr>
+                                    )
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Reading Log: per-book detail (Learn & Grow below has one merged line per book instead) */}
+                    {!detailLoading && detailTab === 'readinglog' && (
+                      detail.readingLog.length === 0
+                        ? <div style={{ textAlign: 'center', color: '#94a3b8', padding: 32 }}>No books assigned or started yet.</div>
+                        : <div style={{ overflowX: 'auto' }}>
+                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                              <thead>
+                                <tr style={{ background: '#f8fafc' }}>
+                                  <Th>Child</Th><Th>Book</Th><Th>Status</Th><Th>Pages</Th><Th>Entries</Th><Th>Points</Th><Th>Date</Th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {detail.readingLog.map(log => {
+                                  const s = LEARN_GROW_STATUS_STYLE[log.status] || {}
+                                  return (
+                                    <tr key={log.id}>
+                                      <Td><span style={{ marginRight: 4 }}>{log.kidAvatar}</span>{log.kidName}</Td>
+                                      <Td>
+                                        <span style={{ fontWeight: 600, color: '#1e293b' }}>{log.title}</span>
+                                        {log.author && <span style={{ color: '#94a3b8' }}> by {log.author}</span>}
+                                      </Td>
+                                      <Td>
+                                        <span style={{ background: s.bg, color: s.color, borderRadius: 6, padding: '2px 8px', fontWeight: 700, fontSize: '0.74rem', textTransform: 'capitalize' }}>
+                                          {(log.status || '').replace('_', ' ')}
+                                        </span>
+                                      </Td>
+                                      <Td style={{ whiteSpace: 'nowrap' }}>{log.totalPages ? `${log.pagesRead}/${log.totalPages}` : (log.pagesRead || '—')}</Td>
+                                      <Td>{log.entryCount}</Td>
+                                      <Td style={{ fontWeight: 700, color: '#0d9488' }}>{log.points}</Td>
+                                      <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{(log.resolvedAt || log.submittedAt || log.createdAt || '').slice(0, 10) || '—'}</Td>
                                     </tr>
                                   )
                                 })}

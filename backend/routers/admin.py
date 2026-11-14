@@ -15,11 +15,12 @@ from firebase_app import get_firebase_app
 from helpers import (
     chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, generate_inert_credentials,
     generate_temp_pin, get_ticket_notification_email, get_ticket_replies, notify_user_via_ticket, now,
-    referral_payout_dict, safe_user, ticket_dict,
+    purchase_dict, referral_payout_dict, safe_user, shop_dict, ticket_dict,
 )
 from models import (
-    DBChore, DBLearningCompletion, DBLearningModule, DBQuestLog, DBReadingLog, DBRecurringTemplate,
-    DBReferralPayout, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
+    DBChore, DBLearningCompletion, DBLearningModule, DBQuestLog, DBReadingLog, DBReadingLogEntry,
+    DBRecurringTemplate, DBReferralPayout, DBShopItem, DBShopPurchase, DBSupportTicket, DBSupportTicketReply,
+    DBTransaction, DBUser, DBWallet,
 )
 from responses import fail, ok
 from schemas import (
@@ -463,6 +464,72 @@ def admin_family_transactions(family_id: str, db: Session = Depends(get_db), use
     return ok(result)
 
 
+@router.get("/api/admin/family/{family_id}/shop")
+def admin_family_shop(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """What a family has set up in their Shop, plus every purchase request
+    against it -- pending ones a guardian hasn't acted on yet included, not
+    just realized spending (which already shows up generically in the
+    Transactions tab once approved/instant-bought)."""
+    items = db.query(DBShopItem).filter(
+        DBShopItem.family_id == family_id,
+    ).order_by(DBShopItem.created_at.desc()).all()
+
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    kid_map = {k.id: k for k in kids}
+    kid_ids = list(kid_map.keys())
+    purchases = db.query(DBShopPurchase).filter(
+        DBShopPurchase.kid_id.in_(kid_ids),
+    ).order_by(DBShopPurchase.created_at.desc()).limit(100).all() if kid_ids else []
+
+    purchase_result = []
+    for p in purchases:
+        kid = kid_map.get(p.kid_id)
+        purchase_result.append({
+            **purchase_dict(p),
+            "kidName": kid.name if kid else "Unknown",
+            "kidAvatar": kid.avatar if kid else "👤",
+        })
+    return ok({"items": [shop_dict(i) for i in items], "purchases": purchase_result})
+
+
+@router.get("/api/admin/family/{family_id}/reading-log")
+def admin_family_reading_log(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """Every book a family's kids have assigned/started -- the merged Learn &
+    Grow feed already surfaces reading activity as one line per book with no
+    page-count/author/summary detail (same title, status, points shape as a
+    Future-Ready lesson or Quest); this is the per-book view with everything
+    specific to Reading Log, same relationship Shop's dedicated tab has to
+    the generic Transactions tab."""
+    logs = db.query(DBReadingLog).filter(
+        DBReadingLog.family_id == family_id,
+    ).order_by(DBReadingLog.created_at.desc()).limit(100).all()
+
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    kid_map = {k.id: k for k in kids}
+
+    log_ids = [l.id for l in logs]
+    entries = db.query(DBReadingLogEntry).filter(DBReadingLogEntry.reading_log_id.in_(log_ids)).all() if log_ids else []
+    pages_by_log = {}
+    entry_count_by_log = {}
+    for e in entries:
+        pages_by_log[e.reading_log_id] = pages_by_log.get(e.reading_log_id, 0) + (e.pages or 0)
+        entry_count_by_log[e.reading_log_id] = entry_count_by_log.get(e.reading_log_id, 0) + 1
+
+    result = []
+    for l in logs:
+        kid = kid_map.get(l.kid_id)
+        result.append({
+            "id": l.id, "kidId": l.kid_id,
+            "kidName": kid.name if kid else "Unknown", "kidAvatar": kid.avatar if kid else "👤",
+            "title": l.title, "author": l.author, "thumbnailUrl": l.thumbnail_url,
+            "status": l.status, "points": l.points, "summary": l.summary,
+            "totalPages": l.total_pages, "pagesRead": pages_by_log.get(l.id, 0),
+            "entryCount": entry_count_by_log.get(l.id, 0),
+            "createdAt": l.created_at, "submittedAt": l.submitted_at, "resolvedAt": l.resolved_at,
+        })
+    return ok(result)
+
+
 @router.get("/api/admin/family/{family_id}/learn-grow")
 def admin_family_learn_grow(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     """Merged Future-Ready / Quests / Reading Log activity feed for one
@@ -636,11 +703,13 @@ def admin_fulfill_referral_payout(payout_id: str, body: ReferralPayoutActionBody
     # told the guardian to expect (see routers/referrals.py).
     guardian = db.query(DBUser).filter(DBUser.id == payout.guardian_id).first()
     if guardian:
+        payout_display = referral_payout_dict(payout)
+        amount_label = f"{payout_display['currencySymbol']}{payout_display['payoutAmount']:g}"
         notify_user_via_ticket(
             db, guardian,
-            subject=f"Your ${payout.amount} referral reward is here! 🎉",
+            subject=f"Your {amount_label} referral reward is here! 🎉",
             message=(
-                f"Thanks for spreading the word about Reward Ur Kids! Your ${payout.amount} "
+                f"Thanks for spreading the word about Reward Ur Kids! Your {amount_label} "
                 f"Amazon gift card is ready:\n\n"
                 + (payout.admin_note or "Contact support if you don't see a code below.") + "\n"
             ),
