@@ -1450,7 +1450,7 @@ export default function AdminDashboard() {
   const [platformFilter, setPlatformFilter] = useState('')  // '' | 'android' | 'ios' | 'android-web' | 'ios-web' | 'web'
   const [statusFilter,  setStatusFilter]  = useState('')  // '' | 'active' | 'suspended'
   const [selected,      setSelected]      = useState(null)
-  const [detail,        setDetail]        = useState({ chores: [], transactions: [], shop: { items: [], purchases: [] }, learnGrow: [] })
+  const [detail,        setDetail]        = useState({ chores: [], transactions: [], shop: { items: [], purchases: [] }, readingLog: [], learnGrow: [] })
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailTab,     setDetailTab]     = useState('chores')
   const [editTarget,    setEditTarget]    = useState(null)
@@ -1485,13 +1485,14 @@ export default function AdminDashboard() {
     if (familyId) {
       const fresh = data.find(f => f.familyId === familyId)
       if (fresh) setSelected(fresh)
-      const [chores, transactions, shop, learnGrow] = await Promise.all([
+      const [chores, transactions, shop, readingLog, learnGrow] = await Promise.all([
         api.adminFamilyChores(familyId),
         api.adminFamilyTransactions(familyId),
         api.adminFamilyShop(familyId),
+        api.adminFamilyReadingLog(familyId),
         api.adminFamilyLearnGrow(familyId),
       ])
-      setDetail({ chores, transactions, shop, learnGrow })
+      setDetail({ chores, transactions, shop, readingLog, learnGrow })
     }
   }
 
@@ -1500,17 +1501,18 @@ export default function AdminDashboard() {
     setSelected(family)
     setDetailTab('members')
     setDetailLoading(true)
-    setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, learnGrow: [] })
+    setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, readingLog: [], learnGrow: [] })
     try {
-      const [chores, transactions, shop, learnGrow] = await Promise.all([
+      const [chores, transactions, shop, readingLog, learnGrow] = await Promise.all([
         api.adminFamilyChores(family.familyId),
         api.adminFamilyTransactions(family.familyId),
         api.adminFamilyShop(family.familyId),
+        api.adminFamilyReadingLog(family.familyId),
         api.adminFamilyLearnGrow(family.familyId),
       ])
-      setDetail({ chores, transactions, shop, learnGrow })
+      setDetail({ chores, transactions, shop, readingLog, learnGrow })
     } catch (e) {
-      setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, learnGrow: [] })
+      setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, readingLog: [], learnGrow: [] })
     }
     setDetailLoading(false)
   }
@@ -1566,7 +1568,7 @@ export default function AdminDashboard() {
     setDeleteTarget(null)
     if (isPrimary) {
       setSelected(null)
-      setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, learnGrow: [] })
+      setDetail({ chores: [], transactions: [], shop: { items: [], purchases: [] }, readingLog: [], learnGrow: [] })
       await loadFamilies()
     } else {
       await refreshAll(family.familyId)
@@ -2038,6 +2040,7 @@ export default function AdminDashboard() {
                       { id: 'chores',       label: '📋 Chores',       count: detail.chores.length },
                       { id: 'transactions', label: '💳 Transactions',  count: detail.transactions.length },
                       { id: 'shop',         label: '🛍️ Shop',          count: detail.shop.items.length + detail.shop.purchases.length },
+                      { id: 'readinglog',   label: '📖 Reading Log',   count: detail.readingLog.length },
                       { id: 'learngrow',    label: '🌱 Learn & Grow',  count: detail.learnGrow.length },
                     ].map(tab => (
                       <button
@@ -2295,6 +2298,44 @@ export default function AdminDashboard() {
                           )}
                         </div>
                       </div>
+                    )}
+
+                    {/* Reading Log: per-book detail (Learn & Grow below has one merged line per book instead) */}
+                    {!detailLoading && detailTab === 'readinglog' && (
+                      detail.readingLog.length === 0
+                        ? <div style={{ textAlign: 'center', color: '#94a3b8', padding: 32 }}>No books assigned or started yet.</div>
+                        : <div style={{ overflowX: 'auto' }}>
+                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                              <thead>
+                                <tr style={{ background: '#f8fafc' }}>
+                                  <Th>Child</Th><Th>Book</Th><Th>Status</Th><Th>Pages</Th><Th>Entries</Th><Th>Points</Th><Th>Date</Th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {detail.readingLog.map(log => {
+                                  const s = LEARN_GROW_STATUS_STYLE[log.status] || {}
+                                  return (
+                                    <tr key={log.id}>
+                                      <Td><span style={{ marginRight: 4 }}>{log.kidAvatar}</span>{log.kidName}</Td>
+                                      <Td>
+                                        <span style={{ fontWeight: 600, color: '#1e293b' }}>{log.title}</span>
+                                        {log.author && <span style={{ color: '#94a3b8' }}> by {log.author}</span>}
+                                      </Td>
+                                      <Td>
+                                        <span style={{ background: s.bg, color: s.color, borderRadius: 6, padding: '2px 8px', fontWeight: 700, fontSize: '0.74rem', textTransform: 'capitalize' }}>
+                                          {(log.status || '').replace('_', ' ')}
+                                        </span>
+                                      </Td>
+                                      <Td style={{ whiteSpace: 'nowrap' }}>{log.totalPages ? `${log.pagesRead}/${log.totalPages}` : (log.pagesRead || '—')}</Td>
+                                      <Td>{log.entryCount}</Td>
+                                      <Td style={{ fontWeight: 700, color: '#0d9488' }}>{log.points}</Td>
+                                      <Td style={{ color: '#94a3b8', whiteSpace: 'nowrap' }}>{(log.resolvedAt || log.submittedAt || log.createdAt || '').slice(0, 10) || '—'}</Td>
+                                    </tr>
+                                  )
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
                     )}
 
                     {/* Learn & Grow table */}

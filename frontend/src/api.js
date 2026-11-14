@@ -232,6 +232,7 @@ export const api = {
   adminFamilyChores:       (familyId)      => request('GET', `/api/admin/family/${familyId}/chores`),
   adminFamilyTransactions: (familyId)      => request('GET', `/api/admin/family/${familyId}/transactions`),
   adminFamilyShop:         (familyId)      => request('GET', `/api/admin/family/${familyId}/shop`),
+  adminFamilyReadingLog:   (familyId)      => request('GET', `/api/admin/family/${familyId}/reading-log`),
   adminFamilyLearnGrow:    (familyId)      => request('GET', `/api/admin/family/${familyId}/learn-grow`),
   adminUpdateUser:         (userId, body)  => request('PUT', `/api/admin/user/${userId}`, body),
   adminDeleteUser:         (userId)        => request('DELETE', `/api/admin/user/${userId}`),

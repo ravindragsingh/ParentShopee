@@ -18,9 +18,9 @@ from helpers import (
     purchase_dict, referral_payout_dict, safe_user, shop_dict, ticket_dict,
 )
 from models import (
-    DBChore, DBLearningCompletion, DBLearningModule, DBQuestLog, DBReadingLog, DBRecurringTemplate,
-    DBReferralPayout, DBShopItem, DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser,
-    DBWallet,
+    DBChore, DBLearningCompletion, DBLearningModule, DBQuestLog, DBReadingLog, DBReadingLogEntry,
+    DBRecurringTemplate, DBReferralPayout, DBShopItem, DBShopPurchase, DBSupportTicket, DBSupportTicketReply,
+    DBTransaction, DBUser, DBWallet,
 )
 from responses import fail, ok
 from schemas import (
@@ -490,6 +490,44 @@ def admin_family_shop(family_id: str, db: Session = Depends(get_db), user: DBUse
             "kidAvatar": kid.avatar if kid else "👤",
         })
     return ok({"items": [shop_dict(i) for i in items], "purchases": purchase_result})
+
+
+@router.get("/api/admin/family/{family_id}/reading-log")
+def admin_family_reading_log(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """Every book a family's kids have assigned/started -- the merged Learn &
+    Grow feed already surfaces reading activity as one line per book with no
+    page-count/author/summary detail (same title, status, points shape as a
+    Future-Ready lesson or Quest); this is the per-book view with everything
+    specific to Reading Log, same relationship Shop's dedicated tab has to
+    the generic Transactions tab."""
+    logs = db.query(DBReadingLog).filter(
+        DBReadingLog.family_id == family_id,
+    ).order_by(DBReadingLog.created_at.desc()).limit(100).all()
+
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    kid_map = {k.id: k for k in kids}
+
+    log_ids = [l.id for l in logs]
+    entries = db.query(DBReadingLogEntry).filter(DBReadingLogEntry.reading_log_id.in_(log_ids)).all() if log_ids else []
+    pages_by_log = {}
+    entry_count_by_log = {}
+    for e in entries:
+        pages_by_log[e.reading_log_id] = pages_by_log.get(e.reading_log_id, 0) + (e.pages or 0)
+        entry_count_by_log[e.reading_log_id] = entry_count_by_log.get(e.reading_log_id, 0) + 1
+
+    result = []
+    for l in logs:
+        kid = kid_map.get(l.kid_id)
+        result.append({
+            "id": l.id, "kidId": l.kid_id,
+            "kidName": kid.name if kid else "Unknown", "kidAvatar": kid.avatar if kid else "👤",
+            "title": l.title, "author": l.author, "thumbnailUrl": l.thumbnail_url,
+            "status": l.status, "points": l.points, "summary": l.summary,
+            "totalPages": l.total_pages, "pagesRead": pages_by_log.get(l.id, 0),
+            "entryCount": entry_count_by_log.get(l.id, 0),
+            "createdAt": l.created_at, "submittedAt": l.submitted_at, "resolvedAt": l.resolved_at,
+        })
+    return ok(result)
 
 
 @router.get("/api/admin/family/{family_id}/learn-grow")
