@@ -651,17 +651,25 @@ function GoogleSignInButton({ referralCode }) {
     if (!agreed) { setError('Please agree to the User Agreement to continue.'); return }
     setLoading(true)
     try {
-      // auth.currentUser is already the Google-signed-in user from the popup
-      // step -- re-fetch a fresh token rather than reusing the first one, in
-      // case filling out this form took a while.
-      const idToken = await auth.currentUser.getIdToken()
-      const data = await api.registerFinalize({
-        idToken,
-        name: needsProfile.name || needsProfile.email,
-        dateOfBirth,
-        gender,
-        referralCode: referralCode || undefined,
-      })
+      let data
+      if (needsProfile.credential) {
+        // Native Google Sign-In: `credential` is the raw Google ID token
+        // handleIdToken stashed above, not a Firebase one -- verified
+        // server-side the same way the original sign-in attempt was.
+        data = await api.googleComplete(needsProfile.credential, dateOfBirth, gender)
+      } else {
+        // Web: auth.currentUser is already the Google-signed-in user from
+        // the popup step -- re-fetch a fresh token rather than reusing the
+        // first one, in case filling out this form took a while.
+        const idToken = await auth.currentUser.getIdToken()
+        data = await api.registerFinalize({
+          idToken,
+          name: needsProfile.name || needsProfile.email,
+          dateOfBirth,
+          gender,
+          referralCode: referralCode || undefined,
+        })
+      }
       login(data.user, data.token)
     } catch (err) {
       setError(err.message || 'Could not finish creating your account.')

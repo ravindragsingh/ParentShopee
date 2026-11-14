@@ -87,6 +87,16 @@ export const api = {
     request('POST', '/api/auth/register/precheck', body),
   registerFinalize: (body) =>
     request('POST', '/api/auth/register/finalize', body),
+  // Native (Android/iOS) Google Sign-In only -- see utils/nativeGoogleAuth.js.
+  // That flow hands back a raw Google ID token, never a Firebase one, so it
+  // can't go through firebaseSession/registerFinalize above; these call the
+  // old pre-Firebase-migration endpoints, which were deliberately kept
+  // working for exactly this (see backend/routers/auth.py's google_login/
+  // google_complete).
+  googleLogin: (credential) =>
+    request('POST', '/api/auth/google', { credential }),
+  googleComplete: (credential, dateOfBirth, gender) =>
+    request('POST', '/api/auth/google/complete', { credential, dateOfBirth, gender }),
   activateAccount: (token) =>
     request('POST', '/api/auth/activate', { token }),
   resendActivation: (username) =>
