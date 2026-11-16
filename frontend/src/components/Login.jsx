@@ -35,11 +35,20 @@ function friendlyFirebaseError(err) {
     case 'auth/too-many-requests':
       return 'Too many attempts. Please wait a moment and try again.'
     case 'auth/popup-closed-by-user':
+    case 'auth/cancelled-popup-request':
+    case 'auth/user-cancelled':
       return 'Sign-in was cancelled.'
     case 'auth/account-exists-with-different-credential':
       return 'An account with this email already exists. Please sign in with your username and password instead.'
+    case 'auth/network-request-failed':
+      return 'Network error. Please check your connection and try again.'
     default:
-      return err?.message || 'Something went wrong. Please try again.'
+      // Deliberately never falls back to err.message here -- that's Firebase's
+      // own internal text ("Firebase: IdP denied access... (auth/foo)."),
+      // written for developers reading logs, not a parent trying to sign in.
+      // Any auth/* code we haven't explicitly mapped above should still read
+      // as a normal, generic failure instead of leaking that.
+      return 'Something went wrong signing you in. Please try again.'
   }
 }
 
