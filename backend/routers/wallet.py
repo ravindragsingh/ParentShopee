@@ -35,15 +35,29 @@ def get_all_wallets(db: Session = Depends(get_db), user: DBUser = Depends(requir
     else:
         kids = [user]
 
+    # Batched instead of a wallet/tx-count/lifetime-earned query per kid (was
+    # 3 queries x N kids every time a guardian's dashboard loads) -- three
+    # queries total here regardless of family size.
+    kid_ids = [k.id for k in kids]
+    wallets_by_kid = {w.kid_id: w for w in db.query(DBWallet).filter(DBWallet.kid_id.in_(kid_ids)).all()} if kid_ids else {}
+    tx_counts = dict(
+        db.query(DBTransaction.kid_id, func.count(DBTransaction.id))
+        .filter(DBTransaction.kid_id.in_(kid_ids)).group_by(DBTransaction.kid_id).all()
+    ) if kid_ids else {}
+    lifetime_earned = dict(
+        db.query(DBTransaction.kid_id, func.coalesce(func.sum(DBTransaction.amount), 0))
+        .filter(DBTransaction.kid_id.in_(kid_ids), DBTransaction.type.in_(_EARNING_TYPES))
+        .group_by(DBTransaction.kid_id).all()
+    ) if kid_ids else {}
+
     result = []
     for k in kids:
-        wallet = db.query(DBWallet).filter(DBWallet.kid_id == k.id).first()
-        tx_count = db.query(DBTransaction).filter(DBTransaction.kid_id == k.id).count()
+        wallet = wallets_by_kid.get(k.id)
         result.append({"kidId": k.id, "name": k.name,
                         "balance": wallet.balance if wallet else 0,
                         "savingsBalance": wallet.savings_balance if wallet else 0,
-                        "lifetimeEarned": _lifetime_earned(db, k.id),
-                        "transactionCount": tx_count})
+                        "lifetimeEarned": float(lifetime_earned.get(k.id, 0) or 0),
+                        "transactionCount": tx_counts.get(k.id, 0)})
     return ok(result)
 
 
