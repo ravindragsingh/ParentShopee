@@ -301,6 +301,15 @@ function ModuleList({ section, topic, onBack, onOpenModule }) {
     }
   }
 
+  async function handlePremiumToggle(m) {
+    try {
+      await api.adminUpdateContentModule(m.id, { isPremium: !m.isPremium })
+      load()
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
   async function handleDeactivate(m) {
     if (!window.confirm(`Deactivate "${m.title}"? Kids who already completed it keep their points; it just stops showing up for anyone else.`)) return
     try {
@@ -354,6 +363,14 @@ function ModuleList({ section, topic, onBack, onOpenModule }) {
                 <td style={{ padding: '8px' }}><StatusBadge status={m.status} /></td>
                 <td style={{ padding: '8px', display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
                   <button onClick={() => onOpenModule(m)} style={editBtnStyle}>✏️ Edit</button>
+                  <button
+                    onClick={() => handlePremiumToggle(m)}
+                    style={m.isPremium
+                      ? { ...editBtnStyle, background: '#eff6ff', border: '1px solid #bfdbfe', color: '#1d4ed8' }
+                      : editBtnStyle}
+                  >
+                    {m.isPremium ? '💎 Remove Premium' : '💎 Make Premium'}
+                  </button>
                   <button onClick={() => handleStatusToggle(m)} style={editBtnStyle}>{m.status === 'published' ? 'Unpublish' : 'Publish'}</button>
                   {m.isActive
                     ? <button onClick={() => handleDeactivate(m)} style={deleteBtnStyle}>Deactivate</button>
