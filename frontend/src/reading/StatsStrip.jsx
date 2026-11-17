@@ -43,8 +43,8 @@ export default function StatsStrip({ kidId, stats: statsProp, compact }) {
           progress (see GuardianReadingLogTab) -- `compact` only trims the pill
           row's spacing above, it doesn't hide this detail from guardians. */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 12 }}>
-        <GenreBreakdown genreCounts={stats.genreCounts} />
         <StreakCalendar last7Days={stats.last7Days} booksCompleted={stats.totalBooksCompleted} />
+        <GenreBreakdown genreCounts={stats.genreCounts} />
       </div>
 
       {!compact && (

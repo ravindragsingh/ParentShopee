@@ -125,7 +125,6 @@ export default function ReadingLogTab({ onBalanceChange, onDetailChange }) {
       )}
 
       <ReadingBuddy buddy={stats?.buddy} />
-      <StatsStrip stats={stats} />
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
 
@@ -138,6 +137,8 @@ export default function ReadingLogTab({ onBalanceChange, onDetailChange }) {
         {startError && <div className="error-msg" style={{ marginBottom: 10 }}>{startError}</div>}
         <BookSearch ctaLabel={starting ? 'Starting…' : 'Start reading'} onPick={starting ? () => {} : handleStart} />
       </div>
+
+      <StatsStrip stats={stats} />
 
       {sorted.length === 0 ? (
         <div className="empty-text">Nothing here yet — search above or wait for your guardian to assign one.</div>
