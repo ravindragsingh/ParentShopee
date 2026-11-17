@@ -15,7 +15,7 @@ from deps import require_auth, require_guardian, require_kid
 from helpers import get_family_id, now
 from models import DBReadingLog, DBReadingLogEntry, DBTransaction, DBUser, DBWallet
 from push_utils import notify_guardians_of_kid, notify_kid
-from reading_level import classify_genre, compute_reading_level, detect_format, extract_grade_hint
+from reading_level import ALL_GENRES, classify_genre, compute_reading_level, detect_format, extract_grade_hint
 from responses import fail, ok
 from schemas import ReadingLogAssignBody, ReadingLogCompleteBody, ReadingLogEntryBody, ReadingLogPointsBody, ReadingLogStartBody
 
@@ -270,6 +270,19 @@ def get_reading_log_stats(kidId: str = None, db: Session = Depends(get_db), user
     books_completed = sum(1 for l in logs if l.status == "approved")
     total_entries = len(entries)
 
+    # "Keep your rhythm" calendar -- the same `dates` set the streak above is
+    # computed from, just rendered as a fixed 7-day window (oldest to newest,
+    # ending today in the kid's own timezone) instead of a running count.
+    today_in_tz = datetime.now(tz).date()
+    last_7_days = [
+        {
+            "date": (today_in_tz - timedelta(days=i)).isoformat(),
+            "label": (today_in_tz - timedelta(days=i)).strftime("%a")[0],
+            "read": (today_in_tz - timedelta(days=i)) in dates,
+        }
+        for i in range(6, -1, -1)
+    ]
+
     entry_counts_by_log = {}
     for e in entries:
         entry_counts_by_log[e.reading_log_id] = entry_counts_by_log.get(e.reading_log_id, 0) + 1
@@ -277,6 +290,7 @@ def get_reading_log_stats(kidId: str = None, db: Session = Depends(get_db), user
     stats = {
         "totalEntries": total_entries, "totalBooksCompleted": books_completed,
         "totalPagesRead": total_pages_read, "currentStreak": current_streak, "longestStreak": longest_streak,
+        "last7Days": last_7_days,
     }
     badge_checks = {
         "first_page": total_entries >= 1,
@@ -304,6 +318,20 @@ def get_reading_log_stats(kidId: str = None, db: Session = Depends(get_db), user
     ]
     stats["level"] = compute_reading_level(finished_books)
     stats["buddy"] = _buddy_stage(total_pages_read)
+
+    # Per-genre book counts for the "A world of genres" breakdown -- derived
+    # from the level's own per-book breakdown (each entry already carries its
+    # classified genre) rather than recomputed, so this always agrees with
+    # whatever genresRead/diversity bonus the level above landed on. Includes
+    # every genre ALL_GENRES knows about, zero-count ones included, so the
+    # breakdown reads as "here's what's out there to try", not just a history.
+    genre_counts_map = {g: 0 for g in ALL_GENRES}
+    for b in stats["level"]["breakdown"]:
+        genre_counts_map[b["genre"]] = genre_counts_map.get(b["genre"], 0) + 1
+    stats["genreCounts"] = sorted(
+        ({"genre": g, "count": c} for g, c in genre_counts_map.items()),
+        key=lambda x: (-x["count"], ALL_GENRES.index(x["genre"]) if x["genre"] in ALL_GENRES else 999),
+    )
     return ok(stats)
 
 
