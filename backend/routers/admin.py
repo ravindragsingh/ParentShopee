@@ -15,11 +15,12 @@ from firebase_app import get_firebase_app
 from helpers import (
     chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, generate_inert_credentials,
     generate_temp_pin, get_ticket_notification_email, get_ticket_replies, notify_user_via_ticket, now,
-    referral_payout_dict, safe_user, ticket_dict,
+    purchase_dict, referral_payout_dict, safe_user, shop_dict, ticket_dict,
 )
 from models import (
-    DBChore, DBLearningCompletion, DBLearningModule, DBQuestLog, DBReadingLog, DBRecurringTemplate,
-    DBReferralPayout, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
+    DBChore, DBLearningCompletion, DBLearningModule, DBQuestLog, DBReadingLog, DBReadingLogEntry,
+    DBRecurringTemplate, DBReferralPayout, DBShopItem, DBShopPurchase, DBSupportTicket, DBSupportTicketReply,
+    DBTransaction, DBUser, DBWallet,
 )
 from responses import fail, ok
 from schemas import (
@@ -33,66 +34,103 @@ router = APIRouter()
 
 @router.get("/api/admin/families")
 def admin_list_families(db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """Was ~8-12 queries PER FAMILY (co-guardian lookup, 4 chore-status counts,
+    recurring count, up to 4 learn-grow counts, one wallet lookup per kid,
+    referred-by lookup) run in a Python loop -- fine with a handful of test
+    families, but that's N+1 at the one admin page guaranteed to grow with the
+    whole platform. Every count below is now one batched/grouped query across
+    ALL families, with the per-family loop just doing in-memory dict lookups."""
     primary_guardians = db.query(DBUser).filter(
         DBUser.role == "guardian",
         DBUser.co_guardian_of == None,
     ).all()
+    family_ids = [g.id for g in primary_guardians]
+    if not family_ids:
+        return ok([])
+
+    co_guardians_by_family = {
+        u.co_guardian_of: u for u in db.query(DBUser).filter(DBUser.co_guardian_of.in_(family_ids)).all()
+    }
+
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id.in_(family_ids)).all()
+    kids_by_family = {}
+    for k in kids:
+        kids_by_family.setdefault(k.guardian_id, []).append(k)
+    kid_to_family = {k.id: k.guardian_id for k in kids}
+    all_kid_ids = list(kid_to_family.keys())
+
+    chore_counts_by_family = {fid: {"open": 0, "pending": 0, "complete": 0, "expired": 0} for fid in family_ids}
+    for fid, status, cnt in (
+        db.query(DBChore.family_id, DBChore.status, func.count(DBChore.id))
+        .filter(DBChore.family_id.in_(family_ids), DBChore.status.in_(("open", "pending", "complete", "expired")))
+        .group_by(DBChore.family_id, DBChore.status).all()
+    ):
+        chore_counts_by_family.setdefault(fid, {"open": 0, "pending": 0, "complete": 0, "expired": 0})[status] = cnt
+
+    recurring_counts = dict(
+        db.query(DBRecurringTemplate.family_id, func.count(DBRecurringTemplate.id))
+        .filter(DBRecurringTemplate.family_id.in_(family_ids), DBRecurringTemplate.is_active == "1")
+        .group_by(DBRecurringTemplate.family_id).all()
+    )
+
+    reading_counts_by_family = {}
+    for fid, status, cnt in (
+        db.query(DBReadingLog.family_id, DBReadingLog.status, func.count(DBReadingLog.id))
+        .filter(DBReadingLog.family_id.in_(family_ids), DBReadingLog.status.in_(("pending_approval", "approved")))
+        .group_by(DBReadingLog.family_id, DBReadingLog.status).all()
+    ):
+        reading_counts_by_family.setdefault(fid, {})[status] = cnt
+
+    quest_pending_by_kid = dict(
+        db.query(DBQuestLog.kid_id, func.count(DBQuestLog.id))
+        .filter(DBQuestLog.kid_id.in_(all_kid_ids), DBQuestLog.status == "pending")
+        .group_by(DBQuestLog.kid_id).all()
+    ) if all_kid_ids else {}
+    lessons_completed_by_kid = dict(
+        # kid_id+module_id is a composite primary key here, no single `id`
+        # column -- module_id works just as well to count rows.
+        db.query(DBLearningCompletion.kid_id, func.count(DBLearningCompletion.module_id))
+        .filter(DBLearningCompletion.kid_id.in_(all_kid_ids))
+        .group_by(DBLearningCompletion.kid_id).all()
+    ) if all_kid_ids else {}
+    # Roll the per-kid quest/lesson counts above up to their family.
+    quest_pending_by_family, lessons_by_family = {}, {}
+    for kid_id, family_id in kid_to_family.items():
+        quest_pending_by_family[family_id] = quest_pending_by_family.get(family_id, 0) + quest_pending_by_kid.get(kid_id, 0)
+        lessons_by_family[family_id] = lessons_by_family.get(family_id, 0) + lessons_completed_by_kid.get(kid_id, 0)
+
+    wallet_balance_by_kid = {
+        w.kid_id: w.balance for w in db.query(DBWallet).filter(DBWallet.kid_id.in_(all_kid_ids)).all()
+    } if all_kid_ids else {}
+
+    referred_by_ids = [g.referred_by for g in primary_guardians if g.referred_by]
+    referrer_name_by_id = {
+        u.id: u.name for u in db.query(DBUser).filter(DBUser.id.in_(referred_by_ids)).all()
+    } if referred_by_ids else {}
 
     result = []
     for guardian in primary_guardians:
         family_id = guardian.id
-        co_guardian = db.query(DBUser).filter(DBUser.co_guardian_of == family_id).first()
-        kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
-
-        chore_counts = {}
-        for status in ("open", "pending", "complete", "expired"):
-            chore_counts[status] = db.query(DBChore).filter(
-                DBChore.family_id == family_id, DBChore.status == status
-            ).count()
-
-        recurring_count = db.query(DBRecurringTemplate).filter(
-            DBRecurringTemplate.family_id == family_id,
-            DBRecurringTemplate.is_active == "1",
-        ).count()
-
-        kid_ids_for_family = [k.id for k in kids]
+        co_guardian = co_guardians_by_family.get(family_id)
+        kid_data = [
+            {**safe_user(kid), "balance": wallet_balance_by_kid.get(kid.id, 0)}
+            for kid in kids_by_family.get(family_id, [])
+        ]
+        reading_counts = reading_counts_by_family.get(family_id, {})
         learn_grow_counts = {
-            "readingPendingApproval": db.query(DBReadingLog).filter(
-                DBReadingLog.family_id == family_id, DBReadingLog.status == "pending_approval",
-            ).count(),
-            "readingApproved": db.query(DBReadingLog).filter(
-                DBReadingLog.family_id == family_id, DBReadingLog.status == "approved",
-            ).count(),
-            "questPendingApproval": db.query(DBQuestLog).filter(
-                DBQuestLog.kid_id.in_(kid_ids_for_family), DBQuestLog.status == "pending",
-            ).count() if kid_ids_for_family else 0,
-            "lessonsCompleted": db.query(DBLearningCompletion).filter(
-                DBLearningCompletion.kid_id.in_(kid_ids_for_family),
-            ).count() if kid_ids_for_family else 0,
+            "readingPendingApproval": reading_counts.get("pending_approval", 0),
+            "readingApproved": reading_counts.get("approved", 0),
+            "questPendingApproval": quest_pending_by_family.get(family_id, 0),
+            "lessonsCompleted": lessons_by_family.get(family_id, 0),
         }
-
-        kid_data = []
-        for kid in kids:
-            wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
-            kid_data.append({**safe_user(kid), "balance": wallet.balance if wallet else 0})
-
-        # Referred-by is just an id on the row (safe_user's referredBy) --
-        # resolve it to a display name here, where a DB session is already
-        # in hand, rather than burdening every other safe_user() call site
-        # with an extra query most of them never need.
-        referred_by_name = None
-        if guardian.referred_by:
-            referrer = db.query(DBUser).filter(DBUser.id == guardian.referred_by).first()
-            if referrer:
-                referred_by_name = referrer.name
 
         result.append({
             "familyId": family_id,
-            "guardian": {**safe_user(guardian), "referredByName": referred_by_name},
+            "guardian": {**safe_user(guardian), "referredByName": referrer_name_by_id.get(guardian.referred_by)},
             "coGuardian": safe_user(co_guardian) if co_guardian else None,
             "kids": kid_data,
-            "choreCounts": chore_counts,
-            "recurringCount": recurring_count,
+            "choreCounts": chore_counts_by_family.get(family_id, {"open": 0, "pending": 0, "complete": 0, "expired": 0}),
+            "recurringCount": recurring_counts.get(family_id, 0),
             "learnGrowCounts": learn_grow_counts,
             "choresAddedCount":       int(guardian.chores_added_count or 0),
             "choresLimit":            effective_add_limit(guardian, LIMIT_EXTRA_CHORES, "chores_limit_override"),
@@ -463,6 +501,72 @@ def admin_family_transactions(family_id: str, db: Session = Depends(get_db), use
     return ok(result)
 
 
+@router.get("/api/admin/family/{family_id}/shop")
+def admin_family_shop(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """What a family has set up in their Shop, plus every purchase request
+    against it -- pending ones a guardian hasn't acted on yet included, not
+    just realized spending (which already shows up generically in the
+    Transactions tab once approved/instant-bought)."""
+    items = db.query(DBShopItem).filter(
+        DBShopItem.family_id == family_id,
+    ).order_by(DBShopItem.created_at.desc()).all()
+
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    kid_map = {k.id: k for k in kids}
+    kid_ids = list(kid_map.keys())
+    purchases = db.query(DBShopPurchase).filter(
+        DBShopPurchase.kid_id.in_(kid_ids),
+    ).order_by(DBShopPurchase.created_at.desc()).limit(100).all() if kid_ids else []
+
+    purchase_result = []
+    for p in purchases:
+        kid = kid_map.get(p.kid_id)
+        purchase_result.append({
+            **purchase_dict(p),
+            "kidName": kid.name if kid else "Unknown",
+            "kidAvatar": kid.avatar if kid else "👤",
+        })
+    return ok({"items": [shop_dict(i) for i in items], "purchases": purchase_result})
+
+
+@router.get("/api/admin/family/{family_id}/reading-log")
+def admin_family_reading_log(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+    """Every book a family's kids have assigned/started -- the merged Learn &
+    Grow feed already surfaces reading activity as one line per book with no
+    page-count/author/summary detail (same title, status, points shape as a
+    Future-Ready lesson or Quest); this is the per-book view with everything
+    specific to Reading Log, same relationship Shop's dedicated tab has to
+    the generic Transactions tab."""
+    logs = db.query(DBReadingLog).filter(
+        DBReadingLog.family_id == family_id,
+    ).order_by(DBReadingLog.created_at.desc()).limit(100).all()
+
+    kids = db.query(DBUser).filter(DBUser.role == "kid", DBUser.guardian_id == family_id).all()
+    kid_map = {k.id: k for k in kids}
+
+    log_ids = [l.id for l in logs]
+    entries = db.query(DBReadingLogEntry).filter(DBReadingLogEntry.reading_log_id.in_(log_ids)).all() if log_ids else []
+    pages_by_log = {}
+    entry_count_by_log = {}
+    for e in entries:
+        pages_by_log[e.reading_log_id] = pages_by_log.get(e.reading_log_id, 0) + (e.pages or 0)
+        entry_count_by_log[e.reading_log_id] = entry_count_by_log.get(e.reading_log_id, 0) + 1
+
+    result = []
+    for l in logs:
+        kid = kid_map.get(l.kid_id)
+        result.append({
+            "id": l.id, "kidId": l.kid_id,
+            "kidName": kid.name if kid else "Unknown", "kidAvatar": kid.avatar if kid else "👤",
+            "title": l.title, "author": l.author, "thumbnailUrl": l.thumbnail_url,
+            "status": l.status, "points": l.points, "summary": l.summary,
+            "totalPages": l.total_pages, "pagesRead": pages_by_log.get(l.id, 0),
+            "entryCount": entry_count_by_log.get(l.id, 0),
+            "createdAt": l.created_at, "submittedAt": l.submitted_at, "resolvedAt": l.resolved_at,
+        })
+    return ok(result)
+
+
 @router.get("/api/admin/family/{family_id}/learn-grow")
 def admin_family_learn_grow(family_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     """Merged Future-Ready / Quests / Reading Log activity feed for one
@@ -636,11 +740,13 @@ def admin_fulfill_referral_payout(payout_id: str, body: ReferralPayoutActionBody
     # told the guardian to expect (see routers/referrals.py).
     guardian = db.query(DBUser).filter(DBUser.id == payout.guardian_id).first()
     if guardian:
+        payout_display = referral_payout_dict(payout)
+        amount_label = f"{payout_display['currencySymbol']}{payout_display['payoutAmount']:g}"
         notify_user_via_ticket(
             db, guardian,
-            subject=f"Your ${payout.amount} referral reward is here! 🎉",
+            subject=f"Your {amount_label} referral reward is here! 🎉",
             message=(
-                f"Thanks for spreading the word about Reward Ur Kids! Your ${payout.amount} "
+                f"Thanks for spreading the word about Reward Ur Kids! Your {amount_label} "
                 f"Amazon gift card is ready:\n\n"
                 + (payout.admin_note or "Contact support if you don't see a code below.") + "\n"
             ),

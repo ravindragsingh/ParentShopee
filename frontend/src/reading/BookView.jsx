@@ -58,10 +58,12 @@ function BookCard({ log }) {
 function DailyLog({ log, onLogged }) {
   const [entries, setEntries] = useState(null)
   const [note, setNote] = useState('')
-  const [pages, setPages] = useState('')
+  const [currentPage, setCurrentPage] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [funMessage, setFunMessage] = useState('')
+
+  const pagesSoFar = log.pagesRead || 0
 
   useEffect(() => {
     api.getReadingLogEntries(log.id).then(setEntries).catch(() => setEntries([]))
@@ -73,13 +75,17 @@ function DailyLog({ log, onLogged }) {
     setSubmitting(true)
     setError('')
     try {
-      const pagesNum = pages ? Number(pages) : null
-      const entry = await api.addReadingLogEntry(log.id, note.trim(), pagesNum)
+      const pageNum = currentPage ? Number(currentPage) : null
+      const entry = await api.addReadingLogEntry(log.id, note.trim(), pageNum)
       setEntries(es => [...(es || []), entry])
       setNote('')
-      setPages('')
-      onLogged(pagesNum || 0)
-      setFunMessage(pickFunMessage(pagesNum))
+      setCurrentPage('')
+      // entry.pages is the delta the backend derived from the absolute page
+      // number just submitted (today's page minus everything logged so
+      // far) -- not the raw form value, which is an absolute page, not a
+      // pages-read count.
+      onLogged(entry.pages || 0)
+      setFunMessage(pickFunMessage(entry.pages))
       setTimeout(() => setFunMessage(''), 4000)
     } catch (err) {
       setError(err.message)
@@ -106,7 +112,7 @@ function DailyLog({ log, onLogged }) {
             <div key={en.id} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: '8px 12px' }}>
               <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8' }}>
                 {new Date(en.createdAt).toLocaleDateString()}
-                {en.pages ? <span> · 📄 {en.pages} pages</span> : null}
+                {en.pages ? <span> · 📄 +{en.pages} pages</span> : null}
               </div>
               <div style={{ fontSize: '0.84rem', color: '#334155' }}>{en.note}</div>
             </div>
@@ -122,13 +128,18 @@ function DailyLog({ log, onLogged }) {
           rows={2}
           style={{ width: '100%', padding: '10px 12px', border: '1.5px solid #e2e8f0', borderRadius: 10, fontSize: '0.86rem', fontFamily: 'inherit', boxSizing: 'border-box', resize: 'vertical' }}
         />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8 }}>
+        <div style={{ fontSize: '0.78rem', color: '#64748b', marginTop: 10 }}>
+          {pagesSoFar > 0 ? `📍 You're on page ${pagesSoFar} right now.` : "📍 Haven't logged a page yet? No problem."}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 6 }}>
           <input
-            type="number" min="0" value={pages} onChange={e => setPages(e.target.value)}
-            placeholder="0"
-            style={{ width: 70, padding: '8px 10px', border: '1.5px solid #e2e8f0', borderRadius: 8, fontSize: '0.86rem', boxSizing: 'border-box' }}
+            type="number" min={pagesSoFar} value={currentPage} onChange={e => setCurrentPage(e.target.value)}
+            placeholder={pagesSoFar ? `e.g. ${pagesSoFar + 10}` : 'e.g. 20'}
+            style={{ width: 80, padding: '8px 10px', border: '1.5px solid #e2e8f0', borderRadius: 8, fontSize: '0.86rem', boxSizing: 'border-box' }}
           />
-          <span style={{ fontSize: '0.78rem', color: '#64748b' }}>pages read today (optional)</span>
+          <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
+            what page are you on now? (optional){log.totalPages ? ` — out of ${log.totalPages}` : ''}
+          </span>
         </div>
         <button type="submit" disabled={submitting || note.trim().length < 3} className="btn btn-sm btn-primary" style={{ marginTop: 10 }}>
           {submitting ? 'Saving…' : '+ Log today'}

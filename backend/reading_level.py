@@ -89,6 +89,13 @@ _GENRE_RULES = [
 ]
 _DEFAULT_GENRE = "general"
 
+# Every genre classify_genre() can return, in the same priority order as
+# above -- public (unlike _GENRE_RULES) since callers outside this module
+# use it to show the full genre universe on a "genres explored" breakdown,
+# including ones a kid hasn't read in yet, not just the ones that show up in
+# their own history.
+ALL_GENRES = [g for g, _keywords in _GENRE_RULES] + [_DEFAULT_GENRE]
+
 
 def classify_genre(subjects: list) -> str:
     if not subjects:
