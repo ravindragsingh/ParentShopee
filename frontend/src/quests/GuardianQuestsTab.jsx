@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { api } from '../api.js'
 import Toggle from '../futureready/Toggle.jsx'
+import PremiumUpsellModal from '../components/PremiumUpsellModal.jsx'
 import QuestView from './QuestView.jsx'
 import { categoryMeta } from './categoryMeta.js'
 
@@ -57,104 +59,6 @@ function KidPicker({ kids, selectedIds, disabled, onChange }) {
   )
 }
 
-function CompletionStatus({ completions, disabled, onRedo }) {
-  if (!completions || completions.length === 0) return null
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6, width: '100%', marginTop: 2 }}>
-      <span style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Tried:</span>
-      {completions.map(c => (
-        <span
-          key={c.kidId}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.74rem', fontWeight: 600,
-            borderRadius: 999, padding: '3px 6px 3px 10px', background: '#f0fdf4',
-            border: '1px solid #bbf7d0', color: '#166534',
-          }}
-        >
-          ✅ {c.kidName}
-          <button
-            type="button"
-            title={`Let ${c.kidName} try this again`}
-            disabled={disabled}
-            onClick={() => onRedo(c)}
-            style={{
-              background: 'none', border: 'none', cursor: disabled ? 'default' : 'pointer',
-              fontSize: '0.85rem', color: '#166534', padding: '2px 4px', lineHeight: 1,
-            }}
-          >
-            ↺
-          </button>
-        </span>
-      ))}
-    </div>
-  )
-}
-
-// A kid's note waiting for review -- approving pays out points immediately
-// (see approve_quest_log), rejecting just lets them try again and
-// resubmit, same spirit as rejecting a chore back to "open".
-function PendingLogReview({ logs, disabled, onApprove, onReject }) {
-  if (!logs || logs.length === 0) return null
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', marginTop: 4 }}>
-      {logs.map(log => (
-        <div key={log.id} style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 12px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#92400e' }}>⏳ {log.kidName} says:</span>
-            <div style={{ display: 'flex', gap: 6 }}>
-              <button
-                type="button"
-                disabled={disabled}
-                onClick={() => onApprove(log)}
-                className="btn btn-sm"
-                style={{ background: '#16a34a', color: '#fff', border: 'none' }}
-              >
-                ✅ Approve
-              </button>
-              <button
-                type="button"
-                disabled={disabled}
-                onClick={() => onReject(log)}
-                className="btn btn-sm btn-outline"
-              >
-                Try again
-              </button>
-            </div>
-          </div>
-          <div style={{ fontSize: '0.85rem', color: '#78350f', marginTop: 6, fontStyle: 'italic' }}>"{log.note}"</div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-// Each quest module now bundles several independently-loggable activities
-// (see backend/routers/quests.py's module_dict) -- this lists each one with
-// its own point value and its own completions/pending review, nested under
-// the module's enable/points/kid-picker controls.
-function ActivityBreakdown({ module, disabled, onApprove, onReject, onRedo }) {
-  if (!module.activityCount) return null
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%', marginTop: 8, paddingTop: 8, borderTop: '1px dashed #e2e8f0' }}>
-      {Array.from({ length: module.activityCount }).map((_, i) => {
-        const completions = module.activityCompletions?.[i] || []
-        const pendingLogs = module.activityPendingLogs?.[i] || []
-        const title = module.activityTitles?.[i] || `Activity ${i + 1}`
-        const points = module.activityPoints?.[i]
-        return (
-          <div key={i} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#334155', minWidth: 140 }}>
-              {title} <span style={{ color: '#94a3b8', fontWeight: 400 }}>· ⭐ {points} pts</span>
-            </span>
-            <CompletionStatus completions={completions} disabled={disabled} onRedo={c => onRedo(module, i, c)} />
-            <PendingLogReview logs={pendingLogs} disabled={disabled} onApprove={log => onApprove(module, log)} onReject={log => onReject(module, log)} />
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
 function PointsEditor({ points, disabled, onSave }) {
   const [value, setValue] = useState(String(points))
   useEffect(() => { setValue(String(points)) }, [points])
@@ -195,13 +99,17 @@ function groupByCategory(modules) {
 }
 
 export default function GuardianQuestsTab({ onDetailChange } = {}) {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [modules, setModules] = useState([])
   const [kids, setKids] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [savingId, setSavingId] = useState(null)
   const [openCategory, setOpenCategory] = useState(null)
-  const [previewModule, setPreviewModule] = useState(null)
+  const [previewModuleId, setPreviewModuleId] = useState(null)
+  const [isSubscribed, setIsSubscribed] = useState(true) // optimistic until loaded -- avoids a flash of "locked" UI for premium families
+  const [upsellModule, setUpsellModule] = useState(null)
+  const previewModule = previewModuleId ? modules.find(m => m.id === previewModuleId) || null : null
 
   const loadModules = useCallback(async () => {
     setLoading(true)
@@ -218,6 +126,14 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
 
   useEffect(() => { loadModules() }, [loadModules])
   useEffect(() => { api.getKids().then(setKids).catch(() => {}) }, [])
+  useEffect(() => { api.getBillingStatus().then(s => setIsSubscribed(!!s.isPremium)).catch(() => {}) }, [])
+
+  function goToPremiumPlans() {
+    setUpsellModule(null)
+    const next = new URLSearchParams(searchParams)
+    next.set('tab', 'premium')
+    setSearchParams(next)
+  }
 
   // QuestView renders its own "← Back" header -- tell GuardianLearnGrowTab
   // to hide its own back button while a preview is open, so there's never
@@ -225,14 +141,19 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
   useEffect(() => { onDetailChange && onDetailChange(!!previewModule) }, [previewModule, onDetailChange])
 
   async function handleToggle(module) {
+    const enabled = !module.enabled
+    if (enabled && module.isPremium && !isSubscribed) {
+      setUpsellModule(module)
+      return
+    }
     setSavingId(module.id)
     setError('')
     try {
-      const enabled = !module.enabled
       await api.setQuestVisibility(module.id, enabled, module.enabledKidIds ?? null)
       setModules(ms => ms.map(m => m.id === module.id ? { ...m, enabled } : m))
     } catch (err) {
-      setError(err.message)
+      if (err.code === 'premium_required') setUpsellModule(module)
+      else setError(err.message)
     } finally {
       setSavingId(null)
     }
@@ -251,16 +172,31 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
     }
   }
 
-  async function handleRedo(module, activityIndex, completion) {
+  async function handleRedo(module, activityIndex, kidId, completion) {
     const activityTitle = module.activityTitles?.[activityIndex] || module.title
     if (!window.confirm(`Let ${completion.kidName} try "${activityTitle}" again? They'll be able to earn points for it again.`)) return
     setSavingId(module.id)
     setError('')
     try {
-      await api.resetQuestCompletion(module.id, completion.kidId, activityIndex)
+      await api.resetQuestCompletion(module.id, kidId, activityIndex)
       await loadModules()
     } catch (err) {
       setError(err.message)
+      throw err
+    } finally {
+      setSavingId(null)
+    }
+  }
+
+  async function handleAward(module, activityIndex, kidId) {
+    setSavingId(module.id)
+    setError('')
+    try {
+      await api.awardQuestActivity(module.id, kidId, activityIndex)
+      await loadModules()
+    } catch (err) {
+      setError(err.message)
+      throw err
     } finally {
       setSavingId(null)
     }
@@ -274,6 +210,7 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
       await loadModules()
     } catch (err) {
       setError(err.message)
+      throw err
     } finally {
       setSavingId(null)
     }
@@ -287,6 +224,7 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
       await loadModules()
     } catch (err) {
       setError(err.message)
+      throw err
     } finally {
       setSavingId(null)
     }
@@ -305,11 +243,22 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
     }
   }
 
-  if (previewModule) {
-    return <QuestView module={previewModule} onExit={() => setPreviewModule(null)} previewMode />
-  }
-
   if (loading) return <div className="loading-text">Loading Quests…</div>
+
+  if (previewModule) {
+    return (
+      <QuestView
+        module={previewModule}
+        onExit={() => setPreviewModuleId(null)}
+        guardianMode
+        kids={kids}
+        onAward={(activityIndex, kidId) => handleAward(previewModule, activityIndex, kidId)}
+        onApproveLog={log => handleApproveLog(previewModule, log)}
+        onRejectLog={log => handleRejectLog(previewModule, log)}
+        onRedo={(activityIndex, kidId, completion) => handleRedo(previewModule, activityIndex, kidId, completion)}
+      />
+    )
+  }
 
   const categories = groupByCategory(modules)
 
@@ -317,7 +266,7 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
     <div>
       <h3 style={{ color: '#334155', margin: '0 0 6px' }}>🧸 Quests</h3>
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
-        Simple, age-appropriate activities you can try with your kids -- no screens required. Turn on the quests you want available and set how many points each one earns. Preview any quest yourself first.
+        Simple, age-appropriate activities you can try with your kids -- no screens required. Turn on the quests you want available, then open one to give points directly or review what a kid sent in.
       </div>
 
       {error && <div className="error-msg" style={{ marginBottom: 12 }}>{error}</div>}
@@ -379,7 +328,9 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
 
                 {isOpen && (
                   <div style={{ padding: '4px 18px 16px' }}>
-                    {category.modules.map(m => (
+                    {category.modules.map(m => {
+                      const modulePendingCount = (m.activityPendingLogs || []).reduce((s, logs) => s + (logs?.length || 0), 0)
+                      return (
                       <div
                         key={m.id}
                         style={{
@@ -410,11 +361,19 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
                               </div>
                             )}
                           </div>
+                          {modulePendingCount > 0 && (
+                            <span style={{
+                              fontSize: '0.72rem', fontWeight: 700, borderRadius: 999, padding: '3px 9px', flexShrink: 0,
+                              background: '#fffbeb', color: '#92400e', border: '1px solid #fde68a',
+                            }}>
+                              ⏳ {modulePendingCount}
+                            </span>
+                          )}
                           <button
                             className="btn btn-sm btn-outline"
-                            onClick={() => setPreviewModule(m)}
+                            onClick={() => setPreviewModuleId(m.id)}
                           >
-                            ▶️ Preview
+                            🎯 Open
                           </button>
                           <Toggle
                             checked={!!m.enabled}
@@ -431,21 +390,25 @@ export default function GuardianQuestsTab({ onDetailChange } = {}) {
                             />
                           )}
                         </div>
-                        <ActivityBreakdown
-                          module={m}
-                          disabled={savingId === m.id}
-                          onApprove={(mod, log) => handleApproveLog(mod, log)}
-                          onReject={(mod, log) => handleRejectLog(mod, log)}
-                          onRedo={(mod, activityIndex, completion) => handleRedo(mod, activityIndex, completion)}
-                        />
                       </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 )}
               </div>
             )
           })}
         </div>
+      )}
+
+      {upsellModule && (
+        <PremiumUpsellModal
+          topicTitle={upsellModule.categoryTitle}
+          moduleTitle={upsellModule.title}
+          activityCount={upsellModule.activityCount}
+          onViewPlans={goToPremiumPlans}
+          onClose={() => setUpsellModule(null)}
+        />
       )}
     </div>
   )

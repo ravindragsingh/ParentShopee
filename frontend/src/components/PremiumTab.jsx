@@ -7,9 +7,20 @@ import { api } from '../api.js'
 // premium access; everything else renders as the same "not subscribed" card.
 const ACTIVE_STATUSES = ['active', 'trialing']
 
+const INTERVAL_LABEL = { month: 'month', year: 'year' }
+const CURRENCY_SYMBOL = { USD: '$', INR: '₹', CAD: 'C$', EUR: '€', GBP: '£' }
+
+function formatPrice(plan) {
+  const symbol = CURRENCY_SYMBOL[plan.currency] || plan.currency + ' '
+  const amount = plan.amount % 1 === 0 ? plan.amount.toFixed(0) : plan.amount.toFixed(2)
+  return `${symbol}${amount}`
+}
+
 export default function PremiumTab() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [status, setStatus] = useState(null)
+  const [plans, setPlans] = useState([])
+  const [selectedPlan, setSelectedPlan] = useState('monthly')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -36,7 +47,11 @@ export default function PremiumTab() {
   async function load() {
     setError('')
     try {
-      setStatus(await api.getBillingStatus())
+      const [statusData, plansData] = await Promise.all([api.getBillingStatus(), api.getBillingPlans().catch(() => [])])
+      setStatus(statusData)
+      const list = Array.isArray(plansData) ? plansData : []
+      setPlans(list)
+      if (list.length && !list.some(p => p.id === 'monthly')) setSelectedPlan(list[0].id)
     } catch (err) {
       setError(err.message)
     }
@@ -46,7 +61,7 @@ export default function PremiumTab() {
     setError('')
     setBusy(true)
     try {
-      const { url } = await api.createCheckoutSession()
+      const { url } = await api.createCheckoutSession(selectedPlan)
       window.location.href = url
     } catch (err) {
       setError(err.message)
@@ -74,6 +89,10 @@ export default function PremiumTab() {
   if (!status && !error) return <div style={{ textAlign: 'center', color: '#94a3b8', padding: 48, fontSize: '0.9rem' }}>Loading…</div>
 
   const isPremium = status && ACTIVE_STATUSES.includes(status.status)
+  const activePlan = plans.find(p => p.id === selectedPlan) || plans[0]
+  const subscribeLabel = activePlan
+    ? `💎 Subscribe for ${formatPrice(activePlan)}/${INTERVAL_LABEL[activePlan.interval] || activePlan.interval}`
+    : '💎 Subscribe to Premium'
 
   return (
     <div style={{ maxWidth: 560, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -127,6 +146,47 @@ export default function PremiumTab() {
             <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#64748b', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.03em' }}>
               Not subscribed yet
             </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+              {['Premium activity packs', 'Parent-controlled activities', 'Custom points'].map(line => (
+                <div key={line} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.85rem', color: '#334155' }}>
+                  <span style={{
+                    width: 18, height: 18, borderRadius: '50%', background: '#0d9488', color: '#fff',
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.68rem', flexShrink: 0,
+                  }}>✓</span>
+                  {line}
+                </div>
+              ))}
+            </div>
+
+            {plans.length > 1 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
+                {plans.map(plan => {
+                  const picked = selectedPlan === plan.id
+                  return (
+                    <button
+                      key={plan.id}
+                      type="button"
+                      onClick={() => setSelectedPlan(plan.id)}
+                      style={{
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%',
+                        padding: '12px 14px', borderRadius: 10, cursor: 'pointer', textAlign: 'left',
+                        border: `2px solid ${picked ? '#0d9488' : '#e2e8f0'}`,
+                        background: picked ? '#f0fdfa' : '#fff',
+                      }}
+                    >
+                      <span style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.9rem', textTransform: 'capitalize' }}>
+                        {plan.id}
+                      </span>
+                      <span style={{ fontSize: '0.85rem', color: '#64748b' }}>
+                        {formatPrice(plan)}/{INTERVAL_LABEL[plan.interval] || plan.interval}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+
             <button
               className="btn btn-primary"
               disabled={busy}
@@ -136,8 +196,11 @@ export default function PremiumTab() {
                 background: 'linear-gradient(135deg,#0f766e,#0d9488)', color: 'white', cursor: busy ? 'not-allowed' : 'pointer',
               }}
             >
-              {busy ? 'Redirecting…' : '💎 Subscribe to Premium'}
+              {busy ? 'Redirecting…' : subscribeLabel}
             </button>
+            <div style={{ fontSize: '0.74rem', color: '#94a3b8', textAlign: 'center', marginTop: 8 }}>
+              Renews automatically until canceled.
+            </div>
           </>
         )}
       </div>

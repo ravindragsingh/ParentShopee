@@ -131,11 +131,13 @@ export const api = {
 
   // Quests
   getQuests: () => request('GET', '/api/quests'),
+  getQuestStats: () => request('GET', '/api/quests/stats'),
   getQuestContent: (moduleId) => request('GET', `/api/quests/${moduleId}/content`),
   setQuestVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/quests/${moduleId}/visibility`, { enabled, kidIds }),
   setQuestPoints: (moduleId, points) => request('PUT', `/api/quests/${moduleId}/points`, { points }),
   resetQuestCompletion: (moduleId, kidId, activityIndex) => request('DELETE', `/api/quests/${moduleId}/completion/${kidId}?activity_index=${activityIndex}`),
   submitQuestLog: (moduleId, note, activityIndex) => request('POST', `/api/quests/${moduleId}/log`, { note, activityIndex }),
+  awardQuestActivity: (moduleId, kidId, activityIndex) => request('POST', `/api/quests/${moduleId}/award`, { kidId, activityIndex }),
   approveQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/approve`),
   rejectQuestLog: (logId) => request('POST', `/api/quests/logs/${logId}/reject`),
 
@@ -190,8 +192,9 @@ export const api = {
   cashOutReferrals: ()    => request('POST', '/api/referrals/cash-out'),
 
   // Premium subscription (Stripe)
+  getBillingPlans:         ()  => request('GET',  '/api/billing/plans'),
   getBillingStatus:        ()  => request('GET',  '/api/billing/status'),
-  createCheckoutSession:   ()  => request('POST', '/api/billing/checkout'),
+  createCheckoutSession:   (plan = 'monthly')  => request('POST', '/api/billing/checkout', { plan }),
   createBillingPortalSession: () => request('POST', '/api/billing/portal'),
 
   // Co-guardian management

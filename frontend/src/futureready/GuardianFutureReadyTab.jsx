@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { api } from '../api.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import LessonModule from './LessonModule.jsx'
 import Toggle from './Toggle.jsx'
 import FutureReadyIntroModal from './FutureReadyIntroModal.jsx'
+import PremiumUpsellModal from '../components/PremiumUpsellModal.jsx'
 import { topicMeta } from './topicMeta.js'
 
 // Small pill shown on a topic or age-band row for a couple weeks after it's
@@ -163,6 +165,7 @@ function PointsEditor({ points, disabled, onSave }) {
 
 export default function GuardianFutureReadyTab({ onDetailChange } = {}) {
   const { user } = useAuth()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [modules, setModules] = useState([])
   const [kids, setKids] = useState([])
   const [loading, setLoading] = useState(true)
@@ -171,6 +174,15 @@ export default function GuardianFutureReadyTab({ onDetailChange } = {}) {
   const [openTopic, setOpenTopic] = useState(null)
   const [previewModule, setPreviewModule] = useState(null)
   const [warning, setWarning] = useState('')
+  const [isSubscribed, setIsSubscribed] = useState(true) // optimistic until loaded -- avoids a flash of "locked" UI for premium families
+  const [upsellModule, setUpsellModule] = useState(null)
+
+  function goToPremiumPlans() {
+    setUpsellModule(null)
+    const next = new URLSearchParams(searchParams)
+    next.set('tab', 'premium')
+    setSearchParams(next)
+  }
 
   const loadModules = useCallback(async () => {
     setLoading(true)
@@ -192,12 +204,17 @@ export default function GuardianFutureReadyTab({ onDetailChange } = {}) {
   // two stacked back buttons on screen at once.
   useEffect(() => { onDetailChange && onDetailChange(!!previewModule) }, [previewModule, onDetailChange])
   useEffect(() => { api.getKids().then(setKids).catch(() => {}) }, [])
+  useEffect(() => { api.getBillingStatus().then(s => setIsSubscribed(!!s.isPremium)).catch(() => {}) }, [])
 
   async function handleToggle(module) {
+    const enabled = !module.enabled
+    if (enabled && module.isPremium && !isSubscribed) {
+      setUpsellModule(module)
+      return
+    }
     setSavingId(module.id)
     setError('')
     try {
-      const enabled = !module.enabled
       // Preserve whatever kid restriction was already set -- toggling off and
       // back on shouldn't silently reset a guardian's earlier "just for Alice" choice.
       await api.setLearningVisibility(module.id, enabled, module.enabledKidIds ?? null)
@@ -205,7 +222,8 @@ export default function GuardianFutureReadyTab({ onDetailChange } = {}) {
       setModules(updated)
       setWarning(enabled ? overloadWarning(updated, module.enabledKidIds ?? kids.map(k => k.id), kids) : '')
     } catch (err) {
-      setError(err.message)
+      if (err.code === 'premium_required') setUpsellModule(module)
+      else setError(err.message)
     } finally {
       setSavingId(null)
     }
@@ -394,6 +412,15 @@ export default function GuardianFutureReadyTab({ onDetailChange } = {}) {
             )
           })}
         </div>
+      )}
+
+      {upsellModule && (
+        <PremiumUpsellModal
+          topicTitle={upsellModule.topicTitle}
+          moduleTitle={upsellModule.title}
+          onViewPlans={goToPremiumPlans}
+          onClose={() => setUpsellModule(null)}
+        />
       )}
     </div>
   )

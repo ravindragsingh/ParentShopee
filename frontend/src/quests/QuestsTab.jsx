@@ -26,6 +26,46 @@ function PremiumLockBadge() {
   )
 }
 
+// Streak + per-skill badges earned from approved activities (see
+// backend's GET /api/quests/stats) -- a lightweight, data-driven layer of
+// gamification on top of the `skills` tags already authored per activity,
+// so a kid can see progress accumulate across every category, not just
+// within whichever one they're currently looking at.
+function QuestStatsStrip({ stats }) {
+  if (!stats || stats.totalCompleted === 0) return null
+  return (
+    <div style={{ marginBottom: 18 }}>
+      {stats.currentStreak > 0 && (
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', fontWeight: 700,
+          background: '#fff7ed', color: '#c2410c', border: '1px solid #fed7aa', borderRadius: 999,
+          padding: '5px 12px', marginBottom: 10,
+        }}>
+          🔥 {stats.currentStreak} day streak
+        </div>
+      )}
+      {stats.skills.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {stats.skills.map(s => (
+            <div
+              key={s.skill}
+              title={`${s.label} · practiced ${s.count} time${s.count === 1 ? '' : 's'}`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.78rem', fontWeight: 600,
+                background: '#fff', border: '1px solid #e2e8f0', borderRadius: 999, padding: '5px 10px 5px 6px',
+              }}
+            >
+              <span style={{ fontSize: '0.95rem' }}>{s.emoji}</span>
+              <span style={{ color: '#334155' }}>{s.skill}</span>
+              <span style={{ color: '#94a3b8', fontWeight: 700 }}>×{s.count}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function groupByCategory(modules) {
   const byCategory = new Map()
   for (const m of modules) {
@@ -65,6 +105,7 @@ function CategoryCard({ meta, emoji, title, isNew, index, children }) {
 
 export default function QuestsTab({ onBalanceChange, onDetailChange }) {
   const [modules, setModules] = useState([])
+  const [stats, setStats] = useState(null)
   const [isPremiumFamily, setIsPremiumFamily] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -75,9 +116,10 @@ export default function QuestsTab({ onBalanceChange, onDetailChange }) {
     setLoading(true)
     setError('')
     try {
-      const [data, billing] = await Promise.all([api.getQuests(), api.getBillingStatus()])
+      const [data, billing, questStats] = await Promise.all([api.getQuests(), api.getBillingStatus(), api.getQuestStats()])
       setModules(Array.isArray(data) ? data : [])
       setIsPremiumFamily(!!billing?.isPremium)
+      setStats(questStats)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -117,6 +159,8 @@ export default function QuestsTab({ onBalanceChange, onDetailChange }) {
       <div style={{ background: '#f0fdfa', border: '1px solid #99f6e4', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#0f766e', fontSize: '0.85rem' }}>
         Fun things to try together. Pick one, give it a go, and tell your guardian about it to earn points.
       </div>
+
+      <QuestStatsStrip stats={stats} />
 
       {justSent && (
         <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '10px 14px', marginBottom: 18, color: '#92400e', fontSize: '0.9rem', fontWeight: 700 }}>
@@ -158,7 +202,10 @@ export default function QuestsTab({ onBalanceChange, onDetailChange }) {
                     const doneCount = m.completedActivityIndices?.length || 0
                     const pendingCount = (m.pendingActivityLogs || []).filter(l => l?.status === 'pending').length
                     const allDone = m.activityCount > 0 && doneCount === m.activityCount
-                    const totalPoints = (m.activityPoints || []).reduce((s, p) => s + p, 0)
+                    // Rounded to 1 decimal -- summing several already-rounded
+                    // per-activity floats (e.g. 1.6 x 10) accumulates binary
+                    // floating-point drift (15.999999999999998) without this.
+                    const totalPoints = Math.round((m.activityPoints || []).reduce((s, p) => s + p, 0) * 10) / 10
                     return (
                       <button
                         key={m.id}

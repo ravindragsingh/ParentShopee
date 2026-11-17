@@ -78,9 +78,18 @@ STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 if not STRIPE_WEBHOOK_SECRET:
     print("[billing] WARNING: STRIPE_WEBHOOK_SECRET env var is not set — Stripe webhook events will be rejected")
 
-# The recurring Price (Dashboard -> Product catalog) that a Checkout Session
-# subscribes a family to. One tier for now -- a second price id would need a
-# second checkout entry point, not a config change here.
+# The recurring Price(s) (Dashboard -> Product catalog) a Checkout Session can
+# subscribe a family to. STRIPE_PREMIUM_PRICE_ID is kept as the monthly price
+# for backward compatibility with existing deployments; STRIPE_PREMIUM_PRICE_ID_ANNUAL
+# is optional -- when unset, the annual plan simply doesn't appear and checkout
+# falls back to monthly-only, same as before this was added.
 STRIPE_PREMIUM_PRICE_ID = os.getenv("STRIPE_PREMIUM_PRICE_ID")
 if not STRIPE_PREMIUM_PRICE_ID:
     print("[billing] WARNING: STRIPE_PREMIUM_PRICE_ID env var is not set — premium subscriptions will be unavailable")
+
+STRIPE_PRICE_IDS = {
+    "monthly": STRIPE_PREMIUM_PRICE_ID,
+    "annual": os.getenv("STRIPE_PREMIUM_PRICE_ID_ANNUAL"),
+}
+if not STRIPE_PRICE_IDS["annual"]:
+    print("[billing] INFO: STRIPE_PREMIUM_PRICE_ID_ANNUAL env var is not set — annual plan option will be hidden")

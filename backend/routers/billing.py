@@ -5,12 +5,13 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from starlette.requests import Request as StarletteRequest
 
-from config import FRONTEND_URL, STRIPE_PREMIUM_PRICE_ID, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+from config import FRONTEND_URL, STRIPE_PREMIUM_PRICE_ID, STRIPE_PRICE_IDS, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
 from database import get_db
 from deps import require_auth, require_guardian
 from helpers import get_family_id, get_family_owner, is_family_subscribed
 from models import DBUser
 from responses import fail, ok
+from schemas import CheckoutBody
 
 router = APIRouter()
 
@@ -29,6 +30,31 @@ def _current_period_end_iso(sub) -> str | None:
     return datetime.fromtimestamp(ts, tz=timezone.utc).isoformat()
 
 
+@router.get("/api/billing/plans")
+def get_billing_plans(user: DBUser = Depends(require_auth)):
+    """Live price info for whichever plan(s) are configured, read straight
+    from Stripe so the frontend never hardcodes a dollar amount. The annual
+    plan is simply omitted (not an error) when STRIPE_PREMIUM_PRICE_ID_ANNUAL
+    isn't set -- lets the picker UI gracefully degrade to monthly-only."""
+    if not STRIPE_SECRET_KEY:
+        return ok([])
+    plans = []
+    for plan_id, price_id in STRIPE_PRICE_IDS.items():
+        if not price_id:
+            continue
+        try:
+            price = stripe.Price.retrieve(price_id)
+        except stripe.error.StripeError:
+            continue
+        plans.append({
+            "id": plan_id,
+            "amount": (price.unit_amount or 0) / 100,
+            "currency": price.currency.upper(),
+            "interval": price.recurring.interval if price.recurring else None,
+        })
+    return ok(plans)
+
+
 @router.get("/api/billing/status")
 def get_billing_status(db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     owner = get_family_owner(db, user)
@@ -40,8 +66,12 @@ def get_billing_status(db: Session = Depends(get_db), user: DBUser = Depends(req
 
 
 @router.post("/api/billing/checkout")
-def create_checkout_session(db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+def create_checkout_session(body: CheckoutBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     _require_stripe_configured()
+    price_id = STRIPE_PRICE_IDS.get(body.plan)
+    if not price_id:
+        fail(f"The '{body.plan}' plan isn't available.", 400, code="plan_unavailable")
+
     family_id = get_family_id(user)
     owner = db.query(DBUser).filter(DBUser.id == family_id).first()
 
@@ -54,7 +84,7 @@ def create_checkout_session(db: Session = Depends(get_db), user: DBUser = Depend
         mode="subscription",
         customer=owner.stripe_customer_id,
         client_reference_id=family_id,
-        line_items=[{"price": STRIPE_PREMIUM_PRICE_ID, "quantity": 1}],
+        line_items=[{"price": price_id, "quantity": 1}],
         success_url=f"{FRONTEND_URL}/dashboard?tab=premium&checkout=success",
         cancel_url=f"{FRONTEND_URL}/dashboard?tab=premium&checkout=cancel",
     )

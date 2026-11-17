@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from uuid import uuid4
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
@@ -12,7 +13,7 @@ from models import (
 )
 from push_utils import notify_guardians_of_kid, notify_kid
 from responses import fail, ok
-from schemas import LearningPointsUpdate, LearningVisibilityUpdate, QuestLogBody
+from schemas import LearningPointsUpdate, LearningVisibilityUpdate, QuestAwardBody, QuestLogBody
 
 router = APIRouter()
 
@@ -202,6 +203,96 @@ def get_quests(db: Session = Depends(get_db), user: DBUser = Depends(require_aut
     return ok(result)
 
 
+# ── Gamification: streaks + skill badges ────────────────────────────────────
+# Same streak semantics as reading_log.py's _current_and_longest_streak
+# (duplicated rather than shared, matching this codebase's existing
+# convention for small per-router helpers -- see _family_id_for).
+_SKILL_TIERS = [
+    (10, "Master", "🏆"),
+    (5, "Skilled", "⭐"),
+    (2, "Practicing", "🌱"),
+    (0, "Starting", "🔰"),
+]
+
+
+def _skill_tier(count: int) -> dict:
+    for threshold, label, emoji in _SKILL_TIERS:
+        if count >= threshold:
+            return {"label": label, "emoji": emoji}
+    return {"label": "Starting", "emoji": "🔰"}
+
+
+def _kid_tz(kid: DBUser) -> ZoneInfo:
+    if kid.timezone:
+        try:
+            return ZoneInfo(kid.timezone)
+        except (ZoneInfoNotFoundError, ValueError):
+            pass
+    return ZoneInfo("UTC")
+
+
+def _date_in_tz(iso_str: str, tz: ZoneInfo) -> date:
+    dt = datetime.fromisoformat(iso_str)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(tz).date()
+
+
+def _current_and_longest_streak(dates: set, tz: ZoneInfo) -> tuple:
+    if not dates:
+        return 0, 0
+    today = datetime.now(tz).date()
+    cursor = today if today in dates else today - timedelta(days=1)
+    current = 0
+    while cursor in dates:
+        current += 1
+        cursor -= timedelta(days=1)
+
+    ordered = sorted(dates)
+    longest = run = 1
+    for i in range(1, len(ordered)):
+        if (ordered[i] - ordered[i - 1]).days == 1:
+            run += 1
+            longest = max(longest, run)
+        else:
+            run = 1
+    longest = max(longest, current)
+    return current, longest
+
+
+@router.get("/api/quests/stats")
+def get_quest_stats(db: Session = Depends(get_db), user: DBUser = Depends(require_kid)):
+    completions = db.query(DBQuestActivityCompletion).filter(DBQuestActivityCompletion.kid_id == user.id).all()
+    module_ids = {c.module_id for c in completions}
+    modules = db.query(DBLearningModule).filter(DBLearningModule.id.in_(module_ids)).all() if module_ids else []
+    module_map = {m.id: m for m in modules}
+
+    tz = _kid_tz(user)
+    skill_counts = {}
+    dates = set()
+    for c in completions:
+        dates.add(_date_in_tz(c.completed_at, tz))
+        m = module_map.get(c.module_id)
+        if not m:
+            continue
+        activities = _activities(m)
+        if c.activity_index < len(activities):
+            for skill in activities[c.activity_index].get("skills", []):
+                skill_counts[skill] = skill_counts.get(skill, 0) + 1
+
+    current_streak, longest_streak = _current_and_longest_streak(dates, tz)
+    skills = sorted(
+        ({"skill": k, "count": v, **_skill_tier(v)} for k, v in skill_counts.items()),
+        key=lambda s: -s["count"],
+    )
+    return ok({
+        "totalCompleted": len(completions),
+        "currentStreak": current_streak,
+        "longestStreak": longest_streak,
+        "skills": skills,
+    })
+
+
 @router.get("/api/quests/{module_id}/content")
 def get_quest_content(module_id: str, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
     module = db.query(DBLearningModule).filter(
@@ -236,6 +327,8 @@ def _get_or_create_setting(db: Session, family_id: str, module_id: str) -> DBFam
 def set_quest_visibility(module_id: str, body: LearningVisibilityUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.section == SECTION).first()
     if not module: fail("Quest not found", 404)
+    if body.enabled and module.is_premium == "1" and not is_family_subscribed(db, user):
+        fail("This is premium content — upgrade to unlock it for your family.", 403, code="premium_required")
 
     family_id = get_family_id(user)
     setting = _get_or_create_setting(db, family_id, module_id)
@@ -325,6 +418,68 @@ def submit_quest_log(module_id: str, body: QuestLogBody, db: Session = Depends(g
         data={"type": "quest_log_submitted", "logId": log.id},
     )
     return ok(_log_dict(log))
+
+
+@router.post("/api/quests/{module_id}/award")
+def award_quest_activity(module_id: str, body: QuestAwardBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    """A guardian directly crediting a kid for an activity they saw happen in
+    person -- same payout as approving a submitted log, just skipping the
+    kid's own log step entirely. Also auto-resolves any pending log for this
+    exact (kid, activity) so it doesn't linger in the review queue after."""
+    family_id = get_family_id(user)
+    kid = db.query(DBUser).filter(DBUser.id == body.kidId, DBUser.role == "kid", DBUser.guardian_id == family_id).first()
+    if not kid: fail("Kid not found", 404)
+
+    module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id, DBLearningModule.section == SECTION).first()
+    if not module: fail("Quest not found", 404)
+    activities = _activities(module)
+    if body.activityIndex < 0 or body.activityIndex >= len(activities):
+        fail("Invalid activity", 404)
+
+    already = db.query(DBQuestActivityCompletion).filter(
+        DBQuestActivityCompletion.kid_id == kid.id, DBQuestActivityCompletion.module_id == module_id,
+        DBQuestActivityCompletion.activity_index == body.activityIndex,
+    ).first()
+    if already:
+        fail(f"{kid.name} has already completed this one.")
+
+    setting = db.query(DBFamilyLearningSetting).filter(
+        DBFamilyLearningSetting.family_id == family_id, DBFamilyLearningSetting.module_id == module_id
+    ).first()
+    points = _activity_points(module, setting, activities, body.activityIndex)
+    activity_title = activities[body.activityIndex].get("title") or module.title
+
+    wallet = db.query(DBWallet).filter(DBWallet.kid_id == kid.id).first()
+    if not wallet:
+        wallet = DBWallet(kid_id=kid.id, balance=0)
+        db.add(wallet)
+        db.flush()
+    wallet.balance += points
+
+    db.add(DBQuestActivityCompletion(
+        kid_id=kid.id, module_id=module_id, activity_index=body.activityIndex,
+        points_awarded=points, completed_at=now(),
+    ))
+    db.add(DBTransaction(id=str(uuid4()), kid_id=kid.id, type="earned",
+                         amount=points, description=f"Given by guardian: {activity_title} ({module.topic_title})", timestamp=now()))
+
+    pending = db.query(DBQuestLog).filter(
+        DBQuestLog.kid_id == kid.id, DBQuestLog.module_id == module_id,
+        DBQuestLog.activity_index == body.activityIndex, DBQuestLog.status == "pending",
+    ).first()
+    if pending:
+        pending.status = "approved"
+        pending.reviewed_at = now()
+
+    db.commit()
+    db.refresh(wallet)
+    notify_kid(
+        db, kid.id,
+        title="🎁 Points from your guardian!",
+        body=f"You got {points:g} pts for \"{activity_title}\"!",
+        data={"type": "quest_log_approved", "moduleId": module.id, "activityIndex": body.activityIndex},
+    )
+    return ok({"pointsAwarded": points, "newBalance": wallet.balance})
 
 
 @router.post("/api/quests/logs/{log_id}/approve")

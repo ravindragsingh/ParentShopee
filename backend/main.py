@@ -14,6 +14,7 @@ import models  # noqa: F401 — import ensures all tables are registered on Base
 from config import CONTACT_EMAIL
 from database import SessionLocal, engine, Base
 from email_utils import send_email
+from premium_quests_seed import seed_premium_quest_content
 from seed import backfill_sample_ids, ensure_demo_accounts, migrate_legacy_learning_content, reconcile_custom_item_counts, seed_db
 from models import DBUser
 from routers import (
@@ -326,6 +327,17 @@ def startup():
         migrate_legacy_learning_content(db3)
     finally:
         db3.close()
+
+    # One-time (insert-if-missing) seed of the premium Quest catalog -- a
+    # "Bonus Pack" premium module per age band for each original free
+    # category, plus 5 brand-new premium categories. See
+    # premium_quests_seed.py; same never-overwrite convention as the legacy
+    # migration above, so it's safe to leave running on every boot forever.
+    db4 = SessionLocal()
+    try:
+        seed_premium_quest_content(db4)
+    finally:
+        db4.close()
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 

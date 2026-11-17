@@ -175,6 +175,8 @@ def _get_or_create_setting(db: Session, family_id: str, module_id: str) -> DBFam
 def set_learning_visibility(module_id: str, body: LearningVisibilityUpdate, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
     module = db.query(DBLearningModule).filter(DBLearningModule.id == module_id).first()
     if not module: fail("Module not found", 404)
+    if body.enabled and module.is_premium == "1" and not is_family_subscribed(db, user):
+        fail("This is premium content — upgrade to unlock it for your family.", 403, code="premium_required")
 
     family_id = get_family_id(user)
     setting = _get_or_create_setting(db, family_id, module_id)

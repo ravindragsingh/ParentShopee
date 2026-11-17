@@ -244,6 +244,10 @@ class QuestLogBody(BaseModel):
     note: str
     activityIndex: int
 
+class QuestAwardBody(BaseModel):
+    kidId: str
+    activityIndex: int
+
 class ReadingLogAssignBody(BaseModel):
     kidId: str
     volumeId: Optional[str] = None
@@ -277,6 +281,9 @@ class ReadingLogCompleteBody(BaseModel):
 
 class ReadingLogPointsBody(BaseModel):
     points: float
+
+class CheckoutBody(BaseModel):
+    plan: str = "monthly"  # "monthly" | "annual" -- see config.STRIPE_PRICE_IDS
 
 class AdminTopicCreate(BaseModel):
     id: str              # slug, admin-supplied
