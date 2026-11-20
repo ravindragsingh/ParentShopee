@@ -1,5 +1,57 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { api } from '../api.js'
+
+// The Web Speech API hands back whatever voice the device defaults to if you
+// don't pick one -- on most platforms that default is the oldest, most
+// robotic-sounding voice installed, while noticeably better ones (often
+// cloud-backed, e.g. Chrome's "Google US English") sit unused in the same
+// list. voices() resolves once the list is actually populated -- Chrome in
+// particular returns an empty array the first time it's asked, firing
+// `voiceschanged` only once the real list is ready.
+function voices() {
+  return new Promise(resolve => {
+    const list = window.speechSynthesis?.getVoices() || []
+    if (list.length) { resolve(list); return }
+    window.speechSynthesis.onvoiceschanged = () => resolve(window.speechSynthesis.getVoices())
+    setTimeout(() => resolve(window.speechSynthesis?.getVoices() || []), 500)
+  })
+}
+
+// Known-good voices worth asking for by name first, roughly best-to-worst,
+// across the platforms this app actually runs on (Chrome desktop/Android,
+// Safari/iOS). Falls through to "any non-local (cloud) English voice" --
+// cloud voices are near-universally more natural than a device's bundled
+// compact/offline ones -- then any ordinary local English voice.
+const PREFERRED_VOICE_NAMES = [
+  'Google US English', 'Google UK English Female', 'Google UK English Male',
+  'Microsoft Aria Online (Natural) - English (United States)',
+  'Microsoft Jenny Online (Natural) - English (United States)',
+  'Alex', 'Samantha', 'Daniel', 'Karen', 'Moira', 'Tessa', 'Victoria',
+]
+
+// macOS alone ships over a dozen "fun" novelty voices (robots, whispering,
+// pipe organs...) alongside its normal ones, and they sort into the English
+// voice list like any other -- a naive "just take the first English voice"
+// fallback can land on one of these instead of a normal-sounding voice. Never
+// shipped on iOS/Android, so this only ever matters when testing in a
+// desktop browser, but it's cheap to rule out explicitly either way.
+const NOVELTY_VOICE_NAMES = new Set([
+  'Albert', 'Bad News', 'Bahh', 'Bells', 'Boing', 'Bubbles', 'Cellos', 'Good News',
+  'Hysterical', 'Jester', 'Organ', 'Pipe Organ', 'Trinoids', 'Whisper', 'Wobble', 'Zarvox',
+  'Deranged', 'Superstar', 'Ralph',
+])
+
+function pickBestVoice(list) {
+  for (const name of PREFERRED_VOICE_NAMES) {
+    const v = list.find(v => v.name === name)
+    if (v) return v
+  }
+  const normal = v => v.lang?.startsWith('en') && !NOVELTY_VOICE_NAMES.has(v.name)
+  return list.find(v => !v.localService && normal(v))
+    || list.find(normal)
+    || list.find(v => v.lang?.startsWith('en'))
+    || list[0] || null
+}
 
 // Moral Stories gets its own reader instead of reusing Future-Ready's
 // LessonModule -- that one is a slide-by-slide lesson deck (swipe, dot
@@ -14,6 +66,7 @@ export default function StoryReader({ module, onExit, onCompleted, previewMode =
   const [loadError, setLoadError] = useState('')
   const [phase, setPhase] = useState('story') // 'story' | 'quiz' | 'result'
   const [reading, setReading] = useState(false)
+  const bestVoiceRef = useRef(null)
   const [quizIndex, setQuizIndex] = useState(0)
   const [answers, setAnswers] = useState([])
   const [selected, setSelected] = useState(null)
@@ -33,17 +86,19 @@ export default function StoryReader({ module, onExit, onCompleted, previewMode =
     return () => window.speechSynthesis?.cancel()
   }, [])
 
-  function toggleReadAloud() {
+  async function toggleReadAloud() {
     if (reading) {
       window.speechSynthesis?.cancel()
       setReading(false)
       return
     }
     if (!window.speechSynthesis) return
+    if (!bestVoiceRef.current) bestVoiceRef.current = pickBestVoice(await voices())
     window.speechSynthesis.cancel()
     content.slides.forEach((slide, i) => {
       const utterance = new SpeechSynthesisUtterance(`${slide.title}. ${slide.text}`)
       utterance.rate = 0.95
+      if (bestVoiceRef.current) utterance.voice = bestVoiceRef.current
       if (i === content.slides.length - 1) utterance.onend = () => setReading(false)
       window.speechSynthesis.speak(utterance)
     })
