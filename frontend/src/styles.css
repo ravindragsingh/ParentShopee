@@ -1303,6 +1303,33 @@ body {
 .kid-hero-title { font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
 .kid-hero-sub { font-size: 0.92rem; opacity: 0.92; margin-top: 6px; }
 
+/* Quick-links tile grid -- Chores/Wallet/Rewards/Learn all get equal top
+   billing right under the hero, same role the Guardian home screen's own
+   nav tiles play. Exists because the grid below (kid-home-grid) stacks to a
+   single column on phones, which otherwise buries Wallet/Rewards/Learn
+   under the full chores list -- a kid would have to scroll past everything
+   chore-related before ever seeing them. */
+.kid-quicklinks-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px;
+}
+.kid-nav-tile {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  text-align: center; border: none; border-radius: 18px; padding: 14px 6px; cursor: pointer;
+}
+.kid-nav-tile-icon {
+  width: 42px; height: 42px; border-radius: 13px; color: #fff; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+}
+.kid-nav-tile-label { font-size: 0.74rem; font-weight: 800; color: #1e293b; }
+.kid-nav-tile-badge {
+  position: absolute; top: 6px; right: 14px; min-width: 19px; height: 19px; padding: 0 4px;
+  border-radius: 999px; background: #dc2626; color: #fff; font-size: 0.65rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(220,38,38,0.4);
+}
+@media (max-width: 380px) {
+  .kid-quicklinks-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* Today's Chores / My Points stat pair, and reused as the 3-way points
    breakdown on the Wallet tab (3 cards in the same row instead of 2). */
 .kid-stat-row { display: flex; gap: 12px; margin-bottom: 16px; }

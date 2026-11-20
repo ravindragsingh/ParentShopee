@@ -417,6 +417,33 @@ function ExploreReadingLogCard({ onOpenReadingLog }) {
   )
 }
 
+// ─── Quick-links tile row ───────────────────────────────────────────────────
+// Equal-billing shortcuts to Chores/Wallet/Rewards/Learn right under the
+// greeting -- same role the guardian home screen's own nav tiles play. Keeps
+// the three non-chore sections one tap away even before a kid scrolls past
+// the (potentially long) chores list below.
+
+function KidNavTile({ icon, iconColor, bg, label, badge, onClick }) {
+  return (
+    <button className="kid-nav-tile" style={{ background: bg }} onClick={onClick}>
+      {badge > 0 && <span className="kid-nav-tile-badge">{badge > 99 ? '99+' : badge}</span>}
+      <span className="kid-nav-tile-icon" style={{ background: iconColor }}>{icon}</span>
+      <span className="kid-nav-tile-label">{label}</span>
+    </button>
+  )
+}
+
+function KidQuickLinks({ onNavigate, choresBadge }) {
+  return (
+    <div className="kid-quicklinks-grid">
+      <KidNavTile icon="✅" iconColor="#0d9488" bg="#f0fdfa" label="Chores" badge={choresBadge} onClick={() => onNavigate('chores')} />
+      <KidNavTile icon="👛" iconColor="#f59e0b" bg="#fffbeb" label="Wallet" onClick={() => onNavigate('wallet')} />
+      <KidNavTile icon="🎁" iconColor="#db2777" bg="#fdf2f8" label="Rewards" onClick={() => onNavigate('shop')} />
+      <KidNavTile icon="🌱" iconColor="#7c3aed" bg="#f5f3ff" label="Learn" onClick={() => onNavigate('learn')} />
+    </div>
+  )
+}
+
 function KidHomeScreen({ name, userId, wallet, onNavigate, onOpenModule, onOpenQuests, onOpenReadingLog, onBalanceChange }) {
   const [message] = useState(
     () => MOTIVATIONAL_MESSAGES[Math.floor(Math.random() * MOTIVATIONAL_MESSAGES.length)]
@@ -447,6 +474,8 @@ function KidHomeScreen({ name, userId, wallet, onNavigate, onOpenModule, onOpenQ
           <div className="kid-hero-title">Hi, {name}! <span>{greeting.icon}</span></div>
           <div className="kid-hero-sub">{message}</div>
         </div>
+
+        <KidQuickLinks onNavigate={onNavigate} choresBadge={totalCount} />
 
         <div className="kid-stat-row">
           <div className="kid-stat-card">
