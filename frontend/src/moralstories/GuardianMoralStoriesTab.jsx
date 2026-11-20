@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
-import LessonModule from '../futureready/LessonModule.jsx'
+import StoryReader from './StoryReader.jsx'
 import Toggle from '../futureready/Toggle.jsx'
 import { topicMeta } from './topicMeta.js'
 
@@ -230,13 +230,11 @@ export default function GuardianMoralStoriesTab({ onDetailChange } = {}) {
 
   if (previewModule) {
     return (
-      <LessonModule
+      <StoryReader
         module={previewModule}
         subtitle={`${previewModule.topicTitle} · ${previewModule.title}`}
         onExit={() => setPreviewModule(null)}
         previewMode
-        fetchContent={api.getMoralStoryContent}
-        completeApi={api.completeMoralStory}
       />
     )
   }

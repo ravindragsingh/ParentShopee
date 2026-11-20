@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../context/AuthContext.jsx'
-import LessonModule from '../futureready/LessonModule.jsx'
+import StoryReader from './StoryReader.jsx'
 import { topicMeta } from './topicMeta.js'
 
 function NewBadge() {
@@ -14,15 +14,6 @@ function NewBadge() {
       New
     </span>
   )
-}
-
-// module.title is "Ages X–Y · Part N" when a topic has more than one story
-// at the same age band, or just "Ages X–Y" otherwise -- age bands are a
-// guardian-only concept a kid never sees, so only the "Part N" bit (if any)
-// ever shows up in the kid-facing UI.
-function partLabel(title) {
-  const idx = title.indexOf('·')
-  return idx === -1 ? null : title.slice(idx + 1).trim()
 }
 
 const readTogetherKey = userId => `msReadTogetherDismissed_${userId}`
@@ -98,13 +89,11 @@ export default function MoralStoriesTab({ onBalanceChange, onDetailChange }) {
 
   if (playingModule) {
     return (
-      <LessonModule
+      <StoryReader
         module={playingModule}
-        subtitle={partLabel(playingModule.title) ? `${playingModule.topicTitle} · ${partLabel(playingModule.title)}` : playingModule.topicTitle}
+        subtitle={`${playingModule.topicTitle} · ${playingModule.title}`}
         onExit={() => setPlayingModule(null)}
         onCompleted={handleCompleted}
-        fetchContent={api.getMoralStoryContent}
-        completeApi={api.completeMoralStory}
       />
     )
   }
@@ -191,7 +180,7 @@ export default function MoralStoriesTab({ onBalanceChange, onDetailChange }) {
                       }}
                     >
                       <span style={{ fontSize: '0.85rem', fontWeight: 700, color: m.completed ? '#166534' : '#1e293b' }}>
-                        {m.completed ? '✅ ' : ''}{partLabel(m.title) || m.title}
+                        {m.completed ? '✅ ' : ''}{m.title}
                       </span>
                       <span style={{ fontSize: '0.75rem', fontWeight: 700, color: m.completed ? '#166534' : meta.color }}>
                         {m.completed ? 'Read' : `⭐ ${m.points} pts`}
