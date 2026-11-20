@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import ActivityTimer, { parseDurationMinutes } from './ActivityTimer.jsx'
-import { categoryMeta } from './categoryMeta.js'
 
 // Each activity inside a quest module (e.g. "Cognitive Development, Ages
 // 4-6" bundles several hands-on ideas) is independently loggable and earns
 // its own points -- a kid doesn't have to work through the whole category
 // in one sitting to earn anything. `status`/`points`/`onSubmit` carry that
 // one activity's own state; nothing here is shared across activities.
-function ActivityCard({ activity, index, points, status, justSubmitted, onSubmit, previewMode, color }) {
+function ActivityCard({ activity, index, points, status, justSubmitted, onSubmit, previewMode }) {
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -81,7 +80,7 @@ function ActivityCard({ activity, index, points, status, justSubmitted, onSubmit
         </div>
       )}
 
-      {timerMinutes && <ActivityTimer minutes={timerMinutes} color={color} />}
+      {timerMinutes && <ActivityTimer minutes={timerMinutes} />}
 
       {!previewMode && (
         <div style={{ marginTop: 14 }}>
@@ -151,8 +150,6 @@ export default function QuestView({ module, onExit, onLogSubmitted, previewMode 
     return null
   }
 
-  const color = categoryMeta(module.category).color
-
   return (
     <div>
       <button onClick={onExit} style={{ background: 'none', border: 'none', color: '#64748b', fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer', marginBottom: 14, padding: 0 }}>
@@ -177,7 +174,6 @@ export default function QuestView({ module, onExit, onLogSubmitted, previewMode 
               justSubmitted={justSubmittedIndices.includes(i)}
               onSubmit={note => handleActivitySubmit(i, note)}
               previewMode={previewMode}
-              color={color}
             />
           ))}
         </div>
