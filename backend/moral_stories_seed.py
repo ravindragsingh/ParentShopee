@@ -298,7 +298,14 @@ _COURAGE_P2_10_13 = _story("😬", [
     ("What did Priya realize courage actually means?", ["Doing the right thing despite being scared, not the absence of fear", "Never feeling afraid of anything"], 0, "Courage isn't the absence of fear -- it's acting despite it."),
 ])
 
-# (topic_id, age_min, age_max, part_num, title, points, story)
+# (topic_id, age_min, age_max, part_num, story_name, points, story)
+# story_name alone, not story_name + age band: several stories share a name
+# across age bands (the same incident retold at a harder reading level), so
+# the stored title gets "· Ages X–Y" appended below -- otherwise a guardian
+# scanning the topic sees e.g. three identical "The Broken Vase" rows with no
+# way to tell them apart. Kid-facing UI strips that suffix back off (age
+# bands are a guardian-only concept), same convention Future-Ready uses for
+# its own "Part N" suffix.
 _STORIES = [
     ("honesty", 4, 6, 1, "The Broken Vase", 10, _HONESTY_P1_4_6),
     ("honesty", 7, 9, 1, "The Broken Vase", 12, _HONESTY_P1_7_9),
@@ -331,12 +338,13 @@ def seed_moral_stories(db: Session) -> None:
 
     ts_now = now()
     order_index = 0
-    for topic_id, age_min, age_max, part_num, title, points, story in _STORIES:
+    for topic_id, age_min, age_max, part_num, story_name, points, story in _STORIES:
         order_index += 1
         module_id = f"{topic_id}-{age_min}-{age_max}-p{part_num}"
         if db.query(DBLearningModule).get(module_id):
             continue  # already seeded (or admin-created with this id) -- never touch it
         topic_title, topic_emoji = topic_meta[topic_id]
+        title = f"{story_name} · Ages {age_min}–{age_max}"
         db.add(DBLearningModule(
             id=module_id, section="moral-story", section_title="Moral Stories", section_emoji="📖",
             topic=topic_id, topic_title=topic_title, topic_emoji=topic_emoji,

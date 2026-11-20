@@ -16,6 +16,15 @@ function NewBadge() {
   )
 }
 
+// Stored title is "Story Name · Ages X–Y" -- the age band disambiguates
+// same-named stories retold at different reading levels for the guardian
+// managing the catalog, but age bands are a guardian-only concept a kid
+// never sees, so only the name before "·" ever shows up here.
+function storyName(title) {
+  const idx = title.indexOf('·')
+  return idx === -1 ? title : title.slice(0, idx).trim()
+}
+
 const readTogetherKey = userId => `msReadTogetherDismissed_${userId}`
 
 function ReadTogetherBanner({ show, onDismiss }) {
@@ -91,7 +100,7 @@ export default function MoralStoriesTab({ onBalanceChange, onDetailChange }) {
     return (
       <StoryReader
         module={playingModule}
-        subtitle={`${playingModule.topicTitle} · ${playingModule.title}`}
+        subtitle={`${playingModule.topicTitle} · ${storyName(playingModule.title)}`}
         onExit={() => setPlayingModule(null)}
         onCompleted={handleCompleted}
       />
@@ -180,7 +189,7 @@ export default function MoralStoriesTab({ onBalanceChange, onDetailChange }) {
                       }}
                     >
                       <span style={{ fontSize: '0.85rem', fontWeight: 700, color: m.completed ? '#166534' : '#1e293b' }}>
-                        {m.completed ? '✅ ' : ''}{m.title}
+                        {m.completed ? '✅ ' : ''}{storyName(m.title)}
                       </span>
                       <span style={{ fontSize: '0.75rem', fontWeight: 700, color: m.completed ? '#166534' : meta.color }}>
                         {m.completed ? 'Read' : `⭐ ${m.points} pts`}
