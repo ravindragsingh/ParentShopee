@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import GuardianFutureReadyTab from '../futureready/GuardianFutureReadyTab.jsx'
 import GuardianQuestsTab from '../quests/GuardianQuestsTab.jsx'
 import GuardianReadingLogTab from '../reading/GuardianReadingLogTab.jsx'
+import GuardianMoralStoriesTab from '../moralstories/GuardianMoralStoriesTab.jsx'
 import NewBadge from '../components/NewBadge.jsx'
 
 // Guardian-side counterpart to LearnGrowTab.jsx -- see that file's comment
@@ -14,6 +15,7 @@ const SECTIONS = [
   { key: 'futureready', icon: '🚀', label: 'Future-Ready', text: 'Manage lessons on money, AI, safety & more', color: '#ea580c', bg: '#f5f3ff', border: '#ddd6fe' },
   { key: 'quests', icon: '🧸', label: 'Quests', text: 'Manage hands-on things to try together', color: '#ea580c', bg: '#f0fdfa', border: '#99f6e4' },
   { key: 'reading', icon: '📖', label: 'Reading Log', text: 'Search, assign, and approve books kids read', color: '#ea580c', bg: '#fff7ed', border: '#fed7aa' },
+  { key: 'moralstories', icon: '🦉', label: 'Moral Stories', text: 'Turn on age-appropriate stories and set their points', color: '#ea580c', bg: '#f0fdfa', border: '#99f6e4' },
 ]
 
 export default function GuardianLearnGrowTab() {
@@ -70,6 +72,8 @@ export default function GuardianLearnGrowTab() {
         ? <GuardianQuestsTab onDetailChange={setInDetail} />
         : section === 'reading'
         ? <GuardianReadingLogTab onDetailChange={setInDetail} />
+        : section === 'moralstories'
+        ? <GuardianMoralStoriesTab onDetailChange={setInDetail} />
         : <GuardianFutureReadyTab onDetailChange={setInDetail} />}
     </div>
   )

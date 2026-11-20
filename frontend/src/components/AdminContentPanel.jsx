@@ -96,7 +96,7 @@ function TopicFormModal({ topic, section, onSave, onClose }) {
   }
 
   return (
-    <ModalShell title={isEdit ? 'Edit Topic' : 'New Topic'} subtitle={section === 'quest' ? 'Quest category' : section === 'reading-log' ? 'Reading Log genre' : 'Future-Ready topic'} onClose={onClose}>
+    <ModalShell title={isEdit ? 'Edit Topic' : 'New Topic'} subtitle={section === 'quest' ? 'Quest category' : section === 'reading-log' ? 'Reading Log genre' : section === 'moral-story' ? 'Moral Stories topic' : 'Future-Ready topic'} onClose={onClose}>
       <form onSubmit={handleSubmit}>
         {error && <div style={{ background: '#fef2f2', color: '#991b1b', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', marginBottom: 14, fontSize: '0.83rem' }}>{error}</div>}
         {!isEdit && (
@@ -795,7 +795,7 @@ export default function AdminContentPanel() {
   return (
     <div>
       <div style={{ display: 'flex', gap: 4, marginBottom: 18, background: '#f1f5f9', borderRadius: 10, padding: 4, width: 'fit-content' }}>
-        {[{ id: 'future-ready', label: '🚀 Future-Ready' }, { id: 'quest', label: '🧸 Quests' }].map(s => (
+        {[{ id: 'future-ready', label: '🚀 Future-Ready' }, { id: 'quest', label: '🧸 Quests' }, { id: 'moral-story', label: '📖 Moral Stories' }].map(s => (
           <button
             key={s.id}
             onClick={() => openSection(s.id)}

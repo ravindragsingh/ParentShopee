@@ -129,6 +129,14 @@ export const api = {
   completeLearningModule: (moduleId, score, total) => request('POST', `/api/future-ready/${moduleId}/complete`, { score, total }),
   resetLearningCompletion: (moduleId, kidId) => request('DELETE', `/api/future-ready/${moduleId}/completion/${kidId}`),
 
+  // Moral Stories
+  getMoralStories: () => request('GET', '/api/moral-stories'),
+  getMoralStoryContent: (moduleId) => request('GET', `/api/moral-stories/${moduleId}/content`),
+  setMoralStoryVisibility: (moduleId, enabled, kidIds = null) => request('PUT', `/api/moral-stories/${moduleId}/visibility`, { enabled, kidIds }),
+  setMoralStoryPoints: (moduleId, points) => request('PUT', `/api/moral-stories/${moduleId}/points`, { points }),
+  completeMoralStory: (moduleId, score, total) => request('POST', `/api/moral-stories/${moduleId}/complete`, { score, total }),
+  resetMoralStoryCompletion: (moduleId, kidId) => request('DELETE', `/api/moral-stories/${moduleId}/completion/${kidId}`),
+
   // Quests
   getQuests: () => request('GET', '/api/quests'),
   getQuestContent: (moduleId) => request('GET', `/api/quests/${moduleId}/content`),

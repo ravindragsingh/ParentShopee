@@ -14,9 +14,10 @@ import models  # noqa: F401 — import ensures all tables are registered on Base
 from config import CONTACT_EMAIL
 from database import SessionLocal, engine, Base
 from email_utils import send_email
+from moral_stories_seed import seed_moral_stories
 from seed import backfill_sample_ids, ensure_demo_accounts, migrate_legacy_learning_content, reconcile_custom_item_counts, seed_db
 from models import DBUser
-from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, quests, reading_log, referrals, shop, wallet
+from routers import admin, admin_content, auth, chores, contact, daily_chores, family, future_ready, kids, messages, moral_stories, quests, reading_log, referrals, shop, wallet
 
 app = FastAPI(title="Reward Ur Kids API")
 
@@ -82,6 +83,7 @@ app.include_router(admin.router)
 app.include_router(admin_content.router)
 app.include_router(daily_chores.router)
 app.include_router(future_ready.router)
+app.include_router(moral_stories.router)
 app.include_router(quests.router)
 app.include_router(reading_log.router)
 app.include_router(referrals.router)
@@ -323,6 +325,17 @@ def startup():
         migrate_legacy_learning_content(db3)
     finally:
         db3.close()
+
+    # One-time (insert-if-missing) seed of the starter Moral Stories catalog --
+    # see moral_stories_seed.py. Same never-overwrite convention as the legacy
+    # migration above, so it's safe to leave running on every boot forever;
+    # more topics/stories from here on are added through the admin Content
+    # panel, same as Future-Ready and Quests.
+    db4 = SessionLocal()
+    try:
+        seed_moral_stories(db4)
+    finally:
+        db4.close()
 
 # ── Entry point ────────────────────────────────────────────────────────────────
 

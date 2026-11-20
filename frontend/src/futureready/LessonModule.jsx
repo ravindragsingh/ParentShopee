@@ -26,7 +26,17 @@ function speakText(text, enabled) {
 // from fetching `module.id`'s content from the backend, so a new topic or an
 // edited lesson needs no app changes at all, just a backend redeploy (see
 // backend/routers/future_ready.py and DBLearningModule.content).
-export default function LessonModule({ module, onExit, onCompleted, previewMode = false, subtitle }) {
+//
+// `fetchContent`/`completeApi` default to the Future-Ready endpoints but can
+// be swapped for another section's own {slides, quiz} content -- e.g. Moral
+// Stories reuses this entire player unchanged, just pointing it at
+// api.getMoralStoryContent/api.completeMoralStory instead (see
+// moralstories/MoralStoriesTab.jsx). The slide/quiz player itself has no
+// idea which section it's rendering.
+export default function LessonModule({
+  module, onExit, onCompleted, previewMode = false, subtitle,
+  fetchContent = api.getLearningContent, completeApi = api.completeLearningModule,
+}) {
   const { user } = useAuth()
   const [content, setContent] = useState(null)
   const [loadError, setLoadError] = useState('')
@@ -55,7 +65,7 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
 
   useEffect(() => {
     let cancelled = false
-    api.getLearningContent(module.id)
+    fetchContent(module.id)
       .then(data => { if (!cancelled) setContent(data) })
       .catch(err => { if (!cancelled) setLoadError(err.message || "This lesson isn't ready yet.") })
     return () => { cancelled = true }
@@ -117,7 +127,7 @@ export default function LessonModule({ module, onExit, onCompleted, previewMode 
     setSubmitting(true)
     setError('')
     try {
-      const res = await api.completeLearningModule(module.id, finalScore, content.quiz.length)
+      const res = await completeApi(module.id, finalScore, content.quiz.length)
       setResult(res)
       if (res.passed && !res.alreadyCompleted) onCompleted?.(res.pointsAwarded)
     } catch (err) {

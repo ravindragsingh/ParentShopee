@@ -2,6 +2,7 @@ import { useState } from 'react'
 import FutureReadyTab from '../futureready/FutureReadyTab.jsx'
 import QuestsTab from '../quests/QuestsTab.jsx'
 import ReadingLogTab from '../reading/ReadingLogTab.jsx'
+import MoralStoriesTab from '../moralstories/MoralStoriesTab.jsx'
 
 // Umbrella for the kid's "learning-shaped" sections -- Future-Ready and
 // Quests share this one bottom-nav/home-tile slot instead of each getting
@@ -17,6 +18,7 @@ const SECTIONS = [
   { key: 'futureready', icon: '🚀', label: 'Future-Ready', text: 'Short lessons on money, AI, safety & more', color: '#7c3aed', bg: '#f5f3ff', border: '#ddd6fe' },
   { key: 'quests', icon: '🧸', label: 'Quests', text: 'Hands-on things to try together', color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4' },
   { key: 'reading', icon: '📖', label: 'Reading Log', text: 'Books to read and log for points', color: '#ea580c', bg: '#fff7ed', border: '#fed7aa' },
+  { key: 'moralstories', icon: '🦉', label: 'Moral Stories', text: 'Short stories with a lesson, plus a few questions after', color: '#0d9488', bg: '#f0fdfa', border: '#99f6e4' },
 ]
 
 function SectionPicker({ onPick }) {
@@ -71,6 +73,8 @@ export default function LearnGrowTab({ section, onSectionChange, onBalanceChange
         ? <QuestsTab onBalanceChange={onBalanceChange} onDetailChange={setInDetail} />
         : section === 'reading'
         ? <ReadingLogTab onBalanceChange={onBalanceChange} onDetailChange={setInDetail} />
+        : section === 'moralstories'
+        ? <MoralStoriesTab onBalanceChange={onBalanceChange} onDetailChange={setInDetail} />
         : <FutureReadyTab onBalanceChange={onBalanceChange} startModuleId={startModuleId} onConsumeStart={onConsumeStart} onDetailChange={setInDetail} />}
     </div>
   )

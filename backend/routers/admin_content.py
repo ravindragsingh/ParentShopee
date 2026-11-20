@@ -43,6 +43,8 @@ def _module_dict(m: DBLearningModule, with_content: bool = False) -> dict:
 def admin_get_age_bands(section: str, user: DBUser = Depends(require_admin)):
     if section == "quest":
         return ok(_QUEST_AGE_BAND_LIST)
+    # Future-Ready and Moral Stories share the same {slides, quiz} content
+    # shape and the same age-banded points scale.
     return ok(_FUTURE_READY_AGE_BANDS)
 
 
@@ -57,8 +59,8 @@ def admin_list_topics(section: str = None, db: Session = Depends(get_db), user: 
 
 @router.post("/api/admin/content/topics")
 def admin_create_topic(body: AdminTopicCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
-    if body.section not in ("future-ready", "quest"):
-        fail("section must be 'future-ready' or 'quest'")
+    if body.section not in ("future-ready", "quest", "moral-story"):
+        fail("section must be 'future-ready', 'quest', or 'moral-story'")
     if db.query(DBContentTopic).get(body.id):
         fail("A topic with this id already exists", 409)
     max_order = db.query(DBContentTopic).filter(DBContentTopic.section == body.section).count()
@@ -106,8 +108,8 @@ def admin_list_modules(topic: str, db: Session = Depends(get_db), user: DBUser =
 
 @router.post("/api/admin/content/modules")
 def admin_create_module(body: AdminModuleCreate, db: Session = Depends(get_db), user: DBUser = Depends(require_admin)):
-    if body.section not in ("future-ready", "quest"):
-        fail("section must be 'future-ready' or 'quest'")
+    if body.section not in ("future-ready", "quest", "moral-story"):
+        fail("section must be 'future-ready', 'quest', or 'moral-story'")
     if db.query(DBLearningModule).get(body.id):
         fail("A module with this id already exists", 409)
     topic = db.query(DBContentTopic).get(body.topic)
@@ -120,8 +122,8 @@ def admin_create_module(body: AdminModuleCreate, db: Session = Depends(get_db), 
     module = DBLearningModule(
         id=body.id,
         section=body.section,
-        section_title={"future-ready": "Future-Ready", "quest": "Quests"}[body.section],
-        section_emoji={"future-ready": "🚀", "quest": "🧸"}[body.section],
+        section_title={"future-ready": "Future-Ready", "quest": "Quests", "moral-story": "Moral Stories"}[body.section],
+        section_emoji={"future-ready": "🚀", "quest": "🧸", "moral-story": "📖"}[body.section],
         topic=topic.id, topic_title=topic.title, topic_emoji=topic.emoji,
         age_min=body.ageMin, age_max=body.ageMax, title=body.title, points=body.points,
         order_index=body.orderIndex if body.orderIndex is not None else max_order + 1,
