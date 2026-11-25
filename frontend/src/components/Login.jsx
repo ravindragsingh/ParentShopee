@@ -1203,17 +1203,26 @@ export function CoGuardianInvitePage() {
       })
   }, [token])
 
+  // Shared by both credential methods below -- name and PIN are collected
+  // once and apply either way; only how the email+password credential itself
+  // gets created differs.
+  function validateCommonFields() {
+    if (!name.trim()) return 'Name is required.'
+    const pinCheck = checkPinComplexity(pin)
+    if (!pinCheck.ok) return pinCheck.message
+    if (pin !== confirmPin) return 'PINs do not match.'
+    return ''
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
     if (kind === 'new') {
-      if (!name.trim()) { setError('Name is required.'); return }
+      const commonError = validateCommonFields()
+      if (commonError) { setError(commonError); return }
       const pwCheck = checkPasswordComplexity(password)
       if (!pwCheck.ok) { setError(pwCheck.message); return }
       if (password !== confirmPassword) { setError('Passwords do not match.'); return }
-      const pinCheck = checkPinComplexity(pin)
-      if (!pinCheck.ok) { setError(pinCheck.message); return }
-      if (pin !== confirmPin) { setError('PINs do not match.'); return }
     }
     setSubmitting(true)
     try {
@@ -1229,6 +1238,23 @@ export function CoGuardianInvitePage() {
       const data = await api.acceptCoGuardianInvite(
         kind === 'new' ? { token, name: name.trim(), pin, avatar, idToken } : { token }
       )
+      login(data.user, data.token)
+      navigate('/profiles')
+    } catch (err) {
+      setError(err.code ? friendlyFirebaseError(err) : err.message)
+      setSubmitting(false)
+    }
+  }
+
+  async function handleGoogleJoin() {
+    setError('')
+    const commonError = validateCommonFields()
+    if (commonError) { setError(commonError); return }
+    setSubmitting(true)
+    try {
+      const cred = await signInWithPopup(auth, googleProvider)
+      const idToken = await cred.user.getIdToken()
+      const data = await api.acceptCoGuardianInvite({ token, name: name.trim(), pin, avatar, idToken })
       login(data.user, data.token)
       navigate('/profiles')
     } catch (err) {
@@ -1280,17 +1306,6 @@ export function CoGuardianInvitePage() {
               )}
               <div className="form-row" style={{ marginBottom: 6 }}>
                 <div className="form-group">
-                  <label>Password *</label>
-                  <PasswordField value={password} onChange={e => setPassword(e.target.value)} placeholder="Choose a password" />
-                </div>
-                <div className="form-group">
-                  <label>Confirm Password *</label>
-                  <PasswordField value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repeat password" />
-                </div>
-              </div>
-              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 16 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
-              <div className="form-row" style={{ marginBottom: 6 }}>
-                <div className="form-group">
                   <label>6-digit PIN *</label>
                   <input inputMode="numeric" maxLength={6} value={pin} onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
                 </div>
@@ -1300,10 +1315,39 @@ export function CoGuardianInvitePage() {
                 </div>
               </div>
               <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 16 }}>
-                {PIN_REQUIREMENTS_HINT} Your PIN is just for quickly switching profiles on a shared family device — your password is how you sign in on your own.
+                {PIN_REQUIREMENTS_HINT} Your PIN is just for quickly switching profiles on a shared family device — your password (or Google sign-in) is how you sign in on your own.
               </div>
+
+              <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#334155', marginBottom: 10 }}>Sign in with a password</div>
+              <div className="form-row" style={{ marginBottom: 6 }}>
+                <div className="form-group">
+                  <label>Password *</label>
+                  <PasswordField value={password} onChange={e => setPassword(e.target.value)} placeholder="Choose a password" />
+                </div>
+                <div className="form-group">
+                  <label>Confirm Password *</label>
+                  <PasswordField value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repeat password" />
+                </div>
+              </div>
+              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 16 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
               <button type="submit" className="login-btn" disabled={submitting}>
                 {submitting ? 'Joining...' : 'Join Family'}
+              </button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '18px 0' }}>
+                <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
+                <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: 600 }}>OR</span>
+                <div style={{ flex: 1, height: 1, background: '#e2e8f0' }} />
+              </div>
+              <button
+                type="button"
+                className="login-btn-outline"
+                onClick={handleGoogleJoin}
+                disabled={submitting}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+              >
+                <span aria-hidden="true" style={{ fontWeight: 800 }}>G</span>
+                {submitting ? 'Connecting...' : `Continue with Google${inviteEmail ? ` (${inviteEmail})` : ''}`}
               </button>
             </form>
           )}

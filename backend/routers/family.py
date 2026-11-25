@@ -241,8 +241,18 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, request: Starlett
     # matching account behind it.
     decoded = verify_firebase_token(body.idToken)
     uid = decoded["uid"]
-    email = (decoded.get("email") or "").lower().strip() or invite.email
+    decoded_email = (decoded.get("email") or "").lower().strip()
     try:
+        # Google sign-in lets someone authenticate with *any* Google account --
+        # unlike the password path, where the frontend forces the credential
+        # to be created under invite.email, nothing else guarantees that here.
+        # Require it match the invited address, so holding the invite token
+        # alone isn't enough to claim the co-guardian slot under a different
+        # identity.
+        if invite.email and decoded_email and decoded_email != invite.email.lower().strip():
+            fail(f"This invite was sent to {invite.email} -- please sign in with that email to accept it.", 403)
+        email = decoded_email or invite.email
+
         if db.query(DBUser).filter(DBUser.firebase_uid == uid).first():
             fail("This account is already registered. Please sign in instead.", 409)
 
