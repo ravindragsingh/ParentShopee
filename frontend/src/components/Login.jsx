@@ -18,7 +18,7 @@ import {
 // Firebase's own error messages are written for developers, not parents --
 // this maps the handful of codes our flows can actually hit to copy that
 // matches the tone of the rest of the app's error messages.
-function friendlyFirebaseError(err) {
+export function friendlyFirebaseError(err) {
   switch (err?.code) {
     case 'auth/email-already-in-use':
       return 'An account with this email already exists. Please sign in instead.'
@@ -1177,9 +1177,12 @@ export function CoGuardianInvitePage() {
   const [message, setMessage] = useState(token ? '' : 'This invite link is missing its token.')
   const [guardianName, setGuardianName] = useState('')
   const [kind, setKind] = useState('new') // 'new' | 'recovery'
+  const [inviteEmail, setInviteEmail] = useState('')
 
   const [name, setName] = useState('')
   const [avatar, setAvatar] = useState('🧑')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [pin, setPin] = useState('')
   const [confirmPin, setConfirmPin] = useState('')
   const [error, setError] = useState('')
@@ -1191,6 +1194,7 @@ export function CoGuardianInvitePage() {
       .then(data => {
         setGuardianName(data.guardianName)
         setKind(data.kind)
+        setInviteEmail(data.email || '')
         setStatus('form')
       })
       .catch(err => {
@@ -1204,19 +1208,31 @@ export function CoGuardianInvitePage() {
     setError('')
     if (kind === 'new') {
       if (!name.trim()) { setError('Name is required.'); return }
+      const pwCheck = checkPasswordComplexity(password)
+      if (!pwCheck.ok) { setError(pwCheck.message); return }
+      if (password !== confirmPassword) { setError('Passwords do not match.'); return }
       const pinCheck = checkPinComplexity(pin)
       if (!pinCheck.ok) { setError(pinCheck.message); return }
       if (pin !== confirmPin) { setError('PINs do not match.'); return }
     }
     setSubmitting(true)
     try {
+      let idToken
+      if (kind === 'new') {
+        // Real email sign-in from day one, same as a primary guardian's own
+        // registration -- the PIN below is still collected for quick
+        // profile-switching on a shared family device, but it's no longer
+        // the only way in.
+        const cred = await createUserWithEmailAndPassword(auth, inviteEmail, password)
+        idToken = await cred.user.getIdToken()
+      }
       const data = await api.acceptCoGuardianInvite(
-        kind === 'new' ? { token, name: name.trim(), pin, avatar } : { token }
+        kind === 'new' ? { token, name: name.trim(), pin, avatar, idToken } : { token }
       )
       login(data.user, data.token)
       navigate('/profiles')
     } catch (err) {
-      setError(err.message)
+      setError(err.code ? friendlyFirebaseError(err) : err.message)
       setSubmitting(false)
     }
   }
@@ -1256,6 +1272,23 @@ export function CoGuardianInvitePage() {
                 <label>Avatar <span style={{ fontWeight: 400, color: '#94a3b8' }}>— selected: {avatar}</span></label>
                 <EmojiPicker emojis={COGUARDIAN_INVITE_AVATARS} value={avatar} onChange={setAvatar} />
               </div>
+              {inviteEmail && (
+                <div className="form-group" style={{ marginBottom: 10 }}>
+                  <label>Email</label>
+                  <input value={inviteEmail} disabled style={{ opacity: 0.7 }} />
+                </div>
+              )}
+              <div className="form-row" style={{ marginBottom: 6 }}>
+                <div className="form-group">
+                  <label>Password *</label>
+                  <PasswordField value={password} onChange={e => setPassword(e.target.value)} placeholder="Choose a password" />
+                </div>
+                <div className="form-group">
+                  <label>Confirm Password *</label>
+                  <PasswordField value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repeat password" />
+                </div>
+              </div>
+              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 16 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
               <div className="form-row" style={{ marginBottom: 6 }}>
                 <div className="form-group">
                   <label>6-digit PIN *</label>
@@ -1266,7 +1299,9 @@ export function CoGuardianInvitePage() {
                   <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
                 </div>
               </div>
-              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 16 }}>{PIN_REQUIREMENTS_HINT}</div>
+              <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 16 }}>
+                {PIN_REQUIREMENTS_HINT} Your PIN is just for quickly switching profiles on a shared family device — your password is how you sign in on your own.
+              </div>
               <button type="submit" className="login-btn" disabled={submitting}>
                 {submitting ? 'Joining...' : 'Join Family'}
               </button>

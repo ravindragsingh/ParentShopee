@@ -20,7 +20,8 @@ import PasswordField from './PasswordField.jsx'
 import NewBadge from './NewBadge.jsx'
 import { areTipsDisabled, setTipsEnabled } from './TipOfTheDayModal.jsx'
 import { auth } from '../firebase.js'
-import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updatePassword } from 'firebase/auth'
+import { friendlyFirebaseError } from './Login.jsx'
 import GuardianLearnGrowTab from '../learn/GuardianLearnGrowTab.jsx'
 import { useTour } from '../tour/TourContext.jsx'
 import { isTourDisabled, setTourEnabled } from '../tour/tourStorage.js'
@@ -999,9 +1000,39 @@ function InfoTooltip({ text }) {
 }
 
 function CoGuardianTab() {
+  const { user, updateUser } = useAuth()
   const [info, setInfo] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
+  // Co-guardian's own one-time "set up email sign-in" -- creates a real
+  // Firebase credential against their already-on-file email so they can
+  // sign in independently from here on, instead of only via a shared
+  // family device's PIN picker or a guardian-issued recovery link.
+  const [setupPwd, setSetupPwd] = useState('')
+  const [setupConfirmPwd, setSetupConfirmPwd] = useState('')
+  const [setupError, setSetupError] = useState('')
+  const [settingUp, setSettingUp] = useState(false)
+
+  async function handleSetupAuth(e) {
+    e.preventDefault()
+    setSetupError('')
+    const pwCheck = checkPasswordComplexity(setupPwd)
+    if (!pwCheck.ok) { setSetupError(pwCheck.message); return }
+    if (setupPwd !== setupConfirmPwd) { setSetupError('Passwords do not match.'); return }
+    setSettingUp(true)
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, user.email, setupPwd)
+      const idToken = await cred.user.getIdToken()
+      const updated = await api.setCoGuardianPassword(idToken)
+      updateUser(updated)
+      setSetupPwd(''); setSetupConfirmPwd('')
+    } catch (err) {
+      setSetupError(err.code ? friendlyFirebaseError(err) : err.message)
+    } finally {
+      setSettingUp(false)
+    }
+  }
 
   // Create form
   const [name, setName] = useState('')
@@ -1150,10 +1181,38 @@ function CoGuardianTab() {
     return (
       <div className="form-card" style={{ borderLeft: '4px solid #0d9488' }}>
         <div className="form-title" style={{ marginBottom: 6 }}>Co-Guardian Access</div>
-        <p style={{ fontSize: '0.9rem', color: '#475569' }}>
+        <p style={{ fontSize: '0.9rem', color: '#475569', marginBottom: user.hasPasswordAuth ? 0 : 14 }}>
           You have co-guardian access to <strong>{info.primaryGuardian?.name || 'this family'}</strong>'s account.
           You can manage their children's chores, PINs and wallet — same as the primary guardian.
         </p>
+        {user.hasPasswordAuth ? (
+          <p style={{ fontSize: '0.85rem', color: '#166534', marginTop: 10 }}>
+            ✅ Email sign-in is set up — you can sign in directly with <strong>{user.email}</strong> on any device.
+            Change your password or PIN above.
+          </p>
+        ) : (
+          <form onSubmit={handleSetupAuth}>
+            <div style={{ fontSize: '0.85rem', color: '#475569', marginBottom: 10 }}>
+              Right now you can only get in through the family device's profile picker or a recovery link from {info.primaryGuardian?.name || 'your co-parent'}.
+              Set up a password to sign in directly with <strong>{user.email}</strong> on any device instead.
+            </div>
+            {setupError && <div className="error-msg">{setupError}</div>}
+            <div className="form-row" style={{ marginBottom: 6 }}>
+              <div className="form-group">
+                <label>Password</label>
+                <PasswordField value={setupPwd} onChange={e => setSetupPwd(e.target.value)} placeholder="Choose a password" />
+              </div>
+              <div className="form-group">
+                <label>Confirm Password</label>
+                <PasswordField value={setupConfirmPwd} onChange={e => setSetupConfirmPwd(e.target.value)} placeholder="Repeat password" />
+              </div>
+            </div>
+            <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginBottom: 14 }}>{PASSWORD_REQUIREMENTS_HINT}</div>
+            <button type="submit" className="btn btn-primary" disabled={settingUp}>
+              {settingUp ? 'Setting up…' : 'Set Up Email Sign-In'}
+            </button>
+          </form>
+        )}
       </div>
     )
   }
@@ -1424,6 +1483,11 @@ function AdminPanelTab() {
   }
 
   const isPrimaryGuardian = !user.coGuardianOf
+  // True for a primary guardian always, and for a co-guardian once they've
+  // set up their own email sign-in (see CoGuardianTab's "Set up email
+  // sign-in" action) -- false for one still on the old PIN-only scheme,
+  // who has no independent credential of their own to change yet.
+  const canManageOwnAuth = user.hasPasswordAuth
 
   async function handleDeleteAccount() {
     setDeleteError('')
@@ -1512,10 +1576,12 @@ function AdminPanelTab() {
           )}
         </div>
 
-        {/* Change password — primary guardian only; co-guardian/kids sign in with a PIN,
-            not a password. Google-only guardians have no password to change here --
+        {/* Change password — anyone with their own email sign-in (a primary
+            guardian always, a co-guardian once they've set theirs up); a kid
+            or a still-PIN-only co-guardian signs in with a PIN, not a
+            password. Google-only guardians have no password to change here --
             their account signs in through Google, not a local credential. */}
-        {isPrimaryGuardian && !user.isGoogleAccount && (
+        {canManageOwnAuth && !user.isGoogleAccount && (
           <div className="form-card" style={{ marginBottom: 16 }}>
             <div className="form-title">Change Password</div>
             <form onSubmit={handleChangePwd}>
@@ -1553,9 +1619,12 @@ function AdminPanelTab() {
           </div>
         )}
 
-        {/* Change profile-picker PIN — primary guardian only; this is what unlocks
-            their own tile in the picker, separate from their login password */}
-        {isPrimaryGuardian && (
+        {/* Change profile-picker PIN — anyone with their own email sign-in;
+            this is what unlocks their own tile in the picker, separate from
+            their login password. A still-PIN-only co-guardian has no
+            independent credential to prove it's really them, so theirs
+            stays guardian-managed (CoGuardianTab) until they set one up. */}
+        {canManageOwnAuth && (
           <div className="form-card" style={{ marginBottom: 16 }}>
             <div className="form-title">Change My PIN</div>
             <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 14 }}>

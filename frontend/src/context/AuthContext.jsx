@@ -80,6 +80,16 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('profile_entered')
   }, [])
 
+  // Patches the cached user object in place -- same session, same profile,
+  // just refreshed fields (e.g. after a co-guardian sets up email sign-in
+  // and the backend hands back an updated safe_user with hasPasswordAuth
+  // now true, so Settings can show the Change Password/PIN cards right away
+  // without a full sign-out/sign-in).
+  const updateUser = useCallback(userData => {
+    setUser(userData)
+    localStorage.setItem('user', JSON.stringify(userData))
+  }, [])
+
   const logout = useCallback(() => {
     setUser(null)
     setToken(null)
@@ -112,7 +122,7 @@ export function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={{
       user, token, deviceToken, profileEntered, loading,
-      login, enterProfile, switchProfile, logout,
+      login, enterProfile, switchProfile, logout, updateUser,
     }}>
       {children}
     </AuthContext.Provider>
