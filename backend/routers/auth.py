@@ -34,6 +34,17 @@ router = APIRouter()
 _FAKE_EMAIL_NAMESPACE = uuid5(NAMESPACE_URL, "https://rewardurkids.com/unknown-login-identifier")
 
 
+def _google_sub_from_token(decoded):
+    # The real Google account id (not Firebase's own uid) -- kept in the same
+    # `google_id` column the native app's pre-Firebase Google sign-in
+    # (/api/auth/google, /api/auth/google/complete) already writes, so a
+    # Firebase-verified Google sign-in can recognize an account created there.
+    firebase_claims = decoded.get("firebase", {})
+    if firebase_claims.get("sign_in_provider") != "google.com":
+        return None
+    return (firebase_claims.get("identities", {}).get("google.com") or [None])[0]
+
+
 @router.post("/api/auth/login")
 def login(body: LoginBody, request: StarletteRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     # body.username doubles as "username or email" — kids only ever have a
@@ -182,6 +193,21 @@ def firebase_session(body: FirebaseSessionBody, request: StarletteRequest, backg
     uid = decoded["uid"]
     user = db.query(DBUser).filter(DBUser.firebase_uid == uid).first()
     if not user:
+        # A Google sign-in that doesn't match any firebase_uid might still be
+        # an existing account -- one created by the native app's Google sign-in
+        # (/api/auth/google/complete), which only ever sets google_id, never
+        # firebase_uid, since it verifies against Google directly and never
+        # touches Firebase. Link the two identities instead of treating this as
+        # a brand new signup, so the same Google account works on web after
+        # registering on the app (and vice versa, already handled by
+        # register_finalize storing both ids up front).
+        google_sub = _google_sub_from_token(decoded)
+        if google_sub:
+            user = db.query(DBUser).filter(DBUser.google_id == google_sub).first()
+            if user:
+                user.firebase_uid = uid
+                db.commit()
+    if not user:
         # Reachable two ways: a genuinely unknown Firebase credential (shouldn't
         # happen via the password path -- resolve-login-identifier only hands out
         # a real email for an account that already has a firebase_uid), or a
@@ -257,18 +283,28 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, bac
     decoded = verify_firebase_token(body.idToken)
     uid = decoded["uid"]
     email = (decoded.get("email") or "").lower().strip()
-    is_google = decoded.get("firebase", {}).get("sign_in_provider") == "google.com"
-    # The real Google account id (not Firebase's own uid) -- kept in the same
-    # `google_id` column pre-migration code already reads (admin panel's
-    # "Google sign-in" badge, safe_user's isGoogleAccount flag).
-    google_sub = (decoded.get("firebase", {}).get("identities", {}).get("google.com") or [None])[0] if is_google else None
+    google_sub = _google_sub_from_token(decoded)
+    is_google = google_sub is not None
 
     try:
         if not email:
             fail("This sign-in method didn't provide an email address.")
         if db.query(DBUser).filter(DBUser.firebase_uid == uid).first():
             fail("This account is already registered. Please sign in instead.", 409)
-        if db.query(DBUser).filter(DBUser.email == email).first():
+        existing_by_email = db.query(DBUser).filter(DBUser.email == email).first()
+        if existing_by_email:
+            # A Google sign-in's email may collide with an account the native
+            # app created via its own, separate Google sign-in path (only ever
+            # sets google_id, never firebase_uid -- see firebase_session). If
+            # the Google account itself matches, this is the same person on a
+            # new platform, not a real duplicate signup: link the identities
+            # and log them into their existing account instead of refusing.
+            if is_google and existing_by_email.google_id == google_sub and not existing_by_email.firebase_uid:
+                existing_by_email.firebase_uid = uid
+                db.commit()
+                db.refresh(existing_by_email)
+                token = create_session(db, existing_by_email.id)
+                return ok({"token": token, "user": safe_user(existing_by_email)}, 201)
             fail("An account with this email already exists. Please sign in instead.", 409)
         try:
             age = calculate_age(body.dateOfBirth)
