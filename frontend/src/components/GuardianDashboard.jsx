@@ -1486,7 +1486,7 @@ function AdminPanelTab() {
   // True for a primary guardian always, and for a co-guardian once they've
   // set up their own email sign-in (see CoGuardianTab's "Set up email
   // sign-in" action) -- false for one still on the old PIN-only scheme,
-  // who has no independent credential of their own to change yet.
+  // who has no independent password credential to change yet.
   const canManageOwnAuth = user.hasPasswordAuth
 
   async function handleDeleteAccount() {
@@ -1619,37 +1619,34 @@ function AdminPanelTab() {
           </div>
         )}
 
-        {/* Change profile-picker PIN — anyone with their own email sign-in;
-            this is what unlocks their own tile in the picker, separate from
-            their login password. A still-PIN-only co-guardian has no
-            independent credential to prove it's really them, so theirs
-            stays guardian-managed (CoGuardianTab) until they set one up. */}
-        {canManageOwnAuth && (
-          <div className="form-card" style={{ marginBottom: 16 }}>
-            <div className="form-title">Change My PIN</div>
-            <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 14 }}>
-              This is the 6-digit PIN that unlocks your own profile from the profile picker — separate from your sign-in password.
-            </p>
-            <form onSubmit={handleChangePin}>
-              {pinError   && <div className="error-msg">{pinError}</div>}
-              {pinSuccess && <div className="success-msg">{pinSuccess}</div>}
-              <div className="form-row" style={{ marginBottom: 6 }}>
-                <div className="form-group">
-                  <label>New 6-digit PIN</label>
-                  <input inputMode="numeric" maxLength={6} value={newPin} onChange={e => setNewPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
-                </div>
-                <div className="form-group">
-                  <label>Confirm PIN</label>
-                  <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
-                </div>
+        {/* Change profile-picker PIN — any guardian, primary or co-guardian,
+            migrated or still PIN-only; holding a session as this exact
+            profile is proof enough, same as every other self-service
+            endpoint here. */}
+        <div className="form-card" style={{ marginBottom: 16 }}>
+          <div className="form-title">Change My PIN</div>
+          <p style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 14 }}>
+            This is the 6-digit PIN that unlocks your own profile from the profile picker — separate from your sign-in password.
+          </p>
+          <form onSubmit={handleChangePin}>
+            {pinError   && <div className="error-msg">{pinError}</div>}
+            {pinSuccess && <div className="success-msg">{pinSuccess}</div>}
+            <div className="form-row" style={{ marginBottom: 6 }}>
+              <div className="form-group">
+                <label>New 6-digit PIN</label>
+                <input inputMode="numeric" maxLength={6} value={newPin} onChange={e => setNewPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="e.g. 482910" />
               </div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
-              <button type="submit" className="btn btn-primary" disabled={savingPin}>
-                {savingPin ? 'Saving…' : 'Update PIN'}
-              </button>
-            </form>
-          </div>
-        )}
+              <div className="form-group">
+                <label>Confirm PIN</label>
+                <input inputMode="numeric" maxLength={6} value={confirmPin} onChange={e => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 6))} placeholder="Repeat PIN" />
+              </div>
+            </div>
+            <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: 14 }}>{PIN_REQUIREMENTS_HINT}</div>
+            <button type="submit" className="btn btn-primary" disabled={savingPin}>
+              {savingPin ? 'Saving…' : 'Update PIN'}
+            </button>
+          </form>
+        </div>
       </div>
 
       {/* Co-guardian management */}

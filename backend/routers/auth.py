@@ -544,14 +544,13 @@ def forgot_username(body: ForgotUsernameBody, db: Session = Depends(get_db)):
 
 @router.put("/api/auth/pin")
 def change_own_pin(body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    # Self-service here requires a real, independent identity (firebase_uid) --
-    # the primary guardian always has one; a co-guardian only does once they've
-    # set up their own email sign-in (see /api/family/co-guardian/set-password).
-    # A co-guardian still on the old PIN-only scheme has no login of their own
-    # to prove with, so their PIN stays guardian-managed (family.py), same as
-    # a kid's always is.
-    if user.role != "guardian" or not user.firebase_uid:
-        fail("Only an account with its own email sign-in can change its PIN this way", 403)
+    # Any guardian -- primary or co-guardian, migrated or still PIN-only --
+    # can change their own PIN here: holding a valid session as that exact
+    # identity is proof enough, the same bar every other self-service
+    # endpoint uses. Kids don't get self-service; a guardian manages a kid's
+    # PIN for them (family.py), same as it always has.
+    if user.role != "guardian":
+        fail("Only a guardian can change their own PIN this way", 403)
     check_pin_complexity(body.pin)
     user.pin = body.pin
     user.pin_auto_generated = "0"
