@@ -2,7 +2,7 @@ from datetime import date
 from uuid import uuid4
 from typing import Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, BackgroundTasks, Depends
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
@@ -10,7 +10,7 @@ from config import EMAIL_RE, FRONTEND_URL, LIMIT_EXTRA_CHORES, LIMIT_EXTRA_SHOP_
 from content_filter import check_content
 from database import get_db
 from deps import require_full_admin
-from email_utils import send_email, send_reset_email
+from email_utils import send_reset_email, send_ticket_reply_email
 from firebase_app import get_firebase_app
 from helpers import (
     chore_dict, delete_family, delete_kid, delete_lone_user, effective_add_limit, generate_inert_credentials,
@@ -684,31 +684,29 @@ def admin_reopen_ticket(ticket_id: str, db: Session = Depends(get_db), user: DBU
 
 
 @router.post("/api/admin/tickets/{ticket_id}/reply")
-def admin_reply_ticket(ticket_id: str, body: TicketReplyBody, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
+def admin_reply_ticket(ticket_id: str, body: TicketReplyBody, background_tasks: BackgroundTasks, db: Session = Depends(get_db), user: DBUser = Depends(require_full_admin)):
     if not body.message.strip():
         fail("Reply message is required")
     ticket = db.query(DBSupportTicket).filter(DBSupportTicket.id == ticket_id).first()
     if not ticket:
         fail("Ticket not found", 404)
 
+    reply_message = body.message.strip()
     db.add(DBSupportTicketReply(
         id=str(uuid4()), ticket_id=ticket_id, is_admin="1",
-        sender_name="Reward Ur Kids Support", message=body.message.strip(), created_at=now(),
+        sender_name="Reward Ur Kids Support", message=reply_message, created_at=now(),
     ))
     db.commit()
 
+    # Fire-and-forget, same pattern as send_new_ticket_notification -- the
+    # reply is already saved and visible in-app by the time this runs, so a
+    # slow/failed SMTP send here can't turn an already-successful reply into
+    # an error response for the admin.
     to_addr = get_ticket_notification_email(db, ticket)
     if to_addr:
-        send_email(
-            to_addr,
-            f"[Reward Ur Kids] Re: {ticket.subject}",
-            f"Hi {ticket.user_name},\n\n"
-            f"Support replied to your ticket \"{ticket.subject}\":\n\n"
-            f"{body.message.strip()}\n\n"
-            f"Sign in and visit Contact Support to view the full conversation or reply.\n",
-        )
+        background_tasks.add_task(send_ticket_reply_email, ticket, reply_message, to_addr)
 
-    return ok(ticket_dict(ticket, get_ticket_replies(db, ticket_id)))
+    return ok({**ticket_dict(ticket, get_ticket_replies(db, ticket_id)), "emailedTo": to_addr})
 
 
 @router.get("/api/admin/referral-payouts")

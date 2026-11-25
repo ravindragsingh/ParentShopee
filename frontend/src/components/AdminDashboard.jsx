@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
 import { checkPinComplexity, PIN_REQUIREMENTS_HINT } from '../utils/pinValidator.js'
+import { renderTicketMarkup } from '../utils/ticketMarkup.jsx'
 import AdminContentPanel from './AdminContentPanel.jsx'
 
 const STATUS_STYLE = {
@@ -1016,20 +1017,45 @@ function TicketsPanel() {
   )
 }
 
+// Small toolbar button that wraps the textarea's current selection in a
+// markup delimiter (see ticketMarkup.jsx) -- a no-op if nothing is selected,
+// rather than inserting empty "****" that'd just confuse the admin.
+function wrapSelection(textareaRef, text, setText, delimiter) {
+  const el = textareaRef.current
+  if (!el) return
+  const { selectionStart, selectionEnd } = el
+  if (selectionStart === selectionEnd) return
+  const selected = text.slice(selectionStart, selectionEnd)
+  const next = text.slice(0, selectionStart) + delimiter + selected + delimiter + text.slice(selectionEnd)
+  setText(next)
+  requestAnimationFrame(() => {
+    el.focus()
+    el.setSelectionRange(selectionStart + delimiter.length, selectionEnd + delimiter.length)
+  })
+}
+
+const toolbarBtnStyle = {
+  background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 6,
+  padding: '4px 10px', fontSize: '0.78rem', fontWeight: 700, color: '#475569', cursor: 'pointer',
+}
+
 function AdminTicketCard({ ticket: t, busy, onToggleResolved, onReplied }) {
   const cat = TICKET_CATEGORY_STYLE[t.category] || DEFAULT_CATEGORY_STYLE
   const [replying, setReplying] = useState(false)
   const [replyText, setReplyText] = useState('')
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
+  const [confirmation, setConfirmation] = useState('')
+  const textareaRef = useRef(null)
 
   async function sendReply() {
     if (!replyText.trim()) return
     setSending(true); setError('')
     try {
-      await api.adminReplyTicket(t.id, replyText.trim())
+      const result = await api.adminReplyTicket(t.id, replyText.trim())
       setReplyText('')
       setReplying(false)
+      setConfirmation(result.emailedTo ? `✅ Reply sent — emailed to ${result.emailedTo}` : '✅ Reply sent (no email on file for this user)')
       onReplied()
     } catch (err) {
       setError(err.message)
@@ -1049,7 +1075,7 @@ function AdminTicketCard({ ticket: t, busy, onToggleResolved, onReplied }) {
           {busy ? '…' : t.status === 'open' ? '✓ Mark Resolved' : '↺ Reopen'}
         </button>
       </div>
-      <div style={{ fontSize: '0.85rem', color: '#475569', lineHeight: 1.5, marginBottom: 8, whiteSpace: 'pre-wrap' }}>{t.message}</div>
+      <div style={{ fontSize: '0.85rem', color: '#475569', lineHeight: 1.5, marginBottom: 8, whiteSpace: 'pre-wrap' }}>{renderTicketMarkup(t.message)}</div>
       <div style={{ fontSize: '0.76rem', color: '#94a3b8', display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: t.replies?.length ? 12 : 0 }}>
         <span>From: <strong>{t.userName}</strong> (@{t.username}, {t.userRole})</span>
         <span>{formatLastLogin(t.createdAt)}</span>
@@ -1071,22 +1097,35 @@ function AdminTicketCard({ ticket: t, busy, onToggleResolved, onReplied }) {
               <div style={{ fontSize: '0.72rem', fontWeight: 700, color: r.isAdmin ? '#0d9488' : '#475569', marginBottom: 2 }}>
                 {r.senderName} {r.isAdmin ? '(Support)' : ''} · {formatLastLogin(r.createdAt)}
               </div>
-              <div style={{ fontSize: '0.83rem', color: '#334155', whiteSpace: 'pre-wrap' }}>{r.message}</div>
+              <div style={{ fontSize: '0.83rem', color: '#334155', whiteSpace: 'pre-wrap' }}>{renderTicketMarkup(r.message)}</div>
             </div>
           ))}
         </div>
       )}
 
       {error && <div className="error-msg" style={{ marginBottom: 8 }}>{error}</div>}
+      {!replying && confirmation && (
+        <div style={{ fontSize: '0.8rem', color: '#166534', marginBottom: 8 }}>{confirmation}</div>
+      )}
 
       {replying ? (
         <div>
+          <div style={{ display: 'flex', gap: 6, marginBottom: 6 }}>
+            <button type="button" onClick={() => wrapSelection(textareaRef, replyText, setReplyText, '**')} style={toolbarBtnStyle} title="Bold selected text">
+              <strong>B</strong>
+            </button>
+            <button type="button" onClick={() => wrapSelection(textareaRef, replyText, setReplyText, '==')} style={toolbarBtnStyle} title="Highlight selected text">
+              🖍️ Highlight
+            </button>
+            <span style={{ fontSize: '0.72rem', color: '#94a3b8', alignSelf: 'center' }}>select text, then click a button</span>
+          </div>
           <textarea
+            ref={textareaRef}
             value={replyText}
             onChange={e => setReplyText(e.target.value)}
             placeholder="Write a reply — the user will be emailed and can see it here."
-            rows={3}
-            style={{ width: '100%', resize: 'vertical', marginBottom: 8, padding: '8px 12px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.85rem', fontFamily: 'inherit' }}
+            rows={8}
+            style={{ width: '100%', minHeight: 160, resize: 'vertical', marginBottom: 8, padding: '10px 14px', borderRadius: 8, border: '1px solid #e2e8f0', fontSize: '0.9rem', lineHeight: 1.6, fontFamily: 'inherit', boxSizing: 'border-box' }}
           />
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={sendReply} disabled={sending || !replyText.trim()} className="btn btn-primary" style={{ padding: '6px 16px', fontSize: '0.82rem' }}>
@@ -1098,7 +1137,7 @@ function AdminTicketCard({ ticket: t, busy, onToggleResolved, onReplied }) {
           </div>
         </div>
       ) : (
-        <button onClick={() => setReplying(true)} style={editBtnStyle}>
+        <button onClick={() => { setReplying(true); setConfirmation('') }} style={editBtnStyle}>
           ↩ Reply
         </button>
       )}

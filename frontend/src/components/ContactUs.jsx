@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
 import { api } from '../api.js'
+import { renderTicketMarkup } from '../utils/ticketMarkup.jsx'
 
 const CATEGORIES = [
   { value: 'Bug Report',       icon: '🐛' },
@@ -348,7 +349,7 @@ function TicketThreadCard({ ticket: t, onReplied }) {
         <span className={`badge ${t.status === 'open' ? 'open' : 'complete'}`}>{t.status}</span>
       </div>
 
-      <div style={{ fontSize: '0.85rem', color: '#475569', lineHeight: 1.5, margin: '10px 0', whiteSpace: 'pre-wrap' }}>{t.message}</div>
+      <div style={{ fontSize: '0.85rem', color: '#475569', lineHeight: 1.5, margin: '10px 0', whiteSpace: 'pre-wrap' }}>{renderTicketMarkup(t.message)}</div>
 
       {t.replies?.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, borderTop: '1px solid #f1f5f9', paddingTop: 10, marginBottom: 10 }}>
@@ -365,7 +366,7 @@ function TicketThreadCard({ ticket: t, onReplied }) {
               <div style={{ fontSize: '0.72rem', fontWeight: 700, color: r.isAdmin ? '#0d9488' : '#475569', marginBottom: 2 }}>
                 {r.isAdmin ? 'Support' : 'You'} · {new Date(r.createdAt).toLocaleString()}
               </div>
-              <div style={{ fontSize: '0.83rem', color: '#334155', whiteSpace: 'pre-wrap' }}>{r.message}</div>
+              <div style={{ fontSize: '0.83rem', color: '#334155', whiteSpace: 'pre-wrap' }}>{renderTicketMarkup(r.message)}</div>
             </div>
           ))}
         </div>
