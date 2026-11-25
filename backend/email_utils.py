@@ -166,6 +166,51 @@ def send_ticket_reply_email(ticket: DBSupportTicket, reply_message: str, to_addr
         return False
 
 
+def send_admin_message_email(target_name: str, subject: str, message: str, to_addr: str) -> bool:
+    """Sent for any admin-initiated message delivered via
+    helpers.notify_user_via_ticket -- a direct one-off message from the
+    Families panel, a referral payout confirmation, etc. Same HTML (with
+    **bold**/==highlight== support) + plain-text-fallback shape as
+    send_ticket_reply_email, just framed as a new message rather than a
+    reply to something the user submitted. Note this puts the actual message
+    content in the email -- including anything sensitive within it, like a
+    gift card code in a referral payout notification -- a deliberate choice
+    to make admin messages actually useful by email, not a side effect."""
+    full_subject = f"[Reward Ur Kids] {subject}"
+    plain_body = (
+        f"Hi {target_name},\n\n"
+        f"You have a new message from the Reward Ur Kids team:\n\n"
+        f"{_strip_ticket_markup(message)}\n\n"
+        f"Sign in and visit My Tickets (Contact Support) to view or reply.\n"
+    )
+    html_body = (
+        f"<p>Hi {escape(target_name)},</p>"
+        f"<p>You have a new message from the Reward Ur Kids team:</p>"
+        f"<div style=\"background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 16px;margin:12px 0;white-space:pre-wrap;\">"
+        f"{_render_ticket_markup_html(message)}"
+        f"</div>"
+        f"<p>Sign in and visit My Tickets (Contact Support) to view or reply.</p>"
+    )
+    if not SMTP_USER or not SMTP_PASSWORD:
+        print(f"[email — not configured] To: {to_addr}\nSubject: {full_subject}\n{plain_body}")
+        return True
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["From"] = EMAIL_FROM
+        msg["To"] = to_addr
+        msg["Subject"] = full_subject
+        msg.attach(MIMEText(plain_body, "plain"))
+        msg.attach(MIMEText(html_body, "html"))
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=15) as srv:
+            srv.starttls()
+            srv.login(SMTP_USER, SMTP_PASSWORD)
+            srv.send_message(msg)
+        return True
+    except Exception as exc:
+        print(f"[email] admin message send failed: {exc}")
+        return False
+
+
 def send_reset_email(user: DBUser, link: str) -> bool:
     """`link` is a Firebase password-reset link (see firebase_app.py /
     routers/auth.py forgot_password) -- Firebase owns the token/expiry now,

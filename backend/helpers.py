@@ -8,7 +8,7 @@ from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 
 from config import CONTACT_EMAIL, REFERRAL_CURRENCY_BY_COUNTRY, REFERRAL_CURRENCY_RATES, REFERRAL_DEFAULT_CURRENCY
-from email_utils import send_email
+from email_utils import send_admin_message_email, send_email
 from models import (
     DBChore, DBDailyChoreItem, DBMessage, DBReferralPayout, DBRecurringTemplate, DBShopItem,
     DBShopPurchase, DBSupportTicket, DBSupportTicketReply, DBTransaction, DBUser, DBWallet,
@@ -266,9 +266,12 @@ def notify_user_via_ticket(db: Session, target: DBUser, subject: str, message: s
     """Admin-initiated message to a specific user (any role), delivered as a new
     support ticket so it shows up in that user's own "My Tickets" -- the same
     place they'd already look for a support reply, and the one surface every
-    role (including kids, who have no email) can actually read. The outbound
-    email is just a generic "you have a new message" nudge, never the message
-    content itself (e.g. a gift card code) -- the ticket is the one copy of it."""
+    role (including kids, who have no email) can actually read. For anyone
+    with an email on file, the outbound email (send_admin_message_email)
+    carries the actual message content too -- including anything sensitive
+    within it, like a gift card code in a referral payout notification -- a
+    deliberate choice so an admin message is actually useful by email, not
+    just a "go check the app" nudge."""
     ticket = DBSupportTicket(
         id=str(uuid4()), user_id=target.id, user_name=target.name, username=target.username,
         user_role=target.role, category="Message from Support",
@@ -280,13 +283,7 @@ def notify_user_via_ticket(db: Session, target: DBUser, subject: str, message: s
 
     to_addr = get_ticket_notification_email(db, ticket)
     if to_addr:
-        send_email(
-            to_addr,
-            f"[Reward Ur Kids] {subject}",
-            f"Hi {target.name},\n\n"
-            f"You have a new message from the Reward Ur Kids team. Sign in and visit "
-            f"My Tickets (Contact Support) to read it.\n",
-        )
+        send_admin_message_email(target.name, subject, message, to_addr)
     return ticket
 
 
