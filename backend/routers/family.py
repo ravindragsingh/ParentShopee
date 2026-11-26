@@ -15,7 +15,7 @@ from geolocation import get_client_platform, get_client_timezone
 from helpers import generate_inert_credentials, generate_username_from_email, get_family_id, now, register_reading_log_badge_login, safe_user
 from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
-from routers.auth import _firebase_delete_orphan
+from routers.auth import _firebase_delete_orphan, _google_sub_from_token
 from schemas import (
     CoGuardianBody, CoGuardianInviteAcceptBody, CoGuardianInviteBody,
     CoGuardianSetPasswordBody, ProfileEnterBody, RecoverPinBody,
@@ -242,6 +242,7 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, request: Starlett
     decoded = verify_firebase_token(body.idToken)
     uid = decoded["uid"]
     decoded_email = (decoded.get("email") or "").lower().strip()
+    google_sub = _google_sub_from_token(decoded)
     try:
         # Google sign-in lets someone authenticate with *any* Google account --
         # unlike the password path, where the frontend forces the credential
@@ -263,6 +264,12 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, request: Starlett
             username=username,
             password=str(uuid4()),  # inert placeholder -- this account signs in via Firebase, not this field
             firebase_uid=uid,
+            # Also keep the native app's own identity column in sync -- its
+            # Google sign-in (/api/auth/google) looks accounts up by google_id,
+            # not firebase_uid, and never touches Firebase at all. Without this
+            # a co-guardian who joined via Google here could sign into the web
+            # app but not the native app with that same Google account.
+            google_id=google_sub,
             role="guardian",
             email=email,
             co_guardian_of=invite.family_id,
