@@ -12,12 +12,13 @@ from deps import create_session, require_guardian
 from email_utils import send_coguardian_invite_email, send_coguardian_recovery_email
 from firebase_app import verify_firebase_token
 from geolocation import get_client_platform, get_client_timezone
-from helpers import generate_inert_credentials, get_family_id, now, register_reading_log_badge_login, safe_user
+from helpers import generate_inert_credentials, generate_username_from_email, get_family_id, now, register_reading_log_badge_login, safe_user
 from models import DBCoGuardianInvite, DBUser
 from responses import fail, ok
+from routers.auth import _firebase_delete_orphan, _google_sub_from_token
 from schemas import (
     CoGuardianBody, CoGuardianInviteAcceptBody, CoGuardianInviteBody,
-    ProfileEnterBody, RecoverPinBody,
+    CoGuardianSetPasswordBody, ProfileEnterBody, RecoverPinBody,
     ResendCoGuardianAccessBody, UpdatePinBody,
 )
 from security import check_pin_complexity
@@ -177,8 +178,13 @@ def cancel_coguardian_invite(db: Session = Depends(get_db), user: DBUser = Depen
 @router.get("/api/family/co-guardian/invite/preview")
 def preview_coguardian_invite(token: str, db: Session = Depends(get_db)):
     """Public (no auth) -- lets the accept page show whose family this is,
-    and whether this is a fresh invite (needs a name/PIN form) or a recovery
-    link for an existing profile (just needs a confirm button)."""
+    and whether this is a fresh invite (needs a name/password/PIN form) or a
+    recovery link for an existing profile (just needs a confirm button).
+    `email` is included so a fresh invite's form can create the Firebase
+    credential against the right address without asking the invitee to
+    retype it -- not a new information leak, since only someone who already
+    received this token (the invitee, or whoever has their inbox) could ever
+    call this endpoint with it in the first place."""
     invite = db.query(DBCoGuardianInvite).filter(DBCoGuardianInvite.token == token).first()
     if not invite:
         fail("This invite link is invalid or has already been used.", 404)
@@ -186,17 +192,19 @@ def preview_coguardian_invite(token: str, db: Session = Depends(get_db)):
         fail("This invite link has expired. Ask your co-parent to send a new one.", 410)
     guardian = db.query(DBUser).filter(DBUser.id == invite.family_id).first()
     kind = "recovery" if invite.existing_user_id else "new"
-    return ok({"guardianName": guardian.name if guardian else "your co-parent", "kind": kind})
+    return ok({"guardianName": guardian.name if guardian else "your co-parent", "kind": kind, "email": invite.email})
 
 
 @router.post("/api/family/co-guardian/invite/accept")
 def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, request: StarletteRequest, db: Session = Depends(get_db)):
     """Public (no auth) -- the co-parent has no session yet. For a fresh
-    invite, creates the same kind of profile add_co_guardian does; for a
-    recovery link, re-logs in the existing profile unchanged. Either way
-    this logs the device in (mints a session the same way /api/auth/login
-    does) so it works going forward exactly like the guardian's own device,
-    without ever needing the family's username/password."""
+    invite, creates the same kind of profile add_co_guardian does, but now
+    with a real Firebase email+password credential (see body.idToken) rather
+    than PIN-only -- they can sign in independently on any device from here
+    on, the same as a primary guardian, in addition to the family device's
+    PIN picker. For a recovery link, re-logs in the existing profile
+    unchanged. Either way this logs the device in (mints a session the same
+    way /api/auth/login does)."""
     invite = db.query(DBCoGuardianInvite).filter(DBCoGuardianInvite.token == body.token).first()
     if not invite:
         fail("This invite link is invalid or has already been used.", 404)
@@ -224,29 +232,94 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, request: Starlett
     if not body.name or len(body.name.strip()) < 2:
         fail("Name must be at least 2 characters")
     check_pin_complexity(body.pin or "")
+    if not body.idToken:
+        fail("Missing sign-in credential -- please try the invite link again.")
 
-    username, password = generate_inert_credentials()
-    co_guardian = DBUser(
-        id=str(uuid4()),
-        name=body.name.strip(),
-        username=username,
-        password=password,
-        role="guardian",
-        email=invite.email,  # kept so a future "resend device access" has somewhere to send it
-        co_guardian_of=invite.family_id,
-        avatar=body.avatar or "🧑",
-        pin=body.pin,
-        pin_auto_generated="0",
-        created_at=now(),
-        last_login_platform=get_client_platform(request),
-    )
-    db.add(co_guardian)
-    db.delete(invite)
-    db.commit()
+    # Same shape as register_finalize: verify the Firebase credential the
+    # frontend just created, and if anything below fails validation, delete
+    # that orphaned Firebase user rather than leaving a credential with no
+    # matching account behind it.
+    decoded = verify_firebase_token(body.idToken)
+    uid = decoded["uid"]
+    decoded_email = (decoded.get("email") or "").lower().strip()
+    google_sub = _google_sub_from_token(decoded)
+    try:
+        # Google sign-in lets someone authenticate with *any* Google account --
+        # unlike the password path, where the frontend forces the credential
+        # to be created under invite.email, nothing else guarantees that here.
+        # Require it match the invited address, so holding the invite token
+        # alone isn't enough to claim the co-guardian slot under a different
+        # identity.
+        if invite.email and decoded_email and decoded_email != invite.email.lower().strip():
+            fail(f"This invite was sent to {invite.email} -- please sign in with that email to accept it.", 403)
+        email = decoded_email or invite.email
+
+        if db.query(DBUser).filter(DBUser.firebase_uid == uid).first():
+            fail("This account is already registered. Please sign in instead.", 409)
+
+        username = generate_username_from_email(db, email)
+        co_guardian = DBUser(
+            id=str(uuid4()),
+            name=body.name.strip(),
+            username=username,
+            password=str(uuid4()),  # inert placeholder -- this account signs in via Firebase, not this field
+            firebase_uid=uid,
+            # Also keep the native app's own identity column in sync -- its
+            # Google sign-in (/api/auth/google) looks accounts up by google_id,
+            # not firebase_uid, and never touches Firebase at all. Without this
+            # a co-guardian who joined via Google here could sign into the web
+            # app but not the native app with that same Google account.
+            google_id=google_sub,
+            role="guardian",
+            email=email,
+            co_guardian_of=invite.family_id,
+            avatar=body.avatar or "🧑",
+            pin=body.pin,
+            pin_auto_generated="0",
+            created_at=now(),
+            last_login_platform=get_client_platform(request),
+        )
+        db.add(co_guardian)
+        db.delete(invite)
+        db.commit()
+    except Exception:
+        _firebase_delete_orphan(uid)
+        raise
     db.refresh(co_guardian)
 
     token = create_session(db, co_guardian.id)
     return ok({"token": token, "user": safe_user(co_guardian)}, 201)
+
+
+@router.post("/api/family/co-guardian/set-password")
+def set_coguardian_password(body: CoGuardianSetPasswordBody, db: Session = Depends(get_db), user: DBUser = Depends(require_guardian)):
+    """Lets an EXISTING co-guardian still on the old PIN-only scheme set up
+    real email sign-in for the first time. The frontend creates the Firebase
+    credential client-side against their own already-on-file email (captured
+    back when they first accepted their invite) and hands us the resulting
+    ID token here -- we just verify it and link it to their existing row.
+    From then on they can sign in independently on any device via the normal
+    Sign In screen, same as a primary guardian, instead of only ever through
+    the family device's PIN picker or a guardian-issued recovery link."""
+    if not user.co_guardian_of:
+        fail("Your account already has email sign-in -- this is only for a co-guardian setting theirs up for the first time.")
+    if user.firebase_uid:
+        fail("You already have email sign-in set up.")
+    decoded = verify_firebase_token(body.idToken)
+    uid = decoded["uid"]
+    email = (decoded.get("email") or "").lower().strip()
+    if not user.email:
+        fail("There's no email on file for your account -- ask your primary guardian to add one, or re-add you via an email invite instead.")
+    if email != user.email.lower().strip():
+        fail("That didn't match the email on file for your account.")
+    if db.query(DBUser).filter(DBUser.firebase_uid == uid).first():
+        fail("This Firebase account is already linked to another user.", 409)
+
+    user.firebase_uid = uid
+    user.password = str(uuid4())  # inert placeholder -- this account signs in via Firebase, not this field
+    db.commit()
+    db.refresh(user)
+    return ok(safe_user(user))
 
 
 @router.post("/api/family/co-guardian/resend-access")

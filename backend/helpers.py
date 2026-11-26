@@ -190,6 +190,14 @@ def safe_user(u: DBUser) -> dict:
             # gives a Google-only guardian an inert random password they
             # never saw, vs RegisterBody's real one.
             "isGoogleAccount": bool(u.google_id),
+            # Whether this account can sign in independently via email+password
+            # (or Google) rather than only through the family device's PIN
+            # picker -- always true for a primary guardian/admin, and now also
+            # true for a co-guardian once they've set up their own email
+            # sign-in (see /api/family/co-guardian/set-password). Drives the
+            # Settings UI's choice between "set up email sign-in" and the
+            # existing change-password/change-PIN cards for a co-guardian.
+            "hasPasswordAuth": bool(u.firebase_uid),
             # Referral program (see routers/referrals.py) -- only ever set on a
             # primary guardian's own row, NULL/0 for kids, co-guardians, and any
             # guardian who hasn't visited Refer & Earn yet. referredBy is the

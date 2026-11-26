@@ -169,14 +169,16 @@ def resolve_login_identifier(body: ResolveLoginIdentifierBody, db: Session = Dep
     string -- a deterministic fake one for an unknown/ineligible identifier --
     so this response alone never reveals whether the identifier exists; the
     subsequent Firebase sign-in simply fails the same way for both. Guardians
-    and admins both sign in this way (both have a real email + Firebase
-    credential); kids/co-guardians never do (PIN-gated under the family
-    session instead -- see routers/family.py)."""
+    and admins sign in this way -- so does a co-guardian, once they've set up
+    their own email sign-in (see /api/family/co-guardian/set-password); one
+    still on the old PIN-only scheme has no firebase_uid yet and stays
+    PIN-gated under the family session instead (see routers/family.py), same
+    as a kid always is."""
     identifier = body.identifier.strip().lower()
     user = db.query(DBUser).filter(
         or_(func.lower(DBUser.username) == identifier, func.lower(DBUser.email) == identifier),
     ).first()
-    if user and user.email and user.role in ("guardian", "admin") and not user.co_guardian_of:
+    if user and user.email and user.role in ("guardian", "admin") and user.firebase_uid:
         return ok({"email": user.email})
     fake = uuid5(_FAKE_EMAIL_NAMESPACE, identifier)
     return ok({"email": f"{fake}@invalid.rewardurkids.local"})
@@ -216,7 +218,7 @@ def firebase_session(body: FirebaseSessionBody, request: StarletteRequest, backg
         # frontend tell these apart and route Google's case into the same
         # "finish creating your account" flow password registration uses.
         fail("Invalid credentials", 401, code="no_account")
-    if user.role == "kid" or user.co_guardian_of:
+    if user.role == "kid":
         fail(
             "This account is part of a family — sign in with your family's main account and select your profile.",
             403,
@@ -416,11 +418,17 @@ def google_login(body: GoogleAuthBody, request: StarletteRequest, background_tas
             )
         return ok({"needsProfile": True, "email": email, "name": claims.get("name") or ""})
 
-    if user.role == "kid" or user.co_guardian_of:
+    if user.role == "kid":
         fail(
             "This account is part of a family — sign in with your family's main account and select your profile.",
             403, code="use_family_login",
         )
+    # Unlike a kid, a co-guardian found here already proved they have their
+    # own independent Google sign-in (that's the only way google_id gets set
+    # for one -- see accept_coguardian_invite's Google option), so they're
+    # let straight in, same as firebase_session does for one who set up
+    # password sign-in instead. One still on the old PIN-only scheme never
+    # has a google_id and can't reach this far.
     if user.is_suspended == "1":
         fail("This account has been suspended. Contact support for help.", 403, code="account_suspended")
 
@@ -578,11 +586,13 @@ def forgot_username(body: ForgotUsernameBody, db: Session = Depends(get_db)):
 
 @router.put("/api/auth/pin")
 def change_own_pin(body: UpdatePinBody, db: Session = Depends(get_db), user: DBUser = Depends(require_auth)):
-    # Only the primary guardian self-services their own entry PIN here — kids' and
-    # the co-guardian's PINs are set by the primary guardian (kids.py / family.py),
-    # same as before.
-    if user.role != "guardian" or user.co_guardian_of:
-        fail("Only the primary guardian can change their own PIN this way", 403)
+    # Any guardian -- primary or co-guardian, migrated or still PIN-only --
+    # can change their own PIN here: holding a valid session as that exact
+    # identity is proof enough, the same bar every other self-service
+    # endpoint uses. Kids don't get self-service; a guardian manages a kid's
+    # PIN for them (family.py), same as it always has.
+    if user.role != "guardian":
+        fail("Only a guardian can change their own PIN this way", 403)
     check_pin_complexity(body.pin)
     user.pin = body.pin
     user.pin_auto_generated = "0"

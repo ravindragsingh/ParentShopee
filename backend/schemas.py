@@ -85,10 +85,18 @@ class CoGuardianInviteBody(BaseModel):
 class CoGuardianInviteAcceptBody(BaseModel):
     token: str
     # Unused for a "resend device access" link -- that one re-logs in an
-    # existing profile unchanged, no new name/PIN needed.
+    # existing profile unchanged, no new name/PIN/password needed.
     name: Optional[str] = None
     pin: Optional[str] = None
     avatar: Optional[str] = "🧑"
+    # Required for a fresh ("new") invite -- the Firebase ID token for the
+    # email+password credential the frontend just created against the
+    # invite's own email, so a co-guardian registers with real email sign-in
+    # from day one instead of starting PIN-only.
+    idToken: Optional[str] = None
+
+class CoGuardianSetPasswordBody(BaseModel):
+    idToken: str
 
 class ResendCoGuardianAccessBody(BaseModel):
     email: Optional[str] = None
