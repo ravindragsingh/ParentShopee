@@ -418,11 +418,17 @@ def google_login(body: GoogleAuthBody, request: StarletteRequest, background_tas
             )
         return ok({"needsProfile": True, "email": email, "name": claims.get("name") or ""})
 
-    if user.role == "kid" or user.co_guardian_of:
+    if user.role == "kid":
         fail(
             "This account is part of a family — sign in with your family's main account and select your profile.",
             403, code="use_family_login",
         )
+    # Unlike a kid, a co-guardian found here already proved they have their
+    # own independent Google sign-in (that's the only way google_id gets set
+    # for one -- see accept_coguardian_invite's Google option), so they're
+    # let straight in, same as firebase_session does for one who set up
+    # password sign-in instead. One still on the old PIN-only scheme never
+    # has a google_id and can't reach this far.
     if user.is_suspended == "1":
         fail("This account has been suspended. Contact support for help.", 403, code="account_suspended")
 
