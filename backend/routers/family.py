@@ -219,6 +219,8 @@ def accept_coguardian_invite(body: CoGuardianInviteAcceptBody, request: Starlett
             db.delete(invite)
             db.commit()
             fail("This co-guardian profile no longer exists.", 404)
+        if co_guardian.is_suspended == "1":
+            fail("This account has been suspended. Contact support for help.", 403, code="account_suspended")
         co_guardian.last_login_platform = get_client_platform(request)
         db.delete(invite)
         db.commit()

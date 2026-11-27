@@ -302,6 +302,8 @@ def register_finalize(body: RegisterFinalizeBody, request: StarletteRequest, bac
             # new platform, not a real duplicate signup: link the identities
             # and log them into their existing account instead of refusing.
             if is_google and existing_by_email.google_id == google_sub and not existing_by_email.firebase_uid:
+                if existing_by_email.is_suspended == "1":
+                    fail("This account has been suspended. Contact support for help.", 403, code="account_suspended")
                 existing_by_email.firebase_uid = uid
                 db.commit()
                 db.refresh(existing_by_email)
